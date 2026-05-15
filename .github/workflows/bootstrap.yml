@@ -1,0 +1,60 @@
+name: Bootstrap historical archive
+
+on:
+  workflow_dispatch:
+    inputs:
+      year_start:
+        description: 'Start year (e.g. 2020)'
+        required: true
+        type: string
+      year_end:
+        description: 'End year (e.g. 2026). Leave empty for single year.'
+        required: false
+        type: string
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install public-inbox
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq public-inbox xapian-tools
+
+      - name: Initialize inbox (if needed)
+        run: |
+          if [[ ! -d inbox ]]; then
+            ./scripts/setup-inbox.sh inbox
+          fi
+
+      - name: Bootstrap
+        run: |
+          if [[ -n "${{ inputs.year_end }}" ]]; then
+            ./scripts/bootstrap.sh "${{ inputs.year_start }}" "${{ inputs.year_end }}"
+          else
+            ./scripts/bootstrap.sh "${{ inputs.year_start }}"
+          fi
+        env:
+          INBOX_DIR: inbox
+
+      - name: Build indexes
+        run: public-inbox-index inbox
+
+      - name: Commit and push
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing new to commit."
+          else
+            git config user.name "oss-security-bot"
+            git config user.email "bot@users.noreply.github.com"
+            git commit -m "bootstrap: oss-security ${{ inputs.year_start }}${{ inputs.year_end && format('-{0}', inputs.year_end) || '' }}"
+            git push
+          fi

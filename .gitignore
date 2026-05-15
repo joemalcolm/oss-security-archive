@@ -1,0 +1,10 @@
+node_modules/
+# public-inbox indexes (rebuilt from git data by each consumer)
+inbox/xap15/
+inbox/over.sqlite3
+inbox/over.sqlite3-*
+inbox/msgmap.sqlite3
+inbox/msgmap.sqlite3-*
+# Temporary files
+*.tmp
+*.log
