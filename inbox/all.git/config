@@ -1,0 +1,6 @@
+[core]
+	repositoryFormatVersion = 0
+	filemode = true
+	bare = true
+[repack]
+	writeBitmaps = true
