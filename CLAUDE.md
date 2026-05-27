@@ -45,7 +45,10 @@ The git data lives in the default public-inbox v2 format. public-inbox manages s
 This creates the public-inbox v2 epoch repositories and config.
 
 ### Bootstrap historical data
-Openwall provides mbox downloads at `https://www.openwall.com/lists/oss-security/YYYY/mbox`:
+
+**Note (2026-05-15):** The HTTP-mbox bootstrap path documented below does not work — Openwall does not actually serve `/YYYY/mbox`, `/YYYY/MM/DD/mbox`, or any other machine-readable mbox endpoint (all return 404). `scripts/bootstrap.sh` is preserved for reference but produces an empty inbox. The current canonical historical-ingest path is **Maildir import** (see next subsection). Once a sync source is settled (see DEC-ARCHIVE-002 in `scripts/import-maildir.sh`), `bootstrap.sh` and `sync.sh` will be rewritten against the new source.
+
+(Historical, broken — kept for context.) Openwall was assumed to provide mbox downloads at `https://www.openwall.com/lists/oss-security/YYYY/mbox`:
 ```bash
 # Import a single year
 ./scripts/bootstrap.sh 2024
@@ -57,12 +60,29 @@ Openwall provides mbox downloads at `https://www.openwall.com/lists/oss-security
 ./scripts/bootstrap.sh --all
 ```
 
-Each mbox is downloaded and fed to `public-inbox-mda`. Rate limited to be friendly to Openwall's servers. One mbox per year, typically 5-50 MB each.
-
 After bootstrap, build indexes:
 ```bash
 public-inbox-index --reindex inbox
 ```
+
+### Import from a Maildir (canonical historical-ingest path)
+
+If you have a Maildir of oss-security messages (e.g., a subscriber's archive), ingest it directly:
+
+```bash
+INBOX_DIR=$(pwd)/inbox ./scripts/import-maildir.sh /path/to/Maildir
+public-inbox-index inbox
+```
+
+The script iterates `cur/` and `new/`, runs each message through `scripts/sanitize-headers.pl`, then pipes to `public-inbox-mda`. It is **idempotent** — `public-inbox-mda` dedups on Message-ID, so re-running with the same Maildir produces no new commits.
+
+**Header sanitization (DEC-ARCHIVE-003).** A subscriber's Maildir copy of a list message carries header blocks added by their own infrastructure on top of the canonical message: their MX's `Received` chain, locally-added `Authentication-Results` / `ARC-*` / `DKIM-Signature`, their spam filter's `X-Spam-*`, plus `Delivered-To` / `X-Original-To` / `Return-Path` that reveal the subscriber's address. The sanitizer strips this cruft so the archived message matches what every other subscriber received. The boundary is the first `Received:` whose `by` clause names openwall — everything from that hop onward (openwall's internal Receives plus the sender's own chain) is preserved verbatim. If no openwall hop is found (unusual for a list message), the message is passed through unchanged. See the comment header of `scripts/sanitize-headers.pl` for the full stripped-name list.
+
+In CI, the `Import Maildir` workflow takes an HTTPS URL to a `.tar.gz` of the Maildir:
+```bash
+gh workflow run import-maildir.yml -f maildir_url="https://example.com/oss-security.tar.gz"
+```
+The tarball must contain a directory with `cur/` and `new/` somewhere within the first few levels; the workflow auto-locates it.
 
 ### Ongoing sync
 The GitHub Action runs `scripts/sync.sh` every 4 hours:
