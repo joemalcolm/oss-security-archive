@@ -35,19 +35,32 @@ jobs:
           fi
 
       - name: Bootstrap
-        run: |
-          if [[ -n "${{ inputs.year_end }}" ]]; then
-            ./scripts/bootstrap.sh "${{ inputs.year_start }}" "${{ inputs.year_end }}"
-          else
-            ./scripts/bootstrap.sh "${{ inputs.year_start }}"
-          fi
+        # Bind inputs to env vars rather than `${{ }}`-expanding them into the
+        # shell. Otherwise a year_start value like `2020"; rm -rf / #` would
+        # be substituted by Actions BEFORE bash sees it and run arbitrary
+        # commands on the runner. workflow_dispatch is gated by repo write
+        # permission but this is the standard hardening pattern.
         env:
           INBOX_DIR: inbox
+          YEAR_START: ${{ inputs.year_start }}
+          YEAR_END: ${{ inputs.year_end }}
+        run: |
+          if [[ -n "$YEAR_END" ]]; then
+            ./scripts/bootstrap.sh "$YEAR_START" "$YEAR_END"
+          else
+            ./scripts/bootstrap.sh "$YEAR_START"
+          fi
 
       - name: Build indexes
         run: public-inbox-index inbox
 
       - name: Commit and push
+        # Same env-binding rationale as the Bootstrap step above — the commit
+        # message would otherwise interpolate untrusted input into a `git
+        # commit -m "..."` shell argument.
+        env:
+          YEAR_START: ${{ inputs.year_start }}
+          YEAR_END: ${{ inputs.year_end }}
         run: |
           git add -A
           if git diff --cached --quiet; then
@@ -55,6 +68,11 @@ jobs:
           else
             git config user.name "oss-security-bot"
             git config user.email "bot@users.noreply.github.com"
-            git commit -m "bootstrap: oss-security ${{ inputs.year_start }}${{ inputs.year_end && format('-{0}', inputs.year_end) || '' }}"
+            if [[ -n "$YEAR_END" ]]; then
+              msg="bootstrap: oss-security $YEAR_START-$YEAR_END"
+            else
+              msg="bootstrap: oss-security $YEAR_START"
+            fi
+            git commit -m "$msg"
             git push
           fi

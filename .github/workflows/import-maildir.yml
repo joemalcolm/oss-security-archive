@@ -1,0 +1,89 @@
+name: Import Maildir
+
+on:
+  workflow_dispatch:
+    inputs:
+      maildir_url:
+        description: 'HTTPS URL to a .tar.gz containing a Maildir (with cur/ and new/)'
+        required: true
+        type: string
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install public-inbox
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq public-inbox xapian-tools
+
+      - name: Initialize inbox (if needed)
+        run: |
+          if [[ ! -d inbox ]]; then
+            ./scripts/setup-inbox.sh inbox
+          fi
+
+      - name: Fetch Maildir tarball
+        # Bind the input to an env var rather than expanding `${{ }}` directly
+        # in the shell — otherwise a maildir_url like `https://x/x.tgz" ;
+        # rm -rf / ; echo "` would be interpolated by Actions BEFORE bash
+        # sees it, executing arbitrary commands on the runner. Even though
+        # workflow_dispatch is gated by repo write permission, env-binding
+        # is the standard hardening pattern (GitHub: "Untrusted input" docs).
+        env:
+          MAILDIR_URL: ${{ inputs.maildir_url }}
+        run: |
+          curl -fsSL \
+            -A "oss-security-archive-bot/1.0 (+https://github.com/joemalcolm/oss-security-archive)" \
+            -o maildir.tar.gz \
+            "$MAILDIR_URL"
+          ls -lh maildir.tar.gz
+
+      - name: Extract and locate Maildir root
+        id: extract
+        run: |
+          mkdir -p tmp/maildir
+          tar -xzf maildir.tar.gz -C tmp/maildir
+          # Find the directory that contains both cur/ and new/
+          root=$(find tmp/maildir -maxdepth 4 -type d -name cur \
+                 -exec dirname {} \; | head -1)
+          if [[ -z "$root" || ! -d "$root/new" ]]; then
+            echo "Error: could not locate a Maildir (dir with cur/ and new/) in tarball" >&2
+            find tmp/maildir -maxdepth 3 -type d >&2
+            exit 1
+          fi
+          echo "Found Maildir at $root"
+          echo "maildir=$root" >> "$GITHUB_OUTPUT"
+
+      - name: Import messages
+        # steps.extract.outputs.maildir comes from our own previous step (a
+        # filesystem path we just built), but we still env-bind it so the
+        # pattern is consistent and a path containing odd chars can't
+        # close the `run` quoting.
+        env:
+          MAILDIR_ROOT: ${{ steps.extract.outputs.maildir }}
+        run: INBOX_DIR=inbox ./scripts/import-maildir.sh "$MAILDIR_ROOT"
+
+      - name: Build indexes
+        run: public-inbox-index inbox
+
+      - name: Commit and push
+        run: |
+          # Clean up the workspace tarball + extraction so they don't get committed
+          rm -rf tmp/ maildir.tar.gz
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing new to commit."
+          else
+            git config user.name "oss-security-bot"
+            git config user.email "bot@users.noreply.github.com"
+            git commit -m "import: maildir ($(date -u +%Y-%m-%d))"
+            git push
+          fi
