@@ -14,5 +14,20 @@ echo "Initializing public-inbox at $INBOX_DIR..."
 public-inbox-init -V2 "$INBOX_NAME" "$INBOX_DIR" \
   "$INBOX_URL" "$INBOX_ADDR"
 
+# Disable mda's spam-check invocation. public-inbox-mda's spam-check path
+# defaults to invoking `spamc` (SpamAssassin's client). The Debian package
+# expects spamc on PATH but doesn't install spamassassin itself, so without
+# this override mda fails per-message with "spamc: command not found".
+# The `--no-precheck` flag on mda does NOT skip this — it only skips the
+# header-validation precheck. The spam-check is controlled by the
+# `publicinboxmda.spamcheck` config key, which we set to `none`.
+# The messages we ingest are openwall's curated archive; further spam
+# filtering at archive time is unwanted anyway.
+GIT_CONFIG="${HOME}/.public-inbox/config"
+if [[ -f "$GIT_CONFIG" ]]; then
+  git config -f "$GIT_CONFIG" publicinboxmda.spamcheck none
+  echo "  set publicinboxmda.spamcheck=none in $GIT_CONFIG"
+fi
+
 echo "Inbox initialized. Run bootstrap.sh to import historical data."
 echo "Run 'public-inbox-index $INBOX_DIR' after import to build search indexes."

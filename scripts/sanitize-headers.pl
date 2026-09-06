@@ -111,9 +111,9 @@ sub hname {
 sub btext { return join '', @{ $_[0] } }
 
 # ---- find the openwall boundary ---------------------------------------------
-# Returns the substring of $text that lives in the "by ..." clause of a
-# Received header. The clause runs until the next standard sub-keyword
-# (from/via/with/id/for/;) or the end of the header.
+# Returns the substring of $text that lives in the "by ..." or "from ..."
+# clause of a Received header. Each clause runs until the next standard
+# sub-keyword (from/by/via/with/id/for/;) or end of header.
 sub by_clause {
     my ($text) = @_;
     if ($text =~ m{
@@ -124,12 +124,41 @@ sub by_clause {
     }
     return '';
 }
+sub from_clause {
+    my ($text) = @_;
+    if ($text =~ m{
+        \b from \s+ (.+?)
+        (?= \s+ (?: by | via | with | id | for | ; ) \s | \z )
+    }isx) {
+        return $1;
+    }
+    return '';
+}
 
+# Two boundary cases:
+#   (a) openwall in the `by` clause of a Received — that header was added
+#       by openwall's MTA. Canonical message; keep it and below.
+#       boundary = its index.
+#   (b) openwall in the `from` clause of a Received — that header was
+#       added by the *user's* MX when it received from openwall. It
+#       documents the openwall→user gateway hop but is subscriber-side
+#       (leaks the user's MX hostname/IP and local recipient address).
+#       boundary = index *after* it (strip it along with everything above).
+# Openwall's own qmail/ezmlm Receiveds look like
+#   Received: (qmail NNN invoked by uid NNN); DATE
+# with no by-clause and no from-clause, so they match neither rule
+# directly. They sit immediately below the gateway header (case b), so
+# case (b) correctly anchors the boundary just above the qmail block.
 my $boundary;
 for (my $i = 0; $i < @blocks; $i++) {
     next unless hname($blocks[$i]) eq 'received';
-    if (by_clause(btext($blocks[$i])) =~ /openwall/i) {
+    my $text = btext($blocks[$i]);
+    if (by_clause($text) =~ /openwall/i) {
         $boundary = $i;
+        last;
+    }
+    if (from_clause($text) =~ /openwall/i) {
+        $boundary = $i + 1;
         last;
     }
 }

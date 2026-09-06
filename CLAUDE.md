@@ -21,13 +21,27 @@ public-inbox (https://public-inbox.org/) is a mailing list archival system that 
 
 ```
 .github/workflows/
-  sync.yml           — Scheduled ingest (every 4 hours) + manual dispatch
-  bootstrap.yml      — Manual workflow for historical mbox import
+  sync.yml               — Scheduled ingest (every 4 hours) + manual dispatch
+  bootstrap.yml          — Manual workflow for historical mbox import (broken — see below)
+  import-maildir.yml     — Manual workflow for Maildir import (canonical historical path)
+  backfill-openwall.yml  — Manual workflow for one-year HTML scrape backfill
 scripts/
-  sync.sh            — Fetch recent posts, ingest via public-inbox-mda
-  bootstrap.sh       — Download and import historical mbox archives
-  setup-inbox.sh     — Initialize public-inbox repo structure
+  sync.sh                — Fetch recent posts, ingest via public-inbox-mda
+  bootstrap.sh           — (broken — preserved for reference; see DEC-ARCHIVE-001)
+  setup-inbox.sh         — Initialize public-inbox repo structure
+  import-maildir.sh      — Ingest a Maildir (DEC-ARCHIVE-002)
+  sanitize-headers.pl    — Strip subscriber-side headers pre-ingest (DEC-ARCHIVE-003)
+  openwall-scrape.pl     — Scrape openwall HTML and emit RFC822 to a Maildir (DEC-ARCHIVE-004)
+  backfill-openwall.sh   — Wrap openwall-scrape.pl into the maildir-import pipeline
+  ingest-direct.pl       — Write RFC822 directly to public-inbox via V2Writable::add,
+                           bypassing mda's delivery-policy prechecks (DEC-ARCHIVE-005)
 ```
+
+### Direct writer vs. `public-inbox-mda` (DEC-ARCHIVE-005)
+
+`public-inbox-mda` is a Postfix-style delivery agent. It enforces content policies appropriate for real mail delivery — reject HTML-only messages, block a suffix list of attachment types (zip / images / vendor formats), spam-check via spamc — none of which are configurable off (spam is via `publicinboxmda.spamcheck = none`; the body-format prechecks have no knob). For archive ingest of an 18-year security list where HTML and attachment-bearing messages are valuable primary sources, that costs roughly 2% of the corpus (verified 2026-09-05: 312 of 16,980 first-pass failures were legitimate messages mda refused on policy grounds, not parsing failures).
+
+`ingest-direct.pl` calls `PublicInbox::V2Writable::add()` — the same primitive `public-inbox-watch` uses for maildir-based ingest — with no delivery-policy filtering. It still dedups on Message-ID internally, so re-runs are idempotent. `import-maildir.sh` and `backfill-openwall.sh` both route through it now; `ingest-direct.pl` needs the `public-inbox` Debian package installed (for `PublicInbox::Config`, `::InboxWritable`, `::Eml`).
 
 The git data lives in the default public-inbox v2 format. public-inbox manages storage internally.
 
@@ -84,12 +98,50 @@ gh workflow run import-maildir.yml -f maildir_url="https://example.com/oss-secur
 ```
 The tarball must contain a directory with `cur/` and `new/` somewhere within the first few levels; the workflow auto-locates it.
 
+### Backfill from openwall HTML (DEC-ARCHIVE-004)
+
+For dates not covered by the Maildir (i.e., pre-2015-03-16 and the ~1% gaps within Maildir range), the canonical source is openwall.com's HTML rendering of each message. `scripts/openwall-scrape.pl` walks `/lists/oss-security/YYYY/MM/DD/N` pages, reconstructs RFC822, and writes each message to a Maildir; `scripts/backfill-openwall.sh` then feeds that Maildir through the regular `import-maildir.sh` pipeline.
+
+```bash
+# One year at a time, locally:
+INBOX_DIR=$(pwd)/inbox ./scripts/backfill-openwall.sh 2014-01-01 2014-12-31
+
+# Or via the workflow:
+gh workflow run backfill-openwall.yml -f year=2014
+```
+
+**Fidelity caveats:** Openwall's HTML obfuscates `From`/`To`/`Cc` by elision (e.g., `user@...domain.tld`) — this is lossy and preserved as-is. Message-IDs are ROT13-obfuscated; the scraper reverses this so dedup against Maildir-imported messages works. Body text is preserved; URLs in the body that openwall wrapped in `<a href>` are unwrapped to plain text. **Threading is not reconstructed in v1**: openwall renders only `Message-ID`/`Date`/`From`/`To`/`Subject`, not `In-Reply-To`/`References` — its `[thread-prev]`/`[thread-next]` nav links carry the structure, and a follow-up pass can parse those and synthesize the missing headers. Every scraped message carries `X-Archive-Source: openwall-scrape` plus `X-Archive-Source-URL: <openwall page URL>` so consumers can distinguish backfill from full-fidelity messages, and so a future un-obfuscation pass (if the list owner ever permits) can identify what to re-ingest.
+
+Rate-limited to ~1.5s/request by default (override with `DELAY=2.0 ./scripts/backfill-openwall.sh ...`). The scraper writes `$maildir/.scrape-state` so a re-run picks up where it stopped.
+
 ### Ongoing sync
 The GitHub Action runs `scripts/sync.sh` every 4 hours:
 1. Fetches the latest day's mbox from Openwall
 2. Pipes new messages through `public-inbox-mda`
 3. Rebuilds indexes
 4. Pushes new git objects
+
+**Note (planned rewrite):** the current `sync.sh` still targets the non-existent `/YYYY/MM/DD/mbox` endpoint (DEC-ARCHIVE-001) and does nothing useful. Once the one-time Maildir import + Openwall backfill land, `sync.sh` should be rewritten to call `scripts/backfill-openwall.sh <yesterday> <today>` — i.e. use the same HTML-scrape mechanism against a 2-day window so we catch anything published since the last run. Idempotent thanks to Message-ID dedup at ingest.
+
+### Ongoing-run monitoring
+
+Both `import-maildir.sh` and `backfill-openwall.sh` honor two env vars for post-import observability. These are intended for the scheduled sync workflow but also work fine for one-time runs:
+
+- **`METRICS_LOG=path/to/imports.tsv`** — append one tab-separated line per run: ISO timestamp, script name, per-run counters (total/imported/failed, or scrape-warning counts for the backfill wrapper), and the top-1 error class. Commit this file so `git log metrics/imports.tsv` shows import health over time and `tail -20 metrics/imports.tsv` gives a live readout without opening any workflow log.
+- **`FAIL_THRESHOLD_PCT=N`** — `import-maildir.sh` exits 3 when `(failed / total) * 100` exceeds N. GHA marks the run failed; GitHub sends the maintainer the standard Actions failure notification. No custom secrets, no API calls. Sensible defaults: `0` for scheduled sync (any failure is worth investigating when a healthy day is a handful of messages), `5-10` for bulk one-time ingest.
+
+Example wiring for the future `sync.yml` rewrite:
+
+```yaml
+env:
+  METRICS_LOG: metrics/imports.tsv
+  FAIL_THRESHOLD_PCT: 0
+run: |
+  ./scripts/backfill-openwall.sh \
+    "$(date -u -d 'yesterday' +%F)" \
+    "$(date -u +%F)"
+  # commit metrics/imports.tsv alongside the inbox commit
+```
 
 ## Querying the archive
 
