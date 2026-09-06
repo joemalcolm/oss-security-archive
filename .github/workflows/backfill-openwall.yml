@@ -1,0 +1,84 @@
+name: Backfill from Openwall
+
+# One year per run (GHA hosted runners cap at 6h; a full year of scraping
+# at 1.5s/req should fit comfortably). Run in reverse order (newest year
+# first) by triggering with year=2015, then 2014, then …, down to 2008.
+#
+# Each year's run produces a single commit; idempotent against prior runs
+# (public-inbox dedups on Message-ID, and openwall-scrape.pl resumes from
+# its $maildir/.scrape-state file if re-run with the same scratch dir,
+# though here the scratch dir is per-run so resume only matters within
+# a single workflow execution).
+
+on:
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Year to backfill (e.g. 2014)'
+        required: true
+        type: string
+      reverse_days:
+        description: 'Iterate days within the year newest→oldest'
+        required: false
+        default: 'false'
+        type: string
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq \
+            public-inbox xapian-tools \
+            libwww-perl liblwp-protocol-https-perl libhtml-parser-perl
+
+      - name: Initialize inbox (if needed)
+        run: |
+          if [[ ! -d inbox ]]; then
+            ./scripts/setup-inbox.sh inbox
+          fi
+
+      - name: Backfill
+        # Inputs are env-bound (not interpolated into the shell) to defuse
+        # ${{ }} → shell injection. Same hardening as the other workflows.
+        env:
+          YEAR: ${{ inputs.year }}
+          REVERSE_DAYS: ${{ inputs.reverse_days }}
+        run: |
+          # Validate the year input ourselves (defense in depth — even
+          # though env-binding prevents shell injection, garbage input
+          # should fail loudly here rather than producing weird URLs).
+          if [[ ! "$YEAR" =~ ^[0-9]{4}$ ]]; then
+            echo "Error: year must be 4 digits, got: $YEAR" >&2
+            exit 1
+          fi
+          opts=()
+          if [[ "$REVERSE_DAYS" == "true" ]]; then opts+=(--reverse); fi
+          INBOX_DIR=inbox ./scripts/backfill-openwall.sh \
+            "$YEAR-01-01" "$YEAR-12-31" "${opts[@]+${opts[@]}}"
+
+      - name: Build indexes
+        run: public-inbox-index inbox
+
+      - name: Commit and push
+        env:
+          YEAR: ${{ inputs.year }}
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing new to commit (idempotent re-run, or empty year)."
+          else
+            git config user.name "oss-security-bot"
+            git config user.email "bot@users.noreply.github.com"
+            git commit -m "backfill: openwall scrape $YEAR"
+            git push
+          fi
