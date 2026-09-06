@@ -8,3 +8,11 @@ inbox/msgmap.sqlite3-*
 # Temporary files
 *.tmp
 *.log
+
+# Local scratch — recon HTML, source tarball, extracted Maildir
+tmp/
+oss-security.tar.gz
+oss-sec-tmp/
+
+# IDE config
+.claude/
