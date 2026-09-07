@@ -16,3 +16,6 @@ oss-sec-tmp/
 
 # IDE config
 .claude/
+
+inbox/inbox.lock
+MASTER_PLAN.md
