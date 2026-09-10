@@ -14,6 +14,12 @@
 set -euo pipefail
 
 INBOX_DIR="${1:-$(pwd)/inbox}"
+# Canonicalize to an absolute path so public-inbox doesn't emit a
+# `W: 'inbox' canonicalized to '/abs/path/inbox'` warning per ingest
+# invocation. In a 900-message run that adds 900 lines of noise to
+# stderr that then pollute the failure tally.
+[[ "$INBOX_DIR" != /* ]] && INBOX_DIR="$(pwd)/$INBOX_DIR"
+
 INBOX_NAME="oss-security"
 INBOX_ADDR="oss-security@lists.openwall.com"
 INBOX_URL="https://www.openwall.com/lists/oss-security/"
