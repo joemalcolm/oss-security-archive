@@ -40,6 +40,38 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRAPER="$SCRIPT_DIR/openwall-scrape.pl"
 IMPORTER="$SCRIPT_DIR/import-maildir.sh"
 
+# Per-run timestamp used for scrape-warning log and scrape-failed HTML
+# directory. Same string across both so a single run's artifacts are
+# easy to correlate.
+RUN_TS="$(date -u +%FT%TZ)"
+
+# When METRICS_LOG is set (i.e. we're in monitored mode — sync workflow
+# or explicit local metrics run), persist the scraper's stderr warning
+# stream and the raw HTML of any unparseable pages alongside the
+# metrics file. Mirrors the metrics/errors + metrics/failed-msgs
+# pattern in import-maildir.sh so backfill and ingest failures live in
+# parallel trees under the same metrics/ root.
+#
+# Layout:
+#   $(dirname METRICS_LOG)/
+#     imports.tsv                       ← existing per-run line
+#     scrape-warnings/<RUN_TS>.log      ← full SCRAPE_WARN dump (this run)
+#     scrape-failed-html/<RUN_TS>/*.html ← unparseable pages (this run)
+#
+# When METRICS_LOG is not set (ad-hoc local run), we don't persist —
+# stderr still shows the tally.
+PERSIST_SCRAPE_WARN=""
+if [[ -n "${METRICS_LOG:-}" ]]; then
+  METRICS_ROOT="$(dirname "$METRICS_LOG")"
+  PERSIST_SCRAPE_WARN="$METRICS_ROOT/scrape-warnings/$RUN_TS.log"
+  # If the caller didn't set SAVE_FAILED, wire the metrics-side path in
+  # by default. An explicit SAVE_FAILED still wins (lets you dump
+  # elsewhere for one-off debugging).
+  if [[ -z "$SAVE_FAILED" ]]; then
+    SAVE_FAILED="$METRICS_ROOT/scrape-failed-html/$RUN_TS"
+  fi
+fi
+
 for tool in perl public-inbox-mda; do
   if ! command -v "$tool" >/dev/null 2>&1; then
     echo "Error: $tool not found in PATH" >&2
@@ -95,8 +127,32 @@ if [[ -s "$SCRAPE_WARN_LOG" ]]; then
     | sort | uniq -c | sort -rn | head -20
   scrape_warn_total=$(wc -l < "$SCRAPE_WARN_LOG" | tr -d ' ')
   echo "  ($scrape_warn_total structured warning(s) total)"
-  # Keep the log for post-mortem — the trap will clean it, so if you
-  # want to inspect, `cp` before the script exits.
+fi
+
+# Persist the SCRAPE_WARN log alongside metrics/imports.tsv when in
+# monitored mode. Full dump (all lines, tab-separated) + a header
+# summarizing the run. Only written when there are warnings — an
+# all-clean year doesn't need a file.
+if [[ -n "$PERSIST_SCRAPE_WARN" && "$scrape_warn_total" -gt 0 ]]; then
+  mkdir -p "$(dirname "$PERSIST_SCRAPE_WARN")"
+  {
+    echo "# backfill-openwall run at $RUN_TS"
+    echo "# date-range=$START..$END scrape-warnings=$scrape_warn_total"
+    echo
+    echo "== Top categories =="
+    awk -F'\t' '$1 == "SCRAPE_WARN" {print $2}' "$SCRAPE_WARN_LOG" \
+      | sort | uniq -c | sort -rn
+    echo
+    echo "== Full SCRAPE_WARN log (category<TAB>detail) =="
+    awk -F'\t' '$1 == "SCRAPE_WARN" {print $2 "\t" $3}' "$SCRAPE_WARN_LOG"
+  } > "$PERSIST_SCRAPE_WARN"
+  echo "Full scrape-warning log at $PERSIST_SCRAPE_WARN"
+  if [[ -d "$SAVE_FAILED" ]]; then
+    html_count=$(find "$SAVE_FAILED" -type f -name '*.html' 2>/dev/null | wc -l | tr -d ' ')
+    if [[ "$html_count" -gt 0 ]]; then
+      echo "Unparseable pages ($html_count) saved under $SAVE_FAILED/"
+    fi
+  fi
 fi
 
 # ---- ongoing-monitoring hook --------------------------------------------
@@ -118,7 +174,7 @@ if [[ -n "${METRICS_LOG:-}" ]]; then
     top_count="${top_count:-0}"
   fi
   printf '%s\tbackfill-openwall\t%s..%s\t%d\t%s\t%d\n' \
-    "$(date -u +%FT%TZ)" "$START" "$END" \
+    "$RUN_TS" "$START" "$END" \
     "$scrape_warn_total" "$top_cat" "$top_count" \
     >> "$METRICS_LOG"
   echo "Scrape metrics line appended to $METRICS_LOG"
