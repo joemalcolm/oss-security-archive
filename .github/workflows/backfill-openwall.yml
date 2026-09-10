@@ -77,8 +77,28 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nothing new to commit (idempotent re-run, or empty year)."
           else
+            # Build the commit summary from the metrics/imports.tsv lines
+            # backfill-openwall.sh + import-maildir.sh just appended. The
+            # last `import-maildir` line for this run has the counts:
+            #   ts \t import-maildir \t total \t imported \t failed \t ...
+            # ("imported" here includes dedup-collisions since they're
+            # counted as success — see ingest-direct.pl. That's usually
+            # fine for a year that overlaps the Maildir window; for a
+            # pure pre-Maildir backfill it equals net-new.)
+            summary="$YEAR"
+            if [[ -s metrics/imports.tsv ]]; then
+              read total imported failed < <(
+                awk -F'\t' '$2 == "import-maildir" {t=$3; i=$4; f=$5}
+                            END {print t, i, f}' metrics/imports.tsv
+              )
+              if [[ -n "$imported" ]]; then
+                summary="$YEAR ($imported / $total imported"
+                [[ "$failed" != "0" ]] && summary="$summary, $failed failed"
+                summary="$summary)"
+              fi
+            fi
             git config user.name "oss-security-bot"
             git config user.email "bot@users.noreply.github.com"
-            git commit -m "backfill: openwall scrape $YEAR"
+            git commit -m "backfill: openwall scrape $summary"
             git push
           fi
