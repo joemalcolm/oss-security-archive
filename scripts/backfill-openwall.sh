@@ -123,8 +123,12 @@ scrape_warn_total=0
 if [[ -s "$SCRAPE_WARN_LOG" ]]; then
   echo
   echo "Scrape-time warnings (top 20 by category):"
+  # awk 'NR<=20' instead of `head -20` — see the analogous note in
+  # import-maildir.sh. Under set -o pipefail, `head` closing early
+  # SIGPIPEs upstream sort/uniq and would fail the whole script,
+  # skipping public-inbox-index / commit / push.
   awk -F'\t' '$1 == "SCRAPE_WARN" {print $2}' "$SCRAPE_WARN_LOG" \
-    | sort | uniq -c | sort -rn | head -20
+    | sort | uniq -c | sort -rn | awk 'NR<=20'
   scrape_warn_total=$(wc -l < "$SCRAPE_WARN_LOG" | tr -d ' ')
   echo "  ($scrape_warn_total structured warning(s) total)"
 fi
@@ -165,10 +169,12 @@ if [[ -n "${METRICS_LOG:-}" ]]; then
   top_cat="none"
   top_count=0
   if [[ "$scrape_warn_total" -gt 0 ]]; then
+    # `awk 'NR==1'` instead of `head -1` for the same SIGPIPE reason
+    # as above.
     read -r top_count top_cat < <(
       awk -F'\t' '$1 == "SCRAPE_WARN" {print $2}' "$SCRAPE_WARN_LOG" \
-        | sort | uniq -c | sort -rn | head -1 \
-        | awk '{print $1, $2}'
+        | sort | uniq -c | sort -rn \
+        | awk 'NR==1 {print $1, $2}'
     )
     top_cat="${top_cat:-none}"
     top_count="${top_count:-0}"

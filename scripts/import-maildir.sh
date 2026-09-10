@@ -167,15 +167,26 @@ echo "Done. Imported $((i - failed)) / $i message(s); $failed failed."
 
 # Filter that separates real errors from noise in $RESIDUAL_LOG:
 #   - drop `RESIDUAL\t…` lines (those go to the residual tally)
-#   - drop git's background auto-pack chatter (informational, appears
-#     during successful commits under mda, not related to failures)
+#   - drop git's background auto-pack chatter (informational)
+#   - drop public-inbox's per-message warnings that don't correspond
+#     to failures:
+#       - `W: '.' canonicalized to '/abs/path/'` (fixed at source in
+#         setup-inbox.sh now, kept in filter for archival messages
+#         from earlier runs)
+#       - `no email in From: …` (openwall elides From addresses like
+#         `user@...domain.tld`; public-inbox can't RFC-parse them but
+#         still ingests the message — benign warning, not a failure)
 #   - drop empty lines
+# All grep calls use -a: some ingested messages carry 8-bit body
+# content that leaks into public-inbox's stderr as raw bytes; without
+# -a, grep silently drops the whole file with "Binary file matches"
+# and the tally goes empty.
 # Kept as a function so both the on-screen summary, the metrics-line
 # top_err lookup, and the persisted errors-log all use the same rule.
 filter_errors() {
-  grep -v '^RESIDUAL' "$1" \
-    | grep -v -E '^(Auto packing the repository|See "git help gc")' \
-    | grep -v '^[[:space:]]*$'
+  grep -a -v '^RESIDUAL' "$1" \
+    | grep -a -v -E '^(Auto packing the repository|See "git help gc"|W: .* canonicalized to |no email in From:)' \
+    | grep -a -v '^[[:space:]]*$'
 }
 
 if [[ -s "$RESIDUAL_LOG" ]]; then
@@ -191,7 +202,13 @@ if [[ -s "$RESIDUAL_LOG" ]]; then
   if [[ "$failed" -gt 0 ]]; then
     echo
     echo "Distinct error messages from this run (top 10, git-noise filtered):"
-    filter_errors "$RESIDUAL_LOG" | sort | uniq -c | sort -rn | head -10
+    # awk 'NR<=10' instead of `head -10`: reads the full pipeline to
+    # EOF rather than closing early. With `set -o pipefail`, `head -N`
+    # closing after N lines makes `sort -rn` upstream exit 141
+    # (SIGPIPE), which fails the whole script and skips the
+    # public-inbox-index / commit / push steps that follow. awk avoids
+    # that trap.
+    filter_errors "$RESIDUAL_LOG" | sort | uniq -c | sort -rn | awk 'NR<=10'
   fi
 fi
 
@@ -247,7 +264,10 @@ if [[ -n "${METRICS_LOG:-}" ]]; then
   top_count=0
   top_msg="none"
   if [[ -s "$RESIDUAL_LOG" && "$failed" -gt 0 ]]; then
-    top_line=$(filter_errors "$RESIDUAL_LOG" | sort | uniq -c | sort -rn | head -1)
+    # `awk 'NR==1'` reads the full pipeline (no SIGPIPE upstream); the
+    # `head -1` this replaces was the same SIGPIPE trap that killed
+    # the whole script under pipefail.
+    top_line=$(filter_errors "$RESIDUAL_LOG" | sort | uniq -c | sort -rn | awk 'NR==1')
     if [[ -n "$top_line" ]]; then
       top_count=$(echo "$top_line" | awk '{print $1}')
       top_msg=$(echo "$top_line" | sed -E 's/^[[:space:]]*[0-9]+[[:space:]]+//' \
