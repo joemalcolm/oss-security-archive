@@ -41,11 +41,11 @@ jobs:
             public-inbox xapian-tools \
             libwww-perl liblwp-protocol-https-perl libhtml-parser-perl
 
-      - name: Initialize inbox (if needed)
-        run: |
-          if [[ ! -d inbox ]]; then
-            ./scripts/setup-inbox.sh inbox
-          fi
+      - name: Initialize inbox (idempotent — writes config on every run)
+        # setup-inbox.sh is safe to run against an already-initialized inbox
+        # (it skips public-inbox-init but still registers the inbox in
+        # ~/.public-inbox/config, which every fresh runner needs).
+        run: ./scripts/setup-inbox.sh inbox
 
       - name: Backfill
         # Inputs are env-bound (not interpolated into the shell) to defuse

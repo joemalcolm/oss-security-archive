@@ -28,11 +28,8 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq public-inbox xapian-tools
 
-      - name: Initialize inbox (if needed)
-        run: |
-          if [[ ! -d inbox ]]; then
-            ./scripts/setup-inbox.sh inbox
-          fi
+      - name: Initialize inbox (idempotent — writes config on every run)
+        run: ./scripts/setup-inbox.sh inbox
 
       - name: Bootstrap
         # Bind inputs to env vars rather than `${{ }}`-expanding them into the
