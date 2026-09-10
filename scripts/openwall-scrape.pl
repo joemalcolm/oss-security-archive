@@ -68,6 +68,7 @@ use warnings;
 use Getopt::Long;
 use LWP::UserAgent;
 use HTML::Entities qw(decode_entities);
+use Encode qw(encode);
 use File::Path qw(make_path);
 use Time::HiRes qw(sleep);
 use POSIX qw(strftime mktime);
@@ -76,6 +77,26 @@ use Time::Local qw(timegm);
 my $BASE_URL  = 'https://www.openwall.com/lists/oss-security';
 my $UA_STRING = 'oss-security-archive-bot/1.0 '
               . '(+https://github.com/joemalcolm/oss-security-archive)';
+
+# TLD table for maybe_reverse_rot13_host() (defined later, near
+# rot13_msgid_hosts). MUST be initialized before the main loop starts —
+# `my %H = ...` at file scope initializes only when execution reaches
+# that statement, and if this were declared next to the sub that uses
+# it (near the end of the file), the main loop would run first with an
+# empty hash and every is_real_tld() call would return false, silently
+# defeating the "reverse rot13'd hosts" branch. See comment near
+# maybe_reverse_rot13_host() for what this contains and why.
+my %REAL_TLDS = map { $_ => 1 } qw(
+    com org net edu gov mil int arpa
+    info biz name pro
+    io me co dev app blog shop site cloud tech online store xyz sh ai
+    aero coop museum jobs travel post asia cat mobi tel xxx
+    us uk de fr jp cn au ca ru cz nl be pl kr in br mx ar cl es it ch
+    se no fi dk gr pt ie il tr za ke ng tw hk sg my th vn id ph nz
+    at hu ro bg hr rs si sk mk mt cy is li lu al ba md lt lv ee ua by
+    tv cc eu bh om qa sa ae eg jo lb ma dz tn iq sy ye af pk ir
+    to fm gg im je ky vg mo tc
+);
 
 # ---- argv -------------------------------------------------------------------
 my ($start, $end, $maildir, $reverse, $help, $save_failed);
@@ -436,20 +457,62 @@ sub parse_headers {
     return @out;
 }
 
-# Within a header value, find substrings of the form `@host` (where host
-# is alphanumeric + . + - up to the next > or whitespace) and rot13 the
-# host portion. Openwall rot13s ONLY the part after @ in Message-IDs;
-# leaves local-parts and surrounding angle brackets intact.
-sub rot13_msgid_hosts {
-    my ($v) = @_;
-    $v =~ s{(\@)([A-Za-z0-9.\-]+)}{$1 . rot13($2)}ge;
-    return $v;
-}
-
+# Within a header value, find substrings of the form `@host` and — IF the
+# host was rot13-obfuscated by openwall's blists — reverse the rot13.
+#
+# CRITICAL: openwall does NOT rot13 every Message-ID host. Its blists
+# obfuscator applies rot13 selectively — personal / small-org domains
+# get rot13'd (`redhat.com` → `erqung.pbz`) but well-known public
+# services stay in clear text (`googlegroups.com`, `github.com`,
+# common list hosts). An earlier version of this function rot13'd
+# every `@host` unconditionally, which SILENTLY corrupted the
+# Message-ID of every message from a public host — dedup against
+# Maildir data broke, threading broke, replies didn't link up.
+# Verified 2026-09-11 on /2014/05/13/2: openwall serves
+# `Message-Id: <…@googlegroups.com>` in clear; we were writing
+# `@tbbtyrtebhcf.pbz`.
+#
+# Fix: detect whether the host is rot13'd by testing its top-level
+# domain against a set of known real TLDs. Handy property of rot13:
+# none of the common real TLDs round-trip to another real TLD
+# (com↔pbz, org↔bet, net↔arg, io↔vb, uk↔hx, de↔qr, jp↔wc, …), so:
+#   - current TLD is a real TLD → plaintext → leave alone
+#   - rot13(current TLD) is a real TLD → obfuscated → reverse
+#   - neither → unknown, conservative: leave alone
 sub rot13 {
     my ($s) = @_;
     $s =~ tr/A-Za-z/N-ZA-Mn-za-m/;
     return $s;
+}
+
+# %REAL_TLDS is the curated list of real TLDs commonly seen in email
+# Message-ID hosts, initialized at the TOP of the file so it's populated
+# before the main loop runs. Not exhaustive — goal is to cover ~99% of
+# oss-security list traffic without pulling in a Public Suffix List
+# dependency. Unknown TLDs fall through to "leave alone" (safe default:
+# preserving a possibly-still-rot13'd host is less bad than corrupting
+# a plaintext one, because dedup ambiguity is fixable later while data
+# corruption is not).
+sub is_real_tld {
+    my ($t) = @_;
+    return defined $t && exists $REAL_TLDS{lc $t};
+}
+
+sub maybe_reverse_rot13_host {
+    my ($host) = @_;
+    my ($tld) = $host =~ /\.([A-Za-z0-9]+)$/;
+    return $host unless defined $tld;
+    return $host if is_real_tld($tld);   # already plaintext
+    my $rev = rot13($host);
+    my ($rev_tld) = $rev =~ /\.([A-Za-z0-9]+)$/;
+    return $rev if is_real_tld($rev_tld); # rot13'd, reverse it
+    return $host;                         # unknown, leave alone
+}
+
+sub rot13_msgid_hosts {
+    my ($v) = @_;
+    $v =~ s{(\@)([A-Za-z0-9.\-]+)}{$1 . maybe_reverse_rot13_host($2)}ge;
+    return $v;
 }
 
 # ---- Maildir output ---------------------------------------------------------
@@ -461,7 +524,17 @@ sub write_maildir {
     my $path = "$maildir/new/$fn";
     open my $fh, '>', $path or die "open $path: $!\n";
     binmode $fh;
-    print $fh $rfc822;
+    # $rfc822 has Perl's internal character representation because
+    # HTML::Entities::decode_entities() upgraded us out of raw bytes
+    # (e.g. `&#8217;` → U+2019 RIGHT SINGLE QUOTATION MARK). Writing
+    # that to a raw filehandle triggers `Wide character in print` and,
+    # worse, the character-flag propagates through the pipeline into
+    # PublicInbox::Import which then also warns (`Import.pm line 312`)
+    # and may in edge cases break the git-fast-import stream. Explicit
+    # UTF-8 encoding downgrades to bytes and keeps everything in
+    # byte-land from here on. The synthesized Content-Type header on
+    # scraped messages already declares `charset=utf-8`.
+    print $fh encode('UTF-8', $rfc822);
     close $fh or die "close $path: $!\n";
 }
 
