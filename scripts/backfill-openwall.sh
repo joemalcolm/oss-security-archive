@@ -113,7 +113,15 @@ echo "==> Scraping openwall $START..$END ${REVERSE:+(reverse) }into $SCRATCH"
 
 echo
 echo "==> Ingesting scraped messages via import-maildir.sh"
-INBOX_DIR="$INBOX_DIR" "$IMPORTER" "$SCRATCH"
+# Propagate METRICS_LOG explicitly so the inner import-maildir.sh
+# appends its own per-run line to the same metrics/imports.tsv file.
+# Without this, the backfill's ingest step ran in a subshell that
+# inherited METRICS_LOG via env, so it "worked" — but only when
+# METRICS_LOG was set in the outer env. The workflow's Backfill step
+# doesn't set METRICS_LOG on the outer bash env unless we do it
+# explicitly there too (see backfill-openwall.yml).
+INBOX_DIR="$INBOX_DIR" METRICS_LOG="${METRICS_LOG:-}" \
+  "$IMPORTER" "$SCRATCH"
 
 # End-of-run tally of scrape-time warnings. import-maildir.sh already
 # prints its own residual and error summaries; this one adds the

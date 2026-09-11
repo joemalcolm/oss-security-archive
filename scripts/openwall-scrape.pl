@@ -96,6 +96,7 @@ my %REAL_TLDS = map { $_ => 1 } qw(
     at hu ro bg hr rs si sk mk mt cy is li lu al ba md lt lv ee ua by
     tv cc eu bh om qa sa ae eg jo lb ma dz tn iq sy ye af pk ir
     to fm gg im je ky vg mo tc
+    local lan internal localdomain home
 );
 
 # ---- argv -------------------------------------------------------------------
