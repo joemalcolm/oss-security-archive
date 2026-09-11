@@ -63,8 +63,16 @@ jobs:
           fi
           opts=()
           if [[ "$REVERSE_DAYS" == "true" ]]; then opts+=(--reverse); fi
-          INBOX_DIR=inbox ./scripts/backfill-openwall.sh \
-            "$YEAR-01-01" "$YEAR-12-31" "${opts[@]+${opts[@]}}"
+          # METRICS_LOG makes backfill-openwall.sh + import-maildir.sh
+          # both append per-run counter lines to metrics/imports.tsv,
+          # which the Commit step below reads to build the commit
+          # message. Without it, the last import-maildir line in
+          # metrics/imports.tsv is stale (the maildir bootstrap run
+          # from months back) and the commit message reports the wrong
+          # number.
+          INBOX_DIR=inbox METRICS_LOG=metrics/imports.tsv \
+            ./scripts/backfill-openwall.sh \
+              "$YEAR-01-01" "$YEAR-12-31" "${opts[@]+${opts[@]}}"
 
       - name: Build indexes
         run: public-inbox-index inbox
