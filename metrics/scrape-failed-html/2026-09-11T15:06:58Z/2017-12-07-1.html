@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Recommendations GnuPG-2 replacement</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2017/12/06/4">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Date: Thu, 07 Dec 2017 06:32:11 +0000
+From: halfdog &lt;me&#64;...fdog.net&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Recommendations GnuPG-2 replacement
+
+Hello list,
+
+Are there recommendations for open-source light-weight replacements
+of GnuPG2 suitable for use on Debian? I would like discontinue
+using GnuPG project, as the GnuPG design regarding security seems
+to be moving in a direction, that does not match my personal security
+needs any more.
+
+The two main events causing me considering the change were related
+to the Debian Jessie to Stretch switch - thus giving a small
+impression on the current needs:
+
+Event 1:
+
+While gpg1 was a light-weight tool, just doing what said, the
+new gpg2 cannot really work without gpg-agent, pinentry frontend.
+Both are very nice for desktop usecases. As I also used it during
+machine setup for generating material related to disk encryption,
+the agent first did not want to start -- the primitive /dev/ttyX
+via openvt was not the environment gpg tools were expecting
+for password input, thus failing. gpg2 by default will not ask
+the passphrase any more on the terminal, it was started from,
+but tries to work out using various information, where passphrase
+input should be delegated to.
+
+After getting gpg and agent running, I noticed, that not reliably
+stopping the gpg-agent on initrd would introduce a private key
+data leak via /proc from early boot process to running system
+when stopping fails. This is also more annoying as it is not possible
+to instruct gpg, that a single private key should NOT be cached,
+and you have to configure gpg-agent beforehand, something not
+quite funny and little error prone on limited functionality systems
+like on an initrd systems.
+
+Thus the Debian switch from gpg1 to gpg2 just introduced efforts
+fiddling with functionality I do not need and cannot disable,
+provides a keymanagement that cannot be configured easily to
+protect against the threats it should mitigate (theft of key material)
+and creating additional attack surface without any recognizable
+benefit.
+
+Event 2:
+
+After getting everything working, which was little anoying as
+building of initrds, testing via QEmu is not very user friendly
+regarding debugging for less experienced users - but at least not
+GnuPG's fault at any reason - I noticed, that the password protection
+of the key was significantly lower than expected. Getting back
+to the developers, we found out, that the specification of the
+"--s2k-count" parameter, which specifies the number of rounds
+of key deriviation function to unlock the private key, has changed
+from gpgv1 to gpgv2, so that it is ignored in gpg2 but does not
+cause any warning or error. Thus previous audited procedures continue
+to work but do not produce the same results any more. Of course,
+I could have compared documentation of all parameters of (at least
+security-related) programs after Jessie to Stretch upgrade, but
+I assumed, that security critical parameters would not change
+their meaning without any noticable effect - so just my fault.
+
+Still, this would just be a minor mishap, but what reduced my
+trust in GPG, was the comment of a developer: it was assumed,
+that they know better, where there software will be run without
+specifying that "where" in the documentation. Also his replies
+matched that picture, e.g. "(gpg-agent will) ... calibrate the
+S2K count to match the current machine", assuming that this is
+good reason to change "--s2k-count" meaning and ignore the parameter.
+I had the impression, that it did not come to mind, that someone
+might have used such a parameter for a reason, e.g. because speed
+calibration might not be the best idea, while the system is taking
+in data at the maximum speed the ethernet adapter, disk controller
+can do during system setup.
+
+Another bonmot on the mathematical complexity of private key
+unlocking: "For user experience 100ms is a good value; your
+suggested 1000ms is an annoying long delay which would most user
+only increase the cache time." But the discussion was not on
+user defaults. If I deem it a good idea to requirea longer KDF
+computation time for material with higher sensitivity, e.g. to
+to unlock data storage once at startup, and therefore tell the
+software to perform that computation, it should accept that
+decision. Thus someone not understanding or accepting the
+existance of such choices in alternative usecase might not be
+the right person to develop the software, I want to use.
+
+
+Result:
+
+For all steps regarding system startup, I switched to LUKS only,
+using detached headers for special features. For release signing,
+mail sign/encrypt, a good light-weight solution is still needed.
+
+hd
+
+PS: I do not know, how much the gpg-agent calibration under
+increased system load reduced the KDF complexity, as I failed
+to extract the KDF rounds value from the gpg data structures,
+but the value seems to be at least below 70ms due to total time
+measurements for gpg-agent (math, interprocess communication,
+filesystem) to unlock a key on an idle system.
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
