@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Concerns about CVE coverage shrinking - direct impact to researchers/companies</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Date: Sun Mar  6 11:01:47 UTC 2016
+From: me&#64;...fdog.net
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Concerns about CVE coverage shrinking - direct impact to researchers/companies
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+In my opinion, most of the points brought up in discussion are valid
+topics to be addressed, I just believe, that another method might be
+more suitable.
+
+As an example, I use the topics from Tim's e-mail ....
+
+
+Tim wrote:
+&gt; 
+&gt;&gt; Of course, the information will need to be available to those 
+&gt;&gt; third-party databases from somewhere - but this can be the 
+&gt;&gt; researcher's or the vendor's disclosure, as you say.  Until such 
+&gt;&gt; disclosure, a customer would not even be aware of the ID, let
+&gt;&gt; alone want to look it up.
+&gt; 
+&gt; The trouble with third-party databases is that they aren't a reliable
+&gt; archive of information.  I can't tell you how many times I've found a
+&gt; vulnerability scanner detecting an issue, and I go back to get more
+&gt; details to understand the risk, only to find all the technical
+&gt; details have been taken offline.
+
+See g)
+
+&gt; It is a major gap in the security community's (and IT industry's) 
+&gt; tool set that we don't have a reliable, single archive of 
+&gt; vulnerability information.
+
+See RFC
+
+&gt; It is a huge waste of time looking up every bug.
+
+Copy the whole database
+
+&gt; And when I say "reliable" I merely mean the information won't go
+&gt; away tomorrow (like the old FD did so suddenly).
+
+See b)
+
+&gt; I don't mean the information must always be true or validated, just
+&gt; available.
+
+At least the origin and changes should be validated, see c, e.
+
+&gt; Providing something like this is clearly a significant undertaking 
+&gt; and isn't something most security companies can make any real money 
+&gt; at. *Maybe* a well-thought-out non-profit could accomplish this and 
+&gt; still make ends meet by providing bulk feeds for a small
+&gt; subscription fee.
+
+Well, if software would behave as below, I would have no problem hosting
+a mirror, slow lines should not matter. I think quite some researchers
+would contribute a little of their computational resources.
+
+&gt; Obviously a government has the resources to do this, if not always
+&gt; the competence.  Currently my government is just "letting the 
+&gt; Internet burn", as they say, so I'm not optimistic that DHS or 
+&gt; whatever is going to step up.
+
+I do not want to trust a single government to much, see h) how to handle
+sensitive material without central trust.
+
+&gt;&gt; A drawback is that such requests become somewhat 
+&gt;&gt; security-sensitive, if for yet unpublished issues.  This is
+&gt;&gt; already a major concern with CVE, where information may be subject
+&gt;&gt; to unjustified risk for the purpose of merely getting an ID
+&gt;&gt; assigned.
+
+Also h)
+
+&gt; That's a good point.  As a researcher, I want an ID very early in the
+&gt; process (before going public) so I can refer to it when interacting
+&gt; with a vendor and draft my advisory in advance.  One *could* accept
+&gt; submissions "to be released on date ...", but then any database like
+&gt; that will become a target.
+
+See e, h.
+
+&gt; So instead, this hypothetical web app could require only basic 
+&gt; information about the products affected up front, and then allow 
+&gt; arbitrary additions of content later. (Note I said additions, not 
+&gt; changes).
+
+See e, f. For first round, we could use a simple template for reporting,
+but do not enforce its use. Let k) mark out good contributors, valuable
+information.
+
+&gt; I think it should also allow anonymous submission, perhaps only with
+&gt; validation of email addresses (which could be burners).
+
+Use c), the key does not need to contain any valid mail address or name,
+it has only to be signed properly.
+
+&gt; It's all too easy for researchers to become victim of idiotic libel
+&gt; lawsuits.  (Which then leads one to wonder what legal defenses the
+&gt; hosting org needs...)
+
+Those caring about that, use h+j to give access only to trusted parties.
+With the signed access request, they also sign a "contract" taking away
+the risk from the contributor - e.g. the reader is legally allowed in
+his jurisdiction to read the vulnerability information without any legal
+consequences for him or the creator of the content. Also contributor is
+not responsible for damages caused by leaks via reader. With j) going to
+court would mean going not only against the contributor but all readers
+(usually some major players within them) reducing the risk for the
+contributor.
+
+
+
+
+
+
+... to make following proposal
+
+RFC: "Distributed Cryptoenhanced Vulnerability Enumeration (DCVE)":
+
+To address the points mentioned before, assume we would take the a
+blockchain database [0] approach to handle most of the issues for us.
+
+a) Chain layout: Start a chain every year, so it will not grow arbitrary
+large. The root entry is the PGP key of chain manager (some group, board
+- - does not be the ones running the data systems)
+
+b) Chain hosting: as the information is easy to distribute,
+cryptographically secured, redundant, any number of volunteers can host
+them.
+
+c) Entry: A "permitted contributor" signature is made using one of the
+previous keys already recorded onto the key of the new contributor.
+
+d) Proof of work: To add elements perform calculation (1
+non-parallelizable CPU-h? - this is also the minimal delay for updates),
+thus limiting the amount of garbage to be added by adversaries.
+
+e) Unique IDs: The unique ID for a DCVE entry is the SHA256-hash of the
+first element dealing with that issue.
+
+f) Updates: The entry may be updated by anyone, but usually one may want
+to filter out all entries not from the creator. The creator may later on
+approve foreign entry by adding a linking the record (or the key of the
+contributor) to the chain by himself.
+
+g) Related material: To keep chain entries small (16kb?), they may
+reference external material via http(s)-URLs. If it is a single file,
+checksum information can be added. When important material is found,
+anyone feeling the need to mirror it can create an update to that entry
+and add the reference to the mirrored data.
+
+h) Sensitive information: Each DVCE chain may contain also encrypted
+messages. The key can be added later on to the chain, thus making the
+previously recorded information public.
+
+i) Non-repudiation (create): Each added entry has to be signed with the
+key of the creator)
+
+j) Non-repudiation (read): When important for the creator, giving read
+access to one encrypted DCVE-chain should only happen after receiving a
+signed access-request.
+
+k) Prioritizing: to ease sifting through the important entries, any
+contributor can add a rating entry to DVCE chains to give opinion to
+their risk but also the quality of the chain (thus contributors may
+build a reputation, making it easier to get heard).
+
+Any thoughts on the idea itself?
+How to realize: summer of code?
+
+hd
+
+[0] <a href="https://en.wikipedia.org/wiki/Block_chain_(database" rel="nofollow">https://en.wikipedia.org/wiki/Block_chain_(database</a>)
+
+
+- -- 
+<a href="http://www.halfdog.net/" rel="nofollow">http://www.halfdog.net/</a>
+PGP: 156A AE98 B91F 0114 FE88 2BD8 C459 9386 feed a bee
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlbb590ACgkQxFmThv7tq+4PTgCfRcFhPC3+BkTdmH46QwkCQDmO
+/xgAmwauaNknTNgZEuSTtMXNEcFXSa9t
+=//Ac
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
