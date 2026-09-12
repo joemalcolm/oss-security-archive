@@ -35,7 +35,7 @@
 # Usage:
 #   openwall-scrape.pl --start YYYY-MM-DD --end YYYY-MM-DD
 #                      --maildir DIR [--reverse] [--delay SECONDS]
-#                      [--save-failed DIR]
+#                      [--save-failed DIR] [--diff-against INBOX_NAME]
 #
 #   --start, --end : inclusive date range (UTC).
 #   --maildir      : target Maildir; cur/, new/, tmp/ are created.
@@ -49,6 +49,16 @@
 #                    Cheap disk cost; lets a future scraper improvement
 #                    reprocess without re-fetching from openwall. Files
 #                    are named `<YYYY>-<MM>-<DD>-<N>.html`.
+#   --diff-against : Phase-4 within-range gap-fill mode. Preloads every
+#                    Message-ID from the named public-inbox and skips
+#                    any scraped message whose ID is already there. Meant
+#                    for date ranges where a Maildir already covers most
+#                    of the traffic (2015-Mar-16 → present in this repo).
+#                    Skipped messages are logged as
+#                    `SCRAPE_WARN\tdiff-skip-known\t<url>` so the
+#                    wrapper's tally shows the skip rate. For a full
+#                    pre-Maildir backfill (2008 → 2015-Mar-15), omit
+#                    this flag and every message is ingested.
 #
 # Resumability: writes $maildir/.scrape-state with the last-completed
 # date. On re-run, dates already done (relative to the iteration order)
@@ -100,15 +110,16 @@ my %REAL_TLDS = map { $_ => 1 } qw(
 );
 
 # ---- argv -------------------------------------------------------------------
-my ($start, $end, $maildir, $reverse, $help, $save_failed);
+my ($start, $end, $maildir, $reverse, $help, $save_failed, $diff_against);
 my $delay = 1.5;
 GetOptions(
-    'start=s'       => \$start,
-    'end=s'         => \$end,
-    'maildir=s'     => \$maildir,
-    'reverse'       => \$reverse,
-    'delay=f'       => \$delay,
-    'save-failed=s' => \$save_failed,
+    'start=s'         => \$start,
+    'end=s'           => \$end,
+    'maildir=s'       => \$maildir,
+    'reverse'         => \$reverse,
+    'delay=f'         => \$delay,
+    'save-failed=s'   => \$save_failed,
+    'diff-against=s'  => \$diff_against,
     'help|h'        => \$help,
 ) or usage_exit(2);
 usage_exit(0) if $help;
@@ -149,6 +160,48 @@ for my $sub (qw(cur new tmp)) {
 }
 if (defined $save_failed) {
     make_path($save_failed) unless -d $save_failed;
+}
+
+# ---- Phase-4 diff mode: preload archive Message-IDs ---------------------
+# When --diff-against INBOX_NAME is set, build an in-memory set of every
+# Message-ID already present in that public-inbox. Then scrape_one skips
+# any URL whose fetched message carries an ID we already have, and never
+# invokes write_maildir for it. Net effect: we still hit openwall for
+# every message page (to read its ID), but we don't ingest or write
+# anything for the ~99% of messages that dedup would have caught. This
+# is the Phase-4 within-range gap-fill mode from MASTER_PLAN — meant
+# for date ranges where a Maildir already covers most of the traffic.
+#
+# For a full pre-Maildir backfill (2008-2015), omit --diff-against and
+# every message is ingested unconditionally.
+my %KNOWN_MIDS;
+if (defined $diff_against) {
+    require PublicInbox::Config;
+    require PublicInbox::Inbox;
+    my $cfg = PublicInbox::Config->new
+        or die "cannot load public-inbox config for --diff-against\n";
+    my $ibx = $cfg->lookup_name($diff_against)
+        or die "no inbox named '$diff_against' in public-inbox config\n";
+    my $ep  = "$ibx->{inboxdir}/git/0.git";
+    warn "loading Message-IDs from $ep for --diff-against ...\n";
+    open my $log, "-|", "git", "-C", $ep, "log", "--format=%H"
+        or die "git log $ep: $!";
+    my $n = 0;
+    while (my $c = <$log>) {
+        chomp $c;
+        open my $show, "-|", "git", "-C", $ep, "show", "$c:m" or next;
+        while (my $line = <$show>) {
+            last if $line =~ /^\r?\n\z/;
+            if ($line =~ /^[Mm]essage-[Ii][Dd]:\s*(.+?)\s*\r?$/) {
+                $KNOWN_MIDS{$1} = 1;
+                $n++;
+                last;
+            }
+        }
+        close $show;
+    }
+    close $log;
+    warn "  loaded ", scalar(keys %KNOWN_MIDS), " Message-IDs\n";
 }
 my $state_file = "$maildir/.scrape-state";
 my $resume_after = read_state($state_file);
@@ -392,6 +445,23 @@ sub build_rfc822 {
         my $name = lc $h->[0];
         if ($name =~ /^(message-id|in-reply-to|references|resent-message-id)$/) {
             $h->[1] = rot13_msgid_hosts($h->[1]);
+        }
+    }
+
+    # 7a-bis. Phase-4 diff mode: after rot13 normalization, check the
+    # (now-canonical) Message-ID against %KNOWN_MIDS. If we already
+    # have it, skip — don't write to the Maildir, don't invoke mda.
+    # Emit a structured SCRAPE_WARN so the wrapper's tally shows how
+    # many messages were correctly diff-skipped vs. actually new.
+    if (%KNOWN_MIDS) {
+        my ($mid_h) = grep { lc($_->[0]) eq 'message-id' } @hdrs;
+        if ($mid_h) {
+            my $mid = $mid_h->[1];
+            $mid =~ s/^\s+|\s+$//g;
+            if (exists $KNOWN_MIDS{$mid}) {
+                scrape_warn('diff-skip-known', $source_url);
+                return undef;
+            }
         }
     }
 
