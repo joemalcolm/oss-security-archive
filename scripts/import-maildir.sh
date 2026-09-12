@@ -233,24 +233,44 @@ fi
 if [[ -n "${METRICS_LOG:-}" ]]; then
   mkdir -p "$(dirname "$METRICS_LOG")"
 
-  # Per-run full errors log — same directory as the metrics file. Only
-  # created when there were actual failures. Contains everything
-  # filter_errors() surfaces plus a header with counters, so `git log`
-  # over this directory tells the story of every failing run.
-  if [[ "$failed" -gt 0 && -s "$RESIDUAL_LOG" ]]; then
+  # Per-run full errors log — same directory as the metrics file.
+  # Always created when failed > 0, even if RESIDUAL_LOG is empty
+  # (some ingest failures — e.g. PublicInbox::V2Writable rejects that
+  # produce no stderr — would previously leave no errors log at all
+  # despite the failed-msgs archive being populated). The header
+  # always lists the counters and points at the .eml archive as the
+  # canonical record; the filtered stderr dump is appended only if
+  # something was actually captured. `git log metrics/errors/` then
+  # gives a complete run-by-run failure history regardless of whether
+  # a given failure produced captured stderr.
+  if [[ "$failed" -gt 0 ]]; then
     ERRORS_DIR="$(dirname "$METRICS_LOG")/errors"
     mkdir -p "$ERRORS_DIR"
     ERRORS_FILE="$ERRORS_DIR/${RUN_TS}.log"
     {
       echo "# import-maildir run at $RUN_TS"
       echo "# total=$i imported=$((i - failed)) failed=$failed"
+      if [[ -n "$FAILED_MSGS_ROOT" && -d "$FAILED_MSGS_ROOT/$RUN_TS" ]]; then
+        msg_count=$(find "$FAILED_MSGS_ROOT/$RUN_TS" -type f -name '*.eml' | wc -l | tr -d ' ')
+        echo "# failed .eml archive: $FAILED_MSGS_ROOT/$RUN_TS/ ($msg_count file(s))"
+      fi
       echo "# (git background auto-pack chatter filtered out)"
       echo
-      echo "== Distinct error messages (all, sorted by count) =="
-      filter_errors "$RESIDUAL_LOG" | sort | uniq -c | sort -rn
-      echo
-      echo "== Full filtered log =="
-      filter_errors "$RESIDUAL_LOG"
+      if [[ -s "$RESIDUAL_LOG" ]] && [[ -n "$(filter_errors "$RESIDUAL_LOG")" ]]; then
+        echo "== Distinct error messages (all, sorted by count) =="
+        filter_errors "$RESIDUAL_LOG" | sort | uniq -c | sort -rn
+        echo
+        echo "== Full filtered log =="
+        filter_errors "$RESIDUAL_LOG"
+      else
+        echo "== No stderr captured =="
+        echo "The $failed failure(s) produced no filter-visible stderr."
+        echo "This is typical for PublicInbox::V2Writable rejects that"
+        echo "die() with a message swallowed by an eval{} wrapper in"
+        echo "ingest-direct.pl. See the failed .eml files in"
+        echo "\$FAILED_MSGS_ROOT/$RUN_TS/ to inspect the actual messages;"
+        echo "each is the sanitized RFC822 as fed to public-inbox-mda."
+      fi
     } > "$ERRORS_FILE"
     echo "Full errors log at $ERRORS_FILE"
     if [[ -n "$FAILED_MSGS_ROOT" && -d "$FAILED_MSGS_ROOT/$RUN_TS" ]]; then
