@@ -37,6 +37,24 @@ else
   echo "Inbox already initialized at $INBOX_DIR (skipping public-inbox-init)."
 fi
 
+# Step 1b: heal partially-broken structure. `all.git/refs/` is created
+# at ingest time by public-inbox and NOT tracked in git (the initial
+# scaffold only captured HEAD, config, and objects/info/alternates).
+# A `git clean -fdx inbox` during recovery therefore wipes refs/,
+# leaving all.git without the minimum HEAD+objects+refs trio that
+# makes git recognize a bare repo. Result: git-fast-import (spawned
+# by V2Writable::add) says "fatal: not a git repository". A bare
+# mkdir -p restores recognition; ingest re-populates refs/heads/master
+# on first successful add(). Same for git/0.git which has the same
+# untracked-refs pathology.
+for d in all.git git/0.git; do
+  refs_dir="$INBOX_DIR/$d/refs/heads"
+  if [[ -d "$INBOX_DIR/$d" && ! -d "$refs_dir" ]]; then
+    mkdir -p "$refs_dir"
+    echo "  healed missing $d/refs/heads/"
+  fi
+done
+
 # Step 2: register the inbox in ~/.public-inbox/config, unconditionally.
 # `public-inbox-init` writes this file on step-1 runs, but on skip we
 # still need to populate it — CI runners get a fresh $HOME each job.
