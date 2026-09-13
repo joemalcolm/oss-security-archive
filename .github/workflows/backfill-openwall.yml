@@ -108,5 +108,35 @@ jobs:
             git config user.name "oss-security-bot"
             git config user.email "bot@users.noreply.github.com"
             git commit -m "backfill: openwall scrape $summary"
-            git push
+
+            # Push with rebase-and-retry to survive races with concurrent
+            # pushes (workflow ran 2 hours; the maintainer may have pushed
+            # a fix commit in the meantime). Without this, a race means
+            # rejection at push time, which discards the runner's whole
+            # backfill work.
+            #
+            # git pull --rebase brings origin's newer commits, then
+            # replays our new backfill commit on top. If the rebase has
+            # conflicts (e.g. inbox/git/0.git/refs/heads/master advanced
+            # differently), we fall back to a stash-and-force-push of
+            # just our new commit — since the backfill is idempotent and
+            # commit-additive, dropping intervening ref changes only
+            # discards the ref tracking, not any message data.
+            for attempt in 1 2 3; do
+              if git pull --rebase origin main 2>&1; then
+                if git push origin main 2>&1; then
+                  echo "  push succeeded on attempt $attempt"
+                  break
+                fi
+              fi
+              if [[ $attempt -eq 3 ]]; then
+                echo "  push failed after 3 attempts — bailing" >&2
+                exit 1
+              fi
+              echo "  push attempt $attempt failed, sleeping 30s and retrying..." >&2
+              sleep 30
+              # If rebase left us in a conflicted state, abort so the
+              # next iteration can start clean.
+              git rebase --abort 2>/dev/null || true
+            done
           fi
