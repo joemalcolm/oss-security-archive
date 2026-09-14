@@ -85,22 +85,43 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nothing new to commit (idempotent re-run, or empty year)."
           else
-            # Build the commit summary from the metrics/imports.tsv lines
-            # backfill-openwall.sh + import-maildir.sh just appended. The
-            # last `import-maildir` line for this run has the counts:
-            #   ts \t import-maildir \t total \t imported \t failed \t ...
-            # ("imported" here includes dedup-collisions since they're
-            # counted as success — see ingest-direct.pl. That's usually
-            # fine for a year that overlaps the Maildir window; for a
-            # pure pre-Maildir backfill it equals net-new.)
+            # Build the commit summary from BOTH metrics lines this run
+            # just appended:
+            #
+            #   import-maildir line (from inner import-maildir.sh):
+            #     ts \t import-maildir \t total \t imported \t failed \t ...
+            #     ("total" = messages the ingester saw after --diff-against
+            #     already skipped duplicates; "imported" = net-new added
+            #     to the archive with --diff-against enabled; "failed" =
+            #     ingest errors)
+            #
+            #   backfill-openwall line (from outer wrapper):
+            #     ts \t backfill-openwall \t range \t scrape-warns \t
+            #     top-cat \t top-count \t diff-skips \t ingested
+            #     ("diff-skips" = messages openwall served that we already
+            #     had — dedup avoided at scrape time)
+            #
+            # Combined: scraped = added + diff-skipped + failed
             summary="$YEAR"
             if [[ -s metrics/imports.tsv ]]; then
-              read total imported failed < <(
+              read total added failed < <(
                 awk -F'\t' '$2 == "import-maildir" {t=$3; i=$4; f=$5}
-                            END {print t, i, f}' metrics/imports.tsv
+                            END {print t+0, i+0, f+0}' metrics/imports.tsv
               )
-              if [[ -n "$imported" ]]; then
-                summary="$YEAR ($imported / $total imported"
+              diff_skips=$(awk -F'\t' '$2 == "backfill-openwall" {d=$7}
+                                       END {print d+0}' metrics/imports.tsv)
+              scraped=$((added + failed + diff_skips))
+              # Build a clear message:
+              #   "backfill: openwall scrape 2023 (1169 processed: 12 added,
+              #    1157 pre-skipped by dedup, 0 failed)"
+              # For pure pre-Maildir years (diff_skips=0), collapses to:
+              #   "backfill: openwall scrape 2011 (985 added, 0 failed)"
+              if [[ "$diff_skips" -gt 0 ]]; then
+                summary="$YEAR ($scraped processed: $added added, $diff_skips pre-skipped by dedup"
+                [[ "$failed" != "0" ]] && summary="$summary, $failed failed"
+                summary="$summary)"
+              else
+                summary="$YEAR ($added added"
                 [[ "$failed" != "0" ]] && summary="$summary, $failed failed"
                 summary="$summary)"
               fi
