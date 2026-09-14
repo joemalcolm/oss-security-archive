@@ -106,6 +106,14 @@ echo "==> Scraping openwall $START..$END ${REVERSE:+(reverse) }into $SCRATCH"
   )
   [[ -n "$REVERSE" ]] && scraper_opts+=("$REVERSE")
   [[ -n "$SAVE_FAILED" ]] && scraper_opts+=(--save-failed "$SAVE_FAILED")
+  # --diff-against: preloads Message-IDs from the target inbox and
+  # skips scraped messages whose ID is already there. Prevents the
+  # "V2Writable dedups on content-hash, not MID, so scraped copies
+  # of Maildir messages land as duplicates" pathology. For pre-Maildir
+  # years the archive has no matching MIDs so nothing is skipped —
+  # safe to enable unconditionally. Overridable via DIFF_AGAINST="".
+  DIFF_AGAINST="${DIFF_AGAINST:-oss-security}"
+  [[ -n "$DIFF_AGAINST" ]] && scraper_opts+=(--diff-against "$DIFF_AGAINST")
   perl "$SCRAPER" "${scraper_opts[@]}" 2> >(
     tee >(grep -a '^SCRAPE_WARN' >> "$SCRAPE_WARN_LOG") >&2
   )
@@ -187,9 +195,35 @@ if [[ -n "${METRICS_LOG:-}" ]]; then
     top_cat="${top_cat:-none}"
     top_count="${top_count:-0}"
   fi
-  printf '%s\tbackfill-openwall\t%s..%s\t%d\t%s\t%d\n' \
+
+  # Extract diff-skip count separately — it's the count of messages
+  # openwall served that we already had in the archive (via
+  # --diff-against). Distinct from failures or scrape-side errors;
+  # the commit-message logic uses it to distinguish "processed vs
+  # added" cleanly.
+  diff_skips=0
+  if [[ -s "$SCRAPE_WARN_LOG" ]]; then
+    diff_skips=$(awk -F'\t' '$1 == "SCRAPE_WARN" && $2 == "diff-skip-known"' \
+                   "$SCRAPE_WARN_LOG" | wc -l | tr -d ' ')
+  fi
+
+  # Metrics line format (tab-separated), 8 columns:
+  #   ts, script, date-range, scrape-warnings-total, top-warn-cat,
+  #   top-warn-count, diff-skips, ingested (added — pulled from the
+  #   preceding import-maildir line for the same run)
+  #
+  # `ingested` is best-effort: peek at the last import-maildir line's
+  # imported count (which, with --diff-against on, equals net-new).
+  ingested=0
+  if [[ -s "$METRICS_LOG" ]]; then
+    ingested=$(awk -F'\t' '$2 == "import-maildir" {i=$4} END {print i+0}' \
+                 "$METRICS_LOG")
+  fi
+
+  printf '%s\tbackfill-openwall\t%s..%s\t%d\t%s\t%d\t%d\t%d\n' \
     "$RUN_TS" "$START" "$END" \
     "$scrape_warn_total" "$top_cat" "$top_count" \
+    "$diff_skips" "$ingested" \
     >> "$METRICS_LOG"
   echo "Scrape metrics line appended to $METRICS_LOG"
 fi
