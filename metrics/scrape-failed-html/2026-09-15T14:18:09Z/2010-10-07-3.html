@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request, security issues fixed in MySQL 5.1.51</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="../../../2010/10/08/1">[next&gt;]</a> <a href="../../../2010/10/04/9">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Pine.GSO.4.64.1010071655550.16065&#64;faron.mitre.org&gt;
+Date: Thu, 7 Oct 2010 16:57:14 -0400 (EDT)
+From: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+To: oss-security&#64;...ts.openwall.com
+cc: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+Subject: Re: CVE request, security issues fixed in MySQL 5.1.51
+
+
+Looks like there were 8 security bugs reported at 
+<a href="http://dev.mysql.com/doc/refman/5.1/en/news-5-1-51.html" rel="nofollow">http://dev.mysql.com/doc/refman/5.1/en/news-5-1-51.html</a>, not 7.
+
+These all have different affected versions claimed, so each gets a 
+separate CVE.
+
+- Steve
+
+
+Bug#55826 - incorrect propagation of type errors in evaluation of
+arguments to extreme-value functions
+
+   CVE-2010-3833
+   "create table .. select crashes with when KILL_BAD_DATA is returned"
+   5.0.91,5.1.49,5.1.50-bzr,5.5.5
+
+Bug#55568 - The server could crash after materializing a derived table
+that required a temporary table for grouping.
+
+   CVE-2010-3834
+   "user variable assignments crash server when used within query"
+   5.0.91-debug,5.1.49-debug
+
+Bug #55564 - A user-variable assignment expression that is evaluated
+in a logical expression context can be precalculated in a temporary
+table for GROUP BY. However, when the expression value is used after
+creation of the temporary table, it was re-evaluated, not read from
+the table and a server crash resulted.
+
+   CVE-2010-3835
+   "crash with user variables, assignments, joins..."
+   5.0.92, 5.1.37, 5.1.49, 5.1.50-bzr, 5.5.6-m3
+
+Bug#54568 - Pre-evaluation of LIKE predicates during view preparation
+could cause a server crash.
+
+   CVE-2010-3836
+   "create view cause Assertion failed: 0, file .\item_subselect.cc, line 836"
+   5.0.91-debug, 5.1.47-debug
+
+Bug#54476 - GROUP_CONCAT() and WITH ROLLUP together could cause a
+server crash.
+
+   CVE-2010-3837
+   "crash when group_concat and 'with rollup' in prepared statements"
+   5.0.91, 5.1.47, 5.1.49-bzr, 5.5.3
+
+   see: [23 Jul 14:25] Alexey Kopytov
+
+Bug#54461 - Queries could cause a server crash if the GREATEST() or
+LEAST() function had a mixed list of numeric and LONGBLOB arguments,
+and the result of such a function was processed using an intermediate
+temporary table.
+
+   CVE-2010-3838
+   "crash with longblob and union or update with subquery"
+   5.0.91,5.1.47, 5.5.3, 5.5.5-m3
+
+Bug#53544 - Queries with nested joins could cause an infinite loop in
+the server when used from stored procedures and prepared statements.
+
+   CVE-2010-3839
+   "Server hangs during JOIN query in stored procedure called twice in a row"
+   5.1.47, 5.6.99-m4 Dahlia, bzr_mysql-6.0-codebase-bugfixing
+
+Bug#51875 - The PolyFromWKB() function could crash the server when
+improper WKB data was passed to the function.
+
+   CVE-2010-3840
+   "crash when loading data into geometry function polyfromwkb"
+   5.0.90,5.1.44
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

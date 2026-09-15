@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request -- MySQL v5.1.49 -- multiple DoS
+ flaws</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="../../../2010/09/29/1">[next&gt;]</a> <a href="../../../2010/09/22/2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Pine.GSO.4.64.1009281803250.24337&#64;faron.mitre.org&gt;
+Date: Tue, 28 Sep 2010 18:06:44 -0400 (EDT)
+From: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+To: oss-security &lt;oss-security&#64;...ts.openwall.com&gt;
+cc: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;, Tom Lane &lt;tgl&#64;...hat.com&gt;
+Subject: Re: CVE Request -- MySQL v5.1.49 -- multiple DoS
+ flaws
+
+
+Sorry for the delay...
+
+There are several issues of the same bug type, but based solely on the 
+"Version" field in the associated MySQL bug IDs, it appears that each 
+issue has a different set of affected (fixed?) versions.  So these all 
+wind up being SPLIT from each other.
+
+&gt; 1, Security Fix: After changing the values of the innodb_file_format or
+&gt;                 innodb_file_per_table configuration parameters, DDL 
+&gt; statements
+&gt;                 could cause a server crash. (Bug#55039)
+&gt;   References:   <a href="http://bugs.mysql.com/bug.php?id=55039" rel="nofollow">http://bugs.mysql.com/bug.php?id=55039</a>
+&gt;                 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=628660" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=628660</a>
+&gt;   Reason:       Assertion failure leading to server abort.
+
+
+CVE-2010-3676
+
+
+&gt; 2, Security Fix: Joins involving a table with a unique SET column could cause
+&gt;                 a server crash. (Bug#54575)
+&gt;   References:   <a href="http://bugs.mysql.com/bug.php?id=54575" rel="nofollow">http://bugs.mysql.com/bug.php?id=54575</a>
+&gt;                 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=628040" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=628040</a>
+&gt;   Reason:       NULL pointer dereference leading to (temporary) server DoS.
+
+
+CVE-2010-3677
+
+
+&gt; 3, Security Fix: Incorrect handling of NULL arguments could lead to a crash
+&gt;                 for IN() or CASE operations when NULL arguments were either
+&gt;                 passed explicitly as arguments (for IN()) or implicitly
+&gt;                 generated by the WITH ROLLUP  modifier (for IN() and CASE).
+&gt;                 (Bug#54477)
+&gt;   References:   <a href="http://bugs.mysql.com/bug.php?id=54477" rel="nofollow">http://bugs.mysql.com/bug.php?id=54477</a>
+&gt;                 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=628172" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=628172</a>
+&gt;   Reason:       NULL pointer dereference leading to (temporary) server DoS.
+
+
+CVE-2010-3678
+
+
+&gt; 4, Security Fix: A malformed argument to the BINLOG statement could result
+&gt;                 in Valgrind warnings or a server crash. (Bug#54393)
+&gt;   References:   <a href="http://bugs.mysql.com/bug.php?id=54393" rel="nofollow">http://bugs.mysql.com/bug.php?id=54393</a>
+&gt;                 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=628062" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=628062</a>
+&gt;   Reason:       Use of unassigned memory leading to (temporary) server DoS 
+&gt; (crash).
+
+
+CVE-2010-3679
+
+
+&gt; 5, Security Fix: Use of TEMPORARY  InnoDB tables with nullable columns could 
+&gt; cause
+&gt;                 a server crash. (Bug#54044)
+&gt;   References:   <a href="http://bugs.mysql.com/bug.php?id=54044" rel="nofollow">http://bugs.mysql.com/bug.php?id=54044</a>
+&gt;                 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=628192" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=628192</a>
+&gt;   Reason:       Assertion failure leading to server abort.
+
+
+CVE-2010-3680
+
+
+&gt; 6, Security Fix: The server could crash if there were alternate reads from
+&gt;                 two indexes on a table using the HANDLER interface. 
+&gt; (Bug#54007)
+&gt;   References:   <a href="http://bugs.mysql.com/bug.php?id=54007" rel="nofollow">http://bugs.mysql.com/bug.php?id=54007</a>
+&gt;                 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=628680" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=628680</a>
+&gt;   Reason:       Assertion failure leading to server abort.
+
+
+CVE-2010-3681
+
+
+&gt; 7, Security Fix: Using EXPLAIN with queries of the form SELECT ... UNION
+&gt;                 ... ORDER BY (SELECT ... WHERE ...) could cause a server
+&gt;                 crash. (Bug#52711)
+&gt;   References:   <a href="http://bugs.mysql.com/bug.php?id=52711" rel="nofollow">http://bugs.mysql.com/bug.php?id=52711</a>
+&gt;                 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=628328" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=628328</a>
+&gt;   Reason:       NULL pointer dereference leading to (temporary) server DoS.
+
+
+CVE-2010-3682
+
+
+&gt; 8, Security Fix: LOAD DATA INFILE did not check for SQL errors and sent an
+&gt;                 OK packet even when errors were already reported. Also, an
+&gt;                 assert related to client-server protocol checking in debug
+&gt;                 servers sometimes was raised when it should not have been.
+&gt;                 (Bug#52512)
+&gt;   References:   <a href="http://bugs.mysql.com/bug.php?id=52512" rel="nofollow">http://bugs.mysql.com/bug.php?id=52512</a>
+&gt;                 <a href="https://bugzilla.redhat.com/show_bug.cgi?id=628698" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=628698</a>
+&gt;   Reason:       Assertion failure leading to server abort.
+
+
+CVE-2010-3683
+
+
+- Steve
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

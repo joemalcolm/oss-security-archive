@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request -- Mercurial --Doesn't verify subject
+ Common Name properly</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="../../../2010/11/16/1">[next&gt;]</a> <a href="../../../2010/11/14/1">[&lt;thread-prev]</a> <a href="../../../2010/11/16/4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Pine.GSO.4.64.1011151555550.2809&#64;faron.mitre.org&gt;
+Date: Mon, 15 Nov 2010 16:58:27 -0500 (EST)
+From: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+To: Marc Deslauriers &lt;marc.deslauriers&#64;...onical.com&gt;
+cc: oss-security&#64;...ts.openwall.com, Bill Janssen &lt;bill.janssen&#64;...il.com&gt;,
+        Andreas Hasenack &lt;ahasenack&#64;...ra.com.br&gt;,
+        Mads Kiilerich &lt;mads&#64;...lerich.com&gt;,
+        "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+Subject: Re: CVE Request -- Mercurial --Doesn't verify subject
+ Common Name properly
+
+
+Ouch, this is painful for a number of reasons.
+
+Maybe Python "should" get the CVE, but the decision to push the issue to 
+application developers means that those developers will each have to 
+provide fixes, and software consumers will have to track these related 
+vulns at the application level.
+
+(One could make the same argument about fundamental design flaws in 
+standards-based protocols, for which CVE generally assigns a single 
+identifier, but those issues generally feel "different" to me.  Quite 
+logical, I know...)
+
+Anyway, I think we need to assign separate CVEs for each affected product 
+as an instance of "an implementation not working around security-relevant 
+design limitations of APIs" (which is consistent with the approach that 
+CVE has taken with respect to the DLL hijacking / insecure library loading 
+issues of the past couple months.)
+
+I've been tempted to start assigning a single CVE to design limitations 
+such as this Python certificate issue, and (where needed) independent CVEs 
+for affected implementations, but I'm not feeling adventurous enough yet. 
+it kind of goes against the idea where each vuln has only one CVE 
+associated with it.
+
+So - use CVE-2010-4237 for the issue in Mercurial, and feel free to 
+consult with me privately for the other issues if you wish.
+
+- Steve
+
+
+
+On Sun, 14 Nov 2010, Marc Deslauriers wrote:
+
+&gt; On Mon, 2010-10-11 at 15:48 -0400, Josh Bressers wrote:
+&gt;&gt; Steve,
+&gt;&gt;
+&gt;&gt; Can I defer this one to MITRE? My initial thought is that python should get
+&gt;&gt; the ID, but they seem to want to push it up to the application developers,
+&gt;&gt; but they also added some functionality in
+&gt;&gt; <a href="http://svn.python.org/view?view=rev&amp;revision=85321" rel="nofollow">http://svn.python.org/view?view=rev&amp;revision=85321</a>
+&gt;&gt;
+&gt;&gt; Is there a past precedent for this?
+&gt;&gt;
+&gt;
+&gt; Has any decision been made regarding CVE assignment for this? I've found
+&gt; some more python applications that aren't validating ssl certs, and am
+&gt; waiting to know how this is going to be handled.
+&gt;
+&gt; Thanks,
+&gt;
+&gt; Marc.
+&gt;
+&gt;
+&gt; -- 
+&gt; Marc Deslauriers
+&gt; Ubuntu Security Engineer     | <a href="http://www.ubuntu.com/" rel="nofollow">http://www.ubuntu.com/</a>
+&gt; Canonical Ltd.               | <a href="http://www.canonical.com/" rel="nofollow">http://www.canonical.com/</a>
+&gt;
+&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

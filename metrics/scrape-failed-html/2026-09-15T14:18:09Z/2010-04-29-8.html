@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVS request - Moodle</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="../../../2010/04/27/7">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;1858932580.48201272567999679.JavaMail.root&#64;zmail01.collab.prod.int.phx2.redhat.com&gt;
+Date: Thu, 29 Apr 2010 15:06:39 -0400 (EDT)
+From: Josh Bressers &lt;bressers&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: coley &lt;coley&#64;...re.org&gt;
+Subject: Re: CVS request - Moodle
+
+Hi Steve,
+
+I don't have enough IDs to properly deal with this one and have any left over.
+Can MITRE take it.
+
+Thanks.
+
+-- 
+    JB
+
+
+----- "Dan Poltawski" &lt;talktodan&#64;...il.com&gt; wrote:
+
+&gt; Hello,
+&gt; 
+&gt; Version 1.9.8 of Moodle has been released, fixing multiple security
+&gt; issues
+&gt; requiring CVE identifiers.
+&gt; 
+&gt; These are detailed on <a href="http://moodle.org/security/" rel="nofollow">http://moodle.org/security/</a>
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0001: 
+&gt; Topic: Vulnerability in KSES text cleaning
+&gt; Severity: Major
+&gt; Versions affected: &lt;1.8.12 and &lt;1.9.8
+&gt; Reported by: Sam Marshall
+&gt; Issue no.: MDL-21026
+&gt; Solution: upgrade to 1.8.12 or 1.9.8
+&gt; Workaround: apply patch
+&gt; <a href="http://cvs.moodle.org/moodle/lib/weblib.php?r1=1.1349&amp;r2=1.1350" rel="nofollow">http://cvs.moodle.org/moodle/lib/weblib.php?r1=1.1349&amp;r2=1.1350</a>
+&gt; Description: Sam Marshall discovered a serious vulnerability in the
+&gt; KSES html
+&gt; text cleaning library that Moodle includes, please upgrade all sites
+&gt; in order
+&gt; to prevent XSS attacks from any registered user.
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0002: 
+&gt; Topic: XSS vulnerabilty in the phpcas module
+&gt; Severity: Major (if using CAS)
+&gt; Versions affected: &lt;1.8.12 and &lt;1.9.8
+&gt; Reported by: Joachim Fritschi
+&gt; Issue no.: MDL-21802
+&gt; Solution: upgrade to 1.8.12 or 1.9.8
+&gt; Workaround: use CAS/Client.php from latest release
+&gt; 
+&gt; Description: We have backported a fix for a security problem fixed in
+&gt; recent
+&gt; version of PHP CAS client library -
+&gt; <a href="http://www.ja-sig.org/issues/browse/PHPCAS-52" rel="nofollow">http://www.ja-sig.org/issues/browse/PHPCAS-52</a>. The problem can be
+&gt; exploited
+&gt; only if CAS authentication is enabled and used on your site.
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0003: 
+&gt; Topic: Disclosure of full user names
+&gt; Severity: Minor - privacy
+&gt; Versions affected: &lt;1.8.12 and &lt;1.9.8
+&gt; Reported by: Klaus Kirchner
+&gt; Issue no.: MDL-21830
+&gt; Solution: upgrade to 1.8.12 or 1.9.8
+&gt; Workaround: patch
+&gt; <a href="http://cvs.moodle.org/moodle/user/view.php?r1=1.168.2.28&amp;r2=1.168.2.29" rel="nofollow">http://cvs.moodle.org/moodle/user/view.php?r1=1.168.2.28&amp;r2=1.168.2.29</a>
+&gt; 
+&gt; Description: Klaus Kirchner identified a problem in the course profile
+&gt; page
+&gt; which allowed ordinary users to find out names of other users - see
+&gt; <a href="http://moodle.org/mod/forum/discuss.php?d=145967" rel="nofollow">http://moodle.org/mod/forum/discuss.php?d=145967</a> for more details.
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0004: 
+&gt; Topic: Improved access control in course restore
+&gt; Severity: Minor
+&gt; Versions affected: and &lt;1.9.8
+&gt; Reported by: multiple reporters
+&gt; Issue no.: MDL-16658, MDL-19233
+&gt; Solution: upgrade to 1.9.8
+&gt; Workaround: none
+&gt; 
+&gt; Description: The restoring of courses sometimes resulted in creation
+&gt; of new
+&gt; roles - that code should be now more reliable. Please note that all
+&gt; the users
+&gt; that are allowed to restore backup files must be trustworthy.
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0005: 
+&gt; Topic: Incorrect validation of forms data
+&gt; Severity: Critical
+&gt; Versions affected: &lt;1.8.12 and &lt;1.9.8
+&gt; Reported by: Sascha Herzog
+&gt; Issue no.: MDL-21767
+&gt; Solution: upgrade to 1.8.12 or 1.9.8
+&gt; Workaround: patch
+&gt; 
+&gt; <a href="http://cvs.moodle.org/moodle/lib/form/selectgroups.php?r1=1.2.4.2&amp;r2=1.2.4.3" rel="nofollow">http://cvs.moodle.org/moodle/lib/form/selectgroups.php?r1=1.2.4.2&amp;r2=1.2.4.3</a>
+&gt; <a href="http://cvs.moodle.org/moodle/lib/form/select.php?r1=1.10.4.2&amp;r2=1.10.4.3" rel="nofollow">http://cvs.moodle.org/moodle/lib/form/select.php?r1=1.10.4.2&amp;r2=1.10.4.3</a>
+&gt; Description: Sascha Herzog discovered a SQL injection exploit in
+&gt; several
+&gt; forms, this was caused by incorrect data validation in some forms
+&gt; elements.
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0006: 
+&gt; Topic: SQL injection in Wiki module
+&gt; Severity: Critical
+&gt; Versions affected: &lt;1.8.12 and &lt;1.9.8
+&gt; Reported by: Matthew Slowe
+&gt; Issue no.: MDL-21818
+&gt; Solution: upgrade to 1.8.12 or 1.9.8
+&gt; Workaround: patch
+&gt; 
+&gt; <a href="http://cvs.moodle.org/moodle/mod/wiki/view.php?r1=1.76.2.6&amp;r2=1.76.2.7" rel="nofollow">http://cvs.moodle.org/moodle/mod/wiki/view.php?r1=1.76.2.6&amp;r2=1.76.2.7</a>
+&gt; remove mod/wiki/* if wiki module not used
+&gt; Description: Matthew Slowe discovered that the data passed to
+&gt; add_to_log()
+&gt; function in wiki module is not sanitised properly, this could allow
+&gt; SQL
+&gt; injection type attacks if there are any instances of wiki in your
+&gt; courses.
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0007: 
+&gt; Topic: Reflective Cross Site Scripting (XSS) in the Moodle Global
+&gt; Search
+&gt; Engine
+&gt; Severity: Major (if global search enabled)
+&gt; Versions affected: &lt;1.8.12 and &lt;1.9.8
+&gt; Reported by: Sascha Herzog
+&gt; Issue no.: MDL-21649
+&gt; Solution: upgrade to 1.8.12 or 1.9.8
+&gt; Workaround: patch
+&gt; 
+&gt; <a href="http://cvs.moodle.org/moodle/search/query.php?r1=1.16.2.10&amp;r2=1.16.2.11" rel="nofollow">http://cvs.moodle.org/moodle/search/query.php?r1=1.16.2.10&amp;r2=1.16.2.11</a>
+&gt; Description: Sascha Herzog found a problem in the handling of user
+&gt; submitted
+&gt; data in global search forms. This problem is exploitable only when
+&gt; global
+&gt; search is enabled. Please note that the global search feature is still
+&gt; listed
+&gt; as experimental and is disabled by default.
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0008: 
+&gt; Topic: Persistent XSS when using Login-as feature
+&gt; Severity: Major 
+&gt; Versions affected: &lt;1.8.12 and &lt;1.9.8
+&gt; Reported by: Sascha Herzog
+&gt; Issue no.: MDL-21769
+&gt; Solution: upgrade to 1.8.12 or 1.9.8
+&gt; Workaround: see Version control tab in tracker issue
+&gt; 
+&gt; Description: Users may trick admins into using the "Login as" feature
+&gt; to edit
+&gt; some existing posts which contain XSS exploit code.
+&gt; 
+&gt; ==========================================
+&gt; MSA-10-0009: 
+&gt; Topic: Session fixation prevention now turned on by default
+&gt; Severity: Major
+&gt; Versions affected: &lt;1.8.12 and &lt;1.9.8
+&gt; Reported by: Sascha Herzog
+&gt; Issue no.: MDL-21788
+&gt; Solution: turn on session id regeneration
+&gt; 
+&gt; Description: Enabling of "Regenerate session id during login" setting
+&gt; is now
+&gt; strongly recommended for all production servers. It is now compatible
+&gt; with all
+&gt; official authentication plugins including mnet.
+&gt; 
+&gt; thanks,
+&gt; 
+&gt; Dan Poltawski
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

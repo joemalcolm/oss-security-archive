@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: [PATCH] exec argument expansion can inappropriately trigger OOM-killer</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20100830032331.GA22773&#64;openwall.com&gt;
+Date: Mon, 30 Aug 2010 07:23:31 +0400
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: Roland McGrath &lt;roland&#64;...hat.com&gt;
+Cc: Kees Cook &lt;kees.cook&#64;...onical.com&gt;, linux-kernel&#64;...r.kernel.org,
+	oss-security&#64;...ts.openwall.com, Al Viro &lt;viro&#64;...iv.linux.org.uk&gt;,
+	Andrew Morton &lt;akpm&#64;...ux-foundation.org&gt;,
+	Oleg Nesterov &lt;oleg&#64;...hat.com&gt;,
+	KOSAKI Motohiro &lt;kosaki.motohiro&#64;...fujitsu.com&gt;,
+	Neil Horman &lt;nhorman&#64;...driver.com&gt;, linux-fsdevel&#64;...r.kernel.org
+Subject: Re: [PATCH] exec argument expansion can inappropriately trigger OOM-killer
+
+On Sun, Aug 29, 2010 at 05:56:48PM -0700, Roland McGrath wrote:
+&gt; IMHO unlimited should mean unlimited.
+
+In general, I'd agree, however let's recall that back in 2.2 days we
+introduced strnlen_user() and the "max" argument to count() to prevent a
+userspace program from making the kernel loop busily for too long.
+IIRC, prior to that fix, I was able to cause the kernel to loop for tens
+of minutes in a single execve() call on an Alpha with 128 MB RAM, by
+using repeated mappings of the same pages (almost 200 GB total).
+
+Now it appears that, besides the issue that started this thread, the
+same problem I mentioned above got re-introduced.  We still have
+strnlen_user() and the "max" argument to count(), but we no longer have
+hard limits for "max".  Someone set MAX_ARG_STRINGS to 0x7FFFFFFF, and
+this is just too much.  MAX_ARG_STRLEN is set to 32 pages, and these two
+combined allow a userspace program to make the kernel loop for days.
+
+So I think that we should re-introduce some artificial limit(s), maybe
+adjustable by root (by the host system's real root only when container
+virtualization is involved).  Maybe we should lower MAX_ARG_STRINGS
+and/or maybe we should limit the portion of stack space usable for argv
+to, say, 0.75 GB (or even less).
+
+&gt; So, on that score, I'd leave this
+&gt; constraint out and just say whatever deficiencies in the OOM killer (or in
+&gt; whatever should make a manifestly too-large allocation get ENOMEM) should
+&gt; just be fixed separately.
+
+I think the "OOM killer problem" should be fixed too.
+
+&gt; But that aside, I'll just consider the intent stated in the comment in
+&gt; get_arg_page:
+&gt; 		 * Limit to 1/4-th the stack size for the argv+env strings.
+&gt; 		 * This ensures that:
+&gt; 		 *  - the remaining binfmt code will not run out of stack space,
+&gt; 		 *  - the program will have a reasonable amount of stack left
+&gt; 		 *    to work from.
+&gt; To effect "1/4th the stack size", a cap at TASK_SIZE/4 does make some sense,
+&gt; since TASK_SIZE is less than RLIM_INFINITY even in the pure 32-bit world,
+&gt; and that is the true theoretical limit on stack size.
+&gt; 
+&gt; The trouble here, both for that stated intent, and for this "exploit",
+&gt; is which TASK_SIZE that is on a biarch machine.  In fact, it's the
+&gt; TASK_SIZE of the process that called execve.  (get_arg_page is called
+&gt; from copy_strings, from do_execve before search_binary_handler--i.e.,
+&gt; before anything has looked at the file to decide whether it's going to
+&gt; be a 32-bit or 64-bit task on exec.)  If it's a 32-bit process exec'ing
+&gt; a 64-bit program, it's the 32-bit TASK_SIZE (perhaps as little as 3GB).
+&gt; So that's a limit of 0.75GB on a 64-bit program, which might actually do
+&gt; just fine with 2 or 3GB.  If it's a 64-bit process exec'ing a 32-bit
+&gt; program, it's the 64-bit TASK_SIZE (128TB on x86-64).  So that's a limit
+&gt; of 32TB, which is perhaps not that helpfully less than 2PB minus 1 byte
+&gt; (RLIM_INFINITY/4) as far as preventing any over-allocation DoS in practice.
+
+That's a very good point!
+
+&gt; If you want to constrain it this way, it's probably simpler just to use
+&gt; a smaller hard limit for RLIM_STACK at boot time (and hence system-wide).
+
+Right.
+
+&gt; But it sounds like all you really need is to fix the OOM/allocation
+&gt; behavior for huge stack allocations.
+
+No, we need both.
+
+Additionally, 64bit_dos.c mentions that "it triggers a BUG() as the
+stack tries to expand around the address space when shifted".  Perhaps
+limiting the stack size would deal with that, but maybe the "bug" needs
+to be patched elsewhere as well.  grsecurity has the following hunk:
+
+@@ -505,7 +520,8 @@ static int shift_arg_pages(struct vm_are
+ 	unsigned long new_end = old_end - shift;
+ 	struct mmu_gather *tlb;
+ 
+-	BUG_ON(new_start &gt; new_end);
++	if (new_start &gt;= new_end || new_start &lt; mmap_min_addr)
++		return -EFAULT;
+ 
+ 	/*
+ 	 * ensure there are no vmas between where we want to go
+
+which is likely part of a fix (but not the entire fix) for what the
+comment in 64bit_dos.c refers to.  However, I was not able to trigger
+the BUG_ON() on RHEL5'ish kernels by simply running the 64bit_dos
+program (64-bit to 32-bit exec) on two systems, one with 2 GB RAM, the
+other with 4 GB.  Of course, I set "ulimit -s unlimited" first.
+
+On the 2 GB system, I saw the OOM killer problem (several other
+processes got killed before 64bit_dos was killed as well).  On the 4 GB
+system, exec succeeded (after looping in the kernel for a few seconds,
+and then the newly started program failed because of its address space
+exhaustion).  Maybe the BUG is only triggerable on certain other kernel
+versions, or maybe I didn't try hard enough (I certainly did not try
+very hard - I did not review the code closely).
+
+Someone could want to look into this aspect as well.
+
+grsecurity's added check against mmap_min_addr (and the reference to it
+in the "exploit's" comment) is also very curious.  It can be just a way
+to avoid triggering another BUG() elsewhere, or it can be just an extra
+hardening measure - but it could also be "for real".  We could want to
+double-check that there wasn't an mmap_min_addr bypass possible here.
+
+Overall, there are multiple issues here (maybe up to four?) and multiple
+things to review the code for.
+
+Does anyone (with more time than me) want to look into these for real?
+(I sure hope so.)
+
+Thanks,
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

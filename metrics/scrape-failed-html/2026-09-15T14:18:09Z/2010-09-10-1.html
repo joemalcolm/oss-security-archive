@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: [PATCH 1/3] setup_arg_pages: diagnose excessive argument size</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2010/09/09/8">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2010/09/09/5">[&lt;thread-prev]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20100910085915.8CC23405D5&#64;magilla.sf.frob.com&gt;
+Date: Fri, 10 Sep 2010 01:59:15 -0700 (PDT)
+From: Roland McGrath &lt;roland&#64;...hat.com&gt;
+To: pageexec&#64;...email.hu
+Cc: Linus Torvalds &lt;torvalds&#64;...ux-foundation.org&gt;,
+        Andrew Morton &lt;akpm&#64;...ux-foundation.org&gt;,
+        linux-kernel&#64;...r.kernel.org, oss-security&#64;...ts.openwall.com,
+        Solar Designer &lt;solar&#64;...nwall.com&gt;,
+        Kees Cook &lt;kees.cook&#64;...onical.com&gt;, Al Viro &lt;viro&#64;...iv.linux.org.uk&gt;,
+        Oleg Nesterov &lt;oleg&#64;...hat.com&gt;,
+        KOSAKI Motohiro &lt;kosaki.motohiro&#64;...fujitsu.com&gt;,
+        Neil Horman &lt;nhorman&#64;...driver.com&gt;, linux-fsdevel&#64;...r.kernel.org,
+        "Brad Spengler &lt;spender&#64;...ecurity.net&gt; Eugene Teo" &lt;eugene&#64;...hat.com&gt;
+Subject: Re: [PATCH 1/3] setup_arg_pages: diagnose excessive argument size
+
+&gt; &gt; +	if (unlikely(stack_top &lt; mmap_min_addr) ||
+&gt; 
+&gt; this could arguably elicit some warning, or even better, prevent the
+&gt; sysctl from setting mmap_min_addr too high in the first place.
+
+This code has local checks to ensure that things don't fail worse later.
+Those are good to have regardless.  If you'd like to add some constraints
+on setting mmap_min_addr, that's certainly fine too.  But it's no reason
+not to have this simple and clear check here.
+
+&gt; or alternatively, just check for
+&gt; 
+&gt; 	mmap_min_addr &gt; stack_top - (vma-&gt;vm_end - vma-&gt;vm_start)
+
+IMHO that is far less clear as to what the intent of the check is than what
+I wrote.  It's especially subtle that this check allows overflow and then
+you check for that later, rather than the formulation I gave where no
+overflow is possible and it's immediately obvious why.
+
+&gt; which looks even better if done in shift_arg_pages as i've done it in PaX:
+
+My change to setup_arg_pages is consistent with the existing
+CONFIG_STACK_GROWSUP code.  IMHO simple fixes should go in first
+and other restructuring of the code can be done later.
+
+&gt; &gt; +		return -ENOMEM;
+&gt; 
+&gt; i'd say EFAULT is more consistent, ENOMEM is used for cases when the kernel
+&gt; couldn't allocate physical memory for something, EFAULT is when there's some
+&gt; issue with the address space itself (based on the reaction to find_vma or
+&gt; expand_stack failures).
+
+I disagree.  IMHO, the only proper use of EFAULT is for the passing of a
+bad pointer (including passing data that includes a bad pointer, etc.).
+So execve really should only use EFAULT when the pointers passed in the
+system call are bad.  I used ENOMEM purely for the reason that the
+existing CONFIG_STACK_GROWSUP code I paralleled uses it.  But it
+certainly does make more sense than EFAULT does.  ENOMEM is used for
+cases where you couldn't get the address space you wanted (mmap), which
+is a fairly close analogue to this case.
+
+But the one error code that is actually correct for the case is E2BIG.
+Obviously that's really the right thing for Argument list too long cases.
+
+The choice of error code here is fairly academic.  Any failure of
+setup_arg_pages always leads to sending ourselves a SIGKILL before
+returning the error code to percolate back to execve.  So it's only the
+error code seen in syscall tracing before the process dies.  It's not
+"user-visible" in the usual sense (i.e. POSIX doesn't care what code we
+use here).
+
+&gt; also what about the BUG_ON in shift_arg_pages? it could go now, right?
+
+It is now impossible by the logic of the arithmetic, yes.  But it is
+another local sanity check asserting the assumptions of the code in that
+function.  So there is no reason to 
+
+&gt; personally, i prefer to do this the way i did it in PaX: move up the
+&gt; shift_arg_pages call a bit and turn the BUG_ON into a proper check.
+
+I'm more comfortable with a fix that doesn't change any other aspect of the
+behavior.  Probably moving the call to shift_arg_pages around is fine.  But
+IMHO that belongs in a separate set of cleanup patches, and not in the
+isolated fix for the BUG_ON hit.
+
+
+Thanks,
+Roland
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request -- Cacti v0.8.7 -- three security
+ fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2010/05/27/2">[&lt;thread-prev]</a> <a href="../../../2010/06/07/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;4C04C4D7.7040200&#64;redhat.com&gt;
+Date: Tue, 01 Jun 2010 10:29:11 +0200
+From: Jan Lieskovsky &lt;jlieskov&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+CC: Nahuel Grisolia &lt;nahuel&#64;...sai-sec.com&gt;,
+        Stefan Esser &lt;stefan.esser&#64;...tioneins.de&gt;,
+        "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;,
+        Cacti Developers &lt;developers&#64;...ti.net&gt;,
+        Tony Roman &lt;roman&#64;...order.com&gt;
+Subject: Re: CVE Request -- Cacti v0.8.7 -- three security
+ fixes
+
+Hi Steve,
+
+Steven M. Christey wrote:
+&gt; 
+&gt; On Wed, 26 May 2010, Josh Bressers wrote:
+&gt; 
+&gt;&gt;&gt;      [A], MOPS-2010-023: Cacti Graph Viewer SQL Injection Vulnerability
+&gt;&gt;&gt;      
+&gt;&gt;&gt; <a href="http://php-security.org/2010/05/13/mops-2010-023-cacti-graph-viewer-sql-injection-vulnerability/index.html" rel="nofollow">http://php-security.org/2010/05/13/mops-2010-023-cacti-graph-viewer-sql-injection-vulnerability/index.html</a> 
+&gt;&gt;&gt;
+&gt;&gt;&gt;      <a href="http://www.vupen.com/english/advisories/2010/1204" rel="nofollow">http://www.vupen.com/english/advisories/2010/1204</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt;      Credit: The vulnerability was discovered by Stefan Esser as part of
+&gt;&gt;&gt;      the SQL Injection Marathon.
+&gt;&gt;&gt;
+&gt;&gt;&gt;      Upstream changeset:
+&gt;&gt;&gt;      <a href="http://svn.cacti.net/viewvc?view=rev&amp;revision=5920" rel="nofollow">http://svn.cacti.net/viewvc?view=rev&amp;revision=5920</a>
+&gt;&gt;
+&gt;&gt; Steve, you've been handling the MOPS stuff. I'm going to leave this one
+&gt;&gt; alone unless you tell me otherwise (I don't want to dupe).
+&gt; 
+&gt; Use CVE-2010-2092, to be filled in later today (with a bunch of other 
+&gt; MOPS issues).
+&gt; 
+&gt; 
+&gt; [C], SQL injection and shell escaping issues reported by Bonsai Information Security (<a href="http://www.bonsai-sec.com" rel="nofollow">http://www.bonsai-sec.com</a>)
+&gt;            [7] <a href="http://www.bonsai-sec.com/blog/index.php/using-grep-to-find-0days/" rel="nofollow">http://www.bonsai-sec.com/blog/index.php/using-grep-to-find-0days/</a>
+&gt;            [8] <a href="http://www.bonsai-sec.com/en/research/vulnerabilities/cacti-os-command-injection-0105.php" rel="nofollow">http://www.bonsai-sec.com/en/research/vulnerabilities/cacti-os-command-injection-0105.php</a>
+&gt; 
+&gt;          Credit: This vulnerability was discovered by Nahuel Grisolia ( nahuel -at- bonsai-sec.com )
+&gt;          Upstream changeset:
+&gt;            [9] <a href="http://svn.cacti.net/viewvc?view=rev&amp;revision=5747" rel="nofollow">http://svn.cacti.net/viewvc?view=rev&amp;revision=5747</a> 
+&gt; 
+&gt; Josh assigned CVE-2010-1645 for the OS command issue.
+&gt; 
+&gt; The SQL injection that Jan is referring to in the original request is 
+&gt; most likely CVE-2010-1431, which was disclosed by Bonsai back in April.
+
+Yeah, [C] refers to two issues:
+   1, SQL injection issue, known under CVE-2010-1431 / BONSAI-2010-0104
+      Proper patch is here: [1] <a href="http://svn.cacti.net/viewvc?view=rev&amp;revision=5747" rel="nofollow">http://svn.cacti.net/viewvc?view=rev&amp;revision=5747</a> and
+
+   2, OS command injection issue, CVE-2010-1645 / BONSAI-2010-0105
+      References:  [2] <a href="http://www.bonsai-sec.com/en/research/vulnerabilities/cacti-os-command-injection-0105.php" rel="nofollow">http://www.bonsai-sec.com/en/research/vulnerabilities/cacti-os-command-injection-0105.php</a>
+      Proper patches are the following three: (noticed by Tomas Hoger &amp;&amp; confirmed by Tony Roman, thanks for it!)
+        [3] <a href="http://svn.cacti.net/viewvc?view=rev&amp;revision=5778" rel="nofollow">http://svn.cacti.net/viewvc?view=rev&amp;revision=5778</a>
+        [4] <a href="http://svn.cacti.net/viewvc?view=rev&amp;revision=5782" rel="nofollow">http://svn.cacti.net/viewvc?view=rev&amp;revision=5782</a>
+        [5] <a href="http://svn.cacti.net/viewvc?view=rev&amp;revision=5784" rel="nofollow">http://svn.cacti.net/viewvc?view=rev&amp;revision=5784</a>
+
+Also, there were also some regressions related with Cacti v0.8.7f:
+   [6] <a href="http://forums.cacti.net/viewtopic.php?t=37845" rel="nofollow">http://forums.cacti.net/viewtopic.php?t=37845</a>
+
+ From [6]:
+
+"If you have already upgraded to 0.8.7f, you can simple move back to 0.8.7e." and
+"Cacti 0.8.7g will be release on June 7th to address these issues.".
+
+Not sure if Cacti v0.8.7g will address yet some security issues, so Cc-ed
+Cacti Developers and Tony Roman on this email to detail, if necessary.
+
+Thanks &amp;&amp; Regards, Jan.
+--
+Jan iankko Lieskovsky / Red Hat Security Response Team
+
+&gt; 
+&gt; - Steve
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

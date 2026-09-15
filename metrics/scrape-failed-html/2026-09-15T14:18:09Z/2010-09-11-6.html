@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: [PATCH 1/3] setup_arg_pages: diagnose excessive argument size</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2010/09/10/8">[&lt;thread-prev]</a> <a href="7">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;4C8B847E.4988.3D86C35&#64;pageexec.freemail.hu&gt;
+Date: Sat, 11 Sep 2010 15:30:38 +0200
+From: pageexec&#64;...email.hu
+To: Roland McGrath &lt;roland&#64;...hat.com&gt;
+CC: Linus Torvalds &lt;torvalds&#64;...ux-foundation.org&gt;,
+        Andrew Morton &lt;akpm&#64;...ux-foundation.org&gt;,
+        linux-kernel&#64;...r.kernel.org, oss-security&#64;...ts.openwall.com,
+        Solar Designer &lt;solar&#64;...nwall.com&gt;,
+        Kees Cook &lt;kees.cook&#64;...onical.com&gt;, Al Viro &lt;viro&#64;...iv.linux.org.uk&gt;,
+        Oleg Nesterov &lt;oleg&#64;...hat.com&gt;,
+        KOSAKI Motohiro &lt;kosaki.motohiro&#64;...fujitsu.com&gt;,
+        Neil Horman &lt;nhorman&#64;...driver.com&gt;, linux-fsdevel&#64;...r.kernel.org,
+        "Brad Spengler &lt;spender&#64;...ecurity.net&gt; Eugene Teo" &lt;eugene&#64;...hat.com&gt;
+Subject: Re: [PATCH 1/3] setup_arg_pages: diagnose excessive argument size
+
+On 10 Sep 2010 at 1:59, Roland McGrath wrote:
+
+&gt; &gt; &gt; +	if (unlikely(stack_top &lt; mmap_min_addr) ||
+&gt; &gt; 
+&gt; &gt; this could arguably elicit some warning, or even better, prevent the
+&gt; &gt; sysctl from setting mmap_min_addr too high in the first place.
+&gt; 
+&gt; This code has local checks to ensure that things don't fail worse later.
+&gt; Those are good to have regardless.  If you'd like to add some constraints
+&gt; on setting mmap_min_addr, that's certainly fine too.  But it's no reason
+&gt; not to have this simple and clear check here.
+
+it's somewhat confusing as it does not immediately relate to the problem
+you're addressing. let's take a step back and see what issues we have here:
+
+1. the would-be stack vma shifts down so much that it becomes completely
+   invalid (due to the int wraparound on its start address).
+
+2. the would be stack vma shifts down to violate mmap_min_addr.
+
+it's obvious that before ensuring 2, 1 must pass. the check for 1 does not
+at all involve mmap_min_addr, whereas both of your checks do. even worse, the
+check for 2 doesn't depend on the relation between stack_top and mmap_min_addr
+per se (userland has no influence over them), so as i said, it's all confusing.
+
+&gt; &gt; or alternatively, just check for
+&gt; &gt; 
+&gt; &gt; 	mmap_min_addr &gt; stack_top - (vma-&gt;vm_end - vma-&gt;vm_start)
+&gt; 
+&gt; IMHO that is far less clear as to what the intent of the check is than what
+&gt; I wrote.
+
+why is that? it's obvious that vm_end-vm_size=vm_size and the check simply
+ensures that problem 2 above doesn't occur whereas in neither of your checks
+can one see the clear intent for ensuring 2. your 2nd check basically ensures
+that vm_size fits in the usable address space bounded by [mmap_min_addr, stack_top]
+but it doesn't immediately tell the user why that size check is useful (especially
+since we're not concerned with sizes per se, but addresses, it's just a corollary
+in this particular case that a size check can replace an address check, but that
+doesn't mean it'll help any future reader see the original intent). so while
+the math is ok in your checks (modulo the = case), it's a kind of premature
+optimization that hides the problems you're addressing.
+
+&gt;  It's especially subtle that this check allows overflow
+&gt; and then you check for that later,
+
+no, actually that particular check was for addressing one particular
+problem (to show you how to formulate it that makes intent clear), as a
+train of thought if you like. the final proposed version (which has been
+in PaX) has the int overflow check first and then the mmap_min_addr check.
+
+&gt; rather than the formulation I gave
+&gt; where no overflow is possible and it's immediately obvious why. 
+
+you're only focused on the math and let the human intent slip by, that's
+the issue i have with your checks (and you didn't get the = corner case
+right btw, it should be allowed, nor refused if you want to be pedantic).
+
+really, in security clarity of intent and its manifestation in code takes
+precedence over optimization, let the compiler do the latter job.
+
+&gt; &gt; which looks even better if done in shift_arg_pages as i've done it in PaX:
+&gt; 
+&gt; My change to setup_arg_pages is consistent with the existing
+&gt; CONFIG_STACK_GROWSUP code.
+
+the GROWSUP code doesn't use unlikely (very confusing to see it in this
+context since you're not addressing any hot path/performance issues), nor
+does it care about mmap_min_addr (whereas both of your checks do which
+depending on the generated asm, may even be racy when mmap_min_addr changes)
+nor does it check for any int overflows. about the only similarity i can
+see is its computation of 'vm_size' and an associated size check (properly
+commented unlike your code) but it's normal there, whereas the problems you're
+addressing are fundamentally vma address related, not vma size related.
+
+&gt; IMHO simple fixes should go in first
+&gt; and other restructuring of the code can be done later.
+
+yours is not a simple fix as it doesn't make it clear what two problems
+you're trying to address with your checks.
+
+&gt; &gt; &gt; +		return -ENOMEM;
+&gt; &gt; 
+&gt; &gt; i'd say EFAULT is more consistent, ENOMEM is used for cases when the kernel
+&gt; &gt; couldn't allocate physical memory for something, EFAULT is when there's some
+&gt; &gt; issue with the address space itself (based on the reaction to find_vma or
+&gt; &gt; expand_stack failures).
+&gt; 
+&gt; I disagree.
+
+well, in that case the EFAULT return codes in this function need some
+cleanup too, you know, in the name of consistency ;).
+
+&gt; &gt; also what about the BUG_ON in shift_arg_pages? it could go now, right?
+&gt; 
+&gt; It is now impossible by the logic of the arithmetic, yes.  But it is
+&gt; another local sanity check asserting the assumptions of the code in that
+&gt; function.  So there is no reason to 
+
+there is no reason for it to be a BUG_ON (never was in fact), the kernel
+can easily recover from the detected condition.
+
+cheers,
+
+ PaX Team
+
+PS: i thought it was common courtesy and customary to credit people in the
+commit who found/reported/fixed problems.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

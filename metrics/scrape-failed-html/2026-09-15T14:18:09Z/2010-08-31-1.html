@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2010-2955 kernel: wireless: fix 64K kernel heap content leak
+ via ioctl</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2010/08/30/9">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;4C7CA9A5.4020802&#64;redhat.com&gt;
+Date: Tue, 31 Aug 2010 15:05:09 +0800
+From: Eugene Teo &lt;eugene&#64;...hat.com&gt;
+To: Kees Cook &lt;kees.cook&#64;...onical.com&gt;
+CC: oss-security&#64;...ts.openwall.com, johannes.berg&#64;...el.com
+Subject: CVE-2010-2955 kernel: wireless: fix 64K kernel heap content leak
+ via ioctl
+
+On 08/28/2010 05:02 AM, Kees Cook wrote:
+&gt; This problem was originally tracked down by Brad Spengler.
+&gt;
+&gt; When calling wireless ioctls, if a driver does not correctly
+&gt; validate/shrink iwp-&gt;length, the resulting copy_to_user can leak up to
+&gt; 64K of kernel heap contents.
+&gt;
+&gt; It seems that this is triggerable[1] in 2.6.32 at least on ath5k, but
+&gt; I was not able to track down how. The twisty maze of ioctl handlers
+&gt; stumped me. :) Other drivers I checked did not appear to have any problems,
+&gt; but the potential remains. I'm not sure if this patch is the right approach;
+&gt; it was fixed differently[2] in grsecurity.
+&gt;
+&gt; [1] <a href="http://forums.grsecurity.net/viewtopic.php?f=3&amp;t=2290&amp;start=0" rel="nofollow">http://forums.grsecurity.net/viewtopic.php?f=3&amp;t=2290&amp;start=0</a>
+&gt; [2] <a href="http://grsecurity.net/~spender/wireless-infoleak-fix2.patch" rel="nofollow">http://grsecurity.net/~spender/wireless-infoleak-fix2.patch</a>
+
+<a href="http://lkml.org/lkml/2010/8/27/413" rel="nofollow">http://lkml.org/lkml/2010/8/27/413</a>
+<a href="http://lkml.org/lkml/2010/8/30/351" rel="nofollow">http://lkml.org/lkml/2010/8/30/351</a>
+
+fix: <a href="http://lkml.org/lkml/2010/8/30/146" rel="nofollow">http://lkml.org/lkml/2010/8/30/146</a>
+
+Please use CVE-2010-2955.
+
+Eugene
+
+&gt; Reported-by: Brad Spengler&lt;spender&#64;...ecurity.net&gt;
+&gt; Signed-off-by: Kees Cook&lt;kees.cook&#64;...onical.com&gt;
+&gt; ---
+&gt;   include/net/iw_handler.h |    1 -
+&gt;   net/wireless/wext-core.c |   26 ++------------------------
+&gt;   2 files changed, 2 insertions(+), 25 deletions(-)
+&gt;
+&gt; diff --git a/include/net/iw_handler.h b/include/net/iw_handler.h
+&gt; index 3afdb21..6c81f29 100644
+&gt; --- a/include/net/iw_handler.h
+&gt; +++ b/include/net/iw_handler.h
+&gt; @@ -277,7 +277,6 @@
+&gt;   #define IW_DESCR_FLAG_EVENT	0x0002	/* Generate an event on SET */
+&gt;   #define IW_DESCR_FLAG_RESTRICT	0x0004	/* GET : request is ROOT only */
+&gt;   				/* SET : Omit payload from generated iwevent */
+&gt; -#define IW_DESCR_FLAG_NOMAX	0x0008	/* GET : no limit on request size */
+&gt;   /* Driver level flags */
+&gt;   #define IW_DESCR_FLAG_WAIT	0x0100	/* Wait for driver event */
+&gt;
+&gt; diff --git a/net/wireless/wext-core.c b/net/wireless/wext-core.c
+&gt; index 0ef17bc..55b1fd9 100644
+&gt; --- a/net/wireless/wext-core.c
+&gt; +++ b/net/wireless/wext-core.c
+&gt; @@ -82,7 +82,6 @@ static const struct iw_ioctl_description standard_ioctl[] = {
+&gt;   		.header_type	= IW_HEADER_TYPE_POINT,
+&gt;   		.token_size	= sizeof(struct iw_priv_args),
+&gt;   		.max_tokens	= 16,
+&gt; -		.flags		= IW_DESCR_FLAG_NOMAX,
+&gt;   	},
+&gt;   	[IW_IOCTL_IDX(SIOCSIWSTATS)] = {
+&gt;   		.header_type	= IW_HEADER_TYPE_NULL,
+&gt; @@ -134,7 +133,6 @@ static const struct iw_ioctl_description standard_ioctl[] = {
+&gt;   		.token_size	= sizeof(struct sockaddr) +
+&gt;   				  sizeof(struct iw_quality),
+&gt;   		.max_tokens	= IW_MAX_AP,
+&gt; -		.flags		= IW_DESCR_FLAG_NOMAX,
+&gt;   	},
+&gt;   	[IW_IOCTL_IDX(SIOCSIWSCAN)] = {
+&gt;   		.header_type	= IW_HEADER_TYPE_POINT,
+&gt; @@ -146,7 +144,6 @@ static const struct iw_ioctl_description standard_ioctl[] = {
+&gt;   		.header_type	= IW_HEADER_TYPE_POINT,
+&gt;   		.token_size	= 1,
+&gt;   		.max_tokens	= IW_SCAN_MAX_DATA,
+&gt; -		.flags		= IW_DESCR_FLAG_NOMAX,
+&gt;   	},
+&gt;   	[IW_IOCTL_IDX(SIOCSIWESSID)] = {
+&gt;   		.header_type	= IW_HEADER_TYPE_POINT,
+&gt; @@ -737,28 +734,9 @@ static int ioctl_standard_iw_point(struct iw_point *iwp, unsigned int cmd,
+&gt;   			return -EFAULT;
+&gt;   		/* Save user space buffer size for checking */
+&gt;   		user_length = iwp-&gt;length;
+&gt; -
+&gt; -		/* Don't check if user_length&gt;  max to allow forward
+&gt; -		 * compatibility. The test user_length&lt;  min is
+&gt; -		 * implied by the test at the end.
+&gt; -		 */
+&gt; -
+&gt; -		/* Support for very large requests */
+&gt; -		if ((descr-&gt;flags&amp;  IW_DESCR_FLAG_NOMAX)&amp;&amp;
+&gt; -		    (user_length&gt;  descr-&gt;max_tokens)) {
+&gt; -			/* Allow userspace to GET more than max so
+&gt; -			 * we can support any size GET requests.
+&gt; -			 * There is still a limit : -ENOMEM.
+&gt; -			 */
+&gt; -			extra_size = user_length * descr-&gt;token_size;
+&gt; -
+&gt; -			/* Note : user_length is originally a __u16,
+&gt; -			 * and token_size is controlled by us,
+&gt; -			 * so extra_size won't get negative and
+&gt; -			 * won't overflow...
+&gt; -			 */
+&gt; -		}
+&gt;   	}
+&gt; +	/* Support for very large requests */
+&gt; +	extra_size = max(extra_size, iwp-&gt;length * descr-&gt;token_size);
+&gt;
+&gt;   	/* kzalloc() ensures NULL-termination for essid_compat. */
+&gt;   	extra = kzalloc(extra_size, GFP_KERNEL);
+
+
+-- 
+main(i) { putchar(182623909 &gt;&gt; (i-1) * 5&amp;31|!!(i&lt;7)&lt;&lt;6) &amp;&amp; main(++i); }
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

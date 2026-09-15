@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: CVE request: irssi 0.8.15</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="../../../2010/04/26/6">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20100427064115.GA3739&#64;dario.dodds.net&gt;
+Date: Tue, 27 Apr 2010 07:41:15 +0100
+From: Steve Langasek &lt;steve.langasek&#64;...onical.com&gt;
+To: Wouter Coekaerts &lt;coekie&#64;...si.org&gt;
+Cc: Jamie Strandboge &lt;jamie&#64;...onical.com&gt;,
+	oss-security &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: Re: CVE request: irssi 0.8.15
+
+Hi Wouter,
+
+Thanks for your mail.
+
+On Mon, Apr 26, 2010 at 09:48:29PM +0200, Wouter Coekaerts wrote:
+&gt; Irssi doesn't have any SSL proxy support. So at first sight, this
+&gt; seemed like a bugfix for a non-existing feature. Looking at it again,
+&gt; it seems worse.
+
+&gt; There is not much explanation in the linked bug, so I'm making some
+&gt; assumptions. Correct me if they're wrong.
+&gt; What you can do in irssi, is configure a proxy, and then attempt to
+&gt; connect to an SSL IRC server through that proxy. Unfortunately, irssi
+&gt; currently can't do that, because there is a bug (not a vulnerability)
+&gt; in irssi that in that case makes it send the configured "proxy_string"
+&gt; encrypted in SSL instead of in plain text. This misbehaviour could be
+&gt; used in an akward setup to connect to a proxy that requires SSL, by
+&gt; pretending to connect to an SSL irc server. To do that you would have
+&gt; to enable SSL when connecting to the server, even when it's not an SSL
+&gt; server. By looking at the code, I suspect the patch is about making
+&gt; that setup work without getting certificate checking errors. Is that
+&gt; correct?
+
+&gt; Because it's more familiar, maybe it's more clear in the webbrowser
+&gt; equivalent: it is like configuring an http proxy in your browser,
+&gt; without saying that it requires SSL. Then you surf to
+&gt; <a href="https://example.com" rel="nofollow">https://example.com</a>, encrypting your connection to the proxy, but
+&gt; letting the proxy get <a href="http://example.com" rel="nofollow">http://example.com</a>.
+
+&gt; It is intended behaviour in irssi that the certificate check fails
+&gt; here. This patch makes that check pass. That means the proxy is kind
+&gt; of always doing a MITM attack. The user is given the impression he is
+&gt; securely connecting to an IRC server, but his actual IRC connection
+&gt; (between proxy and irc server) is plain text.
+
+I would agree with you if IRC proxies were autoconfigured the way web
+browser proxies often are; in that case, that would clearly be a MITM
+problem.  In *this* case, the IRC proxy I'm connecting to has been
+painstakingly configured to provide SSL-encrypted proxying to the
+SSL-enforced IRC servers I use, and modulo this bug where any valid
+certificate might be substituted for my proxy's certificate, was working
+entirely as expected.
+
+Whether or not irssi "has SSL proxy support", I've been successfully using
+it with an SSL proxy for several years, precisely as I was intending to use
+it, with no security vulnerabilities inherent in my setup.  To have this
+stop working in response to a security update is unacceptable collateral
+damage - my only options then are to stop using a proxy, stop *securing* my
+proxy with SSL, or to stop using irssi.  These are not choices I should have
+to contend with in response to a security update.
+
+-- 
+Steve Langasek                   Give me a lever long enough and a Free OS
+Debian Developer                   to set it on, and I can move the world.
+Ubuntu Developer                                    <a href="http://www.debian.org/" rel="nofollow">http://www.debian.org/</a>
+slangasek&#64;...ntu.com                                     vorlon&#64;...ian.org
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="5/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (829 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

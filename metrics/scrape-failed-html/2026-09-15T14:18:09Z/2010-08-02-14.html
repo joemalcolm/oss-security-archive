@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request [two ids] -- cabextract -- 1, Infinite 
+	loop in MS-ZIP and Quantum decoders (minor) 2, Integer wrap-around (crash) by 
+	processing certain *.cab files in test archive mode</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="13">[&lt;prev]</a> <a href="15">[next&gt;]</a> <a href="12">[&lt;thread-prev]</a> <a href="../../../2010/08/04/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;AANLkTikWuD8=D2ZW0Jbm7ytDZcARBDogdpOunSdEkd9q&#64;mail.gmail.com&gt;
+Date: Mon, 2 Aug 2010 17:40:09 -0400
+From: Dan Rosenberg &lt;dan.j.rosenberg&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+Subject: Re: CVE Request [two ids] -- cabextract -- 1, Infinite 
+	loop in MS-ZIP and Quantum decoders (minor) 2, Integer wrap-around (crash) by 
+	processing certain *.cab files in test archive mode
+
+This seems to be a bit of a slippery slope.  While I have no problem
+with these particular issues being assigned CVEs, since they were
+treated as security issues, fixed, and caused unintended application
+behavior, I have to wonder if maybe it's a bad idea to give CVEs for
+crashes of this variety.  Denial-of-service issues are tricky.  In my
+opinion, the following types of DoS bugs are security relevant:
+
+1.  Crashes in client programs that maintain some additional state
+beyond a single session. For example, a document reader with multiple
+tabs where a crash results in losing the contents of other tabs, or a
+web browser.
+
+2.  Issues that allow users to crash processes not under their own
+control.  This includes remote DoS vulnerabilities, kernel panics,
+crashes in services such as files that crash A/V engines when parsed,
+etc.
+
+3.  Crashes in library code where many programs may be impacted.
+
+4.  Crashes in client applications where further exploitability is
+possible (basically, promising memory corruption issues that haven't
+been fully developed).
+
+When you open it up to "anything that causes a crash", the pool of
+"security" bugs expands to include every fuzz file that causes a crash
+and every stability issue in every program.  For example, I have a
+high number of fuzz files that cause crashes in the readelf utility in
+non-exploitable ways.  I don't consider these relevant for security,
+because if you need to trick a user into running the program to
+trigger the crash and there are no additional consequences besides
+them crashing the program you tricked them into running, there is no
+negative security impact besides perhaps a confused victim.
+
+Although, I suppose my fourth item is the one that presents a problem
+- who gets to decide whether a program crash is exploitable or not?
+What if they're wrong?  Just trying to spur some discussion on this,
+I'd love to hear what others have to say - sometimes it's nice to
+break up all the CVE assignments with an actual conversation.  :)
+
+-Dan
+
+On Mon, Aug 2, 2010 at 4:08 PM, Josh Bressers &lt;bressers&#64;...hat.com&gt; wrote:
+&gt; ----- "Jan Lieskovsky" &lt;jlieskov&#64;...hat.com&gt; wrote:
+&gt;
+&gt;&gt; Hi Steve, vendors,
+&gt;&gt;
+&gt;&gt;    two security issues have been reported against cabextract:
+&gt;&gt;
+&gt;&gt; 1, Infinite loop in MS-ZIP and Quantum decoders (minor issue):
+&gt;&gt;
+&gt;&gt; A deficiency has been reported in the way cabextract extracted certain
+&gt;&gt; Cabinet (*.cab) files, using the MZ-ZIP and Quantum decompressors.  If a
+&gt;&gt; local user was tricked into opening a specially-crafted *.cab file, it
+&gt;&gt; could lead to infinite loop.
+&gt;&gt;
+&gt;
+&gt; CVE-2010-2800
+&gt;
+&gt;&gt; 2, Integer wrap-around (crash) by processing certain *.cab files in
+&gt;&gt; test archive mode
+&gt;&gt;
+&gt;&gt; An integer wrap-around flaw has been reported in the way cabextract
+&gt;&gt; processed certain Cabinet (*.cab) archive files. If a local user was
+&gt;&gt; tricked into opening a specially-crafted *.cab archive in test archive
+&gt;&gt; mode, it could lead to cabextract executable crash.
+&gt;&gt;
+&gt;
+&gt; CVE-2010-2801
+&gt;
+&gt;
+&gt; Thanks.
+&gt;
+&gt; --
+&gt;    JB
+&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

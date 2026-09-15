@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: filesystem capabilities</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="6">[&lt;thread-prev]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20101108113735.GA18713&#64;suse.de&gt;
+Date: Mon, 8 Nov 2010 12:37:35 +0100
+From: Sebastian Krahmer &lt;krahmer&#64;...e.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: filesystem capabilities
+
+Hi,
+
+To me it looks like an error condition
+where you should die() if you see +s root AND fscaps applied.
+From my tests, you cant get rid of the suid of 0,
+whether you drop setuid(getuid()) after cap_set or before.
+It seems like in that case the kernel handles you like
+a suid binary with +s to nobody. You cant
+get rid of the nobody-suid if called setuid(getuid()).
+
+Even though all HOWTOs/READMEs tell you that root is
+nothing special if using caps and dropping all caps
+so it "is like nobody" this aint true. Having most of
+the important files like /etc owned by uid 0 is like
+implicit having CAP_DAC_OVERRIDE and thats basically
+full root with full caps.
+
+And to make things complete we not only have to deal with
+libcap (which I personally prefer even if its "more complex to use"),
+we also have cap-ng (<a href="http://people.redhat.com/sgrubb/libcap-ng" rel="nofollow">http://people.redhat.com/sgrubb/libcap-ng</a>)
+where a first look at the provided ping etc patches shows me
+that again the return values are not checked for
+capng_apply(). (My fault if it does and I overlooked it)
+And the whole cap/priv framework must *always and always*
+check return values as shown a dozens of times that
+this gives cool root exploits.
+
+And I dont want to mention the semantics change between
+the kernel versions (2.6.25 etc).
+
+Sebastian
+
+
+
+
+On Mon, Nov 08, 2010 at 11:28:13AM +0100, Ludwig Nussel wrote:
+&gt; Solar Designer wrote:
+&gt; &gt; There's a lot of talk lately regarding replacing the SUID bit on program
+&gt; &gt; binaries in Linux distros with filesystem capabilities.  Specifically,
+&gt; &gt; Fedora and Ubuntu are heading in that direction.
+&gt; 
+&gt; There are requests for openSUSE too.
+&gt; 
+&gt; &gt; - Some currently-SUID programs are aware of them being (potentially)
+&gt; &gt; SUID, and will drop the "more privileged" euid when it is no longer
+&gt; &gt; needed, but they will probably not be aware of them possessing
+&gt; &gt; capabilities.  This may result in larger parts of the programs
+&gt; &gt; (sometimes orders of magnitude larger) running with elevated privileges
+&gt; &gt; (or with allowed-to-be-elevated privileges, which is a privilege on its
+&gt; &gt; own and is usable through vulnerabilities that allow for arbitrary code
+&gt; &gt; execution).  Let's consider ping, which appears to be the classical
+&gt; &gt; example of "where filesystem capabilities will help" (or so it is
+&gt; &gt; claimed).  IIRC, it starts by acquiring a raw socket (NB: of a certain
+&gt; &gt; somewhat-limited type), then drops root privs (if it was installed SUID
+&gt; &gt; root and run by non-root), then proceeds to parse the command-line,
+&gt; &gt; resolve the provided hostname, and so on.  If the SUID bit is replaced
+&gt; &gt; with cap_net_raw+ep, as seen in Kees' example above, will ping know to
+&gt; &gt; drop this capability?  Hardly.  Not without a source code patch.
+&gt; 
+&gt; Exactly. A community submission of an fscaps enabled iputils package
+&gt; brought the issue to our attention. We were astonished that the
+&gt; prime example ping doesn't drop it's capabilities. So it actually
+&gt; shows why blindly applying fscaps doesn't help security at all.
+&gt; So we are going to treat fscaps just like setuid bits and require
+&gt; code review by the security team.
+&gt; 
+&gt; &gt; You also absolutely have to deal with passwd, which would be another
+&gt; &gt; SUID root program.  Like we did:
+&gt; &gt; <a href="http://www.openwall.com/tcb/">http://www.openwall.com/tcb/</a>
+&gt; &gt; And with all others (e.g., our crontab/at and crond changes). :-)
+&gt; 
+&gt; The next step would be to get rid of those setgid programs too then.
+&gt; A daemon controlled via unix domain sockets could do the job just as
+&gt; well I suppose.
+&gt; 
+&gt; &gt; Thanks for reading this far, and I'd appreciate any comments and/or
+&gt; &gt; corrections.  Some of the info above might be outdated - e.g., I am not
+&gt; &gt; sure of what current kernels require (or not) to drop capabilities.
+&gt; 
+&gt; AFAICT there are no special capabilities needed.
+&gt; 
+&gt; &gt; (If they no longer require anything extra to drop CAP_SETUID, then
+&gt; &gt; that's a security problem on its own - the "sendmail risk" is back.)
+&gt; 
+&gt; Thanks for the reminder! I actually didn't know. Here's a link
+&gt; explaining sendmail's problem:
+&gt; <a href="http://archives.neohapsis.com/archives/sendmail/2000-q2/0002.html" rel="nofollow">http://archives.neohapsis.com/archives/sendmail/2000-q2/0002.html</a>
+&gt; 
+&gt; Indeed I ran into the trap when trying to patch ping to drop
+&gt; capabilities. If a program is capability aware but still installed
+&gt; setuid it needs to setuid(getuid()) before dropping it's
+&gt; capabilities. Doing it the wrong way around keeps the POSIX saved
+&gt; uid and setuid(0) is still possible even though getuid() ==
+&gt; geteuid() and no capabilities granted.
+&gt; 
+&gt; cu
+&gt; Ludwig
+&gt; 
+&gt; -- 
+&gt;  (o_   Ludwig Nussel
+&gt;  //\   
+&gt;  V_/_  <a href="http://www.suse.de/" rel="nofollow">http://www.suse.de/</a>
+&gt; SUSE LINUX Products GmbH, GF: Markus Rex, HRB 16746 (AG Nuernberg)
+
+-- 
+~
+~ perl self.pl
+~ $_='print"\$_=\47$_\47;eval"';eval
+~ krahmer&#64;...e.de - SuSE Security Team
+~ SUSE LINUX Products GmbH, GF: Markus Rex, HRB 16746 (AG Nuernberg)
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

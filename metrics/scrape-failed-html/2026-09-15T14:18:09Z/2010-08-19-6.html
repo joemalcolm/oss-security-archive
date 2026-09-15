@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE-2008-id Request -- ssmtp -- standardise() --
+ Buffer overflow</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2010/08/02/6">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Pine.GSO.4.64.1008191548020.1035&#64;faron.mitre.org&gt;
+Date: Thu, 19 Aug 2010 15:50:34 -0400 (EDT)
+From: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+To: oss-security &lt;oss-security&#64;...ts.openwall.com&gt;
+cc: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+Subject: Re: CVE-2008-id Request -- ssmtp -- standardise() --
+ Buffer overflow
+
+
+On Mon, 26 Jul 2010, Jan Lieskovsky wrote:
+
+&gt;  Brendan Boerner reported:
+&gt;  [1] <a href="https://bugs.launchpad.net/ubuntu/+source/ssmtp/+bug/282424" rel="nofollow">https://bugs.launchpad.net/ubuntu/+source/ssmtp/+bug/282424</a>
+&gt;
+&gt; a deficiency in the way ssmtp removed trailing '\n' sequence
+&gt; by processing lines beginning with a leading dot. A local user,
+&gt; could send a specially-crafted e-mail message via ssmtp send-only
+&gt; sendmail emulator, leading to ssmtp executable denial of service (exit with:
+&gt; ssmtp: standardise() -- Buffer overflow). Different vulnerability
+&gt; than CVE-2008-3962.
+
+CVE-2008-7258 was assigned to this, but is it really a vulnerability?  It 
+seems like the attacker can only DoS himself.  Thoughts?
+
+from one of our CVE analysts:
+
+   The product's first relevant behavior is to call "fgets(buf,
+   sizeof(buf), stdin)" -- this is a safe call and cannot overflow a
+   buffer. There is a "char buf[(BUF_SZ + 1)]" declaration, and BUF_SZ is
+   2048. The product then (in the standardise function) assigns sl to the
+   strlen value of buf. It then performs the test "if((sl + 2) &gt; BUF_SZ"
+   and calls "exit(1)" if this test succeeds. If sl is 2047 or more, the
+   test succeeds. If sl is 2046 or less, the test fails. In the 2046 case,
+   the buffer has 2046 characters obtained from stdin, followed by a '\0'
+   character. In this 2046 case, the product then calls memmove to move
+   2047 characters forward by one in the buffer. In other words, characters at
+   positions 0 through 2046 (inclusive) are moved to positions 1 through
+   2047. This is OK because the valid positions in the buffer are 0 through
+   2048. There are arguably two problems in the code. The first is that the
+   fgets perhaps should not read more than 2046 characters, because the
+   standardise function does not want to see more than 2046. This is only a
+   usability problem. The role of the sSMTP product is to read a single
+   e-mail message from stdin and then exit. The product does not maintain
+   state, listen for connections, use setuid privileges, etc. The
+   mishandling of messages with certain long lines only means that the
+   sender of such a message can DoS himself. The issue does not cross
+   privilege boundaries. Also note that the product cleanly detects the
+   long line and calls exit(1) -- the product does not crash. The other
+   problem in the code is that the standardise function apparently can
+   handle 2047 characters but chooses to reject anything larger than 2046.
+   Again, this is solely a usability problem.
+
+
+- Steve
+
+
+
+
+&gt; References:
+&gt;  [2] <a href="https://bugzilla.redhat.com/show_bug.cgi?id=582236" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=582236</a>
+&gt;  [3] <a href="https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2008-3962" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2008-3962</a>
+&gt;  [4] <a href="http://patch-tracker.debian.org/package/ssmtp/2.62-3" rel="nofollow">http://patch-tracker.debian.org/package/ssmtp/2.62-3</a>
+&gt;  [5] 
+&gt; <a href="http://lists.fedoraproject.org/pipermail/package-announce/2010-May/041012.html" rel="nofollow">http://lists.fedoraproject.org/pipermail/package-announce/2010-May/041012.html</a>
+&gt;  [6] 
+&gt; <a href="http://lists.fedoraproject.org/pipermail/package-announce/2010-May/041009.html" rel="nofollow">http://lists.fedoraproject.org/pipermail/package-announce/2010-May/041009.html</a>
+&gt;  [7] 
+&gt; <a href="http://lists.fedoraproject.org/pipermail/package-announce/2010-May/041119.html" rel="nofollow">http://lists.fedoraproject.org/pipermail/package-announce/2010-May/041119.html</a>
+&gt;
+&gt; Debian Linux distribution patch:
+&gt;  [8] 
+&gt; <a href="http://patch-tracker.debian.org/patch/series/view/ssmtp/2.62-3/345780-standardise-bufsize" rel="nofollow">http://patch-tracker.debian.org/patch/series/view/ssmtp/2.62-3/345780-standardise-bufsize</a>
+&gt;
+&gt; Public PoC (from <a href="https://bugzilla.redhat.com/show_bug.cgi?id=582236#c0" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=582236#c0</a>):
+&gt;  [9] ( 0. Install &amp; configure ssmtp, of course )
+&gt;        1. (echo -n . ; for i in {1..2050} ; do echo -n $i ; done) | mail 
+&gt; root
+&gt;
+&gt; Couldn't find CVE-2008-XXXX ssmtp identifier for this
+&gt; (<a href="http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=ssmtp" rel="nofollow">http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=ssmtp</a>).
+&gt;
+&gt; Steve, could you allocate one?
+&gt;
+&gt; Thanks &amp;&amp; Regards, Jan.
+&gt; --
+&gt; Jan iankko Lieskovsky / Red Hat Security Response Team
+&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

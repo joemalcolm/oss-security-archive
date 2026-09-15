@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [PATCH 2/4] Revert "oom: deprecate oom_adj tunable"</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href="8">[&lt;thread-prev]</a> <a href="10">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20100916145542.3BB4.A69D9226&#64;jp.fujitsu.com&gt;
+Date: Thu, 16 Sep 2010 14:55:50 +0900 (JST)
+From: KOSAKI Motohiro &lt;kosaki.motohiro&#64;...fujitsu.com&gt;
+To: Linus Torvalds &lt;torvalds&#64;...ux-foundation.org&gt;
+Cc: kosaki.motohiro&#64;...fujitsu.com, Andrew Morton &lt;akpm&#64;...ux-foundation.org&gt;,
+        linux-kernel&#64;...r.kernel.org, oss-security&#64;...ts.openwall.com,
+        Solar Designer &lt;solar&#64;...nwall.com&gt;,
+        Kees Cook &lt;kees.cook&#64;...onical.com&gt;, Al Viro &lt;viro&#64;...iv.linux.org.uk&gt;,
+        Oleg Nesterov &lt;oleg&#64;...hat.com&gt;, Neil Horman &lt;nhorman&#64;...driver.com&gt;,
+        linux-fsdevel&#64;...r.kernel.org, pageexec&#64;...email.hu,
+        Brad Spengler &lt;spender&#64;...ecurity.net&gt;, Eugene Teo &lt;eugene&#64;...hat.com&gt;,
+        KAMEZAWA Hiroyuki &lt;kamezawa.hiroyu&#64;...fujitsu.com&gt;,
+        linux-mm &lt;linux-mm&#64;...ck.org&gt;, David Rientjes &lt;rientjes&#64;...gle.com&gt;
+Subject: [PATCH 2/4] Revert "oom: deprecate oom_adj tunable"
+
+oom_adj is not only used for kernel knob, but also used for
+application interface.
+Then, adding new knob is no good reason to deprecate it.
+
+Also, after former patch, oom_score_adj can't be used for setting
+OOM_DISABLE. We need "echo -17 &gt; /proc/&lt;pid&gt;/oom_adj" thing.
+
+This reverts commit 51b1bd2ace1595b72956224deda349efa880b693.
+---
+ Documentation/feature-removal-schedule.txt |   25 -------------------------
+ Documentation/filesystems/proc.txt         |    3 ---
+ fs/proc/base.c                             |    8 --------
+ include/linux/oom.h                        |    3 ---
+ 4 files changed, 0 insertions(+), 39 deletions(-)
+
+diff --git a/Documentation/feature-removal-schedule.txt b/Documentation/feature-removal-schedule.txt
+index 842aa9d..aff4d11 100644
+--- a/Documentation/feature-removal-schedule.txt
++++ b/Documentation/feature-removal-schedule.txt
+@@ -151,31 +151,6 @@ Who:	Eric Biederman &lt;ebiederm&#64;...ssion.com&gt;
+ 
+ ---------------------------
+ 
+-What:	/proc/&lt;pid&gt;/oom_adj
+-When:	August 2012
+-Why:	/proc/&lt;pid&gt;/oom_adj allows userspace to influence the oom killer's
+-	badness heuristic used to determine which task to kill when the kernel
+-	is out of memory.
+-
+-	The badness heuristic has since been rewritten since the introduction of
+-	this tunable such that its meaning is deprecated.  The value was
+-	implemented as a bitshift on a score generated by the badness()
+-	function that did not have any precise units of measure.  With the
+-	rewrite, the score is given as a proportion of available memory to the
+-	task allocating pages, so using a bitshift which grows the score
+-	exponentially is, thus, impossible to tune with fine granularity.
+-
+-	A much more powerful interface, /proc/&lt;pid&gt;/oom_score_adj, was
+-	introduced with the oom killer rewrite that allows users to increase or
+-	decrease the badness() score linearly.  This interface will replace
+-	/proc/&lt;pid&gt;/oom_adj.
+-
+-	A warning will be emitted to the kernel log if an application uses this
+-	deprecated interface.  After it is printed once, future warnings will be
+-	suppressed until the kernel is rebooted.
+-
+----------------------------
+-
+ What:	remove EXPORT_SYMBOL(kernel_thread)
+ When:	August 2006
+ Files:	arch/*/kernel/*_ksyms.c
+diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
+index a6aca87..cf1295c 100644
+--- a/Documentation/filesystems/proc.txt
++++ b/Documentation/filesystems/proc.txt
+@@ -1285,9 +1285,6 @@ scaled linearly with /proc/&lt;pid&gt;/oom_score_adj.
+ Writing to /proc/&lt;pid&gt;/oom_score_adj or /proc/&lt;pid&gt;/oom_adj will change the
+ other with its scaled value.
+ 
+-NOTICE: /proc/&lt;pid&gt;/oom_adj is deprecated and will be removed, please see
+-Documentation/feature-removal-schedule.txt.
+-
+ Caveat: when a parent task is selected, the oom killer will sacrifice any first
+ generation children with seperate address spaces instead, if possible.  This
+ avoids servers and important system daemons from being killed and loses the
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 90ba487..55a16f2 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -1046,14 +1046,6 @@ static ssize_t oom_adjust_write(struct file *file, const char __user *buf,
+ 		return -EACCES;
+ 	}
+ 
+-	/*
+-	 * Warn that /proc/pid/oom_adj is deprecated, see
+-	 * Documentation/feature-removal-schedule.txt.
+-	 */
+-	printk_once(KERN_WARNING "%s (%d): /proc/%d/oom_adj is deprecated, "
+-			"please use /proc/%d/oom_score_adj instead.\n",
+-			current-&gt;comm, task_pid_nr(current),
+-			task_pid_nr(task), task_pid_nr(task));
+ 	task-&gt;signal-&gt;oom_adj = oom_adjust;
+ 
+ 	unlock_task_sighand(task, &amp;flags);
+diff --git a/include/linux/oom.h b/include/linux/oom.h
+index 21006dc..394f2e6 100644
+--- a/include/linux/oom.h
++++ b/include/linux/oom.h
+@@ -2,9 +2,6 @@
+ #define __INCLUDE_LINUX_OOM_H
+ 
+ /*
+- * /proc/&lt;pid&gt;/oom_adj is deprecated, see
+- * Documentation/feature-removal-schedule.txt.
+- *
+  * /proc/&lt;pid&gt;/oom_adj set to -17 protects from the oom-killer
+  */
+ #define OOM_DISABLE (-17)
+-- 
+1.6.5.2
+
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
