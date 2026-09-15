@@ -47,6 +47,20 @@ jobs:
         # ~/.public-inbox/config, which every fresh runner needs).
         run: ./scripts/setup-inbox.sh inbox
 
+      - name: Prime search index for --diff-against
+        # inbox/xap15/over.sqlite3 is what openwall-scrape.pl's
+        # --diff-against queries to skip messages already in the
+        # archive. That file is gitignored (indexes are regenerable
+        # from git objects and shouldn't bloat the repo), so a fresh
+        # runner has no over.sqlite3 until public-inbox-index runs.
+        # Without this step, --diff-against silently no-ops and every
+        # scraped message gets ingested — creating duplicates when
+        # the year overlaps the Maildir coverage window.
+        # Cost: ~5-10 min for a 27k-message archive on cold Xapian.
+        # Post-backfill 'Build indexes' step below re-indexes to
+        # incorporate the newly-added messages.
+        run: public-inbox-index inbox
+
       - name: Backfill
         # Inputs are env-bound (not interpolated into the shell) to defuse
         # ${{ }} → shell injection. Same hardening as the other workflows.
