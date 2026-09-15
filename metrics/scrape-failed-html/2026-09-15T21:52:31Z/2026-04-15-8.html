@@ -1,0 +1,575 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - 7 vulnerabilities disclosed &amp; patched in jq</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="../../../2026/04/16/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;c9bd5dbd-7b11-4637-80cd-5dec79dd491f&#64;oracle.com&gt;
+Date: Wed, 15 Apr 2026 15:51:15 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: 7 vulnerabilities disclosed &amp; patched in jq
+
+7 vulnerabilities have been posted to <a href="https://github.com/jqlang/jq/security" rel="nofollow">https://github.com/jqlang/jq/security</a> -
+6 this week and one in March that I don't see in the list archives.  Fixes
+appear to be available in their github repo, but not yet in a release.
+
+<a href="https://github.com/jqlang/jq/security/advisories/GHSA-q3h9-m34w-h76f" rel="nofollow">https://github.com/jqlang/jq/security/advisories/GHSA-q3h9-m34w-h76f</a> reports:
+&gt; Integer overflow in jvp_string_append and jvp_string_copy_replace_bad allows
+&gt; heap buffer overflow
+&gt; 
+&gt; Affected versions: 1.8.1
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; An integer overflow in jvp_string_append() in src/jv.c causes a heap buffer
+&gt; overflow when concatenating strings whose combined length exceeds 2^31 bytes.
+&gt; 
+&gt; Details
+&gt; -------
+&gt; The internal function jvp_string_append() computes the new buffer allocation
+&gt; size as:
+&gt; 
+&gt;     // src/jv.c:1187
+&gt;     uint32_t allocsz = (currlen + len) * 2;
+&gt;     if (allocsz &lt; 32) allocsz = 32;
+&gt; 
+&gt; Both currlen and len are uint32_t. When currlen + len &gt;= 2^31, the
+&gt; multiplication by 2 overflows the 32-bit unsigned integer, wrapping allocsz to
+&gt; a small value (potentially 0, clamped to 32). The subsequent memcpy operations
+&gt; copy currlen + len bytes into the undersized buffer, causing a heap buffer
+&gt; overflow. The length_hashed field ((currlen + len) &lt;&lt; 1) suffers the same
+&gt; overflow, corrupting the stored string length.
+&gt; 
+&gt; Arrays and objects already have size limits, but strings have no equivalent
+&gt; bounds check. We have to limit the size of string so that the length does not
+&gt; overflow.
+&gt; 
+&gt; Similar vulnerability exists in jvp_string_copy_replace_bad, too.
+&gt; 
+[See GHSA for PoC]
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; CWE-190 (Integer Overflow or Wraparound) leading to
+&gt; CWE-122 (Heap-based Buffer Overflow).
+&gt; 
+&gt; Any user or system that evaluates untrusted jq queries is affected. Attacker
+&gt; can easily crash the jq process by sending a crafted jq query. If the system
+&gt; uses a fixed jq query (that does not concatenate the input strings many times),
+&gt; attacker needs to send a huge JSON input to make it crash. Heap corruption may
+&gt; allow further exploitation depending on the allocator and environment.
+&gt; All versions of jq through 1.8.1 and current master version are affected.
+&gt; 
+&gt; Fix
+&gt; ---
+&gt; This issue was fixed by
+&gt; <a href="https://github.com/jqlang/jq/commit/e47e56d226519635768e6aab2f38f0ab037c09e5" rel="nofollow">https://github.com/jqlang/jq/commit/e47e56d226519635768e6aab2f38f0ab037c09e5</a>
+&gt; 
+&gt; Severity: High - 8.2 / 10
+&gt; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H
+&gt; CVE ID: CVE-2026-32316
+
+<a href="https://github.com/jqlang/jq/security/advisories/GHSA-2hhh-px8h-355p" rel="nofollow">https://github.com/jqlang/jq/security/advisories/GHSA-2hhh-px8h-355p</a> says:
+&gt; Out-of-Bounds Read in jv_parse_sized() Error Formatting for Non-NUL-Terminated
+&gt; Counted Buffers
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; libjq exposes jv_parse_sized(const char *string, int length) as a counted-buffer
+&gt; JSON parsing API, but its parse-error path later treats the same buffer as a
+&gt; NUL-terminated C string. If a caller passes malformed JSON in a
+&gt; non-NUL-terminated buffer, the error construction logic can read past the
+&gt; caller-supplied length, causing an out-of-bounds read.
+&gt; 
+&gt; Details
+&gt; -------
+&gt; The vulnerable path is:
+&gt; 
+&gt; jv_parse_sized()
+&gt;  -&gt; jv_parse_sized_custom_flags()
+&gt;   -&gt; jv_parser_set_buf(&amp;parser, string, length, 0)
+&gt;    -&gt; parse failure
+&gt;     -&gt; jv_string_fmt("%s (while parsing '%s')", ..., string)
+&gt; 
+&gt; Relevant code:
+&gt; 
+&gt;     src/jv.h (line 245)
+&gt;     src/jv_parse.c (line 865)
+&gt;     src/jv_parse.c (line 896)
+&gt;     src/jv.c (line 1528)
+&gt; 
+&gt; The parser correctly accepts a (pointer, length) pair, but when building the
+&gt; error message it formats string with %s, which causes vsnprintf() to continue
+&gt; reading memory until a \0 is found. This makes the error path ignore the
+&gt; explicit buffer length and turns a counted-buffer API into an unbounded read
+&gt; sink.
+&gt; 
+&gt; Reachability:
+&gt; 
+&gt; Real external source: any libjq consumer calling jv_parse_sized() with a
+&gt; counted buffer.
+&gt; 
+&gt; In-project internal uses such as fromjson and lexer paths also reach
+&gt; jv_parse_sized(), but those pass jq-managed strings that are already
+&gt; NUL-terminated, so the practical attack surface is the public API rather
+&gt; than the normal jq CLI path.
+&gt; 
+[See GHSA for PoC]
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; 
+&gt; Only libjq is affected. A caller that uses jv_parse_sized() on untrusted
+&gt; malformed JSON in a non-NUL-terminated buffer can trigger an out-of-bounds
+&gt; read during error construction. Depending on memory layout and how the
+&gt; returned error string is logged or exposed, this can lead to memory disclosure
+&gt; or process termination.
+&gt; 
+&gt; Severity:   Moderate
+&gt; CVE ID:     CVE-2026-39979
+&gt; Weaknesses: CWE-125 Out-of-bounds Read
+&gt; Credits:    @HO-9 Reporter
+
+<a href="https://github.com/jqlang/jq/commit/2f09060afab23fe9390cce7cb860b10416e1bf5f" rel="nofollow">https://github.com/jqlang/jq/commit/2f09060afab23fe9390cce7cb860b10416e1bf5f</a>
+states that it fixes CVE-2026-39979.
+
+
+<a href="https://github.com/jqlang/jq/security/advisories/GHSA-32cx-cvvh-2wj9" rel="nofollow">https://github.com/jqlang/jq/security/advisories/GHSA-32cx-cvvh-2wj9</a> advises:
+&gt; Embedded-NUL Truncation in jq CLI JSON Input Path Causes Prefix-Only Validation
+&gt; of Malformed Input
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; The normal jq CLI JSON input path uses fgets() and then derives the valid byte
+&gt; length with strlen() when parsing JSON input without a newline. If the input
+&gt; contains an embedded NUL byte, jq truncates the already-read buffer at the NUL
+&gt; and passes only the benign prefix to the JSON parser. As a result, jq may
+&gt; accept malformed input by validating only the prefix before the NUL.
+&gt; 
+&gt; Details
+&gt; -------
+&gt; The reachable CLI path is:
+&gt; 
+&gt; CLI file/stdin input
+&gt;  -&gt; jq_util_input_add_input() / stdin default
+&gt;   -&gt; jq_util_input_set_parser(..., jv_parser_new(...))
+&gt;    -&gt; jq_util_input_next_input() -&gt; jq_util_input_read_more()
+&gt;     -&gt; strlen(state-&gt;buf)
+&gt;      -&gt; jv_parser_set_buf(state-&gt;parser, state-&gt;buf, state-&gt;buf_valid_len,
+&gt;                           !is_last)
+&gt; 
+&gt; Relevant code:
+&gt; 
+&gt;     src/main.c (line 361)
+&gt;     src/main.c (line 653)
+&gt;     src/main.c (line 664)
+&gt;     src/main.c (line 671)
+&gt;     src/util.c (line 315)
+&gt;     src/util.c (line 320)
+&gt;     src/util.c (line 432)
+&gt; 
+&gt; The flaw is that the code does not use the actual number of bytes read by
+&gt; fgets(). Instead it uses strlen(state-&gt;buf), which stops at the first embedded
+&gt; NUL. Trailing bytes after the NUL may already have been consumed from the
+&gt; input stream, but they are silently excluded from parsing.
+&gt; 
+&gt; This is realistically reachable because it affects the stock jq CLI file
+&gt; and stdin parsing path used by end users.
+&gt; 
+[See GHSA for PoC]
+&gt; 
+&gt; Observed error:
+&gt; 
+&gt; jq: Bad JSON in --slurpfile ...: Invalid numeric literal at line 1, column 17
+&gt; 
+&gt; Impact
+&gt; 
+&gt; This issue can cause validation bypass in workflows that rely on jq to validate
+&gt; untrusted JSON before forwarding, storing, or otherwise acting on the original
+&gt; bytes. An attacker can place a benign JSON prefix before an embedded NUL and
+&gt; append malicious trailing data after it. jq may accept the prefix as valid
+&gt; JSON while silently ignoring the suffix, creating a parser differential
+&gt; between jq and downstream components that process the full input.
+&gt; 
+&gt; Severity:   Low
+&gt; CVE ID:     CVE-2026-33948
+&gt; Weaknesses: No CWEs
+&gt; Credits:    @HO-9
+
+<a href="https://github.com/jqlang/jq/commit/6374ae0bcdfe33a18eb0ae6db28493b1f34a0a5b" rel="nofollow">https://github.com/jqlang/jq/commit/6374ae0bcdfe33a18eb0ae6db28493b1f34a0a5b</a>
+says it fixes CVE-2026-33948.
+
+
+<a href="https://github.com/jqlang/jq/security/advisories/GHSA-xwrw-4f8h-rjvg" rel="nofollow">https://github.com/jqlang/jq/security/advisories/GHSA-xwrw-4f8h-rjvg</a> states:
+&gt; Unbounded Recursion in jv_setpath() / jv_getpath() / delpaths_sorted()
+&gt; 
+&gt; Affected versions:  &lt;= 1.8.1
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; The jv_setpath(), jv_getpath(), and delpaths_sorted() functions in
+&gt; src/jv_aux.c use unbounded recursion where the recursion depth equals the
+&gt; length of a caller-supplied path array. There is no depth limit check.
+&gt; When a path array with ~60,000 or more elements is supplied — either constructed
+&gt; by a jq filter expression or provided directly in attacker-controlled JSON input
+&gt; — the C call stack is exhausted, causing a segmentation fault (SIGSEGV) and
+&gt; immediate process crash.
+&gt; 
+&gt; This vulnerability bypasses the MAX_PARSING_DEPTH (10,000) limit that protects
+&gt; the JSON parser, because path arrays can be constructed programmatically to
+&gt; arbitrary lengths without being constrained by parsing depth. Critically, the
+&gt; path array can be sourced entirely from attacker-controlled JSON input, making
+&gt; this exploitable in scenarios where a trusted jq filter processes untrusted data.
+&gt; 
+[See GHSA for code analysis and PoC]
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; - Denial of Service (Crash): Any jq process that calls setpath, getpath, or
+&gt;   delpaths with a sufficiently long path array will crash with SIGSEGV.
+&gt;   This is an unrecoverable crash — no error handling is possible.
+&gt; - Bypass of existing depth limits: The JSON parser's MAX_PARSING_DEPTH (10,000)
+&gt;   does not protect against this because path arrays are constructed at the jq
+&gt;   runtime level, not during JSON parsing. An attacker can embed a flat array
+&gt;   of 65,000 integers in a JSON document (only ~200 KB) that causes a crash
+&gt;   when used as a path.
+&gt; - Affected real-world scenarios:
+&gt;   - Web services using jq to transform or extract data from user-submitted JSON
+&gt;   - CI/CD pipelines processing untrusted configuration or API responses with jq
+&gt;   - Shell scripts that use setpath/getpath/delpaths on paths derived from input
+&gt;     data
+&gt;   - Any application embedding libjq where path arguments can be influenced by
+&gt;     external input
+&gt; - Note: Unlike memory corruption vulnerabilities, stack overflow from recursion
+&gt;   is generally not exploitable for code execution on modern systems with guard
+&gt;   pages. The impact is limited to denial of service.
+&gt; 
+&gt; Severity: Moderate - 6.2 / 10
+&gt; CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+&gt; CVE ID: CVE-2026-33947
+&gt; Weaknesses: CWE-674 Uncontrolled Recursion
+&gt; Credits: @bg0d-glitch
+
+<a href="https://github.com/jqlang/jq/commit/fb59f1491058d58bdc3e8dd28f1773d1ac690a1f" rel="nofollow">https://github.com/jqlang/jq/commit/fb59f1491058d58bdc3e8dd28f1773d1ac690a1f</a>
+declares that it fixes CVE-2026-33947.
+
+
+<a href="https://github.com/jqlang/jq/security/advisories/GHSA-6gc3-3g9p-xx28" rel="nofollow">https://github.com/jqlang/jq/security/advisories/GHSA-6gc3-3g9p-xx28</a> announces:
+&gt; jq _strindices missing runtime type checks lead to crash and limited memory
+&gt; disclosure
+&gt; 
+&gt; Affected versions: 1.8.1-dev commit 69785bf
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; _strindices is the C builtin used by indices / index / rindex for string inputs.
+&gt; Its wrapper passes both arguments straight to jv_string_indexes() without
+&gt; checking that they are strings, and jv_string_indexes() itself only uses
+&gt; assert(). In release builds those checks disappear under -DNDEBUG.
+&gt; _strindices(0) is enough to crash jq, and the same bug also gives an attacker
+&gt; controlled pointer dereference and a limited read/probe primitive.
+&gt; 
+&gt; Details
+&gt; -------
+&gt; commit 69785bf77f86e2ea1b4a20ca86775916889e91c9, _strindices is implemented
+&gt; in src/builtin.c like this
+&gt; 
+&gt;     static jv f_string_indexes(jq_state *jq, jv a, jv b) {
+&gt;       return jv_string_indexes(a, b);
+&gt;     }
+&gt; 
+&gt; jv_string_indexes() in src/jv.c then blindly assumes both given args are strings:
+&gt; 
+&gt;     jv jv_string_indexes(jv j, jv k) {
+&gt;       assert(JVP_HAS_KIND(j, JV_KIND_STRING));
+&gt;       assert(JVP_HAS_KIND(k, JV_KIND_STRING));
+&gt;       const char *jstr = jv_string_value(j);
+&gt;       const char *idxstr = jv_string_value(k);
+&gt;     }
+&gt; 
+&gt; In a debug build the assertions fire. In a normal release build they are
+&gt; compiled out, and jq dereferences j.u.ptr as if it were a valid jvp_string *.
+&gt; 
+&gt; When the assertions are gone, jv_string_value() treats j.u.ptr as a string
+&gt; header and jv_string_length_bytes() reads a length from that same fake object.
+&gt; This results in either 1. an easy crash with invalid input 2. a limited read
+&gt; primitive when a crafted number is used so its bit pattern is treated as a
+&gt; pointer. The number being crafted matters because default jq builds use decnum.
+&gt; A plain numeric literal doesn't give control of u.ptr, but arithmetic such as
+&gt; this does: (&lt;bit-cast double&gt; + 0) reaches jv_number(double) and stores the
+&gt; IEEE-754 bits of that double in the same union field which is later read as u.ptr
+&gt; 
+&gt; PoC
+&gt; ---
+&gt; Crash:
+&gt;    jq -n '_strindices(0)'
+&gt; 
+&gt; Controlled pointer dereference:
+&gt; 
+&gt;     import struct, subprocess
+&gt; 
+&gt;     def as_double(u64):
+&gt;         return struct.unpack("&lt;d", struct.pack("&lt;Q", u64))[0]
+&gt; 
+&gt;     # because we want jstr = addr, the fake jvp_string sits 16 bytes earlier
+&gt;     addr = 0x4141414141414151
+&gt;     expr = f"({as_double(addr - 16)!r} + 0) | _strindices(\"\\u0000\")"
+&gt;     result = subprocess.run(["jq", "-n", expr])
+&gt;     print(result.returncode)  # sigsegv in python
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; 
+&gt; Anything that runs untrusted jq filters against a release build can be crashed
+&gt; very easily. If the system uses a fixed jq query (such that does not use the
+&gt; internal _strindices filter), it is not affected. The same bug also gives
+&gt; limited read behavior because values which are not strings can be treated as
+&gt; fake string objects and walked by _strindices. In a real deployment that means
+&gt; an attacker can use the exit status as a mapped/unmapped probe, and in favorable
+&gt; cases can get some bytes back through the _strindices position output.
+&gt; 
+&gt; Severity: Moderate - 6.1 / 10
+&gt; CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H
+&gt; CVE ID: CVE-2026-39956
+&gt; Weaknesses:
+&gt;  CWE-125 Out-of-bounds Read
+&gt;  CWE-476 NULL Pointer Dereference
+&gt;  CWE-843 Access of Resource Using Incompatible Type ('Type Confusion')
+&gt; Credits: @tlsbollei Reporter
+
+<a href="https://github.com/jqlang/jq/commit/fdf8ef0f0810e3d365cdd5160de43db46f57ed03" rel="nofollow">https://github.com/jqlang/jq/commit/fdf8ef0f0810e3d365cdd5160de43db46f57ed03</a>
+claims to fix CVE-2026-39956.
+
+
+<a href="https://github.com/jqlang/jq/security/advisories/GHSA-wwj8-gxm6-jc29" rel="nofollow">https://github.com/jqlang/jq/security/advisories/GHSA-wwj8-gxm6-jc29</a> expresses:
+&gt; Algorithmic complexity DoS via hardcoded MurmurHash3 seed
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; jq uses MurmurHash3 with a compile-time constant seed 0x432A9843 (src/jv.c:1200)
+&gt; for all JSON object hash table operations. Since the seed is hardcoded and
+&gt; publicly visible in source, an attacker can precompute hash collisions offline
+&gt; and construct a JSON object where all keys hash to the same bucket.
+&gt; This degrades operations from O(1) to O(n), making any jq expression O(n^2).
+&gt; Only ~100KB of crafted JSON needed — far more practical than the heap overflow
+&gt; issues.
+&gt; 
+&gt; Details
+&gt; -------
+&gt; File: src/jv.c, line 1200
+&gt; 
+&gt;     static const uint32_t HASH_SEED = 0x432A9843;
+&gt; 
+&gt; Used at line 1219:
+&gt; 
+&gt;     static uint32_t jvp_val_hash(jv val) {
+&gt;         uint32_t h1 = HASH_SEED;
+&gt;         // ... MurmurHash3 body ...
+&gt;     }
+&gt; 
+&gt; Many languages randomize hash seeds at startup to prevent this (Python 3.3+,
+&gt; Ruby 1.9+, Perl 5.18+). jq does not.
+&gt; 
+[See GHSA for PoC]
+&gt; 
+&gt; Severity: High - 7.5 / 10
+&gt; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+&gt; CVE ID: CVE-2026-40164
+&gt; Weaknesses:
+&gt;  CWE-328 Use of Weak Hash
+&gt;  CWE-407 Inefficient Algorithmic Complexity
+&gt; Credits: @AsafMeizner Reporter
+
+<a href="https://github.com/jqlang/jq/commit/0c7d133c3c7e37c00b6d46b658a02244fdd3c784" rel="nofollow">https://github.com/jqlang/jq/commit/0c7d133c3c7e37c00b6d46b658a02244fdd3c784</a>
+appears to mitigate this, but does not list the CVE id.
+
+
+<a href="https://github.com/jqlang/jq/security/advisories/GHSA-gf4g-95wj-4q4r" rel="nofollow">https://github.com/jqlang/jq/security/advisories/GHSA-gf4g-95wj-4q4r</a> discloses:
+&gt; jq args2obj() Heap-Use-After-Free Vulnerability Report
+&gt; 
+&gt; Affected versions: 1.8.1 (commit ref:b33a763)
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; A potential heap-use-after-free vulnerability exists in jq's args2obj()
+&gt; function at src/execute.c:1218. The bug is in the public jq_compile_args()
+&gt; API's array argument processing path: when called with an array of 2+ named
+&gt; argument entries, freed heap memory is read (CWE-416); with 1+ entries, a
+&gt; double-free occurs (CWE-415). The standard jq CLI binary is not affected,
+&gt; as it always passes an object (not an array) to args2obj(). It appears the
+&gt; bug was introduced in commit b279713e (2017-02-26) and affects jq HEAD
+&gt; (jq-1.8.1-32-gb33a763).
+&gt; 
+&gt; Details
+&gt; -------
+&gt; Root cause: The strings kk ("name") and vk ("value") are allocated once before
+&gt; the loop but passed directly to jv_object_get(), which consumes (frees) both
+&gt; its arguments. On the first iteration, kk and vk are freed. On subsequent
+&gt; iterations, they are dangling pointers — jvp_string_hash() reads from freed
+&gt; heap memory. After the loop, jv_free(kk) / jv_free(vk) trigger a double-free.
+&gt; 
+&gt;     // src/execute.c:1208-1223
+&gt;     jv kk = jv_string("name");
+&gt;     jv vk = jv_string("value");
+&gt;     jv_array_foreach(args, i, v)
+&gt;       r = jv_object_set(r, jv_object_get(jv_copy(v), kk), jv_object_get(v, vk));
+&gt;     jv_free(kk);   // double-free: already freed by jv_object_get()
+&gt;     jv_free(vk);
+&gt; 
+&gt; Git history: Commit b279713e refactored inline array processing in
+&gt; jq_compile_args() into the args2obj() helper. The original code created fresh
+&gt; jv_string("name") / jv_string("value") on each iteration; the refactored
+&gt; version hoisted them into locals but failed to account for jv_object_get()
+&gt; consuming its key argument.
+&gt; 
+&gt; [See GHSA for PoC]
+&gt; 
+&gt; Impact
+&gt; 
+&gt; CWE-416 (Use After Free) / CWE-415 (Double Free). The vulnerability is
+&gt; reachable through the public jq_compile_args() API when called with array
+&gt; arguments — not through the CLI binary. Heap corruption from the UAF and
+&gt; double-free may lead to arbitrary code execution via corrupted heap metadata,
+&gt; though no exploit has been demonstrated. All downstream consumers of
+&gt; jq_compile_args() that pass array arguments have been affected since
+&gt; commit b279713e (2017-02-26).
+&gt; 
+&gt; My name is Scott Seal, and I work at Trail of Bits. Per the instructions of
+&gt; my employer, I am required to provide the following disclosure:
+&gt; 
+&gt;     This bug was found as part of follow-on research from DARPA's AI Cyber
+&gt;     Challenge (AIXCC), where Trail of Bits built Buttercup, a Cyber Reasoning
+&gt;     System that combines static analysis, fuzzing, and large language models
+&gt;     to find and fix vulnerabilities.
+&gt; 
+&gt;     <a href="https://www.darpa.mil/research/programs/ai-cyber" rel="nofollow">https://www.darpa.mil/research/programs/ai-cyber</a>
+&gt;     <a href="https://www.trailofbits.com/buttercup/" rel="nofollow">https://www.trailofbits.com/buttercup/</a>
+&gt; 
+&gt; Severity: Low
+&gt; CVE ID: No known CVE
+&gt; Weaknesses
+&gt;  CWE-415 Double Free
+&gt;  CWE-416 Use After Free
+&gt; Credits: @sseal Reporter
+
+<a href="https://github.com/jqlang/jq/commit/3985b80ce50bd75c6eb5a97cb3348c3f835ca8e0" rel="nofollow">https://github.com/jqlang/jq/commit/3985b80ce50bd75c6eb5a97cb3348c3f835ca8e0</a>
+includes "Fixes GHSA-gf4g-95wj-4q4r."
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

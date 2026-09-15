@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - The Curious Case of Stack Pivot Detection</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/01/09/2">[&lt;prev]</a> <a href="../../../2026/01/11/1">[next&gt;]</a> <a href="../../../2026/01/15/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;csi5RfKTpfkBN0IaWsbQqs8EuuE_i4k1bUK1bdqGu4HkTKazVuo1iSGK_d5--blDgnaI_r2AMnndDYFAbtrdJaethNnJF8DQgNqF3q5Ydyk=&#64;hexsys.org&gt;
+Date: Sat, 10 Jan 2026 18:54:39 +0000
+From: Ali Polatel &lt;alip&#64;...sys.org&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: The Curious Case of Stack Pivot Detection
+
+Dear kind people,
+
+I hope you're fine and healthy. The reason I am writing this mail is to share
+a few of my experiments and research I've done to come up with a reasonable
+stack pivot detection for the Syd kernel. TL;DR I have failed and I have learned
+a lot. I have also learned everyone is doing various levels of wrong and I have
+yet to come up with a "correct" solution. Are we doing it wrong or are we attacking
+the wrong link? Please discuss.
+
+The obvious idea is to check if stack pointer points to a valid stack region at
+various boundaries. This solution is so obvious you'd imagine even a 4-year-old
+can come up with it, yet G**gle has a patent[1] on it. Curious (mis)use of software
+patents where an entity patents the equation "foo &lt; bar &lt; baz". What do we do if
+they go one step ahead and patent "&lt;"? Use emoji for maths? Move to Mars?
+
+Anyhow, this is not what I am here to discuss. OpenBSD does something similar
+with MAP_STACK[2] and Windows 8 had a similar mitigation until someone demonstrated
+a trivial bypass[3]. Finding out this bypass was an important step forward for me so
+I went ahead and rewrote it[4] for UNIX and verified it bypasses what Syd had
+at the time and what OpenBSD has. This bypass is a simple improvement of what
+OpenBSD regression tests have and involves a quick jumpback to the stack. Funnily
+if you remove the printf in the intermediate stage of the bypass OpenBSD's SP check
+at write(2) boundary will catch and kill you so keep it quiet as you bypass this
+delicate mitigation ;).
+
+Another roadblock for the SP points to a stack region detection is in userspace
+there's no clear definition of "stack". The stack of the main thread is handled by
+the kernel where everything is fine but thread stacks are typically your language
+runtime's business. As an example if you check the stack of a Go thread on Linux,
+you'll most probably find the VMA is named " Go: heap". It may be the stack for now,
+but maybe it was not a bit ago or won't be a bit later. Asking Go devs to use
+MAP_STACK would probably be rejected because it breaks the whole model of how they
+do multithreading...
+
+I digged a bit deeper and found what I thought was an improvement at the time.
+Why not check the frame pointer instead of the stack pointer? Why not both?
+It was fairly easy to patch Syd for this so I got to testing. This way of detection
+is imho more reliable and less prone to bypassing however there's a big issue.
+Both gcc and clang imply -fomit-frame-pointer with -O2 so you'll have a hard time
+finding a binary in the wild these days that has frame pointers. If I were OpenBSD,
+I'd compile the world with -fno-omit-frame-pointer and move on with my life and I'd
+humbly and kindly recommend them to do that in short of any better ideas.
+
+Now, my tests showed me another problem. Stack pivotting is not as unusual and as
+malicious as you think. In fact, various programs make use of it in arguably weird
+ways to achieve their goals. One example is Firefox's crashhelper, bash, gawk, ceph,
+... I can easily come up with dozens more if I enable this mitigation and build Exherbo
+packages under Syd as we proudly enable package testing by default. So even if you'd come
+up with a reliable, efficient way to detect stack pivot, you're gonna have loads of false
+positives to manage. Good luck.
+
+Finally, after I ended my experiments and reverted[5] Syd's stack pivot detection. I
+came across LKRG's README[6] incidentally which mentions validating the stack pointer
+with "pCFI", their version of coarse-grained CFI, which also seems to check the
+frame pointer[7] against the stack. I'd be curious to know whether there's any added
+mechanism to detect stack pivot when the binary is compiled without frame pointers when
+the frame pointer is reused by compiler for different purposes.
+
+Best regards,
+Ali Polatel
+
+[1]: <a href="https://patents.google.com/patent/US10853480B2/en" rel="nofollow">https://patents.google.com/patent/US10853480B2/en</a>
+[2]: <a href="https://isopenbsdsecu.re/mitigations/map_stack/" rel="nofollow">https://isopenbsdsecu.re/mitigations/map_stack/</a>
+[3]: <a href="https://archive.ph/xS2Fl#selection-13.0-243.52" rel="nofollow">https://archive.ph/xS2Fl#selection-13.0-243.52</a>
+[4]: <a href="https://gitlab.exherbo.org/sydbox/sydbox/-/blob/main/dev/stackpivot-jumpback-bypass.c" rel="nofollow">https://gitlab.exherbo.org/sydbox/sydbox/-/blob/main/dev/stackpivot-jumpback-bypass.c</a>
+[5]: <a href="https://gitlab.exherbo.org/sydbox/sydbox/-/commit/f03db6c677ddf5dbf87adeb6bd5efb0677869104" rel="nofollow">https://gitlab.exherbo.org/sydbox/sydbox/-/commit/f03db6c677ddf5dbf87adeb6bd5efb0677869104</a>
+[6]: <a href="https://github.com/lkrg-org/lkrg/blob/b8b1418a6c1e7229cdf3dfa020fcc4945e108d83/README#L505" rel="nofollow">https://github.com/lkrg-org/lkrg/blob/b8b1418a6c1e7229cdf3dfa020fcc4945e108d83/README#L505</a>
+[7]: <a href="https://github.com/lkrg-org/lkrg/blob/b8b1418a6c1e7229cdf3dfa020fcc4945e108d83/src/modules/exploit_detection/p_exploit_detection.c#L1585-L1591" rel="nofollow">https://github.com/lkrg-org/lkrg/blob/b8b1418a6c1e7229cdf3dfa020fcc4945e108d83/src/modules/exploit_detection/p_exploit_detection.c#L1585-L1591</a>
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>publickey - alip&#64;...sys.org - 0xC22DA9DE.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (637 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/2" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (344 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

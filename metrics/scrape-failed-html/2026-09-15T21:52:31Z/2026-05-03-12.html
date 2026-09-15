@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE-2026-31431: CopyFail: linux local privilege scalation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href="10">[&lt;thread-prev]</a> <a href="13">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAM=PXV5Nu8VdpFY7mYmA86ddwYR7tR0nyLL_nZEnUdrz83Y=Rg&#64;mail.gmail.com&gt;
+Date: Sun, 3 May 2026 13:20:09 -0600
+From: Greg Dahlman &lt;dahlman&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com, linux-crypto&#64;...r.kernel.org, 
+	Linux kernel mailing list &lt;linux-kernel&#64;...r.kernel.org&gt;
+Subject: Re: CVE-2026-31431: CopyFail: linux local privilege scalation
+
+Note: re-adding the other lists so that people have an opportunity to
+correct my errors.
+
+"CAP_FOO in the init namespace" doesn't matter if "CAP_FOO" is the
+gate in the default namespace, namespaces a facade-pattern and not an
+isolation, unix abstract sockets, af_inet, vsock, af_alg etc... do not
+currently use credentials at all IIRC.
+
+
+LD_PRELOAD, as a way to (transparently) replace this functionality
+without user intervention , involves putting in an interposer to
+directly intercept all socket() calls at a system scale in this case,
+when it is typically a thread scope concept.
+
+I think socket() hasn't been interposable for at least a decade (in
+glibc) you will weaken overall security by reintroducing the PLT or...
+Note many people want to avoid adding in a `/etc/ld.so.preload`
+because fighting dynamic linker hijacking is not easy due to Unix-like
+systems having zero security boundary between the parent and child
+process.
+
+The bigger problem is that the embedded users are not where most of
+the friction is going to come from, while the motivations are similar,
+FIPS 140-3 validation, and downstream vendors which used distros
+validations, incorporated into regilitory, compliance, and governance
+is a large unidentified user base.
+
+Searching for "Kernel Crypto API" in the Module name on this site will
+show some of the upstream validations.
+
+   <a href="https://csrc.nist.gov/projects/cryptographic-module-validation-program/validated-modules/search" rel="nofollow">https://csrc.nist.gov/projects/cryptographic-module-validation-program/validated-modules/search</a>
+
+
+In the case of non path backed sockets, userns provides zero
+protections and only adds to the attack surface, the only credential
+use for non-path backed sockets currently is the restriction of ports
+below 1024 on af_inet,
+
+Remember namespace support is not implicit, and all af_family calls
+outside of those specific families that have namespace support all
+stay in the default namespace.
+
+If you dig through the $distro openssl security documents from the
+NIST link above from the vendors you will see why people liked the
+contract that af_alg offered, because they were depending on the
+kernel teams stable api and reputation. and they could simplify their
+compliance because it is easier to ensure no openssl installs exist at
+all on a system than to try and maintain compliance, governance, and
+regulatory obligations.
+
+While there are some use cases like firmware images on some embedded
+systems, where having the DMA pipe into a cryptoengine avoided Von
+Neumann bottleneck issues and CPU usage etc.. No matter how flawed it
+is to use af_alg, it provided a simple zero dependency interface that
+their tools already supported (socket) and reduced their lifecycle
+costs.  The reduced performance of the hw crypto engines for smaller
+data sizes was acceptable as a trade-off, not as the primary driver in
+many cases.
+
+I should be 100% clear, namespaces _are not_ a security feature, but
+they can be leveraged to lower privileges and improve a security
+posture.  But when you have interfaces like sockets (non unix like)
+the main advantage of network namespaces is they allow you to
+constrain something that due to historical reasons has almost zero
+controls (except tcp ports &lt; 1024).
+
+But the default is for any new, legacy or other subsystem to only live
+in the default namespace.  The friction is when ~4 out of the 40+
+af_families is namespace but the rest are not.
+
+There is a very real problem with people overestimating the isolation
+capabilities of namespaces in general, but paying attention to the
+official documentation may help here:
+
+<a href="https://www.kernel.org/doc/html/latest/admin-guide/namespaces/compatibility-list.html" rel="nofollow">https://www.kernel.org/doc/html/latest/admin-guide/namespaces/compatibility-list.html</a>
+
+     The same is true for the IPC namespaces being shared - two users
+from different user namespaces should not access the same IPC objects
+even having equal UIDs.
+     But currently this is not so.
+
+The "should not access" is a very different contract than most people expect.
+
+The FIPS/ISO compliance issue mostly invalidates what I hoped was an
+easy fix and putting a kernel call interposer via ld_preload will
+still add  friction that is likely to block the aspirations of
+removing af_alg from the kernel.  I think that there is a path to do
+so, and I think it would be best in the long run.  But the friction
+here is not just from code changes, which are far easier to accomplish
+than the regulatory issues.
+
+The compliance based user base is one that is often far more challenging.
+
+I do still think that both userland and kernel would benefit from some
+mechanism that would make it easier for security teams, admins, and
+users to run with lower privileges.  IMHO thinking about enabling that
+control will also be critical to the kernel team's ability to remain
+effective.  Different use cases will always conflict, and
+non-namespace users would also benefit from ways to restrict access to
+af_families.
+
+IMHO if the team thinks af_alg is unfixable, it is maybe one of the
+rare cases where breaking changes are necessary.  It may be more
+productive to help compliance based users migrate than provide a
+brittle shim that still invalidates all their authorizations anyway.
+
+I am not an expert on FIPS/ISO compliance, but I do know that
+providing guidance that helps users migrate would go a long way.  You
+could say, have a userland process that provides a socket-like
+interface with guidance on how to wrap or create a their_socket() to
+migrate.
+
+I still think that for non af_inet/unix (file backed)socket af
+families, there needs to be a credentials mechanism.  People are
+building systems on top of vsock and other non unix/if based systems
+that are just as vulnerable. Like af_alg, vsock is known to have
+serious issues and was designed for a trusted environment.  Without an
+effective way to limit exposure from either userland or the kernel
+there is enough that is simply just unexplored that it will be
+expensive.
+
+On Sun, May 3, 2026 at 5:00 AM Simon McVittie &lt;smcv&#64;...ian.org&gt; wrote:
+&gt;
+&gt; On Sat, 02 May 2026 at 14:21:57 -0600, Greg Dahlman wrote:
+&gt; &gt;LD_PRELOAD and capabilities
+&gt;
+&gt; These seem orthogonal, rather than being part of the same idea.
+&gt;
+&gt; LD_PRELOAD is discretionary (cooperative) so it would only be useful if
+&gt; used in a design something like this:
+&gt;
+&gt; - at the kernel level, AF_ALG just doesn't work (fails with a
+&gt;    permission-related error), at least for unprivileged processes
+&gt; - but in user-space, an opt-in LD_PRELOAD module intercepts the socket(),
+&gt;    etc. calls for AF_ALG, and emulates the behaviour of current kernels
+&gt;    by calling into a user-space crypto library
+&gt;
+&gt; It can't be a security boundary, but it can be a mitigation for the
+&gt; regressions that a new security boundary (or complete feature removal)
+&gt; would otherwise cause, similar to the way LD_PRELOADs like aoss and
+&gt; padsp mitigated the regressions for older binaries when distro kernels
+&gt; disabled OSS audio.
+&gt;
+&gt; Meanwhile capabilities are a way to let trusted, privileged processes
+&gt; have access to things that unprivileged processes do not, for example
+&gt; making AF_ALG available to a few system services that need it but not
+&gt; available to all of user-space.
+&gt;
+&gt; &gt;You should expect any UID (even nobody) to be able to gain the
+&gt; &gt;privileges in their bounding set
+&gt;
+&gt; The kernel can distinguish between "CAP_FOO in the init namespace" and
+&gt; "CAP_FOO in any other userns" if it wants to, and some kernel features
+&gt; are already gated by having a capability in the init namespace
+&gt; specifically. For example CAP_SYS_ADMIN in the init namespace allows
+&gt; mounting block-device-backed filesystems like ext4, but CAP_SYS_ADMIN in
+&gt; a different userns only allows a few "safe" mount operations
+&gt; (bind-mounts, overlayfs, FUSE).
+&gt;
+&gt;      smcv
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

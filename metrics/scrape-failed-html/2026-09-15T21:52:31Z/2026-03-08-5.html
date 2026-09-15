@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: Telnetd Vulnerability Report</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CADz+4x-kKkAgy05Q44rV5n2sphRtcJxiqqBYey=8Z=52xVrqSg&#64;mail.gmail.com&gt;
+Date: Sat, 7 Mar 2026 23:49:20 -0500
+From: Pat Gunn &lt;pgunn01&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: bug-inetutils&#64;....org
+Subject: Re: Re: Telnetd Vulnerability Report
+
+I think it would be refreshing to see distros still using telnet to
+entirely ditch the environment-propagation mechanism; in my view it never
+was a good idea. A few arguments:
+A) telnet was usable between different distros, operating systems, and
+systems configurations. The meaning (and applicability) of different
+environments between those differs; a system running DYNIX might not have
+the same termcap entries as one running Ultrix, and someone running Windows
+likely wouldn't set it at all. Likewise for EDITOR; the editor on one host
+might be outdated or not present on another
+B) There are, as noted here, issues with passing and parsing env vars.
+Maybe this is fixable with some patches, sure, but why do it if we don't
+have to?
+C) The user can instead handle almost all of this with dotfiles or launch
+scripts on the target system (in fact, things like EDITOR will often be
+overwritten during shell init even if passed, depending on what system and
+user shell-init config does)
+D) Users probably never expected env vars to be passed along because it's
+such a weird mechanism (even though it's a very old mechanism)
+
+The one use case I can think of where this is is actually useful would be
+in a tight cluster where everybody's xhost+ everyone else, so DISPLAY can
+be passed around and actually works (in this case they're expecting rsh
+type behaviour), but this feels like a niche argument for a bad mechanism.
+
+It's probably way too late to make this change for telnet given how long
+ago it fell of the tail end of standard utils, but were telnet still in
+broad use, it would be great to see every (Linux and other) implementation
+of it remove the env-var-passing mechanism. It never should have been in
+there in the first place.
+
+On Sat, 7 Mar 2026 at 22:16, Solar Designer &lt;solar&#64;...nwall.com&gt; wrote:
+
+&gt; On Sat, Mar 07, 2026 at 02:20:11AM +0200, Justin Swartz wrote:
+&gt; &gt; WHITELISTING
+&gt; &gt;
+&gt; &gt; The obsolete blacklist, implemented by scrub_env(), has been removed.
+&gt; &gt; The daemon now clears the inherited environment and enforces a default
+&gt; &gt; whitelist (USER, LOGNAME, TERM, LANG, and LC_*) for all NEW_ENVIRON
+&gt; &gt; values.
+&gt;
+&gt; Makes sense to me.
+&gt;
+&gt; Note that this list is different from Linux NetKit's, which is:
+&gt;
+&gt;     /*
+&gt;      * Allow only these variables.
+&gt;      */
+&gt;     if (!strcmp(varp, "TERM")) return 1;
+&gt;     if (!strcmp(varp, "DISPLAY")) return 1;
+&gt;     if (!strcmp(varp, "USER")) return 1;
+&gt;     if (!strcmp(varp, "LOGNAME")) return 1;
+&gt;     if (!strcmp(varp, "POSIXLY_CORRECT")) return 1;
+&gt;
+&gt; I also checked the major *BSDs.  telnetd was removed from OpenBSD in
+&gt; 2005, so I didn't look further.  It was removed from FreeBSD in 2022:
+&gt;
+&gt;
+&gt; <a href="https://cgit.freebsd.org/src/commit/?id=d701f45aba19f232ce7817085935f33dd609ed8b" rel="nofollow">https://cgit.freebsd.org/src/commit/?id=d701f45aba19f232ce7817085935f33dd609ed8b</a>
+&gt;
+&gt; where it used this at time of removal:
+&gt;
+&gt;         static const char *acc[] = {
+&gt;                 "XAUTH=", "XAUTHORITY=", "DISPLAY=",
+&gt;                 "TERM=",
+&gt;                 "EDITOR=",
+&gt;                 "PAGER=",
+&gt;                 "LOGNAME=",
+&gt;                 "POSIXLY_CORRECT=",
+&gt;                 "PRINTER=",
+&gt;                 NULL
+&gt;         };
+&gt;
+&gt; Curiously, there was CVE-2009-0641 where FreeBSD 7.x would accept even
+&gt; LD_PRELOAD, but I couldn't quickly find where the bug was exactly:
+&gt;
+&gt; <a href="https://lists.openwall.net/full-disclosure/2009/02/14/1">https://lists.openwall.net/full-disclosure/2009/02/14/1</a>
+&gt;
+&gt; Message-ID: &lt;72f8221d0902131846h6c77a8d1t90c3352f978b8732&#64;...l.gmail.com&gt;
+&gt; Date: Sat, 14 Feb 2009 03:46:07 +0100
+&gt; From: Kingcope Kingcope &lt;kcope2&#64;...glemail.com&gt;
+&gt; To: full-disclosure&#64;...ts.grok.org.uk
+&gt; Subject: FreeBSD zeroday
+&gt;
+&gt; <a href="https://www.freebsd.org/security/advisories/FreeBSD-SA-09:05.telnetd.asc" rel="nofollow">https://www.freebsd.org/security/advisories/FreeBSD-SA-09:05.telnetd.asc</a>
+&gt;
+&gt; "recent changes in FreeBSD's environment-handling code rendered
+&gt; telnetd's scrubbing inoperative"
+&gt;
+&gt; We could want to find the detail in order to avoid the same pitfall.
+&gt;
+&gt; NetBSD still has telnetd:
+&gt;
+&gt; <a href="https://cvsweb.netbsd.org/bsdweb.cgi/src/libexec/telnetd/" rel="nofollow">https://cvsweb.netbsd.org/bsdweb.cgi/src/libexec/telnetd/</a>
+&gt;
+&gt; and in sys_term.c it has:
+&gt;
+&gt; /*
+&gt;  * scrub_env()
+&gt;  *
+&gt;  * We only accept the environment variables listed below.
+&gt;  */
+&gt;
+&gt; void
+&gt; scrub_env(void)
+&gt; {
+&gt;         static const char *reject[] = {
+&gt;                 "TERMCAP=/",
+&gt;                 NULL
+&gt;         };
+&gt;
+&gt;         static const char *acceptstr[] = {
+&gt;                 "XAUTH=", "XAUTHORITY=", "DISPLAY=",
+&gt;                 "TERM=",
+&gt;                 "EDITOR=",
+&gt;                 "PAGER=",
+&gt;                 "LOGNAME=",
+&gt;                 "POSIXLY_CORRECT=",
+&gt;                 "TERMCAP=",
+&gt;                 "PRINTER=",
+&gt;                 NULL
+&gt;         };
+&gt;
+&gt;         char **cpp, **cpp2;
+&gt;         const char **p;
+&gt;
+&gt;         for (cpp2 = cpp = environ; *cpp; cpp++) {
+&gt;                 int reject_it = 0;
+&gt;
+&gt;                 for(p = reject; *p; p++)
+&gt;                         if(strncmp(*cpp, *p, strlen(*p)) == 0) {
+&gt;                                 reject_it = 1;
+&gt;                                 break;
+&gt;                         }
+&gt;                 if (reject_it)
+&gt;                         continue;
+&gt;
+&gt;                 for(p = acceptstr; *p; p++)
+&gt;                         if(strncmp(*cpp, *p, strlen(*p)) == 0)
+&gt;                                 break;
+&gt;                 if(*p != NULL)
+&gt;                         *cpp2++ = *cpp;
+&gt;         }
+&gt;         *cpp2 = NULL;
+&gt; }
+&gt;
+&gt; I'm not saying you should revise the list in any way - just sharing what
+&gt; others have.  It may well be that allowing those other env vars by
+&gt; default is obsolete since use cases for telnet are now more specialized,
+&gt; and maybe allowing LANG and LC_* is desirable for current use cases.
+&gt;
+&gt; Separately note that I didn't check the *BSDs telnet _client_ (which I
+&gt; think is still present in all *BSDs) for being (hopefully not) willing
+&gt; to export arbitrary env vars.  The maintainers could want to check this.
+&gt; And you could want to check the telnet client in InetUtils, now that we
+&gt; know this package missed telnet[d] security fixes in general.  This was
+&gt; CVE-2005-0488 (and CVE-2005-1205 on Windows).
+&gt;
+&gt; "Certain BSD-based Telnet clients, including those used on Solaris and
+&gt; SuSE Linux, allow remote malicious Telnet servers to read sensitive
+&gt; environment variables via the NEW-ENVIRON option with a SEND ENV_USERVAR
+&gt; command."
+&gt;
+&gt; &gt; TELOPT_TTYPE INTERCEPTION
+&gt; &gt;
+&gt; &gt; The whitelist validation has been extended, in the second version of the
+&gt; &gt; patch set, to intercept raw terminal type negotiations (aka
+&gt; TELOPT_TTYPE),
+&gt; &gt; to prevent questionable TERM payloads from bypassing the NEW_ENVIRON
+&gt; &gt; filter.
+&gt;
+&gt; Good idea.
+&gt;
+&gt; &gt; The daemon now clears the inherited environment (preserving PATH
+&gt; &gt; and TERM, respectively, if present) before calling telnetd_setup().
+&gt;
+&gt; Inherited from inetd or the like?  It's supposed to be trusted input and
+&gt; env vars in there may be set on purpose, so dropping them is unexpected.
+&gt; I think e.g. sshd doesn't do that, why would telnetd?  Think things like
+&gt; LD_PRELOAD=/lib64/libhardened_malloc.so (although /etc/ld.so.preload is
+&gt; a more reliable way to do this when practical to do it globally).
+&gt;
+&gt; &gt; +++ b/telnetd/state.c
+&gt; &gt; @@ -1495,10 +1495,18 @@ suboption (void)
+&gt; &gt;             case NEW_ENV_VAR:
+&gt; &gt;             case ENV_USERVAR:
+&gt; &gt;               *cp = '\0';
+&gt; &gt; -             if (valp)
+&gt; &gt; -               setenv (varp, valp, 1);
+&gt; &gt; -             else
+&gt; &gt; -               unsetenv (varp);
+&gt; &gt; +             if (is_env_var_allowed (varp, valp))
+&gt; &gt; +               {
+&gt; &gt; +                 if (valp)
+&gt; &gt; +                   {
+&gt; &gt; +                     if (valp &amp;&amp; *valp != 0)
+&gt; &gt; +                       setenv (varp, valp, 1);
+&gt; &gt; +                   }
+&gt; &gt; +                 else
+&gt; &gt; +                   {
+&gt; &gt; +                       unsetenv (varp);
+&gt; &gt; +                   }
+&gt; &gt; +               }
+&gt; &gt;               cp = varp = (char *) subpointer;
+&gt; &gt;               valp = 0;
+&gt; &gt;               break;
+&gt; &gt; @@ -1514,10 +1522,18 @@ suboption (void)
+&gt; &gt;             }
+&gt; &gt;         }
+&gt; &gt;       *cp = '\0';
+&gt; &gt; -     if (valp)
+&gt; &gt; -       setenv (varp, valp, 1);
+&gt; &gt; -     else
+&gt; &gt; -       unsetenv (varp);
+&gt; &gt; +     if (is_env_var_allowed (varp, valp))
+&gt; &gt; +       {
+&gt; &gt; +         if (valp)
+&gt; &gt; +           {
+&gt; &gt; +             if (valp &amp;&amp; *valp != 0)
+&gt; &gt; +               setenv (varp, valp, 1);
+&gt; &gt; +           }
+&gt; &gt; +         else
+&gt; &gt; +           {
+&gt; &gt; +             unsetenv (varp);
+&gt; &gt; +           }
+&gt; &gt; +       }
+&gt; &gt;       break;
+&gt; &gt;        }                              /* end of case TELOPT_NEW_ENVIRON
+&gt; */
+&gt;
+&gt; Some code duplication here.  Not new with these changes, but could be
+&gt; worth moving to a new function e.g. set_env_var_if_allowed().
+&gt;
+&gt; &gt; +/* A default whitelist for environment variables. */
+&gt; &gt; +static const char *allowed_env_vars[] = {
+&gt; &gt; +  "USER",
+&gt; &gt; +  "LOGNAME",
+&gt; &gt; +  "TERM",
+&gt; &gt; +  "LANG",
+&gt; &gt; +  "LC_*",
+&gt; &gt; +  NULL
+&gt; &gt; +};
+&gt;
+&gt; Can make not only the strings but also the pointers const:
+&gt;
+&gt; static const char * const allowed_env_vars[] = {
+&gt;
+&gt; so that both may end up in a read-only section.
+&gt;
+&gt; &gt; +int
+&gt; &gt; +is_env_var_allowed (const char *var, const char *val)
+&gt; &gt; +{
+&gt; &gt; +  const char **p;
+&gt; &gt; +  int allowed = 0;
+&gt; &gt; +
+&gt; &gt; +  for (p = allowed_env_vars; *p; p++)
+&gt; &gt; +    {
+&gt; &gt; +      if (fnmatch (*p, var, FNM_NOESCAPE) == 0)
+&gt; &gt; +        {
+&gt; &gt; +          allowed = 1;
+&gt; &gt; +          break;
+&gt; &gt; +        }
+&gt; &gt; +    }
+&gt; &gt; +
+&gt; &gt; +  if (!allowed)
+&gt; &gt; +    return 0;
+&gt;
+&gt; You didn't strictly need the "allowed" variable, you could check *p
+&gt; after the loop.  But maybe it's more readable the way you wrote it.
+&gt;
+&gt; My review above isn't in full context - I only looked at the patches.
+&gt;
+&gt; Alexander
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

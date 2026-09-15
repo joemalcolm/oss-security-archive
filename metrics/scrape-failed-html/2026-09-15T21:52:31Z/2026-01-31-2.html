@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Security incident on plone GitHub org with force pushes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="../../../2026/02/02/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;2ba0f531-c6a7-45eb-a665-685049d915d3&#64;vanrees.org&gt;
+Date: Sat, 31 Jan 2026 15:06:10 +0100
+From: Maurits van Rees &lt;maurits&#64;...rees.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Security incident on plone GitHub org with force pushes
+
+Hi security list,
+
+Let me start with two key takeaways for everyone:
+* Regularly check your personal access tokens or other security keys to 
+see if new ones have been added that you do not recognize. This may be a 
+sign that your account has been compromised.
+* Disable force pushes to your default git branches and maintenance 
+branches. In a GitHub org you may be able to do this for a whole 
+organization with rulesets, otherwise you can do it per repository.
+
+On January 7, there was a security incident in the plone organization on 
+gitHub, where someone force pushed malicious code to several 
+repositories. Most of this was discovered before it could do damage, but 
+some was left undiscovered until later. We reported this to the Plone 
+community forum, with an important update after further discoveries. See 
+this thread:
+<a href="https://community.plone.org/t/plone-security-advisory-20260116-attempted-code-insertions-into-github-pull-requests/22770" rel="nofollow">https://community.plone.org/t/plone-security-advisory-20260116-attempted-code-insertions-into-github-pull-requests/22770</a>
+In this mail I will try to get the main points across from what we have 
+learned.
+
+Plone is an open source content management system written in Python and 
+JavaScript/NodeJS. We are quite an open community, and lots of people 
+can contribute to the core. We have been around for a long time. This 
+means there are also people who have not contributed in years, but still 
+have write access to the code. This is something we have been planning 
+to clean up, without stepping on too many toes.
+
+In this case, someone who used to contribute, did some force pushes to 
+several branches of repositories on GitHub. We discovered this because 
+some pull requests had an automatic note by GitHub saying a force push 
+was done, and then we saw obfuscated Javascript code that we assume to 
+be malicious.
+We have no reason to distrust the user, so we assume his account was, at 
+least partially, taken over by an attacker. We informed him, and he has 
+been working with us to get to the bottom of this, supplying info that 
+he got from people at GitHub support who have been researching this. So 
+thanks!
+
+ From GitHub we heard that they recorded malicious push events to five 
+repositories: plone/volto, plone/mockup, plone/plone.app.mosaic, 
+plone/critical-css-cli, plone/plonetheme.barceloneta.
+One of these was a successful attempt on a master branch. It is this 
+commit, marked as being from 18 December, but that date would be wrong:
+<a href="https://github.com/plone/plone.app.mosaic/commit/3c94aae73ad37b366c47e899c241306df60b686d" rel="nofollow">https://github.com/plone/plone.app.mosaic/commit/3c94aae73ad37b366c47e899c241306df60b686d</a>
+This is a standard after-release commit updating the version, but now it 
+contains a change to `prettier.config.js`. Locally the diff seemed only 
+whitespace, but the malicious code is hidden after a lot of spaces, 
+disappearing to the right of my terminal (this might be a git setting I 
+have). On GitHub you can see it after clicking an extra button.  I have 
+committed a fix on master, removing the code.
+
+If you suspect something like this may have happened at a project you 
+feel responsible for, you can look at all branches, sorted by last 
+updated date, in this case:
+<a href="https://github.com/plone/plone.app.mosaic/branches/all" rel="nofollow">https://github.com/plone/plone.app.mosaic/branches/all</a>
+There I recognized the image of the affected user as being the last one 
+to edit the master branch, and the last updated date did not match the 
+date that was in the commit.
+You could also use the GitHub API, and look for PushEvents, like here:
+<a href="https://api.github.com/repos/plone/plone.app.mosaic/events" rel="nofollow">https://api.github.com/repos/plone/plone.app.mosaic/events</a>
+
+
+For clarity, why was this attack done by force pushes? Because they are 
+harder to notice. The user could have done a normal push, but that would 
+have been easier to look for.
+
+Anyway, for most repos we already had protection in place, so that the 
+main or master branch could not be force pushed to. For the plone gitHub 
+organisation, we have since taken extra precautions organization-wide, 
+using rulesets. This is not available for all organisations, so you may 
+need to do this per repository.
+
+There is now a ruleset in the settings, with two branch rules that are 
+selected by default if you create a new rule:  "Restrict deletions" and 
+"Block force pushes". I have activated this ruleset on the default 
+branch (which would usually be main or master) and on '*.x', which 
+matches how we call our maintenance branches.
+
+A second ruleset is one for tags. A new ruleset for tags by default has 
+the same rules selected: "restrict deletions" and "block force pushes". 
+As extra for tags we have enabled "Restrict updates", so a malicious 
+user cannot update a tag to a different commit. But as far as we know, 
+this was not attempted.
+
+Finally, some words about the contents of the attack. It targets 
+javascript files at the root of the repository, which are usually called 
+when building the software. So it seems to target not so much end users 
+of the software, but developers.  I will share some info that the 
+affected user sent us after his communication with GitHub:
+
+"The malicious code is sophisticated. If the software it targets is 
+built, it activates, detaches, and hides within active processes. It 
+ensures persistence through shell startup scripts, downloads an RCE 
+exploit, gains control over the server, and exfiltrates credentials, 
+including API keys, browser profiles and crypto wallets.
+In my case, the attackers exploited an active session to plant a 
+Personal Access Token (PAT) and waited two months before performing 
+these force-pushes."
+
+So, be careful when you have multiple people who can commit to your 
+software, and you see unexpected force pushes.
+
+Greetings,
+
+Maurits van Rees
+Plone/Zope Security Team
+Plone Release Manager
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

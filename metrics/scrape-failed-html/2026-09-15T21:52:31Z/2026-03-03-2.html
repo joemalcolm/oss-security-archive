@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: OSEC-2026-01 in the OCaml runtime: Buffer
+ Over-Read in OCaml Marshal Deserialization</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2026/03/02/2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;a5183eae-ec0b-459a-96b6-1974b3dcabb5&#64;gmail.com&gt;
+Date: Tue, 3 Mar 2026 01:03:28 -0500
+From: Demi Marie Obenour &lt;demiobenour&#64;...il.com&gt;
+To: Florian Weimer &lt;fweimer&#64;...hat.com&gt;
+Cc: oss-security&#64;...ts.openwall.com,
+ Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+Subject: Re: OSEC-2026-01 in the OCaml runtime: Buffer
+ Over-Read in OCaml Marshal Deserialization
+
+On 3/2/26 04:53, Florian Weimer wrote:
+&gt; * Demi Marie Obenour:
+&gt; 
+&gt;&gt; On 2/27/26 14:39, Florian Weimer wrote:
+&gt;&gt;&gt; * Alan Coopersmith:
+&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; <a href="https://sympa.inria.fr/sympa/arc/ocsf-ocaml-security-announcements/2026-02/msg00000.html" rel="nofollow">https://sympa.inria.fr/sympa/arc/ocsf-ocaml-security-announcements/2026-02/msg00000.html</a>
+&gt;&gt;&gt;&gt; announces:
+&gt;&gt;&gt;&gt;&gt; From: Hannes Mehnert &lt;hannes&#64;...nert.org&gt;
+&gt;&gt;&gt;&gt;&gt; To: ocsf-ocaml-security-announcements&#64;...ia.fr
+&gt;&gt;&gt;&gt;&gt; Subject: [ocsf-ocaml-security-announcements] OSEC-2026-01 in the OCaml runtime: Buffer Over-Read in OCaml Marshal Deserialization
+&gt;&gt;&gt;&gt;&gt; Date: Tue, 17 Feb 2026 15:16:54 +0100
+&gt;&gt;&gt;&gt;&gt; Dear everyone,
+&gt;&gt;&gt;&gt;&gt; it is my pleasure to announce the first security announcement of
+&gt;&gt;&gt;&gt;&gt; this year,
+&gt;&gt;&gt;&gt;&gt; and the first on this mailing list.
+&gt;&gt;&gt;&gt;&gt; It should any moment now also appear at
+&gt;&gt;&gt;&gt;&gt; <a href="https://osv.dev/list?q=OSEC-2026-01" rel="nofollow">https://osv.dev/list?q=OSEC-2026-01</a>
+&gt;&gt;&gt;&gt;&gt; Human link:
+&gt;&gt;&gt;&gt;&gt; <a href="https://github.com/ocaml/security-advisories/tree/main/advisories/2026/OSEC-2026-01.md" rel="nofollow">https://github.com/ocaml/security-advisories/tree/main/advisories/2026/OSEC-2026-01.md</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; Surprised to read this.  I think this comment from 2018 is still
+&gt;&gt;&gt; appropriate:
+&gt;&gt;&gt;
+&gt;&gt;&gt; | Marshal should not used in contexts where an attacker can control the
+&gt;&gt;&gt; | data. I don't believe it is, at least in any project I'm aware of, and
+&gt;&gt;&gt; | if it were, it's unlikely that those project perform enough check on
+&gt;&gt;&gt; | the result of Marshal to make the use safe anyway.
+&gt;&gt;&gt;
+&gt;&gt;&gt; &lt;<a href="https://github.com/ocaml/ocaml/issues/7765#issuecomment-473076288" rel="nofollow">https://github.com/ocaml/ocaml/issues/7765#issuecomment-473076288</a>&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; The demarshaller does not have access to type information from the
+&gt;&gt;&gt; program, so it has the ability to construct an arbitrary object graph.
+&gt;&gt;
+&gt;&gt; That is indeed true.  However, unlike in many other languages, this
+&gt;&gt; does not directly allow arbitrary code execution.
+&gt; 
+&gt; Not really.
+&gt; 
+&gt; This code
+&gt; 
+&gt; type x = A of int | B of int | C of int | D of int | E of int
+&gt; let f x fA fB fC fD fE =
+&gt;   match x with
+&gt;   | A a -&gt; fA a
+&gt;   | B b -&gt; fB b
+&gt;   | C c -&gt; fC c
+&gt;   | D d -&gt; fD d
+&gt;   | E e -&gt; fE e
+&gt; 
+&gt; gets compiled to:
+&gt; 
+&gt; 0000000000000000 &lt;camlBlah.f_5&gt;:
+&gt;    0:	55                   	push   %rbp
+&gt;    1:	48 89 e5             	mov    %rsp,%rbp
+&gt;    4:	49 89 c0             	mov    %rax,%r8
+&gt;    7:	49 89 d1             	mov    %rdx,%r9
+&gt;    a:	4d 3b 3e             	cmp    (%r14),%r15
+&gt;    d:	76 51                	jbe    60 &lt;camlBlah.f_5+0x60&gt;
+&gt;    f:	49 0f b6 40 f8       	movzbq -0x8(%r8),%rax
+&gt;   14:	48 8d 15 00 00 00 00 	lea    0x0(%rip),%rdx        # 1b &lt;camlBlah.f_5+0x1b&gt;
+&gt; 			17: R_X86_64_PC32	.rodata-0x4
+&gt;   1b:	48 63 04 82          	movslq (%rdx,%rax,4),%rax
+&gt;   1f:	48 01 c2             	add    %rax,%rdx
+&gt;   22:	ff e2                	jmp    *%rdx
+&gt;   24:	49 8b 00             	mov    (%r8),%rax
+&gt;   27:	48 8b 3b             	mov    (%rbx),%rdi
+&gt;   2a:	5d                   	pop    %rbp
+&gt;   2b:	ff e7                	jmp    *%rdi
+&gt;   2d:	0f 1f 00             	nopl   (%rax)
+&gt;   30:	49 8b 00             	mov    (%r8),%rax
+&gt;   33:	48 8b 37             	mov    (%rdi),%rsi
+&gt;   36:	48 89 fb             	mov    %rdi,%rbx
+&gt;   39:	5d                   	pop    %rbp
+&gt;   3a:	ff e6                	jmp    *%rsi
+&gt;   3c:	49 8b 00             	mov    (%r8),%rax
+&gt;   3f:	48 8b 3e             	mov    (%rsi),%rdi
+&gt;   42:	48 89 f3             	mov    %rsi,%rbx
+&gt;   45:	5d                   	pop    %rbp
+&gt;   46:	ff e7                	jmp    *%rdi
+&gt;   48:	49 8b 00             	mov    (%r8),%rax
+&gt;   4b:	49 8b 39             	mov    (%r9),%rdi
+&gt;   4e:	4c 89 cb             	mov    %r9,%rbx
+&gt;   51:	5d                   	pop    %rbp
+&gt;   52:	ff e7                	jmp    *%rdi
+&gt;   54:	49 8b 00             	mov    (%r8),%rax
+&gt;   57:	48 8b 39             	mov    (%rcx),%rdi
+&gt;   5a:	48 89 cb             	mov    %rcx,%rbx
+&gt;   5d:	5d                   	pop    %rbp
+&gt;   5e:	ff e7                	jmp    *%rdi
+&gt;   60:	e8 00 00 00 00       	call   65 &lt;camlBlah.f_5+0x65&gt;
+&gt; 			61: R_X86_64_PLT32	caml_call_gc-0x4
+&gt;   65:	eb a8                	jmp    f &lt;camlBlah.f_5+0xf&gt;
+&gt;   67:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+&gt;   6e:	00 00 
+&gt; 
+&gt; Add offset 0x1b, there's the tag load, and this tag is used to index a
+&gt; jump table without a bounds check.
+&gt; 
+&gt; Admittedly, This does not give full control over program execution
+&gt; directly.  One would have to search for a suitable gadget.  There are
+&gt; likely better ways to exploit unsafe demarshalling, this is just the
+&gt; first approach I could think of.
+&gt; 
+&gt; Thanks,
+&gt; Florian
+&gt; 
+
+One can use C code or the Obj module to validate the value before
+using it.  In this case, one could use Obj.is_int to check that this
+is a boxed value, Obj.tag to check that its tag is in the correct
+range, Obj.len to check that the length is correct, and Obj.field
+and Obj.is_int to validate the constructor payloads.  Only after
+validation is complete would one call Obj.obj to cast the validated
+value to the intended type.
+
+It's also possible to unmarshal to an opaque type and provide safe
+functions for traversing the object graph.  This is unlike Java,
+Ruby, or Python, where arbitrary code can be executed during the
+unmarshalling process itself.
+
+I do agree that whether existing code does this is questionable,
+but it is definitely *possible* to do correctly.
+-- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>OpenPGP_0xB288B55FFF9C22C1.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (7141 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

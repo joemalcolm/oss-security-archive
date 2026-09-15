@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Multiple vulnerabilities in AppArmor</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="../../../2026/03/29/1">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href="../../../2026/03/29/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;f8de07b7-edc8-4ffb-ba71-612ad1e0ab80&#64;canonical.com&gt;
+Date: Sat, 28 Mar 2026 14:41:23 -0700
+From: John Johansen &lt;john.johansen&#64;...onical.com&gt;
+To: Greg KH &lt;gregkh&#64;...uxfoundation.org&gt;,
+ Qualys Security Advisory &lt;qsa&#64;...lys.com&gt;
+Cc: "cve&#64;...nel.org" &lt;cve&#64;...nel.org&gt;,
+ "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: Multiple vulnerabilities in AppArmor
+
+On 3/27/26 22:55, Greg KH wrote:
+&gt; On Fri, Mar 27, 2026 at 02:50:42PM +0000, Qualys Security Advisory wrote:
+&gt;&gt; Hi Greg, John, all,
+&gt;&gt;
+&gt;&gt; On Fri, Mar 27, 2026 at 07:23:24AM +0100, Greg KH wrote:
+&gt;&gt;&gt; On Thu, Mar 26, 2026 at 06:36:17PM +0000, Qualys Security Advisory wrote:
+&gt;&gt;&gt;&gt; Since two weeks have passed now (since the fixes were released), would
+&gt;&gt;&gt;&gt; it be possible to please assign CVEs to the remaining seven AppArmor
+&gt;&gt;&gt;&gt; vulnerabilities:
+&gt;&gt;&gt; We were told that these all required elevated privileges to hit, and so
+&gt;&gt;&gt; were not classified as individual vulnerabilities.  If the Apparmor
+&gt;&gt;&gt; maintainer tells us that these really all should be assigned a CVE, we
+&gt;&gt;&gt; will be glad to do so, but until then, we're just going to stick with
+&gt;&gt;&gt; the ones that we have assigned already.
+&gt;&gt;
+&gt;&gt; Thank you very much for your reply! Adding John Johansen then
+&gt;&gt; (AppArmor's maintainer), since he will have the authoritative answer.
+&gt;&gt;
+&gt;&gt; The problem is that containers can be allowed to manage their own
+&gt;&gt; AppArmor profiles (via AppArmor namespaces), in which case an attacker
+&gt;&gt; inside such a container can directly write to AppArmor's .load, .replace
+&gt;&gt; and .remove files and trigger all these vulnerabilities, even without
+&gt;&gt; CVE-2026-23268 (the confused-deputy vulnerability).
+&gt;&gt;
+&gt;&gt; The way we see it:
+&gt;&gt;
+&gt;&gt; - either CVEs should be assigned to the remaining seven vulnerabilities,
+&gt;&gt;    in light of the container use case described above;
+&gt;&gt;
+&gt;&gt; - or CVE-2026-23269 ("validate DFA start states are in bounds") should
+&gt;&gt;    be rejected, because this vulnerability is no different from the other
+&gt;&gt;    seven vulnerabilities.
+&gt; 
+&gt; Looks like this one should be rejected, but I will defer to John as to
+&gt; what he wishes to have done here, as he is the maintainer of this part
+&gt; of the kernel.
+&gt; 
+It is possible to exploit from a user namespace under the correct
+circumstances. Specifically
+
+A privileged process must do the setup, such that it creates a policy
+namespace (requires administrative privileges) and ties the "root"
+process of the user namespace to the the policy namespace. The "root"
+user of the user namespace, then has privilege to load policy to the
+policy namespace tied to the container. The root user of the container
+could then use the policy load bugs to attack the kernel.
+
+Incus/LXD can setup a policy namespace for a container, the patch
+allowing LXD to do this is what introduced the LPE.
+
+Without the LPE a regular user, or even root in a user namespace
+can not use the other bugs to attack the kernel, except in the
+case outlined above where a privileged process setups a policy
+namespace and ties it to the container.
+
+I should also note there is an easy mitigation for the container
+case. Sysadmins can set the sysctl unprivileged_userns_apparmor_policy
+to false. This will stop root within the container from being able
+to load policy even when the policy namespace is tied to the user
+namespace.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

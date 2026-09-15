@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Unsound Workshop at ECOOP 2026</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="14">[next&gt;]</a> <a href="14">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;6b70985a-cc52-49a8-b4fe-4345bf33b51d&#64;tu-dortmund.de&gt;
+Date: Tue, 24 Feb 2026 22:45:09 +0100
+From: Jan Bessai &lt;jan.bessai&#64;...dortmund.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Unsound Workshop at ECOOP 2026
+
+UNSOUND 2026 - Sources of Unsoundness in Type Systems and Verification
+Workshop co-located with ECOOP 2026, Brussels, Belgium
+
+<a href="https://2026.ecoop.org/home/unsound-2026" rel="nofollow">https://2026.ecoop.org/home/unsound-2026</a>
+
+The 3rd UNSOUND workshop covers all aspects of unsoundness in type 
+system and verification tools and theories. It is meant to entertain a 
+community-wide discussion on possible sources of unsoundness and how to 
+avert, address, and tackle them. We are particularly interested in the 
+presentation of previously unknown or lesser known problems as well as 
+discussions of well-known soundness holes and how they affect the 
+day-to-day of programming language researchers and users.
+
+Important Dates:
+--------------------------
+2026-03-31: Submission Deadline
+2026-04-14: Author Notification
+2026-06-30: Workshop Date
+
+Goals
+-----------
+The goals of the workshop are:
+- To discover sources of unsoundness in different type systems and 
+verification tools
+- To share experiences and exploits on how different tools can either be 
+broken or expose confusing behaviour
+- To broaden the attention of researchers to topics which so far escaped 
+their focused area of research; e.g., from only type correctness to also 
+avoiding stack overflows
+- To challenge assumptions uncritically assumed as valid reasoning 
+principles in the field
+- To connect researchers from different areas of type systems and 
+verification
+- To engage with and encourage the next generation of researchers in 
+verification
+
+Examples for possible contributions would be:
+- Defining soundness and how it can diverge between languages and tools.
+- Exploring the divergences between user assumptions and actual 
+definitions of soundness.
+- Summarising common sources of unsoundness and why they emerge.
+- Reporting logic errors in the specification of a verification tool, 
+e.g., universe inconsistencies.
+- Finding bugs in the implementation of type &amp; proof checkers.
+- Discovering overconfident generalisations of sound subsystems to 
+larger settings, e.g., imperative techniques in OO settings.
+- Formally characterising escape hatches, which most practical systems 
+possess, and finding how to use them without compromising the soundness 
+of the parts of a program that don’t use them.
+- Reporting on unexpected soundness holes in type systems for dynamic 
+languages, which can lead to more surprises at runtime.
+- Disproving soundness statements in published papers.
+- Finding statements proven in published literature that should no 
+longer be trusted because they relied on a broken system.
+- Simply proving False in a verification tool or exhibiting 
+non-termination in a total language; in particular, we are interested in 
+practical ways to trick available tools to accept wrong input.
+- Breaking reasoning about programs with types by breaking the type 
+system of the programming language in new and interesting ways.
+- Bad interactions between axiomatic choices in libraries used in proofs.
+- Impacts of the false sense of security when the chain of trust is 
+broken by subtle unsoundness in verification tools.
+
+Call for Presentations
+--------------------------------
+The submission should consist in a two-page extended abstract. 
+Additional material (bibliography, related work, and code examples) will 
+not count toward this limit. We strongly encourage authors to include 
+instructions to reproduce results or exploits.
+
+There will be a friendly and open-minded peer review process, focusing 
+on checking that the submitted material is appropriate for presentation 
+at the workshop and likely to spur interesting conversations.
+
+Accepted extended abstract will be made publicly available on the 
+workshop webpage. However, presentation at UNSOUND does not count as 
+prior publication, will not appear in formal proceedings, and can later 
+be published at a conference of the authors’ choosing.
+
+Instruction to Authors and Submission guidelines
+---------------------------------------------------------------------
+Submissions should be made via Easychair
+<a href="https://easychair.org/conferences?conf=unsound2026" rel="nofollow">https://easychair.org/conferences?conf=unsound2026</a>
+by 2026-03-31 (AoE).
+
+Submitted abstracts should be in portable document format (PDF), 
+formatted using the ACM SIGPLAN style guidelines. Authors should use the 
+acmart format, with the acmsmall sub-format for ACM proceedings. For 
+details, see:
+
+<a href="http://www.sigplan.org/Resources/Author/#acmart-format" rel="nofollow">http://www.sigplan.org/Resources/Author/#acmart-format</a>
+
+It is recommended to use the review option when submitting an abstract; 
+this option enables line numbers for easy reference in reviews.
+
+Who is involved?
+--------------------------
+Unsound is currently managed by Jan Bessai, Colin Stebbins Gordon, 
+Vasileios Koutavas, Marco Servetto, and Lionel Parreaux.
+
+You can chat with us at unsound2026&#64;...ychair.org
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

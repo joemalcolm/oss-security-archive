@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Foswi­ki 2.1.11 is re­leased, fixes CVE-2026-2861</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/03/15/1">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/03/15/1">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260316022732.GA13154&#64;openwall.com&gt;
+Date: Mon, 16 Mar 2026 03:27:32 +0100
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: Michael Daum &lt;foswiki&#64;...haeldaumconsulting.com&gt;
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: Foswi­ki 2.1.11 is re­leased, fixes CVE-2026-2861
+
+Hello Michael,
+
+Thank you for bringing this to oss-security.
+
+On Sun, Mar 15, 2026 at 03:06:24PM +0100, Michael Daum wrote:
+&gt; Foswi­ki 2.1.11 is avail­able to down­loaded now. This re­lease came ear­li­er than ex­pect­ed due to the se­vere se­cu­ri­ty is­sues found in pre­vi­ous ver­sions, as de­tailed in CVE-2026-2861.
+&gt; Read more at <a href="https://foswiki.org/Blog/Foswiki2111IsReleased" rel="nofollow">https://foswiki.org/Blog/Foswiki2111IsReleased</a> and <a href="https://foswiki.org/System/ReleaseNotes02x01#Foswiki_Release_2.1.11_Details" rel="nofollow">https://foswiki.org/System/ReleaseNotes02x01#Foswiki_Release_2.1.11_Details</a>
+&gt; 
+&gt; Donwload from <a href="https://foswiki.org/Download/FoswikiRelease02x01x11" rel="nofollow">https://foswiki.org/Download/FoswikiRelease02x01x11</a>
+
+We require actual detail in here, not just "read more at", and the above
+web pages don't tell much about the CVE.  There's some actual detail in:
+
+<a href="https://foswiki.org/Support/SecurityAlertCVE20262861" rel="nofollow">https://foswiki.org/Support/SecurityAlertCVE20262861</a>
+
+which I'll partially quote below:
+
+&gt; Security Alert: Information disclosure vulnerability in viewfile, oops, preview and changes endpoints
+&gt; 15 March 2026 - 14:30 | Version 4 | Michael Daum
+&gt; 
+&gt; An anonymous user can craft an HTTP url to oops, preview, changes and viewfile endpoint to disclose access protected information.
+
+&gt; Attack Vectors
+&gt; 
+&gt; An anonymous user can craft an HTTP url to the oops, changes or preview endpoint and disclose protected information. For example <a href="https://mysite.com/bin/oops/Web/SecretTopicWithFormData?template=view" rel="nofollow">https://mysite.com/bin/oops/Web/SecretTopicWithFormData?template=view</a> will disclose any data stored a the given page. Given a topic without view rights an unauthorized user can test for the existence of attachments using viewfile. The endpoint's order of checking acccess rights and checking file existence is performend in the wrong order.
+&gt; 
+&gt; Impact
+&gt; 
+&gt; Information disclosure of private data.
+&gt; 
+&gt; Details
+&gt; 
+&gt; The changes script does not check access view rights on the topic it was loaded on. This is a security problem for any template loading additional data at this point. This endpoint has been deprecated for a long time and does not serve any particular purpose anymore.
+&gt; 
+&gt; The viewfile's order of checking acccess rights and checking file existence is performend in the wrong order. It foremost needs to check access and only then do anything else.
+&gt; 
+&gt; The oops endpoint accepts an arbitrary template url parameter such as template=view and thus functions as a normal view endpoint, however without performing any access control checks. Similarly preview can be exploited.
+&gt; 
+&gt; Countermeasures
+&gt; 
+&gt; To minimize the attack surface endpoints changes, preview and search are removed from the switch board configuration. See hotfix in Item15600: changes and preview scripts do not check view access rights, Item15601: viewfile can be used to test for existing files even without view rights on the topic and Item15602: oops script can be used to display data even without view access rights.
+&gt; 
+&gt; Upgrade to the latest patched production Foswiki Release 2.1.11 is highly encourage.
+&gt; 
+&gt; Authors and Credits
+&gt; 
+&gt; Found by: Jan Seebens (Deutsche Telekom Technik GmbH) and Michael Daum Consulting
+&gt; 
+&gt; Action Plan with Timeline
+&gt; 
+&gt;     2026-01-12 - Disclosure of issue to foswiki security mailing list
+&gt;     2026-01-12 - Developer verifies issue
+&gt;     2026-01-12 - Hotfix foswiki.org website
+&gt;     2026-01-17 - Developer fixes code
+&gt;     2026-02-20 - Security team creates advisory with hotfix
+&gt; 
+&gt;     2026-02-?? - Release Manager builds patch release
+&gt;     2026-02-?? - Send alert to foswiki-announce and foswiki-discuss mailing lists
+&gt;     2026-02-?? - Publish advisory in Support web and update all related topics
+&gt;     2026-02-?? - Reference to public advisory on Download page and Known Issues
+&gt;     2026-02-?? - Issue a public security advisory (vuln&#64;...unia.com, cert&#64;...t.org, bugs&#64;...uritytracker.com bugtraq&#64;...urityfocus.com full-disclosure&#64;...ts.grok.org.uk), <a href="https://openwall.com/lists/oss-security">https://openwall.com/lists/oss-security</a> (name)
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

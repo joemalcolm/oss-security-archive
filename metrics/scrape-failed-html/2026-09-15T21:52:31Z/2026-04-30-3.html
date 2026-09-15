@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - gnutls 3.8.13 released with 12 CVE fixes and more</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;59d96a43-d593-42d0-9f0e-a243280eea87&#64;oracle.com&gt;
+Date: Wed, 29 Apr 2026 18:30:18 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: gnutls 3.8.13 released with 12 CVE fixes and more
+
+
+
+
+-------- Forwarded Message --------
+Subject: gnutls 3.8.13
+Date: Wed, 29 Apr 2026 12:36:47 -0500
+From: Alexander Sosedkin &lt;asosedkin&#64;...hat.com&gt;
+To: gnutls-help&#64;...ts.gnutls.org
+CC: info-gnu&#64;....org
+
+Hello,
+
+We have just released gnutls-3.8.13. This is a bug fix, security and
+enhancement release on the 3.8.x branch.
+
+We would like to thank everyone who contributed in this release:
+Alexander Sosedkin, Daiki Ueno, David Dudas, Ghadi Elie Rahme,
+Guillaume Gardet, Joachim Vandersmissen, Joshua Rogers, Romain Tartière,
+Ross Burton, Rudi Heitbaum, Sam James, Zoltán Fridrich.
+
+
+The detailed list of changes follows:
+
+* Version 3.8.13 (released 2026-04-29)
+
+** libgnutls: Add more checks to DTLS reassembly
+    Previously, gnutls didn't check that DTLS fragments claimed
+    a consistent message_length value.
+    Additionally, a crucial array size check was missing,
+    enabling an attacker to cause a heap overwrite.
+    Reject fragments with mismatching length and add a missing boundary check.
+    Independently reported by
+    Haruto Kimura (Stella), Oscar Reparaz and Zou Dikai.
+    [GNUTLS-SA-2026-04-29-1, CVSS: high] [CVE-2026-33846]
+
+** libgnutls: Fix qsort comparator in DTLS reassembly
+    The comparator function used for ordering DTLS packets
+    by sequence numbers did not follow qsort comparator contracts
+    in case of packets with duplicate sequence numbers,
+    which could lead to unstable ordering or undefined behaviour.
+    Return 0 in such cases makes the sorting stable.
+    Additionally, discard packets with same sequence numbers
+    and differing handshake type,
+    so that they don't end up being sorted in the first place.
+    Reported by Joshua Rogers of AISLE Research Team.
+    [GNUTLS-SA-2026-04-29-2, CVSS: high] [CVE-2026-42009]
+
+** libgnutls: Fix crashing on an underflow with a DTLS datagram
+    A remotely triggerable underflow in the DTLS reassembly code led to
+    a heap overrun.
+    Prevent the underflow from happening.
+    Reported by Joshua Rogers of AISLE Research Team.
+    [GNUTLS-SA-2026-04-29-3, CVSS: high] [CVE-2026-33845]
+
+** libgnutls: Fix RSA-PSK identity truncation
+    Servers configured with RSA-PSK have wrongfully matched usernames with NUL
+    character in them to ones truncated to NUL character,
+    which could lead to an authentication bypass.
+    Fix the check to perform comparison up to the full username length.
+    Reported by Joshua Rogers of AISLE Research Team.
+    [GNUTLS-SA-2026-04-29-4, CVSS: high] [CVE-2026-42010]
+
+** libgnutls: Fix case-sensitivity of domain name comparison in name constraints
+    Domain name comparison during name constraints processing
+    was case-sensitive, violating RFC 5280 section 7.2.
+    For excluded name constraints, this could lead to
+    incorrectly accepting domain names that should've been rejected.
+    DNS name comparison and the domain part of email names
+    now perform case-insensitive comparison.
+    Independently reported by Oleh Konko (1seal) and
+    Joshua Rogers of AISLE Research Team.
+    [GNUTLS-SA-2026-04-29-5, CVSS: high] [CVE-2026-3833]
+
+** libgnutls: Fix intersecting empty constraints
+    Permitted name constraints were wrongfully ignored
+    when prior CAs only had excluded name constraints,
+    resulting in a name constraint bypass.
+    Reported by Haruto Kimura (Stella).
+    [GNUTLS-SA-2026-04-29-6, CVSS: medium] [CVE-2026-42011]
+
+** libgnutls: Suppress CN fallback in presence of URI and SRV SAN
+    Certificates containing URI or SRV Subject Alternative Names
+    no longer fall back to checking DNS hostnames against Common Name
+    to avoid potential misuse of such certificates
+    beyond their original purpose.
+    Reported by Oleh Konko (1seal).
+    [GNUTLS-SA-2026-04-27-7, CVSS: medium] [CVE-2026-42012]
+
+** libgnutls: Suppress CN fallback for oversized SAN
+    Validation of certificates with oversized Subject Alternative Names
+    no longer falls back to checking DNS hostnames against Common Name.
+    Independently reported by Haruto Kimura (Stella) and
+    Joshua Rogers of AISLE Research Team.
+    [GNUTLS-SA-2026-04-27-8, CVSS: medium] [CVE-2026-42013]
+
+** libgnutls: Fix use-after-free in gnutls_pkcs11_token_set_pin
+    Changing the Security Officer PIN with gnutls_pkcs11_token_set_pin()
+    with oldpin == NULL for a token lacking a protected authentication path
+    led to a use-after-free.
+    Reported by Luigino Camastra and Joshua Rogers of AISLE Research Team.
+    [GNUTLS-SA-2026-04-29-9, CVSS: medium] [CVE-2026-42014]
+
+** libgnutls: Fix overread in RSA key exchange with PKCS#11 keys
+    For a server using an RSA key backed by a PKCS#11 token,
+    a client sending an extremely short premaster secret
+    during an RSA key exchange could trigger a short heap overread.
+    Reported by Joshua Rogers of AISLE Research Team.
+    [GNUTLS-SA-2026-04-29-10, CVSS: medium] [CVE-2026-5260]
+
+** libgnutls: Fix off-by-one in PKCS#12 bag element bounds check
+    Appending to a PKCS#12 bag that already contained 32 elements
+    could write past the bag's internal array.
+    Reported by Zou Dikai.
+    [GNUTLS-SA-2026-04-29-11, CVSS: low] [CVE-2026-42015]
+
+** libgnutls: Fix multi-entry OCSP response revocation bypass
+    When validating a certificate against a multi-entry OCSP response,
+    the revocation status was always checked for the first entry
+    instead of the entry matching the certificate,
+    which could lead to accepting revoked certificates.
+    Independently reported by Oleh Konko (1seal) and
+    Joshua Rogers of AISLE Research Team.
+    [GNUTLS-SA-2026-04-29-12, CVSS: low] [CVE-2026-3832]
+
+** libgnutls: Fix timing side-channel in PKCS#7 padding removal
+    The PKCS#7 padding check performed during decryption was not constant-time,
+    potentially leaking information about the padding bytes
+    through timing differences.
+    Rewritten to remove padding in a branch-free manner.
+    Reported by Doria Tang of Stony Brook University.
+    [GNUTLS-SA-2026-04-29-13, CVSS: low] [CVE-2026-5419]
+
+** libgnutls: Fix PSK username comparison during rehandshake
+    Rehandshaking to a username with embedded NUL character could theoretically
+    allow bypassing the GNUTLS_ALLOW_ID_CHANGE protection (#1808).
+    Reported and fixed by Joshua Rogers of AISLE Research Team.
+
+** libgnutls: Fix OID length check for OCSP delegated signer EKU
+    The OCSP signing EKU OID was compared without verifying its length,
+    allowing a shorter OID that shares the same prefix to match.
+    The check now verifies the length as well (#1810).
+    Reported by Joshua Rogers of AISLE Research Team.
+
+** libgnutls: Fix AES keys persisting with pkcs11-provider
+    When using the pkcs11-provider, AES keys used for cipher operations
+    were created as persistent objects and accumulating.
+    They are now ephemeral (#1813).
+
+** libgnutls: Fix missing RSA key coprimality check in verify_params
+    gnutls_privkey_verify_params overlooked the scenario of p and q
+    not being co-prime.
+    It now returns GNUTLS_E_PK_INVALID_PRIVKEY in this case (#1818).
+    Reported by Kamil Frankowicz.
+
+** libgnutls: Fix overread when parsing OpenSSL PEM private keys
+    Insufficient bounds checking on the PEM header length could lead
+    to short heap overreads on specially crafted inputs (#1854).
+    Independently reported by Kamil Frankowicz and
+    Joshua Rogers of AISLE Research Team.
+
+** libgnutls: Fix a theoretical double-free during certificate import
+    If gnutls_x509_crt_list_import_pkcs11 failed partway through,
+    the trust list cleanup code would try to free already-deinitialized
+    certificate entries, leading to a double-free (#1819).
+    Reported by Joshua Rogers of AISLE Research Team.
+
+** libgnutls: Fix heap overread in SCT extension parser
+    The list-length validation didn't account for the 2-byte length field,
+    allowing a specially crafted SCT extension to cause
+    a 2-byte overread past the buffer (#1822).
+    Reported by Joshua Rogers of AISLE Research Team.
+
+** libgnutls: Zeroize shared secret derived during hybrid key exchange
+    The derived shared secret was not zeroized before being freed (#1841).
+    Reported by liyue.
+
+** build: Support building with Nettle 4.0
+    Nettle 4.0 was released in Feburary 2026, with API incompatibile
+    changes from 3.10. The library can now compile with it, while
+    Nettle 3.10 is still supported (#1791).
+
+** libgnutls: Support deriving ML-DSA public key from an expanded private key
+    RFC 9881 defines 3 private key formats for ML-DSA: "seed",
+    "expandedKey" and both. It is now possible to derive a public key
+    from a private key in the "expandedKey" format (#1723).
+
+** libgnutls: Fix loading BIT STRING encoded EdDSA key from PKCS#11
+    For compatibility reasons, the library supports two formats for
+    EdDSA private keys: either ASN.1 BIT STRING (raw) or OCTET STRING
+    (DER). Previously, loading a private key in the former format
+    resulted in a failure, which is now fixed (#1749).
+
+** libgnutls: HPKE (RFC 9180) is now supported as a technology preview
+    The Hybrid Public Key Encryption (HPKE) is a flexible cryptographic
+    protocol which enables to encrypt arbitrary data to a recipient, by
+    combining key encapsulation mechanism (KEM) and authenticated
+    encryption with additional data (AEAD). GnuTLS now includes the
+    implementation contributed by David Dudas. Given this is a
+    technology preview, the implementation and the API might suffer
+    modification in the following period. Use --enable-hpke to turn on
+    this feature (#1506).
+
+** libgnutls: Fix TLS 1.3 client certificate selection
+    For servers that send a signature_algorithms extension in CertificateRequest
+    with new rsa_pss_rsae_* algorithms and without the legacy rsa_pkcs1_* ones,
+    the client now properly considers RSA when selecting a certificate to send.
+    This fixes TLS 1.3 interoperability with newer Java servers
+    when using client certificates.
+    Contributed by Romain Tartière (#1842).
+
+** libgnutls: Fix kTLS ChaCha20-Poly1305 IV for TLS 1.2
+    When using kTLS with ChaCha20-Poly1305 under TLS 1.2,
+    an incorrect value was passed as the IV to the kernel,
+    causing connections to fail early.
+
+** libgnutls: Allow fetching object type metadata for PKCS#11 keys
+    A new library function, gnutls_pkcs11_obj_get_pk_algorithm,
+    has been added to check the public key algorithms of PKCS#11 key objects.
+    Object types other than CKO_PRIVATE_KEY are currently not supported.
+    Contributed by Ghadi Elie Rahme (!2074).
+
+** API and ABI modifications:
+gnutls_hpke_kem_t: New enum
+gnutls_hpke_kdf_t: New enum
+gnutls_hpke_aead_t: New enum
+gnutls_hpke_mode_t: New enum
+gnutls_hpke_role_t: New enum
+gnutls_hpke_context_st: New context structure
+gnutls_hpke_init: New function
+gnutls_hpke_deinit: New function
+gnutls_hpke_encap: New function
+gnutls_hpke_seal: New function
+gnutls_hpke_decap: New function
+gnutls_hpke_open: New function
+gnutls_hpke_derive_keypair: New function
+gnutls_hpke_export: New function
+gnutls_pkcs11_obj_get_pk_algorithm: New function
+
+
+Getting the Software
+================
+
+GnuTLS may be downloaded directly from
+<a href="https://www.gnupg.org/ftp/gcrypt/" rel="nofollow">https://www.gnupg.org/ftp/gcrypt/</a>
+A list of GnuTLS mirrors can be found at
+<a href="http://www.gnutls.org/download.html" rel="nofollow">http://www.gnutls.org/download.html</a>
+
+Here are the XZ compressed sources:
+<a href="https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz" rel="nofollow">https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz</a>
+
+Here are OpenPGP detached signatures signed using keys:
+5D46CB0F763405A7053556F47A75A648B3F9220C
+and
+E987AB7F7E89667776D05B3BB0E9DD20B29F1432
+<a href="https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz.sig" rel="nofollow">https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz.sig</a>
+
+Note that it has been signed with the following openpgp keys:
+
+pub   ed25519 2021-12-23 [SC] [expires: 2027-01-01]
+       5D46CB0F763405A7053556F47A75A648B3F9220C
+uid           [ultimate] Zoltan Fridrich &lt;zfridric&#64;...hat.com&gt;
+sub   cv25519 2021-12-23 [E] [expires: 2027-01-01]
+
+pub   rsa4096 2016-09-27 [SC]
+       E987AB7F7E89667776D05B3BB0E9DD20B29F1432
+uid           [ultimate] Alexander Sosedkin &lt;monk&#64;...oiled.info&gt;
+sub   rsa4096 2016-09-27 [E]
+sub   rsa4096 2016-09-27 [S]
+
+
+Regards,
+Alexander Sosedkin
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

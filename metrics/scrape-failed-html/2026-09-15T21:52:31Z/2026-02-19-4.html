@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Default IV &amp; other issues in aes-js &amp; pyaes modules, &amp;
+ strongMan VPN manager</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;2e0fe4b0-8508-428f-9472-34c0421326a7&#64;oracle.com&gt;
+Date: Thu, 19 Feb 2026 10:26:22 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Default IV &amp; other issues in aes-js &amp; pyaes modules, &amp;
+ strongMan VPN manager
+
+<a href="https://blog.trailofbits.com/2026/02/18/carelessness-versus-craftsmanship-in-cryptography/" rel="nofollow">https://blog.trailofbits.com/2026/02/18/carelessness-versus-craftsmanship-in-cryptography/</a>
+reports:
+&gt; Two popular AES libraries, aes-js and pyaes, “helpfully” provide a default IV
+&gt; in their AES-CTR API, leading to a large number of key/IV reuse bugs. These
+&gt; bugs potentially affect thousands of downstream projects.
+&gt; 
+[...]
+&gt; 
+&gt; Reusing a key/IV pair leads to serious security issues: if you encrypt two
+&gt; messages in CTR mode or GCM with the same key and IV, then anybody with access
+&gt; to the ciphertexts can recover the XOR of the plaintexts, and that’s a very
+&gt; bad thing.
+&gt; 
+[...]
+&gt; 
+&gt; As you might guess from the names, aes-js and pyaes are JavaScript and Python
+&gt; libraries that implement the AES block cipher. They’re pretty widely used: the
+&gt; Node.js package manager (npm) repository lists 850 aes-js dependents as of this
+&gt; writing, and GitHub estimates that over 700,000 repositories integrate aes-js
+&gt; and nearly 23,000 repositories integrate pyaes, either as direct or indirect
+&gt; dependencies.
+&gt; 
+[...]
+&gt; 
+&gt; The default IV problem
+&gt; ----------------------
+&gt; We’ll start with the biggest concern Trail of Bits identified: when
+&gt; instantiating AES in CTR mode, aes-js and pyaes do not require an IV.
+&gt; Instead, if no IV is specified, libraries will supply a default IV of
+&gt; 0x00000000_00000000_00000000_00000001.
+&gt; 
+&gt; Worse still, the documentation provides examples of this behavior as
+&gt; typical behavior. For example, this comes from the pyaes README:
+&gt; 
+&gt; aes = pyaes.AESModeOfOperationCTR(key)
+&gt; plaintext = "Text may be any length you wish, no padding is required"
+&gt; ciphertext = aes.encrypt(plaintext)
+&gt; 
+&gt; The first line ought to be something like
+&gt;     aes = pyaes.AESModeOfOperationCTR(key, iv),
+&gt; where iv is a randomly generated value. Users who follow this example will
+&gt; always wind up with the same IV, making it inevitable that many (if not most)
+&gt; will wind up with a key/IV reuse bug in their software. Most people are looking
+&gt; for an easy-to-use encryption library, and what’s simpler than just passing in
+&gt; the key?
+&gt; 
+&gt; That apparent simplicity has led to widespread use of the “default,” creating
+&gt; a multitude of key/IV reuse vulnerabilities.
+&gt; 
+&gt; Other issues
+&gt; ============
+&gt; 
+&gt; Lack of modern cipher modes
+&gt; ---------------------------
+&gt; 
+&gt; aes-js and pyaes don’t support modern cipher modes like AES-GCM and
+&gt; AES-GCM-SIV. In most contexts where you want to use AES, you likely want to
+&gt; use these modes, as they offer authentication in addition to encryption.
+&gt; This is no small issue: even for programs that use aes-js or pyaes with
+&gt; distinct key/IV pairs, AES CTR ciphertexts are still malleable: if an
+&gt; attacker changes the bits in the ciphertext, then the resulting bits in the
+&gt; plaintext will change in exactly the same way, and CTR mode doesn’t provide
+&gt; any way to detect this. This can allow an attacker to recover an ECDSA key
+&gt; by tricking the user into signing messages with a series of related keys.
+&gt; 
+&gt; Cipher modes like GCM and GCM-SIV prevent this by computing keyed “tags”
+&gt; that will fail to authenticate when the ciphertext is modified, even by a
+&gt; single bit. Pretty nifty feature, but support is completely absent from
+&gt; aes-js and pyaes.
+&gt; 
+&gt; Timing problems
+&gt; ---------------
+&gt; 
+&gt; On top of that, both aes-js and pyaes are vulnerable to side-channel attacks.
+&gt; Both libraries use lookup tables for the AES S-box, which enables cache-timing
+&gt; attacks. On top of that, there are timing issues in the PKCS7 implementation,
+&gt; enabling a padding oracle attack when used in CBC mode.
+&gt; 
+&gt; Lack of updates
+&gt; ---------------
+&gt; 
+&gt; aes-js hasn’t been updated since 2018. pyaes hasn’t been touched since 2017.
+&gt; Since then, a number of issues have been filed against both libraries.
+&gt; Here are just a few examples:
+&gt; 
+&gt;   - Outdated distribution tools for pyaes (it relies on distutils,
+&gt;       which has been deprecated since October 2023)
+&gt;   - Performance issues in the streaming API
+&gt;   - UTF-8 encoding problems in aes-js
+&gt;   - Lack of IV and key generation routines in both
+&gt; 
+&gt; Developer response
+&gt; ------------------
+&gt; 
+&gt; Finally, in 2022, an issue was filed against aes-js about the default IV
+&gt; problem. The developer’s response ended with the following:
+&gt; 
+&gt;     The AES block cipher is a cryptographic primitive, so it’s very important
+&gt;     to understand and use it properly, based on its application. It’s a
+&gt;     powerful tool, and with great power, yadda, yadda, yadda. :)
+&gt; 
+[...]
+&gt; 
+&gt; In November 2025, we reached out to the maintainer via email and via X, but we received no response.
+&gt; 
+[...]
+&gt; 
+&gt; We identified several pieces of software impacted by the default IV behavior
+&gt; in pyaes and aes-js. Many of the programs we found have been deprecated, and
+&gt; we even found a couple of vulnerable wallets for cryptocurrencies that are no
+&gt; longer traded. We also picked out a large number of programs where the security
+&gt; impact of key/IV reuse was minimal or overshadowed by larger security concerns
+&gt; (for instance, there were a few programs that reused key/IV pairs, but the key
+&gt; was derived from a 4-digit PIN).
+&gt; 
+&gt; However, one of the programs we found struck us as important: a VPN management
+&gt; suite.
+&gt; 
+&gt; strongMan VPN Manager
+&gt; ---------------------
+&gt; 
+&gt; strongMan is a web-based management tool for folks using the strongSwan VPN
+&gt; suite. It allows for credential and user management, initiation of VPN
+&gt; connections, and more. It’s a pretty slick piece of software; if you’re into
+&gt; IPsec VPNs, you should definitely give it a look.
+&gt; 
+&gt; strongMan stored PKCS#8-encoded keys in a SQLite database, encrypted with AES.
+&gt; As you’ve probably guessed, it used pyaes to encrypt them in CTR mode, relying
+&gt; on the default IV. In PKCS#8 key files, RSA private keys include both the
+&gt; decryption exponent and the factors of the public modulus. For the same modulus
+&gt; size, the factors of the modulus will “line up” to start at the same place in
+&gt; the private key encodings about 99.6% of the time. For a pair of 2048-bit
+&gt; moduli, we can use the XOR of the factors to recover the factors in a matter
+&gt; of seconds.
+&gt; 
+&gt; Even worse, the full X.509 certificates were also encrypted using the same
+&gt; key/IV pair used to encrypt the private keys. Since certificates include a
+&gt; huge amount of predictable or easily guessable data, it’s easy to recover
+&gt; the keystream from the known X.509 data, and then use the recovered keystream
+&gt; to decrypt the private keys without resorting to any fancy XORed-factors
+&gt; mathematical trickery.
+&gt; 
+&gt; In short, if a hacker could recover a strongMan user’s SQLite file, they
+&gt; could immediately impersonate anyone whose certificates are stored in the
+&gt; database and even mount person-in-the-middle attacks. Obviously, this is
+&gt; not a great outcome.
+&gt; 
+&gt; We privately reported this issue to the strongSwan team. Tobias Brunner,
+&gt; the strongMan maintainer, provided an absolute model response to a security
+&gt; issue of this severity. He immediately created a security-fix branch and
+&gt; collaborated with Trail of Bits to develop stronger protection for his users.
+&gt; This patch has since been rolled out, and the update includes migration tools
+&gt; to help users update their old databases to the new format.
+&gt; 
+&gt; Doing it right
+&gt; --------------
+&gt; 
+&gt; There were several viable approaches to fixing this issue. Adding a unique IV
+&gt; for each encrypted entry in the database would have allowed strongMan to keep
+&gt; using pyaes, and would have addressed the immediate issue. But if the code has
+&gt; to be changed, it may as well be updated to something modern.
+&gt; 
+&gt; After some discussion, several changes were made to the application:
+&gt; 
+&gt;   - pyaes was replaced with a library that supports modern cipher modes.
+&gt;   - CTR mode was replaced with GCM-SIV, a cipher mode that includes
+&gt;     authentication tags.
+&gt;   - Tag-checking was integrated into the decryption routines.
+&gt;   - A per-entry key derivation scheme is now used to ensure that key/IV pairs
+&gt;     don’t repeat.
+&gt; 
+&gt; On top of all that, there are now migration scripts to allow strongMan users
+&gt; to seamlessly update their databases.
+&gt; 
+&gt; There will be a security advisory for strongMan issued in conjunction with this
+&gt; fix, outlining the nature of the problem, its severity, and the measures taken
+&gt; to address it. Everything will be out in the open, with full transparency for
+&gt; all strongMan users.
+
+See the full original blog post for further details and some strong opinions
+omitted above.
+
+For the strongMan issue, see:
+<a href="https://github.com/strongswan/strongMan/security/advisories/GHSA-88w4-jv97-c8xr" rel="nofollow">https://github.com/strongswan/strongMan/security/advisories/GHSA-88w4-jv97-c8xr</a>
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

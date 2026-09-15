@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: XZ Utils 5.8.3 and a security fix</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="14">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87o6k3274y.fsf&#64;gentoo.org&gt;
+Date: Tue, 31 Mar 2026 19:20:13 +0100
+From: Sam James &lt;sam&#64;...too.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: xz&#64;...aani.org
+Subject: Fwd: XZ Utils 5.8.3 and a security fix
+
+Hi,
+
+We've released a new xz version with some minor security fixes. It's not
+believed that any application is actually vulnerable to the main one,
+nor the other. It requires an unusual use of a rarely called API.
+
+-------------------- Start of forwarded message --------------------
+Date: Tue, 31 Mar 2026 19:58:29 +0300
+From: Lasse Collin &lt;lasse.collin&#64;...aani.org&gt;
+To: xz-announce&#64;...aani.org
+Subject: XZ Utils 5.8.3 and a security fix
+
+In XZ Utils 5.8.2 and older, a buffer overflow can occur in
+lzma_index_append() under conditions that likely don't exist in any
+real-world application (CVE-2026-34743). No new 5.2.x, 5.4.x, or 5.6.x
+releases will be made, but the fix is in the v5.2, v5.4, and v5.6
+branches in the xz Git repository. For details, see the NEWS entry
+below or the security advisory:
+
+    <a href="https://tukaani.org/xz/index-append-overflow.html" rel="nofollow">https://tukaani.org/xz/index-append-overflow.html</a>
+
+XZ Utils 5.8.3 is available at &lt;<a href="https://tukaani.org/xz/#_stable" rel="nofollow">https://tukaani.org/xz/#_stable</a>&gt;.
+
+5.8.3 (2026-03-31)
+
+    * liblzma:
+
+        - Fix a buffer overflow in lzma_index_append(): If
+          lzma_index_decoder() was used to decode an Index that
+          contained no Records, the resulting lzma_index was left in
+          a state where where a subsequent lzma_index_append() would
+          allocate too little memory, and a buffer overflow would occur.
+
+          The lzma_index functions are rarely used by applications
+          directly. In the few applications that do use these functions,
+          the combination of function calls required to trigger this bug
+          are unlikely to exist, because there typically is no reason to
+          append Records to a decoded lzma_index. Thus, it's likely that
+          this bug cannot be triggered in any real-world application.
+
+          The bug was reported and discovered by Cantina using their
+          AppSec agent, Apex.
+
+        - Fix the build on Windows ARM64EC.
+
+        - Add "License: 0BSD" to liblzma.pc.
+
+    * xz:
+
+        - Fix invalid memory access in --files and --files0. All of
+          the following must be true to trigger it:
+
+            1. A string being read (which supposedly is a filename) is
+               at least SIZE_MAX / 2 bytes long. This size is plausible
+               on 32-bit platforms (2 GiB - 1 B).
+
+            2. realloc(ptr, SIZE_MAX / 2 + 1) must succeed.
+               On glibc &gt;= 2.30 it shouldn't because the value
+               exceeds PTRDIFF_MAX.
+
+            3. An integer overflow results in a realloc(ptr, 0) call.
+               If it doesn't return NULL, then invalid memory access
+               will occur.
+
+        - On QNX, don't use fsync() on directories because it fails.
+
+    * Autotools: Enable 32-bit x86 assembler on Hurd by default.
+      It was already enabled in the CMake-based build.
+
+    * Translations: Add Arabic man page translations.
+
+-- 
+Lasse Collin
+
+-------------------- End of forwarded message --------------------
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="13/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (419 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

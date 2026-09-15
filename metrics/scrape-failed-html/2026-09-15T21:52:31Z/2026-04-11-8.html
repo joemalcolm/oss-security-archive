@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - LibRaw 0.22.1 Release with security fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;8a37ecf0-9de9-40a2-9e3a-0d1d7cacc5e8&#64;oracle.com&gt;
+Date: Sat, 11 Apr 2026 09:42:42 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: LibRaw 0.22.1 Release with security fixes
+
+<a href="https://www.libraw.org/news/libraw-0-22-1-release" rel="nofollow">https://www.libraw.org/news/libraw-0-22-1-release</a> announces:
+&gt; LibRaw 0.22.1 Release is just published in our Github repository
+&gt; &lt;<a href="https://github.com/LibRaw/LibRaw" rel="nofollow">https://github.com/LibRaw/LibRaw</a>&gt; and this site download section
+&gt; &lt;<a href="https://www.libraw.org/download" rel="nofollow">https://www.libraw.org/download</a>&gt;.
+&gt; 
+&gt; This is bugfix-only release with these commits included:
+&gt; 
+&gt;  * Limit strcat space in hassy model manipulation
+&gt;  * Version increment; shlib increment: internal ABI has changed
+&gt;  * check panasonic enc8 tile width against image width
+&gt;  * CR3 parser: zero all buffers before fread
+&gt;  * skip memory allocation checks for OWN_ALLOC decoders
+&gt;  * DNG SDK glue: check for memory limits
+&gt;  * raw2image()/dcraw_process() - check for int16 source data present
+&gt;  * Check for correct bayer pattern, pass incorect ones to vng_interpolate
+&gt;  * parse_rollei: zero input string before fgets
+&gt;  * Nikon padded/12bit: no need to calculate padded row size before final
+&gt;    raw_width adjustment
+&gt;  * TALOS-2026-2364: Fix for data size calculation integer overflow in
+&gt;    float/deflated DNG loader; Check for read results
+&gt;  * Fix for TALOS-2026-2363: avoid integer overflow in allocation size
+&gt;    calculation. Also: check for EOF in read loop
+&gt;  * X3F decoder: implemented hard single allocation limit via
+&gt;    LIBRAW_X3F_ALLOC_LIMIT_MB define;
+&gt;  * allocation size calculation converted to 64 bit arithm; fix for
+&gt;    TALOS-2026-2359
+&gt;  * Fix for TALOS-2026-2358
+&gt;  * Fix for TALOS-2026-2331
+&gt;  * Fix for TALOS-2026-2330
+&gt;  * Sony YCC decoder: check tile size; add +3 bytes to input buffer to avoid
+&gt;    possible overrun in huffman decoder
+&gt;  * FP DNG data limit: perform calculations in 64 bit
+&gt;  * Add extra huff_coeff item to handle huff_index==17 with known (zero) value,
+&gt;    not externally provided tag value
+&gt;  * use %lld format for timestamp parse/print where appropriate
+&gt;  * nikon coolscan loader: check for EOF
+&gt;  * Initialize olympus lensID bits
+&gt;  * CR3 parser: all file offsets are unsigned/64bit; check current offset
+&gt;    against file size
+&gt;  * Add Canon EOS Kiss M2 to camera list
+&gt;  * Check real color count against filters; do not pass really 4-color images
+&gt;    to fbdd or advanced demosaic
+&gt;  * Use LIBRAW_EXCEPTION instead of own internal in losslessjpeg.h
+&gt;  * zero input string to avoid compare random stack garbage with tag names
+&gt;  * Check for eof in Pentax tag search loop
+&gt;  * Fuji decoder: initialize allocated buffers
+
+Further information about the vulnerabilities reported by Cisco Talos can be
+found in their reports:
+
+- TALOS-2026-2330 / CVE-2026-20911
+   LibRaw HuffTable::initval heap-based buffer overflow vulnerability
+   <a href="https://talosintelligence.com/vulnerability_reports/TALOS-2026-2330" rel="nofollow">https://talosintelligence.com/vulnerability_reports/TALOS-2026-2330</a>
+
+   A heap-based buffer overflow vulnerability exists in the HuffTable::initval
+   functionality of LibRaw Commit 0b56545 and Commit d20315b. A specially
+   crafted malicious file can lead to a heap buffer overflow. An attacker
+   can provide a malicious file to trigger this vulnerability.
+
+- TALOS-2026-2331 / CVE-2026-21413
+   LibRaw lossless_jpeg_load_raw heap-based buffer overflow vulnerability
+   <a href="https://talosintelligence.com/vulnerability_reports/TALOS-2026-2331" rel="nofollow">https://talosintelligence.com/vulnerability_reports/TALOS-2026-2331</a>
+
+   A heap-based buffer overflow vulnerability exists in the
+   lossless_jpeg_load_raw functionality of LibRaw Commit 0b56545 and
+   Commit d20315b. A specially crafted malicious file can lead to a heap buffer
+   overflow. An attacker can provide a malicious file to trigger this
+   vulnerability.
+
+- TALOS-2026-2358 / CVE-2026-20889
+   LibRaw x3f_thumb_loader heap-based buffer overflow vulnerability
+   <a href="https://talosintelligence.com/vulnerability_reports/TALOS-2026-2358" rel="nofollow">https://talosintelligence.com/vulnerability_reports/TALOS-2026-2358</a>
+
+   A heap-based buffer overflow vulnerability exists in the x3f_thumb_loader
+   functionality of LibRaw Commit d20315b. A specially crafted malicious file
+   can lead to a heap buffer overflow. An attacker can provide a malicious file
+   to trigger this vulnerability.
+
+- TALOS-2026-2359 / CVE-2026-24660
+   LibRaw x3f_load_huffman heap-based buffer overflow vulnerability
+   <a href="https://talosintelligence.com/vulnerability_reports/TALOS-2026-2359" rel="nofollow">https://talosintelligence.com/vulnerability_reports/TALOS-2026-2359</a>
+
+   A heap-based buffer overflow vulnerability exists in the x3f_load_huffman
+   functionality of LibRaw Commit d20315b. A specially crafted malicious file
+   can lead to a heap buffer overflow. An attacker can provide a malicious file
+   to trigger this vulnerability.
+
+- TALOS-2026-2363 / CVE-2026-24450
+   LibRaw uncompressed_fp_dng_load_raw integer overflow vulnerability
+   <a href="https://talosintelligence.com/vulnerability_reports/TALOS-2026-2363" rel="nofollow">https://talosintelligence.com/vulnerability_reports/TALOS-2026-2363</a>
+
+   An integer overflow vulnerability exists in the uncompressed_fp_dng_load_raw
+   functionality of LibRaw Commit 8dc68e2. A specially crafted malicious file
+   can lead to a heap buffer overflow. An attacker can provide a malicious file
+   to trigger this vulnerability.
+
+- TALOS-2026-2364 / CVE-2026-20884
+   LibRaw deflate_dng_load_raw integer overflow vulnerability
+   <a href="https://talosintelligence.com/vulnerability_reports/TALOS-2026-2364" rel="nofollow">https://talosintelligence.com/vulnerability_reports/TALOS-2026-2364</a>
+
+   An integer overflow vulnerability exists in the deflate_dng_load_raw
+   functionality of LibRaw Commit 8dc68e2. A specially crafted malicious file
+   can lead to a heap buffer overflow. An attacker can provide a malicious file
+   to trigger this vulnerability.
+
+Additional CVEs also appear to have been issued for some of the fixes:
+
+- CVE-2026-5318 appears to be a duplicate for independent reporting of the
+   TALOS-2026-2330 / CVE-2026-20911 issue in
+   <a href="https://github.com/LibRaw/LibRaw/issues/794" rel="nofollow">https://github.com/LibRaw/LibRaw/issues/794</a>
+
+- CVE-2026-5342 for the fix listed above as "Nikon padded/12bit: no need to
+   calculate padded row size before final raw_width adjustment" and originally
+   reported in <a href="https://github.com/LibRaw/LibRaw/issues/795" rel="nofollow">https://github.com/LibRaw/LibRaw/issues/795</a>
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

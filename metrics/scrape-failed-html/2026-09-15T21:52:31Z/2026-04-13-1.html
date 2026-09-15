@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Security Audit of Hex, the Erlang package manager</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/04/12/7">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/04/12/4">[&lt;thread-prev]</a> <a href="9">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAN_LGv3uxE6EjPPbRreaQPL-UTOwLmmZ8NxxiZBx-wcaAF1Ykw&#64;mail.gmail.com&gt;
+Date: Mon, 13 Apr 2026 10:28:31 +0800
+From: Alexander Patrakov &lt;patrakov&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Security Audit of Hex, the Erlang package manager
+
+Hello Alan,
+
+How am I, as a user, supposed to authenticate these PDFs as materials
+really produced by the parties Hex claims they are from? The PDFs are
+offered for download from the audited-party domain, not from the auditors'
+domains, and do not contain any digital signatures.
+
+On Mon, Apr 13, 2026 at 4:16 AM Alan Coopersmith &lt;
+alan.coopersmith&#64;...cle.com&gt; wrote:
+
+&gt; <a href="https://hex.pm/blog/security-audit" rel="nofollow">https://hex.pm/blog/security-audit</a> announces the completion of a
+&gt; security audit &amp; penetration testing of Hex, the Erlang package manager,
+&gt; funded by the OpenSSF and overseen by the Erlang Ecosystem Foundation.
+&gt;
+&gt; This work was done by two independent security firms, Paraxial.io and
+&gt; zentrust partners GmbH, who each produced their own reports:
+&gt;   - <a href="https://hex.pm/reports/2026/paraxial.pdf" rel="nofollow">https://hex.pm/reports/2026/paraxial.pdf</a>
+&gt;   - <a href="https://hex.pm/reports/2026/zentrust.pdf" rel="nofollow">https://hex.pm/reports/2026/zentrust.pdf</a>
+&gt;
+&gt; The announcement reports:
+&gt;
+&gt; &gt; What was found
+&gt; &gt; --------------
+&gt; &gt;
+&gt; &gt; Across both audits, a number of issues were identified, ranging from high
+&gt; &gt; severity vulnerabilities to low-severity hardening gaps.
+&gt; &gt;
+&gt; &gt; Examples include:
+&gt; &gt;
+&gt; &gt;  * Unsafe deserialization in hex_core that could lead to RCE under
+&gt; certain
+&gt; &gt;    conditions
+&gt; &gt;  * A denial of service condition during package uploads
+&gt; &gt;  * Weaknesses in authentication flows and API key handling
+&gt; &gt;  * Gaps in CI/CD hardening (GitHub Actions)
+&gt; &gt;  * Missing or incomplete security controls in some areas
+&gt; &gt;
+&gt; &gt; Importantly, the audits focused on realistic attack scenarios such as:
+&gt; &gt;
+&gt; &gt;  * cross-account package tampering
+&gt; &gt;  * bypassing integrity checks
+&gt; &gt;  * injection in public-facing features
+&gt; &gt;  * CI/CD compromise
+&gt; &gt;
+&gt; &gt; What we fixed
+&gt; &gt; -------------
+&gt; &gt;
+&gt; &gt; Most findings have been remediated during the engagement and confirmed in
+&gt; &gt; re-tests.
+&gt; &gt;
+&gt; &gt; Highlights:
+&gt; &gt;
+&gt; &gt;  * Fixed unsafe deserialization in hex_core (CVE-2026-21619)
+&gt; &gt;  * Fixed API key privilege escalation (CVE-2026-21621)
+&gt; &gt;  * Fixed password reset issues (CVE-2026-21622)
+&gt; &gt;  * Fixed XSS in OAuth device flow (CVE-2026-21618)
+&gt; &gt;  * Fixed denial of service in package upload (CVE-2026-23940)
+&gt; &gt;  * Removed sensitive credentials from repositories
+&gt; &gt;  * Hardened authentication flows (including "sudo mode" for sensitive
+&gt; actions)
+&gt; &gt;  * Disabled legacy TLS versions
+&gt; &gt;  * Improved CSP and other browser security controls
+&gt; &gt;
+&gt; &gt; Re-tests by both firms confirmed that the majority of vulnerabilities
+&gt; were
+&gt; &gt; successfully remediated.
+&gt; &gt;
+&gt; &gt; Several remaining items are either:
+&gt; &gt;
+&gt; &gt;  * accepted risks with clear rationale (for example UX trade-offs or
+&gt; staged
+&gt; &gt;    migrations), or
+&gt; &gt;  * dependent on ecosystem-wide changes (for example client updates)
+&gt; &gt;
+&gt; &gt; What we decided not to change (yet)
+&gt; &gt; -----------------------------------
+&gt; &gt;
+&gt; &gt; Some findings reflect intentional trade-offs or transitional states
+&gt; rather
+&gt; &gt; than vulnerabilities.
+&gt; &gt;
+&gt; &gt; Examples:
+&gt; &gt;
+&gt; &gt;  * Basic authentication and optional 2FA are still supported for
+&gt; compatibility
+&gt; &gt;    with existing clients. Both will be phased out once all clients
+&gt; support the
+&gt; &gt;    OAuth2 device flow.
+&gt; &gt;  * Certain features (like documentation hosting) intentionally allow
+&gt; &gt;    user-provided content and are being isolated rather than restricted.
+&gt; &gt;
+&gt; &gt; These decisions were reviewed jointly by the Hex.pm team and the EEF.
+&gt;
+&gt; These issues appear to be reported against the hexpm server side, not the
+&gt; client
+&gt; side that end users &amp; distros are likely to be running:
+&gt;
+&gt;   - Cross-site scripting (XSS) in OAuth Device Authorization screen
+&gt; (CVE-2026-21618)
+&gt;     <a href="https://github.com/hexpm/hexpm/security/advisories/GHSA-6cw9-5gg4-rhpj" rel="nofollow">https://github.com/hexpm/hexpm/security/advisories/GHSA-6cw9-5gg4-rhpj</a>
+&gt;
+&gt;   - Improper Scope Enforcement in OAuth client_credentials Flow Allows
+&gt; Read-Only
+&gt;     API Key to Escalate to Full Access with Valid 2FA Code (CVE-2026-21621)
+&gt;     <a href="https://github.com/hexpm/hexpm/security/advisories/GHSA-739m-8727-j6w3" rel="nofollow">https://github.com/hexpm/hexpm/security/advisories/GHSA-739m-8727-j6w3</a>
+&gt;
+&gt;   - Password Reset Tokens Do Not Expire (CVE-2026-21622)
+&gt;     <a href="https://github.com/hexpm/hexpm/security/advisories/GHSA-6r94-pvwf-mxqm" rel="nofollow">https://github.com/hexpm/hexpm/security/advisories/GHSA-6r94-pvwf-mxqm</a>
+&gt;
+&gt;   - Path Traversal in Local File Store Backend (Development and Self-Hosted
+&gt;     Registry Setups) (CVE-2026-23939)
+&gt;     <a href="https://github.com/hexpm/hexpm/security/advisories/GHSA-42mv-r64p-4869" rel="nofollow">https://github.com/hexpm/hexpm/security/advisories/GHSA-42mv-r64p-4869</a>
+&gt;
+&gt;   - Publishing Oversized Package Can Trigger Denial of Service
+&gt; (CVE-2026-23940)
+&gt;     <a href="https://github.com/hexpm/hexpm/security/advisories/GHSA-jp8w-gxf6-8hcr" rel="nofollow">https://github.com/hexpm/hexpm/security/advisories/GHSA-jp8w-gxf6-8hcr</a>
+&gt;
+&gt; That leaves one CVE for distros and end users to worry about -
+&gt; <a href="https://github.com/hexpm/hex_core/security/advisories/GHSA-hx9w-f2w9-9g96" rel="nofollow">https://github.com/hexpm/hex_core/security/advisories/GHSA-hx9w-f2w9-9g96</a>
+&gt; reports:
+&gt; &gt; Unsafe Deserialization of Erlang Terms in hex_core
+&gt; &gt; --------------------------------------------------
+&gt; &gt;
+&gt; &gt; maennchen published GHSA-hx9w-f2w9-9g96 Feb 27, 2026
+&gt; &gt;
+&gt; &gt; Package:            hex (otp)
+&gt; &gt; Affected versions:  &gt;= 2.3.0 and &lt;= 2.3.2
+&gt; &gt; Patched versions:   2.3.2
+&gt; &gt;
+&gt; &gt; Package:            hex_core (Erlang)
+&gt; &gt; Affected versions:  &lt;= 0.12.1
+&gt; &gt; Patched versions:   0.12.1
+&gt; &gt;
+&gt; &gt; Package:            rebar3 (otp)
+&gt; &gt; Affected versions:  &gt;= 3.9.1 and &lt;= 3.27.0
+&gt; &gt; Patched versions:   3.27.0
+&gt; &gt;
+&gt; &gt; Impact
+&gt; &gt; ------
+&gt; &gt; The Hex client (hex_core) deserializes Erlang terms received from the
+&gt; &gt; Hex API using binary_to_term/1 without sufficient restrictions.
+&gt; &gt;
+&gt; &gt; If an attacker can control the HTTP response body returned by the Hex
+&gt; API,
+&gt; &gt; this allows denial-of-service attacks such as atom table exhaustion,
+&gt; leading
+&gt; &gt; to a VM crash. No released versions are known to allow remote code
+&gt; execution.
+&gt; &gt;
+&gt; &gt; Patches
+&gt; &gt; -------
+&gt; &gt;
+&gt; <a href="https://github.com/hexpm/hex_core/commit/cdf726095bca85ad2549d146df1e831ae93c2b13" rel="nofollow">https://github.com/hexpm/hex_core/commit/cdf726095bca85ad2549d146df1e831ae93c2b13</a>
+&gt; &gt;
+&gt; <a href="https://github.com/hexpm/hex/commit/636739f3322514e9303ca335fb630696fcbb3c95" rel="nofollow">https://github.com/hexpm/hex/commit/636739f3322514e9303ca335fb630696fcbb3c95</a>
+&gt; &gt;
+&gt; <a href="https://github.com/erlang/rebar3/commit/1d4478f527e373de0b225951e53115450e0d9b9d" rel="nofollow">https://github.com/erlang/rebar3/commit/1d4478f527e373de0b225951e53115450e0d9b9d</a>
+&gt; &gt;
+&gt; &gt; Workarounds
+&gt; &gt; -----------
+&gt; &gt; Ensure that the Hex API URL (HEX_API_URL) points only to trusted
+&gt; endpoints.
+&gt; &gt; There is no client-side workaround that fully mitigates this issue
+&gt; without
+&gt; &gt; applying the patch.
+&gt; &gt;
+&gt; &gt; References
+&gt; &gt; ----------
+&gt; &gt; - hex_core Module:
+&gt; <a href="https://github.com/hexpm/hex_core/blob/main/src/hex_api.erl" rel="nofollow">https://github.com/hexpm/hex_core/blob/main/src/hex_api.erl</a>
+&gt; &gt; - Hex Vendored Module:
+&gt; <a href="https://github.com/hexpm/hex/blob/main/src/mix_hex_api.erl" rel="nofollow">https://github.com/hexpm/hex/blob/main/src/mix_hex_api.erl</a>
+&gt; &gt; - Rebar3 Vendored Module:
+&gt; <a href="https://github.com/erlang/rebar3/blob/main/apps/rebar/src/vendored/r3_hex_api.erl" rel="nofollow">https://github.com/erlang/rebar3/blob/main/apps/rebar/src/vendored/r3_hex_api.erl</a>
+&gt; &gt; - hex_core Patch: cdf7260
+&gt; &gt; - Hex Vendored Patch: hexpm/hex&#64;...739f
+&gt; &gt; - Rebar3 Vendored Patch: erlang/rebar3&#64;...478f
+&gt; &gt;
+&gt; &gt; Severity: Low - 2.0 / 10
+&gt; &gt; CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:A/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N
+&gt; &gt; CVE ID: CVE-2026-21619
+&gt; &gt; Weaknesses:
+&gt; &gt; - CWE-400: Uncontrolled Resource Consumption
+&gt; &gt; - CWE-502: Deserialization of Untrusted Data
+&gt;
+&gt;
+&gt;
+
+-- 
+Alexander Patrakov
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

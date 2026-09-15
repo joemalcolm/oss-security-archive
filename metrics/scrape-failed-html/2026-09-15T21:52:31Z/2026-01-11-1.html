@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Null Pointer Dereference in HarfBuzz</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/01/10/1">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/01/12/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;f6825a3e-06ba-4672-afc1-171c7ae48d9d&#64;oracle.com&gt;
+Date: Sat, 10 Jan 2026 17:54:38 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Null Pointer Dereference in HarfBuzz
+
+<a href="https://github.com/harfbuzz/harfbuzz/security/advisories/GHSA-xvjr-f2r9-c7ww" rel="nofollow">https://github.com/harfbuzz/harfbuzz/security/advisories/GHSA-xvjr-f2r9-c7ww</a>
+advises:
+
+&gt; HarfBuzz Null Pointer Dereference Vulnerability Report
+&gt; ======================================================
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; Affected Version:       HarfBuzz 12.3.0 (earlier versions may also be affected)
+&gt; CWE:                    CWE-476 (NULL Pointer Dereference)
+&gt; Impact:                 DoS (Denial of Service)
+&gt; Vulnerable Function:    OT::SubtableUnicodesCache::create()
+&gt; Vulnerable File:        src/hb-ot-cmap-table.hh:1672-1673
+&gt; 
+&gt; 1. Background
+&gt; 
+&gt; This vulnerability occurs in the SubtableUnicodesCache::create function
+&gt; executed by hb_subset_preprocess. This function generates accelerator data
+&gt; for the cmap table to improve font subsetting performance.
+&gt; 
+&gt; HarfBuzz uses failing-alloc.c to simulate memory allocation failures in
+&gt; fuzzing environments. This file overrides the hb_malloc_impl function to
+&gt; return NULL with a probability of 1/16:
+&gt; 
+&gt; void* hb_malloc_impl (size_t size)
+&gt; {
+&gt;   return (fastrand () % 16) ? malloc (size) : NULL;
+&gt; }
+&gt; 
+&gt; 2. Vulnerability Description and Impact
+&gt; 
+&gt; Description
+&gt; -----------
+&gt; 
+&gt; A null pointer dereference vulnerability exists in the
+&gt; SubtableUnicodesCache::create function located in
+&gt; src/hb-ot-cmap-table.hh:1672-1673. The function fails to check if
+&gt; hb_malloc returns NULL before using placement new to construct an
+&gt; object at the returned pointer address.
+&gt; 
+&gt; When hb_malloc fails to allocate memory (which can occur in low-memory
+&gt; conditions or when using custom allocators that simulate allocation
+&gt; failures), it returns NULL. The code then attempts to call the
+&gt; constructor on this null pointer using placement new syntax, resulting
+&gt; in undefined behavior and a Segmentation Fault.
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; DoS can be triggered.
+&gt; 
+&gt; 3. Scenario
+&gt; 
+&gt; The function prototype is as follows:
+&gt; 
+&gt; // src/hb-ot-cmap-table.hh:1669-1675
+&gt; static SubtableUnicodesCache* create (hb_blob_ptr_t&lt;cmap&gt; source_table)
+&gt; {
+&gt;   SubtableUnicodesCache* cache =
+&gt;       (SubtableUnicodesCache*) hb_malloc (sizeof(SubtableUnicodesCache));
+&gt;   new (cache) SubtableUnicodesCache (source_table);
+&gt;   return cache;
+&gt; }
+&gt; 
+&gt; The vulnerable part is:
+&gt; 
+&gt; SubtableUnicodesCache* cache =
+&gt;     (SubtableUnicodesCache*) hb_malloc (sizeof(SubtableUnicodesCache));
+&gt; new (cache) SubtableUnicodesCache (source_table);
+&gt; 
+&gt; The types of each operand are:
+&gt; 
+&gt; hb-ot-cmap-table.hh:
+&gt; 
+&gt; static SubtableUnicodesCache* create (hb_blob_ptr_t&lt;cmap&gt; source_table)
+&gt; 
+&gt; hb.hh:
+&gt; 
+&gt; void* hb_malloc (size_t size);
+&gt; 
+&gt; Although all operands are pointer types, there is no null check for the return
+&gt; value of hb_malloc, causing placement new to be executed on a null pointer.
+&gt; 
+&gt; 4. How to Reproduce
+
+[see <a href="https://github.com/harfbuzz/harfbuzz/security/advisories/GHSA-xvjr-f2r9-c7ww" rel="nofollow">https://github.com/harfbuzz/harfbuzz/security/advisories/GHSA-xvjr-f2r9-c7ww</a>
+  for PoC code &amp; instructions]
+
+&gt; 5. Result
+&gt; 
+&gt; Segmentation Fault occurs.
+&gt; Crash Output
+&gt; 
+&gt; AddressSanitizer:DEADLYSIGNAL
+&gt; =================================================================
+&gt; ==25681==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x59ca4a8f5616 bp 0x7ffea8bd7890 sp 0x7ffea8bd7870 T0)
+&gt; ==25681==The signal is caused by a WRITE memory access.
+&gt; ==25681==Hint: address points to the zero page.
+&gt;     #0 0x59ca4a8f5616 in OT::SubtableUnicodesCache::SubtableUnicodesCache(hb_blob_ptr_t&lt;OT::cmap&gt;) /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../src/hb-ot-cmap-table.hh:1692:9
+&gt;     #1 0x59ca4a8f5616 in OT::SubtableUnicodesCache::create(hb_blob_ptr_t&lt;OT::cmap&gt;) /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../src/hb-ot-cmap-table.hh:1673:17
+&gt;     #2 0x59ca4a8f3eee in OT::cmap::create_filled_cache(hb_blob_ptr_t&lt;OT::cmap&gt;) /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../src/hb-ot-cmap-table.hh:1765:36
+&gt;     #3 0x59ca4a857f6b in _attach_accelerator_data(hb_subset_plan_t*, hb_face_t*) /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../src/hb-subset.cc:322:23
+&gt;     #4 0x59ca4a857f6b in hb_subset_plan_execute_or_fail /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../src/hb-subset.cc:447:5
+&gt;     #5 0x59ca4a853c87 in hb_subset_or_fail /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../src/hb-subset.cc:359:24
+&gt;     #6 0x59ca4a84e051 in hb_subset_preprocess /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../src/hb-subset-input.cc:776:27
+&gt;     #7 0x59ca4a2cc51c in test_pipeline(unsigned char const*, unsigned long, char const*) /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../test/fuzzing/repro.cc:126:25
+&gt;     #8 0x59ca4a2cc51c in main /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../test/fuzzing/repro.cc:379:16
+&gt;     #9 0x73592862a1c9 in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+&gt;     #10 0x73592862a28a in __libc_start_main csu/../csu/libc-start.c:360:3
+&gt;     #11 0x59ca4a1eff44 in _start (/home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/test/fuzzing/repro+0x7f6f44) (BuildId: c0ff5896dd1a71d20ba3d34e75d13dd1ee110590)
+&gt; 
+&gt; AddressSanitizer can not provide additional info.
+&gt; SUMMARY: AddressSanitizer: SEGV /home/wjddn0623/Knights_Frontier/fuzzing/harfbuzz/fuzzbuild/../src/hb-ot-cmap-table.hh:1692:9 in OT::SubtableUnicodesCache::SubtableUnicodesCache(hb_blob_ptr_t&lt;OT::cmap&gt;)
+&gt; ==25681==ABORTING
+&gt; 
+&gt; Analysis
+&gt; 
+&gt;     Error Type: SEGV (Segmentation Violation)
+&gt;     Access Address: 0x000000000000 (null pointer)
+&gt;     Access Type: WRITE (write access)
+&gt;     Occurrence Location: hb-ot-cmap-table.hh:1692 (inside constructor)
+&gt;     Root Cause Location: hb-ot-cmap-table.hh:1673 (missing null check)
+
+
+[see <a href="https://github.com/harfbuzz/harfbuzz/security/advisories/GHSA-xvjr-f2r9-c7ww" rel="nofollow">https://github.com/harfbuzz/harfbuzz/security/advisories/GHSA-xvjr-f2r9-c7ww</a>
+  for screenshots]
+
+&gt; Credit
+&gt; ------
+&gt; HSPACE Knights Frontier
+&gt; 
+&gt; Reporter : JungWoo Park(with contributions from WooJin Won, HyunYeong Yoo)
+&gt; 
+&gt; JungWooJJING(@JungWooJJING) JungWoo Park of SSA Lab
+&gt; Github : JungWooJJING
+&gt; e-mail : [cuby5577&#64;...il.com]
+&gt; 
+&gt; wonwoojin
+&gt; Github : @woozhin
+&gt; e-mail : [woonwoojin5&#64;...il.com]
+&gt; 
+&gt; yhy
+&gt; Github : @ttuurrnn
+&gt; e-mail : [dbgusdud5493&#64;...il.com]
+&gt; 
+&gt; 
+&gt; Severity: Moderate 5.3 / 10
+&gt; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L
+&gt; CVE ID: CVE-2026-22693
+
+
+The fix is listed as:
+<a href="https://github.com/harfbuzz/harfbuzz/commit/1265ff8d990284f04d8768f35b0e20ae5f60daae" rel="nofollow">https://github.com/harfbuzz/harfbuzz/commit/1265ff8d990284f04d8768f35b0e20ae5f60daae</a>
+which was merged yesterday, weeks after the 12.3.0 release, despite the CVE record
+claiming "This issue has been patched in version 12.3.0."
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-41113: RCE in sagredo fork of qmail</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="../../../2026/04/19/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;40a3cde4-06d8-4c9a-8884-df8f4cd10910&#64;oracle.com&gt;
+Date: Sat, 18 Apr 2026 12:10:17 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-41113: RCE in sagredo fork of qmail
+
+<a href="https://blog.calif.io/p/we-asked-claude-to-audit-sagredos" rel="nofollow">https://blog.calif.io/p/we-asked-claude-to-audit-sagredos</a> and
+<a href="https://github.com/califio/publications/tree/main/MADBugs/qmail" rel="nofollow">https://github.com/califio/publications/tree/main/MADBugs/qmail</a>
+disclose CVE-2026-41113 in the version of qmail from
+<a href="https://github.com/sagredo-dev/qmail" rel="nofollow">https://github.com/sagredo-dev/qmail</a> .
+
+&gt; qmail-remote RCE via DNS MX Hostname Shell Injection (CVE-2026-41113)
+&gt; 
+&gt; Remote code execution in sagredo-dev/qmail through shell injection in
+&gt; tls_quit(). An attacker who controls DNS for any domain the target server
+&gt; sends mail to can execute arbitrary commands as the qmailr user.
+&gt; 
+&gt; Affected        sagredo-dev/qmail v2024.10.26 through v2026.04.02
+&gt; Fixed in        v2026.04.07 (commit 749f607)
+&gt; Requirement     control/notlshosts_auto enabled
+&gt; CVSS 3.1        8.2 High (AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H)
+&gt; CVE             CVE-2026-41113
+
+
+&gt; Our system zeroed in on a feature called notlshosts_auto that was added in
+&gt; October 2024. The idea behind it is reasonable: when qmail tries to deliver
+&gt; mail and the remote server's TLS is broken, you don't want to retry TLS
+&gt; forever, so this feature automatically remembers the bad host by creating a
+&gt; marker file named after it, and future deliveries skip TLS for that host.
+&gt; The implementation lives in qmail-remote.c, inside the TLS error handler
+&gt; tls_quit():
+&gt; 
+&gt;     sprintf(acfcommand, "/bin/touch %s/control/notlshosts/'%s'",
+&gt;             info-&gt;pw_dir, partner_fqdn);
+&gt;     fp = popen(acfcommand, "r");
+&gt; 
+&gt; It builds a shell command containing the remote hostname and runs it with
+&gt; popen(). The author wrapped the hostname in single quotes, presumably
+&gt; thinking that neutralizes shell metacharacters, but that protection fails
+&gt; the moment the hostname contains a single quote of its own.
+&gt; 
+&gt; The obvious objection is that hostnames can't contain single quotes, and
+&gt; that's true of host names in the RFC 952 sense, but it is not true of DNS
+&gt; labels. On the wire, a DNS label is just a length byte followed by up to
+&gt; 63 arbitrary bytes; RFC 1035 lets you put nearly anything in there, and
+&gt; most recursive resolvers will happily pass it through. When qmail calls
+&gt; glibc's dn_expand() to decode an MX record, some special characters get
+&gt; escaped, but ', `, |, &amp;, &lt;, and &gt; come through untouched. The net result
+&gt; is that partner_fqdn, the string being pasted into a shell command, is
+&gt; attacker-controlled via DNS.
+
+Further details about how the bug was found are provided in the blog,
+while the github repo provides PoC setup &amp; exploit code.
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

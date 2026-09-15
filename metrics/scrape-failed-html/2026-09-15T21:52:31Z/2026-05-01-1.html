@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: 10+ CVEs in GStreamer</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/04/30/21">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/03/16/2">[&lt;thread-prev]</a> <a href="9">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260430235948.GA31035&#64;openwall.com&gt;
+Date: Fri, 1 May 2026 01:59:48 +0200
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: 10+ CVEs in GStreamer
+
+Hi,
+
+I brought a bunch of GStreamer CVEs in here in March.  In April, there
+was a new release with more CVEs announced/fixed.  I'd really rather not
+be the one to be taking care of this - I guess we have subscribers who
+are involved with the project or its packaging?  Anyone, please?
+
+The new release is "1.28.2 stable bug fix release" with website news
+item dated "2026-04-07 23:00" and said to include "Various security
+fixes" and a lot more (with specifics).  The security fixes are for:
+
+&gt; GStreamer-SA-2026-0023 	Denial of service in SRT/WebVTT parser 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0022
+&gt; CVE-2026-pending 	Heap buffer overflow in Matroska demuxer 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0021
+&gt; CVE-2026-pending 	Integer overflow in WAV parser cue handling 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0020 	Assertion failures in FLV demuxer on corrupted streams 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0019 	NULL-pointer dereferences in mDVDsub subtitle parser 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0018
+&gt; CVE-2026-pending 	MOV/MP4 demuxer audio channel parsing vulnerabilities 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0017 	Integer overflow in H.266/VVC parser leading to stack overflow 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0016
+&gt; CVE-2026-5056
+&gt; ZDI-CAN-29392 	Integer overflows and out-of-bounds access in MOV/MP4 demuxer 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0015
+&gt; CVE-2026-pending 	Integer overflows in JPEG 2000 decimator 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0014 	Integer overflow in AV1 LEB128 parser 	2026-04-07 23:59
+&gt; 
+&gt; GStreamer-SA-2026-0013 	H.264 video parser NULL pointer dereference when freeing SPS/MVC data 	2026-04-07 23:59
+
+as listed at <a href="https://gstreamer.freedesktop.org/security/" rel="nofollow">https://gstreamer.freedesktop.org/security/</a> along with
+links to "Details" for each (which I have no time to extract and process
+into this posting).
+
+On Mon, Mar 16, 2026 at 03:58:16AM +0100, Solar Designer wrote:
+&gt; The news story at:
+&gt; 
+&gt; <a href="https://www.opennet.me/opennews/art.shtml?num=64964" rel="nofollow">https://www.opennet.me/opennews/art.shtml?num=64964</a>
+&gt; 
+&gt; originally in Russian explains GStreamer usage as follows, translated to
+&gt; English here:
+&gt; 
+&gt; &gt; The GStreamer library is used to parse multimedia files in Nautilus
+&gt; &gt; (GNOME Files), GNOME Videos, and Rhythmbox, as well as in the
+&gt; &gt; localsearch search engine (previously known as tracker-miners) developed
+&gt; &gt; by the GNOME project. This engine is installed in many distributions as
+&gt; &gt; a dependency of the tracker-extract package, which GNOME uses to
+&gt; &gt; automatically parse metadata in new files. Among other things, this
+&gt; &gt; service indexes all files in the user's home directory without any user
+&gt; &gt; interaction. Therefore, to perform an attack, simply create a specially
+&gt; &gt; crafted multimedia file in the user's home directory, and the
+&gt; &gt; vulnerability will be exploited during its automatic indexing.
+&gt; &gt; 
+&gt; &gt; In most GNOME distributions, localsearch components (tracker-miners) are
+&gt; &gt; enabled by default and loaded as a hard dependency of the Nautilus file
+&gt; &gt; manager (GNOME Files). Starting with GNOME 46, the localsearch process
+&gt; &gt; runs in sandbox isolation. To disable metadata extraction, you can
+&gt; &gt; delete the rules files from the /usr/share/localsearch3/extract-rules/
+&gt; &gt; or /usr/share/tracker3-miners/extract-rules/ directory.
+
+I don't know how good or not the mentioned "sandbox isolation" is, I'd
+welcome comments on the risks involved and potential further hardening.
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

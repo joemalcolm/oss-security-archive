@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Buffer overflow in /bin/su from UNIX v4</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/03/21/7">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/03/21/7">[&lt;thread-prev]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260322004305.7mutUkqn&#64;steffen%sdaoden.eu&gt;
+Date: Sun, 22 Mar 2026 01:43:05 +0100
+From: Steffen Nurpmeso &lt;steffen&#64;...oden.eu&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Buffer overflow in /bin/su from UNIX v4
+
+Justin Swartz wrote in
+ &lt;20260321201652.9287-1-justin.swartz&#64;...ingedge.co.za&gt;:
+ |Sat, 21 Mar 2026 19:00:13 +0100, Solar Designer wrote: 
+ |&gt; On Sat, Mar 21, 2026 at 01:13:47PM -0400, kf503bla&#64;...k.com wrote:
+ |&gt;&gt; why assign cve to something irrelvent?
+ |&gt; 
+ |&gt; I guess because (ir)relevance isn't among criteria for (not) assigning a
+ |&gt; CVE, and because there may be value in having a non-ambiguous way to
+ |&gt; refer to historical vulnerabilities for illustration of how the current
+ |&gt; ones fit in historical context.
+ |
+ |Beyond the historical context, there is an argument to be made
+ |for being aware of known defects in legacy codebases which have
+ |been resurrected for use on modern resource-constrained hardware.
+
+I do not disagree with that.
+But regarding old Unix code the "great old ones upon which'
+shoulders we stand" (and luckily so, that is) themselves say
+... please let me just quote Douglas McIlroy, who said (on January
+5th on TUHS):
+
+  So somebody spotted a buffer overflow in v4.5, ironically in su.
+
+  Overflowable buffers were common in those days. It was all too easy
+  when programming to shrug one's shoulders and opine that nobody would
+  ever want to input a 200-character line, say, so why bother writing
+  the extra code to catch it? We did gradually learn that automatically
+  generated input lines--particularly lines of code--could be much
+  longer than any person would write, so buffer overflows that actually
+  happened gradually got fixed.
+
+  Dennis once fed a couple-of-thousand-byte line on standard input to
+  everything in /bin. Crashes abounded, but so what? Wasn't a crash just
+  an ungraceful way for a program to say "I can't handle this"? Not
+  until the Morris worm (1988) did folks wake up to the real danger of
+  overflows.
+
+  Sometime after Dennis's casual experiment, a paper that announced the
+  same results got the reaction, "So what else is new?" from the Unix
+  room. It would be interesting to find the paper and compare its
+  "shocked, shocked" presentation to that of the rediscovery posted on
+  the cryptography mailing list.
+
+ |For example, the RetroBSD [1] project provides a port of 2.11BSD
+ |intended for PIC32 (MIPS) targets. There's also an actively
+ |maintained RetroBSD fork, called DiscoBSD [2], which adds support
+ |for STM32F4 (ARM Cortex-M4) targets and had its last release [3]
+ |last month.
+ |
+ |And then there's Serge Vakulenko's LiteBSD [4], a 4.4BSD port to
+ |PIC32.
+ |
+ |And who knows where Robert Nordier's port of UNIX V7, v7/x86 [5],
+ |may be running?
+
+The 2.11 BSD is also actively maintained; in fact patch #499 from
+January is *huge* (largest in ~30 years?, entire 4.4BSD I/O
+library ported back by ragge@ who maintains the PCC compiler).
+
+ |While these projects might modernize parts of the kernel and/or
+ |userland, there's always the possibility of bug-ridden code (and
+ |bug-ridden assumptions) being inherited from their respective BSD
+ |and/or Research UNIX lineage - as we've all seen with BSD derived
+ |telnet server and client implementations recently.
+ |
+ |Regards,
+ |Justin
+ |
+ |
+ |--- Links ---
+ |
+ |[1] <a href="https://retrobsd.org" rel="nofollow">https://retrobsd.org</a>
+ |[2] <a href="http://discobsd.org" rel="nofollow">http://discobsd.org</a>
+ |[3] <a href="https://github.com/chettrick/discobsd/releases/tag/DISCOBSD_2_6" rel="nofollow">https://github.com/chettrick/discobsd/releases/tag/DISCOBSD_2_6</a>
+ |[4] <a href="https://github.com/sergev/LiteBSD" rel="nofollow">https://github.com/sergev/LiteBSD</a>
+ |[5] <a href="https://www.nordier.com/#v7x86" rel="nofollow">https://www.nordier.com/#v7x86</a>
+ --End of &lt;20260321201652.9287-1-justin.swartz&#64;...ingedge.co.za&gt;
+
+--steffen
+|
+|Der Kragenbaer,                The moon bear,
+|der holt sich munter           he cheerfully and one by one
+|einen nach dem anderen runter  wa.ks himself off
+|(By Robert Gernhardt)
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

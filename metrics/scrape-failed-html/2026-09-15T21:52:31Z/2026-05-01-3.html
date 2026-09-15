@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE-2026-31431: CopyFail: linux local privilege
+ scalation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="10">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;2026050155-yelp-bonnet-bfd2&#64;gregkh&gt;
+Date: Fri, 1 May 2026 08:11:24 +0200
+From: Greg KH &lt;greg&#64;...ah.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: contact&#64;...ori.io
+Subject: Re: CVE-2026-31431: CopyFail: linux local privilege
+ scalation
+
+On Fri, May 01, 2026 at 05:21:46AM +0200, Solar Designer wrote:
+&gt; Hi Greg,
+&gt; 
+&gt; Thank you for commenting on this.
+&gt; 
+&gt; On Thu, Apr 30, 2026 at 06:52:15PM +0200, Greg KH wrote:
+&gt; &gt; On Thu, Apr 30, 2026 at 03:17:45AM -0400, cyber security wrote:
+&gt; &gt; &gt; That is very terrifying, is it is 10.0 score?
+&gt; &gt; 
+&gt; &gt; There is a score in the CVE entry, does that not show up properly for
+&gt; &gt; people somehow?
+&gt; 
+&gt; It does.  I guess someone top-posting a one-liner couldn't have bothered
+&gt; to check before posting or just wanted to share the emotions or provoke
+&gt; a discussion of CVSS scoring.  Luckily, your reply actually adds value:
+
+My reply was snarky, sorry about that, it was a long day...
+
+&gt; &gt; This was one of the few CVE ids that we have provided a score for, why
+&gt; &gt; people ignored that is confusing.  You should contact your distro if you
+&gt; &gt; are paying for support to find out why this happened as it should have
+&gt; &gt; been covered by your support contract.
+&gt; 
+&gt; That's interesting perspective.  I just went to see whether a distro
+&gt; vendor could reasonably use this as a signal to prioritize this CVE fix.
+&gt; Here's what I did (after looking with my eyes to see the pattern first):
+&gt; 
+&gt; git clone <a href="https://git.kernel.org/pub/scm/linux/security/vulns.git" rel="nofollow">https://git.kernel.org/pub/scm/linux/security/vulns.git</a>
+&gt; cd vulns
+&gt; git log | grep -B3 'Add CVSS' | grep -c 'Apr 25 .* 2026'
+&gt; 
+&gt; This says 168.  That's how many CVEs your team (this time, Sasha Levin)
+&gt; kindly scored on Saturday, April 25.  So ~4 days prior to this one CVE
+&gt; making the news, ~2 days of which were the weekend.  This CVE got a CVSS
+&gt; score of 7.8.  The rest of the 168 got scores from 7.1 to 9.8.  By the
+&gt; score alone, this one really does not stand out.  To me, this is usual
+&gt; noise, with little signal in there.
+
+The scores should be the signal, what else can we do here?  And is the
+9.8 being also ignored?
+
+&gt; Now, your team's message may be: distros can't possibly fix all kernel
+&gt; CVEs, not even those you provide high CVSS scores for, and especially
+&gt; not quickly enough, other than by staying with mainline or upstream
+&gt; stable/longterm kernels.  Is this your actual and only message - not
+&gt; that distros should have magically seen the needle in the haystack?
+
+No, our teams constant message is "you must update to the latest release
+to get all fixes needed to keep a system secure of all currently-known
+issues".  That has not changed for decades now.
+
+&gt; The scoring reasoning for this CVE does not hint at its severity and the
+&gt; threat being imminent.  It's as obscure as most of the rest of 168 are
+&gt; (which for most of them is probably a result of actually not having
+&gt; exploitability and impact analysis).
+
+Why do you think that we knew this was "imminent"?  The CVE team has no
+such knowlege as no one is obligated to tell us that they are about to
+let loose a trivial exploit.
+
+&gt; I understand not wanting to draw attention to a CVE that wasn't fully
+&gt; disclosed by the researchers yet, but you can't simultaneously say that
+&gt; _this_ was the heads-up to distros - it wasn't.
+
+Again, I was being snarky as we all knew this would eventually happen
+and it finally did.
+
+&gt; Please don't get me wrong, I appreciate the extra effort your team is
+&gt; taking to process some kernel bugs as CVEs and even to score them.  I
+&gt; understand that with so many, quality can't be perfect.
+&gt; 
+&gt; It's just that instead of drowning in the CVE/CVSS noise, we need a
+&gt; high-quality signal for CVEs that matter the most.  Things that would
+&gt; certainly have been CVEs even prior to Linux CNA setup.  They may not
+&gt; score the highest per CVSS, but in many cases - like in this one - your
+&gt; team has the knowledge that an issue is to become high-profile, so a
+&gt; timely direct heads-up to linux-distros would be appreciated.  Where by
+&gt; "timely" I mean, say, a week (and never more than 14 days) before
+&gt; planned full public disclosure.  We don't normally like to sit on
+&gt; semi-embargoed issues with public fixes, but we did introduce an
+&gt; exception for "Linux kernel issues concurrently or very recently handled
+&gt; by the Linux kernel security team" specifically to accommodate the way
+&gt; your team works.
+&gt; 
+&gt; How does this sound to you?
+
+Nope, sorry, we are NOT allowed to notify anyone about anything "ahead
+of time" otherwise we will have to tell everyone about everything.
+That's the only policy by which all the legal/governmental agencies
+have agreed to allow us to operate in, so we are stuck with it.
+
+greg k-h
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Systemd vsock sshd</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2026/02/03/2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260219041519.GA19288&#64;openwall.com&gt;
+Date: Thu, 19 Feb 2026 05:15:19 +0100
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: Bastian Blank &lt;bblank&#64;...nkmo.de&gt;, oss-security&#64;...ts.openwall.com
+Cc: Greg Dahlman &lt;dahlman&#64;...il.com&gt;
+Subject: Re: Systemd vsock sshd
+
+On Tue, Feb 03, 2026 at 04:46:56PM +0100, Bastian Blank wrote:
+&gt; On Sat, Dec 27, 2025 at 08:46:49PM -0700, Greg Dahlman wrote:
+&gt; &gt;   **vsock exists in the global namespace** - Unlike "af_inet" sockets,
+&gt; &gt;   vsock connections are not bound to a particular network namespace.
+&gt; &gt;   By default they are visible to every namespace on the host.
+&gt; 
+&gt; Every address family in Linux needs to implement it's own namespace
+&gt; handling.  In 2007, all existing address families got a check to only
+&gt; allow the inital network namespace.  af_vsock is newer and never got
+&gt; this check.
+&gt; 
+&gt; Every point after the first one is just a result, not a cause.
+&gt; 
+&gt; So a fix would be something like that (untested, no time right now):
+&gt; 
+&gt; --- a/net/vmw_vsock/af_vsock.c
+&gt; +++ b/net/vmw_vsock/af_vsock.c
+&gt; @@ -2553,6 +2553,9 @@ static int vsock_create(struct net *net, struct socket *sock,
+&gt;          if (protocol &amp;&amp; protocol != PF_VSOCK)
+&gt;                  return -EPROTONOSUPPORT;
+&gt;  
+&gt; +        if (!net_eq(net, &amp;init_net))
+&gt; +                return -EAFNOSUPPORT;
+&gt; +
+&gt;          switch (sock-&gt;type) {
+&gt;          case SOCK_DGRAM:
+&gt;                  sock-&gt;ops = &amp;vsock_dgram_ops;
+
+Brad Spengler pointed me at this Linux merge commit (it's not in 6.19,
+should get into 6.20):
+
+<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=099ca4121ea747acc8a0d36852f2f477943f306d" rel="nofollow">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=099ca4121ea747acc8a0d36852f2f477943f306d</a>
+
+commit 099ca4121ea747acc8a0d36852f2f477943f306d
+Merge: 3eef6c061f97 b3b7b33264c6
+Author: Paolo Abeni &lt;pabeni&#64;...hat.com&gt;
+Date:   Tue Jan 27 10:45:40 2026 +0100
+
+    Merge branch 'vsock-add-namespace-support-to-vhost-vsock-and-loopback'
+    
+    Bobby Eshleman says:
+    
+    ====================
+    vsock: add namespace support to vhost-vsock and loopback
+    
+    This series adds namespace support to vhost-vsock and loopback. It does
+    not add namespaces to any of the other guest transports (virtio-vsock,
+    hyperv, or vmci).
+    
+    The current revision supports two modes: local and global. Local
+    mode is complete isolation of namespaces, while global mode is complete
+    sharing between namespaces of CIDs (the original behavior).
+    
+    The mode is set using the parent namespace's
+    /proc/sys/net/vsock/child_ns_mode and inherited when a new namespace is
+    created. The mode of the current namespace can be queried by reading
+    /proc/sys/net/vsock/ns_mode. The mode can not change after the namespace
+    has been created.
+    
+    Modes are per-netns. This allows a system to configure namespaces
+    independently (some may share CIDs, others are completely isolated).
+    This also supports future possible mixed use cases, where there may be
+    namespaces in global mode spinning up VMs while there are mixed mode
+    namespaces that provide services to the VMs, but are not allowed to
+    allocate from the global CID pool (this mode is not implemented in this
+    series).
+    
+    Additionally, added tests for the new namespace features:
+    
+    tools/testing/selftests/vsock/vmtest.sh
+    1..25
+    ok 1 vm_server_host_client
+    ok 2 vm_client_host_server
+    ok 3 vm_loopback
+    ok 4 ns_host_vsock_ns_mode_ok
+    ok 5 ns_host_vsock_child_ns_mode_ok
+    ok 6 ns_global_same_cid_fails
+    ok 7 ns_local_same_cid_ok
+    ok 8 ns_global_local_same_cid_ok
+    ok 9 ns_local_global_same_cid_ok
+    ok 10 ns_diff_global_host_connect_to_global_vm_ok
+    ok 11 ns_diff_global_host_connect_to_local_vm_fails
+    ok 12 ns_diff_global_vm_connect_to_global_host_ok
+    ok 13 ns_diff_global_vm_connect_to_local_host_fails
+    ok 14 ns_diff_local_host_connect_to_local_vm_fails
+    ok 15 ns_diff_local_vm_connect_to_local_host_fails
+    ok 16 ns_diff_global_to_local_loopback_local_fails
+    ok 17 ns_diff_local_to_global_loopback_fails
+    ok 18 ns_diff_local_to_local_loopback_fails
+    ok 19 ns_diff_global_to_global_loopback_ok
+    ok 20 ns_same_local_loopback_ok
+    ok 21 ns_same_local_host_connect_to_local_vm_ok
+    ok 22 ns_same_local_vm_connect_to_local_host_ok
+    ok 23 ns_delete_vm_ok
+    ok 24 ns_delete_host_ok
+    ok 25 ns_delete_both_ok
+    SUMMARY: PASS=25 SKIP=0 FAIL=0
+    
+    Thanks again for everyone's help and reviews!
+    
+    Suggested-by: Sargun Dhillon &lt;sargun&#64;...gun.me&gt;
+    Signed-off-by: Bobby Eshleman &lt;bobbyeshleman&#64;...il.com&gt;
+    
+    v15: <a href="https://lore.kernel.org/r/20260116-vsock-vmtest-v15-0-bbfd1a668548&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20260116-vsock-vmtest-v15-0-bbfd1a668548&#64;meta.com</a>
+    v14: <a href="https://lore.kernel.org/r/20260112-vsock-vmtest-v14-0-a5c332db3e2b&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20260112-vsock-vmtest-v14-0-a5c332db3e2b&#64;meta.com</a>
+    v13: <a href="https://lore.kernel.org/all/20251223-vsock-vmtest-v13-0-9d6db8e7c80b&#64;meta.com/" rel="nofollow">https://lore.kernel.org/all/20251223-vsock-vmtest-v13-0-9d6db8e7c80b&#64;meta.com/</a>
+    v12: <a href="https://lore.kernel.org/r/20251126-vsock-vmtest-v12-0-257ee21cd5de&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20251126-vsock-vmtest-v12-0-257ee21cd5de&#64;meta.com</a>
+    v11: <a href="https://lore.kernel.org/r/20251120-vsock-vmtest-v11-0-55cbc80249a7&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20251120-vsock-vmtest-v11-0-55cbc80249a7&#64;meta.com</a>
+    v10: <a href="https://lore.kernel.org/r/20251117-vsock-vmtest-v10-0-df08f165bf3e&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20251117-vsock-vmtest-v10-0-df08f165bf3e&#64;meta.com</a>
+    v9: <a href="https://lore.kernel.org/all/20251111-vsock-vmtest-v9-0-852787a37bed&#64;meta.com" rel="nofollow">https://lore.kernel.org/all/20251111-vsock-vmtest-v9-0-852787a37bed&#64;meta.com</a>
+    v8: <a href="https://lore.kernel.org/r/20251023-vsock-vmtest-v8-0-dea984d02bb0&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20251023-vsock-vmtest-v8-0-dea984d02bb0&#64;meta.com</a>
+    v7: <a href="https://lore.kernel.org/r/20251021-vsock-vmtest-v7-0-0661b7b6f081&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20251021-vsock-vmtest-v7-0-0661b7b6f081&#64;meta.com</a>
+    v6: <a href="https://lore.kernel.org/r/20250916-vsock-vmtest-v6-0-064d2eb0c89d&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20250916-vsock-vmtest-v6-0-064d2eb0c89d&#64;meta.com</a>
+    v5: <a href="https://lore.kernel.org/r/20250827-vsock-vmtest-v5-0-0ba580bede5b&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20250827-vsock-vmtest-v5-0-0ba580bede5b&#64;meta.com</a>
+    v4: <a href="https://lore.kernel.org/r/20250805-vsock-vmtest-v4-0-059ec51ab111&#64;meta.com" rel="nofollow">https://lore.kernel.org/r/20250805-vsock-vmtest-v4-0-059ec51ab111&#64;meta.com</a>
+    v2: <a href="https://lore.kernel.org/kvm/20250312-vsock-netns-v2-0-84bffa1aa97a&#64;gmail.com" rel="nofollow">https://lore.kernel.org/kvm/20250312-vsock-netns-v2-0-84bffa1aa97a&#64;gmail.com</a>
+    v1: <a href="https://lore.kernel.org/r/20200116172428.311437-1-sgarzare&#64;redhat.com" rel="nofollow">https://lore.kernel.org/r/20200116172428.311437-1-sgarzare&#64;redhat.com</a>
+    ====================
+    
+    Link: <a href="https://patch.msgid.link/20260121-vsock-vmtest-v16-0-2859a7512097&#64;meta.com" rel="nofollow">https://patch.msgid.link/20260121-vsock-vmtest-v16-0-2859a7512097&#64;meta.com</a>
+    Signed-off-by: Paolo Abeni &lt;pabeni&#64;...hat.com&gt;
+
+Brad's comments on it are:
+
+<a href="https://x.com/spendergrsec/status/2021929584384438428" rel="nofollow">https://x.com/spendergrsec/status/2021929584384438428</a>
+
+Feb 12
+Looks like the defaults (global for both ns_mode/child_ns_mode) keep everything working the same as currently, doesn't seem like it'd restrict anything under unpriv userns as nothing stops changing child_ns_mode back to global after first setting it to local.
+
+Feb 14
+Same things I noticed: <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=36e838630c111a510f47e49d559bd26aba7d9a1b" rel="nofollow">https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=36e838630c111a510f47e49d559bd26aba7d9a1b</a> <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=6a997f38bdf822d4c5cc10b445ff1cb26872580a" rel="nofollow">https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=6a997f38bdf822d4c5cc10b445ff1cb26872580a</a>
+
+Feb 16
+The design of this whole thing actually seems to me entirely broken and useless, especially for something that took 7 years to land.  If you want any kind of reasonable legit use of vsock with this, you're forced into global/global mode that allows all the unreasonable things.
+The local mode also forcing local id allocation is the main aspect making it unusable (and unfixable later, unless I'm missing something).  If at least the id allocation were global, then you could implement some reasonable directional/cap-based policies...
+but not when you can't even see what you should be able to connect to (especially so when the same id can be reused by local mode containers).
+
+The referenced netdev commits made on Feb 13 fix issues with the
+initially merged implementation, and aren't yet in Linus' tree.
+
+&gt; But I have a question:  why do you name sshd, while every AF_VSOCK
+&gt; listener is affected?
+
+I assume you're asking Greg - CC'ing.
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

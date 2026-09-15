@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-42811: Apache Polaris: In plain terms, Polaris is
+ supposed to issue short-lived GCS credentials that only work for one
+ table's files, but a crafted namespace or table name can cause those
+ credentials to work across the configured bucket instead. </title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;f1017815-db33-0d3d-fc56-163e7a88a57d&#64;apache.org&gt;
+Date: Sat, 02 May 2026 16:01:13 +0000
+From: Jean-Baptiste Onofré &lt;jbonofre&#64;...che.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-42811: Apache Polaris: In plain terms, Polaris is
+ supposed to issue short-lived GCS credentials that only work for one
+ table's files, but a crafted namespace or table name can cause those
+ credentials to work across the configured bucket instead. 
+
+Severity: important 
+
+Affected versions:
+
+- Apache Polaris before 1.4.1
+
+Description:
+
+In plain terms, Apache Polaris is supposed to issue short-lived GCS credentials
+that
+only work for one table's files, but a crafted namespace or table name can
+cause those credentials to work across the configured bucket instead.
+
+
+Apache Polaris builds Google Cloud Storage downscoped credentials by creating a
+Credential Access Boundary (CAB) with CEL conditions that are intended to
+restrict access to the requested table's storage path.
+
+
+
+The relevant CEL string is built from the bucket name and the table path.
+That
+table path is derived from namespace and table identifiers. In current code,
+that path appears to be inserted into the CEL expression without escaping.
+
+
+
+As a result, a namespace or table identifier containing a single quote and
+other URI-safe CEL fragments can break out of the intended quoted string and
+change the meaning of the CEL condition.
+
+
+
+In private testing against Polaris 1.4.0 on real Google Cloud Storage, I
+confirmed that Polaris accepted a crafted identifier and returned delegated
+GCS
+credentials whose CEL path restriction had effectively collapsed.
+
+
+Those delegated credentials could then:
+
+
+- list another table's object prefix;
+
+- read another table's metadata control file (Iceberg metadata JSON);
+
+- create and delete an object under another table's object prefix;
+
+- and also list, read, create, and delete objects under an unrelated
+external
+prefix in the same bucket that was not part of any table path.
+
+
+
+That last point is important. The issue is not limited to "another table".
+In
+the confirmed setup, once Apache Polaris returned credentials for the crafted
+table,
+the path restriction inside the configured bucket was effectively gone.
+
+The practical effect is that temporary credentials for one crafted table
+can be
+broader than the table Polaris was asked to authorize, and can become
+effectively bucket-wide within the configured bucket.
+
+
+
+The current GCS repro uses a Polaris principal with broad catalog privileges
+for setup. I have not yet repeated the separate least-privilege Polaris-RBAC
+variant on GCS. However, the storage-credential broadening itself is
+confirmed
+on real GCS.
+
+References:
+
+<a href="https://polaris.apache.org" rel="nofollow">https://polaris.apache.org</a>
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-42811" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-42811</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

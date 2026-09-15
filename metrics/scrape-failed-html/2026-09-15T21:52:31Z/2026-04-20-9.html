@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - The GNU C Library security advisories update for 2026-04-20</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="../../../2026/04/21/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;cca74bf2-74b1-4a83-82e9-8446edc05bf7&#64;redhat.com&gt;
+Date: Mon, 20 Apr 2026 16:35:58 -0400
+From: Carlos O'Donell &lt;carlos&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: The GNU C Library security advisories update for 2026-04-20
+
+The following security advisories have been published:
+
+GLIBC-SA-2026-0008:
+===================
+Static buffer overflow in deprecated nis_local_principal
+
+The obsolete nis_local_principal function in the GNU C Library version
+2.43 and older may overflow a buffer in the data section, which could
+allow an attacker to spoof a crafted response to a UDP request generated
+by this function and overwrite neighboring static data in the requesting
+application.
+
+NIS support is obsolete and has been deprecated in the GNU C Library
+since version 2.26 and is only maintained for legacy usage. Applications
+should port away from NIS to more modern identity and access management
+services.
+
+CVE-Id: CVE-2026-5358
+Public-Date: 2026-04-10
+Reported-by: Rahul Hoysala
+
+GLIBC-SA-2026-0009:
+===================
+scanf %mc off-by-one heap buffer overflow
+
+Calling the scanf family of functions with a %mc (malloc'd character
+match) in the GNU C Library version 2.7 to version 2.43 with a format
+width specifier with an explicit width greater than 1024 could result in
+a one byte heap buffer overflow.
+
+The bug is in the buffer growth formula in __vfscanf_internal, which
+under-allocates by one byte during realloc expansion, allowing a
+controlled single-byte overwrite past the end of the heap buffer.
+
+The impact is limited by the fact that to execute the overwrite you need
+both user controlled input data and a specific choice of maximum width
+that yields a smaller than needed allocation. The latter point has to
+take into account malloc's particular chunk size rounding process.  The
+"%[width]mc" format specififer does not appear to have notable use in
+major Linux-based OS distributions, due to which the real world impact
+may be limited to bespoke use cases.
+
+CVE-Id: CVE-2026-5450
+Public-Date: 2026-03-19
+Vulnerable-Commit: 874aa52349cc111d1f6ea5dff24bb14c306714e0 (2.7)
+Reported-by: Rocket Ma
+
+GLIBC-SA-2026-0010:
+===================
+Potential buffer under-read in ungetwc
+
+Calling the ungetwc function on a FILE stream with wide characters
+encoded in a character set that has overlaps between its single byte and
+multi-byte character encodings, in the GNU C Library version 2.43 or
+earlier, may result in an attempt to read bytes before an allocated
+buffer, potentially resulting in unintentional disclosure of neighboring
+data in the heap, or a program crash.
+
+A bug in the wide character pushback implementation
+(_IO_wdefault_pbackfail in libio/wgenops.c) causes ungetwc() to operate
+on the regular character buffer (fp-&gt;_IO_read_ptr) instead of the actual
+wide-stream read pointer (fp-&gt;_wide_data-&gt;_IO_read_ptr). The program
+crash may happen in cases where fp-&gt;_IO_read_ptr is not initialized and
+hence points to NULL. The buffer under-read requires a special situation
+where the input character encoding is such that there are overlaps
+between single byte representations and multibyte representations in
+that encoding, resulting in spurious matches.  The spurious match case
+is not possible in the standard Unicode character sets.
+
+CVE-Id: CVE-2026-5928
+Public-Date: 2026-03-17
+Reported-by: Rocket Ma
+Vulnerable-Commit: d64b6ad07585b8a37e5fecc9a47fcee766d52ede (2.1.1-89)
+
+Notes:
+======
+
+Published advisories are available directly in the project git repository:
+<a href="https://sourceware.org/git/?p=glibc.git;a=tree;f=advisories;hb=HEAD" rel="nofollow">https://sourceware.org/git/?p=glibc.git;a=tree;f=advisories;hb=HEAD</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

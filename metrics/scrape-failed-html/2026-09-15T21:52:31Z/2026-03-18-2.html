@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: OpenSSH GSSAPI keyex patch issue</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2026/03/14/4">[&lt;thread-prev]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAOcQRVW0Nestm-mMxnEzbb=cTEy_chVaoy8rm7Aqwc5OkadHVw&#64;mail.gmail.com&gt;
+Date: Wed, 18 Mar 2026 09:14:31 +0100
+From: Dmitry Belyavskiy &lt;dbelyavs&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: OpenSSH GSSAPI keyex patch issue
+
+Dear colleagues,
+
+Thanks for sharing your findings!
+Can we somehow establish some better coordination in case of widely used
+downstream patches, especially for such an important, ubiquitous and
+heavily patched component as OpenSSH?
+
+On Thu, Mar 12, 2026 at 7:09 PM Marc Deslauriers &lt;
+marc.deslauriers&#64;...onical.com&gt; wrote:
+
+&gt; Hello,
+&gt;
+&gt; Jeremy Brown discovered a security issue in the GSSAPI Key Exchange patch
+&gt; a lot
+&gt; of distros carry on top of the OpenSSH package.
+&gt;
+&gt; Unfortunately, there seems to be quite a few different versions of this
+&gt; patch
+&gt; being used, but a lot of them share the same core issue. Different
+&gt; compiler
+&gt; options also result in different outcomes, so the severity of this issue
+&gt; varies.
+&gt;
+&gt; We have assigned CVE-2026-3497 to this issue.
+&gt;
+&gt; Attached is the full pdf from the reporter, along with the patch we used
+&gt; in
+&gt; Ubuntu. I suggest reading the full pdf, but I have extracted some of the
+&gt; most
+&gt; important excerpts from it:
+&gt;
+&gt; "The patch contains a code defect where sshpkt_disconnect() (a
+&gt; non-terminating
+&gt; function that queues a disconnect message and returns) is used where
+&gt; ssh_packet_disconnect()(which terminates the process) was intended. This
+&gt; causes
+&gt; the default: error-handling case in the GSSAPI KEX server loop to fall
+&gt; through
+&gt; into code that reads an uninitialized stack variable (recv_tok), sends its
+&gt; contents to the privileged monitor process via IPC, and then passes it to
+&gt; gss_release_buffer() which may call free() on a garbage pointer."
+&gt;
+&gt; "Bug: Non-terminating error handler (sshpkt_disconnect) in GSSAPI KEX
+&gt; server
+&gt; code allows fallthrough to uninitialized variable use
+&gt;
+&gt; - Impact: Pre-auth uninitialized pointer dereference (CWE-824, CWE-908);
+&gt; confirmed heap corruption via free() on uninitialized pointer (SIGABRT on
+&gt; x86_64); privsep boundary violation (up to 127KB of heap data to root
+&gt; monitor
+&gt; via IPC); SIGSEGV (signal 11) and SIGABRT (signal 6) on x86_64 with
+&gt; 90-second
+&gt; SSH lockout; 100% reliable child process crash
+&gt;
+&gt; - Trigger: Single crafted SSH packet (~300 bytes), no authentication or
+&gt; credentials needed
+&gt;
+&gt; - Potentially Affected: Ubuntu/Debian OpenSSH servers with
+&gt; GSSAPIKeyExchange
+&gt; yes
+&gt;
+&gt; - Potential Fix: Replace sshpkt_disconnect() with ssh_packet_disconnect()
+&gt; at the
+&gt; 3 server-side call sites in kexgsss.c"
+&gt;
+&gt; "The uninitialized recv_tok contains different stack residue depending on
+&gt; compiler, optimization level, and flags."
+&gt;
+&gt; "Different compilers produce fundamentally different residue. Clang -O0
+&gt; leaves
+&gt; 0xfffbe600 with length 4. GCC -O2 -fno-stack-protector leaves a valid heap
+&gt; address with length 127344. The 8-build matrix shows that recv_tok.value
+&gt; ranges
+&gt; from NULL to stack addresses to heap addresses to unmapped addresses."
+&gt;
+&gt;
+&gt; Thanks,
+&gt;
+&gt; Marc.
+&gt; --
+&gt; Marc Deslauriers
+&gt; Ubuntu Security Engineer     | <a href="http://www.ubuntu.com/" rel="nofollow">http://www.ubuntu.com/</a>
+&gt; Canonical Ltd.               | <a href="http://www.canonical.com/" rel="nofollow">http://www.canonical.com/</a>
+&gt;
+
+
+-- 
+Dmitry Belyavskiy
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - wolfSSL 5.9.1 CVE and non-CVE fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260414041731.GA6657&#64;openwall.com&gt;
+Date: Tue, 14 Apr 2026 06:17:31 +0200
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: wolfSSL 5.9.1 CVE and non-CVE fixes
+
+Hi,
+
+wolfSSL 5.9.1 was released on April 8, 2026 with many CVE fixes:
+
+<a href="https://github.com/wolfSSL/wolfssl/releases/tag/v5.9.1-stable" rel="nofollow">https://github.com/wolfSSL/wolfssl/releases/tag/v5.9.1-stable</a>
+
+&gt;     [Critical] CVE-2026-5194
+&gt;     Missing hash/digest size and OID checks allow digests smaller than
+&gt; allowed by FIPS 186-4 or 186-5 (as appropriate), or smaller than is
+&gt; appropriate for the relevant key type, to be accepted by signature
+&gt; verification functions, reducing the security of certificate-based
+&gt; authentication. Affects multiple signature algorithms, including
+&gt; ECDSA/ECC, DSA, ML-DSA, ED25519, and ED448. Builds that have both ECC
+&gt; and EdDSA or ML-DSA enabled that are doing certificate verification are
+&gt; recommended to update to the latest wolfSSL release. Thanks to Nicholas
+&gt; Carlini from Anthropic for the report. Fixed in PR 10131.
+&gt; 
+&gt;     [High] CVE-2026-5264
+&gt;     Heap buffer overflow in DTLS 1.3 ACK message processing. A remote
+&gt; attacker can send a crafted DTLS 1.3 ACK message that triggers a heap
+&gt; buffer overflow. Thanks to Sunwoo Lee and Seunghyun Yoon, Korea
+&gt; Institute of Energy Technology (KENTECH). Fixed in PR 10076.
+&gt; 
+&gt;     [High] CVE-2026-5263
+&gt;     URI nameConstraints from constrained intermediate CAs are parsed but
+&gt; not enforced during certificate chain verification in
+&gt; wolfcrypt/src/asn.c. A compromised or malicious sub-CA could issue leaf
+&gt; certificates with URI SAN entries that violate the nameConstraints of
+&gt; the issuing CA, and wolfSSL would accept them as valid. Thanks to Oleh
+&gt; Konko @1seal for the report. Fixed in PR 10048.
+&gt; 
+&gt;     [High] CVE-2026-5295
+&gt;     Stack buffer overflow in PKCS7 ORI (Other Recipient Info) OID
+&gt; processing. When parsing a PKCS7 envelope with a crafted ORI OID value,
+&gt; a stack-based buffer overflow can be triggered. Thanks to Sunwoo Lee,
+&gt; Woohyun Choi, and Seunghyun Yoon (Korea Institute of Energy Technology,
+&gt; KENTECH). Fixed in PR 10116.
+&gt; 
+&gt;     [High] CVE-2026-5466
+&gt;     wolfSSL's ECCSI signature verifier wc_VerifyEccsiHash decodes the r
+&gt; and s scalars from the signature blob via mp_read_unsigned_bin with no
+&gt; check that they lie in [1, q-1]. A crafted forged signature could verify
+&gt; against any message for any identity, using only publicly-known
+&gt; constants. Thanks to Calif.io in collaboration with Claude and Anthropic
+&gt; Research for the report. Fixed in PR 10102.
+&gt; 
+&gt;     [High] CVE-2026-5477
+&gt;     Potential for AES-EAX AEAD and CMAC authentication bypass on
+&gt; messages larger than 4 GiB. An attacker who observes one valid
+&gt; (ciphertext, tag) pair for a &gt;4 GiB EAX message can replace the first 4
+&gt; GiB of ciphertext arbitrarily while the tag still verifies. Thanks to
+&gt; Calif.io in collaboration with Claude and Anthropic Research for the
+&gt; report. Fixed in PR 10102.
+&gt; 
+&gt;     [High] CVE-2026-5447
+&gt;     Heap buffer overflow in CertFromX509 via AuthorityKeyIdentifier size
+&gt; confusion. A heap buffer overflow occurs when converting an X.509
+&gt; certificate internally due to incorrect size handling of the
+&gt; AuthorityKeyIdentifier extension. Thanks to Calif.io in collaboration
+&gt; with Claude and Anthropic Research for the report. Fixed in PR 10112.
+&gt; 
+&gt;     [High] CVE-2026-5500
+&gt;     wolfSSL's wc_PKCS7_DecodeAuthEnvelopedData() does not properly
+&gt; sanitize the AES-GCM authentication tag length received and has no lower
+&gt; bounds check. A man-in-the-middle can therefore truncate the mac field
+&gt; from 16 bytes to 1 byte, reducing the tag check from 2⁻¹²⁸ to
+&gt; 2⁻⁸. Thanks to Calif.io in collaboration with Claude and Anthropic
+&gt; Research for the report. Fixed in PR 10102.
+&gt; 
+&gt;     [High] CVE-2026-5501
+&gt;     wolfSSL_X509_verify_cert() in the OpenSSL compatibility layer
+&gt; accepts a certificate chain in which the leaf's signature is not
+&gt; checked, if the attacker supplies an untrusted intermediate with Basic
+&gt; Constraints CA:FALSE that is legitimately signed by a trusted root. An
+&gt; attacker who obtains any leaf certificate from a trusted CA (e.g. a free
+&gt; DV cert from Let's Encrypt) can forge a certificate for any subject name
+&gt; with any public key and arbitrary signature bytes, and the function
+&gt; returns WOLFSSL_SUCCESS / X509_V_OK. The native wolfSSL TLS handshake
+&gt; path (ProcessPeerCerts) is not susceptible and the issue is limited to
+&gt; applications using the OpenSSL compatibility API directly. Thanks to
+&gt; Calif.io in collaboration with Claude and Anthropic Research for the
+&gt; report. Fixed in PR 10102.
+&gt; 
+&gt;     [High] CVE-2026-5503
+&gt;     In TLSX_EchChangeSNI, the ctx-&gt;extensions branch set extensions
+&gt; unconditionally even when TLSX_Find returned NULL. This caused
+&gt; TLSX_UseSNI to attach the attacker-controlled publicName to the shared
+&gt; WOLFSSL_CTX when no inner SNI was configured. TLSX_EchRestoreSNI then
+&gt; failed to clean it up because its removal was gated on serverNameX !=
+&gt; NULL. The inner ClientHello was sized before the pollution but written
+&gt; after it, causing TLSX_SNI_Write to memcpy 255 bytes past the allocation
+&gt; boundary. Thanks to Calif.io in collaboration with Claude and Anthropic
+&gt; Research for the report. Fixed in PR 10102.
+&gt; 
+&gt;     [Med] CVE-2026-5392
+&gt;     Heap out-of-bounds read in PKCS7 parsing. A crafted PKCS7 message
+&gt; can trigger an OOB read on the heap. The missing bounds check is in the
+&gt; indefinite-length end-of-content verification loop in
+&gt; PKCS7_VerifySignedData(). This only affects builds with PKCS7 support
+&gt; enabled. Thanks to J Laratro (d0sf3t) for the report. Fixed in PR 10039.
+&gt; 
+&gt;     [Med] CVE-2026-5446
+&gt;     ARIA-GCM nonce reuse in TLS 1.2 record encryption. ARIA cipher
+&gt; support requires a proprietary Korean library (MagicCrypto) and
+&gt; --enable-aria, limiting real-world exposure. Thanks to Calif.io in
+&gt; collaboration with Claude and Anthropic Research for the report. Fixed
+&gt; in PR 10111.
+&gt; 
+&gt;     [Med] CVE-2026-5460
+&gt;     When a malicious TLS 1.3 server sends a ServerHello with a truncated
+&gt; PQC hybrid KeyShare (e.g., P256_ML_KEM_512 with 10 bytes instead of the
+&gt; required 768+), the error cleanup path double-frees the KyberKey. Thanks
+&gt; to Calvin Young (eWalker Consulting Inc.) and Enoch Chow (Isomorph
+&gt; Cyber). Fixed in PR 10092.
+&gt; 
+&gt;     [Med] CVE-2026-5504
+&gt;     A padding oracle exists in wolfSSL's PKCS7 CBC decryption that could
+&gt; allow an attacker to recover plaintext through repeated decryption
+&gt; queries with modified ciphertext. In previous versions of wolfSSL the
+&gt; interior padding bytes are not validated. Thanks to Sunwoo Lee, Woohyun
+&gt; Choi, and Seunghyun Yoon of Korea Institute of Energy Technology
+&gt; (KENTECH) for the report. Fixed in PR 10088.
+&gt; 
+&gt;     [Med] CVE-2026-5507
+&gt;     When restoring a session from cache, a pointer from the serialized
+&gt; session data is used in a free operation without validation. An attacker
+&gt; who can poison the session cache could trigger an arbitrary free.
+&gt; Exploitation requires the ability to inject a crafted session into the
+&gt; cache and for the application to call specific session restore APIs.
+&gt; Thanks to Sunwoo Lee, Woohyun Choi, and Seunghyun Yoon of Korea
+&gt; Institute of Energy Technology (KENTECH) for the report. Fixed in PR
+&gt; 10088.
+&gt; 
+&gt;     [Low] CVE-2026-5187
+&gt;     Heap out-of-bounds write in DecodeObjectId() caused by an off-by-one
+&gt; bounds check combined with a sizeof mismatch. A crafted ASN.1 object
+&gt; identifier can trigger a small heap OOB write. Thanks to Yuteng for the
+&gt; report. Fixed in PR 10025.
+&gt; 
+&gt;     [Low] CVE-2026-5188
+&gt;     An integer underflow issue exists in wolfSSL when parsing the
+&gt; Subject Alternative Name (SAN) extension of X.509 certificates. A
+&gt; malformed certificate can specify an entry length larger than the
+&gt; enclosing sequence, causing the internal length counter to wrap during
+&gt; parsing. This results in incorrect handling of certificate data. The
+&gt; issue is limited to configurations using the original ASN.1 parsing
+&gt; implementation. The original ASN.1 parsing implementation is off by
+&gt; default. Thanks to Muhammad Arya Arjuna Habibullah for the report. Fixed
+&gt; in PR 10024.
+&gt; 
+&gt;     [Low] CVE-2026-5448
+&gt;     X.509 date buffer overflow in wolfSSL_X509_notAfter /
+&gt; wolfSSL_X509_notBefore. A buffer overflow may occur when parsing date
+&gt; fields from a crafted X.509 certificate via the compatibility layer API.
+&gt; This is only triggered when calling these two APIs directly from an
+&gt; application, and does not affect TLS or certificate verify operations in
+&gt; wolfSSL. Thanks to Sunwoo Lee and Seunghyun Yoon, Korea Institute of
+&gt; Energy Technology (KENTECH) for the report. Fixed in PR 10071.
+&gt; 
+&gt;     [Low] CVE-2026-5772
+&gt;     A 1-byte stack buffer over-read exists in the MatchDomainName
+&gt; function in src/internal.c when processing wildcard patterns with the
+&gt; LEFT_MOST_WILDCARD_ONLY flag active. When a wildcard '*' exhausts the
+&gt; entire hostname string (strLen reaches 0), the function proceeds to
+&gt; compare remaining pattern characters against the now-exhausted buffer
+&gt; without a bounds check, causing an out-of-bounds read. Thanks to Zou
+&gt; Dikai for the report. Fixed in PR 10119.
+&gt; 
+&gt;     [Low] CVE-2026-5778
+&gt;     An integer underflow exists in the ChaCha20-Poly1305 decryption path
+&gt; where a malformed TLS 1.2 record with a payload shorter than the AEAD
+&gt; MAC size causes the message length calculation to underflow, resulting
+&gt; in an out-of-bounds read. This only affects sniffer builds. Thanks to
+&gt; Zou Dikai for the report. Fixed in PR 10125.
+&gt; 
+&gt; Experimental Build Vulnerability
+&gt; 
+&gt;     [Med] CVE-2026-5393
+&gt;     Dual-Algorithm CertificateVerify out-of-bounds read. When processing
+&gt; a dual-algorithm CertificateVerify message, an out-of-bounds read can
+&gt; occur on crafted input. This can only occur when --enable-experimental
+&gt; and --enable-dual-alg-certs is used when building wolfSSL. Thanks to
+&gt; Sunwoo Lee, Woohyun Choi, and Seunghyun Yoon (Korea Institute of Energy
+&gt; Technology, KENTECH) for testing the fix. Fixed in PR 10079.
+
+Also listed are many issues/fixes that are not labeled vulnerabilities,
+including the one just brought in here by Abhinav Agarwal (thanks!)
+
+<a href="https://www.openwall.com/lists/oss-security/2026/04/14/5">https://www.openwall.com/lists/oss-security/2026/04/14/5</a>
+
+&gt; Zeroize sensitive memory buffers in the ML-DSA (Dilithium)
+&gt; implementation to prevent leakage of cryptographic material. by
+&gt; @Frauschi (PR 10100)
+
+&gt; Ensured that the heap buffer used (among others) to store sensitive data
+&gt; during ML-DSA signing is zeroized before freeing the memory. Thanks to
+&gt; Abhinav Agarwal (@abhinavagarwal07) for the report. (PR 10113)
+
+but really, there are many other issues/changes in there that may also
+have security relevance.
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

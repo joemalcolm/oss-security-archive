@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - GnuPG security release</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="9">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87343rqa3o.fsf&#64;gentoo.org&gt;
+Date: Tue, 27 Jan 2026 16:44:11 +0000
+From: Sam James &lt;sam&#64;...too.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: GnuPG security release
+
+GnuPG 2.5.17 has been released to fix a possible RCE:
+* <a href="https://dev.gnupg.org/T8044" rel="nofollow">https://dev.gnupg.org/T8044</a> ("gpg-agent stack buffer overflow in pkdecrypt using KEM")
+
+[Description for this one at the end, for the full quoted advisory.]
+
+There's two other security-relevant bugs too:
+* <a href="https://dev.gnupg.org/T8045" rel="nofollow">https://dev.gnupg.org/T8045</a> ("Stack-based buffer overflow in TPM2 `PKDECRYPT`")
+
+&gt; A stack-based buffer overflow exists in GnuPG’s tpm2daemon when handling
+&gt; the PKDECRYPT command for TPM-backed RSA and ECC keys. A local attacker
+&gt; who can access the daemon’s Assuan socket can send an oversized ciphertext
+&gt; and trigger memory corruption, resulting in a crash and potentially
+&gt; arbitrary code execution. When a user stores private keys inside a TPM,
+&gt; GnuPG runs a helper process called tpm2daemon to perform cryptographic
+&gt; operations on their behalf. Other GnuPG components communicate with this
+&gt; daemon over Assuan, a local IPC protocol. During a PKDECRYPT request,
+&gt; tpm2daemon copies the attacker-supplied ciphertext into fixed-size TPM
+&gt; work buffers without validating that the ciphertext fits. If the supplied
+&gt; ciphertext is larger than the TPM buffer, the copy operation writes past
+&gt; the end of the stack buffer and corrupts adjacent stack memory. This
+&gt; affects both supported TPM decrypt paths: RSA (tpm2_rsa_decrypt) and ECC
+&gt; (tpm2_ecc_decrypt). Because the overflow occurs on the stack and is
+&gt; attacker-controlled, it is potentially exploitable for code execution
+&gt; inside the tpm2daemon process.
+
+* <a href="https://dev.gnupg.org/T8049" rel="nofollow">https://dev.gnupg.org/T8049</a> ("Null pointer dereference with overlong
+signature packet")
+
+&gt; Overlong signature packet length causes parse_signature to return
+&gt; success with sig-&gt;data[] left NULL, leading to a crash in later
+&gt; consumers.
+
+The advisory is at <a href="https://dev.gnupg.org/T7996#212268" rel="nofollow">https://dev.gnupg.org/T7996#212268</a> (not yet on
+gnupg-announce ML). Quoting that, which discusses the main bug (T8044):
+
+&gt; These versions are affected:
+&gt;
+&gt;    GnuPG 2.5.16 (released 2025-12-30)
+&gt;    GnuPG 2.5.15 (released 2025-12-29)
+&gt;    GnuPG 2.5.14 (released 2025-11-19)
+&gt;    GnuPG 2.5.13 (released 2025-10-22)
+&gt;    Gpg4win 5.0.0 (released 2026-01-14)
+&gt;    Gpg4win 5.0.0-beta479 (released 2026-01-02)
+&gt;    Gpg4win 5.0.0-beta476 (released 2025-12-22)
+&gt;    Gpg4win 5.0.0-beta395 (released 2025-10-22)
+&gt;
+&gt; All other versions are not affected.
+&gt;
+&gt; A crafted CMS (S/MIME) EnvelopedData message carrying an oversized
+&gt; wrapped session key can cause a stack buffer overflow in gpg-agent
+&gt; during the PKDECRYPT--kem=CMS handling. This can easily be used for a
+&gt; DoS but, worse, the memory corruption can very likley also be used to
+&gt; mount a remote code execution attack.
+&gt;
+&gt; A CVE-id has not been assigned. We track this bug as T8044 under
+&gt; <a href="https://dev.gnupg.org/T8044" rel="nofollow">https://dev.gnupg.org/T8044</a>. This vulnerability was discovered by:
+&gt; OpenAI Security Research. Their report was received on 2026-01-18;
+&gt; fixed versions released 2026-01-27.
+&gt;
+&gt; Solution:
+&gt;
+&gt; If an affected GnuPG version is used please update ASAP to the new
+&gt; version 2.5.17.
+&gt;
+&gt; If an affected version of Gpg4win is used please update ASAP to the new
+&gt; version 5.0.1.
+&gt;
+&gt; If an immediate update is not possible please remove the gpgsm or
+&gt; gpgsm.exe binary, this way the the bug can't be remotely triggered.
+
+sam
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="8/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (419 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

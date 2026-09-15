@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - On the issue of MIME handlers that execute arbitrary code (e.g.
+ Wine)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/05/18/3">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260518220116.170677b2&#64;riseup.net&gt;
+Date: Mon, 18 May 2026 22:01:16 -0400
+From: Aaron Rainbolt &lt;arraybolt3&#64;...eup.net&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: adrelanos&#64;...nix.org
+Subject: On the issue of MIME handlers that execute arbitrary code (e.g.
+ Wine)
+
+This is not really a vulnerability report for a specific program, there
+are at least five different programs involved here.
+
+Tucked away in `man 1 xdg-mime` is the following advice:
+
+    Security Note: Never set a handler that will blindly execute code
+    or commands from the file being handled. Such behaviour will sooner
+    than later lead to unintended code execution i.e. through a curious
+    user trying to inspect a freshly downloaded file but running it by
+    accident.
+
+    Keeping opening and executing separate actions helps with people
+    protecting themselves from malware, the default handler is an
+    opener, not a runner.
+
+tl;dr of the rest of this: Most open-source programs (whether on
+accident or on purpose) seem to heed this advice. Some of them don't.
+Those that don't are quite useful for escaping sandboxes.
+
+First, a bit of background:
+
+People have to run arbitrary code (apps). Arbitrary code is scary, so
+there are a number of ways on Linux to keep that code from doing
+anything it "shouldn't" do (AppArmor confinement, Flatpak sandboxing,
+Snap sandboxing, Firejail, etc.). On the other hand, apps often have to
+talk to other apps in order to do their job right (for instance, a file
+manager needs to open your office suite when you double-click a
+document, and many apps may need to open your file manager to show
+what's in a folder). Sandboxing apps generally breaks them because it
+prevents them from talking to other apps. The way this has been worked
+around so far is to:
+
+* Make apps do most/all of their non-internal IPC over D-Bus.
+* Standardize a bunch of system service interfaces so that applications
+  have established ways to do things like open documents and file
+  managers.
+* Allow the sandboxed apps access to D-Bus.
+
+Of course, this completely undermines sandboxing since you can use
+D-Bus to do all sorts of fun things, like tell systemd to LD_PRELOAD a
+malicious library into any user service that is started or restarted.
+To fix *that*, there are mechanisms that restrict what sandboxed code
+can do with D-Bus, allowing them to call particular D-Bus methods but
+not others. xdg-dbus-proxy and AppArmor D-Bus mediation are two
+examples. For these mechanisms to work, whatever provides standard
+system services on D-Bus *must* do so in a way that doesn't allow
+arbitrary code exeuction. As you probably have already guessed, not all
+system service implementations meet this criteria.
+
+There are two particular D-Bus interfaces I researched a few months
+ago, before writing this. One is
+org.freedesktop.FileManager1.ShowFolders [1], the other is
+org.freedesktop.portal.OpenURI.OpenFile [2]. With the help of a couple
+of file managers, xdg-desktop-portal-gtk, and Wine, I've been able to
+escape Flatpak sandboxing and AppArmor confinement using both of these
+interfaces.
+
+Of these two, org.freedesktop.portal.OpenURI.OpenFile is probably more
+problematic. This is because access to the OpenURI portal seems to be
+implicitly allowed by Flatpak. (I have not verified this by reading
+code, but I built a flatpak from source that was only given Wayland
+access, and it was somehow able to access this portal anyway.) The
+OpenFile call allows applications to open arbitrary files *outside* of
+the sandbox that called the method. (This is a relatively sensible
+thing to do; it's unreasonable to expect a browser flatpak to bundle a
+video player, so if you download a video and then try to open it, your
+browser needs to be able to tell your system "find a video player and
+open this with it." It's then up to the portal implementation to launch
+the player, either outside of any sandbox or in a different sandbox.)
+From my experiments, xdg-desktop-portal-gtk seems to pop up an "Open
+With" dialog if you try to open a file and have two or more handlers
+for the same MIME type installed. If you don't have at least two
+handlers, the one handler you do have gets run without prompting.
+
+If all applications followed the xdg-mime manpage's advice to never
+execute code when opening a file, this wouldn't be that big of a
+problem. This is where Wine comes in; it ships a desktop file that
+registers Wine as a MIME handler for 'application/x-ms-dos-executable',
+'application/x-msi', and 'application/x-bat'. [3] These handlers result
+in the command 'wine start /unix FILE-NAME' being run, which of course
+loads the executable code from the opened file into memory and starts
+running it. That means, if you are unlucky enough to have an
+unsandboxed copy of Wine as your only MIME handler for EXE files, any
+flatpak on your system can break out of the sandbox by writing an EXE
+file somewhere, then opening it with
+org.freedesktop.portal.OpenURI.OpenFile. This issue has been reported
+to Wine a short while ago [4]; I didn't report the issue privately
+since I couldn't find a security contact for Wine and was encouraged to
+make a public bug report when I asked for a security contact on IRC
+some time back. (I was also given an email where I could privately
+contact someone, but I no longer have it, and I was somewhat
+discouraged from using it when I initially asked.) 
+
+org.freedesktop.FileManager1.ShowFolders is less of a problem, but also
+somewhat interesting. According to the specification, it "assumes that
+the specified URIs are folders; the file manager is supposed to show a
+window with the contents of each folder." What I think the spec meant
+to say is that the call only takes paths to folders as input, but
+unfortunately the wording is vague here. At least file manager
+(PCManFM-Qt) assumes that all of the arguments *are* folders without
+verifying this. It then passes these arguments through code that does
+the equivalent of running `xdg-open` on each argument, since if it's a
+folder, opening it with its default handler will open the file manager.
+Of course, there's nothing preventing me from passing a "folder" URI of
+file:///path/to/malware.exe, which will run the program. A very similar
+issue existed in KDE's Dolphin file manager, but that was a bug, not a
+design decision. The issue was assigned CVE-2026-41525 and is fixed in
+Dolphin &gt;= 25.12.3. [5]
+
+Obviously, I think Wine should probably stop registering itself as an
+EXE file handler. Unfortunately, I was able to find another program
+with an unsafe handler registered just while writing this email (which
+I intend on reporting privately once I've sent this). So while it seems
+like these kind of handlers aren't super common, they aren't that hard
+to find if you dig around for a while.
+
+I couldn't quickly find a CWE that covered this particular issue except
+for CWE-441 (confused deputy problem). I don't know if this warrants a
+new CWE, and my CWE searching skills kind of stink, so maybe there is
+something for this already. In any event, if you maintain an app (or
+a package for an app) that interpretes or executes code, please check
+if it registers MIME handlers that blindly executes code, and remove
+those handlers if so. There are more ways for those handlers to go
+wrong than just users double-clicking the wrong thing.
+
+A couple tangential notes about what Kicksecure [6] (a
+security-hardened Debian derivative I contribute to) has been doing to
+mitigate this:
+
+* We currently ship a D-Bus "shim" that owns the
+  org.freedesktop.FileManager1 name on the D-Bus session bus. [7] [8]
+  This shim checks each directory URI to ensure it points at a real
+  directory, then pops up a window asking the user if they really want
+  to open directories with the default file manager, showing them the
+  path to each directory. This is technically vulnerable to TOCTOU
+  issues (an attacker could swap out a directory with an executable
+  file after it is displayed to the user), but since the directory
+  checks are done both before and after the user clicks "Open", it is
+  impossible (to my awareness) for the attacker to know when to swap
+  out the file. The shim also warns loudly if it detects that something
+  was swapped out before opening it. The chances of success at this
+  attack are small enough and the consequences of failure large enough
+  that an attacker likely won't find it useful.
+* We're working on a sandboxing system (really a glorified
+  systemd-nspawn frontend) that allows each sandbox to be
+  self-sufficient enough to not *need* access to the host's D-Bus
+  daemon. [9] That should prevent any possible way to leverage D-Bus as
+  a sandbox escape mechanism.
+
+--
+Aaron
+
+[1] <a href="https://www.freedesktop.org/wiki/Specifications/file-manager-interface/" rel="nofollow">https://www.freedesktop.org/wiki/Specifications/file-manager-interface/</a>
+[2] <a href="https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.OpenURI.html" rel="nofollow">https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.OpenURI.html</a>
+[3] <a href="https://gitlab.winehq.org/wine/wine/-/blob/master/loader/wine.desktop?ref_type=heads" rel="nofollow">https://gitlab.winehq.org/wine/wine/-/blob/master/loader/wine.desktop?ref_type=heads</a>
+[4] <a href="https://bugs.winehq.org/show_bug.cgi?id=59767" rel="nofollow">https://bugs.winehq.org/show_bug.cgi?id=59767</a>
+[5] <a href="https://kde.org/info/security/advisory-20260427-2.txt" rel="nofollow">https://kde.org/info/security/advisory-20260427-2.txt</a>
+[6] <a href="https://www.kicksecure.com/" rel="nofollow">https://www.kicksecure.com/</a>
+[7] <a href="https://github.com/Kicksecure/security-misc/blob/master/usr/src/security-misc/fm-shim-backend.c%23security-misc-shared" rel="nofollow">https://github.com/Kicksecure/security-misc/blob/master/usr/src/security-misc/fm-shim-backend.c%23security-misc-shared</a>
+[8] <a href="https://github.com/Kicksecure/security-misc/blob/master/usr/lib/python3/dist-packages/fm_shim_frontend/fm_shim_frontend.py%23security-misc-shared" rel="nofollow">https://github.com/Kicksecure/security-misc/blob/master/usr/lib/python3/dist-packages/fm_shim_frontend/fm_shim_frontend.py%23security-misc-shared</a>
+[9] <a href="https://github.com/ArrayBolt3/sandbox-manager-dist" rel="nofollow">https://github.com/ArrayBolt3/sandbox-manager-dist</a>
+
+<span style="font-family: times;"><strong>Content of type "</strong>application/pgp-signature<strong>" skipped</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

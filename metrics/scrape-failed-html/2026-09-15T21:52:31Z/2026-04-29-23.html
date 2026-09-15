@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-31431: CopyFail: linux local privilege scalation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="22">[&lt;prev]</a> <a href="24">[next&gt;]</a> <a href="25">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;afJorKIje4O6dXbH&#64;netmeister.org&gt;
+Date: Wed, 29 Apr 2026 16:23:08 -0400
+From: Jan Schaumann &lt;jschauma&#64;...meister.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-31431: CopyFail: linux local privilege scalation
+
+Hi,
+
+This is currently making the rounds and looks pretty
+severe:
+
+<a href="https://copy.fail/" rel="nofollow">https://copy.fail/</a>
+
+A local privilege escalation vulnerability with a
+working PoC python script exploiting a logic flaw in
+the kernel crypto API (AF_ALG) affecting most Linux
+distributions.
+
+More detailed write-up:
+<a href="https://xint.io/blog/copy-fail-linux-distributions" rel="nofollow">https://xint.io/blog/copy-fail-linux-distributions</a>
+
+"in 2017, an optimization was added to algif_aead.c
+[72548b093ee3](<a href="https://github.com/torvalds/linux/commit/72548b093ee3" rel="nofollow">https://github.com/torvalds/linux/commit/72548b093ee3</a>)
+to perform AEAD operations in-place.  For decryption,
+the code copied AAD and ciphertext data from the TX
+SGL into the RX buffer, but chained the tag pages by
+reference using sg_chain(). It then set req-&gt;src =
+req-&gt;dst. Page cache pages from splice were now in the
+writable destination scatterlist.  authencesn's write
+at dst[assoclen + cryptlen] now walked into those
+chained tag pages, creating this bug."
+
+
+"During AEAD decryption, _aead_recmsg() moves the
+queued tag bytes out of the TX SGL and chains them
+onto the RX SGL at algif_aead-C:235-244, then submits
+the AEAD request with that same RX SGL head as both
+sre and dst at algif aead.C: 251-252. When the tag
+bytes originally came from the splice path in
+af_alg_sendmsg() (af alg.C: 1049-1064), those tail
+entries still reference file page-cache pages. Most
+AEAD implementations only read the tag, but
+crypto_authenc_es n_decrypt () treats equal sro and
+dst as an in-place buffer and writes 4 bytes into the
+tag region at authencesn - C:277-279.
+The overwrite happens before the tag check that later
+returns -EBADMSG at authencesn- C: 222-223, so a
+failing decrypt still corrupts the spliced file-backed
+page."
+[...]
+"This gives a local unprivileged attacker a controlled
+page-cache write primitive against any readable file.
+In the minimal setup above, each request overwrites 4
+attacker-chosen bytes at the spliced file offset;
+repeated requests can patch multiple offsets. Because
+the corruption affects cached file pages rather than a
+private copy, it can tamper with read-only or setuid
+executable content and may enable local privilege
+escalation or code execution until the page is
+evicted. Exploitability is narrower than a generic
+AEAD bug because it specifically requires an
+authencesn decrypt path and splice-backed tag pages,
+but it does not require a valid authentication tag.
+
+
+
+The kernel code changes:
+
+<a href="https://lore.kernel.org/linux-cve-announce/2026042214-CVE-2026-31431-3d65&#64;gregkh/T/#u" rel="nofollow">https://lore.kernel.org/linux-cve-announce/2026042214-CVE-2026-31431-3d65&#64;gregkh/T/#u</a>
+
+In the Linux kernel, the following vulnerability has
+been resolved:
+
+crypto: algif_aead - Revert to operating out-of-place
+
+This mostly reverts commit 72548b093ee3 except for the
+copying of the associated data.
+
+There is no benefit in operating in-place in
+algif_aead since the source and destination come from
+different mappings.  Get rid of all the complexity
+added for in-place operation and just copy the AD
+directly.
+
+The Linux kernel CVE team has assigned CVE-2026-31431
+to this issue.
+
+Affected and fixed versions
+===========================
+
+Issue introduced in 4.14 with commit
+72548b093ee38a6d4f2a19e6ef1948ae05c181f7 and fixed in
+6.18.22 with commit
+fafe0fa2995a0f7073c1c358d7d3145bcc9aedd8
+
+Issue introduced in 4.14 with commit
+72548b093ee38a6d4f2a19e6ef1948ae05c181f7 and fixed in
+6.19.12 with commit
+ce42ee423e58dffa5ec03524054c9d8bfd4f6237
+
+Issue introduced in 4.14 with commit
+72548b093ee38a6d4f2a19e6ef1948ae05c181f7 and fixed in
+7.0 with commit
+a664bf3d603dc3bdcf9ae47cc21e0daec706d7a5
+
+<a href="https://git.kernel.org/stable/c/fafe0fa2995a0f7073c1c358d7d3145bcc9aedd8" rel="nofollow">https://git.kernel.org/stable/c/fafe0fa2995a0f7073c1c358d7d3145bcc9aedd8</a>
+<a href="https://git.kernel.org/stable/c/ce42ee423e58dffa5ec03524054c9d8bfd4f6237" rel="nofollow">https://git.kernel.org/stable/c/ce42ee423e58dffa5ec03524054c9d8bfd4f6237</a>
+<a href="https://git.kernel.org/stable/c/a664bf3d603dc3bdcf9ae47cc21e0daec706d7a5" rel="nofollow">https://git.kernel.org/stable/c/a664bf3d603dc3bdcf9ae47cc21e0daec706d7a5</a>
+
+----
+
+PoC:
+<a href="https://github.com/theori-io/copy-fail-CVE-2026-31431/blob/main/copy_fail_exp.py" rel="nofollow">https://github.com/theori-io/copy-fail-CVE-2026-31431/blob/main/copy_fail_exp.py</a>
+
+
+Mitigation:
+
+# echo "install algif_aead /bin/false" &gt; /etc/modprobe.d/disable-algif.conf
+# rmmod algif_aead 
+
+
+-Jan
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

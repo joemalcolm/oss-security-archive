@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 482 v2 - Linux privcmd driver can
+ circumvent kernel lockdown</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/03/23/2">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1w50W0-00Bwo0-1i&#64;xenbits.xenproject.org&gt;
+Date: Tue, 24 Mar 2026 12:05:44 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security-team-members&#64;....org&gt;
+Subject: Xen Security Advisory 482 v2 - Linux privcmd driver can
+ circumvent kernel lockdown
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+                    Xen Security Advisory XSA-482
+                              version 2
+
+          Linux privcmd driver can circumvent kernel lockdown
+
+UPDATES IN VERSION 2
+====================
+
+Public release.
+
+ISSUE DESCRIPTION
+=================
+
+The Linux kernel's privcmd driver can be abused to circumvent kernel
+lockdown (secure boot), e.g. by modifying page tables to enable user
+mode to modify kernel memory.
+
+The CNA covering Linux has refused to assign a CVE at this juncture.
+
+IMPACT
+======
+
+An administrator of an unprivileged guest booted in secure mode is able
+to perform actions on the kernel which should not be possible in secure
+mode.
+
+VULNERABLE SYSTEMS
+==================
+
+PV, PVH and HVM guests running Linux using secure boot are vulnerable.
+
+BSD based systems are believed not to be vulnerable due to a lack of
+secure boot support.
+
+MITIGATION
+==========
+
+There is no known mitigation.
+
+CREDITS
+=======
+
+This issue was discovered by Teddy Astie of Vates.
+
+RESOLUTION
+==========
+
+Applying the set of attached patches resolves this issue.
+
+xsa482-linux-?.patch           Linux
+
+$ sha256sum xsa482*
+a4e67d2c773e2e13252337e4b64c08b342c0eb2e0e92271a79dc588ac34e7c3a  xsa482-linux-1.patch
+dd952c1fc49ceb47803b78e15cfe3f7f11a845b29c6b2a80afa7a9eaa60a00ec  xsa482-linux-2.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of patches or mitigations is NOT permitted (except where
+all the affected systems and VMs are administered and used only by
+organisations which are members of the Xen Project Security Issues
+Predisclosure List).  Specifically, deployment on public cloud systems
+is NOT permitted.
+
+This is because the patches need to be applied to the guests.
+
+Deployment is permitted only AFTER the embargo ends.
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+
+iQFABAEBCAAqFiEEI+MiLBRfRHX6gGCng/4UyVfoK9kFAmnCffYMHHBncEB4ZW4u
+b3JnAAoJEIP+FMlX6CvZLUIIAIU0v7T3tT1Jc2UeanX2sj2aycfKjpCCoAxTtFcG
+qKdhneXhKQ3ofWH3SSRmuNfA6L1jVPyh7bUYLMpNQp4WfsCUj0RNcjXhdxYIldTP
+KLi+mhekZzjarClj+X9eQOQf0DaGGy1dG1SUfETHuumOcm7CVbRDKF9nXVv6g4Dd
+CCnDuXjK2M9Q91shdDAUI7I41oQL3k85UTpPwwtAs1subKCJsgbKIBdikw3Bdm4c
+TBkqTyjFCiLiLXcqcY7qQo/IcfJ9mn0z3Jc0M4V12Am6DdLrypO0LU3YcVRH3qT9
+/5L5It2HKjoFRp+6yEb7yfBkavXQgaGwCSnROUC7dn41pM8=
+=mibo
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>xsa482-linux-1.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (4463 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/2" rel="nofollow" download>xsa482-linux-2.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (3267 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Announce: OpenSSH 10.3 released</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/04/06/4">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/04/06/2">[&lt;thread-prev]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;3b3e0ccd-0365-4383-8dba-8c195a15d7eb&#64;gmail.com&gt;
+Date: Mon, 6 Apr 2026 19:12:31 -0400
+From: Demi Marie Obenour &lt;demiobenour&#64;...il.com&gt;
+To: Damien Miller &lt;djm&#64;...drot.org&gt;
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: Announce: OpenSSH 10.3 released
+
+On 4/6/26 02:20, Damien Miller wrote:
+&gt; On Fri, 3 Apr 2026, Demi Marie Obenour wrote:
+&gt; 
+&gt;&gt;&gt;  * ssh(1): validation of shell metacharacters in user names supplied
+&gt;&gt;&gt;    on the command-line was performed too late to prevent some
+&gt;&gt;&gt;    situations where they could be expanded from %-tokens in
+&gt;&gt;&gt;    ssh_config. For certain configurations, such as those that use a
+&gt;&gt;&gt;    "%u" token in a "Match exec" block, an attacker who can control
+&gt;&gt;&gt;    the user name passed to ssh(1) could potentially execute arbitrary
+&gt;&gt;&gt;    shell commands.  Reported by Florian Kohnhäuser.
+&gt;&gt;&gt;
+&gt;&gt;&gt;    We continue to recommend against directly exposing ssh(1) and
+&gt;&gt;&gt;    other tools' command-lines to untrusted input. Mitigations such
+&gt;&gt;&gt;    as this can not be absolute given the variety of shells and user
+&gt;&gt;&gt;    configurations in use.
+&gt;&gt;
+&gt;&gt; Is it safe (from a shell injection perspective) to pass inputs that are
+&gt;&gt; sanitized for character set, but otherwise untrusted?  For instance,
+&gt;&gt; is it sufficient to limit usernames to ^[A-Za-z][A-Za-z0-9_-]{0,31}$
+&gt;&gt; and domain names to valid host names [1]?
+&gt; 
+&gt; Probably, but this is the essence of the problem as we see it: we can't
+&gt; know for sure whether this is safe, because we don't can effectively
+&gt; reason about what shell is in use (and thus what its metacharacters
+&gt; are) and what the user is doing with these characters in their
+&gt; configuration file.
+
+What about using execve() directly for these commands, rather than a
+shell?  That would break backwards compatibility for what I suspect to
+be rare configurations, while fixing most of these injection problems.
+
+&gt; To make things harder, this isn't the full set of characters that
+&gt; appear in usernames. At least %, @, \ and / are relatively common
+&gt; too :(
+\ cannot be used safely unless single quoted on POSIX shells.
+
+&gt;&gt; Can one assume that in situations where entries come from an
+&gt;&gt; untrusted source (such as AuthorizedKeysCommand), OpenSSH _does_
+&gt;&gt; do such checking?
+&gt; 
+&gt; The *Command options in sshd_config require that the user exist
+&gt; in the system password database, otherwise they will not be
+&gt; executed.
+&gt; 
+&gt; It's still possible to shoot youself in the foot with these if you
+&gt; try hard enough though, e.g. if you've rigged NSS to allow arbitrary
+&gt; usernames with no character filtering, then there is the potential
+&gt; for shell injection if the admin has specified token expansion in
+&gt; a *Command directive.
+
+Does NSS generally enforce some sort of validation?
+
+&gt;&gt; [1]: No more than 254 bytes (plus optional trailing '.'), no leading '.',
+&gt;&gt;      each '.'-delimited component must start and end with [a-z0-9], not
+&gt;&gt;      be more than 63 bytes, and only have [a-z0-9-].
+&gt; 
+&gt; This too would block some hostnames that people use frequently.
+&gt; As a trivial example, '_' is common in hostnames despite being
+&gt; strictly invalid. IIRC there are other more esoteric ones too.
+&gt; 
+&gt; -d
+
+
+-- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>OpenPGP_0xB288B55FFF9C22C1.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (7141 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: On the issue of MIME handlers that execute
+ arbitrary code (e.g. Wine)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="37">[&lt;prev]</a> <a href="39">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="41">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;ad67b17d-0686-4409-a5a0-aec72db16977&#64;free.fr&gt;
+Date: Tue, 19 May 2026 21:59:11 +0200
+From: Gabriel Corona &lt;gabriel.corona&#64;...e.fr&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: On the issue of MIME handlers that execute
+ arbitrary code (e.g. Wine)
+
+Hi,
+
+&gt;      Security Note: Never set a handler that will blindly execute code
+&gt;      or commands from the file being handled. Such behaviour will sooner
+&gt;      than later lead to unintended code execution i.e. through a curious
+&gt;      user trying to inspect a freshly downloaded file but running it by
+&gt;      accident.
+&gt; 
+&gt;      Keeping opening and executing separate actions helps with people
+&gt;      protecting themselves from malware, the default handler is an
+&gt;      opener, not a runner.
+&gt; 
+&gt; tl;dr of the rest of this: Most open-source programs (whether on
+&gt; accident or on purpose) seem to heed this advice. Some of them don't.
+&gt; Those that don't are quite useful for escaping sandboxes.
+Yes, MIME type registration (and URI registrations) has a huge potential 
+for triggering malicious payload (often leading to arbitrary code 
+execution), through web, PDFs, emails, etc. Any media type or URI scheme 
+registration is a potential attack surface.
+
+I have been scratching that itch for some time and here are some 
+comments and findings.
+
+Some findings:
+
+* Argument injection in sensible-browser (CVE-2017-17512) [1]
+* Argument injection in xdg-open (CVE-2017-18266) [1]
+* Shell command injection in lilypond (CVE-2017-17523, CVE-2018-10992) [1]
+* MIME type spoofing in Firefox/Thunderbird [2]
+* Thunar forwards to other programs when passed a file through CLI 
+(CVE-2021-32563) [2]
+* PCManFM forwards to other programs when passed a file through CLI 
+(still working) [2]
+* PCManFM-Qt forwards to other programs when passed a file through CLI 
+(still working) [2]
+* Arbitrary file write in Stellarium file association (CVE-2023-28371)  [3]
+* Shell command and Emacs Lisp injection in emacsclient-mail.desktop ( 
+CVE-2023-27985, CVE-2023-27986) [4]
+* Arbitrary code execution through kitty-open.desktop file association [5]
+
+This type of issue is not uncommon.
+
+Some times a malicious behavior can be achieved by chaining several 
+programs:
+
+* In Freedesktop, URI registration is a special MIME registration 
+(x-scheme-handler/foo), if a program A is registered as handler for 
+x-scheme-handler/geo, some program B might decide to call program A to 
+handle files served with the x-scheme-handler/geo MIME type (eg. on the 
+web, in emails). This could have unexpected consequences if this program 
+could trigger arbitrary code  execution when called through a file but 
+not through a URI.
+
+* When called with a file as argument, some file browsers will try to 
+open the file using another program. I claim that this might be unsafe 
+and might be exploited to hide malicious payload behind an innocuous 
+media type and program ("it is safe to open this file with my file 
+browser").
+
+Some MIME and URI registration are somewhat cryptic. The semantic of 
+calling the associated program for a given file type or URI scheme is 
+not always clearly documented which makes assessment difficult. For 
+example Chrome register "google-chrome:" URIs. Steam registers "steam:" 
+and "steamlink:", gitg registers "gitg:"
+
+[1] <a href="https://www.gabriel.urdhr.fr/2018/05/28/browser-injections/" rel="nofollow">https://www.gabriel.urdhr.fr/2018/05/28/browser-injections/</a>
+[2] <a href="https://www.gabriel.urdhr.fr/2023/03/07/mime-type-spoofing/" rel="nofollow">https://www.gabriel.urdhr.fr/2023/03/07/mime-type-spoofing/</a>
+[3] 
+<a href="https://www.gabriel.urdhr.fr/2023/06/08/arbitrary-file-write-in-stellarium-file-association/" rel="nofollow">https://www.gabriel.urdhr.fr/2023/06/08/arbitrary-file-write-in-stellarium-file-association/</a>
+[4] 
+<a href="https://www.gabriel.urdhr.fr/2023/06/08/emacsclient-mail-shell-elisp-injections/" rel="nofollow">https://www.gabriel.urdhr.fr/2023/06/08/emacsclient-mail-shell-elisp-injections/</a>
+[5] 
+<a href="https://www.gabriel.urdhr.fr/2023/09/23/code-execution-through-kitty-open/" rel="nofollow">https://www.gabriel.urdhr.fr/2023/09/23/code-execution-through-kitty-open/</a>
+
+Regards,
+
+Gabriel
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="38/1" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (841 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

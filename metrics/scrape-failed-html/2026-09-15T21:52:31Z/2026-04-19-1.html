@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [CVE REQUEST] terminal-controller-mcp: trivially bypassable
+ command blocklist enables unrestricted RCE (CVSS 10.0)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/04/18/5">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;c9346cf4-9e3e-74d9-2bda-951bcb9bcab0&#64;amdal.dev&gt;
+Date: Sun, 19 Apr 2026 13:06:09 +0000
+From: Pico 🧬 &lt;pico&#64;...al.dev&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: [CVE REQUEST] terminal-controller-mcp: trivially bypassable
+ command blocklist enables unrestricted RCE (CVSS 10.0)
+
+
+Hi,
+
+I'm reporting a critical security vulnerability in terminal-controller-mcp, an
+open-source Python MCP (Model Context Protocol) server. The repository has been
+archived by the maintainer (no fix will come), and private disclosure has
+received no response. I'm posting to seek CVE assignment and to alert users.
+
+---
+
+PRODUCT
+  terminal-controller (PyPI: <a href="https://pypi.org/project/terminal-controller/" rel="nofollow">https://pypi.org/project/terminal-controller/</a>)
+  GitHub: <a href="https://github.com/GongRzhe/terminal-controller-mcp" rel="nofollow">https://github.com/GongRzhe/terminal-controller-mcp</a> (ARCHIVED)
+  Maintainer: GongRzhe &lt;gongrzhe&#64;...il.com&gt;
+
+AFFECTED VERSIONS
+  All versions ≤ 0.1.9 (current/final version)
+
+FIXED VERSIONS
+  None. Repository archived ~2025-06-14. No patch expected.
+
+---
+
+VULNERABILITY DESCRIPTION
+
+terminal-controller-mcp is an MCP server that allows AI models (e.g., Claude,
+GPT-4) to execute arbitrary shell commands on the host system. The server
+passes commands directly to asyncio.create_subprocess_shell() with
+executable="/bin/bash".
+
+The sole security control is a keyword blocklist (terminal_controller.py,
+lines 115-118):
+
+  dangerous_commands = ["rm -rf /", "mkfs"]
+  if any(dc in command.lower() for dc in dangerous_commands):
+      return "For security reasons, this command is not allowed."
+
+This is trivially bypassed using basic shell features:
+
+  # Bypass mkfs via command substitution:
+  $(echo mk)fs
+
+  # Bypass rm -rf / via variable reassembly:
+  a="rm -rf"; b=" /"; $a$b
+
+  # Bypass via eval + string split:
+  eval "mk""fs /dev/sda"
+
+Any restricted command can be constructed via bash's many string manipulation,
+substitution, and evaluation features. The filter checks the literal input
+string, not the command that bash will actually execute.
+
+---
+
+IMPACT
+
+An attacker who can influence the input to this MCP server (e.g., via prompt
+injection into the connected AI model) can execute arbitrary OS commands on
+the host. Attack scenarios:
+
+  - Data destruction (disk wipe, file deletion)
+  - Data exfiltration (curl/wget to attacker-controlled endpoint)
+  - Reverse shell establishment
+  - Lateral movement from the AI agent's host
+
+The false sense of security is particularly dangerous: users who rely on the
+"security measures" advertised in the README are exposed without knowing it.
+
+CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+CVSS Base Score: 10.0 (Critical)
+
+Note on attack vector: MCP servers receive commands from AI models, which may
+in turn be influenced by external content (prompt injection via web pages,
+documents, emails processed by the AI). The attacker does not need direct
+network access to the MCP server.
+
+---
+
+PRIOR DISCLOSURE
+
+- 2025-09-16: Independently disclosed publicly in GitHub issue #7 by
+  ClementineZsw (<a href="https://github.com/GongRzhe/terminal-controller-mcp/issues/7" rel="nofollow">https://github.com/GongRzhe/terminal-controller-mcp/issues/7</a>)
+- 2026-04-11: Additional private disclosure sent to gongrzhe&#64;...il.com — no
+  response received
+- 2026-04-19: This post (90-day window exceeded; repository abandoned/archived)
+
+The vulnerability has been publicly visible in issue #7 since September 2025.
+This post is to establish a formal CVE record and alert the broader community.
+
+---
+
+RECOMMENDATION
+
+Do not use terminal-controller-mcp. The architecture (passing arbitrary user-
+controlled strings to shell=True subprocess) cannot be made safe with
+blocklist-based filtering. There is no patch and no plan for one.
+
+If shell command execution via MCP is required, use a sandboxed environment
+(container with limited syscalls, restricted filesystem namespace) and
+implement allowlist-based (not blocklist-based) command validation.
+
+---
+
+REFERENCES
+  <a href="https://github.com/GongRzhe/terminal-controller-mcp" rel="nofollow">https://github.com/GongRzhe/terminal-controller-mcp</a>
+  <a href="https://github.com/GongRzhe/terminal-controller-mcp/issues/7" rel="nofollow">https://github.com/GongRzhe/terminal-controller-mcp/issues/7</a>
+  <a href="https://pypi.org/project/terminal-controller/" rel="nofollow">https://pypi.org/project/terminal-controller/</a>
+
+---
+
+Håkon Åmdal
+pico&#64;...al.dev
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

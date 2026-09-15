@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: MIT/Heimdal Kerberos credentials cache type FILE
+ risks</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href="../../../2026/02/22/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87ecmgf045.fsf&#64;hope.eyrie.org&gt;
+Date: Thu, 19 Feb 2026 21:35:38 -0800
+From: Russ Allbery &lt;eagle&#64;...ie.org&gt;
+To: Jacob Bachmeyer &lt;jcb62281&#64;...il.com&gt;
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: MIT/Heimdal Kerberos credentials cache type FILE
+ risks
+
+Jacob Bachmeyer &lt;jcb62281&#64;...il.com&gt; writes:
+&gt; On 2/19/26 21:26, Russ Allbery wrote:
+
+&gt;&gt; That's also possible for services that accept usernames and passwords
+&gt;&gt; and validate them with Kerberos (common for POP and IMAP servers),
+&gt;&gt; although of course best practices in those cases is to immediately
+&gt;&gt; discard the resulting ticket after authentication.
+
+&gt; I would that think in such a scenario, the client should be presenting a
+&gt; Kerberos service ticket to the POP/IMAP server.
+
+That requires Kerberos support in the client, which is notoriously not
+always available (mobile clients, for instance, often do not have Kerberos
+clients). It's been a problem in the mail world for a long time that we
+have a ton of better authentication protocols than PLAIN but a lot of mail
+clients still like using PLAIN, to such an extent that we have things like
+device-specific passwords to allow use of password authentication with
+less risk to the user's real credentials.
+
+&gt; If PAM is creating the ticket cache when the session is opened, then PAM
+&gt; should also be destroying the ticket cache when the session is closed.
+
+Yeah, definitely, it's a problem of not calling the right PAM functions to
+end the authentication (whether that involves a PAM session or not), which
+is a service bug, not a Kerberos bug.
+
+&gt; Across the open Internet is one thing, but I would expect (perhaps
+&gt; naively) that communications between web servers and the KDC would be on
+&gt; a secure internal network.
+
+The problem isn't so much the open Internet as it is load balancers,
+Kubernetes, VMs on bridge networks, and all the other network complexities
+that might be sitting between the server's understanding of its IP and the
+KDC, which is often segregated into an entirely separate secure network
+from general Internet-facing services and thus on the other side of some
+variety of NAT or the like. At least back in the day, the general feeling
+in the community I was part of was that address-locked tickets were
+operationally fragile and the security benefit wasn't really worth it.
+It's possible that changed, or that analysis is wrong.
+
+&gt; It stops the use of a stolen ticket in the report's scenario of a web
+&gt; service leaking files from /tmp.  :-)
+
+I'm not sure I would go to the effort of making address-locked tickets
+work just in case I configured a web server to serve /tmp for some reason,
+which comes back to your point about the merits of the original report (or
+lack thereof).
+
+&gt; Aha!  I did not know if the Kerberos cache stored tickets in separate
+&gt; files or all together.
+
+&gt; If they are all stored in one file, along with the session keys needed
+&gt; to use them, then yes, distinctions between service tickets and TGTs are
+&gt; useless:  an attacker who steals a usable service ticket will also get a
+&gt; usable TGT, outside of very specialized scenarios where the service
+&gt; ticket endures after the TGT expires.
+
+I should add the substantial caveat that my experience is almost entirely
+with UNIX Kerberos. Windows uses its own way of managing ticket caches and
+it may well be mediated by some sort of process that, for instance,
+obtains service tickets and provides them without providing access to the
+TGT. I know nothing about how all that works except I know Microsoft did
+things to try to make it more secure.
+
+But the report seemed to be primarily about UNIX Kerberos, and in that
+context generally the TGT and the service tickets are all in the same
+place (whether that be a file or keyring).
+
+I don't know how KCM works. There's a daemon involved, so maybe it does
+something more sophisticated.
+
+-- 
+Russ Allbery (eagle&#64;...ie.org)             &lt;<a href="https://www.eyrie.org/~eagle/" rel="nofollow">https://www.eyrie.org/~eagle/</a>&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

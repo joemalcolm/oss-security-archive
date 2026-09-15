@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: Best practices for signature verifcation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;N8N2bSYC-uYAYqebHWIj3JBV3zq4qnIHC8el8y1t3rE2BJdgCyxsH2korDSHDb6a_OPZKDW3OI7XGUmz7bcJY2U1ZiUblBVfzvjm7ndWvIQ=&#64;hexsys.org&gt;
+Date: Thu, 01 Jan 2026 18:25:07 +0000
+From: Ali Polatel &lt;alip&#64;...sys.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Re: Best practices for signature verifcation
+
+On Wednesday, 31 December 2025 at 04:35, Eli Schwartz &lt;eschwartz&#64;...too.org&gt; wrote:
+
+&gt; Hi,
+&gt; 
+
+&gt; 
+
+&gt; If the Exherbo Linux distribution lacks enough manpower&lt;/snip&gt; &gt; 
+
+
+You were NOT a Gentoo developer back when Gentoo initialy started
+using manifests, as some of us were, so you can NOT possibly know.
+Yet, you had to take the time on a precious new year's day to pay
+me your respects by formulating two completely non-technical answers.
+Haters gonna hate?..
+
+I have respect to this list and I wouldn't reply if this was the
+only thing I had to say but the feedback otherwise has been great.
+I've learned from David Runge on Mastodon[1] that Arch Linux people
+are working on this project called voa[2] that can unify package
+artifact signing across distributions. I've also learned this project
+is kindly funded by STF. Voa supports GPG atm but they are open to
+adding support for minisign, signify and friends. I intend to work together
+with them to add signify support as a start. I deeply hope we can use this
+solution for Exherbo Linux too.
+
+Meanwhile, I did a bit of work and released 0.1.1. Now I am fairly sure
+it does the same thing as OpenBSD signify does. Is that the right thing?
+That's of course open for debate. I have also added AFL++ fuzzing
+which I intend to leave running for a week or three[3]. Next goal is
+to port to WASM, below is the changelog[4] for 0.1.1[5]:
+
+    - Write unit tests, property based tests, and AFL++ fuzz tests to ensure code correctness.
+    - Compile keyrings(7) support by default on Linux and Android, and remove the keyring feature.
+    - Port OpenBSD regression tests and fix issues related to CLI option parsing spotted by them.
+    - Use a 1KB buffer rather than 4KB for password input which is consistent with OpenBSD.
+
+Enjoy.
+
+&gt; --
+&gt; Eli Schwartz
+
+Please Eli, take this moment to make a new start. It does not have to be like this.
+I hate what happened in the history as much as you do. Let's refuse to feed this
+hate further. Do not drink your own poison and hope me to die. Happy new year.
+
+[1]: <a href="https://chaos.social/&#64;dvzrv/115819220124450391" rel="nofollow">https://chaos.social/&#64;dvzrv/115819220124450391</a>
+[2]: <a href="https://voa.archlinux.page/" rel="nofollow">https://voa.archlinux.page/</a>
+[3]: inb4 we crack ed25519 :P
+[4]: <a href="https://git.sr.ht/~alip/signify/tree/main/item/ChangeLog.md" rel="nofollow">https://git.sr.ht/~alip/signify/tree/main/item/ChangeLog.md</a>
+[5]: <a href="https://crates.io/crates/signify-rs/0.1.1" rel="nofollow">https://crates.io/crates/signify-rs/0.1.1</a>
+
+Best regards,
+Ali Polatel
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="5/1" rel="nofollow" download>publickey - alip&#64;...sys.org - 0xC22DA9DE.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (637 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="5/2" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (344 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

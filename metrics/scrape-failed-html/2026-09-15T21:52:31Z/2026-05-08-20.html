@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Go 1.26.3 and Go 1.25.10 are released with 11 security
+ fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="19">[&lt;prev]</a> <a href="../../../2026/05/09/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;d6f07325-e27b-4a80-8195-ea996bc7aff5&#64;oracle.com&gt;
+Date: Fri, 8 May 2026 14:23:07 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Go 1.26.3 and Go 1.25.10 are released with 11 security
+ fixes
+
+<a href="https://groups.google.com/g/golang-announce/c/qcCIEXso47M" rel="nofollow">https://groups.google.com/g/golang-announce/c/qcCIEXso47M</a> announces:
+&gt; We have just released Go versions 1.26.3 and 1.25.10, minor point releases.
+&gt; 
+&gt; These releases include 11 security fixes following the security policy:
+&gt; 
+&gt;   * cmd/go: malicious module proxy can bypass checksum database
+&gt; 
+&gt;     A malicious module proxy could exploit a flaw in the go command's
+&gt;     validation of module checksums to bypass checksum database validation.
+&gt; 
+&gt;     This vulnerability affects any user using an untrusted module proxy
+&gt;     (GOMODPROXY) or checksum database (GOSUMDB).
+&gt; 
+&gt;     A malicious module proxy can serve altered versions of the Go toolchain.
+&gt;     When selecting a different version of the Go toolchain than the
+&gt;     currently installed toolchain (due to the GOTOOLCHAIN environment variable,
+&gt;     or a go.work or go.mod with a toolchain line), the go command will download
+&gt;     and execute a toolchain provided by the module proxy. A malicious module
+&gt;     proxy can bypass checksum database validation for this downloaded
+&gt;     toolchain.
+&gt; 
+&gt;     Since this vulnerability affects the security of toolchain downloads,
+&gt;     setting GOTOOLCHAIN to a fixed version is not sufficient. You must upgrade
+&gt;     your base Go toolchain.
+&gt; 
+&gt;     The go tool always validates the hash of a toolchain before executing it,
+&gt;     so fixed versions will refuse to execute any cached, altered versions of the
+&gt;     toolchain.
+&gt; 
+&gt;     The go tool trusts go.sum files to contain accurate hashes of the current
+&gt;     module's dependencies. A malicious proxy exploiting this vulnerability to
+&gt;     serve an altered module will have caused an incorrect hash to be recorded
+&gt;     in the go.sum. Users who have configured a non-trusted GOPROXY can determine
+&gt;     if they have been affected by running "rm go.sum ; go mod tidy ; go mod verify",
+&gt;     which will revalidate all dependencies of the current module.
+&gt; 
+&gt;     The specific flaw in more detail:
+&gt; 
+&gt;     The go command consults the checksum database to validate downloaded modules,
+&gt;     when a module is not listed in the go.sum file. It verifies that the module hash
+&gt;     reported by the checksum database matches the hash of the downloaded module.
+&gt;     If, however, the checksum database returns a successful response that contains
+&gt;     no entry for the module, the go command incorrectly permitted validation to succeed.
+&gt; 
+&gt;     A module proxy may mirror or proxy the checksum database, in which case the go
+&gt;     command will not connect to the checksum database directly. Checksums reported
+&gt;     by the checksum database are cryptographically signed, so a malicious proxy
+&gt;     cannot alter the reported checksum for a module. However, a proxy which returns
+&gt;     an empty checksum response, or a checksum response for an unrelated module,
+&gt;     could cause the go command to proceed as if a downloaded module has been validated.
+&gt; 
+&gt;     The go command now properly checks checksum database responses to ensure
+&gt;     that the expected module signature is present, not just that if a signature is
+&gt;     present it matches the expectation.
+&gt; 
+&gt;     Thanks to Mundur (<a href="https://github.com/M0nd0R" rel="nofollow">https://github.com/M0nd0R</a>) for reporting this issue.
+&gt; 
+&gt;     This is CVE-2026-42501 and Go issue <a href="https://go.dev/issue/79070" rel="nofollow">https://go.dev/issue/79070</a>.
+&gt; 
+&gt;   * net/http/httputil: ReverseProxy forwards queries with more than urlmaxqueryparams parameters
+&gt; 
+&gt;     When used with a Rewrite function, or a Director function which parses query parameters,
+&gt;     ReverseProxy sanitizes the forwarded request to remove query parameters which are not
+&gt;     parsed by url.ParseQuery. ReverseProxy did not take ParseQuery's limit on the total number
+&gt;     of query parameters (controlled by GODEBUG=urlmaxqueryparams=N) into account.
+&gt;     This could permit ReverseProxy to forward a request containing a query parameter
+&gt;     that was not visible to the Rewrite function.
+&gt; 
+&gt;     For example, the query "a1=x&amp;a2=x&amp;...&amp;a10000=x&amp;hidden=y" could forward the parameter
+&gt;     "hidden=y" while hiding it from the proxy's Rewrite function.
+&gt; 
+&gt;     ReverseProxy now avoids forwarding parameters that exceed the ParseQuery limit.
+&gt; 
+&gt;     This is CVE-2026-39825 and Go issue <a href="https://go.dev/issue/78948" rel="nofollow">https://go.dev/issue/78948</a>.
+&gt; 
+&gt;   * net: panic in Dial and LookupPort when handling NUL byte on Windows
+&gt; 
+&gt;     The Dial and LookupPort functions would panic on Windows when provided
+&gt;     with an input containing a NUL (0). These functions now return an error
+&gt;     rather than panicking.
+&gt; 
+&gt;     This is CVE-2026-39836 and Go issue <a href="https://go.dev/issue/79006" rel="nofollow">https://go.dev/issue/79006</a>.
+&gt; 
+&gt;   * net/mail: quadratic string concatenation in consumePhrase
+&gt; 
+&gt;     Pathological inputs could cause DoS through consumePhrase
+&gt;     when parsing an email address according to RFC 5322.
+&gt; 
+&gt;     This is CVE-2026-42499 and Go issue <a href="https://go.dev/issue/78987" rel="nofollow">https://go.dev/issue/78987</a>.
+&gt; 
+&gt;   * net/mail: quadratic string concatentation in consumeComment
+&gt; 
+&gt;     Well-crafted inputs reaching ParseAddress, ParseAddressList,
+&gt;     and ParseDate were able to trigger excessive CPU exhaustion
+&gt;     and memory allocations.
+&gt; 
+&gt;     This is CVE-2026-39820 and Go issue <a href="https://go.dev/issue/78566" rel="nofollow">https://go.dev/issue/78566</a>.
+&gt; 
+&gt;   * cmd/go: "go bug" follows symlinks in predictable temporary filenames
+&gt; 
+&gt;     The "go bug" command wrote to two files with predictable names in
+&gt;     the system temporary directory (for example, "/tmp").
+&gt; 
+&gt;     An attacker with access to the temporary directory could create a
+&gt;     symlink in one of these names, causing "go bug" to overwrite the
+&gt;     target of the symlink.
+&gt; 
+&gt;     The "go bug" command now uses os.MkdirTemp to create a safe
+&gt;     working directory.
+&gt; 
+&gt;     Thanks to Harshit Gupta (Mr HAX) for reporting this issue.
+&gt; 
+&gt;     This is CVE-2026-39819 and Go issue <a href="https://go.dev/issue/78584" rel="nofollow">https://go.dev/issue/78584</a>.
+&gt; 
+&gt;   * cmd/go: "go tool pack" does not sanitize output paths
+&gt; 
+&gt;     The "go tool pack" subcommand is a minimal version of the Unix ar utility.
+&gt;     It is used by the compiler as an internal tool with known-good inputs.
+&gt; 
+&gt;     The "pack" subcommand did not sanitize output filenames.
+&gt;     When invoked to extract a malicious archive file, it could write
+&gt;     files to arbitrary locations on the filesystem.
+&gt; 
+&gt;     The "pack" subcommand now refuses to extract files with names
+&gt;     containing any directory components.
+&gt; 
+&gt;     Thanks to Harshit Gupta (Mr HAX) for reporting this issue.
+&gt; 
+&gt;     This is CVE-2026-39817 and Go issue <a href="https://go.dev/issue/78778" rel="nofollow">https://go.dev/issue/78778</a>.
+&gt; 
+&gt;   * net/http: infinite loop in HTTP/2 transport when given bad SETTINGS_MAX_FRAME_SIZE
+&gt; 
+&gt;     When processing HTTP/2 SETTINGS frames, transport will enter an infinite loop of
+&gt;     writing CONTINUATION frames if it receives a SETTINGS_MAX_FRAME_SIZE with a
+&gt;     value of 0.
+&gt; 
+&gt;     This allows potential DoS against a client by a malicious server. HTTP/2
+&gt;     transport now properly checks that the received SETTINGS_MAX_FRAME_SIZE is
+&gt;     valid.
+&gt; 
+&gt;     Thanks to Marwan Atia (marwans...&#64;...il.com) for reporting this issue.
+&gt; 
+&gt;     This is CVE-2026-33814 and Go issue <a href="https://go.dev/issue/78476" rel="nofollow">https://go.dev/issue/78476</a>.
+&gt; 
+&gt;   * html/template: escaper bypass leads to XSS
+&gt; 
+&gt;     If a trusted template author were to write a
+&gt;     tag containing an empty type attribute or a type
+&gt;     attribute with an ASCII whitespace, the execution of
+&gt;     the template would incorrectly escape any data passed
+&gt;     into the block.
+&gt; 
+&gt;     Thanks to Mundur (<a href="https://github.com/M0nd0R" rel="nofollow">https://github.com/M0nd0R</a>) for reporting this issue.
+&gt; 
+&gt;     This is CVE-2026-39826 and Go issue <a href="https://go.dev/issue/78981" rel="nofollow">https://go.dev/issue/78981</a>.
+&gt; 
+&gt;   * net: crash when handling long CNAME response
+&gt; 
+&gt;     When using LookupCNAME with the cgo DNS resolver,
+&gt;     a very long CNAME response could trigger a double-free of C memory
+&gt;     and a crash. The double-free has been fixed.
+&gt; 
+&gt;     Thanks to hamayanhamayan for reporting this issue.
+&gt; 
+&gt;     This is CVE-2026-33811 and Go issue <a href="https://go.dev/issue/78803" rel="nofollow">https://go.dev/issue/78803</a>.
+&gt; 
+&gt;   * html/template: bypass of meta content URL escaping causes XSS
+&gt; 
+&gt;     CVE-2026-27142 fixed a vulnerability in which URLs were not
+&gt;     correctly escaped inside of a tag's attribute.
+&gt;     If the URL content were to insert ASCII whitespaces around the
+&gt;     = rune inside of the attribute, the escaper would
+&gt;     fail to similarly escape it, leading to XSS.
+&gt; 
+&gt;     Dynamic inputs to a tag's attribute are now
+&gt;     whitespace sanitized prior to escaping.
+&gt; 
+&gt;     Thanks to Samy Ghannad for reporting this issue.
+&gt; 
+&gt;     This is CVE-2026-39823 and Go issue <a href="https://go.dev/issue/78913" rel="nofollow">https://go.dev/issue/78913</a>.
+&gt; 
+&gt; View the release notes for more information:
+&gt; <a href="https://go.dev/doc/devel/release#go1.26.3" rel="nofollow">https://go.dev/doc/devel/release#go1.26.3</a>
+&gt; 
+&gt; You can download binary and source distributions from the Go website:
+&gt; <a href="https://go.dev/dl/" rel="nofollow">https://go.dev/dl/</a>
+&gt; 
+&gt; To compile from source using a Git clone, update to the release with
+&gt; git checkout go1.26.3 and build as usual.
+&gt; 
+&gt; Thanks to everyone who contributed to the releases.
+&gt; 
+&gt; Cheers,
+&gt; Cherry and Michael for the Go team
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

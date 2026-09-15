@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Systemd vsock sshd</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="../../../2026/01/09/1">[next&gt;]</a> <a href="6">[&lt;thread-prev]</a> <a href="../../../2026/02/03/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAM=PXV7zqSmHzewL1fOWTYAvuKGxLSRADCpbf7Grig-ocQnHVw&#64;mail.gmail.com&gt;
+Date: Thu, 8 Jan 2026 15:21:03 -0700
+From: Greg Dahlman &lt;dahlman&#64;...il.com&gt;
+To: Solar Designer &lt;solar&#64;...nwall.com&gt;
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: Systemd vsock sshd
+
+Hi Alexander,
+
+Note that the systemd socket activated sshd listener was the only really
+embargoed information. That information was on this list for a while, so
+you should consider it public and feel free to share with those impacted.
+I have included the known working, end-user mitigations below in a few
+locations and I have shared it with individuals I know in some larger sites.
+
+I am holding off on a comprehensive blog post as I am waiting on a few
+other stakeholders. I expect it to be published soon, maybe this weekend,
+trying to only publish examples with known fixes.  However as when crun was
+developed to replace lxc by the containerd team, there were no constraints
+or defaults at the crun level on callers that is proving challenging.
+
+While I can add apparmor rules to crun/runc/podman/bwrap/etc... SElinux has
+proven to be more challenging, so those in k8s with mutating inlet
+controllers should ensure that they deny address family 40 at the control
+plane if possible.
+
+Note: While local execution on a container host is problematic, restricting
+access to the vsock loopback and VM bus from containers/sandboxes is
+important.
+
+I now have permission to share more information about one attack that I was
+informed of, which was internal.
+
+==========
+Known attack
+==========
+
+A SAAS provider had a singleton container that originally allowed customers
+to upload assets for branding via git and rsync, over time they added the
+ability to pull assets from external tools which required them to allow
+customers to log in to troubleshoot and run python scripts.  Their
+expectations was that this container was not shared between tenants, and
+that it was isolated.  As this was a tiny container, they just co-hosted it
+with their app tier due to budget concerns.
+
+An internal developer was approached by a customer.  That developer then,
+claiming to be working on a new reporting engine container, added code to a
+chain of notification engines pushing to the vsock proxy.  Any error being
+explained away as safe because that new container wasn't in the app layer
+pod.
+
+That developer, either handed a time limited ansible key to the customer or
+used the customers key to ssh into the customer's container, used
+python/paramiko script to ssh to the container host, and launched a
+multi-hop proxy as the container host debian built in www-data user.  That
+container listens for all customer events and using the vsock proxy and
+pushed targeted ones to the customer's asset container, allowing them to
+exfiltrate sensitive data.
+
+While the above attack did use the systemd vsock sshd listener for Escape
+to Host &lt;<a href="https://attack.mitre.org/tactics/TA0005/" rel="nofollow">https://attack.mitre.org/tactics/TA0005/</a>&gt;, the attacker could have
+just directly listened over the vsock loopback. Unfortunately this
+orginization was only interested in a fix, and I don't expect more details
+to be made public.
+
+
+
+==============
+Known mitigations
+==============
+
+
+Kernel boot string
+==================
+
+Disables systemd sshd vsock listener, will not protect the vsock loopback.
+
+The official way to disable vsock sshd is through a kernel command line
+parameters or system credentials logic. [systemd-ssh-generator]
+
+ systemd.ssh_auto=no
+
+
+Mask systemd socket
+===================
+
+This will disable the systemd sshd vsock listener, but will not protect
+the vsock loopback.
+
+ sudo systemctl mask sshd-vsock.socket
+
+Note:
+
+ If another unit **explicitly** wants "sshd-vsock.socket" it may
+ be started.
+
+
+AppArmor
+========
+
+This will remove access to the vsock loopback, which will also remove
+access to the systemd sshd vsock listener for targeted binaries.
+
+Add the following to "/etc/apparmor.d/local/&lt;filename&gt;" for each
+high risk command.
+
+ audit deny network vsock,
+
+
+
+I will reply to this thread once I do publish a more indepth post and my
+time for testing is constrained.
+
+If anyone has found reliable methods of constraining crun with SElinux by
+default without breaking the upstream callers it would be appreciated and
+accelerate that effort.
+
+Thanks,
+
+Greg
+
+On Thu, Jan 8, 2026 at 2:20 PM Solar Designer &lt;solar&#64;...nwall.com&gt; wrote:
+
+&gt; Hi Greg,
+&gt;
+&gt; On Sat, Dec 27, 2025 at 08:46:49PM -0700, Greg Dahlman wrote:
+&gt; &gt; This information is to be publicly released on January 6 per requirements
+&gt; &gt; of the distro list.
+&gt;
+&gt; We're past this date now.  Have you already disclosed everything in this
+&gt; thread, or do you have anything additional you had shared with distros
+&gt; that you're yet to disclose to oss-security?  In the latter case, please
+&gt; do this ASAP!  (Sorry I haven't kept track of all the detail.)
+&gt;
+&gt; Thanks,
+&gt;
+&gt; Alexander
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

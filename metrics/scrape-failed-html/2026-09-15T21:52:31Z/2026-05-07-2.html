@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Precise disclosure contents for copyfail (Re:
+ CVE-2026-31431: CopyFail: linux local privilege scalation)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2026/05/06/5">[&lt;thread-prev]</a> <a href="../../../2026/05/18/3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;2026050727-outtakes-plus-c2de&#64;gregkh&gt;
+Date: Thu, 7 May 2026 06:32:33 +0200
+From: Greg KH &lt;greg&#64;...ah.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Sam James &lt;sam&#64;...too.org&gt;, Taeyang Lee &lt;0wn&#64;...ori.io&gt;,
+	Brad Spengler &lt;spender&#64;...ecurity.net&gt;,
+	Solar Designer &lt;solar&#64;...nwall.com&gt;
+Subject: Re: Precise disclosure contents for copyfail (Re:
+ CVE-2026-31431: CopyFail: linux local privilege scalation)
+
+On Mon, May 04, 2026 at 08:51:27PM +0100, Emily Shepherd wrote:
+&gt; On Mon May 4, 2026 at 6:38 PM BST, Greg KH wrote:
+&gt; &gt; Once it lands in Linus's tree, our role is over.
+&gt; 
+&gt; I would - respectfully - disagree. To clarify, I am aware that that is 
+&gt; the process as defined currently, but I am not sure that is the best 
+&gt; that process could be. You asked in a previous message what could have 
+&gt; been done better, so assuming that was meant sincerely, I'll provide 
+&gt; some thoughts.
+&gt; 
+&gt; The first hurdle a reporter must jump through is figuring out who to 
+&gt; actually report to - the process as defined [1] suggests it should be 
+&gt; the maintainer first, with the security team CC'd. There is also a handy 
+&gt; script provided to figure out the correct maintainer, and an example 
+&gt; given.
+&gt; 
+&gt; However, the example shows the script being called with a whole load of 
+&gt; flags (`--no-l`, `--no-r`, etc) without description. These flags are not 
+&gt; explained, or at the very least the importance of `--no-l` is not 
+&gt; stressed. As this flag excludes mailing lists from the addresses the 
+&gt; script will give back it is, presumably, essential to use when 
+&gt; determining who to report security issues to.
+
+The flags are all documented in the script itself, I don't know exactly
+what you would want us to do differently here.  You don't have to use
+the tool, we just offered a simple way to do so if you don't want to dig
+through the MAINTAINERS file yourself.
+
+&gt; I would also disagree with the rather casual assertion of the 
+&gt; documentation that:
+&gt; 
+&gt; &gt; In the Linux kernel, all official maintainers are trusted, so 
+&gt; &gt; the consequences of accidentally including the wrong maintainer are 
+&gt; &gt; essentially a bit more noise for that person, i.e. nothing dramatic.
+&gt; 
+&gt; Most other organisations treat security reports as strictly and 
+&gt; absolutely need-to-know, even among trusted members of a team. Compare, 
+&gt; for example, this stance with that of the "linux-distros" mailing list 
+&gt; [2], which is far stronger:
+
+Sure, linux-distros can do what they want for their policy, but you
+trust these kernel maintainers today for the work they do, why would you
+not also trust them to handle security bugs?  That's the only way we can
+get the proper fixes done in a timely manner.  You want the people who
+know and are responsible for the code itself to do the work, not anyone
+else.
+
+So yes, the kernel security team trusts its maintainers, this is a good
+thing and one that any sane group should also do.
+
+&gt; The conclusion I must reach, therefore, is it would be more secure if 
+&gt; the process were simplified to *all* requests going to the security team 
+&gt; address only, who then take responsibility for triaging and engaging the 
+&gt; appropriate people.
+
+What do you mean by "secure"?  Are things leaking here in the current
+process?
+
+If you want things to move slower, then don't involved the maintainers,
+and force a tiny group of people to do all the work on their own.  That
+does not scale and ends up with worse security overall.  We aren't going
+to do that.
+
+&gt; The submission process also places an extra-ordinarily high burden on 
+&gt; the reporter, rather than the security team itself, to coordinate an 
+&gt; appropriate response to bugs. As the process makes clear, the choice of 
+&gt; when - or indeed if - to even inform linux-distros of an issue is left 
+&gt; entirely up to the reporter, with a recommendation that they not be told 
+&gt; at all until a fix is ready. It is, presumably, also the reporter's 
+&gt; responsibility to monitor for a fix becoming ready.
+
+A reporter has to coordinate nothing if they don't want to, we can't
+force them.  We don't coordinate anything except getting bugs fixed.
+It's up to the submitter after that what they wish to do with anything.
+The huge majority just are happy the bug is fixed, so all is good.
+
+&gt; The process also states:
+&gt; 
+&gt; &gt; DO NOT contact the "linux-distros" mailing list UNTIL... you have read 
+&gt; &gt; the distros wiki page above and you fully understand the requirements 
+&gt; &gt; that contacting “linux-distros” will impose on you and the kernel 
+&gt; &gt; community.
+&gt; 
+&gt; Which is about as ominous and off-putting a statement that it would turn 
+&gt; many organisations away from meaningfully engaging in the process at 
+&gt; all.
+
+Great, that's the intention!  I don't want anyone to contact
+linux-distros as it only causes more problems than it is worth.  This
+has been hashed out many times over the years on the list if you want
+the details.
+
+&gt; The process also suggests that a CVE won't even be assigned for an issue 
+&gt; unless the reporter - once again - takes the initiative for requesting 
+&gt; one:
+&gt; 
+&gt; &gt; If a reporter wishes to have a CVE identifier assigned for a confirmed 
+&gt; &gt; issue, they can contact the kernel CVE assignment team to obtain one.
+
+Yes.
+
+&gt; None of this is normal - why the Linux security team and CNA team even 
+&gt; talking amongst themselves internally?
+
+They do not, they are different groups of volunteers, doing all of this
+work on their own time as individuals.
+
+&gt; Why is it an external party's job to coordinate that?
+
+No one has to coordinate anything.  A CVE will usually be assigned a
+month or so after it lands in a public release.  If someone wants one
+sooner, just email and ask, we give them out on a daily basis.
+
+&gt; The reality is the team best suited to knowing how, and being subtly
+&gt; trustworthy, to co-ordinate security responses is almost always the
+&gt; team within the project itself, not the good Samaritan who did the
+&gt; reporting.
+
+Again, we don't coordinate anything.  The kernel security team's job is
+to fix bugs and get them into public releases.  That's it.  The kernel
+CVE's team is to assign CVEs to fixes that are in releases that meet the
+requirements of what cve.org has put on them.  That's it.  No
+coordination between the two is needed.
+
+&gt; Finally the CVEs themselves; their descriptions are - frankly - 
+&gt; appalling. The CVE description in this case was:
+&gt; 
+&gt; &gt; In the Linux kernel, the following vulnerability has been resolved:
+&gt; &gt;
+&gt; &gt; crypto: algif_aead - Revert to operating out-of-place
+&gt; &gt;
+&gt; &gt; This mostly reverts commit 72548b093ee3 except for the copying of
+&gt; &gt; the associated data.
+&gt; &gt;
+&gt; &gt; There is no benefit in operating in-place in algif_aead since the
+&gt; &gt; source and destination come from different mappings. Get rid of
+&gt; &gt; all the complexity added for in-place operation and just copy the
+&gt; &gt; AD directly. 
+
+We take the changelog text directly for the CVE.  Yes, sometimes it is
+horrid.  Sometimes it is not.  At our scale this is the only way we can
+do it to start with for the initial report.  After that, if people wish
+to change the text, we gladly take patches and modifications of the
+text, the ids, or almost anything else that is in the CVE entry.  Just
+send us a patch, the whole repo is in git and we have documentation in
+the repo for how to do this.
+
+&gt; Ultimately, none of these points are theoretical. While I am frustrated 
+&gt; with the reporters for not following the process as defined in this 
+&gt; case, which has led to a pretty disastrous disclosure all round, the 
+&gt; result is a prime example of what was always going to happen sooner or 
+&gt; later with a disclosure process so opaque and seemingly hostile.
+
+Hostile to whom?  Distros that do not follow the stable kernel releases?
+
+thanks,
+
+greg k-h
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

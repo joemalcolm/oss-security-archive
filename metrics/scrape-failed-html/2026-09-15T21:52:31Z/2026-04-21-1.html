@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Libgcrypt security releases 1.12.2, 1.11.3, 1.10.x</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/04/20/9">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;aedYDeJs499s-v-7&#64;donburi.himad.notcom.org&gt;
+Date: Tue, 21 Apr 2026 14:08:08 +0300
+From: Valtteri Vuorikoski &lt;vuori&#64;...com.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Libgcrypt security releases 1.12.2, 1.11.3, 1.10.x
+
+The following announcement regarding libcrypt security releases was posted to
+gnupg-announce and related lists today. The forward is unedited except
+for trimming some footers inserted by mailing list software and the
+PGP/MIME signature.
+
+----- Forwarded message from Werner Koch via Gnupg-devel &lt;gnupg-devel&#64;...pg.org&gt; -----
+
+Date: Tue, 21 Apr 2026 12:28:09 +0200
+From: Werner Koch via Gnupg-devel &lt;gnupg-devel&#64;...pg.org&gt;
+To: gnupg-announce&#64;...pg.org
+Cc: Werner Koch &lt;wk&#64;...pg.org&gt;, info-gnu&#64;....org
+Subject: [Announce] [Security fixes] Libgcrypt 1.12.2, 1.11.3, 1.10.x released
+
+Hello!
+
+We are pleased to announce the availability of couple of new Libgcrypt
+versions: 1.12.2, 1.11.3, and 1.10.4 .  It is suggested to use 1.12.2
+which is fully compatible with all earlier versions.
+
+This version fixes a security bug [T8211] which can be used used to
+mount a DoS using ECDH encryption (with NIST, Brainpool, X448, or X25519
+curves).  Note that GnuPG versions since 2.5.7 are not affected by this
+bug due to the use of a different encryption API.
+
+Another security bug [T8208] was fixed in the Dilithium signing
+algorithm which is available since version 1.12.0.
+
+
+Noteworthy changes in version 1.12.2 (2026-04-15)
+====================================
+
+ * Bug fixes:
+
+   - Fix possible ECDH buffer overwrite with zeroes.  [T8211]
+
+   - Add a missing bounds check to the Dilithium context handling.
+     Reported by Calif.io in collaboration with Claude and Anthropic
+     Research.  [T8208]
+
+   - Add point validation when using the new KEM interface.  [T8212]
+
+ * Other:
+
+   - Fix the dead-code of stronger_key_check for RSA.  [T8171]
+
+ For a list of links to commits and bug numbers see the release info at
+ <a href="https://dev.gnupg.org/T8114" rel="nofollow">https://dev.gnupg.org/T8114</a> .  However, due to an ongoing AI scraper
+ DDoS the site might not be reachable at all times or from all IPs.
+
+
+Noteworthy changes in version 1.11.3 (2026-04-21)
+====================================
+
+ * Bug fixes:
+
+   - Fix possible ECDH buffer overwrite with zeroes.  [T8211]
+
+   - Add point validation when using the new KEM interface.  [T8212]
+
+   - Fix compiler error on NetBSD.  [T7633]
+
+   - mceliece6688128f: Fix stack overflow crash on win64/wine
+     [rCb17ed8d1af]
+
+   - Apply a Kyber patch from upstream.  [rC5ba143d51f]
+
+   - Use CSIDL_COMMON_APPDATA instead of /etc on Windows.  [rC995b870fd2]
+
+   - Use secure MPI in _gcry_mpi_assign_limb_space.  [rC520c699c82]
+
+   - Fix a regression with disabled public-key algo for FIPS.
+     [T7338,rCc6e0658004]
+
+ * Other:
+
+   - Handle HAVE_BROKEN_MLOCK for the case of building with ASAN.
+     [T7889]
+
+   - Add stack burning for PQC algorithms.  [rC289c0a596f]
+
+ Release-info: <a href="https://dev.gnupg.org/T8232" rel="nofollow">https://dev.gnupg.org/T8232</a>
+
+
+Noteworthy changes in version 1.10.4 (2026-04-21)
+====================================
+
+ NOTE: The 1.10 series reaches end-of-life in 6 weeks.
+
+ * Bug fixes:
+
+   - Fix possible ECDH buffer overwrite with zeroes.  [T8211]
+
+   - Fix AESWRAP padding length check.  [T7130]
+
+ * Other:
+
+   - Handle HAVE_BROKEN_MLOCK for the case of building with ASAN.
+     [T7889]
+
+ Release-info: <a href="https://dev.gnupg.org/T8233" rel="nofollow">https://dev.gnupg.org/T8233</a>
+
+
+
+Download
+========
+
+Source code is hosted at the GnuPG FTP server and its mirrors as listed
+at <a href="https://gnupg.org/download/mirrors.html" rel="nofollow">https://gnupg.org/download/mirrors.html</a>.  On the primary server
+the source tarball and its digital signature are:
+
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.bz2" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.bz2</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.bz2.sig" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.bz2.sig</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.3.tar.bz2" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.3.tar.bz2</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.3.tar.bz2.sig" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.3.tar.bz2.sig</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.4.tar.bz2" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.4.tar.bz2</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.4.tar.bz2.sig" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.4.tar.bz2.sig</a>
+
+or gzip compressed:
+
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.gz" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.gz</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.gz.sig" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.gz.sig</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.3.tar.gz" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.3.tar.gz</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.3.tar.gz.sig" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.3.tar.gz.sig</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.4.tar.gz" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.4.tar.gz</a>
+ <a href="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.4.tar.gz.sig" rel="nofollow">https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.4.tar.gz.sig</a>
+
+In order to check that the version of Libgcrypt you downloaded is an
+original and unmodified file please follow the instructions found at
+<a href="https://gnupg.org/download/integrity_check.html" rel="nofollow">https://gnupg.org/download/integrity_check.html</a>.  In short, you may
+use one of the following methods:
+
+ - Check the supplied OpenPGP signature.  For example to check the
+   signature of the file libgcrypt-1.12.2.tar.bz2 you would use this
+   command:
+
+     gpg --verify libgcrypt-1.12.2.tar.bz2.sig libgcrypt-1.12.2.tar.bz2
+
+   This checks whether the signature file matches the source file.
+   You should see a message indicating that the signature is good and
+   made by one or more of the release signing keys.  Make sure that
+   this is a valid key, either by matching the shown fingerprint
+   against a trustworthy list of valid release signing keys or by
+   checking that the key has been signed by trustworthy other keys.
+   See the end of this mail for information on the signing keys.
+
+ - If you are not able to use an existing version of GnuPG, you have
+   to verify the SHA-1 checksum.  On Unix systems the command to do
+   this is either "sha1sum" or "shasum".  Assuming you downloaded the
+   file libgcrypt-1.12.2.tar.bz2, you run the command like this:
+
+     sha1sum libgcrypt-1.12.2.tar.bz2
+
+   and check that the output matches the first line from the
+   this list:
+
+7b8ff21966a0b6e7a735466b9b9b55d9dac9fa87  libgcrypt-1.12.2.tar.bz2
+a1b1d5561e7b743e7e4460a49015053da1901124  libgcrypt-1.12.2.tar.gz
+d252f6b0a62fcacb8f82bcb61440b25d698a0a05  libgcrypt-1.11.3.tar.bz2
+a89b597965a76bfbe0ad11e3d6153c3709c0b07e  libgcrypt-1.11.3.tar.gz
+d824efa873ac210e84573564df4a99f4cd5cdf77  libgcrypt-1.10.4.tar.bz2
+5a5bb8d4dd69a2c7828dbf31b12df5e21e604971  libgcrypt-1.10.4.tar.gz
+
+   You should also verify that the checksums above are authentic by
+   matching them with copies of this announcement.  Those copies can be
+   found at other mailing lists, web sites, and search engines.
+
+
+Copying
+=======
+
+Libgcrypt is distributed under the terms of the GNU Lesser General
+Public License (LGPLv2.1+).  The helper programs as well as the
+documentation are distributed under the terms of the GNU General Public
+License (GPLv2+).  The file LICENSES has notices about contributions
+that require that these additional notices are distributed.
+
+
+Support
+=======
+
+For help on developing with Libgcrypt you should read the included
+manual and if needed ask on the gcrypt-devel mailing list.
+
+In case of problems specific to this release please first check
+<a href="https://dev.gnupg.org/T8114" rel="nofollow">https://dev.gnupg.org/T8114</a> for updated information.
+
+Please also consult the archive of the gcrypt-devel mailing list before
+reporting a bug: <a href="https://gnupg.org/documentation/mailing-lists.html" rel="nofollow">https://gnupg.org/documentation/mailing-lists.html</a> .
+We suggest to send bug reports for a new release to this list in favor
+of filing a bug at <a href="https://bugs.gnupg.org" rel="nofollow">https://bugs.gnupg.org</a>.  If you need commercial
+support go to <a href="https://gnupg.com" rel="nofollow">https://gnupg.com</a> or <a href="https://gnupg.org/service.html" rel="nofollow">https://gnupg.org/service.html</a> .
+
+Please see <a href="https://gnupg.org/documentation/security.html" rel="nofollow">https://gnupg.org/documentation/security.html</a> for information
+on how to report security issues and for our threat model.
+
+If you are a developer and you need a certain feature for your project,
+please do not hesitate to bring it to the gcrypt-devel mailing list for
+discussion.
+
+
+Thanks
+======
+
+Since 2001 maintenance and development of GnuPG is done by g10 Code GmbH
+and has mostly been financed by donations.  Several full-time employed
+developers and contractors are working exclusively on GnuPG and closely
+related software like Libgcrypt, GPGME, Kleopatra and Gpg4win.
+
+Fortunately, and this is still not common with free software, we have
+now established a way of financing the development while keeping all our
+software free and freely available for everyone.  Our model is similar
+to the way RedHat manages RHEL and Fedora: Except for the actual binary
+of the MSI installer for Windows and client specific configuration
+files, all the software is available under the GNU GPL and other Open
+Source licenses.  Thus customers may even build and distribute their own
+version of the software as long as they do not use our trademarks
+GnuPG Desktop® or GnuPG VS-Desktop®.
+
+We like to thank all the nice people who are helping the GnuPG project,
+be it testing, coding, translating, suggesting, auditing, administering
+the servers, spreading the word, answering questions on the mailing
+lists, or helping with donations.
+
+*Thank you all*
+
+   Your Libgcrypt hackers
+
+
+
+p.s.
+This is an announcement only mailing list.  Please send replies only to
+the gcrypt-devel'at'gnupg.org mailing list.
+
+* List of Release Signing Keys:
+  To guarantee that a downloaded version has not been tampered by
+  malicious entities we provide signature files for all tarballs and
+  binary versions.  The keys are also signed by the long term keys of
+  their respective owners.  Current releases are signed by one or more
+  of these five keys:
+
+    ed25519 2020-08-24 [SC] [expires: 2030-06-30]
+    6DAA 6E64 A76D 2840 571B  4902 5288 97B8 2640 3ADA
+    Werner Koch (dist signing 2020)
+
+    ed25519 2021-05-19 [SC] [expires: 2027-04-04]
+    AC8E 115B F73E 2D8D 47FA  9908 E98E 9B2D 19C6 C8BD
+    Niibe Yutaka (GnuPG Release Key)
+
+    rsa3072 2025-05-09 [SC] [expires: 2033-03-03]
+    3B76 1AE4 E63B F351 9CE7  D63B ECB6 64CB E133 2EEF
+    Alexander Kulbartsch (GnuPG Release Key)
+
+    brainpoolP256r1 2021-10-15 [SC] [expires: 2029-12-31]
+    02F3 8DFF 731F F97C B039  A1DA 549E 695E 905B A208
+    GnuPG.com (Release Signing Key 2021)
+
+    brainpoolP384r1 2026-02-23 [SC] [expires: 2034-02-23]
+    1493 269D E61F 124A A69A  316E 3ADF 34EB DBB2 00A4
+    GnuPG.com (Release Signing Key 2026)
+
+  The keys are available at <a href="https://gnupg.org/signature_key.html" rel="nofollow">https://gnupg.org/signature_key.html</a> and in
+  any recently released GnuPG tarball in the file g10/distsigkey.gpg .
+  Note that this mail has been signed by a different key.
+
+* Debian Package Signing Key:
+  The new Debian style packages are signed using this key:
+
+    ed25519 2025-07-08 [SC] [expires: 2035-07-14]
+    3209 7B71 9B37 45D6 E61D DA1B 85C4 5AE3 E1A2 B355
+    GnuPG.org Package Signing Key &lt;package-maintainers&#64;...pg.org&gt;
+
+  See the package website (<a href="https://repos.gnupg.org/deb/gnupg" rel="nofollow">https://repos.gnupg.org/deb/gnupg</a>) for a list
+  of supported distributions and a download link for the key.
+
+--
+The pioneers of a warless world are the youth that
+refuse military service.             - A. Einstein
+
+
+----- End forwarded message -----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

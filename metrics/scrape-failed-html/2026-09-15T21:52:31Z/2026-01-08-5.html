@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: libtasn1-4.21.0 released [stable] - fixes
+ CVE-2025-13151</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;f3097800-0bc6-4a07-b5bc-ab28676a4635&#64;oracle.com&gt;
+Date: Thu, 8 Jan 2026 08:32:23 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: libtasn1-4.21.0 released [stable] - fixes
+ CVE-2025-13151
+
+CVE-2025-13151 is described in the CVE database as:
+
+   Stack-based buffer overflow in libtasn1 version: v4.20.0.
+   The function fails to validate the size of input data resulting
+   in a buffer overflow in asn1_expend_octet_string.
+
+
+-------- Forwarded Message --------
+Subject: libtasn1-4.21.0 released [stable]
+Date: Thu, 08 Jan 2026 14:48:27 +0100
+From: Simon Josefsson via Announcements and Requests for Help from the GNU project and the Free Software Foundation &lt;info-gnu&#64;....org&gt;
+Reply-To: Simon Josefsson &lt;simon&#64;...efsson.org&gt;
+To: info-gnu&#64;....org
+CC: help-libtasn1&#64;....org
+
+This is to announce libtasn1-4.21.0, a stable release.
+
+GNU Libtasn1 is a standalone library written in C for manipulating
+ASN.1 objects including DER/BER encoding/decoding.  GNU Libtasn1 is
+used by GnuTLS to handle X.509 structures.
+
+There have been 34 commits by 5 people in the 49 weeks since 4.20.0.
+
+See the NEWS below for a brief summary.
+
+Thanks to everyone who has contributed!
+The following people contributed changes to this release:
+
+   Andrew Hamilton (1)
+   Daiki Ueno (4)
+   Masatake YAMATO (1)
+   Simon Josefsson (27)
+   Vijay Sarvepalli (1)
+
+Happy Hacking,
+/Simon [on behalf of the libtasn1 maintainers]
+==================================================================
+
+Here is the GNU libtasn1 home page:
+     <a href="https://www.gnu.org/software/libtasn1/" rel="nofollow">https://www.gnu.org/software/libtasn1/</a>
+
+Here are the compressed sources and a GPG detached signature:
+   <a href="https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.21.0.tar.gz" rel="nofollow">https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.21.0.tar.gz</a>
+   <a href="https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.21.0.tar.gz.sig" rel="nofollow">https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.21.0.tar.gz.sig</a>
+
+Here is minimal source-only "git archive" sources:
+   <a href="https://ftp.gnu.org/gnu/libtasn1/libtasn1-v4.21.0-src.tar.gz" rel="nofollow">https://ftp.gnu.org/gnu/libtasn1/libtasn1-v4.21.0-src.tar.gz</a>
+   <a href="https://ftp.gnu.org/gnu/libtasn1/libtasn1-v4.21.0-src.tar.gz.sig" rel="nofollow">https://ftp.gnu.org/gnu/libtasn1/libtasn1-v4.21.0-src.tar.gz.sig</a>
+
+Here are Sigsum Proofs:
+   <a href="https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.21.0.tar.gz.proof" rel="nofollow">https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.21.0.tar.gz.proof</a>
+   <a href="https://ftp.gnu.org/gnu/libtasn1/libtasn1-v4.21.0-src.tar.gz.proof" rel="nofollow">https://ftp.gnu.org/gnu/libtasn1/libtasn1-v4.21.0-src.tar.gz.proof</a>
+
+Use a mirror for higher download bandwidth:
+   <a href="https://www.gnu.org/order/ftp.html" rel="nofollow">https://www.gnu.org/order/ftp.html</a>
+
+Here are the SHA256 and SHA3-256 checksums:
+
+   SHA256 (libtasn1-4.21.0.tar.gz) = HYpESiI8xUZCQHdzRuEl3lHY5qvwuLrHQqyEYJFn3Ic=
+   SHA3-256 (libtasn1-4.21.0.tar.gz) = XtNk+w/VLnMrJZlT3CZQy/Mgwm/cmWTdX6ZBb49ETwk=
+
+   SHA256 (libtasn1-v4.21.0-src.tar.gz) = BvfQ93s42ztrF6PVTVkIdOXlib6oCBMpqKOs++w9/iE=
+   SHA3-256 (libtasn1-v4.21.0-src.tar.gz) = l6gEY3JXjHxWYVIPk8F8H6P6qWWdUbVmZPvGRewQnsU=
+
+Verify the base64 SHA256 checksum with cksum -a sha256 --check
+from coreutils-9.2 or OpenBSD's cksum since 2007.
+
+Verify the base64 SHA3-256 checksum with cksum -a sha3 --check
+from coreutils-9.8.
+
+Use a .sig file to verify that the corresponding file (without the
+.sig suffix) is intact.  First, be sure to download both the .sig file
+and the corresponding tarball.  Then, run a command like this:
+
+   gpg --verify libtasn1-4.21.0.tar.gz.sig
+
+The signature should match the fingerprint of the following key:
+
+   pub   ed25519 2019-03-20 [SC]
+         B1D2 BD13 75BE CB78 4CF4  F8C4 D73C F638 C53C 06BE
+   uid   Simon Josefsson &lt;simon&#64;...efsson.org&gt;
+
+If that command fails because you don't have the required public key,
+or that public key has expired, try the following commands to retrieve
+or refresh it, and then rerun the 'gpg --verify' command.
+
+   gpg --locate-external-key simon&#64;...efsson.org
+
+   gpg --recv-keys 51722B08FE4745A2
+
+   wget -q -O- '<a href="https://savannah.gnu.org/project/release-gpgkeys.php?group=libtasn1&amp;download=1'" rel="nofollow">https://savannah.gnu.org/project/release-gpgkeys.php?group=libtasn1&amp;download=1'</a> | gpg --import -
+
+As a last resort to find the key, you can try the official GNU
+keyring:
+
+   wget -q <a href="https://ftp.gnu.org/gnu/gnu-keyring.gpg" rel="nofollow">https://ftp.gnu.org/gnu/gnu-keyring.gpg</a>
+   gpg --keyring gnu-keyring.gpg --verify libtasn1-4.21.0.tar.gz.sig
+
+Use the .proof files to verify the Sigsum proof.  These files are like
+signatures but with extra transparency: you can cryptographically verify
+that every signature is logged in a public append-only log, so you can
+say with confidence what signatures exists.  This makes hidden releases
+no longer deniable for the same public key.
+
+Releases are Sigsum-signed with the following public key:
+
+   cat &lt;&lt;EOF &gt; libtasn1-sigsum-key.pub
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILzCFcHHrKzVSPDDarZPYqn89H5TPaxwcORgRg+4DagE
+EOF
+
+Run a command like this to verify downloaded artifacts:
+
+   sigsum-verify -k libtasn1-sigsum-key.pub -P sigsum-generic-2025-1 \
+         libtasn1-4.21.0.tar.gz.proof &lt; libtasn1-4.21.0.tar.gz
+
+You may learn more about Sigsum concepts and find instructions how to
+download the tools here: <a href="https://www.sigsum.org/getting-started/" rel="nofollow">https://www.sigsum.org/getting-started/</a>
+
+This release is based on the libtasn1 git repository, available as
+
+   git clone <a href="https://codeberg.org/libtasn1/libtasn1.git" rel="nofollow">https://codeberg.org/libtasn1/libtasn1.git</a>
+
+with commit 83f96d790a8107889e7c570294d49227b2db9d61 tagged as v4.21.0.
+
+For a summary of changes and contributors, see:
+
+   <a href="https://codeberg.org/libtasn1/libtasn1/commits/tag/v4.21.0" rel="nofollow">https://codeberg.org/libtasn1/libtasn1/commits/tag/v4.21.0</a>
+
+or run this command from a git-cloned libtasn1 directory:
+
+   git shortlog v4.20.0..v4.21.0
+
+This release was bootstrapped with the following tools:
+   Gnulib 2026-01-01 e93789db7e86c51d6cb9683ea508e676a55cdefa
+   Autoconf 2.72
+   Automake 1.17
+   Libtoolize 2.4.7
+   Make 4.4.1
+   Makeinfo 7.1.1
+   Bison 3.8.2
+   Help2man 1.49.2
+   Gtkdocize 1.34.0
+   Tar 1.35
+   Gzip 1.13
+   Guix ac92638bcec817cbbf94201eab0b342553987d42
+
+NEWS.md
+
+# Noteworthy changes in release 4.21.0 (2026-01-08) [stable]
+- Undocumented asn1Decoding --debug flag removed, thanks to Andrew Hamilton.
+- Code coverage for src/ went from 35% to 82%, thanks to Andrew Hamilton.
+- Fix of ASN.1 typo in manual, thanks to Masatake YAMATO.
+- NEWS renamed to NEWS.md and uses markdown syntax.
+- Update gnulib files and various build/maintenance fixes.
+- Fix for vulnerability CVE-2025-13151 Stack-based buffer overflow
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

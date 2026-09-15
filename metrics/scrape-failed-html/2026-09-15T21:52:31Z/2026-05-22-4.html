@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Coordinated Disclosure in the LLM Age</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href="10">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;19e4e2af936.4b7051cf156989.7683180300004644154&#64;roiai.ca&gt;
+Date: Thu, 21 May 2026 22:31:39 -0700
+From: ROI AI &lt;sales&#64;...ai.ca&gt;
+To: "oss-security" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: Coordinated Disclosure in the LLM Age
+
+I understand the costs, but simply hanging all the dirty laundry out is counter productive.   Working a change in public without going into sensitive details is reasonable, but pushing vuln reports to public is careless.  
+
+
+
+One of the most effective white hat approaches I've found to using LLMs is to farm reckless engineers who spell out these vulnerabilties in public and create roadmaps to exploiting and attacking software.  
+
+
+ROI AI
+
+
+
+
+
+
+
+
+From: Jacob Bachmeyer &lt;jcb62281&#64;...il.com&gt;
+To: &lt;oss-security&#64;...ts.openwall.com&gt;
+Date: Thu, 21 May 2026 21:02:51 -0700
+Subject: Re: [oss-security] Coordinated Disclosure in the LLM Age
+
+
+
+On 5/21/26 01:51, ROI AI wrote: 
+&gt; Also the entire nonsense about making the found issues public - this is absurd and just exacerbates the asymmetry problem. 
+&gt; 
+&gt; By keeping the reports private, the OSS teams can deal with the issues more on their timeline. 
+&gt; 
+&gt;   By making them public, they add timeline pressure and enable attackers. 
+&gt; 
+&gt; Why are you making it harder on yourself?  It is the opposite of what you want to do. 
+ 
+You apparently do not understand.  Most projects take keeping embargoed 
+security issues private rather seriously---and that *itself* has costs. 
+ 
+Further, the key issue here is the question of whether those costs have 
+any benefit when the issue was found using a tool to search for issues, 
+due to the risk of someone *else* using the same tool and finding the 
+same issue.  If that other person is another whitehat, you get a 
+duplicate report.  If that other person is a blackhat, you get an 
+in-the-wild exploit while you were carefully maintaining an embargo. 
+ 
+&gt; [...] 
+&gt; 
+&gt; 
+&gt; From: ROI AI &lt; mailto:sales&#64;...ai.ca &gt; 
+&gt; To: "oss-security"&lt; mailto:oss-security&#64;...ts.openwall.com &gt; 
+&gt; Date: Wed, 20 May 2026 22:26:21 -0700 
+&gt; Subject: Re: [oss-security] Coordinated Disclosure in the LLM Age 
+&gt; 
+&gt; 
+&gt; 
+&gt; People are shooting the messengers here.   The fact is - we are going through a generational security event due to the advancement of LLMs. 
+ 
+Maybe... we are definitely going through a generational event with the 
+amount of "AI" slop that has buried maintainers of major packages.  Have 
+you forgotten already that curl had to cancel their bug bounty due to 
+excessive "AI" slop submissions? 
+ 
+&gt; It is also both trivial and extremely effective to use Agentic analysis to filter security reports. 
+ 
+You advocate that maintainers blindly trust systems that are *known* to 
+be incapable of precise analysis.  I understand talking your own book, 
+but there are serious externalities here and I cannot let this go 
+unanswered. 
+ 
+What if that "Agentic analysis" incorrectly filters out a report of a 
+genuine issue?  Now the issue does not get fixed... 
+ 
+And just how effective is that analysis supposed to be at filtering out 
+"AI" hallucinations?  Remember that the *same* hallucination-prone model 
+might be doing the analysis as made the bogus report.  How, exactly, is 
+a model supposed to recognize its own hallucinations? 
+ 
+&gt; As for 'duplicates', people are claiming this when I have seen little evidence.  I reported a dozen or so to one major project and no one has yet claimed invalid or duplicate. 
+ 
+The claim came directly from someone who *works* with those issues and 
+manages inserting them into a bug tracker.  I am inclined to trust their 
+experience over your hand-waving dismissal. 
+ 
+You might also want to realize that "AI"-generated submissions are now, 
+in many projects, sent straight to the bit bucket, especially if found 
+to be invalid.  You should not expect a response informing you that your 
+report is invalid, as most maintainers have likely stopped bothering to 
+send those. 
+ 
+&gt; Moreover, if 'duplicates' are found, then that is a good signal for prioritization. 
+ 
+Maybe, if only in that duplicate reports indicate that a particular 
+issue may be "low-hanging fruit" and therefore already quasi-public.  In 
+other words, duplicate reports could be a signal to dump the embargo and 
+move faster to fix the issue.  (Remember that working under embargo has 
+costs?  *Those* *costs* *can* *extend* *the* *time* *to* *patch.*) 
+ 
+&gt; Let's stop talking about how the vulns are found and start fixing them with urgency. 
+ 
+Know what?  This reads like "AI" slop... and now I look at the source 
+(&lt; mailto:sales&#64;...ai.ca &gt;) and realize that I am probably debating a slop 
+machine tasked with promoting a product.  I will send this anyway, for 
+the benefit of my fellow humans who will read this discussion and who 
+might---just might---recognize your marketing efforts as the slop they are. 
+ 
+&gt; ROI AI 
+&gt; 
+-- Jacob 
+&gt; 
+&gt; 
+&gt; From: Alan Coopersmith &lt; mailto: mailto:alan.coopersmith&#64;...cle.com  &gt; 
+&gt; To: &lt; mailto: mailto:oss-security&#64;...ts.openwall.com  &gt; 
+&gt; Date: Wed, 20 May 2026 10:52:37 -0700 
+&gt; Subject: Re: [oss-security] Coordinated Disclosure in the LLM Age 
+&gt; 
+&gt; On 4/28/26 07:58, Jeremy Stanley wrote: 
+&gt;&gt; I'm sorely tempted, both due to the increased volume and the risk of premature 
+&gt;&gt; disclosure, to just assume that any vulnerability reported as a result of 
+&gt;&gt; research using an LLM is trivially discoverable by others, and give up trying to 
+&gt;&gt; pretend there's any point to working it under embargo. 
+&gt; 
+&gt; Other maintainers under similar floods seem to agree: 
+&gt; 
+&gt; Linux kernel: 
+&gt;   - <a href="https://lkml.org/lkml/2026/5/17/896" rel="nofollow">https://lkml.org/lkml/2026/5/17/896</a>  
+&gt;   - <a href="https://docs.kernel.org/process/security-bugs.html" rel="nofollow">https://docs.kernel.org/process/security-bugs.html</a>  
+&gt; 
+&gt; DNS servers (BIND, Unbound, PowerDNS): 
+&gt; - <a href="https://indico.dns-oarc.net/event/56/contributions/1233/" rel="nofollow">https://indico.dns-oarc.net/event/56/contributions/1233/</a>  
+&gt; - <a href="https://indico.dns-oarc.net/event/56/contributions/1233/attachments/1180/2539/presentation.pdf" rel="nofollow">https://indico.dns-oarc.net/event/56/contributions/1233/attachments/1180/2539/presentation.pdf</a>  
+&gt;
+Confidential communication. No warranties or commitments unless in a signed agreement. If received in error, notify sender and delete. Unauthorized use prohibited.
+
+
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

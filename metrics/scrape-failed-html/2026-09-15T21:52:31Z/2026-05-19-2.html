@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: On the issue of MIME handlers that execute
+ arbitrary code (e.g. Wine)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="38">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;agw1YBkrV6kcsdYr&#64;definition.pseudorandom.co.uk&gt;
+Date: Tue, 19 May 2026 11:03:12 +0100
+From: Simon McVittie &lt;smcv&#64;...ian.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: On the issue of MIME handlers that execute
+ arbitrary code (e.g. Wine)
+
+On Mon, 18 May 2026 at 22:01:16 -0400, Aaron Rainbolt wrote:
+&gt;Of these two, org.freedesktop.portal.OpenURI.OpenFile is probably more
+&gt;problematic. This is because access to the OpenURI portal seems to be
+&gt;implicitly allowed by Flatpak.
+
+Expanding on what Flatpak intends to allow here:
+
+The general design in Flatpak is that communicating with D-Bus peers 
+that own a name of the form org.freedesktop.portal.(anything) is always 
+allowed, and nearly everything else is not allowed by default. The idea 
+is that when services like xdg-desktop-portal own a 
+org.freedesktop.portal.* name, that's an opt-in to taking responsibility 
+for doing whatever mediation and prompting is necessary, whereas for 
+other arbitrary services (like for example org.freedesktop.PackageKit) 
+the assumption is that the service is not suitable for use by arbitrary 
+sandboxed apps unless explicitly allowed.
+
+(There are a few other hard-coded exceptions for things like the special 
+org.freedesktop.DBus interface implemented by the message bus itself, 
+which is allowed or denied at a much finer granularity because it's so 
+fundamental to how D-Bus is used.)
+
+The org.freedesktop.portal.* special case is about the bus names that are 
+owned, not a specific interface/method. The fact that the method call is 
+org.freedesktop.portal.OpenURI.OpenFile is actually irrelevant to 
+whether Flatpak allows it, even though it happens to follow the same 
+naming convention as bus names; what matters is that it's implemented by 
+the xdg-desktop-portal process, and that process owns the bus name 
+org.freedesktop.portal.Desktop, so the parameters that Flatpak passes 
+to xdg-dbus-proxy result in communication being allowed.
+
+Other org.freedesktop.portal.* names can be seen in the NAME column in 
+systemd's `busctl --user`, for example. On a GNOME system, examples of 
+other portal services include org.freedesktop.portal.IBus and 
+org.freedesktop.portal.Tracker, which are narrower, more-restricted 
+versions of the ibus and localsearch (formerly Tracker) interfaces. The 
+authors of those services are responsible for making them safe.
+
+For xdg-desktop-portal specifically, I believe there is work being done 
+on an "entitlements" mechanism so that in future, some (all?) 
+xdg-desktop-portal interfaces will refuse to process requests from 
+sandboxed apps that do not have the appropriate "entitlement", similar 
+to the way Android permissions work - for example apps that don't have 
+the "screenshot" entitlement might not be allowed to take screenshots, 
+even with user consent. I don't know the finer details of that work, 
+though. It will presumably need a backward-compatibility mechanism where 
+older apps are assumed to have entitlements for most of the 
+functionality that was traditionally always available, otherwise that 
+would be a major functional regression.
+
+As far as I know, the entitlements mechanism is being done at the portal 
+level rather than the D-Bus level: the D-Bus message gets delivered to 
+the portal either way, but the portal chooses whether to take the 
+requested action (possibly after prompting the user) or reject the 
+request. This is analogous to the way modern D-Bus system bus services 
+are usually designed, with the D-Bus message delivered to the service 
+unconditionally, and the service deciding whether to obey or reject it 
+(normally by querying polkit).
+
+&gt;If all applications followed the xdg-mime manpage's advice to never
+&gt;execute code when opening a file, this wouldn't be that big of a
+&gt;problem. This is where Wine comes in; it ships a desktop file that
+&gt;registers Wine as a MIME handler for 'application/x-ms-dos-executable',
+&gt;'application/x-msi', and 'application/x-bat'.
+
+Note that not all packaged versions of Wine do this: for example in 
+Debian, this MIME handler was disabled in 2013 in response to 
+&lt;<a href="https://bugs.debian.org/327262" rel="nofollow">https://bugs.debian.org/327262</a>&gt;.
+
+&gt;Unfortunately, I was able to find another program
+&gt;with an unsafe handler registered just while writing this email (which
+&gt;I intend on reporting privately once I've sent this). So while it seems
+&gt;like these kind of handlers aren't super common, they aren't that hard
+&gt;to find if you dig around for a while.
+
+CVE-2023-26314 (&lt;<a href="https://bugs.debian.org/972146" rel="nofollow">https://bugs.debian.org/972146</a>&gt;) in Debian's packaging 
+of the Mono runtime is another example that was already public with a 
+CVE ID issued. I believe that specific vulnerability was specific to 
+Debian (and Debian derivatives that inherited it, like Ubuntu), but the 
+general "shape" of the problem could affect any distro, and it was 
+discussed (briefly) in the thread starting at 
+&lt;<a href="https://www.openwall.com/lists/oss-security/2023/01/05/1">https://www.openwall.com/lists/oss-security/2023/01/05/1</a>&gt;.
+
+&gt;* We're working on a sandboxing system (really a glorified
+&gt;  systemd-nspawn frontend) that allows each sandbox to be
+&gt;  self-sufficient enough to not *need* access to the host's D-Bus
+&gt;  daemon. [9] That should prevent any possible way to leverage D-Bus as
+&gt;  a sandbox escape mechanism.
+
+This is definitely a trade-off: the more barriers a sandboxing system 
+puts up between host and sandbox, the safer it will be, but the less 
+well-integrated with the host system it will feel. At one extreme, each 
+app could be in its own VM (very safe, very poorly integrated unless 
+heroic efforts are undertaken to provide communication between them), 
+and at the other extreme, the apps could be effectively un-sandboxed 
+(very well integrated, but very much not safe if an app is compromised 
+or malicious).
+
+Each app/sandboxing framework needs to choose its own security posture, 
+which will determine the extent to which that framework is safe to use 
+with a potentially malicious or compromised app. 
+More-secure/less-integrated is not *necessarily* always better for the 
+overall security of the ecosystem: if an app framework is inconvenient 
+to use, the likely result is that most people will use completely 
+un-sandboxed apps instead, which could ironically lead to more security 
+exposure than if they had been using imperfectly-sandboxed apps.
+
+Any container-based sandboxing mechanism, however well-designed, is also 
+going to be susceptible to whatever vulnerabilities are available at the 
+Linux syscall interface (which feels especially topical this month!), 
+although this can be mitigated by mechanisms like seccomp (as used in 
+Flatpak and systemd-nspawn) or AppArmor (as used in Snap).
+
+     smcv
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

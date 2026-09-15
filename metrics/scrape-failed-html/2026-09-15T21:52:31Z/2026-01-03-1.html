@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: Best practices for signature verifcation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/01/02/3">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/01/02/3">[&lt;thread-prev]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20f4c810-3d91-493c-8c04-18ea7d08d561&#64;gmail.com&gt;
+Date: Fri, 2 Jan 2026 19:22:12 -0500
+From: Demi Marie Obenour &lt;demiobenour&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com, Simon Josefsson &lt;simon&#64;...efsson.org&gt;,
+ Collin Funk &lt;collin.funk1&#64;...il.com&gt;
+Cc: kf503bla&#64;...k.com
+Subject: Re: Re: Best practices for signature verifcation
+
+On 1/1/26 09:11, Simon Josefsson wrote:
+&gt; I forget a major aspect the competition is doing worse than PGP: public
+&gt; key distribution.  While PGP key distribution has been a continous
+&gt; problematic matter, it may be because the PGP ecosystem attempts to
+&gt; address this problem and the other sign+verify technologies has given up
+&gt; on solving it.
+&gt; 
+&gt; Collin Funk &lt;collin.funk1&#64;...il.com&gt; writes:
+&gt; 
+&gt;&gt; Doesn't Sigstore require a centralized Rekor instance? That was the
+&gt;&gt; impression I based on a very brief look at it previously.
+&gt; 
+&gt; Yes, but I don't see that as a major problem since the transparency
+&gt; model uses monitors/witnesses to keep instances honest.  Same situation
+&gt; with Sigsum really.  Sigstore/Sigsum offers properties none of the other
+&gt; solutions offer, so it may be a price that we need to pay to get those
+&gt; properties.  I think this is somewhat different compared to other
+&gt; centralized services patterns, which is generally a deal-breaker.
+
+Still, there is a chance that a rogue signature could be issued
+and weaponized well before the transparency service output could
+be checked.  This is especially true if the signature output is used
+by an automated process.  Detection is no substitute for prevention.
+
+&gt; Demi Marie Obenour &lt;demiobenour&#64;...il.com&gt; writes:
+&gt; 
+&gt;&gt; I do think that better CMS/PKCS#7 implementations would be worth
+&gt;&gt; pursuing.  This is because it is hard-coded into a huge number
+&gt;&gt; of applications that will be extremely difficult to change.
+&gt;&gt; These include:
+&gt;&gt;
+&gt;&gt; - Windows and UEFI Authenticode.
+&gt;&gt; - macOS and iOS code signing.
+&gt;&gt; - Legally binding CMS Advanced Electronic Signatures (CAdES).
+&gt; 
+&gt; Why is compatibility with that an argument?  I don't think CMS/PKCS#7
+&gt; offers anything compelling that PGP doesn't, and the complexity is
+&gt; horrible (just think ASN1).
+
+CMS/PKCS#7 (and PGP for that matter) should not be used in _new_
+designs.  What I meant is that there are so many _existing_ uses
+that a good implementation is worthwhile.  Using CMS is a mistake,
+but at this point, I'm not sure if it is always a _fixable_ mistake.
+The same goes for X.509.
+
+If CMS and X.509 can't be eliminated, I'd rather have one good
+implementation of both of them than a bunch of terrible ones.
+
+Parsing ASN.1 DER isn't actually that bad, at least once one gets over
+the various date-time and string formats.  Parsing a single ASN.1 tag
+from a buffer is less than 40 lines of C code if one doesn't need
+to deal with tags over 0x1D.  Creating ASN.1 requires a backwards
+postorder traversal, which is nasty but doable.  The worst part
+of ASN.1 is that it encourages extremely complex encoding formats.
+X.509 adds very complex semantics on top of that, and CMS makes things
+even worse.
+
+&gt;&gt; Would it be possible to standardize some form of metadata for SSH signatures?
+&gt;&gt;
+&gt;&gt; CMS and OpenPGP support time-stamping countersignatures is critical.
+&gt;&gt; This is critical for some applications, notably Authenticode and CAdES.
+&gt;&gt; Should this be supported?
+&gt; 
+&gt; Is that a critical feature for a signature format?  Why not just design
+&gt; a metadata format for that use-case, and sign the metadata using SSH
+&gt; signatures?
+&gt; 
+&gt; Feature creep in signature systems seems to be a big problem that
+&gt; eventually turns them into a copy of PGP or CMS.
+
+Indeed it's generally better to include the metadata as part of the
+thing being signed, rather than as part of the signature itself.
+Extensibility is a curse as well as a blessing, and in cryptography
+my understanding is that the first is usually the most common.
+-- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>OpenPGP_0xB288B55FFF9C22C1.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (7141 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

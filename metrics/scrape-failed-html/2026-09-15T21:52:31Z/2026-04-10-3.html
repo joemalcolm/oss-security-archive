@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Go 1.26.2 and Go 1.25.9 are released with 10 security fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2026/04/08/14">[&lt;thread-prev]</a> <a href="../../../2026/04/17/10">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260410025803.GA20948&#64;openwall.com&gt;
+Date: Fri, 10 Apr 2026 04:58:03 +0200
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Go 1.26.2 and Go 1.25.9 are released with 10 security fixes
+
+On Wed, Apr 08, 2026 at 04:24:34PM -0700, Alan Coopersmith wrote:
+&gt; <a href="https://groups.google.com/g/golang-announce/c/0uYbvbPZRWU" rel="nofollow">https://groups.google.com/g/golang-announce/c/0uYbvbPZRWU</a> announces:
+&gt; &gt;We have just released Go versions 1.26.2 and 1.25.9, minor point releases.
+&gt; &gt;
+&gt; &gt;These releases include 10 security fixes following the security policy:
+
+This includes 2 issues in the compiler itself, which made some Go
+programs not memory safe:
+
+&gt; &gt;  * cmd/compile: no-op interface conversion bypasses overlap checking
+&gt; &gt;
+&gt; &gt;    Previously, the compiler failed to unwrap pointers contained within
+&gt; &gt;    a no-op interface conversion leading to an incorrect determination
+&gt; &gt;    of a non-overlapping move.
+&gt; &gt;
+&gt; &gt;    To prevent unsafe move operations, the compiler will now unwrap all
+&gt; &gt;    such conversions before considering a move non-overlapping.
+&gt; &gt;
+&gt; &gt;    Thank you to Jakub Ciolek - <a href="https://ciolek.dev/" rel="nofollow">https://ciolek.dev/</a> for reporting this 
+&gt; &gt;    issue.
+&gt; &gt;
+&gt; &gt;    This is CVE-2026-27144 and Go issue <a href="https://go.dev/issue/78371" rel="nofollow">https://go.dev/issue/78371</a>.
+&gt; &gt;
+&gt; &gt;  * cmd/compile: possible memory corruption after bound check elimination
+&gt; &gt;
+&gt; &gt;    Previously, slices and arrays accessed using induction variables
+&gt; &gt;    were sometimes incorrectly proved in-bound. If the induction variable
+&gt; &gt;    used for indexing were to overflow or underflow, it could allow access
+&gt; &gt;    to memory beyond the scope of the original slice or array.
+&gt; &gt;
+&gt; &gt;    To prevent this behavior, the compiler ensures that any mutated 
+&gt; &gt;    induction
+&gt; &gt;    variable that overflows/underflows with respect to its loop condition
+&gt; &gt;    is not used for bound check elimination.
+&gt; &gt;
+&gt; &gt;    Thank you to Jakub Ciolek - <a href="https://ciolek.dev/" rel="nofollow">https://ciolek.dev/</a> for reporting this 
+&gt; &gt;    issue.
+&gt; &gt;
+&gt; &gt;    This is CVE-2026-27143 and Go issue <a href="https://go.dev/issue/78333" rel="nofollow">https://go.dev/issue/78333</a>.
+
+Jakub Ciolek who found these 2 issues (and had inadvertently introduced
+"the underlying issue behind the first bug [...] more than three years
+earlier") posted an excellent write-up about them here:
+
+<a href="https://ciolek.dev/posts/when-the-compiler-lies" rel="nofollow">https://ciolek.dev/posts/when-the-compiler-lies</a>
+
+Here's my quick attempt at a plain text conversion:
+
+&gt; When the compiler lies: breaking memory safety in safe Go
+&gt; 0001 go / memory safety / compilers
+&gt; 
+&gt; Early in March, I reported two compiler bugs affecting Go releases up to
+&gt; 1.26.1 which broke the Go memory safety guarantees using only safe Go
+&gt; code.
+&gt; 
+&gt; This means the proof-of-concepts did not import unsafe, did not use CGO
+&gt; and did not rely on custom assembly nor data races. Using specially
+&gt; constructed code, I was able to turn both bugs into control-flow hijack,
+&gt; and with the loop bug I also got execution of injected instructions.
+&gt; 
+&gt; I’m not including the full end-to-end exploits, to allow the fixed
+&gt; releases to become more widely available. I’ll briefly describe the
+&gt; issues and show the problematic code patterns though. An interesting
+&gt; learning from this, perhaps obvious to some people, is that memory
+&gt; safety is a property of the whole toolchain, not only the language
+&gt; itself.
+&gt; 
+&gt; I found the bugs after I decided to have a closer look at the compiler.
+&gt; I had reported several denial-of-service issues in the standard library
+&gt; before. I have spent a few years contributing smaller patches to the
+&gt; compiler on-and-off so it was a codebase I understood reasonably well.
+&gt; In late November I found two errors in the devel version of the prove
+&gt; optimization pass (the step that infers limits and “proves”
+&gt; facts about SSA values, among others to perform bounds check
+&gt; elimination).
+&gt; 
+&gt; If you exclude the generated rewrite tables, prove is basically the
+&gt; second largest backend SSA optimization pass, behind only the register
+&gt; allocator itself. It also deals with arithmetic and signedness, two easy
+&gt; ways to shoot yourself in the foot. It turned out, the hunch was correct
+&gt; as there were more problems lurking in that area. This time in the
+&gt; release versions of Go.
+&gt; 
+&gt; BUG 1: A LOOP THAT WRAPPED AND THE COMPILER SWORE IT DIDN’T
+&gt; 
+&gt; CVE-2026-27143
+&gt; 
+&gt; The first problem existed in the prove/loopbce reasoning about induction
+&gt; variables and bound checks.
+&gt; 
+&gt; The triggering shape is surprisingly simple:
+&gt; 
+&gt; for i := int8(0); i &lt;= int8(120); i += int8(10) {
+&gt;     arr[i] = value
+&gt; }
+&gt; 
+&gt; Question to you: if i == 120 and you perform the iteration, then add 10
+&gt; to it, what will you get? What’s the answer? 130? It turns out the
+&gt; answer is -126. int8 has eight bits, it wraps.
+&gt; 
+&gt; That’s literally the whole bug. The compiler believed something
+&gt; different though.
+&gt; 
+&gt; If you make prove emit debug data, these are the facts it inferred:
+&gt; 
+&gt;     Induction variable: limits [0,120], increment 10
+&gt;     Proved IsInBounds
+&gt; 
+&gt; Once it takes those facts, it will confidently remove bound checking for
+&gt; array access if the array size fits within the induction variable
+&gt; limits. In this case, the index can become negative. With correct
+&gt; arrangement of surrounding code, we can make the program jump to an
+&gt; arbitrary address, change control flow or even inject instructions.
+&gt; 
+&gt; I must admit I could not believe this at first and reran the program
+&gt; many times on different machines and different versions of the compiler.
+&gt; Vulnerability hunting gives a large thrill when you finally confirm
+&gt; something is a real security bug. When I found it, I was really
+&gt; ecstatic, as bad as it sounds. That feeling would change soon, but more
+&gt; about that later.
+&gt; 
+&gt; BUG 2: A NO-OP CONVERSION THAT CHANGED NOTHING AND BROKE EVERYTHING
+&gt; 
+&gt; CVE-2026-27144
+&gt; 
+&gt; The second problem lived in another place, slightly later, in the SSA
+&gt; lowering phase. The compiler knows to be careful when copying from one
+&gt; part of an array into an overlapping nearby part. This is important for
+&gt; safety. It turns out, if you wrapped the source into a conversion that
+&gt; didn’t really change anything, the compiler forgot to do that.
+&gt; 
+&gt; type T [N][]uint64
+&gt; 
+&gt; // buggy shape
+&gt; *p = T(*q)
+&gt; 
+&gt; // control shape
+&gt; *p = *q
+&gt; 
+&gt; Those two lines should mean the same thing here. The conversion does not
+&gt; really matter, the overlap does. p and q can point at partially
+&gt; overlapping windows of the same underlying array. Once that is true, the
+&gt; compiler should use the careful copy path. If it does not do that, it
+&gt; can overwrite data it has not read yet. If you do that over simple data,
+&gt; you get a wrong result. If you do that over more complex composite
+&gt; values it gets more interesting. If you do that to slice values, later
+&gt; code still trusts the result. A harmless-looking assignment then turns
+&gt; into memory corruption.
+&gt; 
+&gt; TWO DISTINCT PROBLEMS, BUT REALLY THE SAME CAUSE
+&gt; 
+&gt; Those two bugs resided in two different parts of the compiler, but the
+&gt; root cause was the same. In the first case, the compiler erased the
+&gt; possibility of signed wrap. In the second one, it excluded the
+&gt; possibility of overlap.
+&gt; 
+&gt; Those were two different mechanisms of failure, but both caused by the
+&gt; same problem: counterfeit certainty. I guess that’s how compilers
+&gt; break, you can write some compiler code and it looks reasonable,
+&gt; there’s math and tests and everything seems correct. Things get
+&gt; reviewed by multiple people and merged, but it turns out you may
+&gt; accidentally upgrade “probably safe” into “proved safe”
+&gt; way too soon.
+&gt; 
+&gt; Then, once the compiler starts to generate and optimize code based on
+&gt; that promise, it will miscompile. Sometimes, like in those cases, you
+&gt; can make the code dance around it and break security boundaries.
+&gt; 
+&gt; THEN GIT BLAME GOT PERSONAL
+&gt; 
+&gt; As I was wrapping up the email to the Go security team, I sat down to
+&gt; write the last part of the advisory. I was still ecstatic about the
+&gt; find. The final part was to figure out when this was introduced. I did
+&gt; the routine thing and ran git blame.
+&gt; 
+&gt; It came back with my own name. That was not ideal and I did not like it.
+&gt; I got a sinking feeling in my stomach and went from feeling really smart
+&gt; to feeling really dumb, real fast.
+&gt; 
+&gt; It turns out that the underlying issue behind the first bug came from a
+&gt; CL I landed more than three years earlier.
+&gt; 
+&gt; I got over it by the next day and now see it as an amusing story, but it
+&gt; was quite an experience.
+&gt; 
+&gt; DISCLOSURE
+&gt; 
+&gt; I reported both issues back in March.
+&gt; 
+&gt; I must commend the Go security team as they are always excellent. Neal
+&gt; got back to me within 3 minutes of the first report and within 4 minutes
+&gt; of the second report. Mind you, those were sent days apart. Typically,
+&gt; the Go security advisories take up to a week to get a response. I guess
+&gt; seeing “memory corruption” and “compiler bug” in the
+&gt; same email thread speeds the process up.
+&gt; 
+&gt; I’ll publish the full minimized reproducers, deeper technical dive
+&gt; and more once the fixed releases become more broadly available.
+&gt; 
+&gt; LEARNINGS
+&gt; 
+&gt; The main learning for myself is that a memory-safe language is only as
+&gt; safe as the entire toolchain enforcing its invariants. Frontend,
+&gt; optimizer, lowering, runtime and code generation. All of those parts sit
+&gt; within the trust boundary. If parts of it start certifying wrong proofs
+&gt; and generating code on top of that, the source code can stay safe while
+&gt; the compiled program stops being memory-safe.
+&gt; 
+&gt; Every optimization is a security claim and most of the time those claims
+&gt; are true. In this case, those two were not.
+&gt; 
+&gt; STATUS
+&gt; 
+&gt; Disclosure in progress
+&gt; 
+&gt; Full end-to-end exploits and minimized reproducers are intentionally
+&gt; omitted until the fixed releases are more widely available.
+&gt; 
+&gt; AFFECTED
+&gt; 
+&gt; Two compiler bugs affecting release versions of Go up to 1.26.1.
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

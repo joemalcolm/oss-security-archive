@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Samba 4.24.3, 4.23.8 and 4.22.10 Security Releases are available for
+ Download</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2026/05/20/3">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;f591083f-b117-4829-a7dc-f8214cb5848e&#64;catalyst.net.nz&gt;
+Date: Wed, 27 May 2026 16:39:06 +1200
+From: Douglas Bagnall &lt;douglas.bagnall&#64;...alyst.net.nz&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Samba 4.24.3, 4.23.8 and 4.22.10 Security Releases are available for
+ Download
+
+
+
+
+-------- Forwarded Message --------
+Subject: [Announce] Samba 4.24.3, 4.23.8 and 4.22.10 Security Releases 
+are available for Download
+Date: Tue, 26 May 2026 14:29:50 +0200
+From: Stefan Metzmacher via samba-technical 
+&lt;samba-technical&#64;...ts.samba.org&gt;
+Reply-To: Stefan Metzmacher &lt;metze&#64;...ba.org&gt;
+To: samba-announce&#64;...ts.samba.org, samba&#64;...ts.samba.org, 
+samba-technical&#64;...ts.samba.org
+
+Release Announcements
+---------------------
+
+This is a security release in order to address the following defects:
+
+o CVE-2026-1933:   Missing access checks on reparse point operations
+
+                    On a share marked "read only = yes" and
+                    on file handles opened R/O users can set
+                    or delete the reparse point xattrs on files
+                    that the user has write-access in the file
+                    system for.
+
+                    <a href="https://www.samba.org/samba/security/CVE-2026-1933.html" rel="nofollow">https://www.samba.org/samba/security/CVE-2026-1933.html</a>
+
+
+o CVE-2026-2340:   WORM vfs module does not block overwrites
+
+                    The WORM (Write-Once, Read Many) vfs module
+                    is supposed to lock write access to shared
+                    files, so they cannot be altered after initial
+                    writes. It was allowing files to be overwritten
+                    by renaming a newly created file over a protected
+                    file.
+
+                    <a href="https://www.samba.org/samba/security/CVE-2026-2340.html" rel="nofollow">https://www.samba.org/samba/security/CVE-2026-2340.html</a>
+
+
+o CVE-2026-3012:   auto-enrolment GPO installing CA certificate over http
+                    without verification
+
+                    To bootstrap a certificate chain a domain member must
+                    fetch a certificate without TLS. It was trusting HTTP
+                    for this when a more secure encrypted LDAP channel
+                    was also available.
+
+                    <a href="https://www.samba.org/samba/security/CVE-2026-3012.html" rel="nofollow">https://www.samba.org/samba/security/CVE-2026-3012.html</a>
+
+
+o CVE-2026-3238:   Denial of service against AD DC WINS server
+
+                    The WINS server component of the Active
+                    Directory Domain controller code in Samba
+                    is vulnerable to a NULL pointer dereference
+                    and crash caused by a unauthenticated UDP
+                    packet.
+
+                    <a href="https://www.samba.org/samba/security/CVE-2026-3238.html" rel="nofollow">https://www.samba.org/samba/security/CVE-2026-3238.html</a>
+
+
+o CVE-2026-4408:   Unauthenticated Remote Code Execution in Samba 
+DCE/RPC SAMR
+                    server
+
+                    Samba file servers and classic (non-AD) domain 
+controllers
+                    with samba-dcerpcd started as a system service and 
+with a
+                    "check password script" that has the %u substitution
+                    character are vulnerable to a remote code execution.
+
+                    <a href="https://www.samba.org/samba/security/CVE-2026-4408.html" rel="nofollow">https://www.samba.org/samba/security/CVE-2026-4408.html</a>
+
+
+o CVE-2026-4480:   Unauthenticated Remote Code Execution in Samba printing
+                    subsystem
+
+                    Samba print servers with a "print command"
+                    that has the %J substitution character
+                    are vulnerable to a Remote Code Execution.
+
+                    <a href="https://www.samba.org/samba/security/CVE-2026-4480.html" rel="nofollow">https://www.samba.org/samba/security/CVE-2026-4480.html</a>
+
+
+Changes
+-------
+
+o  Douglas Bagnall &lt;douglas.bagnall&#64;...alyst.net.nz&gt;
+    * BUG 15997: CVE-2026-2340
+    * BUG 16003: CVE-2026-3012
+    * BUG 16033: CVE-2026-4480
+    * BUG 16034: CVE-2026-4408
+
+o  Pavel Kohout &lt;pavel&#64;...le.com&gt;
+    * BUG 15997: CVE-2026-2340
+
+o  Volker Lendecke &lt;vl&#64;...ba.org&gt;
+    * BUG 15992: CVE-2026-1933
+    * BUG 16012: CVE-2026-3238
+
+o  Stefan Metzmacher &lt;metze&#64;...ba.org&gt;
+    * BUG 15992: CVE-2026-1933
+    * BUG 16033: CVE-2026-4480
+    * BUG 16034: CVE-2026-4408
+    * BUG 16059: (4.23-only) CVE-2026-40170: thirdparty ngtcp2 needs to 
+be updated
+    * BUG 16073: (4.22/23-only) Winbind can change Ownership Of / To A 
+User Who
+      has Homedir / In passwd
+
+#######################################
+Reporting bugs &amp; Development Discussion
+#######################################
+
+Please discuss this release on the samba-technical mailing list or by
+joining the #samba-technical:matrix.org matrix room, or
+#samba-technical IRC channel on irc.libera.chat.
+
+If you do report problems then please try to send high quality
+feedback. If you don't provide vital information to help us track down
+the problem then you will probably be ignored.  All bug reports should
+be filed under the Samba 4.1 and newer product in the project's Bugzilla
+database (<a href="https://bugzilla.samba.org/" rel="nofollow">https://bugzilla.samba.org/</a>).
+
+
+======================================================================
+== Our Code, Our Bugs, Our Responsibility.
+== The Samba Team
+======================================================================
+
+
+
+================
+Download Details
+================
+
+The uncompressed tarballs and patch files have been signed
+using GnuPG (ID AA99442FB680B620).  The source code can be downloaded
+from:
+
+         <a href="https://download.samba.org/pub/samba/stable/" rel="nofollow">https://download.samba.org/pub/samba/stable/</a>
+
+The release notes are available online at:
+
+         <a href="https://www.samba.org/samba/history/samba-4.24.3.html" rel="nofollow">https://www.samba.org/samba/history/samba-4.24.3.html</a>
+         <a href="https://www.samba.org/samba/history/samba-4.23.8.html" rel="nofollow">https://www.samba.org/samba/history/samba-4.23.8.html</a>
+         <a href="https://www.samba.org/samba/history/samba-4.22.10.html" rel="nofollow">https://www.samba.org/samba/history/samba-4.22.10.html</a>
+
+Our Code, Our Bugs, Our Responsibility.
+(<a href="https://bugzilla.samba.org/" rel="nofollow">https://bugzilla.samba.org/</a>)
+
+                         --Enjoy
+                         The Samba Team
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

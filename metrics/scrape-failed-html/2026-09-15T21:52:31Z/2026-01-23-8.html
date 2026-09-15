@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - 8 CVEs in Cpython announced this week</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="../../../2026/01/24/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;9396e329-022c-427f-be28-397732070e1b&#64;oracle.com&gt;
+Date: Fri, 23 Jan 2026 13:01:49 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: 8 CVEs in Cpython announced this week
+
+<a href="https://mail.python.org/archives/list/security-announce&#64;python.org/thread/FELSEOLBI2QR6YLG6Q7VYF7FWSGQTKLI/" rel="nofollow">https://mail.python.org/archives/list/security-announce&#64;python.org/thread/FELSEOLBI2QR6YLG6Q7VYF7FWSGQTKLI/</a> announces:
+
+&gt; [CVE-2025-11468] Folding email comments of unfoldable characters doesn't preserve parenthesis
+&gt;
+&gt; There is a MEDIUM severity vulnerability affecting CPython.
+&gt;
+&gt; When folding a long comment in an email header containing exclusively
+&gt; unfoldable characters, the parenthesis would not be preserved. This could
+&gt; be used for injecting headers into email messages where addresses are
+&gt; user-controlled and not sanitized.
+&gt;
+&gt; Please see the linked CVE ID for the latest information on affected
+&gt; versions:
+&gt;
+&gt;     <a href="https://www.cve.org/CVERecord?id=CVE-2025-11468" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-11468</a>
+&gt;     <a href="https://github.com/python/cpython/pull/143936" rel="nofollow">https://github.com/python/cpython/pull/143936</a>
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2025-11468" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-11468</a> lists affected versions as
+"affected from 0 before 3.15.0"
+
+     ------------------------------------------------------------------------
+
+<a href="https://mail.python.org/archives/list/security-announce&#64;python.org/thread/DD7C7JZJYTBXMDOWKCEIEBJLBRU64OMR/" rel="nofollow">https://mail.python.org/archives/list/security-announce&#64;python.org/thread/DD7C7JZJYTBXMDOWKCEIEBJLBRU64OMR/</a> announces:
+
+&gt; [CVE-2025-15366] IMAP command injection in user-controlled commands
+&gt;
+&gt; There is a MEDIUM severity vulnerability affecting CPython.
+&gt;
+&gt; The imaplib module, when passed a user-controlled command, can have
+&gt; additional commands injected using newlines. Mitigation rejects commands
+&gt; containing control characters.
+&gt;
+&gt; Please see the linked CVE ID for the latest information on affected
+&gt; versions:
+&gt;
+&gt;     <a href="https://www.cve.org/CVERecord?id=CVE-2025-15366" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-15366</a>
+&gt;     <a href="https://github.com/python/cpython/pull/143922" rel="nofollow">https://github.com/python/cpython/pull/143922</a>
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2025-15366" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-15366</a> lists affected versions as
+"affected from 0 before 3.15.0"
+
+     ------------------------------------------------------------------------
+
+<a href="https://mail.python.org/archives/list/security-announce&#64;python.org/thread/CBFBOWVGGUJFSGITQCCBZS4GEYYZ7ZNE/" rel="nofollow">https://mail.python.org/archives/list/security-announce&#64;python.org/thread/CBFBOWVGGUJFSGITQCCBZS4GEYYZ7ZNE/</a> announces:
+
+&gt; [CVE-2025-15367] POP3 command injection in user-controlled commands
+&gt;
+&gt; There is a MEDIUM severity vulnerability affecting CPython.
+&gt;
+&gt; The poplib module, when passed a user-controlled command, can have
+&gt; additional commands injected using newlines. Mitigation rejects commands
+&gt; containing control characters.
+&gt;
+&gt; Please see the linked CVE ID for the latest information on affected
+&gt; versions:
+&gt;
+&gt;     <a href="https://www.cve.org/CVERecord?id=CVE-2025-15367" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-15367</a>
+&gt;     <a href="https://github.com/python/cpython/pull/143924" rel="nofollow">https://github.com/python/cpython/pull/143924</a>
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2025-15367" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-15367</a> lists affected versions as
+"affected from 0 before 3.15.0"
+
+     ------------------------------------------------------------------------
+
+<a href="https://mail.python.org/archives/list/security-announce&#64;python.org/thread/X66HL7SISGJT33J53OHXMZT4DFLMHVKF/" rel="nofollow">https://mail.python.org/archives/list/security-announce&#64;python.org/thread/X66HL7SISGJT33J53OHXMZT4DFLMHVKF/</a> announces:
+
+&gt; [CVE-2025-15282] Header injection via newlines in data URL mediatype
+&gt;
+&gt; There is a MEDIUM severity vulnerability affecting CPython.
+&gt;
+&gt; User-controlled data URLs parsed by urllib.request.DataHandler allow
+&gt; injecting headers through newlines in the data URL mediatype.
+&gt;
+&gt; Please see the linked CVE ID for the latest information on affected
+&gt; versions:
+&gt;
+&gt;     <a href="https://www.cve.org/CVERecord?id=CVE-2025-15282" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-15282</a>
+&gt;     <a href="https://github.com/python/cpython/pull/143926" rel="nofollow">https://github.com/python/cpython/pull/143926</a>
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2025-15282" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-15282</a> lists affected versions as
+"affected from 0 before 3.15.0"
+
+     ------------------------------------------------------------------------
+
+<a href="https://mail.python.org/archives/list/security-announce&#64;python.org/thread/6VFLQQEIX673KXKFUZXCUNE5AZOGZ45M/" rel="nofollow">https://mail.python.org/archives/list/security-announce&#64;python.org/thread/6VFLQQEIX673KXKFUZXCUNE5AZOGZ45M/</a> announces:
+
+&gt; [CVE-2026-0672] Header injection in http.cookies.Morsel
+&gt;
+&gt; There is a MEDIUM severity vulnerability affecting CPython.
+&gt;
+&gt; When using http.cookies.Morsel, user-controlled cookie values and
+&gt; parameters can allow injecting HTTP headers into messages. Patch rejects
+&gt; all control characters within cookie names, values, and parameters.
+&gt;
+&gt; Please see the linked CVE ID for the latest information on affected
+&gt; versions:
+&gt;
+&gt;     <a href="https://www.cve.org/CVERecord?id=CVE-2026-0672" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-0672</a>
+&gt;     <a href="https://github.com/python/cpython/pull/143920" rel="nofollow">https://github.com/python/cpython/pull/143920</a>
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-0672" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-0672</a> lists affected versions as
+"affected from 0 before 3.15.0"
+
+     ------------------------------------------------------------------------
+
+<a href="https://mail.python.org/archives/list/security-announce&#64;python.org/thread/6ZZULGALJTITEAGEXLDJE2C6FORDXPBT/" rel="nofollow">https://mail.python.org/archives/list/security-announce&#64;python.org/thread/6ZZULGALJTITEAGEXLDJE2C6FORDXPBT/</a> announces:
+
+&gt; [CVE-2026-1299] email BytesGenerator header injection due to unquoted newlines
+&gt;
+&gt; There is a MEDIUM severity vulnerability affecting CPython.
+&gt;
+&gt; The email module, specifically the "BytesGenerator" class, didn’t properly
+&gt; quote newlines for email headers when
+&gt; serializing an email message allowing for header injection when an email is
+&gt; serialized. This is only applicable if using "LiteralHeader" while writing
+&gt; headers that don't respect email folding rules, the new behavior will
+&gt; reject the incorrectly folded headers in "BytesGenerator".
+&gt;
+&gt; Please see the linked CVE ID for the latest information on
+&gt; affected versions:
+&gt;
+&gt;     <a href="https://www.cve.org/CVERecord?id=CVE-2026-1299" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-1299</a>
+&gt;     <a href="https://github.com/python/cpython/pull/144126" rel="nofollow">https://github.com/python/cpython/pull/144126</a>
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-1299" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-1299</a> lists affected versions as
+"affected from 0 before 3.15.0"
+
+     ------------------------------------------------------------------------
+
+<a href="https://mail.python.org/archives/list/security-announce&#64;python.org/thread/BJ6QPHNSHJTS3A7CFV6IBMCAP2DWRVNT/" rel="nofollow">https://mail.python.org/archives/list/security-announce&#64;python.org/thread/BJ6QPHNSHJTS3A7CFV6IBMCAP2DWRVNT/</a> announces:
+
+&gt; [CVE-2026-0865] wsgiref.headers.Headers allows header newline injection
+&gt;
+&gt; There is a MEDIUM severity vulnerability affecting CPython.
+&gt;
+&gt; User-controlled header names and values containing newlines can allow
+&gt; injecting HTTP headers.
+&gt;
+&gt; Please see the linked CVE ID for the latest information on affected
+&gt; versions:
+&gt;
+&gt; <a href="https://www.cve.org/CVERecord?id=CVE-2026-0865" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-0865</a>
+&gt; <a href="https://github.com/python/cpython/pull/143917" rel="nofollow">https://github.com/python/cpython/pull/143917</a>
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-0865" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-0865</a> lists affected versions as
+"affected from 0 before 3.15.0"
+
+     ------------------------------------------------------------------------
+
+<a href="https://mail.python.org/archives/list/security-announce&#64;python.org/thread/KRI7GC6S27YV5NJ4FPDALS2WI5ENAFJ6/" rel="nofollow">https://mail.python.org/archives/list/security-announce&#64;python.org/thread/KRI7GC6S27YV5NJ4FPDALS2WI5ENAFJ6/</a> announces:
+
+&gt; [CVE-2025-12781] base64.b64decode() always accepts "+/" characters, despite setting altchars
+&gt;
+&gt; There is a MEDIUM severity vulnerability affecting CPython.
+&gt;
+&gt; When passing data to the b64decode(), standard_b64decode(), and
+&gt; urlsafe_b64decode() functions in the "base64" module the characters "+/"
+&gt; will always be accepted, regardless of the value of "altchars" parameter,
+&gt; typically used to establish an "alternative base64 alphabet" such as the
+&gt; URL safe alphabet. This behavior matches what is recommended in earlier
+&gt; base64 RFCs, but newer RFCs now recommend either dropping characters
+&gt; outside the specified base64 alphabet or raising an error. The old behavior
+&gt; has the possibility of causing data integrity issues.
+&gt;
+&gt; This behavior can only be insecure if your application uses an alternate
+&gt; base64 alphabet (without "+/"). If your application does not use the
+&gt; "altchars" parameter or the urlsafe_b64decode() function, then your
+&gt; application does not use an alternative base64 alphabet.
+&gt;
+&gt; The attached patches DO NOT make the base64-decode behavior raise an error,
+&gt; as this would be a change in behavior and break existing programs. Instead,
+&gt; the patch deprecates the behavior which will be replaced with the newly
+&gt; recommended behavior in a future version of Python. Users are recommended
+&gt; to mitigate by verifying user-controlled inputs match the base64
+&gt; alphabet they are expecting or verify that their application would not be
+&gt; affected if the b64decode() functions accepted "+" or "/" outside of
+&gt; altchars.
+&gt;
+&gt; Please see the linked CVE ID for the latest information on affected
+&gt; versions:
+&gt;
+&gt;     <a href="https://www.cve.org/CVERecord?id=CVE-2025-12781" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-12781</a>
+&gt;     <a href="https://github.com/python/cpython/pull/141128" rel="nofollow">https://github.com/python/cpython/pull/141128</a>
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2025-12781" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-12781</a> lists affected versions as
+  * "affected from 0 before 3.13.10"
+  * "affected from 3.14.0 before 3.14.1"
+  * "affected from 3.15.0a1 before 3.15.0a2"
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

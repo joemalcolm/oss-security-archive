@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: OpenSSL Security Advisory (corrected - added
+ CVE-2026-22795 and CVE-2026-22796)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2026/01/27/7">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;c9c2b61f-f6f7-4d6d-8331-3a38a4311e11&#64;gmail.com&gt;
+Date: Wed, 28 Jan 2026 04:06:06 -0500
+From: Demi Marie Obenour &lt;demiobenour&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com, Tomas Mraz &lt;tomas&#64;...nssl.org&gt;
+Subject: Re: OpenSSL Security Advisory (corrected - added
+ CVE-2026-22795 and CVE-2026-22796)
+
+On 1/27/26 10:48, Tomas Mraz wrote:
+&gt; OpenSSL Security Advisory [27th January 2026]
+&gt; =============================================
+&gt; 
+&gt; Improper validation of PBMAC1 parameters in PKCS#12 MAC verification (CVE-2025-11187)
+&gt; =====================================================================================
+&gt; 
+&gt; Severity: Moderate
+&gt; 
+&gt; Issue summary: PBMAC1 parameters in PKCS#12 files are missing validation
+&gt; which can trigger a stack-based buffer overflow, invalid pointer or NULL
+&gt; pointer dereference during MAC verification.
+&gt; 
+&gt; Impact summary: The stack buffer overflow or NULL pointer dereference may
+&gt; cause a crash leading to Denial of Service for an application that parses
+&gt; untrusted PKCS#12 files. The buffer overflow may also potentially enable
+&gt; code execution depending on platform mitigations.
+&gt; 
+&gt; When verifying a PKCS#12 file that uses PBMAC1 for the MAC, the PBKDF2
+&gt; salt and keylength parameters from the file are used without validation.
+&gt; If the value of keylength exceeds the size of the fixed stack buffer used
+&gt; for the derived key (64 bytes), the key derivation will overflow the buffer.
+&gt; The overflow length is attacker-controlled. Also, if the salt parameter is
+&gt; not an OCTET STRING type this can lead to invalid or NULL pointer
+&gt; dereference.
+&gt; 
+&gt; Exploiting this issue requires a user or application to process
+&gt; a maliciously crafted PKCS#12 file. It is uncommon to accept untrusted
+&gt; PKCS#12 files in applications as they are usually used to store private
+&gt; keys which are trusted by definition. For this reason the issue was assessed
+&gt; as Moderate severity.
+
+I would not at all be surprised if using untrusted private keys is
+not uncommon.  It can be easier to upload a key pair and certificate
+than to download a CSR, sign it, and then upload the certificates.
+
+Also, programs may well assume that the PKCS#12 authenticated
+encryption is sufficient to mitigate risks from an untrusted file.
+
+&gt; Stack buffer overflow in CMS AuthEnvelopedData parsing (CVE-2025-15467)
+&gt; =======================================================================
+&gt; 
+&gt; Severity: High
+&gt; 
+&gt; Issue summary: Parsing CMS AuthEnvelopedData message with maliciously
+&gt; crafted AEAD parameters can trigger a stack buffer overflow.
+&gt; 
+&gt; Impact summary: A stack buffer overflow may lead to a crash, causing Denial
+&gt; of Service, or potentially remote code execution.
+&gt; 
+&gt; When parsing CMS AuthEnvelopedData structures that use AEAD ciphers such as
+&gt; AES-GCM, the IV (Initialization Vector) encoded in the ASN.1 parameters is
+&gt; copied into a fixed-size stack buffer without verifying that its length fits
+&gt; the destination. An attacker can supply a crafted CMS message with an
+&gt; oversized IV, causing a stack-based out-of-bounds write before any
+&gt; authentication or tag verification occurs.
+&gt; 
+&gt; Applications and services that parse untrusted CMS or PKCS#7 content using
+&gt; AEAD ciphers (e.g., S/MIME AuthEnvelopedData with AES-GCM) are vulnerable.
+&gt; Because the overflow occurs prior to authentication, no valid key material
+&gt; is required to trigger it. While exploitability to remote code execution
+&gt; depends on platform and toolchain mitigations, the stack-based write
+&gt; primitive represents a severe risk.
+
+If an application calls PKCS7_d2i() and then checks a signature,
+is it affected?
+
+&gt; Out of bounds write in PKCS12_get_friendlyname() UTF-8 conversion (CVE-2025-69419)
+&gt; ==================================================================================
+&gt; 
+&gt; Severity: Low
+&gt; 
+&gt; Issue summary: Calling PKCS12_get_friendlyname() function on a maliciously
+&gt; crafted PKCS#12 file with a BMPString (UTF-16BE) friendly name containing
+&gt; non-ASCII BMP code point can trigger a one byte write before the allocated
+&gt; buffer.
+&gt; 
+&gt; Impact summary: The out-of-bounds write can cause a memory corruption
+&gt; which can have various consequences including a Denial of Service.
+&gt; 
+&gt; The OPENSSL_uni2utf8() function performs a two-pass conversion of a PKCS#12
+&gt; BMPString (UTF-16BE) to UTF-8. In the second pass, when emitting UTF-8 bytes,
+&gt; the helper function bmp_to_utf8() incorrectly forwards the remaining UTF-16
+&gt; source byte count as the destination buffer capacity to UTF8_putc(). For BMP
+&gt; code points above U+07FF, UTF-8 requires three bytes, but the forwarded
+&gt; capacity can be just two bytes. UTF8_putc() then returns -1, and this negative
+&gt; value is added to the output length without validation, causing the
+&gt; length to become negative. The subsequent trailing NUL byte is then written
+&gt; at a negative offset, causing write outside of heap allocated buffer.
+&gt; 
+&gt; The vulnerability is reachable via the public PKCS12_get_friendlyname() API
+&gt; when parsing attacker-controlled PKCS#12 files. While PKCS12_parse() uses a
+&gt; different code path that avoids this issue, PKCS12_get_friendlyname() directly
+&gt; invokes the vulnerable function. Exploitation requires an attacker to provide
+&gt; a malicious PKCS#12 file to be parsed by the application and the attacker
+&gt; can just trigger a one zero byte write before the allocated buffer.
+&gt; For that reason the issue was assessed as Low severity according to our
+&gt; Security Policy.
+
+One byte out of bound writes have been exploited before.
+See <a href="https://projectzero.google/2016/12/chrome-os-exploit-one-byte-overflow-and.html" rel="nofollow">https://projectzero.google/2016/12/chrome-os-exploit-one-byte-overflow-and.html</a>
+
+&gt; Missing ASN1_TYPE validation in TS_RESP_verify_response() function (CVE-2025-69420)
+&gt; ===================================================================================
+&gt; 
+&gt; Severity: Low
+&gt; 
+&gt; Issue summary: A type confusion vulnerability exists in the TimeStamp Response
+&gt; verification code where an ASN1_TYPE union member is accessed without first
+&gt; validating the type, causing an invalid or NULL pointer dereference when
+&gt; processing a malformed TimeStamp Response file.
+&gt; 
+&gt; Impact summary: An application calling TS_RESP_verify_response() with a
+&gt; malformed TimeStamp Response can be caused to dereference an invalid or
+&gt; NULL pointer when reading, resulting in a Denial of Service.
+&gt; 
+&gt; The functions ossl_ess_get_signing_cert() and ossl_ess_get_signing_cert_v2()
+&gt; access the signing cert attribute value without validating its type.
+&gt; When the type is not V_ASN1_SEQUENCE, this results in accessing invalid memory
+&gt; through the ASN1_TYPE union, causing a crash.
+
+Is the data read from the bad pointer returned to the caller?
+
+&gt; Missing ASN1_TYPE validation in PKCS#12 parsing (CVE-2026-22795)
+&gt; ================================================================
+&gt; 
+&gt; Severity: Low
+&gt; 
+&gt; Issue summary: An invalid or NULL pointer dereference can happen in
+&gt; an application processing a malformed PKCS#12 file.
+&gt; 
+&gt; Impact summary: An application processing a malformed PKCS#12 file can be
+&gt; caused to dereference an invalid or NULL pointer on memory read, resulting
+&gt; in a Denial of Service.
+&gt; 
+&gt; A type confusion vulnerability exists in PKCS#12 parsing code where
+&gt; an ASN1_TYPE union member is accessed without first validating the type,
+&gt; causing an invalid pointer read.
+&gt; 
+&gt; The location is constrained to a 1-byte address space, meaning any
+&gt; attempted pointer manipulation can only target addresses between 0x00 and 0xFF.
+&gt; This range corresponds to the zero page, which is unmapped on most modern
+&gt; operating systems and will reliably result in a crash, leading only to a
+&gt; Denial of Service. Exploiting this issue also requires a user or application
+&gt; to process a maliciously crafted PKCS#12 file. It is uncommon to accept
+&gt; untrusted PKCS#12 files in applications as they are usually used to store
+&gt; private keys which are trusted by definition. For these reasons, the issue
+&gt; was assessed as Low severity.
+See above about private key import.
+
+&gt; ASN1_TYPE Type Confusion in the PKCS7_digest_from_attributes() function (CVE-2026-22796)
+&gt; ========================================================================================
+&gt; 
+&gt; Severity: Low
+&gt; 
+&gt; Issue summary: A type confusion vulnerability exists in the signature
+&gt; verification of signed PKCS#7 data where an ASN1_TYPE union member is
+&gt; accessed without first validating the type, causing an invalid or NULL
+&gt; pointer dereference when processing malformed PKCS#7 data.
+&gt; 
+&gt; Impact summary: An application performing signature verification of PKCS#7
+&gt; data or calling directly the PKCS7_digest_from_attributes() function can be
+&gt; caused to dereference an invalid or NULL pointer when reading, resulting in
+&gt; a Denial of Service.
+&gt; 
+&gt; The function PKCS7_digest_from_attributes() accesses the message digest attribute
+&gt; value without validating its type. When the type is not V_ASN1_OCTET_STRING,
+&gt; this results in accessing invalid memory through the ASN1_TYPE union, causing
+&gt; a crash.
+
+Is the memory accessed through the bad pointer returned to the caller
+in any way?
+
+&gt; Exploiting this vulnerability requires an attacker to provide a malformed
+&gt; signed PKCS#7 to an application that verifies it. The impact of the
+&gt; exploit is just a Denial of Service, the PKCS7 API is legacy and applications
+&gt; should be using the CMS API instead. For these reasons the issue was
+&gt; assessed as Low severity.
+I know that EDK2 definitely uses the PKCS7 API.
+-- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>OpenPGP_0xB288B55FFF9C22C1.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (7141 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Precise disclosure contents for copyfail (Re:
+ CVE-2026-31431: CopyFail: linux local privilege scalation)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;878qa0b1o9.fsf&#64;gentoo.org&gt;
+Date: Sun, 03 May 2026 22:53:10 +0100
+From: Sam James &lt;sam&#64;...too.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Taeyang Lee &lt;0wn&#64;...ori.io&gt;,  Brad Spengler &lt;spender&#64;...ecurity.net&gt;,
+ Greg Kroah-Hartman &lt;gregkh&#64;...uxfoundation.org&gt;, Solar Designer
+ &lt;solar&#64;...nwall.com&gt;
+Subject: Re: Precise disclosure contents for copyfail (Re:
+ CVE-2026-31431: CopyFail: linux local privilege scalation)
+
+Sam James &lt;sam&#64;...too.org&gt; writes:
+
+&gt; Sam James &lt;sam&#64;...too.org&gt; writes:
+&gt;
+&gt;&gt; Jan Schaumann &lt;jschauma&#64;...meister.org&gt; writes:
+&gt;&gt;
+&gt;&gt;&gt; Hi,
+&gt;&gt;&gt;
+&gt;&gt;&gt; This is currently making the rounds and looks pretty
+&gt;&gt;&gt; severe:
+&gt;&gt;&gt;
+&gt;&gt;&gt; <a href="https://copy.fail/" rel="nofollow">https://copy.fail/</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; A local privilege escalation vulnerability with a
+&gt;&gt;&gt; working PoC python script exploiting a logic flaw in
+&gt;&gt;&gt; the kernel crypto API (AF_ALG) affecting most Linux
+&gt;&gt;&gt; distributions.
+&gt;&gt;&gt;
+&gt;&gt;&gt; More detailed write-up:
+&gt;&gt;&gt; <a href="https://xint.io/blog/copy-fail-linux-distributions" rel="nofollow">https://xint.io/blog/copy-fail-linux-distributions</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; [...]
+&gt;&gt;
+&gt;&gt; Are we aware of what precisely xint disclosed to the kernel security
+&gt;&gt; team?
+&gt;&gt;
+&gt;&gt; My assumption based on the tool output in the write-up is that enough
+&gt;&gt; was disclosed to know this was at least an easily-exploitable LPE (*).
+&gt;
+&gt; It's been pointed out to me that Brad Spengler has commented on X [0],
+&gt; linking to Brian Pak of xint saying [1]:
+&gt;
+&gt;&gt; We also provided a fully working exploit to the kernel security team
+&gt;&gt; when we reported. We’ve since learned that such details don’t
+&gt;&gt; automatically get forwarded downstream and that Linux kernel commit
+&gt;&gt; messages are typically kept minimal. That’s simply how the process works.
+&gt;
+&gt; So yes, the kernel team were very much aware of the impact from the
+&gt; offset.
+&gt;
+&gt; I hadn't seen Brian's thread until now, it is interesting reading [2].
+
+There's also a link to the kernel MLs from 2026-03-27 (!) where they say
+"page-cache exposure" [0].
+
+Now, going back to the CVSS score in linux's security/vulns.git:
+"""
+commit cb9d133eed6ab823b8fdefdc10600189aa69a107
+Author:     Sasha Levin &lt;sashal&#64;...nel.org&gt;
+AuthorDate: Sat Apr 25 07:35:42 2026 -0400
+Commit:     Sasha Levin &lt;sashal&#64;...nel.org&gt;
+CommitDate: Sat Apr 25 07:56:40 2026 -0400
+
+    CVE-2026-31431: Add CVSS 3.1 score (7.8 HIGH)
+
+    CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H
+
+    AV:L -The vulnerable algif_aead path is reached through local
+        AF_ALG socket syscalls: socket, bind, setsockopt, accept, sendmsg,
+        and recvmsg. It is not directly reachable from remote network
+        packets.
+    AC:L -A local attacker can construct the AF_ALG AEAD request,
+        choose buffer layout, AAD/tag lengths, and invoke recvmsg directly.
+        Any race or SGL layout condition is attacker-controlled from the
+        same process.
+    PR:L -Creating and using AF_ALG AEAD sockets requires only an
+        unprivileged local user on systems with CRYPTO_USER_API_AEAD
+        enabled. The traced socket, bind, setsockopt, accept, sendmsg, and
+        recvmsg paths do not require CAP_SYS_ADMIN or other real root
+        privileges.
+    UI:N -No victim interaction is needed once the attacker has local
+        code execution. The attacker can open and drive the AF_ALG socket
+        entirely through syscalls.
+    S:U -The issue remains within the kernel/user crypto API security
+        authority and does not cross a VM, IOMMU, or separate sandbox
+        boundary. This is a standard local kernel attack surface.
+    C:H -The removed in-place AEAD design used user-writable RX
+        scatterlists as crypto source data and chained TX tag pages,
+        creating a plausible decryption/authentication bypass for data
+        protected by secret AEAD keys. Under the required uncertainty rule,
+        this is scored as high confidentiality impact.
+    I:H -The bug undermines AEAD authenticity by allowing source data
+        used by the crypto operation to diverge from the data originally
+        submitted and authenticated. This can allow forged or corrupted
+        plaintext/ciphertext results, so integrity impact is high.
+    A:H -The vulnerable path builds complex chained scatterlists from
+        attacker-controlled local buffers and related AF_ALG fixes show
+        these paths can lead to scatterwalk NULL dereferences and kernel
+        panics. A local attacker can repeatedly trigger the operation, so
+        availability impact is high.
+
+    Signed-off-by: Sasha Levin &lt;sashal&#64;...nel.org&gt;
+"""
+
+How is this remotely accurate? They clearly knew before then. Not only
+would the kernel security project have known (because of the private disclosure
+by the reporter), but by that point, the public ML post referring to the
+page cache was already out there saying it explicitly?
+
+That predates both the CVE being assigned and obviously then the CVSS
+score for it.
+
+Per Greg's comments [1]:
+&gt;&gt; The scoring reasoning for this CVE does not hint at its severity and the
+&gt;&gt; threat being imminent.  It's as obscure as most of the rest of 168 are
+&gt;&gt; (which for most of them is probably a result of actually not having
+&gt;&gt; exploitability and impact analysis).
+&gt; Why do you think that we knew this was "imminent"?  The CVE team has no
+&gt; such knowlege as no one is obligated to tell us that they are about to
+&gt; let loose a trivial exploit.
+
+Is the CVE team not aware of public mailing list postings? Perhaps
+including full links and context in commit messages would help them not
+lose track? If the CVE team were unable to do this, then it absolutely
+would have helped distributions. I often chase links given in commit
+messages?
+
+Is the kernel honestly proud of how this went?
+
+&gt;
+&gt; Thanks to Brad and the person who sent me the link to the tweet.
+&gt;
+&gt;&gt;
+&gt;&gt; (*) Because part of their promotion here is for the tool's ability to
+&gt;&gt; get the analysis right, so it implies that they didn't figure it out
+&gt;&gt; later, and that the tool did "most of the work". Whether or not that's
+&gt;&gt; actually the case, I of course don't know.
+&gt;&gt;
+&gt;&gt; thanks,
+&gt;&gt; sam
+&gt;
+&gt; [0] <a href="https://xcancel.com/spendergrsec/status/2051045704487829878" rel="nofollow">https://xcancel.com/spendergrsec/status/2051045704487829878</a>
+&gt; [1] <a href="https://xcancel.com/brian_pak/status/2050255271184994538" rel="nofollow">https://xcancel.com/brian_pak/status/2050255271184994538</a>
+&gt; [2] <a href="https://xcancel.com/brian_pak/status/2050255258098766101#m" rel="nofollow">https://xcancel.com/brian_pak/status/2050255258098766101#m</a>
+
+[0] <a href="https://lore.kernel.org/all/CAH-2XvLaZR+Ee+q35wXexKEh3AE7R0w1AGC__kV9To_6sLMdhQ&#64;mail.gmail.com/" rel="nofollow">https://lore.kernel.org/all/CAH-2XvLaZR+Ee+q35wXexKEh3AE7R0w1AGC__kV9To_6sLMdhQ&#64;mail.gmail.com/</a>
+[1] <a href="https://www.openwall.com/lists/oss-security/2026/05/01/3">https://www.openwall.com/lists/oss-security/2026/05/01/3</a>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (419 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

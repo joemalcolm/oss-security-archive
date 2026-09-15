@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - 5 CVEs in Redis</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="17">[&lt;prev]</a> <a href="../../../2026/06/04/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;50aaff09-7d4b-4bb9-973a-281be4361896&#64;oracle.com&gt;
+Date: Wed, 3 Jun 2026 12:24:24 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: 5 CVEs in Redis
+
+On May 5, Redis published this advisory, which doesn't seem to have
+made it to oss-security yet:
+<a href="https://redis.io/blog/security-advisory-cve202623479-cve202625243-cve-2026-25588-cve202625589-cve-2026-23631/" rel="nofollow">https://redis.io/blog/security-advisory-cve202623479-cve202625243-cve-2026-25588-cve202625589-cve-2026-23631/</a>
+
+The portions relating to their open-source releases are as follows:
+&gt; What happened?
+&gt; --------------
+&gt; As part of an ongoing effort by the Redis community and Redis to maintain
+&gt; safety, security, and compliance posture, five security vulnerabilities in
+&gt; Redis have been proactively identified and remediated in the versions
+&gt; indicated below.
+&gt; 
+&gt; 
+&gt; What are the vulnerabilities?
+&gt; -----------------------------
+&gt;  1. CVE‑2026‑23479 – Use-After-Free in unblock client flow may lead to
+&gt;     Remote Code Execution.
+&gt;     CVSS Score: 7.7 (High)
+&gt; 
+&gt;     When a blocked client is evicted while re-executing a blocked command,
+&gt;     an authenticated user may trigger a use-after-free and potentially lead
+&gt;     to remote code execution. The code doesn't handle the case where processing
+&gt;     the command (processCommandAndResetClient) returns an error value.
+&gt; 
+&gt;  2. CVE‑2026‑25243 – Invalid Memory Access in Redis RESTORE Command May Lead
+&gt;     to Remote Code Execution.
+&gt;     CVSS Score: 7.7 (High)
+&gt; 
+&gt;     A vulnerability in the Redis RESTORE command allows an authenticated user
+&gt;     to trigger an invalid memory access via a specially crafted serialized
+&gt;     payload, potentially resulting in remote code execution.
+&gt; 
+&gt;     Successful exploitation could allow an attacker with authenticated access
+&gt;     to execute arbitrary code in the context of the Redis server, potentially
+&gt;     leading to full compromise of the affected system, data exfiltration, or
+&gt;     service disruption.
+&gt; 
+&gt;  3. CVE-2026-25588 - Invalid Memory Access in RESTORE Command When Used with
+&gt;     RedisTimeSeries module May Lead to Remote Code Execution.
+&gt;     CVSS Score: 7.7 (High)
+&gt; 
+&gt;     A vulnerability in the RESTORE command, when used with the RedisTimeSeries
+&gt;     module, allows an authenticated attacker to trigger invalid memory access
+&gt;     via a specially crafted serialized payload, potentially resulting in remote
+&gt;     code execution.
+&gt; 
+&gt;     Successful exploitation could allow an attacker with authenticated access
+&gt;     to execute arbitrary code in the context of the Redis server, when used
+&gt;     with the RedisTimeSeries module, potentially leading to full compromise
+&gt;     of the affected system, data exfiltration, or service disruption.
+&gt; 
+&gt;  4. CVE‑2026‑25589 – Invalid Memory Access in RESTORE Command When Used
+&gt;     with RedisBloom module May Lead to Remote Code Execution.
+&gt;     CVSS Score: 7.7 (High)
+&gt; 
+&gt;     A vulnerability in the RESTORE command, when used with the RedisBloom
+&gt;     module, allows an authenticated attacker to trigger invalid memory access
+&gt;     via a specially crafted serialized payload, potentially resulting in remote
+&gt;     code execution.
+&gt; 
+&gt;     Successful exploitation could allow an attacker with authenticated access
+&gt;     to execute arbitrary code in the context of the Redis server, when used
+&gt;     with the RedisBloom module, potentially leading to full compromise of the
+&gt;     affected system, data exfiltration, or service disruption.
+&gt; 
+&gt;  5. CVE-2026-23631 - Lua Use-After-Free may lead to remote code execution.
+&gt;     CVSS Score: 6.1 (Medium)
+&gt; 
+&gt;     An authenticated user may exploit the synchronization mechanism of the
+&gt;     master-replica and trigger a use-after-free vulnerability, potentially
+&gt;     leading to remote code execution. The bug affects only replicas that
+&gt;     are configured, or may be configured with replica-read-only disabled,
+&gt;     and exists in all versions of Redis with Lua scripting.
+&gt; 
+&gt; How can you protect your Redis instance?
+&gt; ----------------------------------------
+&gt; 
+&gt; If you’re self-managing Redis Software, Open Source (OSS), or Community (CE)
+&gt; versions, there are several steps you should take to protect your Redis from
+&gt; exploitation. Exposure to these vulnerabilities requires an attacker to gain
+&gt; authenticated access to your Redis instance, making this a post-authentication
+&gt; issue that can lead to remote code execution (RCE).
+&gt; 
+&gt; To remediate against these vulnerabilities, upgrade your Redis to the latest
+&gt; versions, see our table below for full details. To minimize the risk of
+&gt; exploitation, it’s important to follow these best practices:
+&gt; 
+&gt;   * Restrict Network Access: Ensure that only authorized users and systems
+&gt;     have access to the Redis database. Use firewalls and network policies to
+&gt;     limit access to trusted sources and prevent unauthorized connectivity.
+&gt;   * Enforce Strong Authentication: Enforce the use of credentials for all
+&gt;     access to Redis instances. Avoid configurations that allow unauthenticated
+&gt;     access, and ensure protected-mode is enabled (in CE and OSS) to prevent
+&gt;     accidental exposure.
+&gt;   * Limit Permissions: Ensure that user identities with access to Redis are
+&gt;     granted the minimum permissions necessary. Only allow trusted identities
+&gt;     to run potentially risky commands.
+&gt;   * Update Regularly: Keep Redis updated to the latest version for the newest
+&gt;     security patches.
+&gt; 
+&gt; For more details on how to securely configure, deploy, and use Redis, visit
+&gt; the Community Edition documentation sites.
+&gt; 
+&gt; Am I impacted and how can I remediate?
+&gt; --------------------------------------
+&gt; 
+&gt; If you’re self-managing Redis, upgrade your Redis to the latest release.
+&gt; 
+&gt; The versions of Redis OSS/CE listed below and future versions include the
+&gt; corrections. Once the upgrades are performed, the vulnerability will be
+&gt; remediated in your environment.
+&gt; 
+&gt; You can download the latest versions here: <a href="https://redis.io/downloads/" rel="nofollow">https://redis.io/downloads/</a>
+&gt; 
+&gt; Vulnerability    Impacted releases           Fixed releases
+&gt; -------------    -----------------           --------------
+&gt; CVE-2026-23479   All Redis OSS/CE releases   OSS/CE 6.2.22, 7.2.14, 7.4.9,
+&gt;                                               8.2.6, 8.4.3, 8.6.3
+&gt; 
+&gt; CVE-2026-25243   All Redis OSS/CE releases   OSS/CE 6.2.22, 7.2.14, 7.4.9,
+&gt;                                               8.2.6, 8.4.3, 8.6.3
+&gt; 
+&gt; CVE-2026-25588   All Redis OSS/CE releases   OSS/CE 6.2.22, 7.2.14, 7.4.9,
+&gt;                                               8.2.6, 8.4.3, 8.6.3,
+&gt;                                              Redistimeseries v1.12.14,
+&gt;                                               v1.10.24, v1.8.23
+&gt; 
+&gt; CVE-2026-25589   All Redis OSS/CE releases   OSS/CE 6.2.22, 7.2.14, 7.4.9,
+&gt;                                               8.2.6, 8.4.3, 8.6.3,
+&gt;                                              RedisBloom: v2.8.20, v2.6.28, v2.4.23
+&gt; 
+&gt; CVE-2026-23631   All Redis OSS releases      OSS/CE 6.2.22, 7.2.14, 7.4.9,
+&gt;                  where replica-read-only      8.2.6, 8.4.3, 8.6.3
+&gt;                  is disabled
+&gt; 
+&gt; How can I tell if I was already exposed and how can I identify exploitation?
+&gt; ----------------------------------------------------------------------------
+&gt; 
+&gt; Refer to the table above to identify if you are on a vulnerable version.
+&gt; 
+&gt; As of this publication we have no evidence of exploitation of these
+&gt; vulnerabilities at Redis or in customer environments.
+&gt; 
+&gt; This isn’t a comprehensive guide, but it is a general recommendation you
+&gt; can adapt to your needs and operating environment.
+&gt; 
+&gt; There are a number of technical and behavioral indicators or artifacts that
+&gt; may be created if exploitation of the vulnerability occurred. If you search
+&gt; for these within your Redis environment, you should be able to detect
+&gt; potential exploitation related to your Redis instance.
+&gt; 
+&gt;   * Access to the Redis database from unauthorized or unknown sources
+&gt;   * Unknown or anomalous network ingress traffic to the Redis database
+&gt;   * Unexplained Redis server crashes, specifically crashes with a stack trace
+&gt;     that originates from the Lua engine
+&gt;   * Unknown, unexpected, or anomalous command execution by the redis-server user
+&gt;   * Unknown or anomalous network egress traffic (or attempts) from the Redis
+&gt;     database
+&gt;   * Unknown or anomalous changes to the file system, in particular in
+&gt;     directories that host Redis persistent or configuration files
+&gt; 
+&gt; Who gets the credit?
+&gt; --------------------
+&gt; 
+&gt; We thank the following researchers for their vigilance in reporting these
+&gt; vulnerabilities through our published process. We would also like to thank
+&gt; Wiz for the partnership and hosting Wiz ZeroDay.Cloud, where a number of
+&gt; these vulnerabilities were identified:
+&gt; 
+&gt;   * CVE‑2026‑23479 reported by independent researchers Team Xint Code
+&gt;     (Tim Becker @tjbecker, Jacob Newman, and Juno IM)
+&gt;   * CVE‑2026‑25243 the following issues were reported by:
+&gt;     - Redis: double-free, discovered by independent researcher Emil Lerner
+&gt;       (@emil_lerner)
+&gt;     - VectorSets - Integer overflow and Out-Of-Bounds read. discovered by the
+&gt;       independent researcher Joseph Surin.
+&gt;   * CVE-2026-25588 discovered by independent researchers Team Skateboarding Dog
+&gt;     (Joseph Surin, John Stephenson, and Annie Nie)
+&gt;   * CVE‑2026‑25589 – the following issues were reported by:
+&gt;     - RedisBloom: Out-Of-Bounds read/write, discovered by Daniel Firer
+&gt;     - RedisBloom - Integer overflow, heap buffer overflow, and Out-Of-Bounds
+&gt;       read/write, discovered by independent researcher Joseph Surin.
+&gt;   * CVE-2026-23631 discovered by independent researcher Yoni Sherez (@yoyosh__)
+
+On June 2, Wiz published blogs with detailed reports at:
+- <a href="https://www.zeroday.cloud/blog/redis-five-cves-overview" rel="nofollow">https://www.zeroday.cloud/blog/redis-five-cves-overview</a>
+- <a href="https://www.zeroday.cloud/blog/redis-cve-2026-23479-deep-dive" rel="nofollow">https://www.zeroday.cloud/blog/redis-cve-2026-23479-deep-dive</a>
+- <a href="https://www.zeroday.cloud/blog/redis-cve-2026-23631-dark-replica" rel="nofollow">https://www.zeroday.cloud/blog/redis-cve-2026-23631-dark-replica</a>
+- <a href="https://www.zeroday.cloud/blog/redis-cve-2026-25243-deep-dive" rel="nofollow">https://www.zeroday.cloud/blog/redis-cve-2026-25243-deep-dive</a>
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

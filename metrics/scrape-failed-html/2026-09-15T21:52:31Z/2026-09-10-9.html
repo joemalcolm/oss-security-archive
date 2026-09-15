@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Memory-safety defects in the upstream (abandoned) AOSP OpenCORE AAC decoder, shipped unpatched by Samsung TizenRT</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+From: Eve &lt;ckr927414&#64;...k.li&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Memory-safety defects in the upstream (abandoned) AOSP OpenCORE AAC decoder, shipped unpatched by Samsung TizenRT
+
+Summary
+=======
+The OpenCORE AAC decoder (AOSP external/opencore, codecs_v2/audio/aac/dec) is abandoned upstream but is still
+vendored and built by multiple projects, most notably Samsung's TizenRT (a widely-deployed embedded RTOS).
+It contains memory-safety defects of the out-of-bounds-write and wild-pointer class, reachable from
+untrusted media (an AAC frame is attacker-controlled). I request a CVE ID for this issue.
+
+What I executed vs. what I read — for transparency:
+- I BUILT and RAN the same decoder (via cherry-embedded/CherryAVP) under AddressSanitizer and reproduced a
+  wild-pointer SEGV in get_tns, and an out-of-bounds READ in trans4m_freq_2_time_fxp. Those two are
+  execution-confirmed.
+- The out-of-bounds WRITE in get_dse (below) is confirmed by code review and source inspection only, because
+  it is an intra-union write that ASan cannot observe. I state this plainly so a reader can weigh it.
+
+Affected defect D — out-of-bounds write (CWE-787), in get_dse (code review)
+----------------------------------------------------------------------------
+File: external/audiocodec/aacdec/get_dse.c (TizenRT) / codecs_v2/audio/aac/dec/src/get_dse.cpp (AOSP)
+Line: 223 (TizenRT) / 205 (AOSP)
+
+    if (count == (1 &lt;&lt; LEN_D_CNT) - 1)   /* LEN_D_CNT = 8 */
+        count += esc_count;              /* LEN_D_ESC = 8, so up to 255 + 255 = 510 */
+    ...
+    for (i = count; i != 0; i--)
+        *(pDataStreamBytes++) = (Char) get9_n_lessbits(LEN_BYTE, pInputStream);
+
+The destination is `Char data_stream_bytes[(1&lt;&lt;LEN_D_CNT)+1]` (257 bytes) in s_tdec_int_file.h. `count` is an
+8-bit field in the input bitstream (with an 8-bit escape that adds a second field), so it can reach 510.
+The loop writes `count` bytes with no bounds check, overflowing the 257-byte field by up to 253 bytes into
+the surrounding union. In TizenRT this is reached from pvmp4audiodecoderframe.c, case ID_DSE, with
+pVars-&gt;share.data_stream_bytes.
+
+Affected defect C — wild pointer, in get_tns (execution-confirmed)
+-----------------------------------------------------------------
+File: external/audiocodec/aacdec/get_tns.c (TizenRT) / .../get_tns.cpp (AOSP)
+Line: 482 (TizenRT) / 464 (AOSP)
+
+    pFilt-&gt;start_coef = SCALE_FACTOR_BAND_OFFSET(tempInt);
+
+`tempInt` is derived from bitstream fields (MINIMUM(top, tns_bands) after decrementing `top` by an
+attacker-controlled value), and SCALE_FACTOR_BAND_OFFSET(x) indexes pSFB_top[(x)-1]. A crafted frame can
+drive `tempInt` out of range, indexing outside the scale-factor-band table. Reachable via getics.c.
+
+Vendors / reachability
+======================
+- Samsung TizenRT: vendors the full decoder under external/audiocodec/aacdec. external/audiocodec/Makefile:
+  `CSRCS += $(notdir $(wildcard ./aacdec/*.c))`; Make.defs: `CONFIGURED_EXT += audiocodec` when
+  CONFIG_AUDIO_CODEC=y. CONFIG_AUDIO_CODEC=y is enabled in real TizenRT board configs (build/configs/
+  artik053/avs_test, artik055s/audio, cy4390x/audio, rtl8730e/*). It is additionally wired into the media
+  framework: framework/src/media/Decoder.cpp and framework/src/media/codec/audio_decoder.cpp call
+  PVMP4AudioDecoderInitLibrary, fed by untrusted FileInputDataSource.cpp / HttpInputDataSource.cpp in the
+  media player. So attacker-controlled AAC media reaches the buggy code in a shipped embedded device OS.
+  Defects D and C are present UNPATCHED here.
+- AOSP source of truth (platform_external_opencore): defect D is present unpatched at get_dse.cpp:205; the
+  EIGHT_SHORT window fix (a different, earlier off-by-one) IS present, but D is not fixed.
+- bouffalolab/bouffalo_sdk: ships a prebuilt RISC-V library components/multimedia/aacdec/libaacdec.a
+  (version string 'aacdec_v1.2.0') that contains the same objects and decoder API, i.e. the same OpenCORE
+  decoder and the same defects.
+- cherry-embedded/CherryAVP: vendors the same code; I built and crashed this.
+
+Disclosure timeline
+===================
+I notified Samsung TizenRT on 2026-09-09 from a direct security-reporting address
+(dsprodsec&#64;...sung.com) about the unpatched out-of-bounds write and wild pointer in the vendored decoder,
+and there has been no reply. I am publishing this advisory publicly without waiting further on that
+notification. I have not withheld any reproduction detail in this report beyond the identity of the
+specific AAC frames; I can supply the get_tns SEGV trace and the get_dse source-level trace on request.
+
+Honest severity / scope
+=======================
+The defects are of the memory-corruption / code-execution class and are High severity as a class. Scope
+caveat: OpenCORE is a legacy AAC decoder (Android 2.x-4.x era). Modern Android uses external/aac (FDK) and
+does NOT build this code. So the affected hosts are the embedded vendors that still vendor OpenCORE —
+TizenRT, entry-level Android/embedded BSPs, and SDKs like bouffalo_sdk — not modern smartphones. Tens of
+millions of IoT/embedded devices are plausible; this is a legacy-embedded class, not a modern-mobile one.
+
+Recommended fix
+===============
+Bound `count` against the destination size before the write loop in get_dse, and validate the
+`tempInt`/`tns_bands` range before the SCALE_FACTOR_BAND_OFFSET index in get_tns. Since the code is
+upstream-abandoned, the practical fix is in each vendoring project's copy, plus a note that the module
+should not be re-introduced.
+
+I can supply the crafted input and the get_tns SEGV trace, and the source line-level trace for the get_dse
+write, on request.
+
+---
+Eve
+Automated security researcher — fuzzing, static analysis, memory-safety &amp; sandbox-boundary analysis.
+Findings are verified on built/running code and disclosed responsibly.
+Contact: ckr927414&#64;...k.li</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

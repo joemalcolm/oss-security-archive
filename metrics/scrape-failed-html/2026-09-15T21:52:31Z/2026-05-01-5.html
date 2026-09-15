@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Prosody XMPP server security advisory 2026-04-31 (multiple vulnerabilities)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAJt9-x4hqhaH7NrFUmk0ULE7xHtNMMbE4M+miu=pQ8PNuLQ-=w&#64;mail.gmail.com&gt;
+Date: Fri, 1 May 2026 13:38:16 +0100
+From: Matthew Wild &lt;mwild1&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Prosody XMPP server security advisory 2026-04-31 (multiple vulnerabilities)
+
+Project
+:   Prosody XMPP server
+
+URL
+:   <a href="https://prosody.im/" rel="nofollow">https://prosody.im/</a>
+
+Date
+:   2026-04-29
+
+This advisory details two security vulnerabilities discovered in the
+Prosody.im XMPP server software. Fixes are available in Prosody 13.0.5.
+Deployments still using the Prosody 0.12 series can upgrade to 0.12.6.
+
+In this advisory:
+
+- Denial of Service via Memory Exhaustion
+- Unauthenticated Use of SOCKS5 Proxy (mod_proxy65)
+
+Full details of the vulnerabilities are below.
+
+The recommended advice is for all Prosody users to:
+
+- Upgrade to 13.0.5
+- For extra protection, review system firewall limits (see below)
+
+This advisory can be found online at:
+
+- <a href="https://prosody.im/security/advisory_735dd9d3/" rel="nofollow">https://prosody.im/security/advisory_735dd9d3/</a> (HTML)
+- <a href="https://prosody.im/security/advisory_735dd9d3.txt" rel="nofollow">https://prosody.im/security/advisory_735dd9d3.txt</a> (text)
+
+Denial of Service via Memory Exhaustion
+-------------------------------------------------------
+
+CVEs
+: We have requested 2 CVEs
+
+CVSS
+: 7.5 (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)
+
+CWEs
+: CWE-405, CWE-770, CWE-772
+
+Affected versions
+: All versions prior to 13.0.5
+
+Fixed versions
+: 0.12.6, 13.0.5
+
+**References**
+
+ - <a href="https://blog.unionium.org/ARTICLES/1.HTM" rel="nofollow">https://blog.unionium.org/ARTICLES/1.HTM</a> (third-party, see below)
+
+*Note:* We have provided the original reporter's blog post as a reference,
+as it contains the original report and proof-of-concept exploit code.
+However, the Prosody developers do not recommend the analysis and
+mitigations provided in that post to Prosody operators.
+
+**Description**
+
+Traffic patterns were discovered which can cause Prosody to consume
+excessive amounts of memory with much smaller amounts of incoming
+traffic. This traffic can be sent by unauthenticated connections.
+
+Prosody has per-connection rate limits. However, the protection provided
+by rate limits was reduced due to amplification of memory usage compared
+to the data transmitted by the attacker.
+
+Further, Prosody does not enforce limits on the total number of
+connections, allowing an attacker to increase the impact by using
+multiple concurrent connections.
+
+Finally, the attack revealed per-connection resource leaks, where a
+connection could continue to consume resources in Prosody even after
+the stream is finished.
+
+**Affected configurations**
+
+All Prosody versions prior to 13.0.5 are believed to be affected.
+
+Further, the issues described in this advisory are closely related
+to libexpat CVE-2025-59375. Fully protecting Prosody deployments
+requires that LuaExpat (a required dependency of Prosody) is linked
+against libexpat 2.7.2 or later (the version of expat in use can be
+discovered in the output of 'prosodyctl about').
+
+**Mitigation**
+
+Operators of Prosody servers are encouraged to utilize their system's
+firewall to limit the rate and total number of connections to their
+service.
+
+For example, 'ufw' is a widely available firewall tool which can limit
+excessive incoming connection requests. To apply this limiting to the
+standard XMPP ports, you would run:
+
+```
+  ufw limit 5222
+  ufw limit 5269
+```
+
+iptables and nftables also have 'connlimit' features to limit the
+total number of connections per IP address. Refer to the
+documentation of your firewall for correct configuration.
+
+It is **not** recommended to drastically lower Prosody's per-connection
+bandwidth rate limits as described in the blog post by the original
+reporter. Lowering rate limits slows down processing of an attacker's
+connections, causing them to remain active for longer. This can
+negatively impact Prosody's resource usage. Prosody's default rate
+limits are generally considered sufficient.
+
+**Fixes**
+
+The attack revealed a number of areas where the resource usage of connections
+could exceed expected and desired levels. Multiple fixes were applied.
+
+Resource amplification (first CVE):
+
+- Lower stanza size limits have been introduced for unauthenticated
+  streams.\
+  Commits: [8a4417d32b0f](<a href="https://hg.prosody.im/trunk/rev/8a4417d32b0f" rel="nofollow">https://hg.prosody.im/trunk/rev/8a4417d32b0f</a>),
+  [166ac7d65cb6](<a href="https://hg.prosody.im/trunk/rev/166ac7d65cb6" rel="nofollow">https://hg.prosody.im/trunk/rev/166ac7d65cb6</a>),
+  [a4327478678f](<a href="https://hg.prosody.im/trunk/rev/a4327478678f" rel="nofollow">https://hg.prosody.im/trunk/rev/a4327478678f</a>)
+- Limits have been placed on the complexity of XML stanzas, to
+  disallow stanzas that will consume significantly larger amounts
+  of memory than their serialized form.\
+  Commits: [6c7549964d4d](<a href="https://hg.prosody.im/trunk/rev/6c7549964d4d" rel="nofollow">https://hg.prosody.im/trunk/rev/6c7549964d4d</a>),
+[1e005ba71f0d](<a href="https://hg.prosody.im/trunk/rev/1e005ba71f0d" rel="nofollow">https://hg.prosody.im/trunk/rev/1e005ba71f0d</a>)
+
+Memory leaks (second CVE):
+
+- Four memory leaks have been fixed, two could be triggered by
+  unauthenticated connections, and two by authenticated users.\
+  Commits:
+  [836a70deb3c9](<a href="https://hg.prosody.im/trunk/rev/836a70deb3c9" rel="nofollow">https://hg.prosody.im/trunk/rev/836a70deb3c9</a>)
+(unauthenticated),
+  [e27d94d8f505](<a href="https://hg.prosody.im/trunk/rev/e27d94d8f505" rel="nofollow">https://hg.prosody.im/trunk/rev/e27d94d8f505</a>)
+(unauthenticated),
+  [041c7ff18f76](<a href="https://hg.prosody.im/trunk/rev/041c7ff18f76" rel="nofollow">https://hg.prosody.im/trunk/rev/041c7ff18f76</a>) (authenticated),
+  [374b72785488](<a href="https://hg.prosody.im/trunk/rev/374b72785488" rel="nofollow">https://hg.prosody.im/trunk/rev/374b72785488</a>) (authenticated)
+
+Other:
+
+- Code to configure per-IP connection limits has been introduced,
+  however this is currently in an experimental status, and it is
+  preferable to utilize a system firewall to enforce such limits
+  if possible. Refer to the documentation for your system firewall.
+
+**Attribution**
+
+The resource amplification attack was discovered and disclosed to the
+Prosody team by Ley &lt;unionium.org&gt; in advance of their public blog post.
+
+The memory leaks were discovered by the Prosody team during their
+research into this issue.
+
+Unauthenticated Use of SOCKS5 Proxy (mod_proxy65)
+-------------------------------------------------------
+
+CVEs
+: We have requested 1 CVE
+
+CVSS
+: 5.3 (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L)
+
+CWEs
+: CWE-863
+
+Affected versions
+: All versions prior to 0.12.6 and 13.0.5
+
+Fixed versions
+: 0.12.6, 13.0.5
+
+**Description**
+
+It was discovered that mod_proxy65's access control was broken and incomplete
+due to two bugs.
+
+Firstly, due to changes in our default network backend, a connection that
+mod_proxy65 believed to be "paused" would actually be able to send data
+through the proxy before authorization.
+
+Secondly, mod_proxy65 only checked the access control rules during the
+discoverability stage of the protocol, but not during the activation stage.
+Any entity able to guess the domain and port of the proxy (which defaults to
+port 5000) could skip the discoverability stage and would be able to use it.
+
+**Limitations**
+
+mod_proxy65 is designed to facilitate file transfers and other binary streams
+between two XMPP entities. It is not a generic SOCKS5 proxy, and this limits
+the scope of potential abuse.
+
+For example, mod_proxy65 does not make outbound connections, and therefore
+cannot be abused for forward proxying of an attacker's connections to
+arbitrary endpoints. It requires both peers to make a connection to the proxy
+and perform a SOCKS5 handshake.
+
+**Affected configurations**
+
+All deployments with mod_proxy65 enabled are affected. mod_proxy65 is not
+enabled in the default configuration.
+
+**Mitigation**
+
+mod_proxy65 can be disabled, however this may have a negative impact on some
+kinds of file transfers.
+
+**Fixes**
+
+Fixes were made in two commits:
+
+- [f34ad235cf3b](<a href="https://hg.prosody.im/trunk/rev/f34ad235cf3b" rel="nofollow">https://hg.prosody.im/trunk/rev/f34ad235cf3b</a>)
+- [4bbb17445ed9](<a href="https://hg.prosody.im/trunk/rev/4bbb17445ed9" rel="nofollow">https://hg.prosody.im/trunk/rev/4bbb17445ed9</a>)
+
+**Attribution**
+
+The issue with unpausing connections was discovered and disclosed by Max
+Hearnden &lt;<a href="https://github.com/MaxHearnden/" rel="nofollow">https://github.com/MaxHearnden/</a>&gt;.
+
+The missing authorization was discovered during review of the code by
+a Prosody team
+member.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

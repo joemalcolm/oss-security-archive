@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - dnsmasq vulnerabilities, including attacker DNS
+ redirect, privilege escalation, and heap manipulation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href="12">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;124550bc-4540-451a-9c0a-d1d0aa951a2d&#64;oracle.com&gt;
+Date: Mon, 11 May 2026 11:11:39 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: dnsmasq vulnerabilities, including attacker DNS
+ redirect, privilege escalation, and heap manipulation
+
+<a href="https://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2026q2/018471.html" rel="nofollow">https://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2026q2/018471.html</a> 
+announces:
+&gt; Today, 11th May 2026 CERT is releasing a set of six CVEs for serious 
+&gt; security vulnerabilities in dnsmasq. These are all long-standing bugs 
+&gt; which apply to pretty much all non-ancient versions. The CVE has been 
+&gt; pre-disclosed to vendors, so hopefully they will be releasing patched 
+&gt; versions of their dnsmasq packages in a timely manner.
+&gt; 
+&gt; Details and patches are available on the website at
+&gt; 
+&gt; <a href="https://thekelleys.org.uk/dnsmasq/CVE/" rel="nofollow">https://thekelleys.org.uk/dnsmasq/CVE/</a>
+&gt; 
+&gt; and I have made "2.92rel2" release of the current 2.92 dnsmasq stable 
+&gt; release which is downloadable from the usual place and has had these 
+&gt; patches applied.
+&gt; 
+&gt; At the same time, the commits which fix these bugs in the development 
+&gt; tree will be uploaded. Some of these use the same patches as the 
+&gt; backports, but some are more comprehensive re-writes to tackle root-causes.
+&gt; 
+&gt; There has been something of a revolution in AI-based security research, 
+&gt; and I've spent a lot of time over the last couple of months dealing with 
+&gt; bug reports, weeding duplicates (so many duplicates!) and triaging bugs 
+&gt; into those which need vendor pre-disclosure and those which it's better 
+&gt; to make public and fix immediately. Those judgements have been 
+&gt; necessarily subjective, but given the number of times "good guys" have 
+&gt; found these bugs, there's no doubt that "bad guys" have been able to do 
+&gt; the same, so long embargoes seem kind of pointless. There's also the 
+&gt; problem that the amount of time and effort, for all actors, needed to 
+&gt; co-ordinate an embargo and provide backports is huge. I think the 
+&gt; priority for most bugs is to fix them going forward, and have new 
+&gt; dnsmasq releases as bug-free as possible. To this end, you may have 
+&gt; noticed that there have been a lot of security-fix commits to the git 
+&gt; repo in the weeks prior to this announcement.
+&gt; 
+&gt; I will shortly tag dnsmasq-2.93rc1 and the aim is to get a stable 2.93 
+&gt; release done ASAP. Testing of release candidate by members here is 
+&gt; important and I'd like to encourage anyone who can to do that as soon as 
+&gt; they can. With luck, 2.93 could be out in a week or so.
+&gt; 
+&gt; The tsunami of AI-generated bug reports shows no signs of stopping, so 
+&gt; it is likely that this process will have to be repeated again soon. 
+&gt; There's a tension between getting as much as possible of the ongoing bug 
+&gt; stream fixed in 2.93 and it's timely release. I plan to prioritise 
+&gt; timeliness, and keep working after that as necessary.
+&gt; 
+&gt; 
+&gt; 
+&gt; Simon.
+
+<a href="https://www.kb.cert.org/vuls/id/471747" rel="nofollow">https://www.kb.cert.org/vuls/id/471747</a> provides additional details:
+&gt; dnsmasq contains several vulnerabilities, including attacker DNS redirect,
+&gt;  privilege escalation, and heap manipulation
+&gt; 
+&gt; Vulnerability Note VU#471747
+&gt; Original Release Date: 2026-05-11 | Last Revised: 2026-05-11
+&gt; 
+&gt; Overview
+&gt; --------
+&gt; dnsmasq is affected by multiple memory safety and input validation
+&gt; vulnerabilities, including heap buffer overflows, heap corruption, and code
+&gt; execution flaws. Collectively, these vulnerabilities enable attackers to
+&gt; poison cached DNS records, bypass security controls, crash the dnsmasq process,
+&gt; or under certain conditions, achieve local privilege escalation.
+&gt; 
+&gt; Description
+&gt; -----------
+&gt; 
+&gt; dnsmasq is an open-source networking tool that provides DNS forwarding, DHCP,
+&gt; and network boot services for small-to-medium sized networks and home routing
+&gt; devices. It can also function as a DNS resolver, which is the primary
+&gt; exploitation use case for several of the vulnerabilities described below,
+&gt; tracked collectively as CVE-2026-2291, CVE-2026-4890, CVE-2026-4891,
+&gt; CVE-2026-4892, CVE-2026-4893, and CVE-2026-5172.
+&gt; 
+&gt; CVE-2026-2291
+&gt; dnsmasq's extract_name() function can be abused to cause a heap buffer
+&gt; overflow, enabling an attacker to inject false DNS cache entries. This could
+&gt; cause DNS queries to be redirected to attacker-controlled IP addresses or
+&gt; result in a Denial of Service (DoS).
+&gt; 
+&gt; CVE-2026-4890
+&gt; An infinite-loop flaw in the DNSSEC validation of dnsmasq allows remote
+&gt; attackers to cause Denial of Service (DoS) conditions via a crafted DNS packet.
+&gt; 
+&gt; CVE-2026-4891
+&gt; A heap-based out-of-bounds read vulnerability in the DNSSEC validation of
+&gt; dnsmasq allows remote attackers to leak memory information via a crafted DNS
+&gt; packet.
+&gt; 
+&gt; CVE-2026-4892
+&gt; A heap-based out-of-bounds write vulnerability in the DHCPv6 implementation of
+&gt; dnsmasq allows local attackers to execute arbitrary code with root privileges
+&gt; via a crafted DHCPv6 packet.
+&gt; 
+&gt; CVE-2026-4893
+&gt; An information disclosure vulnerability in dnsmasq allows remote attackers to
+&gt; bypass source checks via a crafted DNS packet containing RFC 7871 client-subnet
+&gt; information.
+&gt; 
+&gt; CVE-2026-5172
+&gt; A buffer overflow vulnerability in dnsmasq’s extract_addresses() function
+&gt; allows attackers to trigger a heap out-of-bounds read and crash dnsmasq by
+&gt; exploiting a malformed DNS response.
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; 
+&gt; These vulnerabilities collectively pose various risks:
+&gt; 
+&gt; DoS (CVE-2026-2291, CVE-2026-4890, CVE-2026-5172) — dnsmasq may crash or
+&gt; become unresponsive, terminating DNS resolution and affecting dependent
+&gt; services.
+&gt; 
+&gt; Cache Poisoning / Redirection (CVE-2026-2291, CVE-2026-4893) — Attackers
+&gt; may overwrite cache entries or manipulate response routing, enabling the
+&gt; silent redirection of users to malicious domains.
+&gt; 
+&gt; Information Disclosure (CVE-2026-4891, CVE-2026-4893) — Internal memory
+&gt; and network information may be inadvertently exposed.
+&gt; 
+&gt; Local Privilege Escalation (CVE-2026-4892) — A local attacker may execute
+&gt; arbitrary code as root via DHCPv6 manipulation.
+&gt; 
+&gt; Solution
+&gt; --------
+&gt; 
+&gt; dnsmasq has released version 2.93 to fix the above vulnerabilities, and
+&gt; various vendors have published patches to address individual remediations.
+&gt; A full list of affected vendors and vendor patches can be found in the
+&gt; References section below. This note, as well as the CVE listings, will be
+&gt; updated as additional patches become available.
+&gt; 
+&gt; Acknowledgements
+&gt; ----------------
+&gt; 
+&gt; Thank you to the reporters for discovering these vulnerabilities:
+&gt; * Hugo Martinez (hugomray&#64;...il.com) - CVE-2026-5172, CVE-2026-2291
+&gt; * Andrew Fasano (NIST) - CVE-2026-2291
+&gt; * Royce M (royce&#64;...glabs.com) - CVE-2026-4893, CVE-2026-4892, CVE-2026-4891,
+&gt;   CVE-2026-4890, CVE-2026-2291
+&gt; * Asim Viladi Oglu Manizada - CVE-2026-4892
+&gt; * Mattia Ricciardi (mindless) - CVE-2026-2291
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Go 1.26.2 and Go 1.25.9 are released with 10
+ security fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="../../../2026/04/20/1">[next&gt;]</a> <a href="../../../2026/04/17/17">[&lt;thread-prev]</a> <a href="../../../2026/04/20/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;aeU_M_lpglZoXOqI&#64;xoff&gt;
+Date: Sun, 19 Apr 2026 22:46:43 +0200
+From: Matthias Ferdinand &lt;ml.oss-security&#64;...dv.net&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Go 1.26.2 and Go 1.25.9 are released with 10
+ security fixes
+
+[ hopefully, discussing binary releases is not off-topic ]
+
+On Sat, Apr 18, 2026 at 12:18:44AM +0100, Sam James wrote:
+&gt; Eli Schwartz &lt;eschwartz&#64;...too.org&gt; writes:
+&gt; 
+&gt; &gt; On 4/17/26 6:30 AM, Matthias Ferdinand wrote:
+&gt; &gt;&gt; Perhaps the message did not spread wide enough. Or are many Go programs
+&gt; &gt;&gt; just not affected?
+
+&gt; For serious issues, it may make sense for projects distributing binaries
+&gt; (provided they know it was built by a buggy compiler) in the same way
+&gt; they might do for a vulnerable OpenSSL DLL in their Windows offering.
+
+
+&gt; &gt; $ emerge @golang-rebuild
+&gt; &gt; ...
+&gt; &gt; fixing. It is regular like clockwork, so do people really need an
+&gt; &gt; invitation to do so?
+
+Personally, I am guilty of not compiling packages myself (except for
+some pkgsrc) and using mostly distributions in binary package form
+(Debian, Ubuntu, Alma). Also, many projects on github release binary
+packages. Doing a fresh release with no change except for the compiler
+used (and some new release version or build number) may make sense for
+those projects with affected binaries.
+
+
+&gt; &gt; IIRC it is possible to determine which packages actually need rebuilding
+&gt; &gt; for any given CVE, but to do so you need to locally extract the entire
+&gt; &gt; recursive deps-included source code of every package, and run some
+&gt; &gt; arcane undocumented `go ....` invocation. Functionally, what you're
+&gt; &gt; doing is checking which programs link to an internal static library
+&gt; &gt; distributed with the go compiler. (This is not exactly correct, but it
+&gt; &gt; is a useful mental model.)
+
+Don't know enough Go to check affectedness of any project myself, but if
+it is that difficult it makes me worry even more :-) In the original
+advisory I did not see any mention if/how these issues propagate into
+compiled applications, and I only started worrying after reading the
+blog post about the memory safety issues and seeing that some projects
+had started issuing updates.
+
+A vulnerability in the build chain of course takes more time to assess
+and solve for all binaries in a binary distribution. Or you could just
+issue package updates for all Go applications (as proposed by Eli
+Schwarz).
+Not sure if I would really to want to see either every project/package
+using Go listed under the existing CVEs, or a new CVE issued for each
+just for increased visibility. I just wondered why the impact on
+binaries and binary packages is not being discussed more broadly
+(anywhere, not just oss-security).
+
+<a href="https://security-tracker.debian.org/tracker/CVE-2026-" rel="nofollow">https://security-tracker.debian.org/tracker/CVE-2026-</a>... only lists
+golang packages as affected, with some as already fixed and released,
+e.g.  <a href="https://security-tracker.debian.org/tracker/CVE-2026-33810" rel="nofollow">https://security-tracker.debian.org/tracker/CVE-2026-33810</a> (DNS
+contraints).
+
+<a href="https://ubuntu.com/security/CVE-2026-" rel="nofollow">https://ubuntu.com/security/CVE-2026-</a>... are still showing "Needs
+evaluation" for the golang packages, but they contain a comment by Marc
+Deslauriers: "Packages built using golang need to be rebuilt once the
+vulnerability has been fixed."
+
+Alpine has bumped build numbers, as Chad Dougherty wrote here
+    From: Chad Dougherty &lt;crd477&#64;...oud.com&gt;
+     Not an advisory, but Alpine did this:
+     <a href="https://git.alpinelinux.org/aports/commit/?h=3.23-stable&amp;id=f43ed43f4d329cb8cbca59b90c9560ab9e6d8f42" rel="nofollow">https://git.alpinelinux.org/aports/commit/?h=3.23-stable&amp;id=f43ed43f4d329cb8cbca59b90c9560ab9e6d8f42</a>
+Alpine also had fresh releases on 2026-04-15, including some updates
+"rebuild with Go ..."
+
+Arch linux appears not to have recompiled Go applications (or at least
+not all of them, only checked restic)
+
+repo.almalinux.org does not show updated golang versions, so probably
+no recompiled Go applications either.
+
+
+Matthias
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
