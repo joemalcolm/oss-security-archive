@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 120 (CVE-2015-2150) - Non-maskable
+ interrupts triggerable by guests</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1YcynL-0007ma-7c&#64;xenbits.xen.org&gt;
+Date: Tue, 31 Mar 2015 16:13:39 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 120 (CVE-2015-2150) - Non-maskable
+ interrupts triggerable by guests
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+            Xen Security Advisory CVE-2015-2150 / XSA-120
+                              version 5
+
+              Non-maskable interrupts triggerable by guests
+
+UPDATES IN VERSION 5
+====================
+
+The original patches were incomplete: although they eliminated the
+possibility that the guest might disable memory and I/O decoding, they
+did not ensure that these bits were set at start of day.  The result
+was that a malicious guest could simply avoid enabling them and
+continue to exploit the vulnerability.
+
+Well behaved guests would normally enable decoding and therefore would
+not normally suffer a regression.
+
+Additional patches are now supplied to resolve this issue.
+
+ISSUE DESCRIPTION
+=================
+
+Guests are currently permitted to modify all of the (writable) bits in
+the PCI command register of devices passed through to them. This in
+particular allows them to disable memory and I/O decoding on the
+device unless the device is an SR-IOV virtual function, in which case
+subsequent accesses to the respective MMIO or I/O port ranges would
+- - on PCI Express devices - lead to Unsupported Request responses. The
+treatment of such errors is platform specific.
+
+IMPACT
+======
+
+In the event that the platform surfaces aforementioned UR responses as
+Non-Maskable Interrupts, and either the OS is configured to treat NMIs
+as fatal or (e.g. via ACPI's APEI) the platform tells the OS to treat
+these errors as fatal, the host would crash, leading to a Denial of
+Service.
+
+VULNERABLE SYSTEMS
+==================
+
+Xen versions 3.3 and onwards are vulnerable due to supporting PCI
+pass-through. Upstream Linux versions 3.1 and onwards are vulnerable
+due to supporting PCI backend functionality. Other Linux versions as
+well as other OS versions may be vulnerable too.
+
+Any domain which is given access to a non-SR-IOV virtual function PCI
+Express device can take advantage of this vulnerability.
+
+MITIGATION
+==========
+
+This issue can be avoided by not assigning PCI Express devices other
+than SR-IOV virtual functions to untrusted guests.
+
+CREDITS
+=======
+
+This issue was discovered by Jan Beulich of SUSE.
+
+RESOLUTION
+==========
+
+Applying the appropriate attached patches resolves this issue for the
+indicated versions of Linux, but only for ordinary PCI config space
+accesses by the guest. See XSA-124 for all other cases.
+
+xsa120.patch                  Linux 3.19
+xsa120-addendum.patch         Linux 3.19
+xsa120-classic.patch          linux-2.6.18-xen.hg
+xsa120-classic-addendum.patch linux-2.6.18-xen.hg
+
+$ sha256sum xsa120*.patch
+32441fd3930848f7533f74376648fbeb5e35870661e1259860fe10f9a1f67f88  xsa120.patch
+32be0b76f5585e9258ebaed348b40b57014ee5163c313a0523fd46f55ac05210  xsa120-addendum.patch
+ecd4568d418d6e275f1eebdba4867e7cfdc6a487292db0e9eff0e9e7e2c91826  xsa120-classic.patch
+8b377abe56bebf5030587030bf231c2d5bc1f695e21cc4dfbbd348e9b616849c  xsa120-classic-addendum.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of the patches and/or mitigations described above (or
+others which are substantially similar) is permitted during the
+embargo, even on public-facing systems with untrusted guest users and
+administrators.
+
+But: Distribution of updated software is prohibited (except to other
+members of the predisclosure list).
+
+Predisclosure list members who wish to deploy significantly different
+patches and/or mitigations, please contact the Xen Project Security
+Team.
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJVGseNAAoJEIP+FMlX6CvZcR4H/RGyM4VV4/1LLFkERmVe6jCq
+KhPGTWw72ZMt+iTGLZYOWGu3CTwpG2RSMWwRUNE9dBinUyq5j8GYW+dpAmtBFCT/
+muEW3k+cw4BnhOIi6ny3bcCsxnm7SesrpWAmRvwgZRWljZMA0tHhperl1ioovMG0
++jf7ktNU91li7jTm0BSba7FoWIhfSsY5K+hU0/xMrKOUkzdpYzhu8Uzj9exhijHC
+5AJ05XDi88ZuZfR7ZPnVvTOaIJaXsVeiM4rfSpp+SsqTyOZW4+ORpd5ecEp93O/N
+LNtcHsUjqwm/ezkwM8oHrGQqYWf7Ms4mRuykIE2X/voG/Cf+kvDQE7fOj++3Db0=
+=La+E
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="8/1" rel="nofollow" download>xsa120.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (3745 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="8/2" rel="nofollow" download>xsa120-addendum.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (1874 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="8/3" rel="nofollow" download>xsa120-classic.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (3716 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="8/4" rel="nofollow" download>xsa120-classic-addendum.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (1743 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

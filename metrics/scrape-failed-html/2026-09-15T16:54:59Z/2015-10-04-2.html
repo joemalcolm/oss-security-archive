@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Remotely triggerable buffer overflow in OpenSMTPD</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="../../../2015/10/05/1">[next&gt;]</a> <a href="../../../2015/10/05/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAHmME9pRfH0M2J81qkzbh2azKSd1hjAymsV-Z2oD7mDtJ25pkw&#64;mail.gmail.com&gt;
+Date: Mon, 5 Oct 2015 00:38:50 +0200
+From: "Jason A. Donenfeld" &lt;Jason&#64;...c4.com&gt;
+To: misc &lt;misc&#64;...nsmtpd.org&gt;, oss-security &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Remotely triggerable buffer overflow in OpenSMTPD
+
+Hi folks,
+
+I'm passing the gauntlet for anyone who wants to analyze this for
+impact etc. There's a remotely triggerable buffer overflow in
+OpenBSD's OpenSMTPD -- the latest version, 5.7.2 -- reachable by
+sending messages with huge header lines. Qualys recently published a
+result of a big audit, but it seems like they based their
+investigations primarily on an older version of OpenSMTPD that didn't
+have as much of the "filter" infrastructure. I'd recommend interested
+parties spend some time looking through the filter code, as there
+could be more problems. Here's a vulnerability in the filter io path:
+
+static void
+filter_tx_io(struct io *io, int evt)
+{
+        struct filter_session   *s = io-&gt;arg;
+        size_t                   len, n;
+        char                    *data;
+        char                    buf[65535];
+
+        log_trace(TRACE_FILTERS, "filter: filter_tx_io(%p, %s)", s,
+io_strevent(evt));
+
+        switch (evt) {
+        case IO_DATAIN:
+                data = iobuf_data(&amp;s-&gt;ibuf);
+                len = iobuf_len(&amp;s-&gt;ibuf);
+                memmove(buf, data, len);
+                buf[len] = 0;
+                log_trace(TRACE_FILTERS, "filter: filter_tx_io: datain
+(%zu) for req %016"PRIx64": %s",
+                    len, s-&gt;id, buf);
+
+
+In this block, it's possible for `len` to be greater than 65535. I
+believe the maximum is 65536, but I've spent not too much time playing
+with this to be sure. Either way, the memmove() overflows `buf`. When
+len=65536, GNU's fortify source catches it and kills the program. I'm
+not sure the behavior on OpenBSD or other platforms. Depending on the
+layout of the stack, being able to overwrite two bytes (or perhaps
+more? which would be even worse) could lead to execution, but, again,
+I haven't looked for more than a few minutes, so I'm not sure.
+
+I'm attaching here a crash reproducer. Running `sendmail
+instance&#64;...ng.opensmtpd &lt; this.email.attachment` will result in a
+remote OpenSMTPD dying (at least on GNU systems with fortify source;
+on others, the behavior is undefined).
+
+If the execution makes it past that memmove, and filter tracing is
+enabled, this line is printed:
+
+filter: filter_tx_io: datain (65536) for req 8e6eab5b833e834b: x-xxx-xxxxx: xx
+
+If execution hits a fortify source abort point, this is the stack trace:
+
+(gdb) bt
+#0  0x0000003c6f433468 in raise () from /lib64/libc.so.6
+#1  0x0000003c6f43483a in abort () from /lib64/libc.so.6
+#2  0x0000003c6f472381 in __libc_message () from /lib64/libc.so.6
+#3  0x0000003c6f4f8077 in __fortify_fail () from /lib64/libc.so.6
+#4  0x0000003c6f4f6110 in __chk_fail () from /lib64/libc.so.6
+#5  0x0000000000412840 in memmove (__len=65536, __src=0x1cff900,
+__dest=0x7ffe12cf0e10)
+    at /usr/include/bits/string3.h:59
+#6  filter_tx_io (io=&lt;optimized out&gt;, evt=&lt;optimized out&gt;) at
+../../smtpd/filter.c:739
+#7  0x00000000004154c0 in io_dispatch (fd=&lt;optimized out&gt;,
+ev=&lt;optimized out&gt;, humppa=0x1c957d8)
+    at ../../smtpd/ioev.c:580
+#8  0x0000003c82820044 in event_process_active_single_queue () from
+/usr/lib64/libevent-2.1.so.5
+#9  0x0000003c82820ddf in event_base_loop () from /usr/lib64/libevent-2.1.so.5
+#10 0x000000000042d069 in pony () at ../../smtpd/pony.c:221
+#11 0x00000000004071cc in fork_peers () at ../../smtpd/smtpd.c:829
+#12 main (argc=&lt;optimized out&gt;, argv=&lt;optimized out&gt;) at ../../smtpd/smtpd.c:724
+
+If my assumption is correct about 65536 being the maximum of len, I'd
+recommend making that buffer be size 65537, or making it size 65536
+and being smart about that buf[len]=0 line. If my assumption isn't
+correct about 65536, perhaps the code will have to be more
+significantly refactored. Probably the OpenSMTPD/OpenBSD developers
+can make the best choice here though.
+
+At some point we might want a CVE for this.
+
+Thanks,
+Jason
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>opensmtpd-buffer-overflow-large-header.crash</a><strong>" of type "</strong>application/octet-stream<strong>" (90141 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

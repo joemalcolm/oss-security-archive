@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request: WordPress 4.2.3 and earlier multiple vulnerabilities</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150804123051.GA27639&#64;lakka.kapsi.fi&gt;
+Date: Tue, 4 Aug 2015 15:30:51 +0300
+From: Henri Salo &lt;henri&#64;...v.fi&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: cve-assign&#64;...re.org
+Subject: CVE request: WordPress 4.2.3 and earlier multiple vulnerabilities
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Can I get CVE for WordPress 4.2.3 and earlier multiple vulnerabilities, thank
+you.
+
+<a href="https://wordpress.org/news/2015/08/wordpress-4-2-4-security-and-maintenance-release/" rel="nofollow">https://wordpress.org/news/2015/08/wordpress-4-2-4-security-and-maintenance-release/</a>
+
+"""
+WordPress 4.2.4 is now available. This is a security release for all previous
+versions and we strongly encourage you to update your sites immediately.
+
+This release addresses six issues, including three cross-site scripting
+vulnerabilities and a potential SQL injection that could be used to compromise a
+site, which were discovered by Marc-Alexandre Montpas of Sucuri, Helen Hou-Sandí
+of the WordPress security team, Netanel Rubin of Check Point, and Ivan Grigorov.
+It also includes a fix for a potential timing side-channel attack, discovered by
+Johannes Schmitt of Scrutinizer, and prevents an attacker from locking a post
+from being edited, discovered by Mohamed A. Baset.
+
+Our thanks to those who have practiced responsible disclosure of security
+issues.
+"""
+
+- -- 
+Henri Salo
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJVwLB6AAoJECet96ROqnV0V1IQAKmanHr9m+zYZI9R+DOpkkFP
+NDgBMY1O12421mIWPTChCVKSMji952e/5Om7iyHONhMvGfWGkkPSTC6vN16rIxuC
+Z6H+PR7dFwOX7l2aJmYmI6lz06ZsqAo2d4rtmse5tl1/Ty4HOrd0Lz206fvdTGqH
+LyaDH3gvhuRdc/P7peG+JqK5/uYgTPoOf3Hd+xHQurxMqQ1HEwG/ewJxfeUJV7LX
+ewYnOPqvPpR9mHk/NbxlBDavsdBPxdWanezSW9IvsADYSnI3OuHIcbJpYFLPjW7E
+AoCeKXI+B2puWKk2EHyfdr91NevNj2FKBokWvX8ml9OStMtNH1FIp2Uhl6r+O8Os
+lKT/4CWrdlMCytn/OTqFrU/tGmnwfSVaKBcJfYQvblR4vBRdgZ/mI3uOpdUBFLxu
+4BoeCs4M/RQF/ru6eHIUctMzW/thM9HjJd/MZEohEpeOKdnWUltVJGtn6uuxYVVl
+RD+nijSSlRDeM9laWqE4pn4VZXlhbUDcwawfXkw0IeXExb8UPecQBO/JCcm9y42l
+a4vVhXMBW36NTTLnuABxq3oV86wjv0dl2kRYgVLWuQpyS05S0VRH5OFWu1gqVjtA
+EpmjcEGPGMnCGIpXfKYhjO1fxd9UfFxJCAGu/jL27J+TACgPkMuAU3UVQ+fgN1oj
+NW+JulbdyBPOVtZRf1tH
+=hNdU
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

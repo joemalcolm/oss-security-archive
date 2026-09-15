@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: CVE request - Android kernel - IPv6 connect
+ cause a denial of service</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;566FC653.1070001&#64;stressinduktion.org&gt;
+Date: Tue, 15 Dec 2015 08:50:43 +0100
+From: Hannes Frederic Sowa &lt;hannes&#64;...essinduktion.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: guoyonggang&#64;....cn, cve-assign&#64;...re.org
+Subject: Re: Re: CVE request - Android kernel - IPv6 connect
+ cause a denial of service
+
+Hi,
+
+On 15.12.2015 04:48, Robert Święcki wrote:
+&gt;&gt;&gt; Use CVE-2015-8543 for the originally identified bug. We realize that,
+&gt;&gt;&gt; for example,
+&gt;&gt;&gt; <a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/net/ipv4/af_inet.c" rel="nofollow">http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/net/ipv4/af_inet.c</a>
+&gt;&gt;&gt; has not yet been changed. If Linux kernel developers determine that
+&gt;&gt;&gt; multiple independent bugs result in situations where
+&gt;&gt;&gt; sk-&gt;sk_prot-&gt;get_port is NULL above, then it is possible that
+&gt;&gt;&gt; additional CVE IDs will be assigned later.
+&gt;&gt;
+&gt;&gt; The following patch fixes this issue:
+&gt;&gt;
+&gt;&gt; <a href="https://git.kernel.org/cgit/linux/kernel/git/davem/net.git/commit/?id=79462ad02e861803b3840cc782248c7359451cd9" rel="nofollow">https://git.kernel.org/cgit/linux/kernel/git/davem/net.git/commit/?id=79462ad02e861803b3840cc782248c7359451cd9</a>
+&gt;&gt;
+&gt;&gt; It is queued up for -stable.
+&gt;&gt;
+&gt; 
+&gt; Not sure if it's important for you, but the description of this diff
+&gt; may not be exactly correct:
+&gt; 
+&gt; a) ... as root ..
+&gt; 
+&gt; If a given kernel supports CLONE_NEWUSER then everybody can create
+&gt; SOCK_RAW sockets. And CLONE_NEWUSER seems to be enabled with most
+&gt; modern Linux distros.
+
+Yep, that is true. You can create a new user namespace and a new
+net-namespace in which an ordinary user is allowed to use raw sockets.
+
+&gt; b). .. could simply crash the kernel ..
+&gt; 
+&gt; It'll cause GPF in the supervisor mode, and it seems that with most of
+&gt; supported CPU architectures under Linux, this will actually cause
+&gt; SIGSEGV to be sent to the user-land counterpart of the kernel thread
+&gt; which caused such GPF. So, it's not really crash of the kernel in most
+&gt; cases (may depend on sysctl and CPU architecture in use though).
+&gt; However, given that such GPF can happen when the socket struct seems
+&gt; to be locked, this could potentially cause some kernel dead-locks with
+&gt; subsequent accesses to sk (may result in unkillable processes and
+&gt; similar artifacts)
+
+This is what I meant by simply crashing the kernel. :) In most kernel
+crashes we hold some locks or are in a rcu critical section, which makes
+the rest of kernel execution pretty much indeterministic.
+
+Red Hat kernel always set panic_on_ooops because of this.
+
+&gt; Also, it could be potentially turned into a privilege escalation
+&gt; problem if there was a way to map the NULL page. Under x86/x86-64 I
+&gt; reviewed the code (install_special_mapping() and friends from mmap.c)
+&gt; and it seems to be correctly protected. But if anybody is using any
+&gt; alternative CPU architecture, I'd suggest looking at their
+&gt; arch-specific vdso/vvar mapping code. In case the address is
+&gt; controllable by user, this could likely allow for mapping of the NULL
+&gt; page and pwning the kernel.
+
+Even on x86_64 a NULL address should be installable if you lower
+/proc/sys/vm/mmap_min_addr as root before. Some software might need this.
+
+Thanks for the following up. Unfortunately I can't edit the commit
+anymore but it will be hopefully useful for the description of the CVE
+entry.
+
+Bye,
+Hannes
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: 2 FreeType issues</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="../../../2015/09/26/1">[next&gt;]</a> <a href="../../../2015/09/11/4">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150925221840.E6FBA6C4003&#64;smtpvmsrv1.mitre.org&gt;
+Date: Fri, 25 Sep 2015 18:18:40 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: marc.deslauriers&#64;...onical.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: 2 FreeType issues
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; I don't believe these two FreeType issues have assigned CVEs:
+&gt; <a href="https://bugs.launchpad.net/ubuntu/+source/freetype/+bug/1449225" rel="nofollow">https://bugs.launchpad.net/ubuntu/+source/freetype/+bug/1449225</a>
+&gt; <a href="https://bugs.launchpad.net/ubuntu/+source/freetype/+bug/1492124" rel="nofollow">https://bugs.launchpad.net/ubuntu/+source/freetype/+bug/1492124</a>
+&gt; Could CVEs please be assigned to them?
+
+The short answer is that 1449225 has two CVE IDs, and 1492124 has one
+CVE ID; see below.
+
+The <a href="http://openwall.com/lists/oss-security/2015/09/11/4">http://openwall.com/lists/oss-security/2015/09/11/4</a> message was
+apparently posted after <a href="http://www.ubuntu.com/usn/USN-2739-1" rel="nofollow">http://www.ubuntu.com/usn/USN-2739-1</a> but
+didn't mention that USN-2739-1 existed. The MITRE CVE team had begun
+work on CVE entries for USN-2739-1 but then that oss-security message
+was noticed.
+
+
+&gt; <a href="https://savannah.nongnu.org/bugs/index.php?41590" rel="nofollow">https://savannah.nongnu.org/bugs/index.php?41590</a>
+&gt; <a href="http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=df14e6c0b9592cbb24d5381dfc6106b14f915e75" rel="nofollow">http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=df14e6c0b9592cbb24d5381dfc6106b14f915e75</a>
+&gt; <a href="https://bugs.launchpad.net/ubuntu/+source/freetype/+bug/1492124" rel="nofollow">https://bugs.launchpad.net/ubuntu/+source/freetype/+bug/1492124</a>
+&gt; <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=798620" rel="nofollow">https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=798620</a>
+
+All of 1492124 corresponds to CVE-2014-9745, which has existed for
+about 10 days:
+
+  <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9745" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9745</a>
+
+
+&gt; <a href="https://savannah.nongnu.org/bugs/?41309" rel="nofollow">https://savannah.nongnu.org/bugs/?41309</a>
+&gt; <a href="http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=8b281f83e8516535756f92dbf90940ac44bd45e1" rel="nofollow">http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=8b281f83e8516535756f92dbf90940ac44bd45e1</a>
+&gt; <a href="https://bugs.launchpad.net/ubuntu/+source/freetype/+bug/1449225" rel="nofollow">https://bugs.launchpad.net/ubuntu/+source/freetype/+bug/1449225</a>
+&gt; <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=798619" rel="nofollow">https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=798619</a>
+
+8b281f83e8516535756f92dbf90940ac44bd45e1 refers to four files in which
+return values aren't checked, and uninitialized memory can
+consequently be accessed. Use CVE-2014-9746 for all of those issues.
+
+Also within 8b281f83e8516535756f92dbf90940ac44bd45e1, t42parse.c has a
+new code block with a comment of "we would get an infinite loop if we
+don't do anything here." As far as we can tell, this is a fix for a
+CWE-372 ("Incomplete Internal State Distinction") issue in the sense
+that the possibility of immediates-only mode isn't checked. This is
+not closely related to the cause of the CVE-2014-9745 t1load.c
+infinite loop. Use CVE-2014-9747 for this t42parse.c vulnerability.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWBceMAAoJEL54rhJi8gl5DCAP/0N55+8RxsXcacjl7FYwKSnS
+FypoMZo/25aiHKgg1Lp61tog6swFEe10mZNkVSnKpt2OeZfhp1HcjnWiIrC5z3cl
+/naRagBTlBGXCMhplc/zo8a77tQ9M4gXX/7KKO7GHJrZgoLiPOORli1JkAtIUa4K
+oHl4TbwZbYi1AP2REFsSXRFuKAYC+4w55qYbRddTBte8ufiDWncLN51ZWbHNUSVp
+UeRLwJIuLyowGkfbuqDakiuQKYqhM7qYQph/76Wmjq1swsMCIQcYGwzEaOEOt9VW
+fPENeVmnIVTG7ajVfCar1x/uU0T/D61gIQeBq/cBSylZHuQxxhb2brYT3+iJgaDX
+xGLZa6JSSn0urIT1Ej80B+SGfVqqwXP2eVDd1Y0vOIySgFAdde1RaaGneW0Ahyjs
++4Ejyv+eIH1KvF1RHrMwYnWDHWWprJOZFxakpIMUtJWnHR7vEKIPVA+HKOitqU88
+CDjtI3uPPheSXZ14mN2zTQvID12Dg3Uhbw1C8f4+PTwZvSb4gbSMr/gqYL6TK8Mk
+JniFdR30voiDXABUPwU5cK4EhQ5RcKIZ7izmfsj6rV1eFCkY5A/C5rLgrPQ841Cf
+LTbUZQrFpn2uPXm5ELumegyJ0BcvZdrozK4GrO1cMwrAROdFOeycuLhR/tTmR8v9
+BEqAdTwSgKwtENbFQm9A
+=b8NX
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

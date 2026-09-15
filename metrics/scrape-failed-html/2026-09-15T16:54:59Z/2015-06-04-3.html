@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Imagemagick fuzzing bug</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2015/01/17/8">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;2626196.AXtmgrN9PG&#64;rem0te-expl0it&gt;
+Date: Thu, 04 Jun 2015 12:08:20 +0530
+From: Siddharth Sharma &lt;sisharma&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Yury German &lt;yury&#64;...hnologysecure.com&gt;,
+        jodie.cunningham+osssecurity&#64;...il.com
+Subject: Re: Imagemagick fuzzing bug
+
+On Saturday, January 17, 2015 13:06:07 Yury German wrote:
+&gt; Do we have a CVE assigned to this by chance?
+&gt; 
+&gt; &gt; On Dec 24, 2014, at 6:22 AM, Bastien ROUCARIES
+&gt; &gt; &lt;roucaries.bastien&#64;...il.com&gt; wrote:
+&gt; &gt; 
+&gt; &gt; Hi,
+&gt; &gt; 
+&gt; &gt; during the previous month google and Jodie Cunningham.
+&gt; &gt; 
+&gt; &gt; have done a security audit of imagemagick and found a lot of security bug:
+&gt; &gt;  * Avoid a DOS in vision.c due to an infinite loop.
+&gt; &gt;  * Avoid a SEGV due to a corrupted pnm file.
+&gt; &gt;  * Do not leak fd due to corrupted file.
+&gt; &gt;  * Fix a double free in pdb coder.
+&gt; &gt;  * Fix a SEGV due to corrupted dpc and xwd images.
+&gt; &gt;  * Fix a SEGV in dpx file handler.
+&gt; &gt;  * Fix a SEGV in malformed xwd file handler.
+&gt; &gt;  * Avoid a NULL pointer dereference in ps file handling.
+&gt; &gt;  * Fix a crash with corrupted viff file.
+&gt; &gt;  * Fix a NULL pointer dereference in wpg file handling.
+&gt; &gt;  * Do not continue on corrupted wpg file.
+&gt; &gt;  * Avoid an out of bound access in viff image.
+&gt; &gt;  * Avoid a heap buffer overflow in pdb file handling.
+&gt; &gt;  * Avoid an out of bound acess on malformed sun file.
+&gt; &gt;  * Avoid heap overflow in palm, pnm and xpm files.
+&gt; &gt;  * Fix heap overflow in quantum, palm and psd file.
+&gt; &gt;  * Fix handling of corrupted of psd, sun and xpm file.
+&gt; &gt;  * Fix corrupted (too many colors) psd file.
+&gt; &gt;  * Fix an out of bound acess in sun file.
+&gt; &gt;  * Fix handling of corrupted sun and wpg file.
+&gt; &gt;  * Fix heap overflow in pcx file, psd, pict and wpf files
+&gt; &gt;  
+&gt; &gt;    and DOS in xpm files.
+&gt; &gt;  
+&gt; &gt;  * Add additional PNM sanity checks.
+&gt; &gt;  * Avoid a crash to out of memory in magick/cache.c
+&gt; &gt;  * Fix a theorical out of bound access in magick/colormap-private.h
+&gt; &gt;  * Fix an out of bound access in palm file.
+&gt; &gt;  * Fixed throwing of exceptions in psd handling and fix a memory leak.
+&gt; &gt;  * Fixed boundary checks in DecodePSDPixels.
+&gt; &gt;  * Fix another out of bound problem in rle file.
+&gt; &gt;  * Fix crash due to corrupted dib file.
+&gt; &gt;  * Added checks to prevent overflow in rle file.
+&gt; &gt;  * Impose a limit of 10 million columns or rows in an input PNG
+&gt; &gt;  * Don't try to handle a "previous" image in the JNG decoder.
+&gt; &gt;  * Avoid a memory leak in quantum management.
+&gt; &gt;  * Avoid a crash in png coder.
+&gt; &gt;  * Thread limit should be at least 1 in order to be efficient.
+&gt; &gt;  * In psd file handling fixed parsing resource block and
+&gt; &gt;  
+&gt; &gt;    avoid a crash.
+&gt; &gt;  
+&gt; &gt;  * In cache fix usage of object after it has been destroyed.
+&gt; &gt;  * Avoid a memory leak in rle file handling.
+&gt; &gt;  * During identification of image do not fill memory
+&gt; &gt; 
+&gt; &gt; Patch queue is here:
+&gt; &gt; <a href="http://anonscm.debian.org/cgit/collab-maint/imagemagick.git/log/?h=debian-" rel="nofollow">http://anonscm.debian.org/cgit/collab-maint/imagemagick.git/log/?h=debian-</a>&gt; &gt; patches/6.8.9.9-4-for-upstream
+It has been quite a while this thread seems dead, hence wanted to ask if any 
+of the above mentioned security issue got CVE assigned or these are not 
+considered to get CVEs and to be fixed as it is ? 
+
+Regards,
+-- 
+Siddharth Sharma / Red Hat Product Security / Key ID : 0xD9F6489A      
+Fingerprint :  0x6F04C684 A49C E4CE 8148 E841 CD6F 8E55 D9F6 489A
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (820 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

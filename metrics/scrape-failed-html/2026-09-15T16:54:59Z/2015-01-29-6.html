@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVEs for Drupal contributed modules - January 2015</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2015/01/28/23">[&lt;thread-prev]</a> <a href="10">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAMYtjAqVfa_QgM5WjvG+gD5snNKp2p5RuGWn340XiGdT-D1AAg&#64;mail.gmail.com&gt;
+Date: Thu, 29 Jan 2015 09:24:55 +0100
+From: Pere Orga &lt;pere&#64;...a.cat&gt;
+To: kseifried&#64;...hat.com, oss-security&#64;...ts.openwall.com
+Subject: Re: CVEs for Drupal contributed modules - January 2015
+
+Hi again,
+
+In my previous email a CVE request was wrong. "SA-CONTRIB-2015-031 -
+GD Infinite Scroll - Open Redirect" should be discarded in favour of:
+
+SA-CONTRIB-2015-032 - Node Invite - Open Redirect
+<a href="https://www.drupal.org/node/2415899" rel="nofollow">https://www.drupal.org/node/2415899</a>
+
+Sorry for the confusion.
+
+Many thanks
+Pere Orga on behalf of the Drupal Security Team
+
+On Thu, Jan 29, 2015 at 12:12 AM, Pere Orga &lt;pere&#64;...a.cat&gt; wrote:
+&gt; Hi
+&gt;
+&gt; I would like to ask CVEs for the following advisories of Drupal
+&gt; contributed modules:
+&gt;
+&gt; SA-CONTRIB-2015-001 - OPAC - Cross-Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2403313" rel="nofollow">https://www.drupal.org/node/2403313</a>
+&gt;
+&gt; SA-CONTRIB-2015-002 - Course - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2403333" rel="nofollow">https://www.drupal.org/node/2403333</a>
+&gt;
+&gt; SA-CONTRIB-2015-003 - PHPlist Integration Module - SQL Injection
+&gt; <a href="https://www.drupal.org/node/2403343" rel="nofollow">https://www.drupal.org/node/2403343</a>
+&gt;
+&gt; SA-CONTRIB-2015-004 - Context - Open Redirect
+&gt; <a href="https://www.drupal.org/node/2403351" rel="nofollow">https://www.drupal.org/node/2403351</a>
+&gt;
+&gt; SA-CONTRIB-2015-005 - WikiWiki - SQL injection
+&gt; <a href="https://www.drupal.org/node/2403375" rel="nofollow">https://www.drupal.org/node/2403375</a>
+&gt;
+&gt; SA-CONTRIB-2015-006 - Cloudwords for Multilingual Drupal - XSS
+&gt; SA-CONTRIB-2015-006 - Cloudwords for Multilingual Drupal - CSRF
+&gt; <a href="https://www.drupal.org/node/2403447" rel="nofollow">https://www.drupal.org/node/2403447</a>
+&gt;
+&gt; SA-CONTRIB-2015-007 - Htaccess - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2403445" rel="nofollow">https://www.drupal.org/node/2403445</a>
+&gt;
+&gt; SA-CONTRIB-2015-008 - Batch Jobs - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2403451" rel="nofollow">https://www.drupal.org/node/2403451</a>
+&gt;
+&gt; SA-CONTRIB-2015-009 - Linkit - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2403459" rel="nofollow">https://www.drupal.org/node/2403459</a>
+&gt;
+&gt; SA-CONTRIB-2015-010 - Log Watcher - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2403463" rel="nofollow">https://www.drupal.org/node/2403463</a>
+&gt;
+&gt; SA-CONTRIB-2015-011 - Todo Filter - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2403465" rel="nofollow">https://www.drupal.org/node/2403465</a>
+&gt;
+&gt; SA-CONTRIB-2015-012 - Jammer - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2403487" rel="nofollow">https://www.drupal.org/node/2403487</a>
+&gt;
+&gt; SA-CONTRIB-2015-013 - Field Display Label - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2403489" rel="nofollow">https://www.drupal.org/node/2403489</a>
+&gt;
+&gt; SA-CONTRIB-2015-014 - Wishlist - XSS
+&gt; SA-CONTRIB-2015-014 - Wishlist - CSRF
+&gt; <a href="https://www.drupal.org/node/2407313" rel="nofollow">https://www.drupal.org/node/2407313</a>
+&gt;
+&gt; SA-CONTRIB-2015-015 - Term Merge - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2407315" rel="nofollow">https://www.drupal.org/node/2407315</a>
+&gt;
+&gt; SA-CONTRIB-2015-016 - Tadaa! - CSRF
+&gt; SA-CONTRIB-2015-016 - Tadaa! - Open Redirect
+&gt; <a href="https://www.drupal.org/node/2407321" rel="nofollow">https://www.drupal.org/node/2407321</a>
+&gt;
+&gt; SA-CONTRIB-2015-017 - Room Reservations - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2407329" rel="nofollow">https://www.drupal.org/node/2407329</a>
+&gt;
+&gt; SA-CONTRIB-2015-018 - Video - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2407341" rel="nofollow">https://www.drupal.org/node/2407341</a>
+&gt;
+&gt; SA-CONTRIB-2015-019 - Ubercart Currency Conversion - Open Redirect
+&gt; <a href="https://www.drupal.org/node/2407347" rel="nofollow">https://www.drupal.org/node/2407347</a>
+&gt;
+&gt; SA-CONTRIB-2015-020 - Contact Form Fields - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2407357" rel="nofollow">https://www.drupal.org/node/2407357</a>
+&gt;
+&gt; SA-CONTRIB-2015-021 - Content Analysis - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2407395" rel="nofollow">https://www.drupal.org/node/2407395</a>
+&gt;
+&gt; SA-CONTRIB-2015-022 - nodeauthor - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2407401" rel="nofollow">https://www.drupal.org/node/2407401</a>
+&gt;
+&gt; SA-CONTRIB-2015-023 - Classified Ads - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2411527" rel="nofollow">https://www.drupal.org/node/2411527</a>
+&gt;
+&gt; SA-CONTRIB-2015-024 - Alfresco - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2411523" rel="nofollow">https://www.drupal.org/node/2411523</a>
+&gt;
+&gt; SA-CONTRIB-2015-025 - Patterns - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2411539" rel="nofollow">https://www.drupal.org/node/2411539</a>
+&gt;
+&gt; SA-CONTRIB-2015-026 - Taxonews - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2411573" rel="nofollow">https://www.drupal.org/node/2411573</a>
+&gt;
+&gt; SA-CONTRIB-2015-027 - Quizzler - Cross Site Scripting (XSS)
+&gt; <a href="https://www.drupal.org/node/2411579" rel="nofollow">https://www.drupal.org/node/2411579</a>
+&gt;
+&gt; SA-CONTRIB-2015-028 - Shibboleth Authentication - Cross Site Request
+&gt; Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2411737" rel="nofollow">https://www.drupal.org/node/2411737</a>
+&gt;
+&gt; SA-CONTRIB-2015-029 - Corner - Cross Site Request Forgery (CSRF)
+&gt; <a href="https://www.drupal.org/node/2411741" rel="nofollow">https://www.drupal.org/node/2411741</a>
+&gt;
+&gt; SA-CONTRIB-2015-030 - Amazon AWS - Access bypass
+&gt; <a href="https://www.drupal.org/node/2415873" rel="nofollow">https://www.drupal.org/node/2415873</a>
+&gt;
+&gt; SA-CONTRIB-2015-031 - GD Infinite Scroll - XSS
+&gt; SA-CONTRIB-2015-031 - GD Infinite Scroll - CSRF
+&gt; SA-CONTRIB-2015-031 - GD Infinite Scroll - Open Redirect
+&gt; <a href="https://www.drupal.org/node/2415885" rel="nofollow">https://www.drupal.org/node/2415885</a>
+&gt;
+&gt; SA-CONTRIB-2015-032 - Node Invite - XSS
+&gt; SA-CONTRIB-2015-032 - Node Invite - CSRF
+&gt; <a href="https://www.drupal.org/node/2415899" rel="nofollow">https://www.drupal.org/node/2415899</a>
+&gt;
+&gt; SA-CONTRIB-2015-033 - Certify - Access bypass
+&gt; SA-CONTRIB-2015-033 - Certify - Information disclosure
+&gt; <a href="https://www.drupal.org/node/2415947" rel="nofollow">https://www.drupal.org/node/2415947</a>
+&gt;
+&gt;
+&gt; Many thanks
+&gt; Pere Orga on behalf of the Drupal Security Team
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

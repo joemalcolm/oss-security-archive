@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request for OpenSSH vulnerability - authentication limits bypass</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="7">[&lt;thread-prev]</a> <a href="13">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150723125816.13ED03321FC&#64;smtpvbsrv1.mitre.org&gt;
+Date: Thu, 23 Jul 2015 08:58:16 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: mancha1&#64;...o.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com, isowarez.isowarez.isowarez&#64;...glemail.com, djm&#64;...drot.org
+Subject: Re: CVE Request for OpenSSH vulnerability - authentication limits bypass
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Our message was written from the perspective that everyone already
+understood what the patch does, and to start from there in defining
+what CVE-2015-5600 means.
+
+&gt; if the
+&gt; devices in the supplied client list all differ, the behavior is
+&gt; unchanged pre and post patch:
+
+Yes; however, because no server supports an arbitrarily large number
+of different KbdInteractiveDevices, a client that wishes to launch an
+effective attack with an arbitrarily large number must use
+duplication, as in the original example with 10000 instances of the
+pam device. Disallowing all duplication is one way to prevent this
+specific "arbitrarily large number" scenario. As we suggested in the
+iahad example, disallowing all duplication might break somebody's use
+case. (This is just theoretical; we haven't heard any reports of a
+problem.) Even if the patch is revised to allow a small amount of
+duplication, the definition of CVE-2015-5600 will stay the same.
+
+&gt; The difference in behavior can be observed when the list contains
+&gt; repeats:
+&gt; 
+&gt; -oKbdInteractiveDevices="snap,snap,snap"
+&gt; 
+&gt; Pre-patch the above would query the snap device three times per userauth
+&gt; request while post-patch only once.
+
+Yes; "the client shouldn't be able to specify an arbitrarily large
+number of KbdInteractiveDevices and be entitled to have the server
+cooperate" means that the vulnerable behavior was the server's
+decision to cooperate with the client and execute a piece of code 3
+times (or, more importantly, 10000 times), when a more reasonable
+behavior is to execute that piece of code only once.
+
+&gt; So, your hypothetical of:
+&gt; 
+&gt; -oKbdInteractiveDevices="krb5,krb6,krb7,krb8,krb9,krb10,krb11"
+&gt; 
+&gt; would work the same before and after the fix. Each of the seven listed
+&gt; devices would get queried once per userauth request. Assuming a default
+&gt; maxauth of 6, that means a total of 42 device queries before the
+&gt; connection gets severed.
+
+What we are saying is that we don't consider that specific behavior,
+after the fix, to be a separate vulnerability that requires a separate
+CVE ID. It is possible for someone to make an argument that the "42
+device queries" behavior is inconsistent with the documentation and
+that the connection must be severed after 6 device queries. Although
+we currently don't agree with that argument, we consider the argument
+somewhat reasonable. That's why we chose to explicitly mention the
+case of a legitimate list of seven devices, and provide our
+perspective on whether we would support a second CVE request based on
+a claim of an incomplete fix.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVsOQKAAoJEKllVAevmvmsdPEH/iDAntsGjUOC44KyKBJlewLW
+K1Biykxtha0x3SK9GsM9bLBx+nO0fNJHKk2z5BUY7TxiDF9hGYcbD20XAmhgl80g
+fWBai2bOY9zIv+oL6nDajDJznQGxvoyQsD/V8UbA/dVWOA45i7Xeg8U5CPnQl7Rf
+VLHjd57U4+pyctAKe4jQ1lneQZoG8QQLnh20VVMBbxIWVDMk0m6sVIGiQIgXdSCM
+19+67xU4MDcSGiV/ya32nArRr4csDkQMfCbzkuT4nQ4BQl/hATTKhz6dSRAScBZT
+grPv0CFvFAsX1PiTNBms7zi0tXWRYxQzHVU0hZxbf1SjL0jkfYuCwGfOwJZP7mQ=
+=ZK9C
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

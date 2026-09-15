@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request - NodeBB Persistent XSS through Markdown</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150410213841.D3FF26C000C&#64;smtpvmsrv1.mitre.org&gt;
+Date: Fri, 10 Apr 2015 17:38:41 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: admin&#64;...bh.am
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request - NodeBB Persistent XSS through Markdown
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; Could I please get a CVE for a Persistent XSS flaw found in NodeBB versions
+&gt; &lt; 0.70. The Github repository for this project can be found here:
+&gt; <a href="https://github.com/NodeBB/NodeBB" rel="nofollow">https://github.com/NodeBB/NodeBB</a>.
+&gt; 
+&gt; The vulnerability allows for an attacker to insert malicious links within
+&gt; forum posts and threads - that lead to the execution of attacker-defined
+&gt; JavaScript on click. This vulnerability not only affects NodeBB but also
+&gt; affects any project which uses the markdown-it project before 4.1.0.
+
+We have done a limited amount of research on this, and currently feel
+that the last sentence above doesn't precisely describe the situation.
+Instead, we feel that there are two independent vulnerabilities.
+
+&gt; NodeBB -
+&gt; <a href="https://github.com/julianlam/nodebb-plugin-markdown/commit/ab7f2684750882f7baefbfa31db8d5aac71e6ec3" rel="nofollow">https://github.com/julianlam/nodebb-plugin-markdown/commit/ab7f2684750882f7baefbfa31db8d5aac71e6ec3</a>
+
+It appears that, in this single commit, NodeBB had both of these changes:
+
+  1. the Markdown component was changed from remarkable to markdown-it
+
+  2. a workaround was added for the markdown-it vulnerability involving
+     data: URLs
+
+Based on references such as:
+
+  <a href="https://www.reddit.com/r/javascript/comments/2qa0hp/markdown_parser_done_right_100_commonmark_support/" rel="nofollow">https://www.reddit.com/r/javascript/comments/2qa0hp/markdown_parser_done_right_100_commonmark_support/</a>
+  <a href="http://stackoverflow.com/questions/1690601/markdown-and-xss" rel="nofollow">http://stackoverflow.com/questions/1690601/markdown-and-xss</a>
+
+we think the situation is:
+
+  A. A possibly prevailing opinion is that there is no requirement
+     that an implementation of the Markdown language have any
+     functionality related to preventing XSS attacks. The rationale is
+     that XSS prevention is arguably a responsibility of a code layer
+     than occurs after Markdown is converted to HTML.
+
+  B. remarkable is an implementation of the Markdown language that, by
+     design, intentionally chose not to try to prevent XSS. Therefore,
+     there cannot be a CVE ID for XSS in remarkable.
+
+  C. markdown-it is another implementation of the Markdown language
+     that has a substantial amount of code in common with remarkable.
+     (For purposes of this CVE request, the reasons behind the similar
+     and/or dissimilar code are not really relevant.)
+
+  D. markdown-it made a choice to try to prevent some types of XSS
+     attacks, e.g., by blocking javascript: URLs. This might be
+     considered an advertised security property. Then, it was reported
+     that roughly similar types of attacks with data: URLs were not
+     prevented. This can be considered an incomplete list of dangerous
+     protocols. The markdown-it maintainer made a commit that might be
+     considered a required security update. Thus, it's at least
+     plausible that an associated CVE should exist.
+
+  E. The markdown-it maintainer also added a comment suggesting that
+     XSS prevention was not intended to cover all cases ("This
+     validator does not pretent to functionality of full weight
+     sanitizers. It's a tradeoff between default security, simplicity
+     and usability. If you need different setup - override validator
+     method as you wish. Or replace it with dummy function and use
+     external sanitizer."). This potentially can become a major
+     complication for CVE assignment. Specifically, if the vendor is
+     specifically documenting that XSS prevention is intentionally
+     incomplete, we do not think that every future XSS report can have
+     a CVE ID. This raises the question of: if there may not be CVE ID
+     assignments in the future, is it actually useful to have a CVE ID
+     assignment for the data: issue.
+
+  F. Regardless of the status of markdown-it CVEs, there is a
+     vulnerability in versions of NodeBB before
+     ab7f2684750882f7baefbfa31db8d5aac71e6ec3, because these versions
+     apparently omitted both of these:
+
+     -- a Markdown language implementation that was capable of
+        preventing XSS with either javascript: URLs or data: URLs
+
+     -- a secondary code layer that was capable of preventing XSS with
+        either javascript: URLs or data: URLs
+
+Our decision, at least for now, is to have one CVE ID for D and one
+CVE ID for F. Specifically:
+
+  - item D
+    
+    fix: <a href="https://github.com/markdown-it/markdown-it/commit/f76d3beb46abd121892a2e2e5c78376354c214e3" rel="nofollow">https://github.com/markdown-it/markdown-it/commit/f76d3beb46abd121892a2e2e5c78376354c214e3</a>
+
+    short description: an earlier version of markdown-it blocked
+                       javascript: but not data:
+
+    Use CVE-2015-3295. Note that this CVE is not applicable to any
+    version of NodeBB. There was never a version of NodeBB that used
+    markdown-it with javascript: blocking and no data: blocking.
+
+ 
+  - item F
+
+    fix: <a href="https://github.com/julianlam/nodebb-plugin-markdown/commit/ab7f2684750882f7baefbfa31db8d5aac71e6ec3" rel="nofollow">https://github.com/julianlam/nodebb-plugin-markdown/commit/ab7f2684750882f7baefbfa31db8d5aac71e6ec3</a>
+
+    short description: an earlier version of NodeBB had no
+                       protection against either javascript: or data:
+                       XSS attacks
+
+    Use CVE-2015-3296.
+
+
+It's possible that other NodeBB XSS issues will be reported in the
+future, and will have other CVE IDs. NodeBB is ultimately responsible
+for an XSS prevention strategy, regardless of whether it involves
+incorporating different third-party HTML sanitization components or
+their own unique code. In other words, we don't feel that the NodeBB
+security policy could be "we block only the types of XSS attacks that
+happen to be covered by markdown-it." At the moment, we have not heard
+of any NodeBB XSS attack that isn't addressed by the
+ab7f2684750882f7baefbfa31db8d5aac71e6ec3 patch.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVKEGJAAoJEKllVAevmvms+FoH/R3yE8vdw8RIy2d9G/qSHvQo
+bpL3W/U4a/gehD7j6VuDS1az5zbwBVBz/zC+k2QmsQf3PcdJqj/FJB1XOtIiQ8kS
+5ln6wOuKWqai0tQFJwKnujX2erZEDlevrGxF+iF/FGm+91H+lWkk40iWfZ9C4Glz
+bmc2HEKmmJhKNLSDjP1714peFJx8tfgJGo1u9Fxo1oo7JngMmEzINzG5U1C+tqCT
+4iZPfFS8k3+OtcxNO6VdsOLvb6QfQapbndQ9DjseBX3LGWMxi1bImb2StzFkG6Hk
+znb19grc2HgWjvQJ/ZC/lsYweNjfktgZKS8TDG7iHHZwOiGPoqV0VE+Pv3iqwmg=
+=fP1z
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

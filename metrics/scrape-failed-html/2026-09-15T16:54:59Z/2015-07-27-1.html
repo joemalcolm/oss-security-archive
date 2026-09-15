@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Remote file upload vulnerability &amp; SQLi in wordpress plugin
+ wp-powerplaygallery v3.3</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/07/26/3">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/07/20/1">[&lt;thread-prev]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-id: &lt;7A32AB08-3039-4F44-BD53-9680109B79C4&#64;me.com&gt;
+Date: Mon, 27 Jul 2015 00:42:59 -0400
+From: "Larry W. Cashdollar" &lt;larry0&#64;...com&gt;
+To: cve-assign&#64;...re.org
+Cc: Open Source Security &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: Remote file upload vulnerability &amp; SQLi in wordpress plugin
+ wp-powerplaygallery v3.3
+
+
+&gt; On Jul 20, 2015, at 10:58 AM, cve-assign&#64;...re.org wrote:
+&gt; 
+&gt; As far as we can tell, the issue you are reporting (when a current PHP
+&gt; version is used) is that the attacker can create a directory anywhere
+&gt; with "_uploadfolder" at the end of its name. This behavior isn't
+&gt; required for achieving PHP code execution, and seems unlikely to help
+&gt; with other important attacks. It might waste disk space on a small
+&gt; filesystem, and might allow an attacker to store files outside of
+&gt; wp-content (e.g., in a directory that wouldn't be checked during a
+&gt; user's post-exploitation cleanup). If so, then this is an issue that
+&gt; can be included in CVE, but it seems marginal.
+&gt; 
+
+It is marginal, but I thought note worthy and decided to mention it in my advisory.
+
+&gt; For anyone who is interested in reporting these types of low-priority
+&gt; side issues: it would be helpful to explicitly state that the issue is
+&gt; independently relevant and could be independently fixed.
+
+Yes, good point.
+
+&gt; 
+&gt; 
+&gt;&gt; 2. Arbitrary file uploads to a path in the web root directory:
+&gt;&gt; Lines 138-160 of uploads.php don't verify what types of files are allowed or where they should be placed:
+&gt; 
+&gt; We didn't completely understand this part. It seems that the essence
+&gt; of the problem is that the product could reject unsafe file types such
+&gt; as .php files, but doesn't do that. That can have one CVE ID. Is there
+&gt; also a problem with "where they should be placed" within this part of
+&gt; the code? The files seem to be placed in a *_uploadfolder/big/
+&gt; directory, which is a correct directory for an upload of an image
+&gt; file.
+&gt; 
+&gt; Are you also reporting any authorization problem? Is upload.php
+&gt; responsible for verifying that the client user has the upload_files
+&gt; capability, regardless of what file type is being uploaded?
+&gt; 
+
+It should filter out what file types are allowed for uploading at least.  I know I wouldn’t want arbitrary images uploaded to my Wordpress instance from users who aren’t logged in.
+
+
+&gt; 
+&gt;&gt; albumid needs to be a numeric value matching an existing album number, 1 is probably a good start
+&gt;&gt; but you can enumerate these by using curl, and looking for redirect 301 responses:
+&gt; 
+&gt; Why does the album number need to exist? Wasn't the mkdir supposed to
+&gt; create the directory for an arbitrary $_REQUEST['albumid'] value?
+
+The directory creation code in upload.php doesn’t create the subdirectories big and thumb.   These directories are added when a 
+new album is created through normal use of the plugin.  So the file upload will fail if the album doesn’t exist.
+
+
+From power_play.php:
+
+263                         if( !is_dir($album_dir . '/big') )
+264                                 mkdir($album_dir . '/big');
+265                         if( !is_dir($album_dir . '/thumb') )
+266                                 mkdir($album_dir . '/thumb');
+
+
+I hope I answered your questions.
+
+Thanks!
+Larry
+
+&gt; 
+&gt; - -- 
+&gt; CVE assignment team, MITRE CVE Numbering Authority
+&gt; M/S M300
+&gt; 202 Burlington Road, Bedford, MA 01730 USA
+&gt; [ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+&gt; -----BEGIN PGP SIGNATURE-----
+&gt; Version: GnuPG v1.4.14 (SunOS)
+&gt; 
+&gt; iQEcBAEBAgAGBQJVrQv+AAoJEKllVAevmvmsO8AH/3hMf5MDgzozxwptBSXnBrVv
+&gt; 8gjPcUDIDop1KqM5ZDAeC8X+tp/oQzgtN9ZPqL2mkyYWdhs3Rm+Pv/+VlFIAKjTC
+&gt; NbrL9LsuaVe9UrK2KL0zzQ0okyXOEeDGz2Myb5YrGVvshNMTmYcGOyL4oP/IiZmy
+&gt; 8XZCM6QJolEiMjtX2w1J9ZdlBV7yRh+d4ie/XEdmvcPBEWdvmYt/UxTs8guZ1PZM
+&gt; 8PBEUz8sTdI94Cl0mW0DRGZLzZ/T9tOvHq/Gxl0+wb+khRzWJkfPL8zuVjoi1P5x
+&gt; ZFQrcWkK6pyQCYimLLRTQs6x6MY8NdKdlUQ0t4hljg1UEVm4QSYiab9qBGsDVwM=
+&gt; =94ua
+&gt; -----END PGP SIGNATURE-----
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

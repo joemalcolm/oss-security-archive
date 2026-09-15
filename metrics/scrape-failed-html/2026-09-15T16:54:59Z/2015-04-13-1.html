@@ -1,0 +1,487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - net-snmp snmp_pdu_parse() function incompletely initializaition vulnerability</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/04/12/2">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/04/16/15">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAPcZBq7YrwpZDJNZ58yQjcYHTZ43qoQWCoUAet9Eb7Dn2sruBQ&#64;mail.gmail.com&gt;
+Date: Mon, 13 Apr 2015 13:44:04 +0800
+From: 罗大龙 &lt;luodalongde&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: net-snmp snmp_pdu_parse() function incompletely initializaition vulnerability
+
+HI there,
+
+
+
+Greeting! This is Qinghao Tang from QIHU 360  company, China. I am a
+security researcher there.
+
+I'm writing to apply for a CVE ID, for a 0day vulnerability in net-snmp.
+Please refer to below report.
+
+
+
+
+
+[requester info]
+
+         name: Qinghao Tang
+
+         company: QIHU 360  company, China
+
+         email: tangqinghao&#64;....cn
+
+
+
+[vendor info]
+
+         name: net-snmp
+
+         email: net-snmp-users&#64;...ts.sourceforge.net
+
+         website: <a href="http://www.net-snmp.org/" rel="nofollow">http://www.net-snmp.org/</a>
+
+
+
+[vulnerable net-snmp version]
+
+All version
+
+
+
+[vulnerability Description]
+
+Incompletely initialized vulnerability exists in the function
+‘snmp_pdu_parse()’ of ‘snmp_api.c', and remote attackers can cause memory
+leak, DOS and possible command executions by sending malicious packets.
+
+Since the vulnerability occurs when parsing the packets, it could have
+broader impacts. Currently we have find 12 remote DOS methods in the latest
+version of net-snmp client software. I think this vulnerability could cause
+even more severe risks.
+
+
+
+[vulnerability resaon]
+
+In the function ‘snmp_pdu_parse()’ of ‘snmp_api.c', the structure of
+‘netsnmp_variable_list is initialized incompletely, thus the malicious
+packets can cause ‘snmp_parse_var_op()’ returning ERROR. When using the
+uninitialized data（type，val，name_loc，buf） in structure ‘
+netsnmp_variable_list’, it will cause memory leak, DOS and possible command
+executions.
+
+
+
+int
+
+snmp_pdu_parse(netsnmp_pdu *pdu, u_char * data, size_t * length)
+
+{
+
+                   ….
+
+netsnmp_variable_list *vptemp;
+
+        vptemp = (netsnmp_variable_list *) malloc(sizeof(*vptemp));
+
+        if (NULL == vptemp) {
+
+            return -1;
+
+        }
+
+        if (NULL == vp) {
+
+            pdu-&gt;variables = vptemp;
+
+        } else {
+
+            vp-&gt;next_variable = vptemp;
+
+        }
+
+        vp = vptemp;
+
+
+
+        vp-&gt;next_variable = NULL;
+
+        vp-&gt;val.string = NULL;
+
+        vp-&gt;name_length = MAX_OID_LEN;
+
+        vp-&gt;name = NULL;
+
+        vp-&gt;index = 0;
+
+        vp-&gt;data = NULL;
+
+        vp-&gt;dataFreeHook = NULL;
+
+        DEBUGDUMPSECTION("recv", "VarBind");
+
+        data = snmp_parse_var_op(data, objid, &amp;vp-&gt;name_length, &amp;vp-&gt;type,
+
+                                 &amp;vp-&gt;val_len, &amp;var_val, length);
+
+        if (data == NULL)
+
+            return -1;
+
+                  ……
+
+}
+
+typedef struct variable_list netsnmp_variable_list;
+
+struct variable_list {
+
+   /** NULL for last variable */
+
+   struct variable_list *next_variable;
+
+   /** Object identifier of variable */
+
+   oid            *name;
+
+   /** number of subid's in name */
+
+   size_t          name_length;
+
+   /** ASN type of variable */
+
+   u_char          type;
+
+   /** value of variable */
+
+    netsnmp_vardata val;
+
+   /** the length of the value to be copied into buf */
+
+   size_t          val_len;
+
+   /** 90 percentile &lt; 24. */
+
+   oid             name_loc[MAX_OID_LEN];
+
+   /** 90 percentile &lt; 40. */
+
+   u_char          buf[40];
+
+   /** (Opaque) hook for additional data */
+
+   void           *data;
+
+   /** callback to free above */
+
+   void            (*dataFreeHook)(void *);
+
+   int             index;
+
+};
+
+
+
+typedef union {
+
+   long           *integer;
+
+   u_char         *string;
+
+   oid            *objid;
+
+   u_char         *bitstring;
+
+   struct counter64 *counter64;
+
+#ifdef OPAQUE_SPECIAL_TYPES
+
+   float          *floatVal;
+
+   double         *doubleVal;
+
+   /*
+
+    * t_union *unionVal;
+
+    */
+
+#endif                          /* OPAQUE_SPECIAL_TYPES */
+
+} netsnmp_vardata;
+
+
+
+
+
+
+
+[crash info from /var/log/messages]
+
+sprint_realloc_integer
+
+snmpget:0x290a3
+
+overview:Feb 22 11:37:48 localhost kernel: snmpget[24260]: segfault at 0 ip
+00007f00cbff20a3 sp 00007fff7bf08620 error 4 in
+libnetsnmp.so.30.0.3[7f00cbfc9000+ac000]
+
+
+
+
+
+asn_realloc_rbuild_int
+
+snmpget:0x4ac0a
+
+overview:Feb 22 14:38:10 localhost kernel: snmpget[26825]: segfault at 0 ip
+00007f2cbc089c0a sp 00007fff294221f0 error 4 in
+libnetsnmp.so.30.0.3[7f2cbc03f000+ac000]
+
+
+
+asn_realloc_rbuild_unsigned_int
+
+snmpget:0x4a5e7
+
+overview:Feb 22 18:06:53 localhost kernel: snmpget[29948]: segfault at 0 ip
+00007f6bb7a8e5e7 sp 00007fffc6863bc0 error 4 in
+libnetsnmp.so.30.0.3[7f6bb7a44000+ac000]
+
+
+
+asn_realloc_rbuild_unsigned_int64
+
+snmpget:0x49832
+
+overview:Feb 22 20:00:22 localhost kernel: snmpget[31802]: segfault at 0 ip
+00007f93cb91d832 sp 00007fff7b93f970 error 4 in
+libnetsnmp.so.30.0.3[7f93cb8d4000+ac000]
+
+
+
+sprint_realloc_counter
+
+snmpget:0x2877b
+
+overview:Feb 23 09:31:45 localhost kernel: snmpget[44108]: segfault at 0 ip
+00007f1e2fd8477b sp 00007fffe0abf9a0 error 4 in
+libnetsnmp.so.30.0.3[7f1e2fd5c000+ac000]
+
+
+
+sprint_realloc_uinteger
+
+snmpget:0x28c30
+
+overview:Feb 13 09:54:03 localhost kernel: snmpget[64595]: segfault at 0 ip
+00007f29f970dc30 sp 00007fff8c89a0e0 error 4 in
+libnetsnmp.so.30.0.3[7f29f96e5000+ac000]
+
+
+
+
+
+printI64
+
+snmpget:0x5273e
+
+overview:Feb 13 10:52:42 localhost kernel: snmpget[3863]: segfault at 0 ip
+00007fe314e4773e sp 00007fff782fcba0 error 4 in
+libnetsnmp.so.30.0.3[7fe314df5000+ac000]
+
+
+
+sprint_realloc_gauge
+
+snmpget:0x28a73
+
+overview:Feb 13 11:24:17 localhost kernel: snmpget[4879]: segfault at 0 ip
+00007fb3f0852a73 sp 00007fffc43f7b10 error 4 in
+libnetsnmp.so.30.0.3[7fb3f082a000+ac000]
+
+
+
+sprint_realloc_timeticks
+
+snmpget:0x29277
+
+overview:Feb 13 12:10:08 localhost kernel: snmpget[6623]: segfault at 0 ip
+00007f171c1ad277 sp 00007fff9fad9720 error 4 in
+libnetsnmp.so.30.0.3[7f171c184000+ac000]
+
+
+
+printU64
+
+snmpget:0x52675
+
+overview:Feb 13 13:48:11 localhost kernel: snmpget[9878]: segfault at 0 ip
+00007fc3b04ed675 sp 00007fff4d0a3cb0 error 4 in
+libnetsnmp.so.30.0.3[7fc3b049b000+ac000]
+
+
+
+sprint_realloc_float
+
+snmpget:0x29c57
+
+overview:Feb 18 23:31:41 localhost kernel: snmpget[57217]: segfault at 0 ip
+00007f625c50ac57 sp 00007fffe60ebdb0 error 4 in
+libnetsnmp.so.30.0.3[7f625c4e1000+ac000]
+
+
+
+asn_realloc_rbuild_signed_int64
+
+snmpget:0x4934d
+
+overview:Feb 21 18:21:13 localhost kernel: snmpget[9149]: segfault at 0 ip
+00007f431746e34d sp 00007fffbcac3ed0 error 4 in
+libnetsnmp.so.30.0.3[7f4317425000+ac000]
+
+
+
+
+
+[patch]
+
+--- snmp_api.c 2014-12-09 04:23:22.000000000 +0800
+
++++ snmp_api.c.patch     2015-03-04 10:44:03.896001377 +0800
+
+@@ -4518,6 +4518,9 @@
+
+         vp-&gt;index = 0;
+
+         vp-&gt;data = NULL;
+
+         vp-&gt;dataFreeHook = NULL;
+
++       vp-&gt;type = 0;
+
++       vp-&gt;name_loc = 0;
+
++       vp-&gt;buf = 0;
+
+         DEBUGDUMPSECTION("recv", "VarBind");
+
+         data = snmp_parse_var_op(data, objid, &amp;vp-&gt;name_length, &amp;vp-&gt;type,
+
+                                  &amp;vp-&gt;val_len, &amp;var_val, length)
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

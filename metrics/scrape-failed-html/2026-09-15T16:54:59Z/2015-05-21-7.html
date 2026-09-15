@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2015-1833 (Jackrabbit WebDAV XXE vulnerability)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="6">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;555DA644.8080908&#64;greenbytes.de&gt;
+Date: Thu, 21 May 2015 11:32:52 +0200
+From: Julian Reschke &lt;julian.reschke&#64;...enbytes.de&gt;
+To: announce&#64;...che.org, announce&#64;...krabbit.apache.org, 
+ "dev&#64;...krabbit.apache.org" &lt;dev&#64;...krabbit.apache.org&gt;,
+ 0ang3el&#64;...il.com, "security&#64;...che.org" &lt;security&#64;...che.org&gt;, 
+ oss-security&#64;...ts.openwall.com, bugtraq&#64;...urityfocus.com
+Subject: CVE-2015-1833 (Jackrabbit WebDAV XXE vulnerability)
+
+Dear readers,
+
+we just fixed a recently reported vulnerability in Apache Jackrabbit's 
+WebDAV module; see
+
+- the attached CVE report
+
+- patches for all currently maintained Jackrabbit branches
+
+We just released Jackrabbit 2.10.1 (see below) and we'll get to the 
+other branches shortly. Check the CVE for details about what to do for 
+earlier branches if you can't wait for a release.
+
+Thanks to &lt;0ang3el&#64;...il.com&gt; for bringing this to our attention and 
+giving valuable feedback while we investigated the problem.
+
+Thanks and best regards, Julian
+
+-------- Forwarded Message --------
+Subject: [ANNOUNCE] Apache Jackrabbit 2.10.1 released
+Date: Thu, 21 May 2015 11:22:04 +0200
+From: Marcel Reutegger &lt;mreutegg&#64;...che.org&gt;
+Reply-To: users&#64;...krabbit.apache.org
+To: announce&#64;...che.org, announce&#64;...krabbit.apache.org, Jackrabbit 
+Developers &lt;dev&#64;...krabbit.apache.org&gt;, Jackrabbit Users 
+&lt;users&#64;...krabbit.apache.org&gt;, 0ang3el 0ang3el &lt;0ang3el&#64;...il.com&gt;, 
+security&#64;...che.org, oss-security&#64;...ts.openwall.com, 
+bugtraq&#64;...urityfocus.com
+
+The Apache Jackrabbit community is pleased to announce the release of
+Apache Jackrabbit 2.10.1. This release fixes an important security issue in
+the jackrabbit-webdav module reported by Mikhail Egorov.
+
+The release is available for download at:
+
+  <a href="http://jackrabbit.apache.org/downloads.html" rel="nofollow">http://jackrabbit.apache.org/downloads.html</a>
+
+See the full release notes below for details about this release.
+
+Release Notes -- Apache Jackrabbit -- Version 2.10.1
+
+Introduction
+------------
+
+This is Apache Jackrabbit(TM) 2.10.1, a fully compliant implementation 
+of the
+Content Repository for Java(TM) Technology API, version 2.0 (JCR 2.0) as
+specified in the Java Specification Request 283 (JSR 283).
+
+Apache Jackrabbit 2.10.1 is a patch release that contains fixes and
+improvements over Jackrabbit 2.10. Jackrabbit 2.10.x releases are considered
+stable and targeted for production use.
+
+Security advisory (JCR-3883 / CVE-2015-1833)
+--------------------------------------------
+
+This release fixes an important security issue in the jackrabbit-webdav 
+module
+reported by Mikhail Egorov.
+
+When processing a WebDAV request body containing XML, the XML parser can be
+instructed to read content from network resources accessible to the host,
+identified by URI schemes such as "http(s)" or  "file". Depending on the
+WebDAV request, this can not only be used to trigger internal network
+requests, but might also be used to insert said content into the request,
+potentially exposing it to the attacker and others (for instance, by 
+inserting
+said content in a WebDAV property value using a PROPPATCH request). See also
+IETF RFC 4918, Section 20.6.
+
+Users of the jackrabbit-webdav module are advised to immediately update the
+module to this release or disable WebDAV access to the repository. Users
+on earlier versions of Jackrabbit who are unable to upgrade to 2.10.1 should
+apply the fix to the corresponding 2.x branch or disable WebDAV access until
+official releases of those earlier versions are available. Patches for 2.x
+branches are attached to the JIRA issue.
+
+Changes since Jackrabbit 2.10.0
+-------------------------------
+
+Bug fixes
+
+   [JCR-3853] JCR2SPI: Load ac provider resource
+   [JCR-3871] POI Vulnerabilities
+   [JCR-3872] Config DTD does not declare ProtectedItemImporter elements
+   [JCR-3873] CachingDataStore not safe against crashes, corrupted
+uploads file will prevent system startup
+   [JCR-3876] POM dependency to jackrabbit-data test-jar is not test-scoped
+   [JCR-3878] Fix test case failure in jackrabbit-data
+   [JCR-3883] Jackrabbit WebDAV bundle susceptible to XXE/XEE attack
+
+Improvements
+
+   [JCR-3864] CachingDatastore -cache file sizes to save remote call to
+remote datastore( S3DS)
+   [JCR-3868] Adapt TestCaseBase.java to test for FileDatastore
+   [JCR-3869] CachingDataStore for SAN or NFS mounted storage
+   [JCR-3879] Remove contention in AsyncUploadCache to improve performance
+   [JCR-3881] Change CachingFDS configuration properties
+
+New Features
+
+   [JCR-3836] Allow to get an Authorizable of a given type
+
+Sub-tasks
+
+   [JCR-3837] Add AuthorizableTypeException in user security API package
+
+In addition to the above-mentioned changes, this release contains
+all the changes included up to the Apache Jackrabbit 2.10.0 release.
+
+For more detailed information about all the changes in this and other
+Jackrabbit releases, please see the Jackrabbit issue tracker at
+
+     <a href="https://issues.apache.org/jira/browse/JCR" rel="nofollow">https://issues.apache.org/jira/browse/JCR</a>
+
+Release Contents
+----------------
+
+This release consists of a single source archive packaged as a zip file.
+The archive can be unpacked with the jar tool from your JDK installation.
+See the README.txt file for instructions on how to build this release.
+
+The source archive is accompanied by SHA1 and MD5 checksums and a PGP
+signature that you can use to verify the authenticity of your download.
+The public key used for the PGP signature can be found at
+<a href="https://svn.apache.org/repos/asf/jackrabbit/dist/KEYS" rel="nofollow">https://svn.apache.org/repos/asf/jackrabbit/dist/KEYS</a>.
+
+About Apache Jackrabbit
+-----------------------
+
+Apache Jackrabbit is a fully conforming implementation of the Content
+Repository for Java Technology API (JCR). A content repository is a
+hierarchical content store with support for structured and unstructured
+content, full text search, versioning, transactions, observation, and
+more.
+
+For more information, visit <a href="http://jackrabbit.apache.org/" rel="nofollow">http://jackrabbit.apache.org/</a>
+
+About The Apache Software Foundation
+------------------------------------
+
+Established in 1999, The Apache Software Foundation provides organizational,
+legal, and financial support for more than 140 freely-available,
+collaboratively-developed Open Source projects. The pragmatic Apache License
+enables individual and commercial users to easily deploy Apache software;
+the Foundation's intellectual property framework limits the legal exposure
+of its 3,800+ contributors.
+
+For more information, visit <a href="http://www.apache.org/" rel="nofollow">http://www.apache.org/</a>
+
+Trademarks
+----------
+
+Apache Jackrabbit, Jackrabbit, Apache, the Apache feather logo, and the 
+Apache
+Jackrabbit project logo are trademarks of The Apache Software Foundation.
+
+
+
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="7/1">CVE-2015-1833.patch</a><strong>" of type "</strong>text/plain<strong>" (14501 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="7/2">CVE-2015-1833.txt</a><strong>" of type "</strong>text/plain<strong>" (2374 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="7/3">CVE-2015-1833-jr-2.0.patch</a><strong>" of type "</strong>text/plain<strong>" (8667 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="7/4">CVE-2015-1833-jr-2.2.patch</a><strong>" of type "</strong>text/plain<strong>" (11113 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE Request, multiple WordPress plugins and themes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="9">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;1432752795980.1810&#64;akamai.com&gt;
+Date: Wed, 27 May 2015 18:53:16 +0000
+From: "Seaman, Chad" &lt;cseaman&#64;...mai.com&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+CC: "cve-assign&#64;...re.org" &lt;cve-assign&#64;...re.org&gt;
+Subject: CVE Request, multiple WordPress plugins and themes
+
+?
+
+?I'm not sure if these should be broken down by individual vulnerability or lumped per plugin/theme, there are 21 plugins/themes affected in total.
+
+
+  * grand-media [PLUGIN]
+    + url: <a href="https://wordpress.org/plugins/grand-media/" rel="nofollow">https://wordpress.org/plugins/grand-media/</a>
+    + vuln found:
+    :--|- XSS
+    :
+    :--|- LFI
+    :    |- note: only truly exploitable if user sets ALLOW_NO_EXT == true
+    :
+    :--|- DoS
+    :    |- note: force to recursively call itself via remote 301 redirects, cripples php-fpm w/ nginx
+    :
+    :--|- Open proxy
+
+
+
+  * wp-mobile-edition [PLUGIN]
+    + url: <a href="https://wordpress.org/plugins/wp-mobile-edition/" rel="nofollow">https://wordpress.org/plugins/wp-mobile-edition/</a>
+    + vuln found:
+    :--|- LFI
+    :    |- note: pre PHP 5.3 is likely (unconfirmed) suspectible to nullbyte injection, meaning any file can be read
+    :
+    :--|- OpenProxy
+    :
+    :--|- DoS
+    :    |- note: will process list of files in for loop, aiding DoS capabilities
+    :    |- note: follows 301 redirects, can be used to recursively call itself to exhaustion, ?cripples php-fpm w/ nginx
+    :
+    :--|- e-mail header injection (spam sandwich)
+    :    |- note: will throw fatal error, but will send e-mail before doing so.
+    :
+    :--|- Multiple XSS vulns
+
+
+* wp-fastest-cache [PLUGIN] + url: <a href="https://wordpress.org/plugins/wp-fastest-cache/" rel="nofollow">https://wordpress.org/plugins/wp-fastest-cache/</a> + vuln found: :--|- XSS * leaflet-maps-marker [PLUGIN] + url: <a href="https://wordpress.org/plugins/leaflet-maps-marker/" rel="nofollow">https://wordpress.org/plugins/leaflet-maps-marker/</a> + vuln found: :--|- XSS x 2 * landing-pages [PLUGIN] + url: <a href="https://wordpress.org/plugins/landing-pages/" rel="nofollow">https://wordpress.org/plugins/landing-pages/</a> + vuln found: :--|- XSS into admin session * extended-catagories-widget [PLUGINS] + url: <a href="https://wordpress.org/plugins/extended-categories-widget/" rel="nofollow">https://wordpress.org/plugins/extended-categories-widget/</a> + vuln found: :--|- post auth admin SQLi
+
+  * gallery-images [PLUGINS] &amp;&amp; gallery-video [PLUGINS]
+    + url: <a href="https://wordpress.org/plugins/gallery-images/" rel="nofollow">https://wordpress.org/plugins/gallery-images/</a>
+    + url: <a href="https://wordpress.org/plugins/gallery-video/" rel="nofollow">https://wordpress.org/plugins/gallery-video/</a>
+    + vuln found:
+    :--|- XSS into admin session (image and video gallery are both affected)
+
+
+  * easy-google-fonts [PLUGIN]
+    + url: <a href="https://wordpress.org/plugins/easy-google-fonts/" rel="nofollow">https://wordpress.org/plugins/easy-google-fonts/</a>
+    + vuln found:
+    :--|- XSS into admin session
+
+
+  * cta [PLUGIN]
+    + url: <a href="https://wordpress.org/plugins/cta/" rel="nofollow">https://wordpress.org/plugins/cta/</a>
+    + vuln found:
+    :--|- CSRF &amp; persistent XSS attack into admin session, and site-wide for visitors
+
+
+  * constant-contact-api [PLUGIN]
+    + url: <a href="https://wordpress.org/plugins/constant-contact-api/" rel="nofollow">https://wordpress.org/plugins/constant-contact-api/</a>
+    + vuln found:
+    :--|- XSS x 2
+
+
+  * zerif-lite [THEME]
+    + url: <a href="https://wordpress.org/themes/zerif-lite/" rel="nofollow">https://wordpress.org/themes/zerif-lite/</a>
+    + vuln found:
+    :--|- XSS
+
+
+  * colorway [THEME]
+    + url: <a href="https://wordpress.org/themes/colorway/" rel="nofollow">https://wordpress.org/themes/colorway/</a>
+    + vuln found:
+    :--|- e-mail header injection (spam sandwich)
+    :
+    :--|- XSS x 3
+
+
+  * charitas-lite [THEME]
+    + url: <a href="https://wordpress.org/themes/charitas-lite/" rel="nofollow">https://wordpress.org/themes/charitas-lite/</a>
+    + vuln found:
+    :--|- e-mail header injection (spam sandwich)
+
+
+  * ariwoo [THEME]
+    + url: <a href="https://wordpress.org/themes/ariwoo/" rel="nofollow">https://wordpress.org/themes/ariwoo/</a>
+    + vuln found:
+    :--|- e-mail header injection (spam sandwich)
+    :
+    :--|- XSS x 3
+
+
+  * kage-green [THEME]
+    + url: <a href="https://wordpress.org/themes/kage-green/" rel="nofollow">https://wordpress.org/themes/kage-green/</a>
+    + vuln found:
+    :--|- XSS
+
+
+  * intuition [THEME]
+    + url: <a href="https://wordpress.org/themes/intuition/" rel="nofollow">https://wordpress.org/themes/intuition/</a>
+    + vuln found:
+    :--|- XSS
+
+
+  * imag-mag [THEME]
+    + url: <a href="https://wordpress.org/themes/imag-mag/" rel="nofollow">https://wordpress.org/themes/imag-mag/</a>
+    + vuln found:
+    :--|- XSS
+
+
+  * fastnews-light [THEME]
+    + url: <a href="https://wordpress.org/themes/fastnews-light/" rel="nofollow">https://wordpress.org/themes/fastnews-light/</a>
+    + vuln found:
+    :--|- XSS
+
+
+  * business-directory [THEME]
+    + url: <a href="https://wordpress.org/themes/business-directory/" rel="nofollow">https://wordpress.org/themes/business-directory/</a>
+    + vuln found:
+    :--|- XSS
+
+
+  * boot-store [THEME]
+    + url: <a href="https://wordpress.org/themes/boot-store/" rel="nofollow">https://wordpress.org/themes/boot-store/</a>
+    + deps: TheCartPress (<a href="https://wordpress.org/plugins/thecartpress/" rel="nofollow">https://wordpress.org/plugins/thecartpress/</a>)
+    + note: theme must be present, plugin must be present, user must not be logged in.
+    + vuln found:
+    :--|- XSS
+
+
+
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request for wget</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href="../../../2015/09/29/3">[&lt;thread-prev]</a> <a href="11">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151001225726.9EF7AB2E0A6&#64;smtpvbsrv1.mitre.org&gt;
+Date: Thu,  1 Oct 2015 18:57:26 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: austinenglish&#64;...il.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request for wget
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt;&gt;                                                 ... We know that a
+&gt;&gt; design goal of Tails is to prevent Internet servers from discovering
+&gt;&gt; the IP address of a machine running Tails. Possibly it's a design
+&gt;&gt; requirement of Tails that a developer needs to "torify" every piece of
+&gt;&gt; Internet client software before it can be shipped with the Tails
+&gt;&gt; distribution, and that a failure of a torify step is, by definition, a
+&gt;&gt; Tails vulnerability.
+
+&gt; That's a reasonable position, please instead issue a CVE for Tails.
+
+Use CVE-2015-7665 for the Tails vulnerability corresponding to the
+<a href="http://git.savannah.gnu.org/cgit/wget.git/commit/?id=075d7556964f5a871a73c22ac4b69f5361295099" rel="nofollow">http://git.savannah.gnu.org/cgit/wget.git/commit/?id=075d7556964f5a871a73c22ac4b69f5361295099</a>
+commit.
+
+If there is any additional Tails vulnerability related to this,
+another CVE ID may be needed. For example,
+
+  <a href="https://lists.gnu.org/archive/html/bug-wget/2015-08/msg00050.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-wget/2015-08/msg00050.html</a>
+
+says
+
+  to be 100% sure, you should add --passive-ftp to your command line.
+  If you don't do that, your /etc/wgetrc or ~/.wgetrc could include
+  --no-passive-ftp (or passiveftp = off).
+
+If Tails is supposed to try to ensure that, perhaps there's a
+requirement to have something like:
+
+  alias wget="wget --passive-ftp"
+
+in a system-wide location (possibly /etc/bash.bashrc). The concept of
+CVE IDs for "failure of a torify step" issues is new, and we aren't
+sure of the best approach.
+
+Responding to:
+
+&gt; From: Andreas Stieger &lt;astieger&#64;...e.com&gt;
+&gt; Date: Tue, 29 Sep 2015 13:12:37 +0200
+
+&gt;&gt; We really don't understand what set of expectations led to this
+&gt;&gt; becoming a CVE request for a vulnerability in wget.
+
+&gt; Possibly assignments for CWE-200 including CVE-2000-0649, CVE-2002-0422
+&gt; relating to exposure if an internal IP address of a communication partner.
+
+The difference here is that sending the client IP address within the
+TCP application data is inherently a part of the FTP protocol. That's
+why we've been reluctant to consider this a vulnerability in the
+upstream wget distribution.
+
+This is also a situation in which the need to torify may be different
+with IPv6 than with IPv4. IPv4 NAT environments are sometimes set up
+so that clients cannot successfully use FTP in active mode. Perhaps
+because of this, it is currently common for FTP clients to use passive
+mode by default. With IPv6, it is probably more likely that a client
+can successfully use FTP in active mode. There might be, now or in the
+near future, FTP clients that try active mode for IPv6 FTP servers.
+Thus, when Tor is used, there may be information disclosure in EPRT
+commands even when there hadn't been information disclosure in PORT
+commands. (Of course, a PORT command may be sent even when active mode
+is ultimately going to fail. The point is that, for communication
+between a normal FTP client and a normal IPv4 FTP server, active mode
+will often never be attempted.)
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWDboGAAoJEL54rhJi8gl5WzwP/3vIX0WkQy2KIhjGgI+4dhcZ
+lPT9GynzMKGCG5U4Fnqez5lfMammTAmyU6kRCohUSWLfxPkDNDZM5kf5fbnBcgPr
+ebq0awx7oj9y506x0YHMw9zYtd1C1uaY18BEdVsZcTs8E2+nBMayAW8+T+o9OVyo
+bqImRG5lIj+c68VJuY6mmePDRpqXohOZ4I+Vv5pzBim4cNKcYA28upErh5mZwYYj
+rFct5GV3Jc//yAJPhtZMhRIaf+bXcKYoyL3bze+bFLPnLUQSJV/8ezcB2WWE4+Uu
+1G4iYD0ZOrmHmbZfJs32ZF2QHdoWMRQzNNN0JQk60iB/4nWuP5Ns28QH3Vu2CRw1
+XqyAnaChCEX+Xead71z5Db5ugdIOgTo1hPZ5DaUlU1EJ3T+SYCiwJCCPIELXcGgN
+unlml3il98COee1E7tOFudguGlHq0PwHGPixlQVMtZSAHIbuec+Vh4LAbsEE5rTC
+Hrsp3xRtUgQNKHiuYgDNNH03fh5e7A75RR6CPaIuTPKjMRCxVPtTzqyhrQYAkc/f
+4kEQioiLK/2obNO7EuiitWBaQQGZHZgbFxWnz8F08ZGagg0hQj2QtYeN0SBp+iqY
+CEqfUoihoZharTag3XPLf3xA2C8w4GGkWUI6LcyUtrlzoVoSaj0nB6Mt6tWaq6cT
+QD/3LlAZGdgiRu5bEuld
+=9V0C
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

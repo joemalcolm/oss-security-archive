@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Two out of bounds reads in Zstandard / zstd</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/10/29/15">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/10/24/3">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151030002628.DBC7F3AE002&#64;smtpvbsrv1.mitre.org&gt;
+Date: Thu, 29 Oct 2015 20:26:28 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: hanno&#64;...eck.de
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: Two out of bounds reads in Zstandard / zstd
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; <a href="https://blog.fuzzing-project.org/26-Two-out-of-bounds-reads-in-Zstandard-zstd.html" rel="nofollow">https://blog.fuzzing-project.org/26-Two-out-of-bounds-reads-in-Zstandard-zstd.html</a>
+
+Although this research is enormously helpful to Zstandard development
+(e.g., see the
+<a href="https://github.com/Cyan4973/zstd/issues/49#issuecomment-150550342" rel="nofollow">https://github.com/Cyan4973/zstd/issues/49#issuecomment-150550342</a>
+comment), we feel that it may be outside the scope of CVE because
+Zstandard cannot yet be considered a "product."
+
+&gt; <a href="https://github.com/Cyan4973/zstd/blob/master/README.md" rel="nofollow">https://github.com/Cyan4973/zstd/blob/master/README.md</a>
+
+&gt; Zstd has not yet reached "stable" status. Specifically, it doesn't
+&gt; guarantee yet that its current compressed format will remain stable
+&gt; and supported in future versions. ... "Stable Format" is projected
+&gt; sometimes early 2016
+
+&gt; you can now safely test zstd
+
+
+&gt; <a href="http://fastcompression.blogspot.com/2015/01/zstd-stronger-compression-algorithm.html?showComment=1423604634493#c3703448798429358177" rel="nofollow">http://fastcompression.blogspot.com/2015/01/zstd-stronger-compression-algorithm.html?showComment=1423604634493#c3703448798429358177</a>
+
+&gt; this format is not yet considered stable.
+&gt; The objective is to make it stable by year end.
+&gt; When it will be, the library number will become 1.0.
+
+Also, we think that Zstandard is, for example, not shipped in any
+well-known Linux distribution. When a piece of code is offered
+primarily for testing, discoveries of exploitable problems often have
+low interest among CVE consumers.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWMrghAAoJEL54rhJi8gl5jG8QAKCtCDxmIg6rOIa0STH/Oub5
++WyiNy2Zb5Soo7H1BqfNYlKQw/zqzqWuRwirh2B6smE8UlC4aRhLZOZ0tMcjejc+
+xYcb5LAHu/TAutHGBRijc/Y5Uq/0MHTNGpinoeKePhnVimoEiWA80ogg01EbGKKz
+Opdth3qkIuxGno3eVPfu6aqiGxNSH9eLbP+x9EHKKAUOXni2+MxyzDr4wMfCclow
+9MRGGza0wmdKU+WDFZVjTehUX73Y84iE4FXROomujTJpmcK2dE28Oxojv5wMqQQ6
+++z/EjRnr5AJNwD7NPUxO1EItLl2LRHrtFkQSz4XMZ9qE2VVuuL/0BOKPZyAvGrj
+LKRdOi5yz7tOJvGTqDY4YhoY71qPn0N9OHPEjTzlWcSl4AH3VC+FiDUGaf2hlvqP
+pZv0OIUxVKAtVXtpYTzH+HFmT7Ipt/hoouQ/uZ8WWQYDNDU2Xt5xvV77kL5RfXI2
+7suqCVm7gahbsSeUu6ar3a+OGUeDRAkdgkGqio4Vvq8bGv/nmPdvJ09Ic/HiDfKB
+qB326B44jSWJHT3WSqZHMhe7z2qB4E8Ig4koImTJIqAjZ6FpIMdNoeTZoYHPYZWi
+pJL6XMmDZh9nbdGoFjWEmd9aRlNeXa2xJe3voKH4apP2KJoEZvvGwesfreM9824q
+9GG9dNISuT0LZvDknrYN
+=o5EY
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

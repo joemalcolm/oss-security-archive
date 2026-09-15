@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request - tidy 0.99 / tidy5 heap-buffer-overflow</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/07/13/10">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/07/13/9">[&lt;thread-prev]</a> <a href="../../../2015/07/15/3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAEr-gPHFmE_q+2wLhMvOCsM5VJd6_3tH1L+31evHW0gnaVCQ7A&#64;mail.gmail.com&gt;
+Date: Mon, 13 Jul 2015 19:42:24 -0500
+From: Fernando Muñoz &lt;fernando&#64;...l-life.com&gt;
+To: cve-assign&#64;...re.org
+Cc: oss-security&#64;...ts.openwall.com, security&#64;...ian.org
+Subject: Re: CVE Request - tidy 0.99 / tidy5 heap-buffer-overflow
+
+AFAIK Debian did not assign any.
+
+I didn't get any response when I reported it to Debian for a couple of
+weeks, so I went ahead and found the tidy-html5 fork, which is based
+on the same project and developed by the same people, reported it
+directly to them. After that I contacted Debian security again and
+they asked me to request a CVE here.
+
+Thanks.
+
+On Mon, Jul 13, 2015 at 4:37 PM,  &lt;cve-assign&#64;...re.org&gt; wrote:
+&gt; -----BEGIN PGP SIGNED MESSAGE-----
+&gt; Hash: SHA1
+&gt;
+&gt; One complication here is that the CVE request was sent to oss-security
+&gt; without mentioning that a CVE request had been sent privately to one
+&gt; Linux distribution a few weeks before that. See:
+&gt;
+&gt;   <a href="https://github.com/htacg/tidy-html5/issues/217#issue-84488886" rel="nofollow">https://github.com/htacg/tidy-html5/issues/217#issue-84488886</a>
+&gt;
+&gt;   I contacted Debian about the issue on May 17, so far I have not
+&gt;   received a response about a CVE assignment.
+&gt;   ...
+&gt;   Date: Sun, May 17, 2015 at 8:11 PM
+&gt;   Subject: tidy heap-buffer-overflow
+&gt;   To: security&#64;...ian.org
+&gt;
+&gt; (added security&#64;...ian.org to the Cc line)
+&gt;
+&gt; Our only question for Debian is: did Debian already assign any CVE
+&gt; ID(s) for this? If not, then MITRE will.
+&gt;
+&gt; (To clarify: we're definitely not suggesting that Debian did something
+&gt; wrong. At least from MITRE's perspective, Debian isn't required to
+&gt; process CVE requests in arbitrary private reports about software
+&gt; shipped by Debian, and especially not in cases where the report is
+&gt; about code that's also shipped by the upstream author. The only issue
+&gt; is that Debian is allowed to process the CVE request if they want to.
+&gt; In that situation, they can choose the public disclosure date, and
+&gt; MITRE should/would typically not be informed about the vulnerability
+&gt; or its CVE ID before the public disclosure date. Probably none of this
+&gt; caused any significant problem in the current case. However, in
+&gt; general, the existence of a previous CVE request is important.)
+&gt;
+&gt; Now, going back to the vulnerability report itself: we think two CVE
+&gt; IDs might be best. The original discovery was about memory corruption,
+&gt; and then the vendor mentioned an attack variation in which a small
+&gt; file can lead to a 4 Gb allocation, which potentially would be
+&gt; successful on some platform and cause a DoS.
+&gt;
+&gt; In other words, the first CVE would be for
+&gt; <a href="https://github.com/htacg/tidy-html5/issues/217" rel="nofollow">https://github.com/htacg/tidy-html5/issues/217</a> with:
+&gt;
+&gt;   AddressSanitizer: heap-buffer-overflow
+&gt;   WRITE of size 1
+&gt;
+&gt;   tmbstr cp = s = (tmbstr) TidyAlloc( allocator, 1+len );
+&gt;   Notice the plus 1, so it arrives at TidyAlloc with a ZERO!!!
+&gt;
+&gt;   Now it seems malloc does not mind a zero value, malloc(0), and
+&gt;   dutifully returns a pointer
+&gt;
+&gt;   Then tmbstrndup does the corruption, with -
+&gt;
+&gt;   while ( len-- &gt; 0 &amp;&amp; (*cp++ = *str++) ) /**/;
+&gt;
+&gt;   Of course ( len-- &gt; 0 ) will be true until the 4294967295 expires ;=))
+&gt;
+&gt;   But thankfully the corruption stops when a 0 is reached in the lexer
+&gt;   with (*cp++ = *str++). As indicated in this case it is storing the
+&gt;   attribute "href", but that is 4+ bytes of corruption.
+&gt;
+&gt;
+&gt; The second CVE would be for
+&gt; <a href="https://github.com/htacg/tidy-html5/issues/217#issuecomment-108565501" rel="nofollow">https://github.com/htacg/tidy-html5/issues/217#issuecomment-108565501</a>
+&gt; with:
+&gt;
+&gt;   In some cases this bug could exibit a different problem like parsing
+&gt;   the snippet &lt;a &lt;?xm \0xd?&gt; href=""&gt;.
+&gt;
+&gt;   Now the lexer buffer will contain 2, or more IsWhite() chars and len
+&gt;   would be reduced to -2, or less, which means the malloc buffer
+&gt;   allocation would be a giant 4,294,967,295 byte allocation, a value
+&gt;   lots of OSes will reject
+&gt;
+&gt; We'll try to send these CVE IDs tomorrow if there's no other
+&gt; information and no duplication.
+&gt;
+&gt; - --
+&gt; CVE assignment team, MITRE CVE Numbering Authority
+&gt; M/S M300
+&gt; 202 Burlington Road, Bedford, MA 01730 USA
+&gt; [ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+&gt; -----BEGIN PGP SIGNATURE-----
+&gt; Version: GnuPG v1.4.14 (SunOS)
+&gt;
+&gt; iQEcBAEBAgAGBQJVpC8NAAoJEKllVAevmvmsePwIAK9BAACprS1lfeOqHqbJ1xAb
+&gt; 0gKqEsEyh1kyYsC0gJPYIPGSesMEcymL902i1vs0+hiMkkcN1oxPWNMxNDSPwaXi
+&gt; 0yJnGJCddezkkHIBhgaIr7YbDkCWhWEJGEnq5eoe7gssWuZnlGuReQXBFmaSilI8
+&gt; GLM0UX68n7jUgen5wNzivw/Yxrrur8BUwz+w09QEFQVv5HxEE6xj6O891yzeaw6g
+&gt; VowSDOzYtB7TZQHLA4lvT7Q8Ux38jdjE4v5XcHkGHdTw9mwkBk0Qi6m7ku7txsNf
+&gt; 78bZPZt8Zm6eKK3z+kdtRyY1begfOyqfWCdr8SlpRFRisCXdd1C/jiFgrKfyvg4=
+&gt; =6u7g
+&gt; -----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

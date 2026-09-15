@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: MediaWiki 1.25.2, 1.24.3, 1.23.10</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="../../../2015/08/28/1">[next&gt;]</a> <a href="../../../2015/08/12/6">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150827193351.35E1E52E5B7&#64;smtpvbsrv1.mitre.org&gt;
+Date: Thu, 27 Aug 2015 15:33:51 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: csteipp&#64;...imedia.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: MediaWiki 1.25.2, 1.24.3, 1.23.10
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; * Internal review discovered that Special:DeletedContributions did not
+&gt; properly protect the IP of autoblocked users. This fix makes the
+&gt; functionality of Special:DeletedContributions consistent with
+&gt; Special:Contributions and Special:BlockList.
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T106893" rel="nofollow">https://phabricator.wikimedia.org/T106893</a>&gt;
+
+The DESCRIPTION section of T106893 refers to a similar issue that
+existed in other code until 2013. As far as we can tell, both issues
+have security relevance for the same reason (although the first issue
+was debated at the time). So, we think it will be best to use
+CVE-2015-6727 for the issue fixed in the
+<a href="https://github.com/wikimedia/mediawiki/commit/5faabfa1bbf65536ea36108887040198afcb3c82" rel="nofollow">https://github.com/wikimedia/mediawiki/commit/5faabfa1bbf65536ea36108887040198afcb3c82</a>
+commit, and CVE-2013-7444 for the issue fixed in the
+<a href="https://github.com/wikimedia/mediawiki/commit/dc2966bd05b69321300c63fd0bd78e7c78ecea6e" rel="nofollow">https://github.com/wikimedia/mediawiki/commit/dc2966bd05b69321300c63fd0bd78e7c78ecea6e</a>
+commit.
+
+
+&gt; * Internal review discovered that watchlist anti-csrf tokens were not being
+&gt; compared in constant time, which could allow various timing attacks. This
+&gt; could allow an attacker to modify a user's watchlist via csrf.
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T94116" rel="nofollow">https://phabricator.wikimedia.org/T94116</a>&gt;
+
+Use CVE-2015-6728.
+
+
+&gt; * John Menerick reported that MediaWiki's thumb.php failed to sanitize
+&gt; various error messages, resulting in xss.
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T97391" rel="nofollow">https://phabricator.wikimedia.org/T97391</a>&gt;
+
+Based on the T97391 "Apr 28 2015, 5:58 PM" comment describing both
+"Confirmed the rel404 issue" and "ForeignAPI images also have an xss"
+vectors, it appears that the original John Menerick report was about
+"unvalidated or sanitized parameters are pulled from the client's
+request" and that the f parameter wasn't necessarily known to be
+exploitable when that report was written. (Maybe this isn't accurate
+because the "attached image" in the original report is apparently
+unavailable.) In any case, use CVE-2015-6729 for the John Menerick XSS
+report, and use CVE-2015-6730 for the internal XSS discoveries.
+
+
+&gt; * Extension:SemanticForms - MediaWiki user Grunny discovered multiple
+&gt; reflected xss vectors in SemanticForms. Further internal review discovered
+&gt; and fixed other reflected and stored xss vectors.
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T103391" rel="nofollow">https://phabricator.wikimedia.org/T103391</a>&gt;
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T103765" rel="nofollow">https://phabricator.wikimedia.org/T103765</a>&gt;
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T103761" rel="nofollow">https://phabricator.wikimedia.org/T103761</a>&gt;
+
+Use CVE-2015-6731 for the Grunny XSS report, and use CVE-2015-6732 for
+the internal XSS discoveries.
+
+There is currently no CVE ID for the "The Special:CreateForm post to
+add the template doesn't check the csrf token, so it can be submitted
+for a user via csrf" statement in the T103761 DESCRIPTION section. We
+aren't sure about this, but we think that a CSRF token check there is
+not thought to be required. If a CSRF token check there is thought to
+be required, then another CVE ID can be assigned.
+
+
+&gt; * Extension:SyntaxHighlight_GeSHi - xss and potential DoS vectors. Internal
+&gt; review discovered that the contib directory for GeSHi was re-included in
+&gt; MediaWiki 1.25. Some scripts could be potentially be used for DoS, and DAU
+&gt; Huy Ngoc discovered an xss vector. All contrib scripts have been removed.
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T108198" rel="nofollow">https://phabricator.wikimedia.org/T108198</a>&gt;
+
+There are multiple options with which this topic could be covered in
+CVE, e.g.,
+
+  1. It is a single integration-policy error. In other words, the
+     policy is that Extension:SyntaxHighlight_GeSHi may have an update
+     at any time from the upstream GeSHi source code, but the contrib
+     directory must be excluded. A person who did an update did not
+     follow that policy.
+
+  2. The problems with using the upstream contrib directory within
+     MediaWiki need to be considered individually.
+
+We're using option 2.
+
+"Some scripts could be potentially be used for DoS" is not really
+enough information, because distinct types of DoS can't always be
+combined into one CVE ID. We think the only known DoS problem is
+resource consumption from otherwise correct algorithms, as mentioned
+at <a href="http://qbnz.com/highlighter/" rel="nofollow">http://qbnz.com/highlighter/</a> with "GeSHi aims to do this all as
+quickly as possible. Many customisable features of GeSHi facilitate
+speed increases, and you can easily find a balance between the amount
+of highlighting done and the speed in which it is done." Use
+CVE-2015-6733 for this type of resource-consumption DoS, which has
+security relevance within the MediaWiki product.
+
+Use CVE-2015-6734 for the cssgen.php keywords-1 XSS. (Although not
+directly related to CVE assignment, it's possible that that XSS hasn't
+been reported upstream because it's not listed on the
+<a href="https://github.com/GeSHi/geshi-1.0/commits/master/src/contrib/cssgen.php" rel="nofollow">https://github.com/GeSHi/geshi-1.0/commits/master/src/contrib/cssgen.php</a>
+page.)
+
+
+&gt; * Extension:TimedMediaHandler - User:McZusatz reported that resetting
+&gt; transcodes deleted the transcode without creating a new one, which could be
+&gt; used for vandalism or potentially DoS.
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T100211" rel="nofollow">https://phabricator.wikimedia.org/T100211</a>&gt;
+
+Use CVE-2015-6735.
+
+
+&gt; * Extension:Quiz - Internal review discovered that Quiz did not properly
+&gt; escape regex metacharacters in a user controlled regular expression,
+&gt; enabling a DoS vector.
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T97083" rel="nofollow">https://phabricator.wikimedia.org/T97083</a>&gt;
+
+Use CVE-2015-6736.
+
+
+&gt; * Extension:Widgets - MediaWiki developer Majr reported a potential HTML
+&gt; injection (xss) vector.
+&gt; &lt;<a href="https://phabricator.wikimedia.org/T88964" rel="nofollow">https://phabricator.wikimedia.org/T88964</a>&gt;
+
+Use CVE-2015-6737. We think that the primary vulnerability is that the
+approach to integrity protection is wrong, and that the HTML injection
+is resultant from this. In any case, we think that only one CVE ID is
+needed for T88964.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJV32WdAAoJEL54rhJi8gl5KxcQAKlVrS3ikXXKM8qxnNFpEJUC
+hP39Qbz6FY6mvPlXw199gZsgoIGMBfjmg4+NFwH3W+gksbpieUWcd71Mc5mGb0dY
+to1w7kFiDsgroearzKWQq96N+qBoF+erQtYFIfEXhJGi4DTOyTuXor0W4YfcFfPT
++VTp3RiyB4l6njQ7oxEBF0fvmNRdJX5fqvUU/VxEjhWLqjvWZmcC+lNRIXaat4sA
+XqDa6ktW/rCdYDMZLsnMibqx8R6Z8nI7PFAJoijFFwfzREMAnkEoPDzttM4Q2g0q
+IpEqbhrxJUFXllIUOcfmAz3f4zVvaMCJpJeU2e36zwQ5tpOEern2/TJM0OkNHJrL
+nwaatdyYXJd8oFrId0lUlSa66BXqmakOu09qUrF06p1CtLPQd4YSufdMNbY0g6aL
+28rP/Y/pd0KV770MLux/FfeDdNkkbYCSX+kWq0xJHepOTaqrpd9t8nlFzK9SB3D9
+bylKhU0JSG3H5Z4vTMIVbJU2tI6aPJ0tIfYJ46UChzbhyDlHUrqkUiCUP76gGGR/
+Iu2xAfXOOtaLXJpTWKElX+NZyYfzoULxklTImdF0FpS8sqlX2LpA/YuMWgcwcD1z
+a4os1wcHJhPgbG6vBHp7uYoav0e1iW7nTbjCTpZi/sGYp7KQpHsgYsNhNPyydiSz
+Z9r2ydLeSD5uag51jEtH
+=vozk
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

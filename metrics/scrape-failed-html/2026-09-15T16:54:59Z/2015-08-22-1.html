@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request - OpenSSH 6.9 PAM privilege separation vulnerabilities</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/08/21/6">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/08/13/3">[&lt;thread-prev]</a> <a href="../../../2016/09/02/6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150822030053.A6A1E6C000A&#64;smtpvmsrv1.mitre.org&gt;
+Date: Fri, 21 Aug 2015 23:00:53 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: moritz&#64;...efrostsecurity.de
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request - OpenSSH 6.9 PAM privilege separation vulnerabilities
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt;&gt; <a href="http://www.openssh.com/txt/release-7.0" rel="nofollow">http://www.openssh.com/txt/release-7.0</a>
+
+&gt;&gt; Attackers who could successfully compromise the pre-authentication
+&gt;&gt; process for remote code execution
+
+As far as we know, what this means is that the attacker has the
+ability to execute arbitrary code (or, specific unintended pieces of
+code) with the uid of the sshd account. During a normal
+pre-authentication phase, some code runs with this uid, and other code
+runs as root. The phrase "pre-authentication process" is potentially
+ambiguous, i.e., it could mean either "the sequence of steps that
+occur during the pre-authentication phase" or "the UNIX process that
+is intentionally running with the sshd uid."
+
+We don't understand why "for remote code execution" was mentioned. A
+case where a local attacker, who has access only to the sshd uid, can
+exploit a bug in the monitor component seems completely relevant for
+purposes of CVE.
+
+In other words, we think the CVE IDs below apply to two types of
+threat models: either there is a security-relevant bug in the code
+that runs with the sshd uid, or the attacker happens to have access to
+the sshd uid for a reason unrelated to the OpenSSH source code (e.g.,
+administrative error). In the former case, there would be a separate
+CVE ID for any such bug.
+
+
+&gt;&gt;  * sshd(8): Portable OpenSSH only: Fixed a privilege separation
+&gt;&gt;    weakness related to PAM support. Attackers who could successfully
+&gt;&gt;    compromise the pre-authentication process for remote code
+&gt;&gt;    execution and who had valid credentials on the host could
+&gt;&gt;    impersonate other users.  Reported by Moritz Jodeit.
+
+&gt; The user impersonation issue was fixed by the following commit:
+
+&gt; <a href="https://github.com/openssh/openssh-portable/commit/d4697fe9a28dab7255c60433e4dd23cf7fce8a8b" rel="nofollow">https://github.com/openssh/openssh-portable/commit/d4697fe9a28dab7255c60433e4dd23cf7fce8a8b</a>
+
+Use CVE-2015-6563.
+
+
+&gt;&gt;  * sshd(8): Portable OpenSSH only: Fixed a use-after-free bug
+&gt;&gt;    related to PAM support that was reachable by attackers who could
+&gt;&gt;    compromise the pre-authentication process for remote code
+&gt;&gt;    execution. Also reported by Moritz Jodeit.
+
+&gt; While the use-after-free is fixed by this commit:
+
+&gt; <a href="https://github.com/openssh/openssh-portable/commit/5e75f5198769056089fb06c4d738ab0e5abc66f7" rel="nofollow">https://github.com/openssh/openssh-portable/commit/5e75f5198769056089fb06c4d738ab0e5abc66f7</a>
+
+Use CVE-2015-6564.
+
+
+&gt;&gt;  * sshd(8): OpenSSH 6.8 and 6.9 incorrectly set TTYs to be world-
+&gt;&gt;    writable. Local attackers may be able to write arbitrary messages
+&gt;&gt;    to logged-in users, including terminal escape sequences.
+&gt;&gt;    Reported by Nikolay Edigaryev.
+
+Use CVE-2015-6565.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJV1+TiAAoJEL54rhJi8gl5M7MP/2IiKQy3YYNi2JQjEhNf41CN
+TgzXBjq2xz5XNnfSWz8CMccQxdT45702taBlVARNLoW05OXVAhgmM9p092exI3ta
+qw2d09p0esViZRsilFeU7A42tJl76z3Vbir0pwDoppTq559lMDG3n+fihL79xNjB
+dMwhCRBHp0oDyC3GrX4hcX9e3HIh8aZA06xmzJ/Xo+ps1axEuy9BIbJKU0g1NTSa
+qse7ajDjKhLYMGviX0oWWbnlJpcjMvPy6xkr0Q8v3A/92yMRDAISNw8WK6ip7kTZ
+OpnN/gRuYZ4CTKwBKcbVgoBNL/7jXZeC+CLd1oq+FVSVnzSjiFky6Y3rOJtUSbHf
+uBSoppryvxmE+jaw//lOdGImb4dY2esVBy8qFu2ci5K2Cgit29IOIjAVv8mx6BPt
+HqUBjB3rCb8GHY7Cyvg6GZPahDqBVl3d4oee7JTyr87kcuAli9vHM5+U2WKpWXSD
+n6WyOEkTbNdM0REbzALu6NLnGEh0H45QhT3CKoEnjaVxMD51oD9mZrg9Khyde2OI
+KzAwapFAynwV10HqRg/5QPZGifxzcOrU+fGLAMZXr4PHzlxv8KgpbPCWLmQzYgJW
+PYkdIrNGCyxrsBDPfUNMSh0sHvZ1HLezM6QSWkbuszfV9VspmU0Vq9uEG0d+N6bd
+3+3rTSkfJ7wy/Ji21uwb
+=LGPo
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

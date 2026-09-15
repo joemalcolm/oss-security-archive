@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Review+CVE request: multiple issues in redis EVAL command (lua sandbox)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151106170730.77AFC36E0A0&#64;smtpvbsrv1.mitre.org&gt;
+Date: Fri,  6 Nov 2015 12:07:30 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: lucab&#64;...ian.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: Review+CVE request: multiple issues in redis EVAL command (lua sandbox)
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; <a href="https://github.com/antirez/redis/issues/2854" rel="nofollow">https://github.com/antirez/redis/issues/2854</a>
+&gt; <a href="https://github.com/antirez/redis/issues/2853" rel="nofollow">https://github.com/antirez/redis/issues/2853</a>
+&gt; <a href="https://github.com/antirez/redis/issues/2855" rel="nofollow">https://github.com/antirez/redis/issues/2855</a>
+
+As far as we can tell, 2854 and 2853 do not need to be categorized as
+vulnerability reports, but 2855 is a report of at least one
+vulnerability. See the initial CVE ID assignment below.
+
+
+&gt; <a href="https://github.com/antirez/redis/issues/2854" rel="nofollow">https://github.com/antirez/redis/issues/2854</a>
+
+&gt; the whole "strict lua" in scriptingEnableGlobalsProtection() can be
+&gt; bypassed with a simple setmetatable(_G, nil)
+
+We are not currently planning to assign any CVE IDs for cases in which
+a security-relevant impact has a requirement of malicious lines of
+code in a script. For example, <a href="http://antirez.com/news/96" rel="nofollow">http://antirez.com/news/96</a> says 'The
+Redis security model is: "it's totally insecure to let untrusted
+clients access the system, please protect it from the outside world
+yourself".' More specifically,
+<a href="https://github.com/antirez/redis/issues/1725#issuecomment-42382547" rel="nofollow">https://github.com/antirez/redis/issues/1725#issuecomment-42382547</a>
+says 'the Redis documentation recognizes this flaw and says "Using Lua
+debugging functionality or other approaches like altering the meta
+table used to implement global protections in order to circumvent
+globals protection is not hard. However it is difficult to do it
+accidentally. If the user messes with the Lua global state, the
+consistency of AOF and replication is not guaranteed: don't do it."
+Redis is just trying to stop people from accidentally screwing
+themselves, not intentionally doing so.' Our feeling is that the
+sandboxing is not (yet) intended to define a security boundary with
+any practical value, and thus ability to defeat the sandboxing will
+not have a CVE ID at present.
+
+
+&gt; <a href="https://github.com/antirez/redis/issues/2853" rel="nofollow">https://github.com/antirez/redis/issues/2853</a>
+
+&gt; it is possible to de-synchronize redis dict and LUA global environment
+&gt; via maliciously crafted scripts.
+
+&gt; In fact, a simple PoC can be constructed with two identical EVAL
+&gt; commands:
+
+&gt; $ echo 'setfenv(0,{})' &gt; /tmp/redis-crash.lua
+&gt; $ redis-cli --eval /tmp/redis-crash.lua
+&gt; (nil)
+&gt; $ redis-cli --eval /tmp/redis-crash.lua
+&gt; Error: Server closed the connection
+
+Similarly, we are not currently planning to assign any CVE IDs for
+cases in which a security-relevant impact has a requirement of lines
+of code that, although not inherently malicious, are crafted to
+trigger a bug.
+
+
+&gt; <a href="https://github.com/antirez/redis/issues/2855" rel="nofollow">https://github.com/antirez/redis/issues/2855</a>
+
+We feel that this is an entirely different situation because the
+attack can realistically originate from someone who cannot control any
+aspect of the code, but can control data that happens to be used by
+the code. For example, suppose that a legitimate user has written a
+script that satisfies the above "not intentionally ... screwing
+themselves" principle, and the script has been tested (although not
+comprehensively) and seems to be reliable for an intended, normal type
+of functionality. The attacker's role is to insert the number
+2147483648 into a data set on which the script operates, and trigger a
+crash. We feel that this can have at least one CVE ID.
+
+Use CVE-2015-8080 for the "getnum ... integer wraparound ... thus
+returning a negative value" vulnerability.
+
+2855 also says "optsize() has no lower bound/negative check." If this
+is an independently exploitable problem, then it can have its own CVE
+ID. We think it's conceivable that that bounds check isn't necessarily
+required after getnum has been fixed, so we haven't yet assigned a
+unique CVE ID. In addition, 2855 also says "optsize() ... an implicit
+int -&gt; size_t promotion, yielding a very large (unsigned) size value."
+Again, we think it's conceivable that that becomes largely irrelevant
+after getnum has been fixed, so we haven't yet assigned a unique CVE
+ID. Similarly, "further int/size_t confusion in the whole module"
+might be exploitable only with a problematic getnum, and there isn't
+any additional CVE ID for any aspect of that set of issues.
+
+Finally,
+<a href="https://www.reddit.com/r/redis/comments/3rby8c/a_few_things_about_redis_security/" rel="nofollow">https://www.reddit.com/r/redis/comments/3rby8c/a_few_things_about_redis_security/</a>
+mentions "especially since the vulnerabilities you reported could
+crash the server just because Lua scripts that happened to be just
+bugged and not malicious." We don't see any reasonable way to use that
+statement as a basis for CVE assignments, i.e., the server is intended
+to be robust in the face of all script coding errors but not robust in
+the face of script coding manipulations. Even if the vendor wanted a
+CVE ID for each case where a script coding error caused a crash, we
+would be very reluctant to do that. Instead, as mentioned above, our
+preference is to have a CVE ID only in the case of an attack with
+crafted data, where that data realistically has a different origin
+than the code.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWPN2UAAoJEL54rhJi8gl5vG0P/RpQaMn4vLpl8tdlXc6VxsIO
+Qh2gZSrquTceb39tjIZZLrXQM9h6QR3fS/mqcJ/1qpECsilC1Yz+LGJEDK8VsJ+B
+fRr+FqCDWsAHiTLC0JNC/s2XEhB0GJocJNGVxS5PqqAqD1zO6RMmBdhuWzatJEXZ
+vbhe/O/OPIhu9vWnKRvPKqXJJt4OuhXywxZI5NiXwE97ZYvpVrmf5/iIvn1oEee1
+UqWOjWKRASNvgq7nxw/0wBqLx/Kq9hanSp29VyfXWMNZI08+aZ/HTPUHboRt1q3+
+nyVcOc2aHNgWi+nRImEqyIABAA9A/tGFX4GfICSKs0Ld0JujeufSuYVvOnTXg3dx
+AlvvwtToZsg+jMxWnbpKp4PmoXDTIFs4O6di5LtFPz+/a4QOVhKeGf3xbZzQ960w
+AfmS+pgLnTA8q7NRbiSQcbmx34nM6fHcRzWQx2DePxSvH2WtFMHsoUmKQpxb0bDV
+IJU974kJyccGXYS5oLK2qGsGb0v1LfvVS70MS6Vl9FO9w/+TgxH2M9jb3FmEJ/zA
+rTrLlLslM51YGtPHy0jnU05qv5V73fddQybWJxMze1azbNPP1x0u6JHF42Up/tE2
+VAWugdcf0GDE8anUCr4LpU4k1f8DJxgQCJWDr9qOFZTqZSkSWmqkkhoMmcQocW2e
++BEkogZ/ljYuTBpCqW5E
+=KWRY
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

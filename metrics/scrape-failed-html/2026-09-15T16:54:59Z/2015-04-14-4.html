@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Problems in automatic crash analysis frameworks</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAJ_zFkJw7hNxGp0PNmQbH0suVwfkgzbCsvs2Sv1OdxD+UBiraw&#64;mail.gmail.com&gt;
+Date: Tue, 14 Apr 2015 06:30:41 -0700
+From: Tavis Ormandy &lt;taviso&#64;...gle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Problems in automatic crash analysis frameworks
+
+Hello, this is CVE-2015-1318 and CVE-2015-1862 (essentially the same
+bugs in two different implementations, apport and abrt respectively).
+These were discussed on the vendors list last week.
+
+If the first character of kern.core_pattern sysctl is a pipe, the
+kernel will invoke the specified program, and pass it the core on
+stdin. Apport (Ubuntu) and Abrt (Fedora) use this feature to analyze
+and log crashes.
+
+Since the introduction of containers, Abrt and Apport have attempted
+to transparently handle namespaces by chrooting into the same root as
+the crashing program [1] [2]. Unfortunately, this is incorrect because
+root cannot safely execve() after a chroot into a user specified
+directory.
+
+Furthermore, Abrt suffers from numerous race conditions and symlink
+problems from trusting unprivileged programs. For example, the code
+below (and lots of similar code) is vulnerable to a filesystem race
+where a user unlinks the file after the copy but before the chown.
+
+<a href="https://github.com/abrt/abrt/blob/master/src/hooks/abrt-hook-ccpp.c#L634" rel="nofollow">https://github.com/abrt/abrt/blob/master/src/hooks/abrt-hook-ccpp.c#L634</a>
+
+        strcpy(source_filename + source_base_ofs, "maps");
+        strcpy(dest_base, FILENAME_MAPS);
+        copy_file(source_filename, dest_filename, DEFAULT_DUMP_DIR_MODE);
+        IGNORE_RESULT(chown(dest_filename, dd-&gt;dd_uid, dd-&gt;dd_gid));
+
+This code trusts various symlinks in /tmp without validation:
+
+<a href="https://github.com/abrt/abrt/blob/master/src/hooks/abrt-hook-ccpp.c#L806" rel="nofollow">https://github.com/abrt/abrt/blob/master/src/hooks/abrt-hook-ccpp.c#L806</a>
+
+        char *java_log = xasprintf("/tmp/jvm-%lu/hs_error.log", (long)pid);
+        int src_fd = open(java_log, O_RDONLY);
+        free(java_log);
+
+This code trusts the /proc/pid/exe symlink, even though it is possible
+to link it anywhere you want.
+
+<a href="https://github.com/abrt/abrt/blob/master/src/hooks/abrt-hook-ccpp.c#L368" rel="nofollow">https://github.com/abrt/abrt/blob/master/src/hooks/abrt-hook-ccpp.c#L368</a>
+
+        sprintf(buf, "/proc/%lu/exe", (long)pid);
+        int src_fd_binary = open(buf, O_RDONLY); /* might fail and
+return -1, it's ok */
+
+This code trusts the attacker controlled root symlink and copies files from it.
+
+<a href="https://github.com/abrt/libreport/blob/master/src/lib/dump_dir.c#L671" rel="nofollow">https://github.com/abrt/libreport/blob/master/src/lib/dump_dir.c#L671</a>
+
+        if (chroot_dir)
+            copy_file_from_chroot(dd, FILENAME_OS_INFO_IN_ROOTDIR,
+chroot_dir, "/etc/os-release");
+
+This instructs librpm to trust an unprivileged root symlink:
+
+<a href="https://github.com/abrt/abrt/blob/master/src/daemon/rpm.c#L184" rel="nofollow">https://github.com/abrt/abrt/blob/master/src/daemon/rpm.c#L184</a>
+
+        if (rpmtsSetRootDir(*ts, rootdir_or_NULL) != 0)
+        {
+            rpmtsFree(*ts);
+            return -1;
+        }
+
+And so on.
+
+There are other automatic crash analysis scripts, I believe systemd
+also has one - I haven't looked at it all.
+
+WORKAROUND
+
+I highly recommend setting `sysctl -w kern.core_pattern=core`.
+
+EXPLOITATION
+
+Two demonstration exploits are attached.
+
+The file `newpid.c` should produce a root shell on Fedora 20 or Ubuntu
+by invoking the crash handler inside an unprivileged chroot (possible
+since kernel 3.8).
+
+ $ gcc -static newpid.c
+ $ ./a.out
+ uid=0(root) gid=0(root) groups=0(root)
+ sh-4.3# exit
+ exit
+
+The file `raceabrt.c` should make you the owner of any file on Fedora
+by racing the Abrt report creation.
+
+ $ cat /etc/fedora-release
+ Fedora release 21 (Twenty One)
+ $ ./a.out /etc/passwd
+ Detected ccpp-2015-04-13-17:40:31-5506.new, attempting to race...
+   [ wait a few minutes ]
+   exploit successful...
+ -rw-r--r--. 1 taviso abrt 2421 Apr 13 11:15 /etc/passwd
+
+In case it isn't obvious, you can then give yourself uid zero.
+
+ $ getent passwd taviso
+ taviso:x:1000:1000:Tavis Ormandy:/home/taviso:/bin/bash
+ $ vi /etc/passwd
+ $ getent passwd taviso
+ taviso:x:0:0:Tavis Ormandy:/home/taviso:/bin/bash
+ $ su taviso
+ Password:
+ # id
+ uid=0(root) gid=0(root) groups=0(root)
+ exit
+
+REFERENCES
+
+[1] <a href="https://code.launchpad.net/~stgraber/apport/pidns-support/+merge/200893" rel="nofollow">https://code.launchpad.net/~stgraber/apport/pidns-support/+merge/200893</a>
+[2] <a href="https://github.com/abrt/abrt/pull/810" rel="nofollow">https://github.com/abrt/abrt/pull/810</a>
+[3] <a href="http://man7.org/linux/man-pages/man7/user_namespaces.7.html" rel="nofollow">http://man7.org/linux/man-pages/man7/user_namespaces.7.html</a>
+
+CREDIT
+
+Tavis Ormandy, Google Project Zero.
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="4/1">raceabrt.c</a><strong>" of type "</strong>text/x-csrc<strong>" (6519 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="4/2">newpid.c</a><strong>" of type "</strong>text/x-csrc<strong>" (5061 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

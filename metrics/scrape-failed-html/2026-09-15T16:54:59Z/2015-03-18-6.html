@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE Request: Linux kernel unprivileged denial-of-service due to
+ mis-protected xsave/xrstor instructions.</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2015/03/20/17">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150318101405.GA19065&#64;chrystal.uk.oracle.com&gt;
+Date: Wed, 18 Mar 2015 11:14:05 +0100
+From: Quentin Casasnovas &lt;quentin.casasnovas&#64;...cle.com&gt;
+To: CVE-assign &lt;cve-assign&#64;...re.org&gt;,
+        oss-sec &lt;oss-security&#64;...ts.openwall.com&gt;
+Cc: Jamie Iles &lt;jamie.iles&#64;...cle.com&gt;, Allan Xavier &lt;mr.a.xavier&#64;...il.com&gt;
+Subject: CVE Request: Linux kernel unprivileged denial-of-service due to
+ mis-protected xsave/xrstor instructions.
+
+Hi,
+
+Jamie and I discovered there was a flaw in the way the xsave/xrstor (and
+their alternative instructions) were being protected against a fault in
+kernel space from linux 3.15.  The problem was introduced in commit f31a9f7
+("x86/xsaves: Use xsaves/xrstors to save and restore xsave area") which
+ends up protecting the .altinstr_replacement from faulting instead of the
+target of the alternative in .text, leaving the instruction un-protected.
+
+You can find a reproducer (thanks to Allan for his help with/comments on
+it!) triggering the fault in kernel space attached to this e-mail but it
+should be noted there are a few different places where these instructions
+are used un-protected and the reproducer only uses one of them present in
+the kvm code.  You can find a list of all such places in the attached
+unprotected_xsave_faults attachment which was generated against a v4.0-rc1
+defconfig + CONFIG_KVM vmlinux.o (the most concerning one probably being in
+__switch_to()).  The reproducer is a patch to apply on top of lkvm
+(<a href="https://github.com/penberg/linux-kvm" rel="nofollow">https://github.com/penberg/linux-kvm</a>) but it should be trivial to write as
+a standalone C application.
+
+It should be noted that this vulnerability is present even if the hardware
+does not support xsaveS.
+
+This is fixed by upstream commit 06c8173eb:
+
+  <a href="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit?id=06c8173eb92bbfc03a0fe8bb64315857d0badd06" rel="nofollow">https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit?id=06c8173eb92bbfc03a0fe8bb64315857d0badd06</a>
+
+Other patches to prevent introduction of the same class of vulnerability
+are currently being reviewed on lkml:
+
+  <a href="https://lkml.org/lkml/2015/3/17/462" rel="nofollow">https://lkml.org/lkml/2015/3/17/462</a>
+
+I haven't received any news from cve-assign when this issue was previously
+discussed on security&#64;...nel.org.  Could a CVE be assigned to this please?
+
+Thanks,
+Quentin
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="6/1">xsave-fault-reproducer.patch</a><strong>" of type "</strong>text/x-diff<strong>" (2168 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="6/2">unprotected_xsave_faults</a><strong>" of type "</strong>text/plain<strong>" (8956 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

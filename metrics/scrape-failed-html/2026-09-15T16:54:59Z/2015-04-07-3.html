@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: MediaWiki 1.24.2/1.23.9/1.19.24</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2015/04/01/1">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150407073412.354C26C0003&#64;smtpvmsrv1.mitre.org&gt;
+Date: Tue,  7 Apr 2015 03:34:12 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: csteipp&#64;...imedia.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: MediaWiki 1.24.2/1.23.9/1.19.24
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; * iSEC Partners discovered a way to circumvent the SVG MIME blacklist for
+&gt; embedded resources (iSEC-WMF1214-11). This allowed an attacker to embed
+&gt; JavaScript in the SVG. The issue was additionally identified by Mario
+&gt; Heiderich / Cure53. MIME types are now whitelisted.
+&gt; <a href="https://phabricator.wikimedia.org/T85850" rel="nofollow">https://phabricator.wikimedia.org/T85850</a>
+
+Use CVE-2015-2931 for this issue involving an incomplete list of
+disallowed MIME types for data: URIs (the application/xml type wasn't
+in this list). In other words, CVE-2015-2931 does not refer more
+generally to the desirability of the "MIME types are now whitelisted"
+decision.
+
+
+&gt; * MediaWiki user Bawolff pointed out that the SVG filter to prevent
+&gt; injecting JavaScript using animate elements was incorrect.
+&gt; <a href="https://phabricator.wikimedia.org/T86711" rel="nofollow">https://phabricator.wikimedia.org/T86711</a>
+
+Use CVE-2015-2932 for this issue involving an incomplete list of
+dangerous parts of HTML5. (The list is supposed to include all uses of
+'animate attributename="xlink:href"' in SVG documents.)
+
+
+&gt; * MediaWiki user Bawolff reported a stored XSS vulnerability due to the way
+&gt; attributes were expanded in MediaWiki's Html class, in combination with
+&gt; LanguageConverter substitutions.
+&gt; <a href="https://phabricator.wikimedia.org/T73394" rel="nofollow">https://phabricator.wikimedia.org/T73394</a>
+
+Use CVE-2015-2933 for this XSS issue.
+
+Also, this part of T73394 seems potentially interesting although it is
+apparently neither a MediaWiki bug nor a PHP bug:
+
+  <a href="https://phabricator.wikimedia.org/T73394#750588" rel="nofollow">https://phabricator.wikimedia.org/T73394#750588</a>
+  preg_match() silently returns false on limit exhaustion
+
+In other words, if a PHP application uses
+"ini_set('pcre.recursion_limit'" and does not properly handle the
+preg_match return value, then a hard-to-find XSS vulnerability might
+exist.
+
+
+&gt; * Internal review discovered that MediaWiki's SVG filtering could be
+&gt; bypassed with entity encoding under the Zend interpreter. This could be
+&gt; used to inject JavaScript. This issue was also discovered by Mario Gomes /
+&gt; Beyond Security.
+&gt; <a href="https://phabricator.wikimedia.org/T88310" rel="nofollow">https://phabricator.wikimedia.org/T88310</a>
+
+Use CVE-2015-2934 for this interaction issue in which (roughly
+speaking) secure operation of MediaWiki had been relying on a libxml
+behavior that was removed for unrelated security reasons. (In other
+words, it's apparently an usual type of vulnerability whose avoidance
+requires studying all "improvements" in new releases of library code,
+and determining whether any of them have unintended adverse
+consequences.)
+
+
+&gt; * iSEC Partners discovered a way to bypass the style filtering for SVG
+&gt; files (iSEC-WMF1214-3) to load external resource. This could violate the
+&gt; anonymity of users viewing the SVG.
+&gt; <a href="https://phabricator.wikimedia.org/T85349" rel="nofollow">https://phabricator.wikimedia.org/T85349</a>
+
+Use CVE-2015-2935 for this issue of information leaks observable in
+log files on an attacker-controlled web server. This issue exists
+because of an incomplete fix for CVE-2014-7199.
+
+
+&gt; * Internal review and iSEC Partners discovered (iSEC-WMF1214-1) that
+&gt; MediaWiki versions using PBKDF2 for password hashing (the default since
+&gt; 1.24) are vulnerable to DoS attacks using extremely long passwords.
+&gt; <a href="https://phabricator.wikimedia.org/T64685" rel="nofollow">https://phabricator.wikimedia.org/T64685</a>
+
+Use CVE-2015-2936 for this vulnerability with a CPU consumption impact.
+
+
+&gt; * Internal review found that MediaWiki is vulnerable to "Quadratic Blowup"
+&gt; DoS attacks, under both HHVM and Zend PHP.
+&gt; <a href="https://phabricator.wikimedia.org/T71210" rel="nofollow">https://phabricator.wikimedia.org/T71210</a>
+
+Use CVE-2015-2937. This is a quadratic issue and isn't the same as the
+CVE-2015-2942 exponential issue affecting only HHVM (see below).
+
+
+&gt; * iSEC Partners reported that the MediaWiki feature allowing a user to
+&gt; preview another user's custom JavaScript could be abused for privilege
+&gt; escalation (iSEC-WMF1214-10). This feature has been removed.
+&gt; <a href="https://phabricator.wikimedia.org/T85855" rel="nofollow">https://phabricator.wikimedia.org/T85855</a>
+
+Use CVE-2015-2938 for this XSS issue.
+
+
+&gt; * Extension:Scribunto - MediaWiki user Jackmcbarn discovered that function
+&gt; names were sanitized in Lua error backtraces, which could lead to XSS.
+&gt; <a href="https://phabricator.wikimedia.org/T85113" rel="nofollow">https://phabricator.wikimedia.org/T85113</a>
+
+Use CVE-2015-2939 for this XSS issue. In the above quoted text, "were
+sanitized" should be "were not sanitized" instead.
+
+
+&gt; * Extension:CheckUser - iSEC Partners discovered that the CheckUser
+&gt; extension did not prevent CSRF attacks on the form allowing checkusers to
+&gt; look up sensitive information about other users (iSEC-WMF1214-6). Since the
+&gt; use of CheckUser is logged, the CSRF could be abused to defame a trusted
+&gt; user or flood the logs with noise.
+&gt; <a href="https://phabricator.wikimedia.org/T85858" rel="nofollow">https://phabricator.wikimedia.org/T85858</a>
+
+For purposes of CVE, we'll accept reports from a software's author
+stating that there is a CSRF vulnerability for a request to read data.
+Use CVE-2015-2940. This does not mean that similar reports from
+arbitrary researchers about arbitrary products would have CVE IDs
+assigned. For many products, the implied security policy does not
+include a CSRF protection mechanism that prevents all
+undesirable/confusing log entries.
+
+
+&gt; I'm not sure if CVE's are assigned for specific runtime
+&gt; configurations? For MediaWiki, we say that HHVM support is experimental,
+&gt; although we do run Wikipedia on it.
+
+There isn't a general rule that CVE IDs are assigned for arbitrary
+unsupported deployments of a product. Our impression is that users may
+realistically decide that the HHVM support is "complete enough" for
+their purposes. Also, in some cases, HHVM support is referenced or
+documented in places that don't directly discuss the experimental
+nature, such as on the <a href="http://www.mediawiki.org/wiki/HHVM" rel="nofollow">http://www.mediawiki.org/wiki/HHVM</a> and
+<a href="http://www.mediawiki.org/wiki/Manual:How_to_debug" rel="nofollow">http://www.mediawiki.org/wiki/Manual:How_to_debug</a> pages. So, here, we
+do want to assign CVE IDs applicable only to HHVM deployments.
+
+
+&gt; * iSEC Partners discovered a XSS vulnerability in the way api errors were
+&gt; reflected under HHVM versions before 3.6.1 (iSEC-WMF1214-8). MediaWiki now
+&gt; detects and mitigates this issue on older versions of HHVM.
+&gt; <a href="https://phabricator.wikimedia.org/T85851" rel="nofollow">https://phabricator.wikimedia.org/T85851</a>
+
+It seems that the major concern here is the HHVM vulnerability fixed
+by the
+<a href="https://github.com/facebook/hhvm/commit/324701c9fd31beb4f070f1b7ef78b115fbdfec34" rel="nofollow">https://github.com/facebook/hhvm/commit/324701c9fd31beb4f070f1b7ef78b115fbdfec34</a>
+commit. Use CVE-2014-9714 for that HHVM vulnerability.
+
+As far as we can tell, T85851 is recommending
+<a href="https://gerrit.wikimedia.org/r/#/c/201020/1/includes/api/ApiFormatWddx.php,unified" rel="nofollow">https://gerrit.wikimedia.org/r/#/c/201020/1/includes/api/ApiFormatWddx.php,unified</a>
+as a vulnerability fix for MediaWiki deployments that use an older
+version of HHVM. Use CVE-2015-2941 for this MediaWiki vulnerability in
+which unsafe calls to wddx_serialize_value can occur.
+
+
+&gt; * iSEC Partners discovered that MediaWiki's SVG and XMP parsing running
+&gt; under HHVM was susceptible to "Billion Laughs" DoS attacks
+&gt; (iSEC-WMF1214-13).
+&gt; <a href="https://phabricator.wikimedia.org/T85848" rel="nofollow">https://phabricator.wikimedia.org/T85848</a>
+
+Use CVE-2015-2942 for this exponential issue, which is different from
+the CVE-2015-2937 quadratic issue mentioned above.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVI4etAAoJEKllVAevmvmsxk0H/R0orjbDyN56mEOJ9a/rlowS
+D5cuaiDe4dzWbqEOzii8g+3d2iVsb1BUJHxfuGOFjf0zstb2KhJP5iaKN6hsXcHn
+HKdtHE8uKMzs5DYxxeGsbphrp/J/Uff1+G7vwPmBTG3Z+tcLNXstuoIO18Pg3HuP
+yT/P37KKJvlyhn5l325M4h0ln3kRu7egDHEctsJGNnb0IHoSoT8VmaiMYs/OwdP/
+GT0XZVc7iNIBpXx0Ao03HxaSMgEfFs5X8PNnO95j9V9ngcP7zKQVT9ycsBHAhawP
+dP+etPml55OJJKViqVZji5Dvv6BxZWnBACgzDI9ZcNFSHSykgr6Y3E+6nxmEKWY=
+=vxIE
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

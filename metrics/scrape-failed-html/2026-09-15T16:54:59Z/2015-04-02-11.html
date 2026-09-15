@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - RE: CVE-2014-8159 kernel: infiniband: uverbs: unprotected physical
+ memory access</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="10">[&lt;prev]</a> <a href="12">[next&gt;]</a> <a href="9">[&lt;thread-prev]</a> <a href="16">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;AM2PR05MB0929FB71C5A4DE92A7709F92DCF20&#64;AM2PR05MB0929.eurprd05.prod.outlook.com&gt;
+Date: Thu, 2 Apr 2015 16:44:07 +0000
+From: Shachar Raindel &lt;raindel&#64;...lanox.com&gt;
+To: Yann Droneaud &lt;ydroneaud&#64;...eya.com&gt;, Haggai Eran &lt;haggaie&#64;...lanox.com&gt;
+CC: Sagi Grimberg &lt;sagig&#64;...lanox.com&gt;, "oss-security&#64;...ts.openwall.com"
+	&lt;oss-security&#64;...ts.openwall.com&gt;, "&lt;linux-rdma&#64;...r.kernel.org&gt;
+ (linux-rdma&#64;...r.kernel.org)" &lt;linux-rdma&#64;...r.kernel.org&gt;,
+	"linux-kernel&#64;...r.kernel.org" &lt;linux-kernel&#64;...r.kernel.org&gt;,
+	"stable&#64;...r.kernel.org" &lt;stable&#64;...r.kernel.org&gt;
+Subject: RE: CVE-2014-8159 kernel: infiniband: uverbs: unprotected physical
+ memory access
+
+
+
+&gt; -----Original Message-----
+&gt; From: Yann Droneaud [mailto:ydroneaud&#64;...eya.com]
+&gt; Sent: Thursday, April 02, 2015 7:35 PM
+&gt; To: Haggai Eran
+&gt; Cc: Shachar Raindel; Sagi Grimberg; oss-security&#64;...ts.openwall.com;
+&gt; &lt;linux-rdma&#64;...r.kernel.org&gt; (linux-rdma&#64;...r.kernel.org); linux-
+&gt; kernel&#64;...r.kernel.org; stable&#64;...r.kernel.org
+&gt; Subject: Re: CVE-2014-8159 kernel: infiniband: uverbs: unprotected
+&gt; physical memory access
+&gt; 
+&gt; Hi Haggai,
+&gt; 
+&gt; Le jeudi 02 avril 2015 à 18:18 +0300, Haggai Eran a écrit :
+&gt; &gt; On 02/04/2015 16:30, Yann Droneaud wrote:
+&gt; &gt; &gt; Hi,
+&gt; &gt; &gt;
+&gt; &gt; &gt; Le jeudi 02 avril 2015 à 10:52 +0000, Shachar Raindel a écrit :
+&gt; &gt; &gt;&gt;&gt; -----Original Message-----
+&gt; &gt; &gt;&gt;&gt; From: Yann Droneaud [mailto:ydroneaud&#64;...eya.com]
+&gt; &gt; &gt;&gt;&gt; Sent: Thursday, April 02, 2015 1:05 PM
+&gt; &gt; &gt;&gt;&gt; Le mercredi 18 mars 2015 à 17:39 +0000, Shachar Raindel a écrit :
+&gt; &gt; &gt;
+&gt; &gt; &gt;&gt;&gt;&gt; +	/*
+&gt; &gt; &gt;&gt;&gt;&gt; +	 * If the combination of the addr and size requested for this
+&gt; &gt; &gt;&gt;&gt; memory
+&gt; &gt; &gt;&gt;&gt;&gt; +	 * region causes an integer overflow, return error.
+&gt; &gt; &gt;&gt;&gt;&gt; +	 */
+&gt; &gt; &gt;&gt;&gt;&gt; +	if ((PAGE_ALIGN(addr + size) &lt;= size) ||
+&gt; &gt; &gt;&gt;&gt;&gt; +	    (PAGE_ALIGN(addr + size) &lt;= addr))
+&gt; &gt; &gt;&gt;&gt;&gt; +		return ERR_PTR(-EINVAL);
+&gt; &gt; &gt;&gt;&gt;&gt; +
+&gt; &gt; &gt;&gt;&gt;
+&gt; &gt; &gt;&gt;&gt; Can access_ok() be used here ?
+&gt; &gt; &gt;&gt;&gt;
+&gt; &gt; &gt;&gt;&gt;          if (!access_ok(writable ? VERIFY_WRITE : VERIFY_READ,
+&gt; &gt; &gt;&gt;&gt;                         addr, size))
+&gt; &gt; &gt;&gt;&gt;                   return ERR_PTR(-EINVAL);
+&gt; &gt; &gt;&gt;&gt;
+&gt; &gt; &gt;&gt;
+&gt; &gt; &gt;&gt; No, this will break the current ODP semantics.
+&gt; &gt; &gt;&gt;
+&gt; &gt; &gt;&gt; ODP allows the user to register memory that is not accessible yet.
+&gt; &gt; &gt;&gt; This is a critical design feature, as it allows avoiding holding
+&gt; &gt; &gt;&gt; a registration cache. Adding this check will break the behavior,
+&gt; &gt; &gt;&gt; forcing memory to be all accessible when registering an ODP MR.
+&gt; &gt; &gt;&gt;
+&gt; &gt; &gt;
+&gt; &gt; &gt; Where's the check for the range being in userspace memory space,
+&gt; &gt; &gt; especially for the ODP case ?
+&gt; &gt; &gt;
+&gt; &gt; &gt; For non ODP case (eg. plain old behavior), does get_user_pages()
+&gt; &gt; &gt; ensure the requested pages fit in userspace region on all
+&gt; &gt; &gt; architectures ? I think so.
+&gt; &gt;
+&gt; &gt; Yes, get_user_pages will return a smaller amount of pages than
+&gt; requested
+&gt; &gt; if it encounters an unmapped region (or a region without write
+&gt; &gt; permissions for write requests). If this happens, the loop in
+&gt; &gt; ib_umem_get calls get_user_pages again with the next set of pages, and
+&gt; &gt; this time if it the first page still cannot be mapped an error is
+&gt; returned.
+&gt; &gt;
+&gt; &gt; &gt;
+&gt; &gt; &gt; In ODP case, I'm not sure such check is ever done ?
+&gt; &gt;
+&gt; &gt; In ODP, we also call get_user_pages, but only when a page fault occurs
+&gt; &gt; (see ib_umem_odp_map_dma_pages()). This allows the user to pre-
+&gt; register
+&gt; &gt; a memory region that contains unmapped virtual space, and then mmap
+&gt; &gt; different files into that area without needing to re-register.
+&gt; &gt;
+&gt; 
+&gt; OK, thanks for the description.
+&gt; 
+&gt; &gt; &gt; (Aside, does it take special mesure to protect shared mapping from
+&gt; &gt; &gt; being read and/or *written* ?)
+&gt; &gt;
+&gt; &gt; I'm not sure I understand the question. Shared mappings that the
+&gt; process
+&gt; &gt; is allowed to read or write are also allowed for the HCA
+&gt; (specifically,
+&gt; &gt; to local and remote operations the same process performs using the
+&gt; HCA),
+&gt; &gt; provided the application has registered their virtual address space as
+&gt; a
+&gt; &gt; memory region.
+&gt; &gt;
+&gt; 
+&gt; I was refering to description of get_user_pages():
+&gt; 
+&gt; <a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/mm/g" rel="nofollow">http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/mm/g</a>
+&gt; up.c?id=v4.0-rc6#n765
+&gt; 
+&gt;  * @force:	whether to force access even when user mapping is currently
+&gt;  *		protected (but never forces write access to shared mapping).
+&gt; 
+&gt; But since ib_umem_odp_map_dma_pages() use get_user_pages() with force
+&gt; argument set to 0, it's OK.
+&gt; 
+&gt; Another related question: as the large memory range could be registered
+&gt; by user space with ibv_reg_mr(pd, base, size, IB_ACCESS_ON_DEMAND),
+&gt; what's prevent the kernel to map a file as the result of mmap(0, ...)
+&gt; in this  region, making it available remotely through IBV_WR_RDMA_READ /
+&gt; IBV_WR_RDMA_WRITE ?
+&gt; 
+
+This is not a bug. This is a feature.
+
+Exposing a file through RDMA, using ODP, can be done exactly like this.
+Given that the application explicitly requested this behavior, I don't
+see why it is a problem. Actually, some of our tests use such flows.
+The mmu notifiers mechanism allow us to do this safely. When the page is
+written back to disk, it is removed from the ODP mapping. When it is
+accessed by the HCA, it is brought back to RAM.
+
+
+Thanks,
+--Shachar
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: bson-ruby DoS and possible injection</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150606160350.CAD816C016E&#64;smtpvmsrv1.mitre.org&gt;
+Date: Sat,  6 Jun 2015 12:03:50 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: phillmv&#64;...te.io
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: bson-ruby DoS and possible injection
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; <a href="http://sakurity.com/blog/2015/06/04/mongo_ruby_regexp.html" rel="nofollow">http://sakurity.com/blog/2015/06/04/mongo_ruby_regexp.html</a>
+
+As far as we can tell, this requires three CVE IDs because there were
+three independent mistakes.
+
+CVE-2015-4410 is for original 2012-01-23 implementation of legal?
+using the ^[0-9a-f]{24}$ regular expression.
+
+CVE-2015-4411 is for the bernerdschaefer 2012-04-17 commit in which
+legal? began using the \A\h{24}\Z regular expression. The
+mongo_ruby_regexp.html blog post describes this as "proper" but later
+explains that it was problematic, in at least one context, because of
+a minor DoS that would have been avoided if the correct \A\h{24}\z
+(lowercase 'z') had been used instead.
+
+CVE-2015-4412 is for the durran 2013-04-07 commit in which the
+\A\h{24}\Z regular expression was changed to the ^[0-9a-f]{24}$
+regular expression.
+
+The copying of the original ^[0-9a-f]{24}$ mistake from Moped::BSON to
+one or more other codebases doesn't require additional CVE IDs.
+
+Similarly, the copying of the \A\h{24}\Z mistake or the second
+^[0-9a-f]{24}$ mistake to one or more other codebases doesn't require
+additional CVE IDs. (It's quite possible that no such copying ever
+occurred.)
+
+The claim in
+<a href="http://homakov.blogspot.ru/2012/05/saferweb-injects-in-various-ruby.html" rel="nofollow">http://homakov.blogspot.ru/2012/05/saferweb-injects-in-various-ruby.html</a>
+of:
+
+  Regexp are just like cars - they should work as same and similar as
+  it's possible. Breaking standard behavior by purpose and telling
+  people "It's not a bug, it's a feature" looks so disgusting to me.
+  It's not a feature, it's a vulnerability.
+
+is not accepted as a Ruby vulnerability by the CVE project. There is
+no CVE ID for the observation that Ruby regular-expression semantics
+can be considered different from regular-expression semantics seen
+elsewhere.
+
+If there are other products (that otherwise qualify for CVE IDs) with
+incorrect and security-relevant uses of ^$ in Ruby code, then there
+can be additional CVE IDs for each independent codebase. For example,
+referring to the "Showcases time" section of the
+saferweb-injects-in-various-ruby.html page, there can't be a CVE ID
+for GitHub.com (because it could be site-specific code) but there
+could be a CVE ID if the issue affected a 2012 version (if one
+existed) of the GitHub Enterprise product.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVcxluAAoJEKllVAevmvmsrrcH/iywyYQPmcd+Bn6gkRKfxUsx
+9TmAgV6lCztWgVR0kqTrBZC5GcACcZWV2jVEg/3RD3/fXH23ulqTvKZEZrbTVIHv
+mDMH5WId3gimyNdy2IkNZqsKeeJxNi6rtWyg+QLD8M1+fLW9vrmRPYKN7VPcHWZX
+ZTEauEFN0Gq+23hM01DUnXpnV1sErtGWceIXnvVKP1skyitgJYhz6SRmyL2+FQpc
+iUAqTJUMeUlEvM40WxQPbX2Q7PeH0dIoNN4UmC2VE/RmzysIDhtaZQwsaFcMDpA3
+wS8Lva/Ici4klxNUxdZsMEKxg1V7y1djlvRDbUlVpqHvrMZbTTkJraf8cbbZJik=
+=o3AI
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

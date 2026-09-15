@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Courier mail server: Write heap overflow in mailbot tool and out of
+ bounds heap read in imap folder parser</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/06/28/2">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150629112404.5a51f079@pc1&gt;
+Date: Mon, 29 Jun 2015 11:24:04 +0200
+From: Hanno Böck &lt;hanno&#64;...eck.de&gt;
+To: oss-security&#64;...ts.openwall.com, fulldisclosure&#64;...lists.org,
+  cve-assign&#64;...re.org
+Subject: Courier mail server: Write heap overflow in mailbot tool and out of
+ bounds heap read in imap folder parser
+
+<a href="https://blog.fuzzing-project.org/17-Courier-mail-server-Write-heap-overflow-in-mailbot-tool-and-out-of-bounds-heap-read-in-imap-folder-parser.html" rel="nofollow">https://blog.fuzzing-project.org/17-Courier-mail-server-Write-heap-overflow-in-mailbot-tool-and-out-of-bounds-heap-read-in-imap-folder-parser.html</a>
+
+Two memory access issues were found in the Courier mail server. These
+issues were discovered by compiling the software with Address Sanitizer
+(-fsanitize=address) and running the test suite.
+
+In the file mailboxlist.c, part of the IMAP folder parser, there is a
+memcmp call checking whether the fist six bytes of a string match
+"SHARED". However the string can be less than six bytes, which will
+cause an out of bounds read access. This issue is unlikely to cause
+much trouble.
+
+In the mailbot tool (mailbot.c) there is a memory allocation for a
+zero-terminated list of pointers. The allocation only reserves one byte
+for the zero termination, however it must be the size of the pointer (8
+bytes on 64 bit systems). Therefore it causes a write heap overflow of
+seven zero bytes. The code parses command line data, therefore it is
+unlikely that any attacker controlled input is affected.
+
+Both issues have been reported to Courier's developer Sam Varshavchik
+on 27th June 2015 and were fixed with the release of courier 0.75 on
+29th June 2015.
+
+Commit / Patch (bundles some unrelated changes, the relevant parts are
+in mailbot.c and mailboxlist.c)
+<a href="https://github.com/svarshavchik/courier-libs/commit/174541a2e670c0ee70fd2fb3116209f96ecc173e" rel="nofollow">https://github.com/svarshavchik/courier-libs/commit/174541a2e670c0ee70fd2fb3116209f96ecc173e</a>
+
+Courier 0.75 release announcement
+<a href="http://sourceforge.net/p/courier/mailman/message/34249147/" rel="nofollow">http://sourceforge.net/p/courier/mailman/message/34249147/</a>
+
+-- 
+Hanno Böck
+<a href="http://hboeck.de/" rel="nofollow">http://hboeck.de/</a>
+
+mail/jabber: hanno&#64;...eck.de
+GPG: BBB51E42
+
+<span style="font-family: times;"><strong>Content of type "</strong>application/pgp-signature<strong>" skipped</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

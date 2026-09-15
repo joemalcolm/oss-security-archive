@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: screen stack overflow (deep
+ recursion)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="10">[&lt;prev]</a> <a href="../../../2015/09/04/1">[next&gt;]</a> <a href="9">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150903184220.GB99086&#64;kcwu.csie.org&gt;
+Date: Fri, 4 Sep 2015 02:42:20 +0800
+From: Kuang-che Wu &lt;kcwu&#64;...e.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: screen stack overflow (deep
+ recursion)
+
+On Thu, Sep 03, 2015 at 02:16:34PM +0300, Solar Designer wrote:
+&gt; On Thu, Sep 03, 2015 at 09:36:29AM +0300, Solar Designer wrote:
+&gt; &gt; On Thu, Sep 03, 2015 at 05:25:11AM +0000, Fiedler Roman wrote:
+&gt; &gt; &gt; What about "tail -f /var/log/syslog", Apache or other kind of logs for
+&gt; &gt; &gt; debugging? [Yes, that's often how logs are running over the screen in videos
+&gt; &gt; &gt; when talking about IT-security]. It's convenient and I'm using screen
+&gt; &gt; &gt; exactly to avoid any injection of commands via TIOCSTI into my current TTY
+&gt; &gt; &gt; when a context switch is needed before starting tail, e.g. when working with
+&gt; &gt; &gt; LXC containers.
+&gt; &gt; 
+&gt; &gt; "tail -f" on a log file is indeed very common, but it is bad practice
+&gt; &gt; (akin to other very common bad practices like a sysadmin going into a
+&gt; &gt; user's homedir as root).  A safer alternative in terms of terminal
+&gt; &gt; escapes is the "F" keypress in "less -nU" (or in "less -nUEX" to more
+&gt; &gt; closely resemble "tail -f").  Unfortunately, I am not aware of a
+&gt; &gt; command-line option that would do this (that is, assume that "F" was
+&gt; &gt; pressed right away) - perhaps one should be added, if it's not already
+&gt; &gt; in there.
+&gt; 
+&gt; Dmitry V. Levin pointed out to me off-list that less already provides a
+&gt; way to specify its normally interactive commands on the command line.
+&gt; The man page says:
+&gt; 
+&gt;        +cmd   Causes the specified cmd to be executed each time a new file  is
+&gt;               examined.  For example, +G causes less to initially display each
+&gt;               file starting at the end rather than the beginning.
+&gt; 
+&gt; and indeed e.g. "less -nUEX +F" works as desired.
+&gt; 
+
+Reading log is just one example that termainal control sequence
+exposure. It's diffcult to remember do everything with | less.
+Untrusted text output is hidden everywhere unexpectedly.
+
+1. If for some reason, you need to run untrusted code. No matter you use
+what kind of container, sandbox, VM, or even dedicated physical machine, you
+probably still use terminal to interact with it. 
+
+2. Even with trusted code, I have verified following mentioned programs
+would output terminal control code as-is unescaped. (on ubuntu)
+
+a. If you need to deal with untrusted data using trusted programs.
+- use gcc to compile untrusted code, it will show lines for warnings
+- git log, git diff on untrusted code. If the output is short, git won't
+  invoke pager.
+- use zipnote(1) to read comments in zip file.
+
+b. If there is an untrusted user on your machine, he may 
+create files with malicious name.
+$ touch $(echo -e '\e[1;33mhello\e[m\e[10000000T')
+- du(1) and locate(1) would output that name as-is.
+- If you, as root, want to check other users' crontab. 
+  "crontab -l -u user" wound not escape control code, too.
+- If the user can use lp(1) to send print job to printer,
+$ echo test | lp -t '^[[1;33mhello^[[m^[[10000000T' -H hold
+-t to set job name, and hold the print job.
+Administrator may use lpq(1) to list print job.
+
+c. I haven't tried, but I guess ping, dig, nslookup, whois, ftp, etc.
+may not escape output.
+
+BTW, here are summary what I found when fuzzing terminal emulaters.
+- libteken: assertion fail, which lead to FreeBSD kernel panic. [1][2][3]
+- mosh: assertion fail [4], lead to mosh-server DoS.
+- tmux: double free, or invalid argument to free/malloc/realloc [5]
+  I guess there are no RCE with glibc's malloc heap protection, no sure.
+- screen: stack overflow[6], and many others
+- rxvt-unicode: out of bound read [7], and many others
+
+
+[1] <a href="https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=202326" rel="nofollow">https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=202326</a>
+[2] <a href="https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=202540" rel="nofollow">https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=202540</a>
+[3] <a href="https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=202612" rel="nofollow">https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=202612</a>
+[4] <a href="https://github.com/mobile-shell/mosh/issues/667" rel="nofollow">https://github.com/mobile-shell/mosh/issues/667</a>
+[5] <a href="https://github.com/tmux/tmux/commit/3219e0314e3d1d39a57db330faa5693ce0264244" rel="nofollow">https://github.com/tmux/tmux/commit/3219e0314e3d1d39a57db330faa5693ce0264244</a>
+[6] <a href="https://savannah.gnu.org/bugs/?45713" rel="nofollow">https://savannah.gnu.org/bugs/?45713</a>
+[7] <a href="http://lists.schmorp.de/pipermail/rxvt-unicode/2015q3/002155.html" rel="nofollow">http://lists.schmorp.de/pipermail/rxvt-unicode/2015q3/002155.html</a>
+
+<span style="font-family: times;"><strong>Content of type "</strong>application/pgp-signature<strong>" skipped</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

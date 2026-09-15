@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2015-1805 Linux kernel: pipe: iovec overrun leading to memory corruption</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150606113057.GA23470&#64;openwall.com&gt;
+Date: Sat, 6 Jun 2015 14:30:57 +0300
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2015-1805 Linux kernel: pipe: iovec overrun leading to memory corruption
+
+Hi,
+
+This is a Linux kernel bug fixed upstream about a year ago, with its
+security impact discovered by Red Hat recently:
+
+<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1202855" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=1202855</a>
+
+Per Red Hat's own statement, all of RHEL 5, 6, and 7 are affected, and
+so far only an update for RHEL5 has been released:
+
+<a href="https://rhn.redhat.com/errata/RHSA-2015-1042.html" rel="nofollow">https://rhn.redhat.com/errata/RHSA-2015-1042.html</a>
+
+Also per Red Hat, this is a "high" severity issue, and the fix is
+"Important".
+
+There's also a "testing" update for OpenVZ/RHEL5:
+
+<a href="https://openvz.org/Download/kernel/rhel5-testing/028stab119.1" rel="nofollow">https://openvz.org/Download/kernel/rhel5-testing/028stab119.1</a>
+
+The OpenVZ/RHEL5 branch was previously EOL'ed in Feb 2015, but its EOL
+appears to have been updated to Feb 2018 (a smart move, given the easy
+to include yet critical security fixes still coming from Red Hat):
+
+<a href="https://openvz.org/Releases" rel="nofollow">https://openvz.org/Releases</a>
+
+(If they didn't do it, I would likely be porting the fix myself now.)
+
+Reviewing the upstream commits:
+
+<a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=f0d1bec9d58d4c038d0ac958c9af82be6eb18045" rel="nofollow">http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=f0d1bec9d58d4c038d0ac958c9af82be6eb18045</a>
+<a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=637b58c2887e5e57850865839cc75f59184b23d1" rel="nofollow">http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=637b58c2887e5e57850865839cc75f59184b23d1</a>
+
+it appears that the issue is that pipe_iov_copy_from_user() and
+pipe_iov_copy_to_user() updated iov-&gt;iov_base and iov-&gt;iov_len, as well
+as a local variable called len, yet the caller maintained its own
+variables offset + addr and chars, which weren't similarly updated
+between retries.  (Also, it appears that the code will retry at most
+once, and as non-atomic, but maybe this makes sense if it assumes the
+caller is at fault for the fault.)
+
+In pipe_write(), this appears to allow for a read of wrong-offset data
+and an over-read of data from userspace.  This may have security impact
+if the condition is triggerable by other than the caller (and other than
+the caller's other threads, which are trusted).  I don't immediately see
+how this may be the case, or what else I might have overlooked.
+
+In pipe_read(), this similarly appears to allow for a write of
+wrong-offset data and an out of bounds write to the userspace buffer.
+This may similarly have (worse?) security impact if the condition is
+triggerable by other than the caller or their threads, but again it's
+unclear to me whether that is the case.
+
+In both cases, the out of bounds data accesses appear to be to userspace
+addresses, and going via copy_from_user() / copy_to_user().  So impact
+looks limited, and it is unclear if the issue is at all triggerable by a
+party untrusted by the one attacked.  This aspect might be non-security.
+
+However, it's trickier than that, since iov traverses over the multiple
+struct iovec's and may eventually be what wasn't actually a struct iovec
+in the caller.  This requires that iov-&gt;iov_len become exactly zero at
+least one extra time.  If iov-&gt;iov_len becomes zero on
+"iov-&gt;iov_len -= copy;" then pipe_iov_copy_to_user() either returns
+success or proceeds to the next iteration of the loop.  In the former
+case, there's no fault at this time.  In the latter case, there might be
+a fault on the next iteration, in which case the caller will retry
+pipe_iov_copy_to_user() with the original iov pointer.  The function
+will then hit an extra !iov-&gt;iov_len (that's been zeroed by its previous
+invocation) and perform iov++ an extra time.
+
+The possibility of "struct iovec *iov" going out of range and the
+subsequent out of bounds metadata accesses feel much more severe than
+the out of bounds accesses to actual data in the userspace.
+"iov-&gt;iov_base += copy;" and "iov-&gt;iov_len -= copy;" might then be
+corrupting kernel memory.  It feels relatively unimportant what the
+resulting values of iov_base and iov_len will be for their intended
+purpose, since we use copy_from_user() / copy_to_user() on them anyway.
+It feels more important that these "+=" and "-=" operators directly
+modify individual words in kernel memory, albeit only slightly(?) out of
+bounds of the original iov array.  So maybe it's this risk that needs
+to be evaluated further.
+
+I have quite possibly overlooked the elephant.
+
+Red Hat's description includes the usual wording:
+
+"A local, unprivileged user could use this flaw to crash the system
+or, potentially, escalate their privileges on the system."
+
+I'd like to know how.  "Crash the system" will do.  Thanks.
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE for Kali Linux</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="28">[&lt;prev]</a> <a href="30">[next&gt;]</a> <a href="28">[&lt;thread-prev]</a> <a href="30">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;B4A0F2FB-FAE2-4ECB-A158-82F55DAAA580&#64;stufft.io&gt;
+Date: Sun, 22 Mar 2015 14:15:32 -0400
+From: Donald Stufft &lt;donald&#64;...fft.io&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE for Kali Linux
+
+
+&gt; On Mar 22, 2015, at 1:55 PM, Kurt Seifried &lt;kseifried&#64;...hat.com&gt; wrote:
+&gt; 
+&gt; On 03/22/2015 11:23 AM, Solar Designer wrote:
+&gt;&gt; On Sun, Mar 22, 2015 at 12:54:57PM -0400, David A. Wheeler wrote:
+&gt;&gt;&gt; On 2015-02-26 I reported to Cygwin that they had a similar man-in-the-middle issue.
+&gt;&gt;&gt; The Cygwin package manager (which downloaded all other packages) was unprotected
+&gt;&gt;&gt; and downloaded using http (as <a href="http://cygwin.com/setup-x86.exe" rel="nofollow">http://cygwin.com/setup-x86.exe</a> or <a href="http://cygwin.com/setup-x86_64.exe" rel="nofollow">http://cygwin.com/setup-x86_64.exe</a>).
+&gt;&gt;&gt; They changed it to load with HTTPS, and later added HTTP Strict Transport Security (HSTS).
+&gt;&gt; 
+&gt;&gt; IMO, http vs. https is a red herring.  We shouldn't be focusing on
+&gt;&gt; security of software downloads, but rather on authenticity of the
+&gt;&gt; software.  If the distribution web server gets compromised, https
+&gt;&gt; doesn't help.  Thus, GPG signatures and the like.
+&gt; 
+&gt; The problem is to do this you need some key/shared secret/verifiable
+&gt; secret, e.g. a GPG key. How do I get the GPG key securely?
+&gt; 
+&gt; In reality most system, for better or worse, ship with a set of
+&gt; certificate roots that can be used (in theory) to prove the validity of
+&gt; a web site. Hence the HTTP vs HTTPS debate. Sadly, HTTPS is the best we
+&gt; have for that initial bootstrap often.
+&gt; 
+&gt; My personal thought on this is the same reason I sign all my email. I
+&gt; don't sign my email for security reasons, so much as to prove the
+&gt; validity of the key, e.g. at this point either I truly am
+&gt; keifried&#64;...hat.com or someone has been impersonating me for so long and
+&gt; getting away with it, they might as well be me.
+&gt; 
+&gt; So in the case of an ISO download that is GPG signed how do I verify the
+&gt; key is correct? If this is all done over HTTP it is pretty trivial for
+&gt; an attacker to run a Man in the Middle proxy that string replaces they
+&gt; key/signature as needed. HTTPS significantly raises this bar, it goes
+&gt; from "run off the shelf Squid/etc" to "convince a CA to give you a wonky
+&gt; certificate".
+&gt; 
+&gt;&gt; I don't care about CVEs much, but if CVEs start being assigned to
+&gt;&gt; anything like this, they should be for lack of signatures or lack of
+&gt;&gt; signature verification in the vendor's recommended software installation
+&gt;&gt; or update mechanism or lack of a way to verify the signing key or lack
+&gt;&gt; of key verification in the vendor's recommended procedures (where
+&gt;&gt; applicable).  (With key verification, it gets tricky.  So probably those
+&gt;&gt; issues are not CVE-worthy yet, except in extreme cases where e.g. new
+&gt;&gt; signing keys would be downloaded automatically with no verification.)
+&gt; 
+&gt; That is what we have done in past, however in this case my question is
+&gt; still "if a vendor provides a download securely, but then advises people
+&gt; to do something really insecure, does that win a CVE”.
+
+To be clear, I have a massive +1 on getting anything behind HTTPS, but IIRC
+CVEs are only for vulnerabilities in software that get distributed? In other
+words, the lack of HTTPS on a particular site is not a CVE worthy issue, but
+if some software that connects to HTTPS sites doesn’t verify the TLS then
+that is a vulnerability?
+
+The line does get grey in the terms of tooling designed to interact with a
+particular domain that does not have HTTPS enabled.
+
+However in a more pertinent note, it looks like Kali Linux downloads are hosted
+over HTTPS with SHA1 digests (which are signed by GPG), when I clicked on the
+link to actually download them I was taken to: <a href="https://www.kali.org/downloads/" rel="nofollow">https://www.kali.org/downloads/</a>
+
+So it sounds like in this case the docs that the thread originally started with
+are likely just outdated? There’s SSL stripping issues of course, since the
+docs themselves are not hosted via HTTPS someone can MITM those to rewrite the
+instructions to point to somewhere else… but that quickly starts getting into
+the weeds in terms of a CVE-worthiness.
+
+&gt; 
+&gt;&gt; They should not be for use of http, nor for https vulnerabilities.
+&gt;&gt; 
+&gt;&gt; https does offer a security aspect that signatures don't: it hides from
+&gt;&gt; some observers which exact software is being downloaded (and maybe that
+&gt;&gt; it's a software download at all).  It doesn't do that perfectly because
+&gt;&gt; the target address and transfer timings and sizes may be revealing, but
+&gt;&gt; I do acknowledge there's some subtle improvement over http here.  I just
+&gt;&gt; think this is far less important than ensuring authenticity of the
+&gt;&gt; software.  So let's demand signatures and signature verification first,
+&gt;&gt; and let's not be distracted by http vs. https.
+&gt; 
+&gt; How do you propose we bootstrap secure key distribution and verification
+&gt; then? This is a real world problem with no easy solution.
+&gt; 
+&gt;&gt; Alexander
+&gt;&gt; 
+&gt; 
+&gt; --
+&gt; Kurt Seifried -- Red Hat -- Product Security -- Cloud
+&gt; PGP A90B F995 7350 148F 66BF 7554 160D 4553 5E26 7993
+&gt; 
+
+---
+Donald Stufft
+PGP: 7C6B 7C5D 5E2B 6356 A926 F04F 6E3C BCE9 3372 DCFA
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="29/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (802 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

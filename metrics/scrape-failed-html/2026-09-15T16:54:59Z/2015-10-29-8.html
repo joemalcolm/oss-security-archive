@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 150 (CVE-2015-7970) - x86: Long latency
+ populate-on-demand operation is not preemptible</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1Zrlsh-00026q-Iu&#64;xenbits.xen.org&gt;
+Date: Thu, 29 Oct 2015 12:00:35 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 150 (CVE-2015-7970) - x86: Long latency
+ populate-on-demand operation is not preemptible
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+             Xen Security Advisory CVE-2015-7970 / XSA-150
+                               version 5
+
+    x86: Long latency populate-on-demand operation is not preemptible
+
+UPDATES IN VERSION 5
+====================
+
+Updated patch.  Compared to the version in XSA-150 v4 and earlier,
+this patch is simpler and involves less rearrangement of the code.  It
+is therefore thought to be less risky.  However, both this version and
+the earlier versions have been tested, and both versions eliminate the
+vulnerability.  Readers who have already prepared updates with, and/or
+deployed, the earlier patch, do not necessarily need to update.
+
+Public release.
+
+ISSUE DESCRIPTION
+=================
+
+When running an HVM domain in Populate-on-Demand mode, Xen would
+sometimes search the domain for memory to reclaim, in response to
+demands for population of other pages in the same domain.
+
+This search runs without preemption.  The guest can, by suitable
+arrangement of its memory contents, create a situation where this
+search is a time-consuming linear scan of the guest's address space.
+
+The scan might be triggered by the guest's own actions, or by
+toolstack operations such as migration.  In guests affected by
+XSA-153, this scan might be triggered simply by memory pressure in the
+guest.
+
+Even guests not started in PoD mode can create PoD entries.
+
+IMPACT
+======
+
+A malicious HVM guest administrator can cause a denial of service.
+Specifically, prevent use of a physical CPU for a significant period.
+
+If a host watchdog (Xen or dom0) is in use, this can lead to a
+watchdog timeout and consequently a reboot of the host.  If another,
+innocent, guest, is configured with a watchdog, this issue can lead to
+a reboot of such a guest.
+
+In guests affected by XSA-153, this vulnerability may also be
+triggered by an unprivileged guest user, simply by imposing a workload
+which generates memory pressure.
+
+VULNERABLE SYSTEMS
+==================
+
+The vulnerability is exposed to any x86 HVM guest.
+
+ARM is not vulnerable.  x86 PV VMs are not vulnerable.
+
+Versions of Xen from 3.4 onwards are affected.
+
+MITIGATION
+==========
+
+Running only PV guests will avoid this issue.
+
+On systems not also vulnerable to XSA-153, the vulnerability can be
+avoided by ensuring that only trusted guest kernels are used, and that
+further steps are taken to prevent a guest administrator from loading
+code into the kernel (e.g. by disabling loadable modules etc) or from
+using other mechanisms which allow them to run code at kernel
+privilege.
+
+CREDITS
+=======
+
+This is issue was disclosed by Andrew Cooper of Citrix.
+
+RESOLUTION
+==========
+
+Attached is a patch which resolves the issue by limiting the
+long-running "sweep" operation.
+
+This patch will resolve the issue on systems where PoD is not
+intentionally in use.  (Ie, where all HVM guests are started with
+memory==maxmem.)
+
+
+When PoD is in use, there are concerns that there may be situations --
+operating systems not tested, or buggy balloon drivers, for example --
+where limiting the long-running operation may cause guests to crash
+which may otherwise not.
+
+Therefore, the patch should be used with caution.
+
+This patch can interact badly on configurations vulnerable to XSA-153.
+XSA-153 is triggerable by unprivileged guest users.  The patch changes
+the consequences from a host-wide CPU denial problem (which might be
+tolerated without catastrophic symptoms in some configurations) into a
+likely guest crash; thus it limits the scope of the consequences to
+the specific guest, but may worsen the severity.
+
+
+xsa150.patch      xen-unstable, Xen 4.6.x, Xen 4.5.x, Xen 4.4.x, Xen 4.3.x
+
+$ sha256sum xsa150*
+9054215f08cab48d2523efb456eb3c93ca6ac580d661f6e4f1feca115c67afa8  xsa150.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of the patches and/or mitigations described above (or
+others which are substantially similar) is permitted during the
+embargo, even on public-facing systems with untrusted guest users and
+administrators.
+
+But: Distribution of updated software is prohibited (except to other
+members of the predisclosure list).
+
+Predisclosure list members who wish to deploy significantly different
+patches and/or mitigations, please contact the Xen Project Security
+Team.
+
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJWMgobAAoJEIP+FMlX6CvZ7W4H/36Bx6Aj+4PX3kLPwzsheejj
+CWpOQjM4BZAVWkv1N9QInJagZ87qRFwFGlM8FzDuGy3dE7Df5MCs/BH9B1xrJ0E9
+Ur30mpsw1IAf9YF/l/XlNLf9G6XCo/g2yS7Jfv5qk3953+0ZkqSd7t8ekFaQSKUz
+GGOkhQKJuFsnEmimQTLLBt6brHaYfFJtnbKIFzcBQtRExlKI3BYk3OHNLvIUlj6X
+MGij0fJTJggvGjaZ+Olthf0GLtDIZ8GbWD+0FQ4bJwEAacSJ1eVOYzVAdNfFIuVv
+73MyN8QyEgu+HSc9RJnILV/g7oIfuGazo1A19KAjeImd81W4bQDVnZJ1KCkcbd0=
+=ISHR
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="8/1" rel="nofollow" download>xsa150.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (6767 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

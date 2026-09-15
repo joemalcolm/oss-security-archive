@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: Linux x86_64 NT flag issue - Linux kernel</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="../../../2015/08/29/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150825032115.659E16FC026&#64;smtpvmsrv1.mitre.org&gt;
+Date: Mon, 24 Aug 2015 23:21:15 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: luto&#64;...capital.net
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: Linux x86_64 NT flag issue - Linux kernel
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; When I fixed Linux's NT flag handling, I added an optimization to
+&gt; Linux 3.19 and up. A malicious 32-bit program might be able to leak
+&gt; NT into an unrelated task. On a CONFIG_PREEMPT=y kernel, this is a
+&gt; straightforward DoS. On a CONFIG_PREEMPT=n kernel, it's probably
+&gt; still exploitable for DoS with some more care.
+&gt; 
+&gt; I believe that this could be used for privilege escalation, too, but
+&gt; it won't be easy.
+&gt; 
+&gt; The fix is just to revert the optimization:
+&gt; 
+&gt; <a href="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=512255a2ad2c832ca7d4de9f31245f73781922d0" rel="nofollow">https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=512255a2ad2c832ca7d4de9f31245f73781922d0</a>
+&gt; 
+&gt; Mitigation: CONFIG_IA32_EMULATION=n
+
+Use CVE-2015-6666.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJV290aAAoJEL54rhJi8gl51BEP/3YJaklikoui7IEnP++vCiyw
+ZKapRPky4Gp2aDs0aecdsgkq+n18zq2NjfsECw5I3hvf9Anmg264pwbvrckmpITu
+6Zm3V9yvO4DeJdMCDAk9W7YZzXmW1H18cXCa8DkG4Fr53h4ZZ1tUCsunXXZ82VHT
+mlLiJtMlPazjaGinVLK9maMrYkmubOMOnq4sCpbGbHplo9SVfapg0BCZ5mPJyjPQ
+f12Z2HRu8Gz3axij27+2vm0YA153JzELrJJ7O50Pu64cfFliXBhy0HN89OvML69h
+qkR4QDvFlMmnKJIUSuiYA5exsUMUIQiCfu+ID0ho6v+HbsKNhhdS8VaFtI7LVIKJ
+qOYG+EcaotiYz/2KnXuIKhxuLkU+jy42omhfLtWzf1N3GY1+L8I4yaSgmI0fAZag
+k+oLWRLujAxiy58KbSfOZcpPj1IHtPXkgNBlGUWepAx8we49RvsWBNYVRTEOW+5l
+3JAXBUUhueMc6+j69QjOJLmCLUKRZyRKDcxBUh8ZuiSkw+wPbOipQZMMLHpxuUAf
+yGJIKArqG5pBajdzS29KjFL9mDwAs84rIR2PIlEF791k2a/5ZwN/xJr0v76cLnRI
+Cjzd6re9ta70IhxMNlRhSCRepIRv5I5Ik3uHFj15bPdIul+3m01v7uZL2krGEQAl
+HY2AwGUOLrm8lo8eAISC
+=AgVe
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

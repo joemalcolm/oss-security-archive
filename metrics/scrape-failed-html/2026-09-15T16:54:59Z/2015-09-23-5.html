@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Vulnerability in WhiteHEAT Linux
+ Driver-CVE-2015-5257</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="../../../2015/09/24/1">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150923185442.GA4974&#64;kroah.com&gt;
+Date: Wed, 23 Sep 2015 11:54:42 -0700
+From: Greg KH &lt;greg&#64;...ah.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Vulnerability in WhiteHEAT Linux
+ Driver-CVE-2015-5257
+
+On Tue, Sep 22, 2015 at 08:17:06PM -0700, Greg KH wrote:
+&gt; On Tue, Sep 22, 2015 at 05:49:53PM -0700, Moein Ghasemzadeh wrote:
+&gt; &gt; Hello,
+&gt; &gt; 
+&gt; &gt; We have discovered a vulnerability in a linux kernel module and would
+&gt; &gt; like to inform you so that required actions could be taken.
+&gt; &gt; 
+&gt; &gt; Assigned CVE ID : CVE-2015-5257.
+&gt; &gt; 
+&gt; &gt; Below is the description of the vulnerability.
+&gt; &gt; 
+&gt; &gt; 1. Software name and vendor name:
+&gt; &gt; USB WhiteHEAT serial driver by ConnecTech in the Linux kernel
+&gt; &gt; v3.19.0-28, but likely to exist in all kernel versions.
+&gt; &gt; 
+&gt; &gt; 2. Type of vulnerability or attack outcome:
+&gt; &gt; 
+&gt; &gt; The vulnerability triggers a kernel NULL pointer dereference. It causes
+&gt; &gt; the OS to freeze on many machines and requires a cold reboot, causing
+&gt; &gt; denial of service.
+&gt; &gt; 
+&gt; &gt; 3. A description of the affected code (e.g. the function name, the
+&gt; &gt; vulnerable web page, link to the affected code, a bug entry, etc.):
+&gt; &gt; 
+&gt; &gt; The flaw exists in the "whiteheat_attach" function in
+&gt; &gt; drivers/usb/serial/whiteheat.c in the Whiteheat USB Serial Driver in the
+&gt; &gt; Linux kernel.
+&gt; &gt; (<a href="http://lxr.free-electrons.com/source/drivers/usb/serial/whiteheat.c?v=3.19" rel="nofollow">http://lxr.free-electrons.com/source/drivers/usb/serial/whiteheat.c?v=3.19</a>)
+&gt; &gt; 
+&gt; &gt; 
+&gt; &gt; In the driver, the “COMMAND_PORT” variable is hard coded and is set to
+&gt; &gt; “4” (5th element). So, the driver assumes that the number of ports
+&gt; &gt; always will be 5 and takes the port number 5 as the command port. But,
+&gt; &gt; using a specially made USB device in which the number of ports was set
+&gt; &gt; to a number less than 5 (e.g. 3) we were able to perform Denial of
+&gt; &gt; Service on the system due to a kernel NULL pointer dereference. The
+&gt; &gt; system froze and requires a reboot.
+&gt; &gt; 
+&gt; &gt; You may find more information regarding the bug from the logs attached
+&gt; &gt; to this email. Please let us know if you have any questions or concerns.
+&gt; 
+&gt; FWIW, the USB serial subsystem maintainer was just told about this an
+&gt; hour or so ago, and is working on a patch for this, which should be
+&gt; merged into Linus's tree by the end of the week or so.
+
+And here's a patch if distros care to pick it up earlier than "normal":
+	<a href="https://lkml.kernel.org/r/" rel="nofollow">https://lkml.kernel.org/r/</a>&lt;1443033702-29600-1-git-send-email-johan&#64;...nel.org&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

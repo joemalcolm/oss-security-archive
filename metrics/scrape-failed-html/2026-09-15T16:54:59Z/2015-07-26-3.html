@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Qualys Security Advisory - CVE-2015-3245
+ userhelper - CVE-2015-3246 libuser</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="../../../2015/07/27/1">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="../../../2015/07/27/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150726114316.4664271b@pc1&gt;
+Date: Sun, 26 Jul 2015 11:43:16 -0700
+From: Hanno Böck &lt;hanno&#64;...eck.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Qualys Security Advisory - CVE-2015-3245
+ userhelper - CVE-2015-3246 libuser
+
+On Sat, 25 Jul 2015 23:01:28 +0200
+Leif Nixon &lt;nixon&#64;...ator.liu.se&gt; wrote:
+
+&gt; Frankly, over the years I have seen pretty few people on the side of
+&gt; the angels complain that "But *why* didn't you include a weaponized
+&gt; exploit with your advisory? I feel so cheated!".
+
+There were several occasions where I disliked that people didn't
+release their poc code in the past. Maybe I haven't complained enough
+about it publicly. (examples I can remember right away include BERserk
+- were now someone else created a poc - and zip password encryption
+flaws)
+
+Now there is sometimes a difference between a weaponized exploit and a
+testable one, but not always.
+I agree that it's not nice to release an exploit right away, but I
+greatly apprechiate if people release poc code at all. I think some
+best practice would be "release an advisory and pre-announce poc exploit
+with specified date, wait some time (maybe a week), release exploit".
+
+&gt; In these situations, where an exploit for a new local root
+&gt; vulnerability turned up without prior warning, we typically started
+&gt; seeing root-level incidents within 24 hours. Have you ever tried to
+&gt; get big organizations, made up of a zillion independent entities, to
+&gt; apply security patches within a timescale of hours?
+
+Now here I think your arguments get into a dangerous direction. Because
+it could be understood as that you'd take the lack of an exploit as an
+excuse not to patch fast.
+
+I think it's a crucial thing that can be learned from many of the high
+profile vulns we saw in the past years - patching time matters more and
+more. Just remember the drupalgeddon issue where it was later said
+that everyone who hasn't patched within 7 hours should be considered
+exploited. And I don't think there's any way to stop that.
+
+What we need to keep in mind I think is this: Basically there is no
+agreed procedure how to do "proper responsible disclosure". There are
+many opinions out there and as much as you may dislike it, you just
+have to be prepared for things happening. Some people will think
+releasing exploits right away is ok. If the bug finder doesn't,
+maybe someone else will release a working exploit within hours.
+Sometimes agreed upon embargo timelines will break because some PR
+person broke the embargo (yeah, qualys again). And you can't exclude
+the possibility that people will do even less nice things like
+releasing a working binary exploit without a patch and just let the IT
+sec community figure the bug out. (I'm actually surprised that these
+things don't happen more often.)
+
+None of that is desirable in my opinion, but it has happened and
+it will happen again. You have to be prepared for that. If you run
+important IT infrastructure make sure you have a plan to patch fast.
+And "fast" is hours these days.
+
+-- 
+Hanno Böck
+<a href="http://hboeck.de/" rel="nofollow">http://hboeck.de/</a>
+
+mail/jabber: hanno&#64;...eck.de
+GPG: BBB51E42
+
+<span style="font-family: times;"><strong>Content of type "</strong>application/pgp-signature<strong>" skipped</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 160 (CVE-2015-8341) - libxl leak of pv
+ kernel and initrd on error</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1a6GyL-0003v0-Cb&#64;xenbits.xen.org&gt;
+Date: Tue, 08 Dec 2015 12:02:21 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 160 (CVE-2015-8341) - libxl leak of pv
+ kernel and initrd on error
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+            Xen Security Advisory CVE-2015-8341 / XSA-160
+                              version 3
+
+              libxl leak of pv kernel and initrd on error
+
+UPDATES IN VERSION 3
+====================
+
+Public release.
+
+ISSUE DESCRIPTION
+=================
+
+When constructing a guest which is configured to use a PV bootloader
+which runs as a userspace process in the toolstack domain
+(e.g. pygrub) libxl creates a mapping of the files to be used as
+kernel and initial ramdisk when building the guest domain.
+
+However if building the domain subsequently fails these mappings would
+not be released leading to a leak of virtual address space in the
+calling process, as well as preventing the recovery of the temporary
+disk files containing the kernel and initial ramdisk.
+
+IMPACT
+======
+
+For toolstacks which manage multiple domains within the same process,
+an attacker who is able to repeatedly start a suitable domain (or many
+such domains) can cause an out-of-memory condition in the toolstack
+process, leading to a denial of service.
+
+Under the same circumstances an attacker can also cause files to
+accumulate on the toolstack domain filesystem (usually under /var in
+dom0) used to temporarily store the kernel and initial ramdisk,
+perhaps leading to a denial of service against arbitrary other
+services using that filesystem.
+
+VULNERABLE SYSTEMS
+==================
+
+Both ARM and x86 systems using a libxl based toolstack are potentially
+vulnerable.
+
+Only libxl-based toolstacks which manage multiple domains in the same
+process (such as `libvirt') are vulnerable.
+
+libxl-based toolstacks which manage only a single domain per process
+and which exit on failure to create a domain (such as `xl') are not
+vulnerable.
+
+Toolstacks not using libxl are not vulnerable to this issue.
+
+Only domains configured to use a PV bootloader in the toolstack domain
+(e.g. pygrub) will expose this issue.  Domains configured to use
+pvgrub (a totally different program) are not vulnerable.
+
+x86 HVM domains are not vulnerable.
+
+Systems where the kernel and initial ramdisk are provided by the host
+administrator from files in domain 0 are not vulnerable.
+
+Xen versions 4.1.x and later are vulnerable.
+
+MITIGATION
+==========
+
+Avoiding the use of the PV bootloader mechanisms which run as
+processes in the toolstack domain (pygrub), either by providing
+kernels directly from the toolstack domain or using a PV bootloader
+which runs in guest context (such as pvgrub) will prevent exposure of
+this issue.
+
+CREDITS
+=======
+
+This issue was discovered by George Dunlap of Citrix.
+
+RESOLUTION
+==========
+
+Applying the appropriate attached patch resolves this issue.
+
+xsa160.patch               xen-unstable
+xsa160-4.6.patch           Xen 4.5.x, 4.6.x
+xsa160-4.4.patch           Xen 4.3.x, 4.4.x
+
+$ sha256sum xsa160*
+470811aeead5e942d6fedad5b4e21bee85f2160b022bcab315520014b6aa39a6  xsa160.patch
+d0ce9e3c2b951ac3d25da4a0f6f232b13980625a249ed9c4cd6e9484721943a5  xsa160-4.4.patch
+40362873b7fa2c1450596ef9ea23c73f80608b77ca50b89e62daf46c131fcee6  xsa160-4.6.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of the patch described above (or others which are
+substantially similar) is permitted during the embargo, even on
+public-facing systems with untrusted guest users and administrators.
+
+However deployment of the mitigations described above is not permitted
+(except where all the affected systems and VMs are administered and
+used only by organisations which are members of the Xen Project
+Security Issues Predisclosure List).  Specifically, deployment on
+public cloud systems is NOT permitted.
+
+This is because such a change to the bootloader arrangements of a PV
+guest would be a user-visible change which could lead to the
+rediscovery of the vulnerability.
+
+But: Distribution of updated software is prohibited (except to other
+members of the predisclosure list).
+
+Predisclosure list members who wish to deploy significantly different
+patches and/or mitigations, please contact the Xen Project Security
+Team.
+
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJWZr8JAAoJEIP+FMlX6CvZfEYH/Rg7X9HdB+937h81tq30nrkE
+/PazyPDB8DprHL0X/IjPEQFvGOazCf45uzSzkrPXaFwu27yhbAxx/m8s94FxUjWb
+EiWwYKsb0Gh9OBejRkgiB3VMQmySWqkcjzUR1f2hk4iJ3yX8q2peRECK/Ba9aYPu
+lHN9aycnh1ORPmWPUUo8cMFhRVag1P5E77mqrxXo2nfed23xDA5GeZceg8XoT67n
+T2m59xAEwrSrHypb/XESuwtEU67CnowRcxlH7Z3EEk+ljvxOBvdovNp0yztOtArK
+EnV3UAwM+YMXvoYB4YZUQ/q9tZ1dIgyeTosOSoNHI471lBYL9QTlO22bc4+qKCE=
+=IjJr
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/1" rel="nofollow" download>xsa160.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2739 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/2" rel="nofollow" download>xsa160-4.4.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2702 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/3" rel="nofollow" download>xsa160-4.6.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2744 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

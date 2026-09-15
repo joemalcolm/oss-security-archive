@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: hostapd/wpa_supplicant - Incomplete WPS and P2P NFC NDEF record payload length validation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="../../../2015/11/03/1">[next&gt;]</a> <a href="../../../2015/10/30/6">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151102225245.3B9DC42E007&#64;smtpvbsrv1.mitre.org&gt;
+Date: Mon,  2 Nov 2015 17:52:45 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: j&#64;...fi
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: hostapd/wpa_supplicant - Incomplete WPS and P2P NFC NDEF record payload length validation
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; <a href="http://w1.fi/security/2015-5/incomplete-wps-and-p2p-nfc-ndef-record-payload-length-validation.txt" rel="nofollow">http://w1.fi/security/2015-5/incomplete-wps-and-p2p-nfc-ndef-record-payload-length-validation.txt</a>
+
+&gt;&gt; Note: No NFC stack implementation has yet been identified with
+&gt;&gt; capability to pass the malformed NDEF record to
+&gt;&gt; hostapd/wpa_supplicant. As such, it is not known whether this issue can
+&gt;&gt; be triggered in practice.
+
+&gt;&gt; While such validation is likely done in the NFC
+&gt;&gt; stack that needs to parse the NFC messages before further processing,
+&gt;&gt; hostapd/wpa_supplicant should have (re)confirmed NDEF message validity
+&gt;&gt; properly.
+
+&gt; <a href="https://w1.fi/cgit/hostap/commit/src/wps/ndef.c?id=df9079e72760ceb7ebe7fb11538200c516bdd886" rel="nofollow">https://w1.fi/cgit/hostap/commit/src/wps/ndef.c?id=df9079e72760ceb7ebe7fb11538200c516bdd886</a>
+
+&gt;&gt; It was possible for the 32-bit record-&gt;total_length value to end up
+&gt;&gt; wrapping around due to integer overflow if the longer form of payload
+&gt;&gt; length field is used and record-&gt;payload_length gets a value close to
+&gt;&gt; 2^32.
+
+Use CVE-2015-8041 for this integer overflow (with various possible
+impacts). The vendor's report is listed under "security advisories" on
+the <a href="http://w1.fi/security" rel="nofollow">http://w1.fi/security</a> page, and it may be reasonable to interpret
+"hostapd/wpa_supplicant should have (re)confirmed NDEF message
+validity properly" to mean "hostapd/wpa_supplicant had a vulnerability
+because they did not (re)confirm NDEF message validity properly." In
+other words, although the issue is not exploitable with any known NFC
+implementation, the hostapd/wpa_supplicant design goal was to operate
+safely even if validation were missing in an NFC implementation.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWN+iXAAoJEL54rhJi8gl5WPQP/jCEUAEaL41RDQtIr+z8AQ9K
+0eCZvwc3aenIJBe77KaU8f77VHbyM3pCatheArzv1KHOEyRvezr5KKscVcYxi6bj
+20NnNXpWRTLoxduU0tz/2C6mUNv05VsZaRwFe1nsPHH+yDwMfzcOD6MB5esJ64l6
+ZI+SbA6QMEGzq5oflWtIrijLif/YcevYyIlVJyDQjXrnvL/+g/ZfegnWruaJjWaU
+CUrkAfHdeXdfk260b1hVoqncPrqIASRm2GQGhR9EzpqNWDZNcF8iGtc8LBUzSlk7
+2ZmRaID4Yw57MNlFXPgn+q6scCpGWuDPAXIeJ5uBNcp4V8VVQp3zPmE9KdRzDQ1c
+oypYxFfsu0/B7oW/q8nIfuz/UZge+2DZD+etPaN1jG5IpSOJhFCIgiJ8PNl6UlUU
+yJNwXAMUy5+xBLULHyBhlsPc6sjJppnzP4YD/vPnzQ0uhKAXXIF/rjfi2fhX0lF7
+iGikGwCXqejP4uwqJ7zE/oOh6oEEkSVYN4sqERsHmnhdE5teLMF/XOodv5P8afNX
+sPbnrh67/G7PopFTCH6N4wXZrJPbi+YzETI+GXpgu1nEOkC5jtycYqV9lKnTBjQT
+e6wxWk0OGdXeettqRZUhB1LTNm7OIoEjBb/+63AEyl8P6z6aqM+xXUQlNLcQHU1m
+GDmrNOp6JAhzg1+xMggO
+=1n9O
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

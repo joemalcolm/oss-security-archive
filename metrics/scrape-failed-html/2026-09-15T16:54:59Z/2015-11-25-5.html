@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request: RCE in gitlab-shell 2.6.6-2.6.7</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CADMWQoN+5h8vzSt+DFKN1YTzma0V3TFgiH2o6d2P6Tu50xRmsg&#64;mail.gmail.com&gt;
+Date: Wed, 25 Nov 2015 16:28:18 +0100
+From: Jacob Vosmaer &lt;jacob&#64;...lab.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE request: RCE in gitlab-shell 2.6.6-2.6.7
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Hi,
+
+I would like to request one (1) CVE for the vulnerability in
+gitlab-shell described below. Thanks in advance.
+
+We have found a remote code execution vulnerability in gitlab-shell
+2.6.6 and 2.6.7. This affects GitLab Community Edition 8.2.0 and
+GitLab Enterprise Edition 8.2.0. GitLab 8.1.4 and earlier versions
+are not affected by this vulnerability.
+
+GitLab allows users to push and pull Git data over SSH. To prevent
+full system access via SSH we use gitlab-shell, a program that
+sanitizes and validates SSH commands that run on the GitLab server
+to send and receive Git data. Due to a change in gitlab-shell
+2.6.6-2.6.7, an attacker who has a user account on a GitLab server
+can bypass the sanitization in gitlab-shell and run arbitrary
+commands on the GitLab server.
+
+The only versions of GitLab that include a vulnerable version of
+gitlab-shell  are GitLab Community Edition 8.2.0 and GitLab Enterprise
+Edition 8.2.0. If you are still running GitLab 8.1 or earlier then
+you are not affected by this vulnerability.  As an administrator
+you can check your gitlab-shell version by going to
+gitlab.example.com/admin and looking in the upper right corner in
+the 'Components' section. Only gitlab-shell versions 2.6.6 and 2.6.7
+are affected.
+
+If you installed GitLab 8.2.0 on your server then you should  [upgrade
+immediately](<a href="https://about.gitlab.com/update/" rel="nofollow">https://about.gitlab.com/update/</a>).
+
+This vulnerability was fixed by:
+<a href="https://gitlab.com/gitlab-org/gitlab-shell/commit/dacb8ec07645f254c3a2cf7d6f1d6c26b4f33dce" rel="nofollow">https://gitlab.com/gitlab-org/gitlab-shell/commit/dacb8ec07645f254c3a2cf7d6f1d6c26b4f33dce</a>
+
+Best regards,
+
+Jacob Vosmaer
+GitLab Inc.
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - <a href="https://gpgtools.org" rel="nofollow">https://gpgtools.org</a>
+
+iQEcBAEBCgAGBQJWVdMIAAoJEB2vXw0YK62WrOYH/3qJbQfKpEeRkKRobDQwjpXw
+85NHkoeTPmneHe41KEeUrgt5YdkrZs4kjTlaAq5CgbxRgVTQdo907q4Y4O3TgmBl
+gnO0qJ7qATTKkZoK3h5YQUckhDXeyRIC4xYxmADefBRBKrlyWQWgh61p2rN/5/1T
+v3YmdDa+2DqYYhxNIUhHeIL9sF7XVhD3fOwNSZ/2w6ShgP9Zc1i6fHO0vbkU0ZX0
+WpG5h8TGIuvp6BgaIBo0u0eFgC7Q3e9Wi3GWwr200GAwOqqfIQDJKpFAUbH/EVTp
+SGR/lwxbrspUkU8cMNEwJBs4eREBxH0cIyq1TtqZlyRYhJrqYzjhNHg1Npi7bPg=
+=hvt4
+-----END PGP SIGNATURE-----
+
+Best regards,
+
+Jacob Vosmaer
+GitLab B.V.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

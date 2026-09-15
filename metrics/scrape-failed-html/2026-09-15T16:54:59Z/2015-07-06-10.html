@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request for vulnerabilities fixed in roundcubemail 1.1.2 and
+ 1.0.6</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href="../../../2015/07/07/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;559A726C.9060904&#64;suse.de&gt;
+Date: Mon, 6 Jul 2015 14:19:56 +0200
+From: Andreas Stieger &lt;astieger&#64;...e.de&gt;
+To: cve-assign&#64;...re.org
+Cc: oss-security&#64;...ts.openwall.com
+Subject: CVE request for vulnerabilities fixed in roundcubemail 1.1.2 and
+ 1.0.6
+
+Hello,
+
+I am requesting CVE identifiers for the three vulnerabilities fixed in
+roundcubemail 1.1.2 and 1.0.6. Quotes shortened for brevity and relevance:
+
+From <a href="https://roundcube.net/news/2015/06/05/updates-1.1.2-and-1.0.6-released/" rel="nofollow">https://roundcube.net/news/2015/06/05/updates-1.1.2-and-1.0.6-released/</a>
+ 
+&gt; The security-related fixes in particular are:
+&gt; * XSS vulnerability in _mbox argument
+
+Fix XSS vulnerability in _mbox argument handling (#1490417
+&lt;<a href="http://trac.roundcube.net/ticket/1490417" rel="nofollow">http://trac.roundcube.net/ticket/1490417</a>&gt;)
+<a href="http://trac.roundcube.net/ticket/1490417" rel="nofollow">http://trac.roundcube.net/ticket/1490417</a>
+
+The XSS-vulnerability can be triggered by appending malicious script
+code to the _mbox-parameter. The following example will pop an alert box:
+
+​
+https://{YOURSERVER}/?_task=mail&amp;_mbox=INBOX%22%3E%3Cscript%3Ealert(%22Roundcube+v1.1.1+XSS%22)%3C%2Fscript%3E
+&lt;https://%7BYOURSERVER%7D/?_task=mail&amp;_mbox=INBOX%22%3E%3Cscript%3Ealert%28%22Roundcube+v1.1.1+XSS%22%29%3C%2Fscript%3E&gt;
+
+Attackers could use this vulnerability to steal cookies or extract
+email-content.
+
+Commit:
+1.1: <a href="http://trac.roundcube.net/changeset/b782815dac/github" rel="nofollow">http://trac.roundcube.net/changeset/b782815dac/github</a>
+Not claimed to affect 1.0.
+
+&gt; * security improvement in contact photo handling
+
+Fix security issue in contact photo handling (#1490379
+&lt;<a href="http://trac.roundcube.net/ticket/1490379" rel="nofollow">http://trac.roundcube.net/ticket/1490379</a>&gt;)
+<a href="http://trac.roundcube.net/ticket/1490379" rel="nofollow">http://trac.roundcube.net/ticket/1490379</a>
+
+There is a potential for an arbitrary read from an authenticated user
+who uploads a contact (vCard) with a specially crafted POST.
+[...]
+by supplying the "_alt" param in the POST. User must be authenticated.
+[...]
+I was able to read any file on disk (the apache has access to, e.g.
+config/config.inc.php) using GET request
+
+Commits:
+1.1: <a href="http://trac.roundcube.net/changeset/681ba6fc3/github" rel="nofollow">http://trac.roundcube.net/changeset/681ba6fc3/github</a>
+1.0: <a href="http://trac.roundcube.net/changeset/6ccd4c54b/github" rel="nofollow">http://trac.roundcube.net/changeset/6ccd4c54b/github</a>
+
+&gt; * potential info disclosure from temp directory
+
+Fix potential info disclosure issue by protecting directory access
+(#1490378 &lt;<a href="http://trac.roundcube.net/ticket/1490378" rel="nofollow">http://trac.roundcube.net/ticket/1490378</a>&gt;)
+<a href="http://trac.roundcube.net/ticket/1490378" rel="nofollow">http://trac.roundcube.net/ticket/1490378</a>
+
+The logs directory is not protected from browsing. Most log entries are
+not bad, but one became evident on my host that was pretty nasty.
+
+It looked like the following:
+
+[25-Apr-2015 04:03:11 -0400]: &lt;ijpv9kqo&gt; DB Error: [1062] Duplicate entry 'ijpv9kqofvpksxxxxxxxxxxxx' for key 'PRIMARY' (SQL Query: INSERT INTO `session` (`sess_id`, `vars`, `ip`, `created`, `changed`) VALUES ('ijpv9kqofvpksxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxx=', '108.61.90.131', now(), now())) in /var/www/html/roundcubemail-1.1.1/program/lib/Roundcube/rcube_db.php on line 543 (POST /roundcubemail-1.1.1/?_task=mail&amp;_action=refresh?_task=&amp;_action=)
+
+I obfuscated the sensitive fields, but this would be enough for a
+non-credential user to view the file (via the webroot/logs/errors file),
+and then replace their own cookies with the entry from above to log in
+as a user that was listed there.
+
+This seems to be a very rare occurrence, but considering that other
+SQL/other actions might report other sensitive data into this file, it
+might be worth automatically protecting this directory with an .htaccess
+file, or prepending a php tag to avoid overt reading by any
+unauthenticated user.
+
+Commits:
+<a href="http://trac.roundcube.net/changeset/012555c1c/github" rel="nofollow">http://trac.roundcube.net/changeset/012555c1c/github</a>
+1.1: <a href="http://trac.roundcube.net/changeset/16640c7fb0c8/github" rel="nofollow">http://trac.roundcube.net/changeset/16640c7fb0c8/github</a>
+Not claimed to affect 1.0.
+
+
+Thanks,
+Andreas
+
+-- 
+Andreas Stieger &lt;astieger&#64;...e.de&gt;
+Project Manager Security
+SUSE Linux GmbH, GF: Felix Imendörffer, Jane Smithard, Dilip Upmanyu, Graham Norton, HRB 21284 (AG Nürnberg)
+
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="10/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (802 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

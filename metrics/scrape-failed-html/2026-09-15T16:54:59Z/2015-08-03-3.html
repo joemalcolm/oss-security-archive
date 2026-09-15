@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 139 (CVE-2015-5166) - Use after free in
+ QEMU/Xen block unplug protocol</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1ZMF1m-0004B9-Qj&#64;xenbits.xen.org&gt;
+Date: Mon, 03 Aug 2015 12:39:38 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 139 (CVE-2015-5166) - Use after free in
+ QEMU/Xen block unplug protocol
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+            Xen Security Advisory CVE-2015-5166 / XSA-139
+                              version 2
+
+           Use after free in QEMU/Xen block unplug protocol
+
+UPDATES IN VERSION 2
+====================
+
+CVE assigned.
+
+Public release.
+
+Updated status of the patches.
+
+ISSUE DESCRIPTION
+=================
+
+When unplugging an emulated block device the device was not fully
+unplugged, meaning a second unplug attempt would attempt to unplug the
+device a second time using a previously freed pointer.
+
+IMPACT
+======
+
+An HVM guest which has access to an emulated IDE disk device may be
+able to exploit this vulnerability in order to take over the qemu
+process elevating its privilege to that of the qemu process.
+
+VULNERABLE SYSTEMS
+==================
+
+All Xen systems running x86 HVM guests using the upstream based
+"qemu-xen" are vulnerable.
+
+Systems using the "qemu-xen-traditional" version of the qemu device
+model, either in a stubdomain or as a domain 0 process, are not vulnerable.
+
+Systems running only PV guests are NOT vulnerable.
+
+ARM systems are not vulnerable.
+
+MITIGATION
+==========
+
+There is no known mitigation for this issue.
+
+CREDITS
+=======
+
+This issue was discovered by Donghai Zhu of Alibaba.
+
+RESOLUTION
+==========
+
+The attached patches have been proposed as fixes for the issue.
+However they have not been finalised by upstream.  A revised advisory
+will be issued in the event that the final patches differ from those
+included here.
+
+xsa139-qemuu-unstable.patch        qemu-upstream, xen-unstable
+xsa139-qemuu-4.5.patch             qemu-upstream, Xen 4.5.x, Xen
+                                   4.4.x, Xen 4.3.x, Xen 4.2.x
+
+$ sha256sum xsa139*.patch
+dead84667dd4868d0688dc4e62a54a14883e6f0352cf3318b277aa37e27c9261  xsa139-qemuu-unstable.patch
+3aa775255053d1d14a3e383998240eb3520aea7de137cdb7624b169db8b06d85  xsa139-qemuu-4.5.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of the patches and/or mitigations described above (or
+others which are substantially similar) is permitted during the
+embargo, even on public-facing systems with untrusted guest users and
+administrators.
+
+But: Distribution of updated software is prohibited (except to other
+members of the predisclosure list).
+
+Predisclosure list members who wish to deploy significantly different
+patches and/or mitigations, please contact the Xen Project Security
+Team.
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJVv2B2AAoJEIP+FMlX6CvZyOIIAJyuhk8W+BkgL8eejTfV0dlH
+38QKpakRSIRXOB3Px3pyyssmk/3Qa/5HiYK3jn4/5JmKnCbXUcevBSnxBPJqbugc
+iNhQC7e6um8Ah6V9YkoixdjNrRs7TAyHhR43xK4WBZ89XlbFEI8eGnG8pf/zRLp5
+S5eRfqcJRo5T4uZLABN2K2Vko/sLvzeCzikDQoBIgYoIqpyC6X4svzcJre6GsEfp
+gZtR+TXvcMXpbndmlEGqhLznlC8iQYA6bpI0PQ22n2ANDzmnzR3u6+nrHCmzCmoY
+PNykUGi3+8OIkwoyosoZv6//L9Bx2U2iKFWqhDdqAi6p8krqhVQCxMZ18IbsyVI=
+=iCoi
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/1" rel="nofollow" download>xsa139-qemuu-unstable.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (1176 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/2" rel="nofollow" download>xsa139-qemuu-4.5.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (1120 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

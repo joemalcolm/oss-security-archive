@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: Jenkins remote code execution vulnerability due to unsafe deserialization</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2015/11/09/5">[&lt;thread-prev]</a> <a href="11">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151118005420.DB2DA73C35C&#64;smtpvmsrv1.mitre.org&gt;
+Date: Tue, 17 Nov 2015 19:54:20 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: ml&#64;...kweb.net
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: Jenkins remote code execution vulnerability due to unsafe deserialization
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; Remote code execution vulnerability due to unsafe deserialization in Jenkins remoting
+&gt; Unsafe deserialization allows unauthenticated remote attackers to run arbitrary code on the Jenkins master.
+&gt; This is tracked as SECURITY-218 in the Jenkins project. All current Jenkins releases are affected.
+
+&gt; <a href="https://wiki.jenkins-ci.org/display/SECURITY/Jenkins+Security+Advisory+2015-11-11" rel="nofollow">https://wiki.jenkins-ci.org/display/SECURITY/Jenkins+Security+Advisory+2015-11-11</a>
+
+&gt; Public exploit:
+&gt; <a href="http://foxglovesecurity.com/2015/11/06/what-do-weblogic-websphere-jboss-jenkins-opennms-and-your-application-have-in-common-this-vulnerability/#jenkins" rel="nofollow">http://foxglovesecurity.com/2015/11/06/what-do-weblogic-websphere-jboss-jenkins-opennms-and-your-application-have-in-common-this-vulnerability/#jenkins</a>
+
+&gt;&gt; The exploit requires you to have access to a high numbered TCP port
+&gt;&gt; running on the Jenkins machine, so it's unlikely this one will work
+&gt;&gt; from the Internet.
+
+
+&gt; Temporary workaround:
+&gt; <a href="https://jenkins-ci.org/content/mitigating-unauthenticated-remote-code-execution-0-day-jenkins-cli" rel="nofollow">https://jenkins-ci.org/content/mitigating-unauthenticated-remote-code-execution-0-day-jenkins-cli</a>
+
+&gt; A related issue is being discussed here:
+&gt; <a href="http://www.openwall.com/lists/oss-security/2015/11/09/1">http://www.openwall.com/lists/oss-security/2015/11/09/1</a>
+&gt; Jenkins is affected by both this and the Groovy variant in 'ysoserial'.
+
+Use CVE-2015-8103 for the vulnerability addressed by modifying Jenkins
+to be safe in the presence of a problematic
+webapps/ROOT/WEB-INF/lib/commons-collections-*.jar file.
+
+As far as we know, "the Groovy variant in 'ysoserial'" means:
+
+  <a href="https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Groovy1.java" rel="nofollow">https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/Groovy1.java</a>
+
+which is a CVE-2015-3253 exploit. Also, we are guessing that Groovy is
+relevant because of:
+
+  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Groovy+plugin" rel="nofollow">https://wiki.jenkins-ci.org/display/JENKINS/Groovy+plugin</a>
+
+If preventing the ysoserial Groovy attack against Jenkins only
+involves updating the installed Groovy code to 2.4.4 or 2.4.5, and it
+has never been necessary or recommended to change any component unique
+to Jenkins, then we would recommend mapping to CVE-2015-3253. If it
+were necessary or recommended to change any component unique to
+Jenkins, then you can have an additional CVE ID for the ysoserial
+Groovy aspect of SECURITY-218. (Our expectation is that separate CVE
+IDs are needed because the Groovy plugin has own version numbering --
+such as version 1.27 -- that's separate from the version numbering of
+Jenkins core.)
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWS8srAAoJEL54rhJi8gl54nAQAKIr4J93MinobpK5D8TV9FUd
+fyNB0tpgQwJYihVKaR/Uqu0T8B0Rtu9y1uG0DMJynJUPaiw5A1jQh4YsdylgjjOX
+NoCdqpzv3ZzboCjHb5f9/4d5O9mVR3MV4T86i0Bf5n7bfB1JxWKMD0PaRBeIGAbk
+tTkSXqI0BamT6RwSPHHHd+4jTEkKDT7mlm+J8Fx/WeyZ4LI8DM8lwyC7hOdrStlq
+KzyRHm0Wdi9QQMdKFWNtwY02gC9F7BL5zDzvsqX1l2h5E47xFxjgprImJK20+6WA
+L7gtL7jE+BqYSwBBDCxkVLqaOHPG5eKM0KXg4Owk0S9rYzbvkd0p7bpRBCMsxo+a
+j81fUnrjPO/1w2P4C4FUuiaGonR+Tu958DVIkRlAWU7dhkUZrbKduqCdKO2578la
+YCMkWrDg/nyJH5KDfFyitWhmw3KN359M+BX9quM/O3qBkpvx1BYNOgLrEWszOyCf
+DBSJ7NMqyIPYKp6c946iXBGtomavI9lbNxCwpW44YlHeTf0mJxGQ28Qi1WvJm4rP
+IKKtAsCwb5BuOnGPq10yqQsXnTdNVu713BMDToNhfE9F8NvhIk8Ko2/Gme4xdDYz
+lJzMToAXbYCETPk1r3QK1gjYadWf3TyBfe0DRK9ZpPNYfjQzMWQeBZG4uedUvL3F
+q/mc2sF12N2a8sX/Ulzh
+=n4BO
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

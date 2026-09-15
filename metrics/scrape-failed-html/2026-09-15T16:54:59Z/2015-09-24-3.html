@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request - TrueCrypt 7.1a and VeraCrypt 1.14 Local Elevation of Privilege</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2015/09/22/7">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150924204210.6DA5F6C0059&#64;smtpvmsrv1.mitre.org&gt;
+Date: Thu, 24 Sep 2015 16:42:10 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: veracrypt&#64;...ix.fr
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request - TrueCrypt 7.1a and VeraCrypt 1.14 Local Elevation of Privilege
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; I would like to request two CVE identifiers for the two security issues
+&gt; described below affecting TrueCrypt 7.1a (latest version) and its fork
+&gt; VeraCrypt 1.14 (latest version) running on all versions of Windows.
+&gt; 
+&gt; These issues were reported by James Forshaw (Google).
+
+&gt; Issue 1: Local Elevation of Privilege on Windows by abusing
+&gt;               drive letter handling.
+
+Use CVE-2015-7358.
+
+
+&gt; Issue 2: Local Elevation of Privilege on Windows caused by incorrect
+&gt;               Impersonation Token Handling.
+
+Use CVE-2015-7359.
+
+
+&gt; For your information, I have sent a similar CVE request to mitre.org.
+
+That request was about 40 minutes earlier.
+
+Sending the same CVE request to multiple addresses is typically not
+what MITRE wants, although you're certainly welcome to change your
+mind and decide that you had actually preferred that a CVE request be
+publicly archived from the beginning. (It's rare for a vendor to use
+oss-security for CVE requests related to "critical" vulnerabilities
+that don't yet have a fixed release. The issue descriptions here, in
+combination with vendor confirmation, probably make the
+vulnerabilities sufficiently public that they are within the scope of
+the oss-security list charter. We think the implication is that
+readers should look at
+
+  <a href="https://code.google.com/p/google-security-research/issues/list?can=1" rel="nofollow">https://code.google.com/p/google-security-research/issues/list?can=1</a>
+
+at a future time, if interested in other details.)
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWBF+VAAoJEL54rhJi8gl5SUsP/2oSElay/xGb8kSzpdhQWDwh
+6of8eo/Ii4Wj0/0B8h1nzgHweUL528Kkf7cevrW0R9xPIwSEw2xidZdsFJCNX5hE
+FesWoKBu98UXHwBOV0Vz0FjeiQvdiclw2UKNFsOcAi9CPrXkHqIUQAmafaVNVl17
+ZtmRHZlGGPtra05DU7Ttd/0W52ODzcQuI+BDp3pitEjvu6Hsyaw6/5umANi9+tBG
+tOvd4yWefIF+QEG28X7zGRLS1J6SeJIBhZ7eUboKdxWBmh927SlXszZ5RcCgynKf
+8+8is2WeGs9BoxH96yKXqYTDptDXN7SlnrCdK0+D/GZOaN7cKfz7DjwXK5GditJr
+wPTCA39Y61BAzfRxOLkM8L2C/4s4XeGTHDz90MvCgNF4fAvztJa7lJfawry8V+1p
+8sEgCA04Bh2c7xQ5sbgWF/4n+zF+Po/llYy+dZBHwzJCVTevmfRTUBuhe1juYsJQ
+abhRpRL+rfh0SncrNECFCDJNOUh8DMGzLkdEKnpUK44xb07vQ9UqNCoWfjR2v0f+
+fmsOxlFdrgQ6Bq1oz5gOJZKcT7wcCNpltq1TUw1PU/SC+CW2yTCg40mniq4fJy2t
+fd3dtk/CrICDWl+TtBXfh0u6lM6bvH7HiJepSYdWyXyONHgUfmCIwNK6tURtBCTZ
+4inClRaCYGeljBY90rUm
+=FyM2
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

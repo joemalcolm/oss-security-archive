@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: DoS attack through Email-Address perl module v1.907 (CVE id request)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2015/09/27/1">[&lt;thread-prev]</a> <a href="../../../2015/10/02/11">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150930071507.90DE21BE293&#64;smtpvbsrv1.mitre.org&gt;
+Date: Wed, 30 Sep 2015 03:15:07 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: pali.rohar&#64;...il.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: DoS attack through Email-Address perl module v1.907 (CVE id request)
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; Probably nobody has normal usage for inserting nested comments
+&gt; into email address in To:/Cc: headers...
+
+It may be reasonable to assign one CVE ID for the Email::Address
+issue; however, the decision may depend somewhat on this information
+about normal usage. See below for a question about the behavior of the
+patched version.
+
+&gt; Because input string for Email::Address module comes from external
+&gt; source (e.g. from email sent by attacker) it is security problem all
+&gt; software application which parse email messages by Email::Address perl
+&gt; module. For example: RT: Request Tracker, CiderWebmail, ...
+
+The documentation says it "locates email addresses in strings" and
+this might not always mean "from external source." Thus, one might
+argue that it is not a vulnerability in a general-purpose utility such
+as Email::Address, and instead is a vulnerability in each individual
+application that uses Email::Address without changing the
+$Email::Address::COMMENT_NEST_LEVEL package variable to satisfy that
+application's threat model.
+
+However, we think one CVE ID may be enough if, realistically, no
+application ever needed $COMMENT_NEST_LEVEL to have a value of 2,
+i.e., changing from 2 to 1 does not break anything.
+
+We think there may be two distinct cases of nested comments:
+
+  A. each nested comment is either entirely before or entirely after
+     the address
+
+  B. the nested comment is inside the address, similar to the
+     "Wilt . (the  Stilt) Chamberlain&#64;....US" example from
+     RFC 822 section A.1.4
+
+
+In case A, if $COMMENT_NEST_LEVEL is reduced, is correctness affected?
+Or does the module always still find the correct address string (and
+typically faster)?
+
+We would guess that correctness is affected in case B.
+
+As far as we know, case A sometimes occurs in real life. The example
+we found is online.microsoft.com address strings, e.g., do a web
+search for either of these:
+
+  jsmit&#64;...ine.microsoft.com (Jan Smith (MSFT))
+  evanba&#64;...ine.microsoft.com (Evan T. Basalik (MSFT))
+
+As far as we know, case B essentially never occurs in the standard
+format of an address string, although it might occur in something
+like:
+
+  Wilt . (hide address from spambot(s)) Chamberlain&#64;....US
+
+All of the above discussion implies that the CVE ID would be assigned
+for the concept of "the default configuration is unsafe." This is, for
+most purposes, largely equivalent to the concept of "the computational
+complexity of the comment-parsing algorithm is too high."
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWC4tDAAoJEL54rhJi8gl5xo8P/ityH+Lo6SY0SoCwruealNVP
+6/7OHZftSAtpsSp5YBok280FIwK+J2cm11Sj2O7Xzwm9LOwNFOAjNz8nQN2HyueK
+y4adxpY8NyIiEP7PKichUOtE5+ykJTeV8UBDDP1ZHGHD6sbRy7Z9EEx9RtXX3MxT
+IaqvcYUfvi/YmBB1j/lvhNtT8PkI8arEs7dPOfIcVDwnIfr+yW1vp95xKWIpNXvN
+YCeO4ku5SRt5w6c2qultSk0RrgjPHaRBikLNvFScBBqrYnS0v4qquteCgf/l2/SD
+i3wFaXVudKdQF8TXhhwia1ydfcnATet1oxKJNxp2RUyBhufFHAI59EwxC2VHcaSL
+I5v/F0mfNZSup+RHs9NkRWMRPpG4uZMfI13oO1pb52zdekg7Maetz3omm3kPRldn
+3o0Hx0lVHb1LFE8CtuowZgEFde/6yL6Pfp2vgAY1ago5j0DRp4XiSIsqHQBzRm3h
+azE/AeuFYm/SCDvXP3HEEgQ2rHajJT5UvlsKVY8KlzHq0qqWAShDVBrffa+cJF2j
+ibEASbLr3SrleeDAU0r+DCyRC7j35Nby0WCl5PwQGo88YAL52HifDukjcrfJ6b2U
+BU3Y15zBprq5Bu92tzsxL94KTyEpiztXJuntNMsJxgXI5gSPFr3zWcffEsqbFO7K
+GJ9shcLdixnAgS9SEH6E
+=Iv35
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

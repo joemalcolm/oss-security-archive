@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: ansible zone/chroot/jail escape</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href="../../../2015/07/14/3">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150817201909.DB2D46C002C&#64;smtpvmsrv1.mitre.org&gt;
+Date: Mon, 17 Aug 2015 16:19:09 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: mcarpenter&#64;...e.fr
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com, tkuratomi&#64;...ible.com
+Subject: Re: CVE request: ansible zone/chroot/jail escape
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; I recently found a symlink attack that enables a malicious
+&gt; zone/chroot/jail managed by ansible to escape into the managing host.
+&gt; This was fixed in ansible 1.9.2 (commit list below
+
+We think we understand this well enough to make an initial CVE ID
+assignment. It is possible that some of our comments below are not
+really correct, or that additional CVE IDs will be needed.
+
+Our understanding is that the essential issue is that file copying
+must be performed by code that is operating within the restricted
+environment (chroot, jail, or zone). It is wrong to do the file
+copying by operating outside the restricted environment, and relying
+on the addition of a leading pathname substring, because that doesn't
+address the symlink case.
+
+This essential issue is what is covered by:
+
+  <a href="https://github.com/ansible/ansible/commit/952166f48eb0f5797b75b160fd156bbe1e8fc647" rel="nofollow">https://github.com/ansible/ansible/commit/952166f48eb0f5797b75b160fd156bbe1e8fc647</a>
+      Fix problem with chroot connection plugins and symlinks from within
+      the chroot.
+
+  <a href="https://github.com/ansible/ansible/commit/ca2f2c4ebd7b5e097eab0a710f79c1f63badf95b" rel="nofollow">https://github.com/ansible/ansible/commit/ca2f2c4ebd7b5e097eab0a710f79c1f63badf95b</a>
+      Fix problem with jail and zone connection plugins and symlinks from
+      within the jail/zone.
+
+from your commit list.
+
+Use CVE-2015-6240 for this issue.
+
+There were a few differences in the code for chroot versus jail and
+zone, but we don't believe that the differences require a separate CVE
+ID. (Roughly, it appeared that code for operating within the
+restricted environment did exist in the jail and zone cases, i.e.,
+calls to jexec and zlogin existed, but this code was not used in the
+applicable place. By contrast, code for operating within the
+restricted environment did not exist in the chroot case.)
+
+
+&gt; <a href="https://github.com/ansible/ansible/commit/548a7288a90c49e9b50ccf197da307eae525b899" rel="nofollow">https://github.com/ansible/ansible/commit/548a7288a90c49e9b50ccf197da307eae525b899</a>
+&gt;     Use BUFSIZE when putting file as well as fetching file.
+
+We think this is an unrelated performance improvement that probably
+has no practical effect on security (maybe an attacker who had access
+within a restricted environment could create a huge file that would be
+copied with a 512-byte block size rather than a 65536-byte block size,
+and thus trigger more resource consumption). There is currently no CVE
+ID for this commit.
+
+
+&gt; <a href="https://github.com/ansible/ansible/commit/270be6a6f5852c5563976f060c80eff64decc89c" rel="nofollow">https://github.com/ansible/ansible/commit/270be6a6f5852c5563976f060c80eff64decc89c</a>
+&gt;     Fix exec_command to not use a shell
+
+We didn't completely understand this. One guess is that, given that
+the new code is operating within the restricted environment, it would
+be unsafe to rely on the pathname /bin/sh within the restricted
+environment, because the contents of /bin/sh are controllable by the
+attacker, or because /bin/sh might not exist. In that situation,
+there is no CVE ID because the previous code wasn't operating within
+the restricted environment, and thus the status of /bin/sh within the
+restricted environment was originally irrelevant.
+
+This might raise the question of text such as:
+
+   try:
+       p = self._buffered_exec_command('dd if=%s bs=%s' % (in_path, BUFSIZE), None)
+   except OSError:
+       raise errors.AnsibleError("jail connection requires dd command in the jail")
+
+in the next commit. In other words, we don't understand why it is safe
+to run a dd program found inside the restricted environment, given the
+original premise that the attacker has write access inside the
+restricted environment.
+
+It is also conceivable that this commit addresses a
+shell-metacharacter issue that is independent of which /bin/sh
+pathname is used. The CVE project team has not researched this.
+
+
+&gt; <a href="https://github.com/ansible/ansible/commit/0777d025051bf5cf3092aa79a9e6b67cec7064dd" rel="nofollow">https://github.com/ansible/ansible/commit/0777d025051bf5cf3092aa79a9e6b67cec7064dd</a>
+&gt;     Fix problem with jail and zone connection plugins and symlinks from
+&gt;     within the jail/zone.
+
+There is no CVE ID for the code problem that was fixed by this commit.
+(For completeness, we should mention that the analogous code changes
+for the chroot case are contained in
+952166f48eb0f5797b75b160fd156bbe1e8fc647.) In other words, the
+existence of dd within the restricted environment was originally
+irrelevant. As mentioned above, it is conceivable that a CVE ID is
+needed for a code problem introduced by running an attacker-controlled
+dd program, but the CVE project team has not researched this and does
+not know whether it could ever be an exploitable vulnerability.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEcBAEBCAAGBQJV0kEVAAoJEKllVAevmvmsLigH/0osp9n+2cpYhkHT4DmYoGdz
+0nJ8Mpu9BH9XgWANHbBLya2K0r6H/Injn39wngmRZaDZ2VWW+aqq4PDg5WHPKYG4
+SVgo4WbeRCb6FwPkTWs8omw/CkhuvQ8htviHaOMO5JiFPxRGiVCB6ucLNY87BSxP
+WD3YUH2DoFvZf4r6dATtxRSiix1+lLK6R9qzu+1WFtjNIKgXnN46lblK1dygcycC
+/MFhcApekA3k79QHRkBalBlCRw8Droj0Dzq52FiLnv10QnQcBrA8+JAdKBzbN0pt
+olUKhW20vQtXHphcsvXivgBQuEVwb0Kjno9NCR74/ZgwQbT7QIeZ40Sd0E4QNik=
+=ugTB
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

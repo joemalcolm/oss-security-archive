@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE Request: OpenSMTPD &lt;= 5.7.2 buffer overflow</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAHmME9q0Xxcm7VyO-W+VkFLYW5x0Y_BgR8mbgENb1SUEFHnQbQ&#64;mail.gmail.com&gt;
+Date: Mon, 5 Oct 2015 17:00:52 +0200
+From: "Jason A. Donenfeld" &lt;Jason&#64;...c4.com&gt;
+To: oss-security &lt;oss-security&#64;...ts.openwall.com&gt;, cve-assign&#64;...re.org
+Subject: CVE Request: OpenSMTPD &lt;= 5.7.2 buffer overflow
+
+Hello,
+
+As reported in [1], OpenSMTPD &lt;= 5.7.2 has a remotely exploitable
+buffer overflow. This overflow requires a CVE. A PoC is attached to
+[1].
+
+OpenSMTPD 5.7.3 was released with fixes, and the release notes follow
+below. There may be other vulnerabilities also fixed by this release.
+A full diff follows for analysis and additional CVE assignment, in
+case that is necessary.
+
+Thanks,
+Jason
+
+[1] <a href="http://seclists.org/oss-sec/2015/q4/25" rel="nofollow">http://seclists.org/oss-sec/2015/q4/25</a>
+
+
+---------- Forwarded message ----------
+From: Gilles Chehade &lt;gilles&#64;...lp.org&gt;
+Date: Mon, Oct 5, 2015 at 3:30 PM
+Subject: Announce: OpenSMTPD 5.7.3 released
+To: misc&#64;...nsmtpd.org
+
+[snipped]
+
+Issues fixed in this release (since 5.7.2):
+===========================================
+
+- fix an mda buffer truncation bug which allows a user to create forward
+  files that pass session checks but fail delivery later down the chain,
+  within the user mda [0]
+- fix remote buffer overflow in unprivileged pony process [1]
+- reworked offline enqueue to better protect against hardlink attacks [2]
+
+
+[0] reported by Holger Jahn
+[1] reported by Jason A. Donenfeld
+[2] reported by Qualys Security
+
+------ DIFF -----
+
+diff -ru opensmtpd-5.7.2p1/smtpd/enqueue.c opensmtpd-5.7.3p1/smtpd/enqueue.c
+--- opensmtpd-5.7.2p1/smtpd/enqueue.c        2015-10-02 01:46:21.000000000 +0200
++++ opensmtpd-5.7.3p1/smtpd/enqueue.c        2015-10-05 13:33:41.000000000 +0200
+@@ -795,12 +795,25 @@
+         FILE        *fp;
+         int         i, fd, ch;
+         mode_t         omode;
++        uint64_t        rnd;
++        int         ret;
+
+         if (ckdir(PATH_SPOOL PATH_OFFLINE, 01777, 0, 0, 0) == 0)
+                 errx(EX_UNAVAILABLE, "error in offline directory setup");
+
+-        if (! bsnprintf(path, sizeof(path), "%s%s/%lld.XXXXXXXXXX", PATH_SPOOL,
+-                PATH_OFFLINE, (long long int) time(NULL)))
++        do {
++                rnd = generate_uid();
++                if (! bsnprintf(path, sizeof(path),
+"%s%s/%016"PRIx64, PATH_SPOOL,
++                        PATH_OFFLINE, rnd))
++                        err(EX_UNAVAILABLE, "snprintf");
++                ret = mkdir(path, 0700);
++                if (ret == -1)
++                        if (errno != EEXIST)
++                                err(EX_UNAVAILABLE, "mkdir");
++        } while (ret == -1);
++
++        if (! bsnprintf(path, sizeof(path),
+"%s%s/%016"PRIx64"/%lld.XXXXXXXXXX", PATH_SPOOL,
++                PATH_OFFLINE, rnd, (long long int) time(NULL)))
+                 err(EX_UNAVAILABLE, "snprintf");
+
+         omode = umask(7077);
+diff -ru opensmtpd-5.7.2p1/smtpd/filter.c opensmtpd-5.7.3p1/smtpd/filter.c
+--- opensmtpd-5.7.2p1/smtpd/filter.c        2015-10-02 01:46:21.000000000 +0200
++++ opensmtpd-5.7.3p1/smtpd/filter.c        2015-10-05 13:33:41.000000000 +0200
+@@ -728,7 +728,6 @@
+         struct filter_session        *s = io-&gt;arg;
+         size_t                         len, n;
+         char                        *data;
+-        char                        buf[65535];
+
+         log_trace(TRACE_FILTERS, "filter: filter_tx_io(%p, %s)", s,
+io_strevent(evt));
+
+@@ -736,10 +735,9 @@
+         case IO_DATAIN:
+                 data = iobuf_data(&amp;s-&gt;ibuf);
+                 len = iobuf_len(&amp;s-&gt;ibuf);
+-                memmove(buf, data, len);
+-                buf[len] = 0;
+-                log_trace(TRACE_FILTERS, "filter: filter_tx_io:
+datain (%zu) for req %016"PRIx64": %s",
+-                    len, s-&gt;id, buf);
++
++                log_trace(TRACE_FILTERS, "filter: filter_tx_io:
+datain (%zu) for req %016"PRIx64"",
++                    len, s-&gt;id);
+
+                 n = fwrite(data, 1, len, s-&gt;ofile);
+                 if (n != len) {
+diff -ru opensmtpd-5.7.2p1/smtpd/mda.c opensmtpd-5.7.3p1/smtpd/mda.c
+--- opensmtpd-5.7.2p1/smtpd/mda.c        2015-10-02 01:46:21.000000000 +0200
++++ opensmtpd-5.7.3p1/smtpd/mda.c        2015-10-05 13:33:41.000000000 +0200
+@@ -286,8 +286,17 @@
+                                 deliver.userinfo = *userinfo;
+                                 (void)strlcpy(deliver.user, userinfo-&gt;username,
+                                     sizeof(deliver.user));
+-                                (void)strlcpy(deliver.to, e-&gt;buffer,
+-                                    sizeof(deliver.to));
++                                if (strlcpy(deliver.to, e-&gt;buffer,
++                                        sizeof(deliver.to))
++                                    &gt;= sizeof(deliver.to)) {
++                                        mda_queue_tempfail(e-&gt;id,
++                                            "mda command too long",
++                                            ESC_OTHER_MAIL_SYSTEM_STATUS);
++                                        mda_log(e, "TempFail",
++                                            "mda command too long");
++                                        mda_done(s);
++                                        return;
++                                }
+                                 break;
+
+                         case A_MBOX:
+diff -ru opensmtpd-5.7.2p1/smtpd/smtpd.c opensmtpd-5.7.3p1/smtpd/smtpd.c
+--- opensmtpd-5.7.2p1/smtpd/smtpd.c        2015-10-02 01:46:21.000000000 +0200
++++ opensmtpd-5.7.3p1/smtpd/smtpd.c        2015-10-05 13:33:41.000000000 +0200
+@@ -50,9 +50,11 @@
+ #include &lt;errno.h&gt;
+ #include &lt;event.h&gt;
+ #include &lt;fcntl.h&gt;
++#include &lt;fts.h&gt;
+ #include &lt;grp.h&gt; /* needed for setgroups */
+ #include &lt;imsg.h&gt;
+ #include &lt;inttypes.h&gt;
++#include &lt;libgen.h&gt;
+ #ifdef HAVE_LOGIN_CAP_H
+ #include &lt;login_cap.h&gt;
+ #endif
+@@ -440,8 +442,10 @@
+                                             "couldn't enqueue offline "
+                                             "message %s; smtpctl %s",
+                                             child-&gt;path, cause);
+-                                else
++                                else {
+                                         unlink(child-&gt;path);
++                                        rmdir(dirname(child-&gt;path));
++                                }
+                                 free(child-&gt;path);
+                                 offline_done();
+                                 break;
+@@ -1075,28 +1079,43 @@
+ static void
+ offline_scan(int fd, short ev, void *arg)
+ {
+-        DIR                *dir = arg;
+-        struct dirent        *d;
++        char                *path_argv[2];
++        FTS                *fts = arg;
++        FTSENT                *e;
+         int                 n = 0;
+
+-        if (dir == NULL) {
++        path_argv[0] = PATH_SPOOL PATH_OFFLINE;
++        path_argv[1] = NULL;
++
++        if (fts == NULL) {
+                 log_debug("debug: smtpd: scanning offline queue...");
+-                if ((dir = opendir(PATH_SPOOL PATH_OFFLINE)) == NULL)
+-                        errx(1, "smtpd: opendir");
++                fts = fts_open(path_argv, FTS_PHYSICAL | FTS_NOCHDIR, NULL);
++                if (fts == NULL) {
++                        log_warn("fts_open: %s", path_argv[0]);
++                        return;
++                }
+         }
+
+-        while ((d = readdir(dir)) != NULL) {
+-                if (d-&gt;d_type != DT_REG)
++        while ((e = fts_read(fts)) != NULL) {
++                if (e-&gt;fts_info != FTS_F)
++                        continue;
++
++                /* offline files must be at depth 2 */
++                if (e-&gt;fts_level != 2)
++                        continue;
++
++                /* offline file owner must match parent directory owner */
++                if (e-&gt;fts_statp-&gt;st_uid != e-&gt;fts_parent-&gt;fts_statp-&gt;st_uid)
+                         continue;
+
+-                if (offline_add(d-&gt;d_name)) {
++                if (offline_add(e-&gt;fts_accpath)) {
+                         log_warnx("warn: smtpd: "
+-                            "could not add offline message %s", d-&gt;d_name);
++                            "could not add offline message %s", e-&gt;fts_name);
+                         continue;
+                 }
+
+                 if ((n++) == OFFLINE_READMAX) {
+-                        evtimer_set(&amp;offline_ev, offline_scan, dir);
++                        evtimer_set(&amp;offline_ev, offline_scan, fts);
+                         offline_timeout.tv_sec = 0;
+                         offline_timeout.tv_usec = 100000;
+                         evtimer_add(&amp;offline_ev, &amp;offline_timeout);
+@@ -1105,24 +1124,19 @@
+         }
+
+         log_debug("debug: smtpd: offline scanning done");
+-        closedir(dir);
++        fts_close(fts);
+ }
+
+ static int
+ offline_enqueue(char *name)
+ {
+-        char                 t[PATH_MAX], *path;
++        char                *path;
+         struct stat         sb;
+         pid_t                 pid;
+         struct child        *child;
+         struct passwd        *pw;
+
+-        if (!bsnprintf(t, sizeof t, "%s/%s", PATH_SPOOL PATH_OFFLINE, name)) {
+-                log_warnx("warn: smtpd: path name too long");
+-                return (-1);
+-        }
+-
+-        if ((path = strdup(t)) == NULL) {
++        if ((path = strdup(name)) == NULL) {
+                 log_warn("warn: smtpd: strdup");
+                 return (-1);
+         }
+diff -ru opensmtpd-5.7.2p1/smtpd/smtpd.h opensmtpd-5.7.3p1/smtpd/smtpd.h
+--- opensmtpd-5.7.2p1/smtpd/smtpd.h        2015-10-02 01:46:21.000000000 +0200
++++ opensmtpd-5.7.3p1/smtpd/smtpd.h        2015-10-05 13:33:41.000000000 +0200
+@@ -67,7 +67,7 @@
+ #ifndef SMTPD_NAME
+ #define        SMTPD_NAME                 "OpenSMTPD"
+ #endif
+-#define        SMTPD_VERSION                 "5.7.2p1"
++#define        SMTPD_VERSION                 "5.7.3p1"
+ #define SMTPD_SESSION_TIMEOUT         300
+ #define SMTPD_BACKLOG                 5
+
+@@ -684,7 +684,7 @@
+ };
+
+ struct deliver {
+-        char                        to[SMTPD_MAXMAILADDRSIZE];
++        char                        to[EXPAND_BUFFER];
+         char                        from[SMTPD_MAXMAILADDRSIZE];
+         char                        dest[SMTPD_MAXMAILADDRSIZE];
+         char                        user[SMTPD_VUSERNAME_SIZE];
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

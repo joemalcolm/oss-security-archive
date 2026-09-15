@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 142 (CVE-2015-7311) - libxl fails to honour
+ readonly flag on disks with qemu-xen</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1ZePIS-0005E3-Cb&#64;xenbits.xen.org&gt;
+Date: Tue, 22 Sep 2015 15:15:56 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 142 (CVE-2015-7311) - libxl fails to honour
+ readonly flag on disks with qemu-xen
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+            Xen Security Advisory CVE-2015-7311 / XSA-142
+                              version 2
+
+        libxl fails to honour readonly flag on disks with qemu-xen
+
+UPDATES IN VERSION 2
+====================
+
+CVE assigned.
+
+ISSUE DESCRIPTION
+=================
+
+Callers of libxl can specify that a disk should be read-only to the
+guest.  However, there is no code in libxl to pass this information to
+qemu-xen (the upstream-based qemu); and indeed there is no way in qemu
+to make a disk read-only.
+
+The vulnerability is exploitable only via devices emulated by the
+device model, not the parallel PV devices for supporting PVHVM.
+Normally the PVHVM device unplug protocol renders the emulated devices
+inaccessible early in boot.
+
+IMPACT
+======
+
+Malicious guest administrators or (in some situations) users may be
+able to write to supposedly read-only disk images.
+
+CDROM devices (that is, devices specified to be presented to the guest
+as CDROMs, regardless of the nature of the backing storage on the
+host) are not affected.
+
+VULNERABLE SYSTEMS
+==================
+
+Only systems using qemu-xen (rather than qemu-xen-traditional) as the
+device model version are vulnerable.
+
+Only systems using libxl or libxl-based toolstacks are vulnerable.
+(This includes xl, and libvirt with the libxl driver.)
+
+All versions of libxl which support qemu-xen are vulnerable.  The
+affected code was introduced in Xen 4.1.
+
+If the host and guest together usually support PVHVM, the issue is
+exploitable only if the malicious guest administrator has control of
+the guest kernel or guest kernel command line.
+
+MITIGATION
+==========
+
+Switching to qemu-xen-traditional will avoid this vulnerability.
+This can be done with
+   device_model_version="qemu-xen-traditional"
+in the xl configuration file.
+
+Using stub domain device models (which necessarily involves switching
+to qemu-xen-traditional) will also avoid this vulnerability.
+This can be done with
+   device_model_stubdomain_override=true
+in the xl configuration file.
+
+Either of these mitigations is liable to have other guest-visible
+effects or even regressions.
+
+It may be possible, depending on the configuration, to make the
+underlying storage object readonly, or to make it reject writes.
+
+RESOLUTION
+==========
+
+There is no reasonable resolution because Qemu does not (at the time
+of writing) support presenting a read-only block device to a guest as
+a disk.
+
+The attached patch corrects the weakness in the libxl code, by
+rejecting the unsupported configurations, rather than allowing them to
+run but with the device perhaps writeable by the guest.  Applying it
+should increase confidence and avoid future configuration errors, but
+will break affected configurations specifying read-only disk devices.
+
+xsa142-4.6.patch                 Xen 4.6.x and later
+xsa142-4.5.patch                 Xen 4.3.x to 4.5.x inclusive
+
+$ sha256sum xsa142*.patch
+9ec0649f39720bc692be03c87ebea0506d6ec574f339fc745e41b31643240124  xsa142-4.5.patch
+65f01167bfc141048261f56b99ed9b48ec7ff6e98155454ced938a17ec20e7d1  xsa142-4.6.patch
+$
+
+NOTE REGARDING LACK OF EMBARGO
+==============================
+
+This issue was discussed in public in the Red Hat bugzilla:
+  <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1257893" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=1257893</a>
+
+CREDITS
+=======
+
+Thanks to Michael Young of Durham University for bring this problem to
+our attention.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJWAXCcAAoJEIP+FMlX6CvZ1asH/0yJQ9+33gZtE69Bxicms3C2
+uSepfkZVBUym+eEBqGKd2hiapngIAInotOTk+iI7DDo41wvfnJxq1eaEaQ9XurKK
+kylHOb8eHmYw+HwTW2kJV2g6ffeGBMIcI5mpK35yBa5NnNHHJz0b9ZeRzddR9rSR
+0eQpuP4DlN1/2/z6obXmYms84Q1oiIzMDz+MzJA/zPtfL7Q/tBjUmMfPj67zNKwe
+vIfIstI5IbCRgnXSEL9EjTckqNFszyr3pH4z/Y97UXWlbTg233ewAS11Wz/CwJKT
+yzS4uJGpckqTRC3YKyS1unKCP39yAVIBTx4QoPu9hrWyzUJpZUD/FvmrIHhr8co=
+=kHPH
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="5/1" rel="nofollow" download>xsa142-4.5.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2489 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="5/2" rel="nofollow" download>xsa142-4.6.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2319 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Duplicate CVE: CVE-2015-7703 in NTP</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="14">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="14">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151023160608.06B6D52E093&#64;smtpvbsrv1.mitre.org&gt;
+Date: Fri, 23 Oct 2015 12:06:08 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: mprpic&#64;...hat.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: Duplicate CVE: CVE-2015-7703 in NTP
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; It seems that NTP upstream has also requested a CVE (and had one
+&gt; assigned) for this issue:
+&gt; 
+&gt; Bug 2902 : CVE-2015-7703 configuration directives "pidfile" and "driftfile" should only be allowed locally. (RedHat)
+&gt; [<a href="http://support.ntp.org/bin/view/Main/SecurityNotice#October_2015_NTP_Security_Vulner" rel="nofollow">http://support.ntp.org/bin/view/Main/SecurityNotice#October_2015_NTP_Security_Vulner</a>]
+&gt; 
+&gt; However, Red Hat assigned CVE-2015-5196 to this issue when it was first
+&gt; discovered:
+&gt; 
+&gt; <a href="https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2015-5196" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2015-5196</a>
+&gt; 
+&gt; Can CVE-2015-7703 please be rejected?
+
+Actually, we have rejected CVE-2015-5196 and are keeping CVE-2015-7703.
+
+This is a case where we have a long-standing published policy (see the
+<a href="http://cve.mitre.org/cve/editorial_policies/duplicates.html" rel="nofollow">http://cve.mitre.org/cve/editorial_policies/duplicates.html</a> page) and
+our implementation of step 1 chose CVE-2015-7703.
+
+We will update our internal documentation for CVE assignments to
+further emphasize the possibility that a CVE ID may have already been
+assigned outside of MITRE, to try to avoid this type of unfortunate
+situation in the future.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWKlnzAAoJEL54rhJi8gl5wPUP/3Z0jDlPeOOx3sTuUXk0k7n3
+xJeBo1uW/RnNihE4T7AB3FtOpvxmxK/Ez0mxJC4Cj9os/U/3WgTp6/ULKx97osMk
+e7vEfjNKeW7Ff2nEF6MhjJn6pWNNNPg9j2wKlI+NpvfTO+tu0ZJ/ICE6DmlCqPuv
+yN0CdwecNJu8APTuJk4F0pylJTQyifWhwWkVfR4I61Ut0/f315QFDG3I8GMG3jwO
+bYS3d8i3WORouuHBE675pRhh4555WGFZRLWLJLHq9x2GXFulp6PGic3vIi/tnkz+
+rI6EE+RA+GX1KOaFu8KBmvbUpbNY5TmsvVem6gsE648UUB7H/dVWYH7khhb9jPpU
+mZrXYLPEQrmqWfQxdT5TTho9EczkjXQwjzMAytwKN5VFBRT8IBTTiJwgRgn5WVZK
+dTSIRrc8gTe2Zf62H+xJVf/kWukp4hhwHbOvPZqMi/Il059D7PXTFuUemDAvtAFE
+OTX77he6yQnllVFqrRULs2MRERa2RTt3vM99PynUxVzhTn3JPRfPFqjyW53V+39g
+9/hIzLIO2YxyFHfabo8IPrY3bNFL67QGMQjLZCundeJlb8dtO7z882qr2Ov8bQcV
+LbSCB4Re/aJzzSkSehjWVVPdt7rA3LI/WdwSKBTHntVWU6KS2aiIxMqDysf3VWuh
+BK8TOA2xpcPodbmoi639
+=kojJ
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

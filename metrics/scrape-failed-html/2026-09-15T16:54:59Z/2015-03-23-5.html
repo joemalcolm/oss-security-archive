@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE for Kali Linux</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;550F920F.10007&#64;redhat.com&gt;
+Date: Sun, 22 Mar 2015 22:09:51 -0600
+From: Kurt Seifried &lt;kseifried&#64;...hat.com&gt;
+To: cve-assign&#64;...re.org
+CC: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE for Kali Linux
+
+My understanding was for software that downloads updates or other
+executable components over HTTP instead of HTTPS, AND there is no other
+protection (e.g. signed RPMs), so in effect there is nothing to protect
+it, then it gets a CVE since the user is essentially up the creek at
+that point.
+
+On 03/22/2015 07:29 PM, cve-assign&#64;...re.org wrote:
+&gt; We've read the "CVE for Kali Linux" messages and haven't yet found a
+&gt; real case that can have a CVE assignment. We also believe it's
+&gt; infeasible to make a comprehensive statement about every hypothetical
+&gt; case and whether a CVE assignment would occur.
+&gt; 
+&gt; A few general comments:
+&gt; 
+&gt; 1. <a href="http://openwall.com/lists/oss-security/2015/03/22/20">http://openwall.com/lists/oss-security/2015/03/22/20</a> says:
+&gt; 
+&gt;   it's only recently (e.g. the last 6 months or so?)
+&gt;   that we've moved the security bar to:
+&gt; 
+&gt;   downloads of updates via HTTP with no other protection == CVE
+&gt; 
+&gt; We didn't understand this. The last paragraph of
+&gt; <a href="http://openwall.com/lists/oss-security/2015/03/03/10">http://openwall.com/lists/oss-security/2015/03/03/10</a> suggests that
+&gt; "==" isn't the case. Some issues of this type will receive CVE IDs but
+&gt; others will not. For example,
+&gt; <a href="http://openwall.com/lists/oss-security/2015/03/03/10">http://openwall.com/lists/oss-security/2015/03/03/10</a> is about an
+&gt; unusual case where people interested in file integrity had the option
+&gt; of paying $10 for https.
+&gt; 
+&gt; 2. For Kali Linux, users are apparently supposed to start at
+&gt; <a href="https://www.kali.org/downloads/" rel="nofollow">https://www.kali.org/downloads/</a> to obtain their initial set of
+&gt; software, including the package signing key. Packages apparently are
+&gt; later updated using <a href="http://security.kali.org" rel="nofollow">http://security.kali.org</a> with automatic signature
+&gt; verification before any installed software is replaced. The
+&gt; <a href="https://security.kali.org" rel="nofollow">https://security.kali.org</a> site doesn't exist and therefore there isn't
+&gt; an opportunity to "fix" anything with a one-character change. Even if
+&gt; there were widespread agreement that <a href="https://security.kali.org" rel="nofollow">https://security.kali.org</a> is
+&gt; required to meet their users' reasonable expectations, there still
+&gt; would not be a CVE because the issue is site-specific (a missing
+&gt; security property on a vendor-controlled server). Somewhat similarly,
+&gt; there could not be a CVE for the <a href="http://cygwin.com/setup-x86.exe" rel="nofollow">http://cygwin.com/setup-x86.exe</a> case.
+&gt; Finally, if there is a need for extra security properties on
+&gt; <a href="https://www.kali.org" rel="nofollow">https://www.kali.org</a> (e.g., HSTS if it doesn't yet have it), there
+&gt; would again be no associated CVE or CVEs.
+&gt; 
+&gt; 3. We're typically uninterested in assigning CVE IDs based on a
+&gt; likelihood that users don't follow instructions. For example, suppose
+&gt; a community Linux distribution publishes complete open-source software
+&gt; for generating and operating a mirror site. These mirror sites offer
+&gt; an ISO with only an http URL, but with clear instructions to verify
+&gt; the ISO checksum against a sufficiently reliable checksum listing. One
+&gt; might argue that an https .iso URL would be better because many users
+&gt; actually won't ever visit that checksum listing. However, a
+&gt; counterargument is that the community Linux distribution might be
+&gt; trying to emphasize the concept that endpoint security on the mirror
+&gt; sites is unknown and unsupported. A person doing a download may not
+&gt; realize that the mirror sites are completely untrusted and some might
+&gt; be controlled by attackers. There might be persons who would have
+&gt; verified the checksum after an http download, but wouldn't bother to
+&gt; verify the checksum after an https download. In other words, depending
+&gt; on the psychological model of the users, http might be better if https
+&gt; provided a false sense of security.
+&gt; 
+&gt; 4. The Debian case is perhaps interesting:
+&gt; <a href="https://www.debian.org/distrib/" rel="nofollow">https://www.debian.org/distrib/</a> explicitly uses the http scheme in a
+&gt; link to a .iso file, and
+&gt; <a href="https://www.debian.org/releases/stable/amd64/ch03s01.html.en" rel="nofollow">https://www.debian.org/releases/stable/amd64/ch03s01.html.en</a> perhaps
+&gt; has a missing step "3a. Verify (somehow?) the file integrity of the
+&gt; installer software." If this actually is a security problem, it is
+&gt; site-specific and can't have a CVE ID. At the time that the
+&gt; documentation is used, the documentation isn't a file that has been
+&gt; distributed to the customer's system.
+&gt; 
+&gt; 5. <a href="http://openwall.com/lists/oss-security/2015/03/22/22">http://openwall.com/lists/oss-security/2015/03/22/22</a> asks 'if a
+&gt; vendor explicitly tells people not to check them ("download over http
+&gt; and check sums published over http") is that CVE worthy?' The general
+&gt; answer is that there can be a CVE ID for a missing
+&gt; integrity-verification step, either a step that is missing in
+&gt; distributed documentation or a step that is missing in distributed
+&gt; code. As an example, if an integrity-verification step goes to an http
+&gt; checksum page but was intended to go to an https checksum page, and
+&gt; the root cause is that the author's keyboard had a bad 's' key, then
+&gt; that's a vulnerability and can have a CVE ID. If there's a new product
+&gt; and the root cause of skipping an integrity-verification step is that
+&gt; checksum generation is still being debugged and won't be live until
+&gt; the next release, then typically that would not have a CVE ID.
+&gt; 
+&gt; 
+
+-- 
+Kurt Seifried -- Red Hat -- Product Security -- Cloud
+PGP A90B F995 7350 148F 66BF 7554 160D 4553 5E26 7993
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="5/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (837 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

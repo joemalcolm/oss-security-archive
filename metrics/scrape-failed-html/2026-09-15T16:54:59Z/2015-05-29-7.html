@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: StrongSwan VPN client for Android leaks username
+ to rouge server</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="6">[&lt;thread-prev]</a> <a href="../../../2015/06/08/4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;5568A72F.2070005&#64;familie-kuntze.de&gt;
+Date: Fri, 29 May 2015 19:51:43 +0200
+From: Noel Kuntze &lt;noel&#64;...ilie-kuntze.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: StrongSwan VPN client for Android leaks username
+ to rouge server
+
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Hello Alexander,
+
+That is a known issue (at least to me).
+
+What would be even worse than eap-mschapv2 (a digest mechanism)
+would be to propose eap-gtc, which transmits username and password in clear text.
+
+Mit freundlichen Grüßen/Kind Regards,
+Noel Kuntze
+
+GPG Key ID: 0x63EC6658
+Fingerprint: 23CA BB60 2146 05E7 7278 6592 3839 298F 63EC 6658
+
+Am 29.05.2015 um 19:48 schrieb Alexander E. Patrakov:
+&gt; Hello.
+&gt;
+&gt; I found that, in the event of DNS spoofing, StrongSwan VPN client for Android can leak the username and the MSCHAPv2 authentication value to a rogue server if it has any valid X.509 certificate. Unless I misunderstand something about X.509 certificates and their use for confirming IKEv2 identities, and unless this is already known, this might use a CVE ID.
+&gt;
+&gt; The client that I am talking about is this Android application:
+&gt;
+&gt; <a href="https://play.google.com/store/apps/details?id=org.strongswan.android" rel="nofollow">https://play.google.com/store/apps/details?id=org.strongswan.android</a>
+&gt;
+&gt; In the example below, the client was supposed to connect to vpn.xorp.ru using username "alice" and a password. The server identity is validated by a CA-issued certificate that ultimately chains to something in the default trust store. However, a hacker has spoofed the DNS (well, in the example, that's actually a deliberate misconfiguration by me) so that vpn.xorp.ru points to his server (185.48.56.74 in this example) instead. On that server, he (legitimately) has a valid certificate for vpn.armority.ru.
+&gt;
+&gt; The settings on the client are:
+&gt;
+&gt; Profile Name: VPN
+&gt; Gateway: vpn.xorp.ru
+&gt; Type: IKEv2 EAP (Login/Password)
+&gt; Login: alice
+&gt; Password: &lt;hidden&gt;
+&gt; CA Certificate: Choose automatically
+&gt;
+&gt; And here is the log.
+&gt;
+&gt;&gt; May 27 21:39:23 00[DMN] Starting IKE charon daemon (strongSwan 5.2.1dr1, Linux 3.4.5-CM-gb461bba, armv7l)
+&gt;&gt; May 27 21:39:23 00[KNL] kernel-netlink plugin might require CAP_NET_ADMIN capability
+&gt;&gt; May 27 21:39:23 00[LIB] loaded plugins: androidbridge charon android-log openssl fips-prf random nonce pubkey pkcs1 pkcs8 pem xcbc hmac socket-default kernel-netlink eap-identity eap-mschapv2 eap-md5 eap-gtc eap-tls
+&gt;&gt; May 27 21:39:23 00[LIB] unable to load 9 plugin features (9 due to unmet dependencies)
+&gt;&gt; May 27 21:39:23 00[JOB] spawning 16 worker threads
+&gt;&gt; May 27 21:39:23 07[IKE] initiating IKE_SA android[3] to 185.48.56.74
+&gt;&gt; May 27 21:39:23 07[ENC] generating IKE_SA_INIT request 0 [ SA KE No N(NATD_S_IP) N(NATD_D_IP) N(FRAG_SUP) ]
+&gt;&gt; May 27 21:39:23 07[NET] sending packet: from 192.168.1.237[42224] to 185.48.56.74[500] (996 bytes)
+&gt;&gt; May 27 21:39:23 11[NET] received packet: from 185.48.56.74[500] to 192.168.1.237[42224] (553 bytes)
+&gt;&gt; May 27 21:39:23 11[ENC] parsed IKE_SA_INIT response 0 [ SA KE No N(NATD_S_IP) N(NATD_D_IP) CERTREQ N(FRAG_SUP) N(MULT_AUTH) ]
+&gt;&gt; May 27 21:39:24 11[IKE] local host is behind NAT, sending keep alives
+&gt;&gt; May 27 21:39:24 11[IKE] remote host is behind NAT
+&gt;&gt; May 27 21:39:24 11[IKE] received cert request for "C=SE, O=AddTrust AB, OU=AddTrust External TTP Network, CN=AddTrust External CA Root"
+&gt;&gt; May 27 21:39:24 11[IKE] received cert request for "C=GB, ST=Greater Manchester, L=Salford, O=COMODO CA Limited, CN=COMODO ECC Certification Authority"
+&gt;&gt; May 27 21:39:24 11[IKE] received 3 cert requests for an unknown ca
+&gt;&gt; May 27 21:39:24 11[IKE] sending cert request for "C=US, ST=UT, L=Salt Lake City, O=The USERTRUST Network, OU=<a href="http://www.usertrust.com" rel="nofollow">http://www.usertrust.com</a>, CN=UTN-USERFirst-Hardware"
+&gt;&gt; May 27 21:39:24 11[IKE] sending cert request for "C=US, O=GeoTrust Inc., CN=GeoTrust Global CA"
+&gt; &lt;many more "sending cert request" messages go here&gt;
+&gt;&gt; May 27 21:39:24 11[IKE] sending cert request for "C=EE, O=AS Sertifitseerimiskeskus, CN=EE Certification Centre Root CA, E=pki&#64;...ee"
+&gt;&gt; May 27 21:39:24 11[IKE] establishing CHILD_SA android
+&gt;&gt; May 27 21:39:24 11[ENC] generating IKE_AUTH request 1 [ IDi N(INIT_CONTACT) CERTREQ CPRQ(ADDR ADDR6 DNS DNS6) N(ESP_TFC_PAD_N) SA TSi TSr N(MOBIKE_SUP) N(ADD_6_ADDR) N(ADD_6_ADDR) N(ADD_6_ADDR) N(ADD_6_ADDR) N(ADD_6_ADDR) N(ADD_6_ADDR) N(MULT_AUTH) N(EAP_ONLY) ]
+&gt;&gt; May 27 21:39:24 11[ENC] splitting IKE message with length of 3660 bytes into 3 fragments
+&gt;&gt; May 27 21:39:24 11[ENC] generating IKE_AUTH request 1 [ EF ]
+&gt;&gt; May 27 21:39:24 11[ENC] generating IKE_AUTH request 1 [ EF ]
+&gt;&gt; May 27 21:39:24 11[ENC] generating IKE_AUTH request 1 [ EF ]
+&gt;&gt; May 27 21:39:24 11[NET] sending packet: from 192.168.1.237[54739] to 185.48.56.74[4500] (1360 bytes)
+&gt;&gt; May 27 21:39:24 11[NET] sending packet: from 192.168.1.237[54739] to 185.48.56.74[4500] (1360 bytes)
+&gt;&gt; May 27 21:39:24 11[NET] sending packet: from 192.168.1.237[54739] to 185.48.56.74[4500] (1072 bytes)
+&gt;&gt; May 27 21:39:24 12[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (544 bytes)
+&gt;&gt; May 27 21:39:24 12[ENC] parsed IKE_AUTH response 1 [ EF ]
+&gt;&gt; May 27 21:39:24 12[ENC] received fragment #1 of 5, waiting for complete IKE message
+&gt;&gt; May 27 21:39:24 13[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (544 bytes)
+&gt;&gt; May 27 21:39:24 13[ENC] parsed IKE_AUTH response 1 [ EF ]
+&gt;&gt; May 27 21:39:24 13[ENC] received fragment #2 of 5, waiting for complete IKE message
+&gt;&gt; May 27 21:39:24 14[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (544 bytes)
+&gt;&gt; May 27 21:39:24 14[ENC] parsed IKE_AUTH response 1 [ EF ]
+&gt;&gt; May 27 21:39:24 14[ENC] received fragment #3 of 5, waiting for complete IKE message
+&gt;&gt; May 27 21:39:24 16[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (544 bytes)
+&gt;&gt; May 27 21:39:24 16[ENC] parsed IKE_AUTH response 1 [ EF ]
+&gt;&gt; May 27 21:39:24 16[ENC] received fragment #4 of 5, waiting for complete IKE message
+&gt;&gt; May 27 21:39:24 08[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (176 bytes)
+&gt;&gt; May 27 21:39:24 08[ENC] parsed IKE_AUTH response 1 [ EF ]
+&gt;&gt; May 27 21:39:24 08[ENC] received fragment #5 of 5, reassembling fragmented IKE message
+&gt;&gt; May 27 21:39:24 08[ENC] parsed IKE_AUTH response 1 [ IDr CERT CERT AUTH EAP/REQ/ID ]
+&gt;&gt; May 27 21:39:24 08[IKE] received end entity cert "OU=Domain Control Validated, OU=PositiveSSL, CN=vpn.armority.ru"
+&gt;&gt; May 27 21:39:24 08[IKE] received issuer cert "C=GB, ST=Greater Manchester, L=Salford, O=COMODO CA Limited, CN=COMODO ECC Domain Validation Secure Server CA"
+&gt;&gt; May 27 21:39:24 08[CFG]   using certificate "OU=Domain Control Validated, OU=PositiveSSL, CN=vpn.armority.ru"
+&gt;&gt; May 27 21:39:24 08[CFG]   using untrusted intermediate certificate "C=GB, ST=Greater Manchester, L=Salford, O=COMODO CA Limited, CN=COMODO ECC Domain Validation Secure Server CA"
+&gt;&gt; May 27 21:39:24 08[CFG]   using trusted ca certificate "C=GB, ST=Greater Manchester, L=Salford, O=COMODO CA Limited, CN=COMODO ECC Certification Authority"
+&gt;&gt; May 27 21:39:24 08[CFG]   reached self-signed root ca with a path length of 1
+&gt;&gt; May 27 21:39:24 08[IKE] authentication of 'vpn.armority.ru' with ECDSA-256 signature successful
+&gt;
+&gt; Wait... we are supposed to connect to vpn.xorp.ru!
+&gt;
+&gt;&gt; May 27 21:39:24 08[IKE] server requested EAP_IDENTITY (id 0x00), sending 'alice'
+&gt;
+&gt; Oops... the server admin now knows a valid login at vpn.xorp.ru.
+&gt;
+&gt;&gt; May 27 21:39:24 08[ENC] generating IKE_AUTH request 2 [ EAP/RES/ID ]
+&gt;&gt; May 27 21:39:24 08[NET] sending packet: from 192.168.1.237[54739] to 185.48.56.74[4500] (76 bytes)
+&gt;&gt; May 27 21:39:24 09[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (108 bytes)
+&gt;&gt; May 27 21:39:24 09[ENC] parsed IKE_AUTH response 2 [ EAP/REQ/MSCHAPV2 ]
+&gt;&gt; May 27 21:39:24 09[IKE] server requested EAP_MSCHAPV2 authentication (id 0xAD)
+&gt;&gt; May 27 21:39:24 09[ENC] generating IKE_AUTH request 3 [ EAP/RES/MSCHAPV2 ]
+&gt;&gt; May 27 21:39:24 09[NET] sending packet: from 192.168.1.237[54739] to 185.48.56.74[4500] (140 bytes)
+&gt;
+&gt; Now he has an authentication value and can mount an offline dictionary attack. I don't know if he could offer something worse than EAP_MSCHAPv2 here for easier password cracking, or maybe convince the client to reveal a plaintext password.
+&gt;
+&gt;&gt; May 27 21:39:25 10[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (140 bytes)
+&gt;&gt; May 27 21:39:25 10[ENC] parsed IKE_AUTH response 3 [ EAP/REQ/MSCHAPV2 ]
+&gt;&gt; May 27 21:39:25 10[IKE] EAP-MS-CHAPv2 succeeded: 'Welcome2strongSwan'
+&gt;&gt; May 27 21:39:25 10[ENC] generating IKE_AUTH request 4 [ EAP/RES/MSCHAPV2 ]
+&gt;&gt; May 27 21:39:25 10[NET] sending packet: from 192.168.1.237[54739] to 185.48.56.74[4500] (76 bytes)
+&gt;&gt; May 27 21:39:25 07[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (76 bytes)
+&gt;&gt; May 27 21:39:25 07[ENC] parsed IKE_AUTH response 4 [ EAP/SUCC ]
+&gt;&gt; May 27 21:39:25 07[IKE] EAP method EAP_MSCHAPV2 succeeded, MSK established
+&gt;&gt; May 27 21:39:25 07[IKE] authentication of 'alice' (myself) with EAP
+&gt;&gt; May 27 21:39:25 07[ENC] generating IKE_AUTH request 5 [ AUTH ]
+&gt;&gt; May 27 21:39:25 07[NET] sending packet: from 192.168.1.237[54739] to 185.48.56.74[4500] (92 bytes)
+&gt;&gt; May 27 21:39:25 11[NET] received packet: from 185.48.56.74[4500] to 192.168.1.237[54739] (236 bytes)
+&gt;&gt; May 27 21:39:25 11[ENC] parsed IKE_AUTH response 5 [ AUTH CPRP(ADDR DNS) SA TSi TSr N(AUTH_LFT) N(MOBIKE_SUP) N(NO_ADD_ADDR) ]
+&gt;&gt; May 27 21:39:25 11[IKE] authentication of 'vpn.armority.ru' with EAP successful
+&gt;&gt; May 27 21:39:25 11[CFG] constraint check failed: identity 'vpn.xorp.ru' required
+&gt;
+&gt; Dear StrongSwan VPN client, you were supposed to notice this hostname mismatch earlier.
+&gt;
+&gt;&gt; May 27 21:39:25 11[CFG] selected peer config 'android' inacceptable: constraint checking failed
+&gt;&gt; May 27 21:39:25 11[CFG] no alternative config found
+&gt;&gt; May 27 21:39:25 11[ENC] generating INFORMATIONAL request 6 [ N(AUTH_FAILED) ]
+&gt;&gt; May 27 21:39:25 11[NET] sending packet: from 192.168.1.237[54739] to 185.48.56.74[4500] (76 bytes)
+&gt;
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJVaKcsAAoJEDg5KY9j7GZYlrgP/3y9S2skH0Ka9QRaRBf6LwbQ
+lB2OyWZfE3btzj4ydRy07XjtQ0lC/hmXdyKSU/Y2pDZqRVwc6VYEOqUqL1VK8RSF
+dZJBcIY7jSNdj1j+uKf9/Lnfz8zCnT0KohoZunfeqv85raDVaAlZebivm+BpL+16
+sv4RWYlDrJpqQSsKJcLJK1ucm7iR+yNpp9pd1qVqb7VcZht2cvsoX/VC1A5eDWZ2
+JB/fV71VGHJwOB2L+eJaiOfViMfM37zCBiRfG3WQ4WDjwsiXC1lwShPcZ+cftjt3
+P8/pf3JkdaZM+ElAKrNKReuHD0C/v8wmGEakKC7AZPwhoH1R5bQgTz4nih5DPy0y
+ydpxyTAA+LS9esHN3+n3MQxclENi951JqVLOtBai9MyS82vjcgRwKw0T0KQ7XIvd
+eCr7MY2v+kxFV6eQx22Qkg/GbS77Kz7AC6Uk8PaFUzlVySC+ptD+QW0ykyUJW3cN
+9cHEPm/o3k2b1fVbFLrEDLVxVyWjrjl2iWs8LRAvzAEp6vw9dj5DQc/+QWLnpR73
+KWl/GIbkDrziz2NxzaDndq1rqP6aJKn7sZz8wJ9EgC5cqtJb2coKJDBcn9PfZZSK
+efQAIPCMVysBegsf4Ju+tzyk1X0inABr7ucxGlvU+uo+jWbqdWM+SQHcnhcxnsLn
+6624RkiOFDmpRCIw0fl+
+=gt+R
+-----END PGP SIGNATURE-----
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

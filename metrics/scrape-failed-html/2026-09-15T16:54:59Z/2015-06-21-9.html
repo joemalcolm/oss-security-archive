@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Yoast Wordpress SEO Plugin &lt;= 2.1.1 Stored, Authenticated XSS</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="../../../2015/06/22/1">[next&gt;]</a> <a href="7">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;6CCDD20D-133A-40D6-B244-6468917DD5E1&#64;inventropy.us&gt;
+Date: Sun, 21 Jun 2015 18:00:51 -0500
+From: "sec&#64;...entropy.us" &lt;sec&#64;...entropy.us&gt;
+To: cve-assign&#64;...re.org
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: Yoast Wordpress SEO Plugin &lt;= 2.1.1 Stored, Authenticated XSS
+
+Thank you for investigating. I agree that since this was never patched there don't need to be two separate CVE identifiers, but it does seem a little odd to create a new 2012 CVE. In any case, at least it now has an identifier.
+
+Thanks again,
+Charles
+
+&gt; On Jun 21, 2015, at 10:59 AM, cve-assign&#64;...re.org wrote:
+&gt; 
+&gt; -----BEGIN PGP SIGNED MESSAGE-----
+&gt; Hash: SHA1
+&gt; 
+&gt;&gt; <a href="https://inventropy.us/blog/yoast-seo-plugin-cross-site-scripting-vulnerability/" rel="nofollow">https://inventropy.us/blog/yoast-seo-plugin-cross-site-scripting-vulnerability/</a>
+&gt;&gt; <a href="https://wordpress.org/plugins/wordpress-seo/changelog/" rel="nofollow">https://wordpress.org/plugins/wordpress-seo/changelog/</a>
+&gt; 
+&gt; See <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2012-6692" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2012-6692</a> for
+&gt; the XSS issue related to the "everyone can make a post. This post is
+&gt; then validate by an admin user. So everyone can use the security
+&gt; breach to execute javascript in admin" threat model on the
+&gt; <a href="https://wordpress.org/support/topic/security-issue-with-post-title-field-xss-vulnerability" rel="nofollow">https://wordpress.org/support/topic/security-issue-with-post-title-field-xss-vulnerability</a>
+&gt; page from 2012-10-31.
+&gt; 
+&gt; It appears that the outcome is that the XSS payload is stored and then
+&gt; immediately reflected. Probably the highest risk is from the stored
+&gt; XSS, but the reflected aspect is also relevant if the admin encounters
+&gt; a malicious web site while logged into WordPress.
+&gt; 
+&gt; However, that 2012-10-31 page also says:
+&gt; 
+&gt;  - connect you on admin of your site
+&gt;  - go to url : [www.yoursite.com]/wp-admin/post-new.php?post_title=&lt;script&gt;alert('There is a problem');&lt;/script&gt;
+&gt;  - The alert message is displaying !
+&gt; 
+&gt;  =&gt; CSRF : <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" rel="nofollow">http://en.wikipedia.org/wiki/Cross-site_request_forgery</a>
+&gt; 
+&gt; Is (or was) there a separate CSRF vulnerability, of interest to an
+&gt; attacker who wants to make a post (without any XSS payload) with the
+&gt; admin's credentials?
+&gt; 
+&gt; 
+&gt; Finally, you mentioned:
+&gt; 
+&gt;&gt; the plugin author said that it had already been patched at the time.
+&gt; 
+&gt;&gt;&gt; This was already patched in 1.3
+&gt; 
+&gt; Apparently this refers to:
+&gt; 
+&gt;  <a href="http://plugins.svn.wordpress.org/wordpress-seo/trunk/changelog.txt" rel="nofollow">http://plugins.svn.wordpress.org/wordpress-seo/trunk/changelog.txt</a>
+&gt; 
+&gt;  = 1.3 =
+&gt; 
+&gt;  * Long list of small fixes and improvements to code best practices
+&gt;  after Sucuri review. Fixes 3 small security issues.
+&gt; 
+&gt; We don't know whether there was an earlier incomplete fix to the
+&gt; metabox functionality, so we aren't currently assigning a different
+&gt; CVE ID for versions before 1.3.
+&gt; 
+&gt; - -- 
+&gt; CVE assignment team, MITRE CVE Numbering Authority
+&gt; M/S M300
+&gt; 202 Burlington Road, Bedford, MA 01730 USA
+&gt; [ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+&gt; -----BEGIN PGP SIGNATURE-----
+&gt; Version: GnuPG v1.4.14 (SunOS)
+&gt; 
+&gt; iQEcBAEBAgAGBQJVht6kAAoJEKllVAevmvmska0IALWeV0XUgZnR55gmkkcG3eQj
+&gt; zYKi+tIF3l6+e15h5JjxFcdvoND+DqyMgpko+0Y5qO+ret/lFRPWjfZi8IE/QLXl
+&gt; FNiCSKA9k0s+cte+rcsI+UPp3iUC9aG0XkHCD0s5HU27Zd2N6dzWJiJEyy+x9LzN
+&gt; ERt20Vmb/zgh2oI5CWzFgtyLE4dQ6svJG9EKEtZxDaBJWFKB2icbpQ0Bwztwsbe4
+&gt; eWjaQnMF+vwb7jFJL99TXzDKFuyVIg9fIOlBj7bEHXSTmhkFiilVaXMF/n2LKIxa
+&gt; oKrgmmQ9DkZtjPJeBWM7uEiDg6gj5I/+sJ6XIqLzCr5PKsSJIxMq3dVvfTOwkSc=
+&gt; =TGMg
+&gt; -----END PGP SIGNATURE-----
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

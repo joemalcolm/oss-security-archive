@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Requests for Drupal 7.41 and contributed modules</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CY1PR09MB02688439EC1FC218A8EC26F2CC260&#64;CY1PR09MB0268.namprd09.prod.outlook.com&gt;
+Date: Fri, 23 Oct 2015 11:58:04 +0000
+From: CVE ID Requests &lt;cve-assign&#64;...re.org&gt;
+To: "pere&#64;...a.cat" &lt;pere&#64;...a.cat&gt;
+CC: Drupal Security Team &lt;security&#64;...pal.org&gt;,
+	"oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;, "CVE ID
+ Requests" &lt;cve-assign&#64;...re.org&gt;
+Subject: Re: CVE Requests for Drupal 7.41 and contributed modules
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; these 3 projects share the same vulnerable code
+
+&gt; Drupal Core - Overlay - Less Critical - Open Redirect - SA-CORE-2015-004
+&gt; <a href="https://www.drupal.org/SA-CORE-2015-004" rel="nofollow">https://www.drupal.org/SA-CORE-2015-004</a>
+
+&gt; jQuery Update - Less Critical - Open Redirect - SA-CONTRIB-2015-158
+&gt; <a href="https://www.drupal.org/node/2598426" rel="nofollow">https://www.drupal.org/node/2598426</a>
+
+&gt; LABjs - Less Critical - Open Redirect - SA-CONTRIB-2015-159
+&gt; <a href="https://www.drupal.org/node/2598434" rel="nofollow">https://www.drupal.org/node/2598434</a>
+
+Use CVE-2015-7943.
+
+- - --
+CVE assignment team, MITRE CVE Numbering Authority M/S M300
+202 Burlington Road, Bedford, MA 01730 USA [ PGP key available through
+<a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJWKh+zAAoJEL54rhJi8gl56VwP/0UKR/F5IVfGJUkK2nJhkrqi
+FsdLsPGEhIAVOwKCjr4doIr9zzJltozAuQ8mlxTkon296vT2m11S3lk8223GsYW+
+XRa/IDhdQIDRaAIOYz6WFmuuyeDjssXff8mtr6L4l4zy3YpeFY5irC/ibl1zD8FW
+Ktitp4oficCWYnWhBlDkAejl7o5JDi2lpTxsTAqZaznyYt18q0OURjfK1Ajmg/py
+4ul3h8mHvQHeRA7QOUDbMexlmCT3X17yV6gU/F0mlV/xHJJdidTZptBBP50/rUTk
+TZq4N/STY8LvYcoPAD+fTkxKZ7rkBDlVOBxcqNRG/nwZ85qANvOAThsfuHGiRwR0
+/dqDtNZkVG6QrGMbH3SejhVzQGvgjqlsIZ8bglxweGHY7s5W/8rrXaLCGqVDtXBY
+95u/LS+TTv9+7xZ8FmOD+FLL3nTqGAXub3OOfysI8Agfk2QidzZjxcCKO8GelhW6
+C+rdWibYfDp/cjg4xMdvoM+qA12ULIBXjI2DM4agYF3xA0WOS56vdY+KDRXc/uCx
+7qpTYHhtEPTbHHdZrespwfXfwZQk+NjF5iSbYOFstEv3hQW1TN/zj5wL3ZpllcTG
+k6axcgfuYETNDApmq7oLreTp81UJbGgueU3EjON9wocUsVriBh1IOe81SaEjrdee
+g5rxeIuac5KF4bHVRc2P
+=qIJ6
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: lldpd crash in lldp_decode due large management address</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2015/10/18/2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151030002822.EA52E6C0116&#64;smtpvmsrv1.mitre.org&gt;
+Date: Thu, 29 Oct 2015 20:28:22 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: fw&#64;...eb.enyo.de
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: lldpd crash in lldp_decode due large management address
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; <a href="https://github.com/vincentbernat/lldpd/commit/dd4f16e7e816f2165fba76e3d162cd8d2978dcb2" rel="nofollow">https://github.com/vincentbernat/lldpd/commit/dd4f16e7e816f2165fba76e3d162cd8d2978dcb2</a>
+&gt; 
+&gt; lldp: fix a buffer overflow when handling management address TLV
+&gt; 
+&gt; When a remote device was advertising a too large management address
+&gt; while still respecting TLV boundaries, lldpd would crash due to a buffer
+&gt; overflow. However, the buffer being a static one, this buffer overflow
+&gt; is not exploitable if hardening was not disabled. This bug exists since
+&gt; version 0.5.6.
+
+&gt;&gt; <a href="https://github.com/vincentbernat/lldpd/blob/master/configure.ac" rel="nofollow">https://github.com/vincentbernat/lldpd/blob/master/configure.ac</a>
+
+&gt;&gt; [AS_HELP_STRING([--enable-hardening],
+&gt;&gt;   [Enable compiler and linker options to frustrate memory corruption exploits @&lt;:@default=yes@:&gt;@])],
+
+Based on the
+<a href="https://github.com/vincentbernat/lldpd/commit/8738a36d30e2e94257c5b1ae9cd3e7c3d314808e" rel="nofollow">https://github.com/vincentbernat/lldpd/commit/8738a36d30e2e94257c5b1ae9cd3e7c3d314808e</a>
+commit, there are apparently some platforms, such as the OpenWrt Linux
+distribution, on which hardening must be disabled. Thus, this is a
+relevant exploitable problem in the general case.
+
+Use CVE-2015-8011.
+
+
+&gt; <a href="https://github.com/vincentbernat/lldpd/commit/793526f8884455f43daecd0a2c46772388417a00" rel="nofollow">https://github.com/vincentbernat/lldpd/commit/793526f8884455f43daecd0a2c46772388417a00</a>
+&gt; 
+&gt; protocols: don't use assert on paths that can be reached
+&gt; 
+&gt; Malformed packets should not make lldpd crash. Ensure we can handle them
+&gt; by not using assert() in this part.
+
+Use CVE-2015-8012.
+
+(Apparently there are various types of malformed packets that can
+cause different problems. However, the code changes themselves are all
+for CWE-617.)
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWMriDAAoJEL54rhJi8gl5QwcQAMzf82elhg+4B1gE2Yg0APUa
+6wTU/GsftPClKuy9zVGNGbajoZgDcrkyqADc45aH4Dpb9G+YK/X6s/B9dgf9KqBj
+3X+5lreJbNKXJlOfZRU9t9J0HH+qRSYa3uVnU19gmLcSG8Z1rJU2JVHVYGha7ujF
+Vh6UozSj/U+hgmfMs9ArXCrjWFEz15kiWr3XmAcVH6ARwtkKNbIadGiz5R5w/dqb
+HF1V7gZHSMz+QHVj/LsMLeuX6Ba6eGFtSAXgrIWKuqZbstTRde2spTUwmB5Njayn
+RUUkIWxQd4oRqNL4ckAj1hIq28GjEreoO3gn2p8CU8On6kc/geHEc2xXt3PBsaZU
+k4R+qY/uq4gFiLjNUdrw9oiCEC5LqFgc2PM1EqzwXlPgvBTvAf6end1DIzf8DLVM
+7WAChlIPTXJL1+mRz6N5xEGdlEEDiCKDpvgCtUNc1b88IHB6Rr51eJgjypxhDAsp
+D8gWfyCwuPps2gSLmipz0LXfb/2DwuzAjcJoZ5rAiWRnmz53asI+2DZMUM2Q6/jF
+kdsgw0lHv5TIO+5MMl/s82s/gmiLbYZ7muvxqzlgCynpTR3UJNs9NDLp6ifLYLAw
+27HxxKBq+vGKbCmtK5pDwE2qth9fSR8k5n/ofBcmuPG2mbKMQMPrDvb87Usq5XOR
+P0vNhiVvQ3oNBE9Ny7UM
+=dhHo
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

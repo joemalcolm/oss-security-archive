@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE requests for Drupal contributed modules (from
+ SA-CONTRIB-2015-100 to SA-CONTRIB-2015-131)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="../../../2015/07/04/4">[&lt;thread-prev]</a> <a href="../../../2015/09/02/8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Pine.LNX.4.64.1508181228030.30440&#64;beijing.mitre.org&gt;
+Date: Tue, 18 Aug 2015 12:30:14 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: oss-security&#64;...ts.openwall.com
+cc: Security Team &lt;security&#64;...pal.org&gt;, cve-assign&#64;...re.org
+Subject: Re: CVE requests for Drupal contributed modules (from
+ SA-CONTRIB-2015-100 to SA-CONTRIB-2015-131)
+
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+
+&gt;Camtasia Relay - Cross Site Scripting (XSS) - SA-CONTRIB-2015-100
+&gt;<a href="https://www.drupal.org/node/2480241" rel="nofollow">https://www.drupal.org/node/2480241</a>
+
+Use CVE-2015-5487.
+
+&gt;MailChimp - Cross Site Scripting (XSS) - SA-CONTRIB-2015-101
+&gt;<a href="https://www.drupal.org/node/2480253" rel="nofollow">https://www.drupal.org/node/2480253</a>
+
+Use CVE-2015-5488.
+
+&gt;Smart Trim - Cross Site Scripting (XSS) - SA-CONTRIB-2015-102
+&gt;<a href="https://www.drupal.org/node/2480321" rel="nofollow">https://www.drupal.org/node/2480321</a>
+
+Use CVE-2015-5489.
+
+&gt;Views - Access Bypass - SA-CONTRIB-2015-103
+&gt;<a href="https://www.drupal.org/node/2480327" rel="nofollow">https://www.drupal.org/node/2480327</a>
+
+Use CVE-2015-5490.
+
+&gt;Dynamic display block - Access bypass - SA-CONTRIB-2015-104
+&gt;<a href="https://www.drupal.org/node/2484157" rel="nofollow">https://www.drupal.org/node/2484157</a>
+
+Use CVE-2015-5491.
+
+&gt;Video Consultation - Cross Site Scripting (XSS) - SA-CONTRIB-2015-105
+&gt;<a href="https://www.drupal.org/node/2484195" rel="nofollow">https://www.drupal.org/node/2484195</a>
+
+Use CVE-2015-5492.
+
+&gt;Entityform Block - Access Bypass - SA-CONTRIB-2015-106
+&gt;<a href="https://www.drupal.org/node/2484169" rel="nofollow">https://www.drupal.org/node/2484169</a>
+
+Use CVE-2015-5493.
+
+&gt;Webform Matrix Component - Cross Site Scripting (XSS) - SA-CONTRIB-2015-107
+&gt;<a href="https://www.drupal.org/node/2484231" rel="nofollow">https://www.drupal.org/node/2484231</a>
+
+Use CVE-2015-5494.
+
+&gt;Mobile sliding menu - Cross Site Scripting (XSS) - SA-CONTRIB-2015-108
+&gt;<a href="https://www.drupal.org/node/2484233" rel="nofollow">https://www.drupal.org/node/2484233</a>
+
+Use CVE-2015-5495.
+
+&gt;pass2pdf - Information Disclosure - SA-CONTRIB-2015-109
+&gt;<a href="https://www.drupal.org/node/2492205" rel="nofollow">https://www.drupal.org/node/2492205</a>
+
+Use CVE-2015-5496.
+
+&gt;Web Links - Cross Site Scripting (XSS) - SA-CONTRIB-2015-110
+&gt;<a href="https://www.drupal.org/node/2492209" rel="nofollow">https://www.drupal.org/node/2492209</a>
+
+Use CVE-2015-5497.
+
+&gt;Shipwire - Cross Site Scripting (XSS) - SA-CONTRIB-2015-111
+&gt;<a href="https://www.drupal.org/node/2492243" rel="nofollow">https://www.drupal.org/node/2492243</a>
+
+Use CVE-2015-5498.
+
+&gt;Navigate - Access Bypass - SA-CONTRIB-2015-112
+
+Use CVE-2015-5499.
+
+&gt;Navigate - Cross-site scripting - SA-CONTRIB-2015-112
+&gt;<a href="https://www.drupal.org/node/2492245" rel="nofollow">https://www.drupal.org/node/2492245</a>
+
+Use CVE-2015-5500.
+
+&gt;Aegir - Code Execution Prevention - SA-CONTRIB-2015-113
+&gt;<a href="https://www.drupal.org/node/2492317" rel="nofollow">https://www.drupal.org/node/2492317</a>
+
+Use CVE-2015-5501.
+
+&gt;Storage API - Access Bypass - SA-CONTRIB-2015-114
+&gt;<a href="https://www.drupal.org/node/2495903" rel="nofollow">https://www.drupal.org/node/2495903</a>
+
+Use CVE-2015-5502.
+
+&gt;Chamilo integration - Open Redirect - SA-CONTRIB-2015-115
+&gt;<a href="https://www.drupal.org/node/2495931" rel="nofollow">https://www.drupal.org/node/2495931</a>
+
+Use CVE-2015-5503.
+
+&gt;Novalnet Payment Module Ubercart - SQL Injection - SA-CONTRIB-2015-116
+&gt;<a href="https://www.drupal.org/node/2499787" rel="nofollow">https://www.drupal.org/node/2499787</a>
+
+&gt;The module fails to sanitize a database query by not using the database
+&gt;API properly, thereby leading to a SQL Injection vulnerability.
+
+Use CVE-2015-5504.
+
+&gt;Since the affected path is not protected against CSRF, a malicious user can
+&gt;exploit this vulnerability by triggering a request to a specially-crafted URL.
+
+It is not clear to us if this CSRF issue is exploitable.  The attack
+seems to be against a Novalnet employee, but it is not known if
+Novalnet employees have access to the specific IP in a way that would
+make the exploit feasible.
+
+&gt;Novalnet Payment Module Drupal Commerce - SQL Injection - SA-CONTRIB-2015-117
+&gt;<a href="https://www.drupal.org/node/2499791" rel="nofollow">https://www.drupal.org/node/2499791</a>
+
+We believe that the Novalnet Payment Module Drupal Commerce module may
+share a codebase with the Novalnet Payment Module Ubercart module in
+SA-CONTRIB-2015-116.
+
+If you can confirm that the vulnerable code in SA-CONTRIB-2015-117 is
+different from the code in SA-CONTRIB-2015-116, then we will issue a
+separate CVE ID.  Otherwise, use CVE-2015-5504 for this vulnerability.
+
+&gt;HTTP Strict Transport Security - Logical Error - SA-CONTRIB-2015-118
+&gt;<a href="https://www.drupal.org/node/2507563" rel="nofollow">https://www.drupal.org/node/2507563</a>
+
+Use CVE-2015-5505.
+
+&gt;Apache Solr Real-Time - Access Bypass - SA-CONTRIB-2015-119
+&gt;<a href="https://www.drupal.org/node/2507581" rel="nofollow">https://www.drupal.org/node/2507581</a>
+
+Use CVE-2015-5506.
+
+&gt;Inline Entity Form - Cross Site Scripting (XSS) - SA-CONTRIB-2015-120
+&gt;<a href="https://www.drupal.org/node/2507605" rel="nofollow">https://www.drupal.org/node/2507605</a>
+
+Use CVE-2015-5507.
+
+&gt;The eXtensible Catalog (XC) Drupal Toolkit - Cross Site Request
+&gt;Forgery (CSRF) - SA-CONTRIB-2015-121
+&gt;<a href="https://www.drupal.org/node/2507619" rel="nofollow">https://www.drupal.org/node/2507619</a>
+
+Use CVE-2015-5508.
+
+&gt;Administration Views - Access Bypass - SA-CONTRIB-2015-122
+&gt;<a href="https://www.drupal.org/node/250764" rel="nofollow">https://www.drupal.org/node/250764</a>
+
+Use CVE-2015-5509.
+
+&gt;jQuery Update - Open Redirect - SA-CONTRIB-2015-123
+&gt;<a href="https://www.drupal.org/node/2507729" rel="nofollow">https://www.drupal.org/node/2507729</a>
+&gt;
+&gt;LABjs - Open Redirect - SA-CONTRIB-2015-124
+&gt;<a href="https://www.drupal.org/node/2507735" rel="nofollow">https://www.drupal.org/node/2507735</a>
+&gt;
+&gt;Acquia Cloud Site Factory Connector - Open Redirect - SA-CONTRIB-2015-125
+&gt;<a href="https://www.drupal.org/node/2507741" rel="nofollow">https://www.drupal.org/node/2507741</a>
+
+A new CVE might not be necessary.
+
+We believe that SA-CONTRIB-2015-123, SA-CONTRIB-2015-124, and
+SA-CONTRIB-2015-125 share the same codebase (Overlay JavaScript file)
+as the Overlay module in SA-CORE-2015-002, which has been issued
+CVE-2015-3233.
+
+&gt;Content Construction Kit (CCK) - Open Redirect - SA-CONTRIB-2015-126
+&gt;<a href="https://www.drupal.org/node/2507753" rel="nofollow">https://www.drupal.org/node/2507753</a>
+
+Use CVE-2015-5510.
+
+&gt;HybridAuth Social Login - Access bypass - SA-CONTRIB-2015-127
+&gt;<a href="https://www.drupal.org/node/2511410" rel="nofollow">https://www.drupal.org/node/2511410</a>
+
+Use CVE-2015-5511.
+
+&gt;me aliases - Access Bypass - SA-CONTRIB-2015-128
+&gt;<a href="https://www.drupal.org/node/2511424" rel="nofollow">https://www.drupal.org/node/2511424</a>
+
+Use CVE-2015-5512.
+
+&gt;Shibboleth authentication - Cross Site Scripting (XSS) - SA-CONTRIB-2015-129
+&gt;<a href="https://www.drupal.org/node/2511518" rel="nofollow">https://www.drupal.org/node/2511518</a>
+
+Use CVE-2015-5513.
+
+&gt;Migrate - Cross Site Scripting (XSS) - SA-CONTRIB-2015-130
+&gt;<a href="https://www.drupal.org/node/2516678" rel="nofollow">https://www.drupal.org/node/2516678</a>
+
+Use CVE-2015-5514.
+
+&gt;Views Bulk Operations - Access Bypass - SA-CONTRIB-2015-131
+&gt;<a href="https://www.drupal.org/node/2516688" rel="nofollow">https://www.drupal.org/node/2516688</a>
+
+Use CVE-2015-5515.
+
+- ---
+
+CVE assignment team, MITRE CVE Numbering Authority M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEVAwUBVdNcpKllVAevmvmsAQJK2Af9EPXhYRtkAtE4Pmm/YiRLnv4ogjkylGZ6
+BRaLS6xZ++A6XpzsUrmUuH8iTisC6KqW8s2JV2NyFTc4snLvIYv3lvBkZTpVP5f7
+sB7njM4e97tbCScCwy2ZwzEf6kzKEVEOBIM3WBY0u+D4i5/afcTyI5x+S3jkEZfZ
+Jksyfq70H7WZgBQNO23pitYl3YstJ+1tY8iKkSsDnSFHXNKvAJ0CsXRF7Ow5g11G
+sanB8viFt9ASOrUoqkOQvTEPY8iwzNGRQoOMhOI9TETvlSLb0tausNdAcHkDEeYA
+u27FNVQLs11FZ7XAulU3NxxuivFtG3jHEjrkgpGCtULhhlPaDxsuEw==
+=L9ro
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

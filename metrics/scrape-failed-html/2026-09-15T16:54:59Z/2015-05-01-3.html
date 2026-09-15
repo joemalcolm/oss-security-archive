@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - On sanctioned MITMs</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150501191522.GA18039&#64;zoho.com&gt;
+Date: Fri, 1 May 2015 19:15:22 +0000
+From: mancha &lt;mancha1&#64;...o.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: On sanctioned MITMs
+
+In recent times, we've seen the growing popularity of CDNs such as
+Akamai Prolexic, CloudFlare, and Incapsula that, among other services,
+provide upstream DDoS mitigation to vulnerable servers.
+
+In the context of SSL/TLS, the interposition between client and server
+can take many forms. For example, CloudFlare offers products such as
+"Flexible SSL", "Full SSL", and "Full SSL (strict)" [1]. In addition,
+they've recently rolled out a new product they call "Keyless SSL".
+
+Hushmail is a email provider that prominently advertises security and
+built-in encryption [2]. In the past day or two, Hushmail webmail access
+began getting handled by CloudFlare [3] &amp; [4]. CloudFlare's server, in
+effect a sanctioned man-in-the-middle, serves its own X.509 certificate
+issued by "GlobalSign Organization Validation CA - G2" (attached). The
+certificate has a *.hushmail.com DNS name in its SAN extension so
+browsers with the GlobalSign certificate in their root store proceed
+without incident when connecting to <a href="https://www.hushmail.com" rel="nofollow">https://www.hushmail.com</a>.
+
+Though Hushmail email credentials, for example, can't be sniffed in the
+segment connecting the client to CloudFlare, they are available to
+CloudFlare's infrastucture. Moreoever, there is no way for the client to
+verify that the segment connecting CloudFlare to the destination server
+is similarly encrypted (i.e. it might be in the clear as would be the
+case when using CloudFlare's "Flexible SSL" product).  
+
+Hushmail's CloudFlare usage serves as an example that brings me to my
+general point.
+
+How should the security community view this growing use of sanctioned
+MITM in light of the ever-increasing amount of sensitive content sent
+over SSL/TLS encrypted channels (e.g. email, electronic banking, medical
+records, etc.)?
+
+--mancha
+
+=====
+
+[1] <a href="https://www.cloudflare.com/images/ssl/ssl.png" rel="nofollow">https://www.cloudflare.com/images/ssl/ssl.png</a>
+
+[2] <a href="https://www.hushmail.com" rel="nofollow">https://www.hushmail.com</a>
+
+[3] dig www.hushmail.com
+
+id 20483
+opcode QUERY
+rcode NOERROR
+flags QR RD RA
+;QUESTION
+www.hushmail.com. IN A
+;ANSWER
+www.hushmail.com. 299 IN A 104.16.15.172
+www.hushmail.com. 299 IN A 104.16.19.172
+www.hushmail.com. 299 IN A 104.16.17.172
+www.hushmail.com. 299 IN A 104.16.18.172
+www.hushmail.com. 299 IN A 104.16.16.172
+;AUTHORITY
+;ADDITIONAL
+
+[4] whois 104.16.15.172
+
+NetRange:       104.16.0.0 - 104.31.255.255
+CIDR:           104.16.0.0/12
+NetName:        CLOUDFLARENET
+NetHandle:      NET-104-16-0-0-1
+Parent:         NET104 (NET-104-0-0-0-0)
+NetType:        Direct Assignment
+OriginAS:       AS13335
+Organization:   CloudFlare, Inc. (CLOUD14)
+RegDate:        2014-03-28
+Updated:        2014-03-28
+Comment:        <a href="https://www.cloudflare.com" rel="nofollow">https://www.cloudflare.com</a>
+Ref:            <a href="http://whois.arin.net/rest/net/NET-104-16-0-0-1" rel="nofollow">http://whois.arin.net/rest/net/NET-104-16-0-0-1</a>
+
+=====
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="3/1">hushmail-cloudflare.pem</a><strong>" of type "</strong>text/plain<strong>" (1888 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Content of type "</strong>application/pgp-signature<strong>" skipped</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

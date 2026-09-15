@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Several reads out-of-bound in mplayer 1.1</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="../../../2015/11/17/4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CACn5sdSp7D-1_qhZzB2Z5D4esN4K4aczp5cc+Vzm4J+ySDReyw&#64;mail.gmail.com&gt;
+Date: Tue, 10 Nov 2015 10:29:05 -0300
+From: Gustavo Grieco &lt;gustavo.grieco&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Several reads out-of-bound in mplayer 1.1
+
+Some reads out-of-bound in functions asf_mmst_streaming_start and
+http_build_request are present in Mplayer 1.1-4.8 (tested in Ubuntu 14.04).
+Other versions are probably affected. Upstream is notified.
+
+How to reproduce:
+
+First, launch a dummy server:
+
+$ true | netcat -l 127.0.0.1 5002
+
+Then, mplayer using valgrind:
+
+$ valgrind mplayer mms://127.0.0.1:5002
+==31830== Memcheck, a memory error detector
+==31830== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==31830== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright
+info
+==31830== Command: mplayer mms://127.0.0.1:5002
+==31830==
+MPlayer 1.1-4.8 (C) 2000-2012 MPlayer Team
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote
+control.
+
+Playing mms://127.0.0.1:5002.
+STREAM_ASF, URL: mms://127.0.0.1:5002
+Resolving 127.0.0.1 for AF_INET6...
+
+Couldn't resolve name for AF_INET6: 127.0.0.1
+Connecting to server 127.0.0.1[127.0.0.1]: 5002...
+
+Connected
+==31830== Invalid read of size 4
+==31830==    at 0x5A6792: asf_mmst_streaming_start
+(asf_mmst_streaming.c:595)
+==31830==    by 0x5A8AA8: open_s (asf_streaming.c:94)
+==31830==    by 0x54FD1F: open_stream_full (stream.c:186)
+==31830==    by 0x54F3D0: open_stream (open.c:65)
+==31830==    by 0x4321D9: main (mplayer.c:3223)
+==31830==  Address 0x153e0ef0 is 0 bytes inside a block of size 1 alloc'd
+==31830==    at 0x4C2AB80: malloc (in
+/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31830==    by 0x5A65E7: asf_mmst_streaming_start
+(asf_mmst_streaming.c:539)
+==31830==    by 0x5A8AA8: open_s (asf_streaming.c:94)
+==31830==    by 0x54FD1F: open_stream_full (stream.c:186)
+==31830==    by 0x54F3D0: open_stream (open.c:65)
+==31830==    by 0x4321D9: main (mplayer.c:3223)
+==31830==
+==31830== Invalid read of size 4
+==31830==    at 0x5A67E6: asf_mmst_streaming_start
+(asf_mmst_streaming.c:597)
+==31830==    by 0x5A8AA8: open_s (asf_streaming.c:94)
+==31830==    by 0x54FD1F: open_stream_full (stream.c:186)
+==31830==    by 0x54F3D0: open_stream (open.c:65)
+==31830==    by 0x4321D9: main (mplayer.c:3223)
+==31830==  Address 0x153e0ef0 is 0 bytes inside a block of size 1 alloc'd
+==31830==    at 0x4C2AB80: malloc (in
+/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31830==    by 0x5A65E7: asf_mmst_streaming_start
+(asf_mmst_streaming.c:539)
+==31830==    by 0x5A8AA8: open_s (asf_streaming.c:94)
+==31830==    by 0x54FD1F: open_stream_full (stream.c:186)
+==31830==    by 0x54F3D0: open_stream (open.c:65)
+==31830==    by 0x4321D9: main (mplayer.c:3223)
+==31830==
+
+Alert! EOF
+read error:: Operation now in progress
+pre-header read failed
+Resolving 127.0.0.1 for AF_INET6...
+
+Couldn't resolve name for AF_INET6: 127.0.0.1
+Connecting to server 127.0.0.1[127.0.0.1]: 5002...
+
+connect error: Connection refused
+Failed, exiting.
+==31830== Invalid read of size 4
+==31830==    at 0x5AA4BA: http_build_request (http.c:478)
+==31830==    by 0x5AB409: http_send_request (network.c:261)
+==31830==    by 0x5AA827: http_streaming_start (http.c:725)
+==31830==    by 0x5AAF5B: open_s2 (http.c:936)
+==31830==    by 0x54FD1F: open_stream_full (stream.c:186)
+==31830==    by 0x54F3D0: open_stream (open.c:65)
+==31830==    by 0x4321D9: main (mplayer.c:3223)
+==31830==  Address 0x153ecf90 is 0 bytes inside a block of size 2 alloc'd
+==31830==    at 0x4C2AB80: malloc (in
+/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31830==    by 0x5AA492: http_build_request (http.c:468)
+==31830==    by 0x5AB409: http_send_request (network.c:261)
+==31830==    by 0x5AA827: http_streaming_start (http.c:725)
+==31830==    by 0x5AAF5B: open_s2 (http.c:936)
+==31830==    by 0x54FD1F: open_stream_full (stream.c:186)
+==31830==    by 0x54F3D0: open_stream (open.c:65)
+==31830==    by 0x4321D9: main (mplayer.c:3223)
+==31830==
+Resolving 127.0.0.1 for AF_INET6...
+
+Couldn't resolve name for AF_INET6: 127.0.0.1
+Connecting to server 127.0.0.1[127.0.0.1]: 5002...
+
+connect error: Connection refused
+No stream found to handle url mms://127.0.0.1:5002
+
+
+Exiting... (End of file)
+
+This issue was discovered using QuickFuzz and minimized manually
+
+Regards,
+Gus.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

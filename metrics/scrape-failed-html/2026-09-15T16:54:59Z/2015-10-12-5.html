@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: Plone CSRF</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151012161612.5FE516C04EF&#64;smtpvmsrv1.mitre.org&gt;
+Date: Mon, 12 Oct 2015 12:16:12 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: nathan.van.gheem&#64;...ne.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: Plone CSRF
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; Can a CVE be assigned to this issue, please?
+&gt; 
+&gt;    <a href="https://plone.org/security/20151006/multiple-csrf-vulnerabilities-in-zope" rel="nofollow">https://plone.org/security/20151006/multiple-csrf-vulnerabilities-in-zope</a>
+&gt;    <a href="https://plone.org/products/plone/security/advisories/security-vulnerability-20151006-csrf" rel="nofollow">https://plone.org/products/plone/security/advisories/security-vulnerability-20151006-csrf</a>
+&gt; 
+&gt; Plone is built on the Zope2 application framework. In the Zope2 application
+&gt; framework, there are multiple CSRF vulnerabilities. The latest version of
+&gt; Plone has automatic CSRF protection integrated at the database layer. This
+&gt; patch basically backports the latest automatically CSRF infrastructure to
+&gt; Plone 4.x.
+
+The vulnerability information can be covered in CVE; however, we do
+not really understand why it is being presented in this way.
+
+<a href="https://github.com/plone/plone4.csrffixes" rel="nofollow">https://github.com/plone/plone4.csrffixes</a> says "there are a lot of
+CSRF problem with the ZMI that Zope2 will never be able to fix." It
+seems that, normally, if one or more persons had discovered CSRF
+problems in Zope2, then they could have CVE IDs for their discoveries.
+Why is this a "never be able to fix" situation? Is there, more or
+less, a requirement that Zope2 allow arbitrary requests from clients
+that have never previously read the content of any web page, because
+of the variety of ways that Zope2 is used? In that situation, the
+request behavior of Zope2 would not necessarily be considered a Zope2
+vulnerability.
+
+Also, a separate issue is that the CVE request is specifically about
+backporting. It seems that, at some time in the past, the possibility
+of CSRF attacks against default Plone sites was identified and this
+motivated the development of auto CSRF protection in Plone 5.
+Normally, an assignment of a CVE ID or IDs would be associated with
+the original discovery, not a later backporting of fixes. Are these
+equivalent in this case: for example, were all of the CSRF attack
+possibilities against default Plone sites discovered by Plone
+Foundation contributors, and security-vulnerability-20151006-csrf is
+the first general public announcement that these CSRF issues existed
+at all?
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWG9wmAAoJEL54rhJi8gl5n6oQAKXuzwqb4bmBs4K5NhpJ4NtI
+d37u737MsJSGLLtXGlrupC2XDwq/LuSN80SmOQVYnPn4EU4SU+17bvwjOP30LECD
+DJMt7m10LuGjamyrbFGfALzXh0iPkZHoUN289c+oQZN9P8pdVlVfZlVrgZP2KPQk
+3MbELeGrh0NogA2+yRFAdufKQovo4cnyQuHsxqpV/7Mv+YJwlFInhJVcrI35F5TF
+R3sDKoIkjMXicPRA9+9dZYnTeNmypGVhuBUhG6UwW+Ob4dlR6fAyMH6NV+977r+5
+9DnDsyHQ+6axYqNT/+4kY1tXHi9dXvhSoV71OGtcMODknD7RyiVdF1DpuJl7PP7Y
+u+TaqrN7A7x5kalSCspLYsYlvciyIXURJv32ZANVeT/67mEqnWky7ZnoUrssPqzf
+FIgqAM1MUPD9KT+P9zDoiG0oFfVKpu9EqLlo372pyw+nVn/2U0fPdGzKro+kOZGQ
+CU+wxdFX2xwZTAsP1JXzHBoHEY0Q/i+GSAlqHvNuILlLgdypPS9YxiCNc0pVmsBE
+2HRxNoZAWBhiAD/B/nEFjNyvi6yGzz35QNhaYGeMQpVrlDh65BNt3wT+pkCxB/tr
+W7ZbRsu4DBxt/yyVy9FqOdw0eIqo2beplKxVWHjbAIKapQjCyJ0VXD887CBw7AlC
+uVpQbre4M9bmYXVg95Bz
+=tvlJ
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

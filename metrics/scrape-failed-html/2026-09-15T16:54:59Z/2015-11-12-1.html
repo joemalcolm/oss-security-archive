@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-Request: Assign CVE for common-collections remote code execution
+ on deserialisation flaw</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/11/11/3">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/11/11/3">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;56445609.9050301&#64;gmail.com&gt;
+Date: Thu, 12 Nov 2015 10:04:09 +0100
+From: Gsunde Orangen &lt;gsunde.orangen&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: cve-assign&#64;...re.org
+Subject: CVE-Request: Assign CVE for common-collections remote code execution
+ on deserialisation flaw
+
+CVE-Request:
+I appreciate this general discussion around deserialization issues and
+hope this will make a jump-start for sustainable improvements on both
+Java and application level in the long run.
+Aside of that however, I'd like to go back to Jason's original request
+to Mitre to get a CVE ID assigned to this particular issue with the
+Apache Commons Collections functors package (specifically in the
+InvokerTransformer class).
+So people (esp. Java applications developers) have a unique reference
+when analysing and fixing this particluar one (by e.g. removing the
+class, make it non-serializable or wait for a new Commons Collections
+release that includes that fix - whatever is most appropriate to their
+application's context).
+
+On 2015-11-11, 17:06 Tim wrote
+&gt; 
+&gt; Hi Moritz,
+&gt; 
+&gt;&gt; The problem here is that the amount of potential "sinks" is incredibly
+&gt;&gt; large - everything on your classpath. No objection here to hardening the
+&gt;&gt; specific instance, but thinking one will be safe afterwards is a
+&gt;&gt; misconception. Like someone else put it, it's a game of whack-a-mole.
+&gt; 
+&gt; Does every class in your classpath implement Serializable?  If your
+&gt; library is implemented that way, it is broken.  Web architectures used
+&gt; to be implemented such that you had to encode HTML in hundreds of
+&gt; separate places, one by one.  Did we stop receiving and displaying
+&gt; user input because of it?  No, we changed our archtectures to
+&gt; accommodate a better understanding of XSS.
+&gt; 
+&gt; I don't think fixing one instance of a broken Serializable class will
+&gt; make us safe, but playing whack-a-mole with every application that
+&gt; uses serialization to transfer data isn't attractive either.  Note
+&gt; that eliminating the use of serialization is harder because that
+&gt; requires a *functional* design change, rather than a change in
+&gt; implementation details.
+&gt; 
+&gt; 
+&gt;&gt; Sure, as long as nobody does any funny stuff in their default
+&gt;&gt; constructors, setters or getters. But the difference there is that these
+&gt;&gt; unmarshallers (at least the ones I know of) only act on a very specific
+&gt;&gt; set of classes you mostly control.
+&gt;&gt; Looking at the flawed deserialization design at hand...
+&gt; 
+&gt; I'm not saying Java's serialization architecture is good.  Oracle
+&gt; definitely needs to do something.  But passing the buck up to all
+&gt; applications and asking them to eliminate serialization is impractical
+&gt; and *dangerous*.  The higher up you go in the software stack, the less
+&gt; developers understand security.  Very few developers will get the
+&gt; message that they can't use it to process untrusted data and that will
+&gt; lead to a continued series of vulnerabilities.
+&gt; 
+&gt; 
+&gt;&gt; And that's the assumption you are making. There is no such statement in
+&gt;&gt; the Serializable definition, neither is anywhere defined what is
+&gt;&gt; acceptable behavior for a readObject method and neither forbids the
+&gt;&gt; collection API to do something dangerous in a getter (which in OpenJDK
+&gt;&gt; seems to generally be an acceptable call).
+&gt; 
+&gt; I agree that there's no statement about serialization security there.
+&gt; That's not surprising at all, because Oracle really sucks about
+&gt; security, always giving us a "not my problem" attitude.  That's why I
+&gt; mentioned XMLDecoder.  Even something as blatantly vulnerable as that
+&gt; interface doesn't receive any documentation that it shouldn't be used
+&gt; with untrusted data.  So how can you expect them to rise to the
+&gt; occasion and document something slightly more nuanced?
+&gt; 
+&gt; However, my assumption is the only one that makes sense, given the
+&gt; design of Java's serialization.  Clearly, the lack of documentation
+&gt; has confused everyone, though, which is why we're having this
+&gt; discussion.
+&gt; 
+&gt; 
+&gt;&gt; Maybe forcing them to take a position on the RMI implementation will be
+&gt;&gt; of some use. They clearly assume deserialization is safe there and fun
+&gt;&gt; fact, even use it for the authentication crendentials.
+&gt; 
+&gt; Anything to nudge them into taking responsibility *for something,
+&gt; ever* would be a good start.  However, last time I tried to convince
+&gt; them of something like this, they just told me "use a security
+&gt; manager".  lulz.  So good luck.
+&gt; 
+&gt; Thanks much,
+&gt; tim
+&gt; 
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

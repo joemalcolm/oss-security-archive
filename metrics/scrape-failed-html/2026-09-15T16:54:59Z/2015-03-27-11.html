@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: denial of service in Quassel</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="10">[&lt;prev]</a> <a href="12">[next&gt;]</a> <a href="10">[&lt;thread-prev]</a> <a href="../../../2015/03/28/3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;5515B83C.6080506&#64;reactos.org&gt;
+Date: Fri, 27 Mar 2015 21:06:20 +0100
+From: Pierre Schweitzer &lt;pierre&#64;...ctos.org&gt;
+To: cve-assign&#64;...re.org
+CC: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: denial of service in Quassel
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Thanks for your detailed answer, please find my answers inlined.
+
+On 27/03/2015 19:16, cve-assign&#64;...re.org wrote:
+&gt; 2
+&gt;&gt; Unlike what it replaces, the new splitting code is not recursive 
+&gt;&gt; and cannot cause stack overflows.
+&gt; 
+&gt; If an attacker sends a crafted message and this leads to excessive 
+&gt; stack consumption in an IRC client, making the client crash or
+&gt; hang, then that is relevant for a CVE. (We are expecting that it is
+&gt; a "normal" IRC client that supports independent sessions with
+&gt; messages from different channels or different persons.) However, 
+&gt; b5e38970ffd55e2dd9f706ce75af9a8d7730b1b8 doesn't actually state
+&gt; that the client would ever crash or hang.
+
+This wouldn't affect the client. All the patch here only affects the
+core component, so the stack overflow would happen in the core.
+
+I'm indeed not sure about what would happen in case of a stack
+overflow. But, be it a crash or a hang, it would cause a denial of
+service for any client connected to core.
+
+&gt; 3
+&gt;&gt; The first is garbage characters caused by accidentally splitting
+&gt;&gt; the string in the middle of a multibyte character. Since the new
+&gt;&gt; code splits at a character level instead of a byte level, this
+&gt;&gt; will no longer be an issue.
+&gt; 
+&gt; This one seems to be inherently about multibyte characters because 
+&gt; it's an issue of string display (or string interpretation) if
+&gt; whole characters aren't preserved. However, it doesn't seem to be
+&gt; announced as a security issue. Although someone might be sending 
+&gt; security-critical messages over IRC and would not want those
+&gt; messages to be misinterpreted, that's generally too much of a leap
+&gt; to have a CVE. If nobody else has other analysis, we will probably
+&gt; treat this as a non-security bug.
+
+I don't believe this is to be considered as a security bug.
+Especially, because due to the recursive, it would cause
+reinterpreting the left string. It's unlikely it would be something
+relevant that the core would dispatch to clients or server.
+
+&gt; 4
+&gt;&gt; if it is unable to split a string, it will give up gracefully and
+&gt;&gt; not crash the core or cause a thread to run away.
+&gt; 
+&gt; As far as we can tell, this is about:
+&gt; 
+&gt; // If the QTBF fails to find a split point in Grapheme mode, we
+&gt; give up. // This should never happen, but it should be handled
+&gt; anyway. qWarning() &lt;&lt; "Unexpected failure to split message!"; 
+&gt; return msgsToSend;
+&gt; 
+&gt; in the patched code. If nobody else has other analysis, we will 
+&gt; probably treat this as a defense-in-depth measure that doesn't
+&gt; address any known vulnerability, and therefore has no CVE.
+
+I believe this is more about in the removed code:
+<a href="https://github.com/quassel/quassel/commit/b5e38970ffd55e2dd9f706ce75af9a8d7730b1b8#diff-2b819a1018ddf6b5fa4b750553df0742L801" rel="nofollow">https://github.com/quassel/quassel/commit/b5e38970ffd55e2dd9f706ce75af9a8d7730b1b8#diff-2b819a1018ddf6b5fa4b750553df0742L801</a>
+
+But I'm not sure about how it could cause a crash, or a thread leak.
+
+- -- 
+Pierre Schweitzer &lt;pierre at reactos.org&gt;
+System &amp; Network Administrator
+Senior Kernel Developer
+ReactOS Deutschland e.V.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBAgAGBQJVFbg8AAoJEHVFVWw9WFsLpEQP+gJ8V1Z+i1RyQPuM6FiGNwqL
+FOkAX+wC2ijGKpJgUvX6Hbi3g2SZma1tcSbCVxOX6aisrrDaDAK6c5SYBCSP+1bf
+/8+1qIgbUd8kV16KdGLFDD2R9mrBxpIwUPGiBUK690B9GSec2Xl1ONo/FX4PXLdm
+mwdSrTeVBimE2F4EE9Q15HJHE4KPeObSoqB3DaozVRI+GPcVEsu5S03wBMG/9zxY
+DKxMpnR8WgTnW7wIXxSoiol8J3iDLj5PZ4NIRDu9k9SPwSGkR+61QaHUHlbew4mx
+HF1znvAMeogut7VLKpnB2+uJDz99zKlYZ5ndkBbWeCuRH8CHrsRwv2seuSInzKOC
+231xxtkrgg4RRuxGxMAo4r3fo0yERpe1r6n+swZy5Bpcgt1q96YCQjGF7iK12gcf
+1dYpmff35hI1FDXl3Jxz+uTZ3SZJPNX1Jp1mh22BEDHtcdHhlntujOtdQNe/pPtU
+GeTTv3l9CvbvWnh496Hn3QRw1u2S1Qntmn0OG2Y1v1JuUvhMxNWBTdQTZlI23Vzu
+E9q2yf1RlYtXcUJUhlQlsw90h9/V8dbKJob3p+cYkW/bMrE/Nh9FAJCPWpl+uYGu
+bFHIsmtPhk8qYp61mHIMipWE68iC0fTMjjXMLNkATQ2Vj3H6Ue8qACrM9aGaFmmI
+V4jfpn2tBe7/VDKU7PwA
+=k/fm
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

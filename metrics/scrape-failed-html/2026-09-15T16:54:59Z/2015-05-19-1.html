@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: About PHP and CVE-2015-1353</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/05/18/10">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/05/11/2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150519031554.36633B2E035&#64;smtpvbsrv1.mitre.org&gt;
+Date: Mon, 18 May 2015 23:15:54 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: remi&#64;...oraproject.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: About PHP and CVE-2015-1353
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; On bad input, the call will produce a bad output.
+&gt; 
+&gt; I don't see any way to exploit this for any bad thing.
+&gt; 
+&gt; I really think we should reject this CVE.
+&gt; Upstream doesn't even consider this as a bug.
+
+&gt;&gt; Multiple integer overflows in the calendar extension in PHP through
+&gt;&gt; 5.6.7 allow remote attackers to cause a denial of service or possibly
+&gt;&gt; have unspecified other impact via a crafted year value to (1) the
+&gt;&gt; GregorianToSdn function in gregor.c or (2) the JulianToSdn function in
+&gt;&gt; julian.c, as demonstrated by a crafted third argument to the
+&gt;&gt; gregoriantojd or juliantojd function.
+
+We are rejecting this CVE because there is, in effect, a specification
+indicating that PHP would not be the responsible product for any
+security issue related to a large number in the third argument to the
+gregoriantojd or juliantojd function.
+
+The <a href="http://php.net/manual/en/function.gregoriantojd.php" rel="nofollow">http://php.net/manual/en/function.gregoriantojd.php</a> and
+<a href="http://php.net/manual/en/function.juliantojd.php" rel="nofollow">http://php.net/manual/en/function.juliantojd.php</a> pages state:
+
+  year
+
+     The year as a number between -4714 and 9999
+
+  year
+
+     The year as a number between -4713 and 9999
+
+(Similar documentation has existed for several years, probably going
+back to when gregoriantojd and juliantojd were first implemented.)
+
+The integer overflow occurs for a year much larger than 9999
+(approximately 1.47 million). This violates the specification, and it
+is reasonable for PHP's behavior to be undefined. It's conceivable
+that an open-source application exists with a security impact for
+untrusted input of a year such as 1.47 million: in that case, a CVE ID
+could be assigned to that application.
+
+(In other words, a CVE can exist for an integer overflow that is
+relevant only because of business logic. A CVE for an integer overflow
+does not require the overflow to have any effect on memory safety.)
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVWqpkAAoJEKllVAevmvmsAxsIALNWNhkrF21EIeVWqvDTkrwz
+99ldxVEIVbtDR8o2ouzKQrBVMZNI0lmDQ2qzVBtdKwf9oWIjTOYvsgQtuqDDRFOU
+Ab0RJl+6CnY8tvFVCZh7Y2IoYz3GM3BnAVF0fyXygnI2cPcfq6jWAOHNw1iikWOp
+9PfqGEkq1kJpNzD+qGG30Get9UfzPwi5IyXfMDhUWB9in7bgYPfkn2IOiTlgRXA6
+wTxhdM+oV6QfrDQBe8NDscMl89Fhu7qotiRexQiPLifEs0O+LfptxckcSyPW+dkT
+RmeIwq2HOsBeGCcDcSWKXLHCCqqFilso99E8IjJ1jgf00+gDmV5j+nFA2KIilSc=
+=AJ8l
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

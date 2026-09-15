@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Pointer misuse unziping files with busybox</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2015/10/25/3">[&lt;thread-prev]</a> <a href="../../../2015/10/29/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CACn5sdQOivzKjPO-5vk6ySYFUPr_MjGcY-kH4ZLLp+-+DyaA1Q&#64;mail.gmail.com&gt;
+Date: Mon, 26 Oct 2015 16:14:53 -0300
+From: Gustavo Grieco &lt;gustavo.grieco&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Pointer misuse unziping files with busybox
+
+Fix:
+
+<a href="http://git.busybox.net/busybox/commit/?id=1de25a6e87e0e627aa34298105a3d17c60a1f44e" rel="nofollow">http://git.busybox.net/busybox/commit/?id=1de25a6e87e0e627aa34298105a3d17c60a1f44e</a>
+
+2015-10-25 19:34 GMT-03:00 Gustavo Grieco &lt;gustavo.grieco&#64;...il.com&gt;:
+
+&gt; Unziping a specially crafted zip file results in a computation of an
+&gt; invalid
+&gt; pointer and a crash reading an invalid address. Upstream is taking a look
+&gt; to it, but in the meantime if someone wants to provide some feedback, it
+&gt; will be nice. Find an attached a test case to reproduce it. A
+&gt; complete backtrace in busybox 1.21 (debug) is available here:
+&gt;
+&gt; $ gdb --args ./busybox_unstripped unzip x.-6170921383890712452
+&gt; ...
+&gt; (gdb) run
+&gt; Starting program: /home/g/Code/busybox-1.21.0/busybox_unstripped unzip
+&gt; x.-6170921383890712452
+&gt; [Thread debugging using libthread_db enabled]
+&gt; Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+&gt; Archive:  x.-6170921383890712452
+&gt;   inflating: ]3j½r«I K-%Ix
+&gt;
+&gt; Program received signal SIGSEGV, Segmentation fault.
+&gt; huft_build (b=b&#64;...ry=0x7fffffffd320, n=n&#64;...ry=264, s=s&#64;...ry=257,
+&gt; d=d&#64;...ry=0x5fa900 &lt;cplens&gt;, e=e&#64;...ry=0x5fa8c0 &lt;cplext&gt; "",
+&gt; t=0x60620000eb08,
+&gt;     t&#64;...ry=0x602c0000fe60, m=0x7fffffffd260) at
+&gt; archival/libarchive/decompress_gunzip.c:441
+&gt; 441                    r.e = (unsigned char) e[*p - s]; /*
+&gt; non-simple--look up
+&gt; in lists */
+&gt; (gdb) bt
+&gt; #0  huft_build (b=b&#64;...ry=0x7fffffffd320, n=n&#64;...ry=264, s=s&#64;...ry=257,
+&gt; d=d&#64;...ry=0x5fa900 &lt;cplens&gt;, e=e&#64;...ry=0x5fa8c0 &lt;cplext&gt; "",
+&gt;     t=0x60620000eb08, t&#64;...ry=0x602c0000fe60, m=0x7fffffffd260) at
+&gt; archival/libarchive/decompress_gunzip.c:441
+&gt; #1  0x0000000000520b52 in inflate_block (state=state&#64;...ry=0x602c0000fe00,
+&gt; e=e&#64;...ry=0x602c0000fe83 "") at
+&gt; archival/libarchive/decompress_gunzip.c:905
+&gt; #2  0x00000000005222d1 in inflate_get_next_window (state=0x602c0000fe00) at
+&gt; archival/libarchive/decompress_gunzip.c:947
+&gt; #3  inflate_unzip_internal (state=state&#64;...ry=0x602c0000fe00, in=in&#64;...ry
+&gt; =3,
+&gt; out=out&#64;...ry=4) at archival/libarchive/decompress_gunzip.c:1004
+&gt; #4  0x0000000000522a6a in inflate_unzip (aux=aux&#64;...ry=0x7fffffffdc30,
+&gt; in=in&#64;...ry=3, out=out&#64;...ry=4) at
+&gt; archival/libarchive/decompress_gunzip.c:1048
+&gt; #5  0x000000000051b255 in unzip_extract (dst_fd=4,
+&gt; zip_header=0x7fffffffdd50)
+&gt; at archival/unzip.c:255
+&gt; #6  unzip_main (argc=&lt;optimized out&gt;, argv=&lt;optimized out&gt;) at
+&gt; archival/unzip.c:654
+&gt; #7  0x00000000004088bd in run_applet_no_and_exit
+&gt; (applet_no=applet_no&#64;...ry=328, argv=argv&#64;...ry=0x7fffffffe170) at
+&gt; libbb/appletlib.c:759
+&gt; #8  0x0000000000408935 in run_applet_and_exit (name=0x7fffffffe4c8 "unzip",
+&gt; argv=argv&#64;...ry=0x7fffffffe170) at libbb/appletlib.c:766
+&gt; #9  0x0000000000408e7c in busybox_main (argv=0x7fffffffe170) at
+&gt; libbb/appletlib.c:728
+&gt; #10 run_applet_and_exit (name=&lt;optimized out&gt;, argv=argv&#64;...ry
+&gt; =0x7fffffffe168)
+&gt; at libbb/appletlib.c:768
+&gt; #11 0x0000000000408f65 in main (argc=&lt;optimized out&gt;, argv=0x7fffffffe168)
+&gt; at
+&gt; libbb/appletlib.c:823
+&gt;
+&gt; (gdb) x/i $rip
+&gt; =&gt; 0x51fb17 &lt;huft_build+2852&gt;:    mov    (%rdi),%dl
+&gt; (gdb) info registers
+&gt; rax            0x0    0
+&gt; rbx            0x57    87
+&gt; rcx            0x814a18    8473112
+&gt; rdx            0x140900    1313024
+&gt; rsi            0x5fa900    6269184
+&gt; rdi            0xa04dcc    10505676
+&gt; rbp            0x10007fff7940    0x10007fff7940
+&gt; rsp            0x7fffffffc930    0x7fffffffc930
+&gt; r8             0x7fffffffcb64    140737488341860
+&gt; r9             0x7fffffffcbe8    140737488341992
+&gt; r10            0x60620000eb10    105974023121680
+&gt; r11            0x7fffffffcadc    140737488341724
+&gt; r12            0x7fffffffd260    140737488343648
+&gt; r13            0x8    8
+&gt; r14            0x10007fff7944    17594333493572
+&gt; r15            0x0    0
+&gt; rip            0x51fb17    0x51fb17 &lt;huft_build+2852&gt;
+&gt; eflags         0x10216    [ PF AF IF RF ]
+&gt; cs             0x33    51
+&gt; ss             0x2b    43
+&gt; ds             0x0    0
+&gt; es             0x0    0
+&gt; fs             0x0    0
+&gt; gs             0x0    0
+&gt;
+&gt; This issue was discovered with QuickFuzz
+&gt;
+&gt; Thanks!
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
