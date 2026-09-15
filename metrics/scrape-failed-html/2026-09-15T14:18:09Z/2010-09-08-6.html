@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: [Security] Re:  /proc infoleaks</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2010/09/07/17">[&lt;thread-prev]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20100908065238.GA30023&#64;suse.de&gt;
+Date: Wed, 8 Sep 2010 08:52:38 +0200
+From: Sebastian Krahmer &lt;krahmer&#64;...e.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Jon Oberheide &lt;jon&#64;...rheide.org&gt;, security&#64;...nel.org,
+	spender&#64;...ecurity.net
+Subject: Re: Re: [Security] Re:  /proc infoleaks
+
+On Tue, Sep 07, 2010 at 05:51:31PM -0400, Brad Spengler wrote:
+
+&gt; 
+&gt; Definitely some work needs to be done here at the distro level, because 
+&gt; it's pointless (as Enlightenment demonstrates) to hide /proc/kallsyms 
+&gt; when /boot/System.map or /lib/modules are perfectly visible on any 
+&gt; distro.
+I agree that distros also have to do some homework there,
+but there are things that we cant just do via init harden scripts.
+Take /proc/pid/stack. Other files like my prefered friend /proc/net/netlink
+gives info that allows exploitation-deluxe if you overwrite your socket destructor.
+
+The list I have given was by no means complete (and even
+didnt mean slabinfo will leak addresses, but was an example
+of leaking other useful info) and I prefer an inventory
+of 'problematic' /proc, /sys or whatever files if you speak
+about inventory of programs using it.
+
+
+&gt; I know the impulse is to immediately copy what we're doing in 
+&gt; grsecurity, but the reason we do some of the things in the way we do 
+Its always my first thought :)
+
+&gt; them is that we can be used on any distro and have no control over 
+&gt; whatever distro that happens to be.  We also support other features like 
+&gt; PaX's KERNEXEC and UDEREF which make the symbol/address removal more 
+&gt; useful.  We're also able to make certain important assumptions about our 
+&gt; users (eg. that they want security).  So make sure you're thinking 
+&gt; carefully about what you're trying to accomplish, why you're doing it, 
+&gt; and how effective it will actually be given the (lack of) synergistic 
+&gt; features at your present disposal, instead of jumping into cargo cult 
+&gt; security.
+Sure. It was just a proposal since I felt nobody really cared about
+the low hanging fruits. It wont make your system rocket proof but
+it makes some head-scratching for exploit developers which is
+all you need if you make them stuck in doing that.
+
+Sebastian
+
+
+
+-- 
+~
+~ perl self.pl
+~ $_='print"\$_=\47$_\47;eval"';eval
+~ krahmer&#64;...e.de - SuSE Security Team
+~ SUSE LINUX Products GmbH, GF: Markus Rex, HRB 16746 (AG Nuernberg)
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

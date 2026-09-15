@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request [two ids] -- cabextract -- 1, Infinite
+  loop in MS-ZIP and Quantum decoders (minor) 2, Integer wrap-around (crash)
+ by  processing certain *.cab files in test archive mode</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2010/08/03/8">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2010/08/02/14">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Pine.GSO.4.64.1008041453110.19654&#64;faron.mitre.org&gt;
+Date: Wed, 4 Aug 2010 15:12:33 -0400 (EDT)
+From: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+To: Dan Rosenberg &lt;dan.j.rosenberg&#64;...il.com&gt;
+cc: oss-security&#64;...ts.openwall.com,
+        "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+Subject: Re: CVE Request [two ids] -- cabextract -- 1, Infinite
+  loop in MS-ZIP and Quantum decoders (minor) 2, Integer wrap-around (crash)
+ by  processing certain *.cab files in test archive mode
+
+
+Dan,
+
+Your proposal is a pretty good subset of my own perspective of when DoS 
+becomes security-relevant (and I've been meaning to do some kind of 
+CVE-related writeup on this, so thanks for the head start ;-)
+
+There are a couple challenges in this area, though:
+
+1) As Josh alluded to, I'm of the mindset of "better safe than sorry."
+    If an advisory doesn't come in fully-cooked with root-cause analysis
+    and clear research into the impact of the issue, you can't know what's
+    going on under the hood.  Maybe there's some evidence of memory
+    corruption, but the person doing the CVE assignment may not know that.
+
+2) Item 1 below gets fuzzy when you're analyzing a piece of software you
+    don't know yourself.  From a CVE assignment (and vuln database)
+    perspective, that's impossible - typically we are dealing with 10-20
+    different applications per day.  I don't know if MPEG-player X or
+    Doc-converter Y can have multiple sessions or state at the same time.
+    So the conservative approach is to include such issues.
+
+3) Item 1 gets fuzzy *if* you consider scenarios in which the affected
+    product is part of a chain of behaviors (say, a cron job) where a
+    larger, critical task can fail if the program crashes.  Consider an
+    image conversion utility that automatically makes thumbnails.  This is
+    probably very important functionality for lots of image farms and
+    social networking sites.
+
+4) Your item 2 below gets fuzzy when you consider how much of a role the
+    attacker has to have, i.e., how "user-assisted" the attack must be.
+    I would say that if a victim sets up a chat session with an
+    attacker, and the attacker can trigger a crash, that's valid (ignoring
+    that item 1 would also apply in typical chat programs).  With
+    everything being web-enabled with URL handlers these days, a
+    conservative approach would be to assume (unless otherwise specified)
+    that an attack only requires "reasonable" or typical actions on the
+    part of a user.  For example - clicking on a link or a button in your
+    web browser is reasonable behavior.
+
+Fuzzing definitely throws a wrench into this whole thing, because of the 
+large number of results and (usually) the lack of root-cause diagnosis. A 
+couple years ago, I used to joke to myself that someday, somebody would 
+figure out how to exploit NULL pointer dereferences.  Now that joke's not 
+so funny anymore - granted, it's a limited scenario, but it's a clear 
+demonstration that behavior once thought to be "safe" (from an 
+exploitability standpoint) might be proven unsafe at a later time. 
+Integer overflows, use-after-frees, double-frees, etc. have all been known 
+for decades but only recently have they been demonstrated to be of 
+significant security concern.
+
+You are right about this all being a slippery slope.  From a CVE 
+perspective, I am often concerned about the "snowball effect" of including 
+certain types of issues, but in the case of client-side DoS, I think we 
+just have to deal with the fact that client-side software has a very high 
+attack surface and, in general, is less protected than server-side 
+software (probably a reflection of the emphasis on server-side security in 
+earlier years).
+
+- Steve
+
+
+
+
+On Mon, 2 Aug 2010, Dan Rosenberg wrote:
+
+&gt; This seems to be a bit of a slippery slope.  While I have no problem
+&gt; with these particular issues being assigned CVEs, since they were
+&gt; treated as security issues, fixed, and caused unintended application
+&gt; behavior, I have to wonder if maybe it's a bad idea to give CVEs for
+&gt; crashes of this variety.  Denial-of-service issues are tricky.  In my
+&gt; opinion, the following types of DoS bugs are security relevant:
+&gt;
+&gt; 1.  Crashes in client programs that maintain some additional state
+&gt; beyond a single session. For example, a document reader with multiple
+&gt; tabs where a crash results in losing the contents of other tabs, or a
+&gt; web browser.
+&gt;
+&gt; 2.  Issues that allow users to crash processes not under their own
+&gt; control.  This includes remote DoS vulnerabilities, kernel panics,
+&gt; crashes in services such as files that crash A/V engines when parsed,
+&gt; etc.
+&gt;
+&gt; 3.  Crashes in library code where many programs may be impacted.
+&gt;
+&gt; 4.  Crashes in client applications where further exploitability is
+&gt; possible (basically, promising memory corruption issues that haven't
+&gt; been fully developed).
+&gt;
+&gt; When you open it up to "anything that causes a crash", the pool of
+&gt; "security" bugs expands to include every fuzz file that causes a crash
+&gt; and every stability issue in every program.  For example, I have a
+&gt; high number of fuzz files that cause crashes in the readelf utility in
+&gt; non-exploitable ways.  I don't consider these relevant for security,
+&gt; because if you need to trick a user into running the program to
+&gt; trigger the crash and there are no additional consequences besides
+&gt; them crashing the program you tricked them into running, there is no
+&gt; negative security impact besides perhaps a confused victim.
+&gt;
+&gt; Although, I suppose my fourth item is the one that presents a problem
+&gt; - who gets to decide whether a program crash is exploitable or not?
+&gt; What if they're wrong?  Just trying to spur some discussion on this,
+&gt; I'd love to hear what others have to say - sometimes it's nice to
+&gt; break up all the CVE assignments with an actual conversation.  :)
+&gt;
+&gt; -Dan
+&gt;
+&gt; On Mon, Aug 2, 2010 at 4:08 PM, Josh Bressers &lt;bressers&#64;...hat.com&gt; wrote:
+&gt;&gt; ----- "Jan Lieskovsky" &lt;jlieskov&#64;...hat.com&gt; wrote:
+&gt;&gt;
+&gt;&gt;&gt; Hi Steve, vendors,
+&gt;&gt;&gt;
+&gt;&gt;&gt; � �two security issues have been reported against cabextract:
+&gt;&gt;&gt;
+&gt;&gt;&gt; 1, Infinite loop in MS-ZIP and Quantum decoders (minor issue):
+&gt;&gt;&gt;
+&gt;&gt;&gt; A deficiency has been reported in the way cabextract extracted certain
+&gt;&gt;&gt; Cabinet (*.cab) files, using the MZ-ZIP and Quantum decompressors. �If a
+&gt;&gt;&gt; local user was tricked into opening a specially-crafted *.cab file, it
+&gt;&gt;&gt; could lead to infinite loop.
+&gt;&gt;&gt;
+&gt;&gt;
+&gt;&gt; CVE-2010-2800
+&gt;&gt;
+&gt;&gt;&gt; 2, Integer wrap-around (crash) by processing certain *.cab files in
+&gt;&gt;&gt; test archive mode
+&gt;&gt;&gt;
+&gt;&gt;&gt; An integer wrap-around flaw has been reported in the way cabextract
+&gt;&gt;&gt; processed certain Cabinet (*.cab) archive files. If a local user was
+&gt;&gt;&gt; tricked into opening a specially-crafted *.cab archive in test archive
+&gt;&gt;&gt; mode, it could lead to cabextract executable crash.
+&gt;&gt;&gt;
+&gt;&gt;
+&gt;&gt; CVE-2010-2801
+&gt;&gt;
+&gt;&gt;
+&gt;&gt; Thanks.
+&gt;&gt;
+&gt;&gt; --
+&gt;&gt; � �JB
+&gt;&gt;
+&gt;
+&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

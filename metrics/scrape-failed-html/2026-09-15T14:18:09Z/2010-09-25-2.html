@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request: multiple kernel stack memory disclosures</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="../../../2010/09/27/1">[next&gt;]</a> <a href="../../../2010/09/27/9">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;AANLkTimysjTz=_5bBh2vjFv5J-bZSWzpNnQ9kP71wrNi&#64;mail.gmail.com&gt;
+Date: Sat, 25 Sep 2010 11:25:15 -0400
+From: Dan Rosenberg &lt;dan.j.rosenberg&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Eugene Teo &lt;eugeneteo&#64;...nel.sg&gt;, "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+Subject: CVE request: multiple kernel stack memory disclosures
+
+I'd like to request CVEs for a large series of Linux kernel stack
+memory disclosure vulnerabilities, almost all of which have been
+fixed.  They are all examples of declaring various structs on the
+stack and copying them back to the user without filling in all the
+fields, leaking uninitialized stack memory.  Since there are a lot of
+issues here, I trust your judgment in deciding if they should each
+receive a unique ID or if they should be combined in some way.  I
+tried to break them up logically to make it easier.
+
+---
+
+The first batch of issues occurred in the TIOCGICOUNT device ioctls of
+several device drivers.  While several of the issues were fixed on an
+individual basis, Alan Cox fixed it for good by creating a new
+handler.  Since these issues are essentially identical and were fixed
+all at once, I think it might make sense to have them under a single
+CVE.  Note that the final listed item in drivers/net/usb/hso.c was
+already assigned CVE-2010-3298.
+
+"The TIOCGICOUNT device ioctl in mos7720.c, mos7840.c, serial_core.c,
+hso.c, amiserial.c, and nozomi.c allows unprivileged users to read
+uninitialized stack memory, because the 'reserved' member of the
+serial_icounter_struct struct declared on the stack is not altered or
+zeroed before being copied back to the user."
+
+
+Alan Cox's fix:
+<a href="http://lkml.org/lkml/2010/9/16/294" rel="nofollow">http://lkml.org/lkml/2010/9/16/294</a>
+
+drivers/usb/serial/mos*
+<a href="http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a0846f1868b11cd827bdfeaf4527d8b1b1c0b098" rel="nofollow">http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a0846f1868b11cd827bdfeaf4527d8b1b1c0b098</a>
+
+drivers/serial/serial_core.c
+<a href="http://userweb.kernel.org/~akpm/mmotm/broken-out/drivers-serial-serial_corec-prevent-reading-uninitialized-stack-memory.patch" rel="nofollow">http://userweb.kernel.org/~akpm/mmotm/broken-out/drivers-serial-serial_corec-prevent-reading-uninitialized-stack-memory.patch</a>
+
+drivers/char/amiserial.c
+<a href="http://userweb.kernel.org/~akpm/mmotm/broken-out/drivers-char-amiserialc-prevent-reading-uninitialized-stack-memory.patch" rel="nofollow">http://userweb.kernel.org/~akpm/mmotm/broken-out/drivers-char-amiserialc-prevent-reading-uninitialized-stack-memory.patch</a>
+
+drivers/char/nozomi.c
+<a href="http://userweb.kernel.org/~akpm/mmotm/broken-out/drivers-char-nozomic-prevent-reading-uninitialized-stack-memory.patch" rel="nofollow">http://userweb.kernel.org/~akpm/mmotm/broken-out/drivers-char-nozomic-prevent-reading-uninitialized-stack-memory.patch</a>
+
+drivers/net/usb/hso.c (CVE-2010-3298)
+<a href="http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=7011e660938fc44ed86319c18a5954e95a82ab3e" rel="nofollow">http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=7011e660938fc44ed86319c18a5954e95a82ab3e</a>
+
+---
+
+The next two issues both occurred in the FBIOGET_VBLANK device ioctl:
+
+"The FBIOGET_VBLANK device ioctl in sis_main.c and ivtvfb.c allows
+unprivileged users to read 16 bytes of uninitialized stack memory,
+because the 'reserved' member of the fb_vblank struct declared on the
+stack is not altered or zeroed before being copied back to the user."
+
+drivers/video/sis/sis_main.c
+<a href="http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=fd02db9de73faebc51240619c7c7f99bee9f65c7" rel="nofollow">http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=fd02db9de73faebc51240619c7c7f99bee9f65c7</a>
+
+drivers/media/video/ivtv/ivtvfb.c
+lkml.org/lkml/2010/9/15/393
+
+---
+
+The following issues occured in miscellaneous device ioctls in a
+variety of drivers.  Note the final two items listed have already been
+assigned CVE-2010-3296 and CVE-2010-3297 - I include them only for
+reference.
+
+
+sound/pci/rme9652/hdsp*.c
+<a href="http://marc.info/?l=linux-kernel&amp;m=128542726922720&amp;w=2" rel="nofollow">http://marc.info/?l=linux-kernel&amp;m=128542726922720&amp;w=2</a>
+
+"The SNDRV_HDSP_IOCTL_GET_CONFIG_INFO and
+SNDRV_HDSP_IOCTL_GET_CONFIG_INFO ioctls in hdspm.c and hdsp.c allow
+unprivileged users to read uninitialized kernel stack memory, because
+several fields of the hdsp{m}_config_info structs declared on the
+stack are not altered or zeroed before being copied back to the user."
+
+
+drivers/video/via/ioctl.c
+<a href="http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b4aaa78f4c2f9cde2f335b14f4ca30b01f9651ca" rel="nofollow">http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b4aaa78f4c2f9cde2f335b14f4ca30b01f9651ca</a>
+
+"The VIAFB_GET_INFO device ioctl allows unprivileged users to read 246
+bytes of uninitialized stack memory, because the 'reserved' member of
+the viafb_ioctl_info struct declared on the stack is not altered or
+zeroed before being copied back to the user."
+
+
+drivers/net/cxgb3/cxgb3_main.c (CVE-2010-3296)
+<a href="http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=49c37c0334a9b85d30ab3d6b5d1acb05ef2ef6de" rel="nofollow">http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=49c37c0334a9b85d30ab3d6b5d1acb05ef2ef6de</a>
+
+"The CHELSIO_GET_QSET_NUM device ioctl allows unprivileged users to
+read 4 bytes of uninitialized stack memory, because the 'addr' member
+of the ch_reg struct declared on the stack in cxgb_extension_ioctl()
+is not altered or zeroed before being copied back to the user."  This
+issue was assigned CVE-2010-3296.
+
+
+drivers/net/eql.c (CVE-2010-3297)
+<a href="http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=44467187dc22fdd33a1a06ea0ba86ce20be3fe3c" rel="nofollow">http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=44467187dc22fdd33a1a06ea0ba86ce20be3fe3c</a>
+
+"The EQL_GETMASTRCFG device ioctl allows unprivileged users to read 16
+bytes of uninitialized stack memory, because the 'master_name' member
+of the master_config_t struct declared on the stack in
+eql_g_master_cfg() is not altered or zeroed before being copied back
+to the user."  This issue was assigned CVE-2010-3297.
+
+---
+
+The final identified leak is in the sys_semctl system call, which I
+would say is more serious since it is not driver-specific:
+
+ipc/sem.c
+<a href="http://www.spinics.net/lists/mm-commits/msg80234.html" rel="nofollow">http://www.spinics.net/lists/mm-commits/msg80234.html</a>
+
+"The semctl syscall has several code paths that lead to the leakage of
+uninitialized kernel stack memory (namely the IPC_INFO, SEM_INFO,
+IPC_STAT, and SEM_STAT commands) during the use of the older, obsolete
+version of the semid_ds struct.  The copy_semid_to_user() function
+declares a semid_ds struct on the stack and copies it back to the user
+without initializing or zeroing the 'sem_base', 'sem_pending',
+'sem_pending_last', and 'undo' pointers, allowing the leakage of 16
+bytes of kernel stack memory.  The code is still reachable on 32-bit
+systems - when calling semctl() newer glibc's automatically OR the IPC
+command with the IPC_64 flag, but invoking the syscall directly allows
+users to use the older versions of the struct."
+
+---
+
+Let me know if you have any questions or need any clarification on any
+of these issues.
+
+Regards,
+Dan
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

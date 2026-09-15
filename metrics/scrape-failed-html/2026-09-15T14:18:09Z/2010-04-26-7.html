@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: joomla &lt;= 1.5.15 code upload,
+ information leak, session fixation, unauthorized access (was Fwd: Joomla!
+ Security News)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="../../../2010/04/27/1">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;256183236.1854431272311777439.JavaMail.root&#64;zmail01.collab.prod.int.phx2.redhat.com&gt;
+Date: Mon, 26 Apr 2010 15:56:17 -0400 (EDT)
+From: Josh Bressers &lt;bressers&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Steven Christey &lt;coley&#64;...us.mitre.org&gt;
+Subject: Re: CVE request: joomla &lt;= 1.5.15 code upload,
+ information leak, session fixation, unauthorized access (was Fwd: Joomla!
+ Security News)
+
+Here you go:
+
+CVE-2010-1432 Joomla! information Disclosure
+CVE-2010-1433 Joomla! Code upload
+CVE-2010-1434 Joomla! Session fixation
+CVE-2010-1435 Joomla! Unauthorised Access
+
+Thanks.
+
+-- 
+    JB
+
+
+----- "Hanno Böck" &lt;hanno&#64;...eck.de&gt; wrote:
+
+&gt; ----------  forwarded message  ----------
+&gt; 
+&gt; Subject: Joomla! Security News
+&gt; Date: Samstag 24 April 2010
+&gt; From: "Joomla! Developer - Vulnerability News" &lt;no_reply&#64;...mla.org&gt;
+&gt; 
+&gt; 
+&gt; Joomla! Developer - Vulnerability News
+&gt; 
+&gt; ///////////////////////////////////////////
+&gt; [20100423] - Core - Negative Values for Limit and Offset
+&gt; 
+&gt; Posted: 23 Apr 2010 10:31 AM PDT
+&gt; <a href="http://feedproxy.google.com/~r/JoomlaSecurityNews/~3/K3rjMh4AvSE/311-20100423-" rel="nofollow">http://feedproxy.google.com/~r/JoomlaSecurityNews/~3/K3rjMh4AvSE/311-20100423-</a>
+&gt; core-negative-values-for-limit-and-
+&gt; offset.html?utm_source=feedburner&amp;utm_medium=email
+&gt; 
+&gt; 
+&gt;   Project: Joomla!
+&gt;   SubProject: All
+&gt;   Severity: Moderate
+&gt;   Versions: 1.5.15 and all previous 1.5 releases
+&gt;   Exploit type: information Disclosure
+&gt;   Reported Date: 2010-Feb-21
+&gt;   Fixed Date: 2010-Apr-23
+&gt; 
+&gt; Description
+&gt; 
+&gt; If a user entered a URL with a negative query limit or offset, a PHP
+&gt; notice  
+&gt; would display revealing information about the system.
+&gt; Affected Installs
+&gt; 
+&gt; All 1.5.x installs prior to and including 1.5.15 are affected.
+&gt; Solution
+&gt; 
+&gt; Upgrade to the latest Joomla! version (1.5.16 or later)
+&gt; 
+&gt; Reported by Security List
+&gt; Contact
+&gt; 
+&gt; The JSST at the Joomla! Security Center.
+&gt; 
+&gt; 
+&gt; 
+&gt; ///////////////////////////////////////////
+&gt; [20100423] - Core - Installer Migration Script
+&gt; 
+&gt; Posted: 23 Apr 2010 10:27 AM PDT
+&gt; <a href="http://feedproxy.google.com/~r/JoomlaSecurityNews/~3/QLis4AG_-cs/310-20100423-" rel="nofollow">http://feedproxy.google.com/~r/JoomlaSecurityNews/~3/QLis4AG_-cs/310-20100423-</a>
+&gt; core-installer-migration-script.html?utm_source=feedburner&amp;utm_medium=email
+&gt; 
+&gt; 
+&gt;   Project: Joomla!
+&gt;   SubProject: All
+&gt;   Severity: Low
+&gt;   Versions: 1.5.15 and all previous 1.5 releases
+&gt;   Exploit type: Code upload
+&gt;   Reported Date: 2009-Dec-30
+&gt;   Fixed Date: 2010-Apr-23
+&gt; 
+&gt; Description
+&gt; 
+&gt; The migration script in the Joomla! installer does not check the file
+&gt; type  
+&gt; being uploaded. If the installation application is present, an
+&gt; attacker  
+&gt; could use it to upload malicious files to a server.
+&gt; Affected Installs
+&gt; 
+&gt; All 1.5.x installs prior to and including 1.5.15 are affected.
+&gt; Solution
+&gt; 
+&gt; Upgrade to the latest Joomla! version (1.5.16 or later)
+&gt; 
+&gt; Reported by Nicola Bettini
+&gt; Contact
+&gt; 
+&gt; The JSST at the Joomla! Security Center.
+&gt; 
+&gt; 
+&gt; 
+&gt; ///////////////////////////////////////////
+&gt; [20100423] - Core - Sessation Fixation
+&gt; 
+&gt; Posted: 23 Apr 2010 10:22 AM PDT
+&gt; <a href="http://feedproxy.google.com/~r/JoomlaSecurityNews/~3/KWB_pRZpcP4/309-20100423-" rel="nofollow">http://feedproxy.google.com/~r/JoomlaSecurityNews/~3/KWB_pRZpcP4/309-20100423-</a>
+&gt; core-sessation-fixation.html?utm_source=feedburner&amp;utm_medium=email
+&gt; 
+&gt; 
+&gt;   Project: Joomla!
+&gt;   SubProject: All
+&gt;   Severity: Moderate
+&gt;   Versions: 1.5.15 and all previous 1.5 releases
+&gt;   Exploit type: Session fixation
+&gt;   Reported Date: 2010-Mar-25
+&gt;   Fixed Date: 2010-Apr-23
+&gt; 
+&gt; Description
+&gt; 
+&gt; Session id doesn't get modified when user logs in.  A remote site may
+&gt; be  
+&gt; able to forward a visitor to the Joomla! site and set a specific
+&gt; cookie.   
+&gt; If the user then logs in, the remote site can use that cookie to  
+&gt; authenticate as that user.
+&gt; Affected Installs
+&gt; 
+&gt; All 1.5.x installs prior to and including 1.5.15 are affected.
+&gt; Solution
+&gt; 
+&gt; Upgrade to the latest Joomla! version (1.5.16 or later)
+&gt; 
+&gt; Reported by Raúl Siles and Steven Pignataro
+&gt; 
+&gt; 
+&gt; 
+&gt; Contact
+&gt; 
+&gt; The JSST at the Joomla! Security Center.[20100423] - Core - Password
+&gt; Reset  
+&gt; Tokens
+&gt; 
+&gt; 
+&gt; 
+&gt; ///////////////////////////////////////////
+&gt; [20100423] - Core - Password Reset Tokens
+&gt; 
+&gt; Posted: 22 Apr 2010 05:00 PM PDT
+&gt; <a href="http://feedproxy.google.com/~r/JoomlaSecurityNews/~3/UdLK-p0f7tQ/308-20100423-" rel="nofollow">http://feedproxy.google.com/~r/JoomlaSecurityNews/~3/UdLK-p0f7tQ/308-20100423-</a>
+&gt; core-password-reset-tokens.html?utm_source=feedburner&amp;utm_medium=email
+&gt; 
+&gt; 
+&gt;   Project: Joomla!
+&gt;   SubProject: All
+&gt;   Severity: Low
+&gt;   Versions: 1.5.15 and all previous 1.5 releases
+&gt;   Exploit type: Unauthorised Access
+&gt;   Reported Date: 2010-Jan-07
+&gt;   Fixed Date: 2010-Apr-23
+&gt; 
+&gt; Description
+&gt; 
+&gt; When a user requests a password reset, the reset tokens were stored in
+&gt;  
+&gt; plain text in the database. While this is not a vulnerability in
+&gt; itself, it  
+&gt; allows user accounts to be compromised if there is an extension on the
+&gt; site  
+&gt; with an SQL injection vulnerability.
+&gt; Affected Installs
+&gt; 
+&gt; All 1.5.x installs prior to and including 1.5.15 are affected.
+&gt; Solution
+&gt; 
+&gt; Upgrade to the latest Joomla! version (1.5.16 or later)
+&gt; 
+&gt; Reported by Madis Abel
+&gt; Contact
+&gt; 
+&gt; The JSST at the Joomla! Security Center.
+&gt; 
+&gt; 
+&gt; 
+&gt; -- 
+&gt; Hanno Böck		Blog:		<a href="http://www.hboeck.de/" rel="nofollow">http://www.hboeck.de/</a>
+&gt; GPG: 3DBD3B20		Jabber/Mail:	hanno&#64;...eck.de
+&gt; 
+&gt; <a href="http://schokokeks.org" rel="nofollow">http://schokokeks.org</a> - professional webhosting
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

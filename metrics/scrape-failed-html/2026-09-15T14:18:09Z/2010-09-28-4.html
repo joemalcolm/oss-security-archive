@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [oCERT-2010-004] FFmpeg/libavcodec arbitrary offset dereference</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20100928134746.GR8591&#64;core.inversepath.com&gt;
+Date: Tue, 28 Sep 2010 15:47:46 +0200
+From: Andrea Barisani &lt;lcars&#64;...rt.org&gt;
+To: oss-security&#64;...ts.openwall.com, ocert-announce&#64;...ts.ocert.org,
+        bugtraq&#64;...urityfocus.com
+Subject: [oCERT-2010-004] FFmpeg/libavcodec arbitrary offset dereference
+
+
+#2010-004 FFmpeg/libavcodec arbitrary offset dereference
+
+Description:
+
+The libavcodec library, an open source video encoding/decoding library part of
+the FFmpeg project, suffers from an arbitrary offset dereference vulnerability.
+
+The vulnerability affects the flic file format parser, insufficient
+restrictions on a writable buffer can be exploited to execute arbitrary code
+via the heap memory. A specific flic file can be crafted to trigger the
+vulnerability.
+
+The MPlayer multimedia player is also affected as it statically includes
+libavcodec, the flic codec can be disabled in codecs.conf configuration file in
+order to workaround the issue.
+
+Affected version:
+
+libavcodec &lt;= 0.6
+
+MPlayer &lt;= 1.0_rc3, snapshot 2010-09-27
+
+Fixed version:
+
+libavcodec &gt;= r25223 (see References)
+
+MPlayer &gt;= snapshot 2010-09-28
+
+Credit: vulnerability report and PoC code received from Cesar Bernardini &lt;cesar
+[dot] bernardini [at] gmail [dot] com&gt; and Felipe Felipe Andres Manzano &lt;felipe
+[dot] andres [dot] manzano [at] gmail [dot] com&gt;.
+
+CVE: CVE-2010-3429
+
+Timeline:
+
+2010-08-24: vulnerability report received
+2010-08-25: contacted mplayer maintainers
+2010-08-27: mplayer security team confirms report, describes mplayer
+            workaround and points to ffmpeg as the originally affected package
+2010-08-27: contacted ffmpeg maintainer
+2010-08-27: preliminary patch is provided by ffmpeg maintainer
+2010-08-28: reporter approves patch
+2010-09-13: upstream confirms patch, two weeks embargo is proposed
+2010-09-13: embargo accepted, contacted affected vendors
+2010-09-27: patch committed to ffmpeg repository
+2010-09-28: patch automatically pulled to mplayer repository from ffmpeg one
+2010-09-28: oCERT advisory published
+
+References:
+<a href="http://git.ffmpeg.org/?p=ffmpeg;a=commitdiff;h=16c592155f117ccd7b86006c45aacc692a81c23b" rel="nofollow">http://git.ffmpeg.org/?p=ffmpeg;a=commitdiff;h=16c592155f117ccd7b86006c45aacc692a81c23b</a>
+
+Permalink:
+<a href="http://www.ocert.org/advisories/ocert-2010-004.html" rel="nofollow">http://www.ocert.org/advisories/ocert-2010-004.html</a>
+
+-- 
+Andrea Barisani |                Founder &amp; Project Coordinator
+          oCERT | Open Source Computer Emergency Response Team
+
+&lt;lcars&#64;...rt.org&gt;                         <a href="http://www.ocert.org" rel="nofollow">http://www.ocert.org</a>
+ 0x864C9B9E 0A76 074A 02CD E989 CE7F AC3F DA47 578E 864C 9B9E
+        "Pluralitas non est ponenda sine necessitate"
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

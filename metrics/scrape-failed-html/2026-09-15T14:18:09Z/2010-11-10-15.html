@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: filesystem capabilities</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="14">[&lt;prev]</a> <a href="16">[next&gt;]</a> <a href="11">[&lt;thread-prev]</a> <a href="17">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20101110194014.GV5876&#64;outflux.net&gt;
+Date: Wed, 10 Nov 2010 11:40:14 -0800
+From: Kees Cook &lt;kees&#64;...ntu.com&gt;
+To: Steve Grubb &lt;sgrubb&#64;...hat.com&gt;
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: filesystem capabilities
+
+On Wed, Nov 10, 2010 at 02:18:33PM -0500, Steve Grubb wrote:
+&gt; Not that I know of. The library cannot know what the application's threat model is. 
+&gt; The library can make it simple to access the correct things. The following should be 
+&gt; the model that I think solves the problem for either setuid or fs based capabilities. 
+&gt; Assuming you needed CAP_CHOWN:
+&gt; 
+&gt; 		capng_get_caps_process();
+&gt;                 switch (capng_have_capabilities(CAPNG_SELECT_CAPS)) {
+&gt; 			case CAPNG_FULL:
+&gt; 				capng_clear(CAPNG_SELECT_BOTH);
+&gt; 				capng_update(CAPNG_ADD, CAPNG_EFFECTIVE|CAPNG_PERMITTED,
+&gt; 						CAP_CHOWN);
+&gt; 				if (capng_apply(CAPNG_SELECT_BOTH))
+&gt; 					exit(0);
+&gt; 				break;
+&gt; 			case CAPNG_PARTIAL:
+&gt; 				// Paranoid double check that we have what we expect
+&gt; 				if (capng_have_capability(CAPNG_EFFECTIVE, CAP_CHOWN)==0)
+&gt; 					exit(0);
+&gt; 				// Now to make sure that is ALL that we have...let's drop it and
+&gt; 				// see if we are empty
+&gt; 				capng_update(CAPNG_DROP, CAPNG_EFFECTIVE|CAPNG_PERMITTED,
+&gt; 						CAP_CHOWN);
+&gt; 				if (capng_have_capabilities(CAPNG_SELECT_CAPS) != CAPNG_NONE)
+&gt; 					exit(0);
+&gt; 				break;
+&gt; 			case CAPNG_FAIL:
+&gt; 			case CAPNG_NONE:
+&gt; 				exit(0);
+&gt; 		}
+&gt; 		// At this point both setuid and fs based caps should have the same thing
+
+What about dropping setuid once it has the needed caps, etc? It seems like
+it'd be nice to have something like:
+
+validate_I_have_only_these_caps(CAP_WHATEVER);
+...do stuff...
+drop_all_my_privs();
+
+and those two routines could be in the cap library, and it would handle
+both fscaps and setuid style of priv escalation.
+
+&gt; You can lead a horse to water, but you cannot make them drink.
+&gt; <a href="http://lists.gnu.org/archive/html/bug-tar/2006-08/msg00004.html" rel="nofollow">http://lists.gnu.org/archive/html/bug-tar/2006-08/msg00004.html</a>
+&gt; 
+&gt; We did our part. Its up to them to accept the patch or keep talking about it. Reading 
+&gt; the thread, it sounded like they were going to take it. No idea why they decided 
+&gt; against it unless it was seen as a Linux only patch. You might poke them and ask why 
+&gt; in the last 4 years they never took the patch. Of course since then we've maintained 
+&gt; the patch against current tar releases, so they would want a newer patch.
+
+Well, I have to disagree here: the job isn't done until it's upstream
+or it has been categorically rejected. At the time they had identified
+real crashes in the code, and were working on it. All this said, anyone can
+drive it, which is why I added the TODO item to Ubuntu's list of what was
+needed for fscaps, and it would be great to try to get it in again. Since
+the fscap push is higher on Fedora's list than Ubuntu's, would it be
+possible to try to push that patch upstream again?
+
+Debian/Ubuntu still has to write code for handling it in dpkg directly, so
+we'd still have work to do even after the tar fixes were upstream.
+
+Has there been any discussion of making rsync, cp, and cpio default to
+copying xattrs and acls too? I know at least with rsync they are explicitly
+not included in the "-a" option. :(
+
+-Kees
+
+-- 
+Kees Cook
+Ubuntu Security Team
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

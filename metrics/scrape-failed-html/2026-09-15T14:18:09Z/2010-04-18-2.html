@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request: fetchmail 4.6.3...6.3.16 DoS in -v -v mode in multibyte
+ locales on invalid input</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="../../../2010/04/19/1">[next&gt;]</a> <a href="../../../2010/04/19/3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;op.vbdarss21e62zd&#64;merlin.emma.line.org&gt;
+Date: Sun, 18 Apr 2010 18:58:30 +0200
+From: "Matthias Andree" &lt;matthias.andree&#64;....de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE request: fetchmail 4.6.3...6.3.16 DoS in -v -v mode in multibyte
+ locales on invalid input
+
+Please assign a CVE id for the issue described below. (Best viewed in  
+non-proportional font with 8 space tabs):
+
+
+Draft announcement:
+
+- DRAFT - XXX - DRAFT -
+
+fetchmail-SA-2010-02: Denial of service in debug mode w/ multichar locales
+
+Topics:		Denial of service in debug output.
+
+Author:		Matthias Andree
+Version:	0.1 XXX
+Announced:	XXX
+Type:		malloc() Buffer overrun with printable characters
+Impact:		Denial of service.
+Danger:		low
+
+CVE Name:	CVE-2010-XXXX
+CVSSv2:		XXX
+URL:		<a href="http://www.fetchmail.info/fetchmail-SA-2010-02.txt" rel="nofollow">http://www.fetchmail.info/fetchmail-SA-2010-02.txt</a>
+Project URL:	<a href="http://www.fetchmail.info/" rel="nofollow">http://www.fetchmail.info/</a>
+
+Affects:	fetchmail releases 4.6.3 up to and including 6.3.16
+
+Not affected:	fetchmail release 6.3.17 and newer
+
+Corrected:	2010-04-18 Git (XXX)
+
+
+0. Release history
+==================
+
+2010-04-18 0.1	first draft (visible in SVN and through oss-security)
+XXX
+
+
+1. Background
+=============
+
+fetchmail is a software package to retrieve mail from remote POP2, POP3,
+IMAP, ETRN or ODMR servers and forward it to local SMTP, LMTP servers or
+message delivery agents. It supports SSL and TLS security layers through
+the OpenSSL library, if enabled at compile time and if also enabled at
+run time.
+
+
+2. Problem description and Impact
+=================================
+
+In debug mode (-v -v), fetchmail prints information that was obtained from  
+the
+upstream server (POP3 UIDL lists) or from message headers retrieved from  
+it.
+   If printing such information fails, for instance because there are  
+invalid
+multibyte character sequences in this information (message headers),  
+fetchmail
+will misinterpret this condition, and believe that the buffer was too  
+small,
+and reallocate a bigger one (with linearly increasing buffer size), and  
+repeat,
+until the allocation fails. At that point, fetchmail will abort.
+
+Note that the "Affects:" line above may be inaccurate, and it may be that
+versions before 5.6.6 are actually unaffected.  The author was unable to
+compile such old fetchmail versions to verify the existence of the bug.
+   Given that other security issues are present in such versions, those  
+should
+not be used, and the wider version range was listed as vulnerable to err
+towards the safe.
+
+
+3. Solution
+===========
+
+There are two alternatives, either of them by itself is sufficient:
+
+a. Apply the patch found in section B of this announcement to
+    fetchmail 6.3.14 or newer, recompile and reinstall it.
+
+b. Install fetchmail 6.3.17 or newer after it will have become available.
+    The fetchmail source code is always available from
+    &lt;<a href="http://developer.berlios.de/project/showfiles.php?group_id=1824" rel="nofollow">http://developer.berlios.de/project/showfiles.php?group_id=1824</a>&gt;.
+
+
+4. Workaround
+=============
+
+Run fetchmail with at most one -v (--verbose) option.
+
+
+A. Copyright, License and Warranty
+==================================
+
+(C) Copyright 2010 by Matthias Andree, &lt;matthias.andree&#64;....de&gt;.
+Some rights reserved.
+
+This work is licensed under the Creative Commons
+Attribution-Noncommercial-No Derivative Works 3.0 Germany License.
+To view a copy of this license, visit
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/de/" rel="nofollow">http://creativecommons.org/licenses/by-nc-nd/3.0/de/</a> or send a letter to
+
+Creative Commons
+171 Second Street
+Suite 300
+SAN FRANCISCO, CALIFORNIA 94105
+USA
+
+
+THIS WORK IS PROVIDED FREE OF CHARGE AND WITHOUT ANY WARRANTIES.
+Use the information herein at your own risk.
+
+
+B. Patch to remedy the problem
+==============================
+
+Note that when taking this from a GnuPG clearsigned file, the lines
+starting with a "-" character are prefixed by another "- " (dash +
+blank) combination. Either feed this file through GnuPG to strip them,
+or strip them manually. You may want to use the "-p1" flag to patch.
+
+Whitespace differences can usually be ignored by invoking "patch -l",
+so try this if the patch does not apply.
+
+diff --git a/rfc822.c b/rfc822.c
+index 6f2dbf3..dbcda32 100644
+--- a/rfc822.c
++++ b/rfc822.c
+@@ -25,6 +25,7 @@ MIT license.  Compile with -DMAIN to build the  
+demonstrator.
+  #include  &lt;stdlib.h&gt;
+
+  #include "fetchmail.h"
++#include "sdump.h"
+
+  #ifndef MAIN
+  #include "i18n.h"
+@@ -74,9 +75,10 @@ char *reply_hack(
+      }
+
+  #ifndef MAIN
+-    if (outlevel &gt;= O_DEBUG)
+-	report_build(stdout, GT_("About to rewrite %.*s...\n"),
+-			(int)BEFORE_EOL(buf), buf);
++    if (outlevel &gt;= O_DEBUG) {
++	report_build(stdout, GT_("About to rewrite %s...\n"), (cp = sdump(buf,  
+BEFORE_EOL(buf))));
++	xfree(cp);
++    }
+
+      /* make room to hack the address; buf must be malloced */
+      for (cp = buf; *cp; cp++)
+@@ -211,9 +213,12 @@ char *reply_hack(
+      }
+
+  #ifndef MAIN
+-    if (outlevel &gt;= O_DEBUG)
+-	report_complete(stdout, GT_("...rewritten version is %.*s.\n"),
+-			(int)BEFORE_EOL(buf), buf);
++    if (outlevel &gt;= O_DEBUG) {
++	report_complete(stdout, GT_("...rewritten version is %s.\n"),
++			(cp = sdump(buf, BEFORE_EOL(buf))));
++	xfree(cp)
++    }
++
+  #endif /* MAIN */
+      *length = strlen(buf);
+      return(buf);
+diff --git a/uid.c b/uid.c
+index fdc6f5d..d813bee 100644
+--- a/uid.c
++++ b/uid.c
+@@ -20,6 +20,7 @@
+
+  #include "fetchmail.h"
+  #include "i18n.h"
++#include "sdump.h"
+
+  /*
+   * Machinery for handling UID lists live here.  This is mainly to support
+@@ -260,8 +261,11 @@ void initialize_saved_lists(struct query *hostlist,  
+const char *idfile)
+  	if (uidlcount)
+  	{
+  	    report_build(stdout, GT_("Scratch list of UIDs:"));
+-	    for (idp = scratchlist; idp; idp = idp-&gt;next)
+-		report_build(stdout, " %s", idp-&gt;id);
++	    for (idp = scratchlist; idp; idp = idp-&gt;next) {
++		char *t = sdump(idp-&gt;id, strlen(idp-&gt;id));
++		report_build(stdout, " %s", t);
++		free(t);
++	    }
+  	    if (!idp)
+  		report_build(stdout, GT_(" &lt;empty&gt;"));
+  	    report_complete(stdout, "\n");
+@@ -517,8 +521,11 @@ void uid_swap_lists(struct query *ctl)
+  	    report_build(stdout, GT_("Merged UID list from %s:"),  
+ctl-&gt;server.pollname);
+  	else
+  	    report_build(stdout, GT_("New UID list from %s:"),  
+ctl-&gt;server.pollname);
+-	for (idp = dofastuidl ? ctl-&gt;oldsaved : ctl-&gt;newsaved; idp; idp =  
+idp-&gt;next)
+-	    report_build(stdout, " %s = %d", idp-&gt;id, idp-&gt;val.status.mark);
++	for (idp = dofastuidl ? ctl-&gt;oldsaved : ctl-&gt;newsaved; idp; idp =  
+idp-&gt;next) {
++	    char *t = sdump(idp-&gt;id, strlen(idp-&gt;id));
++	    report_build(stdout, " %s = %d", t, idp-&gt;val.status.mark);
++	    free(t);
++        }
+  	if (!idp)
+  	    report_build(stdout, GT_(" &lt;empty&gt;"));
+  	report_complete(stdout, "\n");
+@@ -567,8 +574,11 @@ void uid_discard_new_list(struct query *ctl)
+  	/* this is now a merged list! the mails which were seen in this
+  	 * poll are marked here. */
+  	report_build(stdout, GT_("Merged UID list from %s:"),  
+ctl-&gt;server.pollname);
+-	for (idp = ctl-&gt;oldsaved; idp; idp = idp-&gt;next)
+-	    report_build(stdout, " %s = %d", idp-&gt;id, idp-&gt;val.status.mark);
++	for (idp = ctl-&gt;oldsaved; idp; idp = idp-&gt;next) {
++	    char *t = sdump(idp-&gt;id, strlen(idp-&gt;id));
++	    report_build(stdout, " %s = %d", t, idp-&gt;val.status.mark);
++	    free(t);
++	}
+  	if (!idp)
+  	    report_build(stdout, GT_(" &lt;empty&gt;"));
+  	report_complete(stdout, "\n");
+
+
+
+-- 
+Matthias Andree
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

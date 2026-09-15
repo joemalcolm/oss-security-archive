@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: [taviso&#64;...xchg8b.com: [PATCH] install_special_mapping skips security_file_mmap check.]</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="14">[next&gt;]</a> <a href="12">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20101209173557.GA31308&#64;openwall.com&gt;
+Date: Thu, 9 Dec 2010 20:35:57 +0300
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: [taviso&#64;...xchg8b.com: [PATCH] install_special_mapping skips security_file_mmap check.]
+
+Tavis,
+
+That's a nice find.
+
+On Thu, Dec 09, 2010 at 05:13:47PM +0100, Tavis Ormandy wrote:
+&gt; $ cat /proc/sys/vm/mmap_min_addr
+&gt; 65536
+...
+&gt; $ cat /proc/14303/maps 
+&gt; 0000f000-00010000 r-xp 00000000 00:00 0                                  [vdso]
+...
+&gt; It's worth noting that Red Hat are shipping with mmap_min_addr set to 4096.
+
+Their rationale is described in
+linux-2.6-security-drop-mmap_min_addr-to-4096.patch.  Yet we've been
+overriding this setting to 98304 in /etc/sysctl.conf on Owl, and I am
+going to also patch the default in the kernel source now.
+
+Meanwhile, here's a RHEL5'ish variation of your patch (only tested that
+it compiles).
+
+diff -u linux-2.6.18-194.26.1.el5.028stab079.1-owl/fs/exec.c linux-2.6.18-194.26.1.el5.028stab079.1-owl/fs/exec.c
+--- linux-2.6.18-194.26.1.el5.028stab079.1-owl/fs/exec.c	2010-12-08 05:54:37 +0000
++++ linux-2.6.18-194.26.1.el5.028stab079.1-owl/fs/exec.c	2010-12-09 16:50:30 +0000
+@@ -270,7 +270,10 @@
+ 
+ 	vma-&gt;vm_flags = VM_STACK_FLAGS;
+ 	vma-&gt;vm_page_prot = protection_map[vma-&gt;vm_flags &amp; 0x7];
+-	err = insert_vm_struct(mm, vma);
++
++	err = security_file_mmap_addr(NULL, 0, 0, 0, vma-&gt;vm_start, 1);
++	if (!err)
++		err = insert_vm_struct(mm, vma);
+ 	if (err) {
+ 		up_write(&amp;mm-&gt;mmap_sem);
+ 		goto err;
+--- linux-2.6.18-194.26.1.el5.028stab079.1/mm/mmap.c	2010-11-30 12:26:53 +0000
++++ linux-2.6.18-194.26.1.el5.028stab079.1-owl/mm/mmap.c	2010-12-09 16:53:29 +0000
+@@ -2398,6 +2398,11 @@ int install_special_mapping(struct mm_st
+ 	vma-&gt;vm_ops = &amp;special_mapping_vmops;
+ 	vma-&gt;vm_private_data = pages;
+ 
++	if (unlikely(security_file_mmap_addr(NULL, 0, 0, 0, vma-&gt;vm_start, 1))) {
++		kmem_cache_free(vm_area_cachep, vma);
++		return -EPERM;
++	}
++
+ 	if (unlikely(insert_vm_struct(mm, vma))) {
+ 		kmem_cache_free(vm_area_cachep, vma);
+ 		return -ENOMEM;
+
+Thanks,
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

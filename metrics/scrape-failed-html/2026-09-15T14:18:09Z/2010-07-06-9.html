@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Request CVE ID for bogofilter base64 decoder
+ heap corruption</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href="../../../2010/07/05/2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;175329858.2088141278443200444.JavaMail.root&#64;zmail01.collab.prod.int.phx2.redhat.com&gt;
+Date: Tue, 6 Jul 2010 15:06:40 -0400 (EDT)
+From: Josh Bressers &lt;bressers&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: David Relson &lt;relson&#64;...gesoftware.com&gt;, coley &lt;coley&#64;...re.org&gt;
+Subject: Re: Request CVE ID for bogofilter base64 decoder
+ heap corruption
+
+Please use CVE-2010-2494
+
+Thanks.
+
+-- 
+    JB
+
+
+----- "Matthias Andree" &lt;matthias.andree&#64;....de&gt; wrote:
+
+&gt; Greetings,
+&gt; 
+&gt; I am requesting a CVE ID for the issue described below.
+&gt; 
+&gt; Thanks.
+&gt; 
+&gt; Best regards
+&gt; Matthias Andree
+&gt; 
+&gt; bogofilter-SA-2010-01
+&gt; 
+&gt; Topic:		heap corruption overrun in bogofilter/bogolexer
+&gt; 
+&gt; Announcement:	bogofilter-SA-2010-01
+&gt; Writer:		Matthias Andree
+&gt; Version:	0.1
+&gt; CVE ID:		
+&gt; Announced:	
+&gt; Category:	vulnerability
+&gt; Type:		array index underflow/out of bounds write through invalid
+&gt; input
+&gt; Impact:		heap corruption, application crash
+&gt; Credits:	Julius Plenz
+&gt; Danger:		medium
+&gt; URL:	
+&gt; <a href="http://bogofilter.sourceforge.net/security/bogofilter-SA-2010-01" rel="nofollow">http://bogofilter.sourceforge.net/security/bogofilter-SA-2010-01</a>
+&gt; 
+&gt; Affected:	bogofilter &lt;= 1.2.1
+&gt; 		SVN before 2010-07-03 08:40 UTC
+&gt; 
+&gt; Not affected:	bogofilter 1.2.2	    (to be released)
+&gt; 
+&gt; 1. Background
+&gt; =============
+&gt; 
+&gt; Bogofilter is a software package for classifying a message as spam or
+&gt; non-spam.  It uses a data base to store words and must be trained
+&gt; which messages are spam and non-spam. It uses the probabilities of
+&gt; individual words for classifying the message.
+&gt; 
+&gt; Note that the bogofilter project is issuing security announcements
+&gt; only
+&gt; for current "stable" releases, and not necessarily for past "stable"
+&gt; releases.
+&gt; 
+&gt; 2. Problem description
+&gt; ======================
+&gt; 
+&gt; Bogofilter's/bogolexer's base64 could overwrite memory before its
+&gt; heap
+&gt; buffer if the base64 input started with an equals sign, such as
+&gt; through
+&gt; misdeclaration of quoted-printable as base64.
+&gt; 
+&gt; 3. Impact
+&gt; =========
+&gt; 
+&gt; Vulnerable bogofilter and bogolexer applications can corrupt their
+&gt; heap and
+&gt; crash. The consequences are dependent on the local configuration,
+&gt; memory
+&gt; layout and operating system features.
+&gt; 
+&gt; 4. Solution
+&gt; ===========
+&gt; 
+&gt; Upgrade your bogofilter to version 1.2.2 (or a newer release).
+&gt; 
+&gt; bogofilter is available from SourceForge:
+&gt; 
+&gt; &lt;<a href="https://sourceforge.net/project/showfiles.php?group_id=62265" rel="nofollow">https://sourceforge.net/project/showfiles.php?group_id=62265</a>&gt;
+&gt; 
+&gt; A. Copyright, License and Warranty
+&gt; ==================================
+&gt; 
+&gt; (C) Copyright 2010 by Matthias Andree, &lt;matthias.andree&#64;....de&gt;.
+&gt; Some rights reserved.
+&gt; 
+&gt; This work is licenced under the Creative Commons
+&gt; Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a
+&gt; copy
+&gt; of this licence, visit
+&gt; <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" rel="nofollow">http://creativecommons.org/licenses/by-nc-nd/3.0/</a>
+&gt; or send a letter to Creative Commons, 171 Second Street, Suite 300,
+&gt; San
+&gt; Francisco, California 94105, USA.
+&gt; 
+&gt; THIS WORK IS PROVIDED FREE OF CHARGE AND WITHOUT ANY WARRANTIES.
+&gt; Use the information herein at your own risk.
+&gt; 
+&gt; END of bogofilter-SA-2010-01
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

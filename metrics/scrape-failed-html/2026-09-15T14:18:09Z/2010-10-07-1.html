@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: multiple kernel stack memory disclosures</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2010/10/06/6">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2010/10/06/6">[&lt;thread-prev]</a> <a href="../../../2010/10/25/3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;AANLkTim4XUYUvk1qKzHjMfU=n8qc1e8SOM_-9FJv5daN&#64;mail.gmail.com&gt;
+Date: Wed, 6 Oct 2010 22:37:51 -0400
+From: Dan Rosenberg &lt;dan.j.rosenberg&#64;...il.com&gt;
+To: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+Cc: oss-security&#64;...ts.openwall.com, Eugene Teo &lt;eugeneteo&#64;...nel.sg&gt;
+Subject: Re: CVE request: multiple kernel stack memory disclosures
+
+While these are pending, a few more of the same problem (uninitialized
+structure members being copied back to userspace, leaking kernel stack
+memory) have come up.  These are similar or related to the previous
+ipc/sem.c leak.
+
+ipc/shm.c (shmctl), reported and fixed by Kees Cook
+Affects &gt;= 2.6.0, &gt;= 2.4.0
+
+Reference:
+<a href="http://lkml.org/lkml/2010/10/6/454" rel="nofollow">http://lkml.org/lkml/2010/10/6/454</a>
+
+
+ipc/compat.c (compat versions of semctl, shmctl, and msgctl)
+Affects &gt;= 2.6.8
+
+ipc/compat_mq (compat versions of mq_open and mq_getsetattr)
+Affects &gt;= 2.6.8
+
+Reference:
+<a href="http://lkml.org/lkml/2010/10/6/492" rel="nofollow">http://lkml.org/lkml/2010/10/6/492</a>
+
+-Dan
+
+On Wed, Oct 6, 2010 at 4:02 PM, Dan Rosenberg &lt;dan.j.rosenberg&#64;...il.com&gt; wrote:
+&gt; I'll omit descriptions here to save space, since they were already
+&gt; provided.  I'll keep the same organization as last time, just to make
+&gt; it easier.  Issues that haven't been fixed yet are for the most part
+&gt; planned for 2.6.37.  Patches were submitted for all issues, so it's
+&gt; mostly just a matter of time.
+&gt;
+&gt; ---
+&gt;
+&gt; TIOCGICOUNT stack leaks:
+&gt;
+&gt; usb/serial/mos*.c
+&gt; Fixed in 2.6.36-rc5
+&gt; Affects &gt;= 2.6.19
+&gt;
+&gt; drivers/serial/serial_core.c
+&gt; Not fixed yet (Alan Cox's fix will be in 2.6.37)
+&gt; Affects &gt;= 2.6.0
+&gt;
+&gt; drivers/char/amiserial.c
+&gt; Not fixed yet (Alan Cox's fix will be in 2.6.37)
+&gt; Affects &gt;= 2.6.0, &gt;= 2.4.0
+&gt;
+&gt; drivers/char/nozomi.c
+&gt; Not fixed yet (Alan Cox's fix will be in 2.6.37)
+&gt; Affects &gt;= 2.6.25
+&gt;
+&gt; drivers/net/usb/hso.c (CVE-2010-3298)
+&gt; Fixed in 2.6.36-rc5
+&gt; Affects &gt;= 2.6.29
+&gt;
+&gt; ---
+&gt;
+&gt; FBIOGET_VBLANK stack leaks:
+&gt;
+&gt; drivers/video/sis/sis_main.c
+&gt; Fixed in 2.6.36-rc6
+&gt; Affects &gt;= 2.6.11
+&gt;
+&gt; drivers/video/ivtv/ivtvfb.c
+&gt; Not fixed yet (patch has been queued)
+&gt; Affects &gt;= 2.6.24
+&gt;
+&gt; ---
+&gt;
+&gt; Miscellaneous device ioctl stack leaks:
+&gt;
+&gt; sound/pci/rme9652/hdsp*.c
+&gt; Fixed in 2.6.36-rc6
+&gt; Affects &gt;= 2.6.0 (hdsp.c), &gt;= 2.6.13 (hdspm.c)
+&gt;
+&gt; drivers/video/via/ioctl.c
+&gt; Fixed in 2.6.36-rc5
+&gt; Affects &gt;= 2.6.28
+&gt;
+&gt; drivers/net/cxgb3/cxgb3_main.c (CVE-2010-3296)
+&gt; Fixed in 2.6.36-rc5
+&gt; Affects &gt;= 2.6.21
+&gt;
+&gt; drivers/net/eql.c (CVE-2010-3297)
+&gt; Fixed in 2.6.36-rc5
+&gt; Affects &gt;= 2.6.0, &gt;= 2.4.0
+&gt;
+&gt; ---
+&gt;
+&gt; System call stack leak:
+&gt;
+&gt; ipc/sem.c
+&gt; Not fixed yet (patch queued)
+&gt; Affects &gt;= 2.6.0, &gt;= 2.4.0
+&gt;
+&gt;
+&gt;
+&gt; Whew.
+&gt;
+&gt; -Dan
+&gt;
+&gt; On Wed, Oct 6, 2010 at 2:10 PM, Steven M. Christey
+&gt; &lt;coley&#64;...us.mitre.org&gt; wrote:
+&gt;&gt;
+&gt;&gt; When dealing with findings of this scale, sometimes the best we can do
+&gt;&gt; (within a reasonable amount of time) is to combine things.
+&gt;&gt;
+&gt;&gt; Let's consider the general guidelines of "split by vuln type" and "split by
+&gt;&gt; affected version."  Although the severity of each bug may vary, they all
+&gt;&gt; appear to be related to "not initializing re-used memory."
+&gt;&gt;
+&gt;&gt; The remaining question is how to determine "affected version."  Ideally one
+&gt;&gt; might like to know the minimum set of affected versions for each bug (both
+&gt;&gt; in 2.6 and 2.4), but this might not be readily available.  We could then
+&gt;&gt; just decide to split things based on which bugs got fixed in which 2.6.x.y
+&gt;&gt; release.  If Dan, Eugene, or someone else has that kind of information
+&gt;&gt; (which is painful for me to research as a kernel "outsider"), then we can
+&gt;&gt; group bugs that are fixed in the same 2.6.x.y release, then assign a single
+&gt;&gt; CVE to each group.
+&gt;&gt;
+&gt;&gt; We effectively exclude those one-off issues that are already assigned CVEs.
+&gt;&gt;
+&gt;&gt; - Steve
+&gt;&gt;
+&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

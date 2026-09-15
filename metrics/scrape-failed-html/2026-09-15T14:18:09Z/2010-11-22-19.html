@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Linux kernel address leaks</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="18">[&lt;prev]</a> <a href="20">[next&gt;]</a> <a href="20">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;AANLkTim9R=LBPdZePVD7y030sGGN9fwErPBa-=A4hmGn&#64;mail.gmail.com&gt;
+Date: Mon, 22 Nov 2010 18:01:20 -0500
+From: Dan Rosenberg &lt;dan.j.rosenberg&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Linux kernel address leaks
+
+I'd like to open up a discussion about this topic, and hopefully
+brainstorm some potential solutions.
+
+Some background:
+
+There are dozens of interfaces, most notably in /proc, that leak raw
+kernel addresses to unprivileged users.  The most common example is
+the leakage of kernel socket structures via
+/proc/net/{udp,tcp,raw,unix}, and several other packet families.
+These addresses can be very useful when exploiting other kernel
+vulnerabilities.
+
+For example, given an arbitrary kernel write (without a corresponding
+read vulnerability), these structures make appealing targets because
+they are necessarily writable due to their location on the kernel
+heap, and contain function pointers that can be easily triggered by
+the attacker.  An attacker might open a unix socket, read back the
+kernel address of its corresponding sock structure via /proc/net/unix,
+calculate the offset in that structure to a particular function
+pointer, overwrite that function pointer to point into arbitrary
+attacker code by leveraging a kernel write vulnerability, and trigger
+the invocation of that function pointer by performing an operation on
+the socket.  I have written code that does exactly this - it's very
+convenient and reliable.
+
+Much work is in progress to harden the kernel.  One of the primary
+goals is to make it such that even if an attacker has an arbitrary
+write vulnerability, additional kernel read vulnerabilities are
+required for a successful privilege escalation exploit.  Kees Cook has
+been making some headway on this front, by ensuring that NX and
+read-only memory is properly enforced for modules, and by making sure
+statically declared function pointer tables are marked read-only where
+possible.  Further work in this area will involve some combination of
+kernel symbol hiding and potentially the randomization of the kernel
+code base.
+
+However, these measures won't make much of a difference if these leaks
+via /proc remain - closing all of the doors except one still leaves an
+easy entrance for attackers.  I recently proposed a series of patches
+to attempt to resolve these leaks, but due to a number of potentially
+valid criticisms, the patches were not accepted.  The fundamental
+problem is that removing these addresses entirely makes debugging
+difficult or impossible, and no suitable solution has been proposed
+that adequately obfuscates these kernel addresses while retaining
+their usefulness as unique identifiers.
+
+
+The following points have been raised:
+
+-Changing the output format (as in, number of fields) of these /proc
+interfaces is unacceptable since it will break a number of userspace
+tools.  This is not much of an issue, as long as the kernel addresses
+are replaced with something else.
+
+-A number of utilities require a unique identifier for each socket.
+There has been some debate on this topic.  In most cases, the socket
+inode is provided alongside the socket kernel address and could serve
+as a unique identifier.  This is not always the case, and it is
+questionable as to whether or not it is acceptable to rely on the
+inode number alone [1].
+
+-It may or may not be acceptable to replace the addresses with 0's
+based on privilege level.
+
+-If the output varies based on privilege level, it would be cleaner to
+create a new format specifier (say, %pH) that performs the appropriate
+logic, rather than cluttering up a large amount of code.  This has its
+own ugliness though, since such a format specifier could not be used
+in interrupt context due to the privilege checking required.
+
+-Some kernel functionality may actually require kernel addresses to be
+exposed in this way [2].  Even though this is a pain, it seems to me
+that this is an argument that the situation is "too broken to fix",
+which I don't buy.
+
+
+Several obfuscation schemes have been proposed, none of which are
+especially acceptable:
+
+-Some have suggested randomly generating a value at boot and XORing
+each pointer output with this value.  This has the disadvantage of
+being practically useless for security, since it would be relatively
+easy to infer the value of this global random value.
+
+-Hashing the pointer is unacceptable, since 2^32 is a small enough
+space to brute force.
+
+-Built-in block ciphers seem out of the question as well, since most
+are built as modules, and we don't want to break bare installations'
+IP stacks.  In addition, as far as I know none allow a block length as
+short as a pointer.
+
+
+So I'm mostly out of ideas.  Any input would be appreciated, as I
+think this is an issue that should no longer be ignored, and it's been
+made clear that this is a battle I can't win on my own.  These issues
+have been widely known for a long time now, and are fixed in
+grsecurity by GRKERNSEC_HIDESYMS.  The solution employed by grsecurity
+is to unconditionally replace pointer output with 0's, which is
+unacceptable for the mainline kernel.
+
+I'd even consider these issues as candidates for CVEs (dare I say
+it?), as they fit the textbook definition of an "exposure".  But
+that's a separate conversation I suppose.
+
+Regards,
+Dan
+
+[1] <a href="http://marc.info/?l=linux-netdev&amp;m=128954662503066&amp;w=2" rel="nofollow">http://marc.info/?l=linux-netdev&amp;m=128954662503066&amp;w=2</a>
+[2] <a href="http://marc.info/?l=linux-netdev&amp;m=128959423804021&amp;w=2" rel="nofollow">http://marc.info/?l=linux-netdev&amp;m=128959423804021&amp;w=2</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

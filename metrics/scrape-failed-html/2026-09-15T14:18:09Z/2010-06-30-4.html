@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request - kernel: cifs: Fix a kernel BUG with
+ remote OS/2 server</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;4C2AE79B.60003&#64;mvista.com&gt;
+Date: Tue, 29 Jun 2010 20:43:39 -1000
+From: akuster &lt;akuster&#64;...sta.com&gt;
+To: Eugene Teo &lt;eugeneteo&#64;...nel.sg&gt;
+CC: oss-security&#64;...ts.openwall.com, 
+ "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+Subject: Re: CVE request - kernel: cifs: Fix a kernel BUG with
+ remote OS/2 server
+
+
+Eugene,
+
+On 06/29/2010 02:02 PM, Eugene Teo wrote:
+&gt; On 06/30/2010 12:57 AM, akuster wrote:
+&gt;&gt; pSMBr-&gt;CountHigh looks to have been introduce by commit
+&gt;&gt; 381a420f5b23cedd9e166e052a93a7f4237bd57c back in 2.6.12-rc2.
+&gt;&gt; So would it be said this issue has been around since then?
+&gt; 
+&gt; Which tree are you using? I got: fatal: bad object
+&gt; 381a420f5b23cedd9e166e052a93a7f4237bd57c.
+
+I believe it is the historical git tree.
+git://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git
+
+&gt; 
+&gt; -&gt;CountHigh was added long ago. Even v2.6.9 (rhel-4) is affected.
+I don't see that in our 2.6.10 tree.
+
+- Armin
+
+&gt; 
+&gt; Eugene
+&gt; 
+&gt;&gt; On 06/27/2010 10:41 PM, Eugene Teo wrote:
+&gt;&gt;&gt; "This was known to trigger with a OS/2 server. The server sets
+&gt;&gt;&gt; pSMBr-&gt;CountHigh to a incorrect value even in case of normal writes.
+&gt;&gt;&gt; This results in 'nbytes' being computed wrongly and triggers a kernel
+&gt;&gt;&gt; BUG at mm/filemap.c.
+&gt;&gt;&gt;
+&gt;&gt;&gt;      void iov_iter_advance(struct iov_iter *i, size_t bytes)
+&gt;&gt;&gt;      {
+&gt;&gt;&gt;              BUG_ON(i-&gt;count&lt;  bytes);&lt;--- BUG here
+&gt;&gt;&gt;
+&gt;&gt;&gt; Why the server is setting 'CountHigh' is not clear but only does so
+&gt;&gt;&gt; after writing 64k bytes. Though this looks like the server bug, the
+&gt;&gt;&gt; client side crash may not be acceptable.
+&gt;&gt;&gt;
+&gt;&gt;&gt; The workaround is to mask off high 16 bits if the number of bytes
+&gt;&gt;&gt; written as returned by the server is greater than the bytes requested by
+&gt;&gt;&gt; the client."
+&gt;&gt;&gt;
+&gt;&gt;&gt; <a href="https://bugzilla.redhat.com/show_bug.cgi?id=608583" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=608583</a>
+&gt;&gt;&gt; <a href="http://git.kernel.org/linus/6513a81e9325d712f1bfb9a1d7b750134e49ff18" rel="nofollow">http://git.kernel.org/linus/6513a81e9325d712f1bfb9a1d7b750134e49ff18</a>
+&gt;&gt;&gt;
+&gt; 
+&gt; 
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - RE: Interesting behavior with struct initiailization</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="../../../2010/11/30/3">[&lt;thread-prev]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;C10B9E3687C68B4D98F6ADFD3C3CDDB7015BF281C857&#64;EXCHANGE.sei.cmu.edu&gt;
+Date: Fri, 3 Dec 2010 09:44:01 -0500
+From: Robert Seacord &lt;rcs&#64;...t.org&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+CC: "Chad R. Dougherty" &lt;crd&#64;...t.org&gt;, David Svoboda &lt;svoboda&#64;...t.org&gt;
+Subject: RE: Interesting behavior with struct initiailization
+
+With respect to this specific problem:
+
+&gt; then the compiler is free to change the padding bytes after 'x.b' to whatever it likes, because you changed 'x.a', even though you might &gt;  
+&gt; think you cleared them and the compiler would have no reason to make this change.  In practice this might manifest in the case of 
+
+&gt; memset (&amp;x, 0, sizeof(x));
+&gt; x.a = 1; x.b = 2; x.c = 3;
+
+&gt; by the compiler optimising out the 'memset' as a dead store.
+
+CERT proposed #5 memset_s() to clear memory, without fear of removal (see <a href="http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1358.pdf" rel="nofollow">http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1358.pdf</a>).  This function is specified in the current working draft of C1X Annex K (normative) Bounds-checking interfaces as follows:
+
+K.3.7.4.1 The memset_s function
+Synopsis
+1 #define _ _STDC_WANT_LIB_EXT1_ _ 1
+#include &lt;string.h&gt;
+errno_t memset_s(void *s, rsize_t smax, int c, rsize_t n)
+Runtime-constraints
+2 s shall not be a null pointer. Neither smax nor n shall be greater than RSIZE_MAX. n
+shall not be greater than smax.
+3 If there is a runtime-constraint violation, then if s is not a null pointer and smax is not
+greater than RSIZE_MAX, the memset_s function stores the value of c (converted to an
+unsigned char) into each of the first smax characters of the object pointed to by s.
+Description
+4 The memset_s function copies the value of c (converted to an unsigned char) into
+each of the first n characters of the object pointed to by s. Unlike memset, any call to
+the memset_s function shall be evaluated strictly according to the rules of the abstract
+machine as described in (5.1.2.3). That is, any call to the memset_s function shall
+assume that the memory indicated by s and n may be accessible in the future and thus
+must contain the values indicated by c.
+Returns
+5 The memset_s function returns zero if there was no runtime-constraint violation.
+Otherwise, a nonzero value is returned.
+
+Annex K is optional but normative.
+
+rCs
+
+----
+Robert C. Seacord
+Secure Coding Manager
+CERT / Software Engineering Institute
+Work: +1 412.268.7608
+FAX:    +1 412.268.6989
+
+
+-----Original Message-----
+From: Geoff Keating [mailto:geoffk&#64;...le.com] 
+Sent: Monday, November 29, 2010 9:54 PM
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: [oss-security] Interesting behavior with struct initiailization
+
+
+On 25/11/2010, at 5:31 AM, Nelson Elhage wrote:
+
+&gt; Is it possible that the zeroing out of padding bytes by GCC is an 
+&gt; implementation detail that we've been relying on, and never something 
+&gt; that was intended as part of the exposed contract? Is there anyone on 
+&gt; this list more qualified to comment on either the specification or 
+&gt; GCC's implementation?
+
+C99 says, in 6.2.6.1p6,
+
+&gt; When a value is stored in an object of structure or union type, 
+&gt; including in a member object, the bytes of the object representation 
+&gt; that correspond to any padding bytes take unspecified values.42)
+
+and there is a specific footnote in case this wasn't clear enough:
+
+&gt; 42) Thus, for example, structure assignment may be implemented element-at-a-time or via memcpy.
+
+
+but the description goes *much* further than the footnote.  In principle, it means if you write
+
+struct test { int a; char b; int c; } x; memset (&amp;x, 0, sizeof(x)); x.a = 1;
+
+then the compiler is free to change the padding bytes after 'x.b' to whatever it likes, because you changed 'x.a', even though you might think you cleared them and the compiler would have no reason to make this change.  In practice this might manifest in the case of 
+
+memset (&amp;x, 0, sizeof(x));
+x.a = 1; x.b = 2; x.c = 3;
+
+by the compiler optimising out the 'memset' as a dead store.
+
+Since C99 says it is unspecified, you'd have to look at the GCC documentation, and I don't see any specification there either.
+
+In practise, GCC does exactly this, with its own built-in initializer expansion.  If you turn on the right debugging flag (I think -fdump-tree-original -fdump-tree-gimple is what you want), you can see GCC turn
+
+    struct test arg = {.a=1};
+  use (&amp;arg);
+    struct test arg2 = {.a=1, .b=2, .c=3};
+  use (&amp;arg2);
+
+into
+
+  arg = {};
+  arg.a = 1;
+  use (&amp;arg);
+  arg2.a = 1;
+  arg2.b = 2;
+  arg2.c = 3;
+  use (&amp;arg2);
+
+The comment in the code (in gimplify.c) explains that the side-effect of clearing unused bytes is definitely not intentional, it reads:
+
+   Note that we still need to clear any elements that don't have explicit
+   initializers, so if not all elements are initialized we keep the
+   original MODIFY_EXPR, we just remove all of the constructor elements.
+
+and
+
+        /* ??? This bit ought not be needed.  For any element not present
+           in the initializer, we should simply set them to zero.  Except
+           we'd need to *find* the elements that are not present, and that
+           requires trickery to avoid quadratic compile-time behavior in
+           large cases or excessive memory use in small cases.  */
+        else if (num_ctor_elements &lt; num_type_elements)
+          cleared = true;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

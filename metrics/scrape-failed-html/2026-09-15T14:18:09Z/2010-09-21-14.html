@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: padding oracle attack: ruby on rails
+ 2.3, owasp esapi</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="13">[&lt;prev]</a> <a href="15">[next&gt;]</a> <a href="13">[&lt;thread-prev]</a> <a href="15">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Pine.GSO.4.64.1009211701320.21207&#64;faron.mitre.org&gt;
+Date: Tue, 21 Sep 2010 17:07:39 -0400 (EDT)
+From: "Steven M. Christey" &lt;coley&#64;...us.mitre.org&gt;
+To: Michael Koziarski &lt;michael&#64;...iarski.com&gt;
+cc: Thomas Biege &lt;thomas&#64;...e.de&gt;, oss-security&#64;...ts.openwall.com,
+        juliano&#64;...ifera.comt, thaidn&#64;...ecurity.net, security&#64;...yonrails.org
+Subject: Re: CVE request: padding oracle attack: ruby on rails
+ 2.3, owasp esapi
+
+
+When it comes to language interpreters and/or code libraries: if an 
+exposed API function has a vuln in it that could affect any application 
+that uses that function, it's suitable for inclusion in CVE - especially 
+if the function seems likely to accept malicious input.  If there's *no 
+way* that these API functions can be used safely, then that would be 
+associated with Rails, and a single CVE could be assigned.  If they *can* 
+be used safely, but lots of different programmers just screw it up (a la 
+strcpy() in C), then the individual applications would get their own 
+separate CVEs.
+
+In this case, while the issue is probably not a problem for the bulk of 
+Rails programmers, it might be for some - so a single CVE assignment seems 
+reasonable.
+
+Hope that made sense.
+
+- Steve
+
+
+On Wed, 22 Sep 2010, Michael Koziarski wrote:
+
+&gt; On Wed, Sep 22, 2010 at 2:57 AM, Thomas Biege &lt;thomas&#64;...e.de&gt; wrote:
+&gt;&gt; I got no answer from the POET paper authors yet but it can be
+&gt;&gt; that CVE-2010-3299 is invalid.
+&gt;
+&gt; I'm not sure what the criteria for a CVE is but there's nothing
+&gt; exploitable here in the vast vast bulk of rails applications.
+&gt;
+&gt; It's certainly true that an application using the low level
+&gt; encrypt/decrypt API is vulnerable to padding oracle attacks, but as
+&gt; you mentioned those apis aren't actually used anywhere within rails
+&gt; itself.
+&gt;
+&gt; Given the 'shoot yourself in the foot' nature of those low level apis,
+&gt; we'll probably deprecate them as public apis and advise people to use
+&gt; encrypt_and_sign/decrypt_and_verify instead.
+&gt;
+&gt;
+&gt;
+&gt;&gt; Cheers
+&gt;&gt; Thomas
+&gt;&gt;
+&gt;&gt;
+&gt;&gt; Am Dienstag 14 September 2010 21:36:53 schrieb Josh Bressers:
+&gt;&gt;&gt; I've assgiend two. The details are quite vague unfortunately.
+&gt;&gt;&gt;
+&gt;&gt;&gt; CVE-2010-3299 padding oracle attack: ruby on rails 2.3
+&gt;&gt;&gt; CVE-2010-3300 padding oracle attack: owasp esapi
+&gt;&gt;&gt;
+&gt;&gt;&gt; Thanks.
+&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; Hi,
+&gt;&gt;&gt;&gt; the paper [1], about practical padding oracle attacks
+&gt;&gt;&gt;&gt; mentions some programming frameworks as vulnerable (section 5):
+&gt;&gt;&gt;&gt; - Ruby On ails 2.3
+&gt;&gt;&gt;&gt; - OWASP ESAPI
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; I think they both need a CVE-ID. Thanks.
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; Cheers
+&gt;&gt;&gt;&gt; Thomas
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; [1] <a href="http://usenix.org/events/woot10/tech/full_papers/Rizzo.pdf" rel="nofollow">http://usenix.org/events/woot10/tech/full_papers/Rizzo.pdf</a>
+&gt;&gt;&gt;
+&gt;&gt;
+&gt;&gt; --
+&gt;&gt;  Thomas Biege &lt;thomas&#64;...e.de&gt;, SUSE LINUX, Security Support &amp; Auditing
+&gt;&gt;  SUSE LINUX Products GmbH, GF: Markus Rex, HRB 16746 (AG Nuernberg)
+&gt;&gt; --
+&gt;&gt;  Wer aufhoert besser werden zu wollen, hoert auf gut zu sein.
+&gt;&gt;                            -- Marie von Ebner-Eschenbach
+&gt;&gt;
+&gt;
+&gt;
+&gt;
+&gt; -- 
+&gt; Cheers
+&gt;
+&gt; Koz
+&gt;
+&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: clamav null pointer dereference</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;1274447028.12594.45.camel&#64;severus.strandboge.com&gt;
+Date: Fri, 21 May 2010 08:03:48 -0500
+From: Jamie Strandboge &lt;jamie&#64;...onical.com&gt;
+To: Thomas Biege &lt;thomas&#64;...ell.com&gt;
+Cc: oss-security &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: clamav null pointer dereference
+
+On Fri, 2010-05-21 at 12:39 +0200, Thomas Biege wrote:
+&gt; Hi,
+&gt; does someone, who knows moe about clamav than I do, know if the following has
+&gt; security implications?
+&gt; 
+&gt; changelog: <a href="http://git.clamav.net/gitweb?p=clamav-" rel="nofollow">http://git.clamav.net/gitweb?p=clamav-</a>
+&gt; devel.git;a=blob_plain;f=ChangeLog;hb=master
+&gt; 
+&gt; Wed May 19 12:21:02 CEST 2010 (acab)
+&gt; ------------------------------------
+&gt;  * libclamav/7z/Archive/7z/7zIn.c: fix possible(?) null dereference reported
+&gt;                                 by clang (bb#1909)
+&gt; 
+&gt; 
+&gt; diff: <a href="http://git.clamav.net/gitweb?p=clamav-" rel="nofollow">http://git.clamav.net/gitweb?p=clamav-</a>
+&gt; devel.git;a=commitdiff;h=4531ba07e1ed5060ac8cb8ff748427ce0917bedd
+&gt; 
+
+I'm no expert on clamav, but looking at
+<a href="https://wwws.clamav.net/bugzilla/show_bug.cgi?id=1909" rel="nofollow">https://wwws.clamav.net/bugzilla/show_bug.cgi?id=1909</a>
+
+indicates that this is not security relevant. Based on the response to
+the report (which I am rewording and attempting to clarify here), this
+is the potential NULL dereference (line 669):
+    (*unpackSizes)[si++] = SzFolder_GetUnpackSize(folders + i) - sum;
+
+However, this cannot be reached due to this check at line 659:
+    if (numSubstreams == 0)
+      continue;
+
+This is because '*unpackSizes = 0' only if '*numUnpackStreams ==
+0' (line 634) and the null dereference reached only if numFolders &gt; 0,
+which it can be if multiple nulls are read in at line 621. However, at
+line 622 we have:
+        folders[i].NumUnpackStreams = numStreams;
+        *numUnpackStreams += numStreams;
+
+and at 658 we have:
+    UInt32 numSubstreams = folders[i].NumUnpackStreams;
+    if (numSubstreams == 0)
+      continue;
+
+Simply put, to meet the required conditional at line 634, we must read
+in some NULLs at 622, which assigns 0 to folders[i].NumUnpackStreams,
+which later we assign 'numSubstreams = folders[i].NumUnpackStreams' and
+then check if numSubstreams equals 0 (line 658) and if so continue, thus
+avoiding the NULL dereference.
+
+I've asked our clamav maintainer to contact upstream to verify this is
+the case, and will report back if I'm wrong.
+
+-- 
+Jamie Strandboge             | <a href="http://www.canonical.com" rel="nofollow">http://www.canonical.com</a>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (199 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

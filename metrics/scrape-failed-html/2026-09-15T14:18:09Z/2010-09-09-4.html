@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [PATCH 2/2] execve: check the VM has enough memory at first</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20100909140439.C945.A69D9226&#64;jp.fujitsu.com&gt;
+Date: Thu,  9 Sep 2010 14:04:42 +0900 (JST)
+From: KOSAKI Motohiro &lt;kosaki.motohiro&#64;...fujitsu.com&gt;
+To: KOSAKI Motohiro &lt;kosaki.motohiro&#64;...fujitsu.com&gt;
+Cc: kosaki.motohiro&#64;...fujitsu.com, Roland McGrath &lt;roland&#64;...hat.com&gt;,
+        Linus Torvalds &lt;torvalds&#64;...ux-foundation.org&gt;,
+        Andrew Morton &lt;akpm&#64;...ux-foundation.org&gt;,
+        linux-kernel&#64;...r.kernel.org, oss-security&#64;...ts.openwall.com,
+        Solar Designer &lt;solar&#64;...nwall.com&gt;,
+        Kees Cook &lt;kees.cook&#64;...onical.com&gt;, Al Viro &lt;viro&#64;...iv.linux.org.uk&gt;,
+        Oleg Nesterov &lt;oleg&#64;...hat.com&gt;, Neil Horman &lt;nhorman&#64;...driver.com&gt;,
+        linux-fsdevel&#64;...r.kernel.org, pageexec&#64;...email.hu,
+        "Brad Spengler &lt;spender&#64;...ecurity.net&gt;, Eugene Teo" &lt;eugene&#64;...hat.com&gt;,
+        KAMEZAWA Hiroyuki &lt;kamezawa.hiroyu&#64;...fujitsu.com&gt;
+Subject: [PATCH 2/2] execve: check the VM has enough memory at first
+
+Now, Argv size of execve are limited by STACK_LIMIT/4. In other
+words, If we are setting 'ulimit -s unlimited', we've lost any
+guard of argv size.
+
+More unfortunately, current argv setup logic is bypassing the VM
+overcommitment check unintentionally. because current overcommitment
+check don't care gradually increased stack.
+therefore, wrong argument of execve() easily makes OOM instead
+execve() failure. that's bad.
+
+After this patch, execve() expand stack at first and receive to
+check vm_enough_memory() properly. then, too long argument of
+execve() than the machine memory return EFAULT properly.
+
+Note, almost all user are using OVERCOMMIT_GUESS overcommit mode
+(because it's default). It provide only guess. It doesn't works
+perfectly on some case. However usually execve() failure is better
+than OOM-killer and swap-storm compbination.
+
+Cc: pageexec&#64;...email.hu
+Cc: Roland McGrath &lt;roland&#64;...hat.com&gt;
+Cc: Solar Designer &lt;solar&#64;...nwall.com&gt;
+Cc: Brad Spengler &lt;spender&#64;...ecurity.net&gt;
+Cc: Eugene Teo &lt;eteo&#64;...hat.com&gt;
+Signed-off-by: KOSAKI Motohiro &lt;kosaki.motohiro&#64;...fujitsu.com&gt;
+---
+ fs/compat.c |   38 +++++++++++++++++++++++++++++++-------
+ fs/exec.c   |   38 +++++++++++++++++++++++++++++++-------
+ 2 files changed, 62 insertions(+), 14 deletions(-)
+
+diff --git a/fs/compat.c b/fs/compat.c
+index b631120..ff32573 100644
+--- a/fs/compat.c
++++ b/fs/compat.c
+@@ -1394,10 +1394,39 @@ static int compat_copy_strings(int argc, compat_uptr_t __user *argv,
+ 	char *kaddr = NULL;
+ 	unsigned long kpos = 0;
+ 	int ret;
++	compat_uptr_t str;
++	int len;
++	int i;
++	unsigned long total_len = 0;
++
++	for (i = 0; i &lt; argc; i++) {
++		ret = -EFAULT;
++		if (get_user(str, argv+i))
++			goto out;
++		len = strnlen_user(compat_ptr(str), MAX_ARG_STRLEN);
++		if (!len)
++			goto out;
++
++		ret = -E2BIG;
++		if (len &gt; MAX_ARG_STRLEN)
++			goto out;
++
++		total_len += len;
++		if (total_len &gt; bprm-&gt;p)
++			goto out;
++	}
++
++	/*
++	 * Firstly, we try to expand stack. It also invoke
++	 * security_vm_enough_memory() and get failure when we don't
++	 * have enough space. It help to avoid stack smashing by plenty argv.
++	 */
++	ret = get_user_pages(current, bprm-&gt;mm, bprm-&gt;p - total_len,
++			     1, 1, 1, NULL, NULL);
++	if (ret &lt; 0)
++		goto out;
+ 
+ 	while (argc-- &gt; 0) {
+-		compat_uptr_t str;
+-		int len;
+ 		unsigned long pos;
+ 
+ 		if (get_user(str, argv+argc) ||
+@@ -1406,11 +1435,6 @@ static int compat_copy_strings(int argc, compat_uptr_t __user *argv,
+ 			goto out;
+ 		}
+ 
+-		if (len &gt; MAX_ARG_STRLEN) {
+-			ret = -E2BIG;
+-			goto out;
+-		}
+-
+ 		/* We're going to work our way backwords. */
+ 		pos = bprm-&gt;p;
+ 		str += len;
+diff --git a/fs/exec.c b/fs/exec.c
+index b41834c..ef8b9dc 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -396,10 +396,39 @@ static int copy_strings(int argc, const char __user *const __user *argv,
+ 	char *kaddr = NULL;
+ 	unsigned long kpos = 0;
+ 	int ret;
++	int i;
++	unsigned long total_len = 0;
++	const char __user *str;
++	int len;
++
++	for (i = 0; i &lt; argc; i++) {
++		ret = -EFAULT;
++		if (get_user(str, argv+i))
++			goto out;
++		len = strnlen_user(str, MAX_ARG_STRLEN);
++		if (!len)
++			goto out;
++
++		ret = -E2BIG;
++		if (!valid_arg_len(bprm, len))
++			goto out;
++
++		total_len += len;
++		if (total_len &gt; bprm-&gt;p)
++			goto out;
++	}
++
++	/*
++	 * Firstly, we try to expand stack. It also invoke
++	 * security_vm_enough_memory() and get failure when we don't
++	 * have enough space. It help to avoid stack smashing by plenty argv.
++	 */
++	ret = get_user_pages(current, bprm-&gt;mm, bprm-&gt;p - total_len,
++			     1, 1, 1, NULL, NULL);
++	if (ret &lt; 0)
++		goto out;
+ 
+ 	while (argc-- &gt; 0) {
+-		const char __user *str;
+-		int len;
+ 		unsigned long pos;
+ 
+ 		if (get_user(str, argv+argc) ||
+@@ -408,11 +437,6 @@ static int copy_strings(int argc, const char __user *const __user *argv,
+ 			goto out;
+ 		}
+ 
+-		if (!valid_arg_len(bprm, len)) {
+-			ret = -E2BIG;
+-			goto out;
+-		}
+-
+ 		/* We're going to work our way backwords. */
+ 		pos = bprm-&gt;p;
+ 		str += len;
+-- 
+1.6.5.2
+
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
