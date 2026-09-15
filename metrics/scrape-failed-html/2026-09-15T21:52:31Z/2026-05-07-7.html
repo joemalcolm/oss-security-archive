@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: io_uring zcrx freelist OOB write</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="5">[&lt;thread-prev]</a> <a href="11">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAMrV8J57=Mrw4zdwWKTKwY7cRxgafEYqR1+8+pmh_6khEWdE6g&#64;mail.gmail.com&gt;
+Date: Thu, 7 May 2026 14:27:50 -0400
+From: Mohamed salem Eddah &lt;medsalemeddah&#64;...il.com&gt;
+To: Solar Designer &lt;solar&#64;...nwall.com&gt;
+Cc: oss-security&#64;...ts.openwall.com, security&#64;...nel.org, 
+	"axboe&#64;...nel.dk" &lt;axboe&#64;...nel.dk&gt;
+Subject: Re: CVE request: io_uring zcrx freelist OOB write
+
+Alexander, Pavel,
+
+First, an apology: I replied to Pavel's questions directly without CC'ing
+oss-security. That was a mistake. Putting the reply on the
+list now.
+
+
+To Pavel's question yes, triggered. whitout involving a kernel modules
+
+**Kernel:** 6.19.11+kali-amd64, built April 9 2026, pre-770594e
+**Hardware:** mlx5 ConnectX-6 (real ZCRX NIC)
+**Trigger:** pure userspace via `SIOCSIFFLAGS IFF_DOWN`, `CAP_NET_ADMIN`
+
+The OOB fires during `page_pool_destroy()` when two paths both push to
+the same freelist without a bounds check:
+
+```
+path A — ptr_ring drain:
+  io_pp_zc_release_netmem() per queued niov → free_count++
+
+path B — io_pp_zc_destroy() scrub:
+  for each niov with uref_array[i] != 0:
+    io_zcrx_return_niov() → free_count++   (no bounds check)
+```
+
+Niovs that land in both paths push `free_count` past `num_niovs`.
+The write at `freelist[num_niovs]` goes 4 bytes past the end of the
+kcalloc'd array into the adjacent slab object.
+
+Disassembly from the live kernel via gdb+/proc/kcore confirms no bounds
+check at either write site:
+
+```asm
+; io_zcrx_return_niov (pp==NULL / freelist path)
+0xffffffffa7016890: mov eax, [rdx+0x44]    ; eax = free_count
+0xffffffffa7016893: mov r8,  [rdx+0x48]    ; r8  = freelist ptr
+0xffffffffa7016897: lea edi, [rax+1]
+0xffffffffa701689a: mov [rdx+0x44], edi    ; free_count++ (unconditional)
+0xffffffffa70168fb: mov [r8+rax*4], edi    ; freelist[old_count] = niov_idx
+                                            ; OOB when rax == num_niovs
+
+; io_pp_zc_release_netmem (ptr_ring drain callback)
+0xffffffffa701795f: mov eax, [rbp+0x44]    ; eax = free_count
+0xffffffffa7017962: mov rdx, [rbp+0x48]    ; rdx = freelist ptr
+0xffffffffa701796a: lea ecx, [rax+1]
+0xffffffffa701796d: mov [rbp+0x44], ecx    ; free_count++
+0xffffffffa701797b: mov [rdx+rax*4], ebx   ; freelist[old_count] = niov_idx
+```
+
+770594e adds `WARN_ON_ONCE(free_count &gt;= num_niovs)` + early return at
+both sites. The OOB write is suppressed. The double-count condition still
+occurs the second push is silently dropped.
+
+The fix is not in any stable branch. Distributions shipping 6.15+ kernels
+with `CONFIG_IO_URING_ZCRX=y` before April 21 are affected.
+
+To Alexander's point on originality: I am not claiming to have found the
+bug before 770594e was merged. My contribution is the documented trigger
+path from pure userspace, the disassembly confirming the write sites, and
+the stable backport request. The fix exists upstream but has not reached
+any stable queue. That gap is what this report is about.
+
+The blog post at ze3tar.github.io is mine.
+
+Three open questions for Pavel if you have a moment:
+
+1. Is the NIC-down path (SIOCSIFFLAGS -&gt; page_pool_destroy) the scrub case
+   you referred to in the original thread?
+
+2. Does 770594e fully resolve the issue or is a follow-up planned to
+   prevent the double-count at the source rather than at the write?
+
+3. Does `IORING_REGISTER_ZCRX_IFQ` check `capable()` or `ns_capable()`?
+   The latter would widen the attack surface on distributions with
+   permissive user namespace policy
+
+Backport request for 770594e to 6.15.y stands.
+
+-- Mohamed
+
+
+On Thu, May 7, 2026 at 1:48 PM Solar Designer &lt;solar&#64;...nwall.com&gt; wrote:
+
+&gt; On Mon, May 04, 2026 at 07:02:30AM +0100, Pavel Begunkov wrote:
+&gt; &gt; On 5/3/26 12:00, Mohamed salem Eddah wrote:
+&gt; &gt; &gt;I am reporting a security issue in the Linux kernel involving an
+&gt; &gt; &gt;out-of-bounds heap write in io_uring/zcrx.c.
+&gt; &gt; &gt;
+&gt; &gt; &gt;This issue appears to have been addressed in commit 770594e
+&gt; &gt; &gt;(“io_uring/zcrx: warn on freelist violations”, April 21, 2026),
+&gt; &gt; &gt;however it
+&gt; &gt; &gt;was not assigned a CVE and does not appear to have been included in a
+&gt; &gt; &gt;formal security advisory. As a result, multiple stable and downstream
+&gt; &gt; &gt;distribution kernels are still affected.
+&gt; &gt; &gt;------------------------------
+&gt; &gt; &gt;Vulnerability Summary
+&gt; &gt; &gt;
+&gt; &gt; &gt;*File:* io_uring/zcrx.c
+&gt; &gt; &gt;*Function:* io_zcrx_return_niov_freelist()
+&gt; &gt; &gt;*Introduced:* Linux 6.12 (initial ZCRX merge)
+&gt; &gt;
+&gt; &gt; FWIW, it was added IIRC in 6.15, but not 6.12
+&gt; &gt;
+&gt; &gt; &gt;*Fixed upstream:* 770594e (Apr 21, 2026)
+&gt; &gt; &gt;*Status:* Fix not yet present in stable releases
+&gt; &gt; Did you trigger the problem or the warning in a new kernel
+&gt; &gt; without the attached modules? Which kernel version / hash
+&gt; &gt; was it? There was a fix for the scrub case, but otherwise
+&gt; &gt; don't immediately see how that can happen. I'll take a look.
+&gt;
+&gt; I only skimmed, but as far as I can tell Mohamed isn't the original
+&gt; finder of this issue and the report and PoCs are AI-generated, which
+&gt; could be why Mohamed is not communicating further.  It's becoming a
+&gt; trend - someone sends AI-generated report and doesn't communicate.
+&gt; Which doesn't mean the report is useless, but it does complicate its
+&gt; handling.
+&gt;
+&gt; Meanwhile, it looks like there's a blog post (by someone else? I am
+&gt; confused) on exploitation of this issue, with exploit files attached:
+&gt;
+&gt; <a href="https://ze3tar.github.io/post-zcrx.html" rel="nofollow">https://ze3tar.github.io/post-zcrx.html</a>
+&gt;
+&gt; Alexander
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

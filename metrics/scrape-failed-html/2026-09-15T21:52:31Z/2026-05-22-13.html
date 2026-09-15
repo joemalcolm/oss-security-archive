@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [vim-security] Multiple Memory Safety Issues in Vim Spell File
+ Parser affects Vim &lt; 9.2.0513</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="14">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;ahDVYasrm561zdna&#64;256bit.org&gt;
+Date: Sat, 23 May 2026 00:14:57 +0200
+From: Christian Brabandt &lt;cb&#64;...bit.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: [vim-security] Multiple Memory Safety Issues in Vim Spell File
+ Parser affects Vim &lt; 9.2.0513
+
+Multiple Memory Safety Issues in Vim Spell File Parser affects Vim &lt; 9.2.0513
+=============================================================================
+Date: 22.05.2026
+Severity: Medium
+CVE: *requested, not yet assigned*
+CWE: Out-of-bounds Read (CWE-125),
+     Use of Uninitialized Resource (CWE-908),
+     Uncontrolled Recursion (CWE-674)
+
+## Summary
+Three related memory-safety issues exist in the Vim spell file (`.spl`)
+parser in `src/spellfile.c`.  A crafted spell file can cause:
+
+1. a heap out-of-bounds read in `read_tree_node()` via a `BY_INDEX`
+   shared tree node that references an uninitialized array position,
+2. a one-byte heap out-of-bounds read in `tree_count_words()` past the
+   end of the word-tree byte array, and
+3. a stack overflow in `read_tree_node()` through uncontrolled recursion
+   on a deep linear node chain.
+
+Because the `'spelllang'` option can be set from a modeline, a text
+file modeline can trigger spell file loading if a malicious `.spl` file
+has been planted on the runtimepath, which can happen when cloning a vim
+package.
+
+## Description
+
+### 1. Uninitialized shared-node target in read_tree_node()
+In `spell_read_tree()` the byte array `bp` for a word tree was allocated
+with `alloc(len)` and not zero-initialized, while the companion index
+array used `lalloc_clear()`.  The tree parser validated `BY_INDEX`
+shared-node references only against `maxidx` (the allocated array
+size), not against positions that were actually written by
+`read_tree_node()`.  A crafted file can declare a `&lt;nodecount&gt;` larger
+than the tree it serializes and include a `BY_INDEX` reference into the
+unwritten tail, leaving `byts[N]` containing uninitialized heap data.
+
+On `z=` (spell suggest) or `spellsuggest()`, the suggestion walk reads
+`byts[arridx]` as a sibling count and iterates that many slots,
+producing a further out-of-bounds heap read with an attacker-influenced
+length.
+
+### 2. Missing length guard in tree_count_words()
+`tree_count_words()` skipped runs of trailing NUL siblings with
+`while (byts[n + 1] == 0)` and had no length guard.  The structurally
+identical loop in `sug_filltree()` already carried
+`n + 1 &lt; slang-&gt;sl_fbyts_len &amp;&amp; ...` with the explicit comment
+"But don't go over the end."; that guard had not been propagated to
+`tree_count_words()`.  When called during `.sug` file loading on a
+tree whose final sibling is `BY_NOFLAGS`, the walk reads one byte past
+the end of the byts array.
+
+### 3. Uncontrolled recursion in read_tree_node()
+`read_tree_node()` recursed once per non-shared, non-end-of-word
+sibling without a depth limit.  A crafted `.spl` file containing a
+linear chain of nodes (siblingcount=1, non-NUL byte at each level)
+drives the recursion to a depth bounded only by the declared
+`&lt;nodecount&gt;` (a 4-byte field).  On default 8 MB stacks, approximately
+88,000 nested frames exhaust the stack and crash Vim with SIGSEGV.
+
+## Impact
+Issues 1 and 2 are out-of-bounds heap reads with attacker-influenced
+range; the practical outcome is a crash of the Vim process and a small
+window of uninitialized or adjacent heap data being consumed by the
+suggestion algorithm.  Issue 3 reliably crashes Vim through stack
+exhaustion.
+
+Exploitation requires a malicious `.spl` file to be present on the
+runtimepath and the victim to either:
+
+- explicitly enable spell checking with the matching language
+- open any text file containing a modeline that sets `'spelllang'` and
+  enables `'spell'`, while `'modeline'` is enabled.
+
+The severity is rated Medium because exploitation requires both a
+planted spell file and a separate triggering action by the victim, and
+the practical outcome is a crash rather than code execution.
+
+## Acknowledgements
+The Vim project would like to thank github user tacdm for reporting and
+analyzing the issues and suggesting fixes.
+
+## References
+The issues have been fixed as of Vim patch [v9.2.0513](<a href="https://github.com/vim/vim/releases/tag/v9.2.0513" rel="nofollow">https://github.com/vim/vim/releases/tag/v9.2.0513</a>).
+- [Commit](<a href="https://github.com/vim/vim/commit/25e4e46c584840806b45da20ed" rel="nofollow">https://github.com/vim/vim/commit/25e4e46c584840806b45da20ed</a>)
+- [Github Security Advisory](<a href="https://github.com/vim/vim/security/advisories/GHSA-3h95-3962-mmvf" rel="nofollow">https://github.com/vim/vim/security/advisories/GHSA-3h95-3962-mmvf</a>)
+
+Thanks,
+Christian
+-- 
+Die Genies brechen die Bahnen, und die schönen Geister ebnen und
+verschönern sie.
+		-- Georg Christoph Lichtenberg
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

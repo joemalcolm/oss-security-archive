@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Security audit of Paramiko completed, fixes coming in
+ 5.0 release</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="../../../2026/05/06/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;a62846e5-2943-4c17-81da-aab453f3e1e7&#64;oracle.com&gt;
+Date: Tue, 5 May 2026 14:53:16 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Security audit of Paramiko completed, fixes coming in
+ 5.0 release
+
+<a href="https://ostif.org/paramiko-audit-complete/" rel="nofollow">https://ostif.org/paramiko-audit-complete/</a> announces:
+&gt; The Open Source Technology Improvement Fund is proud to share the results
+&gt; of our security audit of Paramiko. Paramiko is an open source Python
+&gt; implementation of the SSHv2 protocol designed for secure remote login and
+&gt; other secure network services. Thanks to the help of Quarkslab and
+&gt; Alpha-Omega, this project received custom security work reviewing
+&gt; Paramiko’s testing, building and CI systems, and cryptography.
+&gt; 
+&gt; Audit Process:
+&gt; 
+&gt; The engagement took place in November 2025, with Quarkslab’s audit team
+&gt; executing the mission on Paramiko’s testing, building, and CI systems.
+&gt; In order to effectively execute this work on critical security features
+&gt; of Paramiko, the scope was expanded to include PYCA Cryptography and how
+&gt; it interacts with Paramiko critical cryptographic functions, (PYCA)
+&gt; Cryptography’s OpenSSL Rust Bindings, and CI/CD CircleCI for Paramiko
+&gt; and Github Actions for (PYCA) Cryptography. For Paramiko the engagement
+&gt; consisted of manual code review, dependencies review, dynamic testing,
+&gt; build systems, testing enhancements, static analysis, and fuzz testing.
+&gt; 
+&gt; Audit Results:
+&gt; 
+&gt;   * 30 Findings with Security Impact
+&gt;       - 2 High
+&gt;       - 7 Medium
+&gt;       - 5 Low
+&gt;       - 16 Informational
+&gt;   * Build and CI/CD Pipeline Review
+&gt;   * Testing Enhancements
+&gt;       - Implementation of a crypto-condor plug-in to incorporate in the CI
+&gt;         for cryptographic compliance and testing of entropy sources
+&gt;       - Review  of current testing coverage
+&gt;   * SSH RFC compliance review
+&gt; 
+&gt; The project maintainer worked diligently to address and resolve the issues
+&gt; presented by this report, engaging with the audit team to design fix
+&gt; solutions aligned with security best practices. Update to the most recent
+&gt; release of Paramiko (version 5.0 will release early May 2026) and follow
+&gt; documentation in order to take advantage of the hard work of the individuals
+&gt; behind Paramiko and Quarkslab. If you’re interested in contributing to
+&gt; Paramiko, learn more about them and their community on their website:
+&gt; <a href="https://www.paramiko.org/" rel="nofollow">https://www.paramiko.org/</a> .
+&gt; 
+&gt; Thank you to the individuals and groups that made this engagement possible:
+&gt; 
+&gt;   * Paramiko maintainers and community, especially: Jeff Forcier
+&gt;   * Quarkslab: Dahmun Goudarzi, Julio Loayza Meneses, Alan Marrec, and
+&gt;                Pauline Sauder
+&gt;   * Alpha-Omega
+&gt; 
+&gt; You can read the Audit Report at
+&gt; <a href="https://ostif.org/wp-content/uploads/2026/05/25-11-2415-REP_paramiko-security-audit_v1.1.pdf" rel="nofollow">https://ostif.org/wp-content/uploads/2026/05/25-11-2415-REP_paramiko-security-audit_v1.1.pdf</a>
+&gt; 
+&gt; Everyone around the world depends on open source software. If you’re interested
+&gt; in financially supporting this critical work, reach out to contactus&#64;...if.org.
+
+
+The findings listed in the audit report at higher than "Informational" are:
+&gt; HIGH-21 Insecure parameters for digital signatures with RSA
+&gt; HIGH-28 Insecure key sizes accepted for Triple DES [in Cryptography]
+&gt; MEDIUM-15 Deprecated group exchange method
+&gt; MEDIUM-16 Insecure minimum modulus size in Diffie-Hellman group exchange
+&gt; MEDIUM-17 Deprecated Diffie-Hellman group
+&gt; MEDIUM-18 Deprecated GSS-API key exchange methods
+&gt; MEDIUM-22 Use of 8-byte seed for TripleDES key generation
+&gt; MEDIUM-24 Wrong type usage in SHA-1 in KexGSSGroup1 and KexGSSGroup14
+&gt; LOW-1 CVE impacting black 
+&gt; LOW-19 Use of MD5 as a Key Derivation Function 
+&gt; LOW-25 Invalid Ed25519 signature causes mishandled exception
+&gt; LOW-27 Invalid Ed25519 signature cause transport thread to crash
+&gt; LOW-29 Insecure RSA key size allowed RSA Keys in Paramiko and Cryptography
+&gt; LOW-30 Server can be instantiated over UDP socket
+
+with these recommendations to resolve them:
+&gt; HIGH-21 Remove support for RSA with SHA-1.
+&gt; HIGH-28 Reject key sizes that are not 24 bytes.
+&gt; MEDIUM-15 Remove support for diffie-hellman-group-exchange-sha1.
+&gt; MEDIUM-16 Increase the minimum modulus size to 2048 bits.
+&gt; MEDIUM-17 Remove support for diffie-hellman-group1-sha1.
+&gt; MEDIUM-18 Remove the deprecated key exchange methods, replacing them with RFC
+&gt; 8732 additions.
+&gt; MEDIUM-22 Reject 8-byte input for the key initialization of Triple DES.
+&gt; MEDIUM-24 Change str(hm) to hm.asbytes() in KexGSSGroup1.
+&gt; LOW-1 Update black to version 24.3.0.
+&gt; LOW-19 Warn when using this format, recommend the user to save their keys in
+&gt; PKCS8 or OpenSSH format instead.
+&gt; LOW-25 Either check the length of the signature before calling verify() or handle
+&gt; the exception.
+&gt; LOW-27 Handle the exception: either catch the nacl.exception.ValueError excep-
+&gt; tion or check that the signature has the correct length before calling
+&gt; verify().
+&gt; LOW-29 Reject RSA keys that are shorter than 2048 bits.
+&gt; LOW-30 Add a check in Transport.__init__() to verify that sock is a TCP socket.
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

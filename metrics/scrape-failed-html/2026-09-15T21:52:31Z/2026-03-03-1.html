@@ -1,0 +1,506 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: [siren] [Security Advisory] Active Exploitation of Weak GitHub Actions Configurations</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/03/02/5">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260303035718.GA26723&#64;openwall.com&gt;
+Date: Tue, 3 Mar 2026 04:57:18 +0100
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: [siren] [Security Advisory] Active Exploitation of Weak GitHub Actions Configurations
+
+Also seen at <a href="https://lists.openssf-vuln.org/g/siren/message/6" rel="nofollow">https://lists.openssf-vuln.org/g/siren/message/6</a>
+
+----- Forwarded message -----
+
+From: "Christopher Robinson via lists.openssf-vuln.org"
+Date: Mon, 2 Mar 2026 09:13:33 -0500
+Subject: [siren] [Security Advisory] Active Exploitation of Weak GitHub Actions Configurations
+To: siren&#64;...ts.openssf-vuln.org
+Resent-Date: Mon, 02 Mar 2026 07:08:17 -0800
+Resent-From: christopher.robinson&#64;...uxfoundation.org
+Reply-To: siren&#64;...ts.openssf-vuln.org,christopher.robinson&#64;...uxfoundation.org
+
+Date: March 1, 2026
+Severity: High – Active exploitation in the wild
+Overview
+
+
+An autonomous attack campaign, tracked as “hackerbot-claw,” is actively
+scanning public repositories for insecure GitHub Actions workflows and
+exploiting them to execute arbitrary code and exfiltrate credentials. The
+campaign has successfully compromised several high-profile open source
+projects by abusing common misconfigurations in GitHub Actions CI/CD
+pipelines.
+
+
+Attackers are targeting workflows that:
+
+
+   -
+
+
+   use privileged triggers such as pull_request_target,
+   -
+
+
+   execute untrusted code from forked pull requests,
+   -
+
+
+   include inline shell scripts or unvalidated inputs in workflow steps,
+   -
+
+
+   lack authorization checks before running workflows.
+
+
+A documented example involved project-akri/akri, where a malicious pull
+request added a direct shell-injection payload into a script without any
+safeguards. The project’s workflow then executed that modified script,
+triggering the attacker’s payload.
+
+
+This is an active, automated attack — not a theoretical vulnerability — and
+it’s ongoing across vulnerable open source repositories worldwide. The
+Linux Foundation is actively working with our projects to review this
+attack, eliminate any malicious files, and is seeking to put controls in
+place to stop these types of attacks from being successful in the future
+through strong repository security controls and monitoring.
+Attack Patterns Being Observed
+
+
+The bot employs multiple classes of exploitation techniques, including:
+
+
+   -
+
+
+   Direct script injection — an attacker modifies a script in a pull
+   request so that when the workflow runs, the injected commands are executed
+   with repository privileges.
+   -
+
+
+   “Pwn Request” / pull_request_target abuse — workflows that use
+   privileged triggers and then check out untrusted code from pull requests
+   execute that code with elevated access.
+   -
+
+
+   Branch or filename injection — malicious commands encoded into branch
+   names or file paths are evaluated during workflow execution.
+
+
+These patterns lead to full code execution on GitHub runners and can result
+in credential leakage (e.g., exfiltration of GITHUB_TOKEN), unauthorized
+code pushes, and supply chain compromise.
+Recommended Mitigations
+
+
+Projects should take immediate action to defend against this active threat:
+1. Review and Harden All GitHub Actions Workflows
+
+
+   -
+
+
+   Avoid pull_request_target triggers where possible; prefer pull_request,
+   which runs on unprivileged tokens.
+   -
+
+
+   Do not check out untrusted code in privileged workflows — especially
+   code from forks.
+   -
+
+
+   Limit workflow permissions to the minimum necessary (e.g., contents: read
+   instead of write).
+   -
+
+
+   Pin third-party actions by commit hash to prevent tampering.
+
+
+2. Sanitize All User Inputs
+
+
+   -
+
+
+   Do not directly interpolate user-controlled fields (titles, branch
+   names, comments) into shell commands or actions without strict validation.
+   -
+
+
+   Extract untrusted inputs into environment variables and validate before
+   use.
+
+
+3. Add Authorization Checks
+
+
+   -
+
+
+   Only allow workflows to run on contributions from trusted collaborators
+   (e.g., through author_association checks).
+
+
+4. Use CI Security Scanners and Static Analysis
+
+
+   -
+
+
+   Integrate CodeQL or workflow linting tools to detect unsafe patterns
+   automatically.
+
+
+5. Rotate and Restrict Secrets
+
+
+   -
+
+
+   Rotate any tokens or secrets that may have been exposed or executed in
+   workflows already.
+   -
+
+
+   Consider using short-lived credentials and OIDC federated authentication
+   where feasible.
+
+
+6. Monitor for Suspicious Activity
+
+
+   -
+
+
+   Enable audit logs and watch for unusual workflow triggers, unexpected
+   token usage, or commits authored by bot accounts.
+
+
+Further Reading &amp; Resources
+
+
+Maintainers can deepen their understanding of these issues and best
+practices at the following links:
+
+
+   -
+
+
+   GitHub’s official guidance on script injection risks
+   &lt;<a href="https://docs.github.com/en/actions/concepts/security/script-injections" rel="nofollow">https://docs.github.com/en/actions/concepts/security/script-injections</a>&gt;
+   and mitigation techniques.
+   -
+
+
+   OpenSSF’s overview of GitHub Actions attack vectors and recommendations
+   &lt;<a href="https://openssf.org/blog/2024/08/12/mitigating-attack-vectors-in-github-workflows" rel="nofollow">https://openssf.org/blog/2024/08/12/mitigating-attack-vectors-in-github-workflows</a>&gt;
+   .
+   -
+
+
+   OpenSSF’s Source Code Management Best Practices Guide
+   &lt;<a href="https://best.openssf.org/SCM-BestPractices/" rel="nofollow">https://best.openssf.org/SCM-BestPractices/</a>&gt;
+   -
+
+
+   Security guides on hardening Actions workflows
+   &lt;<a href="https://www.wiz.io/blog/github-actions-security-guide" rel="nofollow">https://www.wiz.io/blog/github-actions-security-guide</a>&gt; (permissions,
+   pinning, input sanitization).
+
+
+Summary
+
+
+This is an active exploitation campaign against GitHub Actions workflows
+that rely on permissive triggers and unvalidated input. All public and
+private repositories using GitHub Actions should immediately review,
+harden, and monitor their workflows to prevent compromise.
+
+
+The ongoing GitHub Actions exploitation campaign targets weaknesses that
+are explicitly addressed by the OpenSSF OSPS Baseline. Projects that
+implement OSPS-aligned controls — particularly least privilege automation,
+workflow review protections, and secure CI/CD configuration — materially
+reduce their exposure to automated supply chain attacks.
+
+
+Maintainers are strongly encouraged to assess their repositories against
+the OSPS Baseline and remediate any gaps as a priority.
+
+
+If you need help assessing your workflows or implementing mitigations, feel
+free to contact your project's security team for assistance.
+
+
+Additional OSPS-Aligned Mitigation Guidance
+
+
+The OpenSSF OSPS Baseline directly reduces exposure to modern supply chain
+attacks by enforcing least-privilege automation, protected CI/CD workflows,
+mandatory peer review for security-sensitive changes, and disciplined
+secrets management. The ongoing GitHub Actions exploitation campaign
+demonstrates that attackers increasingly target weak repository settings
+rather than software bugs themselves. Projects aligned with the OSPS
+Baseline materially shrink their attack surface, limit credential exposure,
+and prevent unauthorized workflow execution — transforming CI/CD from a
+liability into a controlled and auditable security boundary.
+
+
+Projects that implement the OpenSSF Open Source Project Security (OSPS)
+Baseline are significantly more resilient to this class of GitHub Actions
+exploitation. The controls below align directly with OSPS expectations and
+address the attack patterns observed in this campaign.
+1. Enforce Least Privilege in Automation
+
+
+   -
+
+
+   Restrict GITHUB_TOKEN to the minimum required permissions (default
+to contents:
+   read).
+   -
+
+
+   Disable write permissions for workflows triggered by pull requests from
+   forks.
+   -
+
+
+   Separate unprivileged CI testing workflows from privileged release or
+   deployment workflows.
+   -
+
+
+   Use short-lived credentials (e.g., OIDC) instead of long-lived secrets
+   where possible.
+
+
+OSPS alignment: Automation must follow least privilege and restrict
+credential exposure.
+2. Harden CI/CD Workflow Configuration
+
+
+   -
+
+
+   Avoid using pull_request_target unless absolutely required.
+   -
+
+
+   Never check out and execute untrusted forked code in privileged
+   workflows.
+   -
+
+
+   Require maintainer approval before running workflows from external
+   contributors.
+   -
+
+
+   Pin third-party GitHub Actions by commit SHA.
+
+
+OSPS alignment: Build and release processes must be secured and protected
+from unauthorized modification.
+3. Protect Workflow Files and Critical Infrastructure Code
+
+
+   -
+
+
+   Require code review for all changes to .github/workflows/*.
+   -
+
+
+   Use CODEOWNERS to enforce additional scrutiny on CI configuration
+   changes.
+   -
+
+
+   Require at least one trusted maintainer review before merging changes to
+   automation.
+
+
+OSPS alignment: Security-sensitive changes must undergo peer review and
+access control enforcement.
+4. Prevent Script Injection
+
+
+   -
+
+
+   Do not interpolate user-controlled inputs (branch names, PR titles,
+   comments) directly into shell commands.
+   -
+
+
+   Validate and sanitize inputs before use.
+   -
+
+
+   Prefer reviewed scripts over inline shell blocks in workflow YAML.
+
+
+OSPS alignment: Secure development practices must prevent injection and
+unsafe input handling.
+5. Monitor and Prepare for Incident Response
+
+
+   -
+
+
+   Enable repository audit logging.
+   -
+
+
+   Monitor for unexpected workflow executions or token usage.
+   -
+
+
+   Rotate any potentially exposed credentials immediately.
+   -
+
+
+   Maintain a documented incident response process and public security
+   contact.
+
+
+OSPS alignment: Projects must be prepared to detect, respond to, and
+recover from security incidents.
+
+
+TLP:CLEAR
+
+
+-- 
+Christopher "CRob" Robinson
+*OpenSSF* &lt;<a href="https://www.openssf.org" rel="nofollow">https://www.openssf.org</a>&gt; , *The Linux Foundation*
+&lt;<a href="https://www.linuxfoundation.org" rel="nofollow">https://www.linuxfoundation.org</a>&gt;
+Chief Technology Officer,  Chief Security Architect
+Github &lt;<a href="https://github.com/SecurityCRob" rel="nofollow">https://github.com/SecurityCRob</a>&gt;  | LinkedIn
+&lt;<a href="https://www.linkedin.com/in/darthcrob" rel="nofollow">https://www.linkedin.com/in/darthcrob</a>&gt;  | CRob's Office Hours
+&lt;<a href="https://calendar.app.google/uMvtAfGgYd39fLtk7" rel="nofollow">https://calendar.app.google/uMvtAfGgYd39fLtk7</a>&gt;
+
+----- End forwarded message -----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

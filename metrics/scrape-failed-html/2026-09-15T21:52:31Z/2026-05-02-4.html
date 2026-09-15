@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE-2026-31431: CopyFail: linux local privilege
+ scalation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="../../../2026/05/01/24">[&lt;thread-prev]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;c13dd3c5-ddc1-431e-bc7d-2de39c551f8e&#64;gmail.com&gt;
+Date: Fri, 1 May 2026 20:21:27 -0400
+From: Demi Marie Obenour &lt;demiobenour&#64;...il.com&gt;
+To: Eric Biggers &lt;ebiggers&#64;...nel.org&gt;
+Cc: oss-security&#64;...ts.openwall.com, Jan Schaumann &lt;jschauma&#64;...meister.org&gt;,
+ iwd&#64;...ts.linux.dev
+Subject: Re: CVE-2026-31431: CopyFail: linux local privilege
+ scalation
+
+On 5/1/26 16:18, Eric Biggers wrote:
+&gt; On Fri, May 01, 2026 at 03:24:51PM -0400, Demi Marie Obenour wrote:
+&gt;&gt; On 5/1/26 14:00, Eric Biggers wrote:
+
+(snip) 
+
+&gt;&gt;&gt; But people need to help.  Send patches to iwd, bluez, cryptsetup, etc.
+&gt;&gt;&gt; that make them use userspace crypto libraries instead of AF_ALG and
+&gt;&gt;&gt; KEYCTL_PKEY_*.  If the maintainers aren't convinced yet, then patch
+&gt;&gt;&gt; downstream in your distro as a starting point (and disable the UAPIs in
+&gt;&gt;&gt; your kernel).  Or help in other ways like writing blog posts that
+&gt;&gt;&gt; promote attack surface reduction and the alternatives to these UAPIs.
+&gt;&gt;&gt;
+&gt;&gt;&gt; I'd also like to explore some more incremental approaches, such as
+&gt;&gt;&gt; making these UAPIs require CAP_SYS_ADMIN, possibly configurable by a
+&gt;&gt;&gt; sysctl.  If anyone knows of anything important that would be broken by a
+&gt;&gt;&gt; CAP_SYS_ADMIN requirement on AF_ALG and KEYCTL_PKEY_*, let me know.
+&gt;&gt;
+&gt;&gt; Cryptsetup needs CAP_SYS_ADMIN, but iwd definitely does not, and
+&gt;&gt; presumably BlueZ should not use have it either.
+&gt;&gt;
+&gt;&gt; Cryptsetup is a special case because there are times when it may not
+&gt;&gt; be safe to allocate memory: if I/O to the swap partition is suspended,
+&gt;&gt; and the kernel tries to page data out to it, the system may deadlock.
+&gt;&gt; So calling into arbitrary third-party libraries might not be the best
+&gt;&gt; idea.  Thankfully, Nettle should meet all of cryptsetup's requirements.
+&gt; 
+&gt; Cryptsetup only uses AF_ALG for certain operations like keyslot
+&gt; encryption, and only in certain cases: Cryptsetup's default settings
+&gt; work fine with all CONFIG_CRYPTO_USER_API_* options disabled in the
+&gt; kernel.  The actual I/O to/from encrypted partitions is handled by
+&gt; dm-crypt in the kernel and has nothing to do with AF_ALG.
+&gt; 
+&gt; Cryptsetup even already supports userspace crypto libraries as well.  It
+&gt; seems there are just some gaps in how it's using them.  For example for
+&gt; AES-GCM it seems to just go directly to AF_ALG, despite the cryptsetup
+&gt; binary already being linked to OpenSSL, which means a complete userspace
+&gt; implementation of AES-GCM is already present in its address space!
+
+That's really annoying, yikes!
+
+&gt;&gt;&gt; I think there should also be an allowlist of algorithms, and the splice
+&gt;&gt;&gt; support should be removed.  (Interestingly, there's precedent for
+&gt;&gt;&gt; removing splice support from AF_ALG: it was already removed from the 6.1
+&gt;&gt;&gt; LTS kernel last year, seemingly accidentally.  That's why the copy.fail
+&gt;&gt;&gt; exploit didn't work on 6.1 but did work on other versions.)
+&gt;&gt;&gt;
+&gt;&gt;&gt; - Eric
+&gt;&gt;
+&gt;&gt; Would an allowlist and removing splice support allow migrating to
+&gt;&gt; the crypto library code?  I looked at the list of CVEs you provided,
+&gt;&gt; and I think it would prevent most of the recent ones.  The crypto
+&gt;&gt; library is (as you pointed out) so much easier to use.
+&gt; 
+&gt; I'm hoping that at least some of these ideas for attack surface
+&gt; reduction (requiring CAP_SYS_ADMIN, allowlisting the algorithms,
+&gt; removing splice support) can be implemented in parallel without waiting
+&gt; for every userspace program to stop using these UAPIs.  Full removal
+&gt; needs to be the goal, though.
+
+CAP_SYS_ADMIN isn't going to be an option for iwd at least.
+Requiring a Wi-Fi daemon to run as root would be counterproductive.
+A more flexible option would be to require membership in a specific
+group, which isn't equivalent to full root privileges.
+
+I think the single biggest hardening win for AF_ALG would be to move
+to the crypto library.  The recent CVEs you mentioned mostly seem
+to relate to the crypto API, and with a hard-coded list of allowed
+algorithms there's no need to use the crypto API anymore.  I'm not
+familiar enough with kernel code to do this easily, but for anyone
+with basic knowledge of the existing code it should (hopefully) be
+straightforward.
+
+In the meantime, only using synchronous algorithms and not using
+hardware drivers would also be a useful simplification.  The latter
+would make it especially clear that AF_ALG is deprecated, because
+its one potential advantage (being able to use hardware acceleration)
+would no longer be present.
+
+&gt;&gt; Also CCing the iwd mailing list.  iwd uses the kernel crypto APIs
+&gt;&gt; wherever possible, which is a serious problem.  However, it already
+&gt;&gt; needs to perform cryptography in userspace because of ECC.
+&gt;&gt;
+&gt;&gt; Nettle provides trivial no-allocation cryptographic APIs.  Nettle's
+&gt;&gt; licensing (LGPLv3+ or GPLv2+) might prevent this, though.  OpenSSL has
+&gt;&gt; a horrible API, but AWS-LC has a much better one.  It also implements
+&gt;&gt; TLS, which would might allow iwd to get rid of its built-in TLS code
+&gt;&gt; for EAP-TLS.
+&gt; 
+&gt; It's unfortunate that the situation with userspace crypto libraries is
+&gt; fragmented, with the de facto standard one (OpenSSL) not being all that
+&gt; great.  But that's no excuse to say "put it all in the kernel".  Even
+&gt; using OpenSSL would still be much better.
+&gt; 
+&gt; - Eric
+I think there *might* be embedded systems that simply cannot use OpenSSL
+because the memory (RAM and/or flash) needed for it simply is not there.
+That said, I *do* wonder if one could somehow put cryptographic code in
+the vDSO, or even have it share pages with the kernel.
+-- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="4/1" rel="nofollow" download>OpenPGP_0xB288B55FFF9C22C1.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (7141 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="4/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

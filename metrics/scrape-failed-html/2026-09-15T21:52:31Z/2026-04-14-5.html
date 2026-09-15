@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - wolfSSL ML-DSA: same-process heap reuse exposes private signing
+ material, enabling signature forgery</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAK3hNHapgvw6Se3MrissbL8kJCF7oBbmvxDB6fQ6jjQdx70W_A&#64;mail.gmail.com&gt;
+Date: Mon, 13 Apr 2026 20:29:13 -0700
+From: Abhinav Agarwal &lt;abhinavagarwal1996&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: wolfSSL ML-DSA: same-process heap reuse exposes private signing
+ material, enabling signature forgery
+
+Affected: wolfSSL v5.7.2 through v5.9.0-stable (native ML-DSA builds
+with --enable-mldsa / --enable-dilithium; not included in
+--enable-all)
+Fixed in: PRs #10100, #10113 (development branch, no release)
+CWE: CWE-244 / CWE-226
+CVE: None assigned.
+
+wolfSSL's ML-DSA-44 signing function (dilithium_sign_with_seed_mu() in
+dilithium.c) frees a ~50KB heap block containing private signing
+material (s1, s2, t0 in NTT form) without clearing it. For a
+same-process attacker able to allocate and read a same-size heap
+block, the key material is recoverable. On glibc tcache, the PoC
+recovers s1 from the freed block and forges signatures on arbitrary
+messages -- verified against the compiled libwolfssl binary on three
+Linux distributions and macOS.
+
+wolfSSL already fixed this exact pattern -- missing ForceZero before
+free of private key material -- in dilithium keygen (643427040),
+ed25519 signing (5f7bc0f3a), and ed448 signing (109e765b5). The ML-DSA
+signing path was missed.
+
+FIPS 204 Section 3.6.3 requires implementations "shall ensure that any
+potentially sensitive intermediate data is destroyed as soon as it is
+no longer needed."
+
+Root Cause
+----------
+
+dilithium_sign_with_seed_mu() in wolfcrypt/src/dilithium.c (v5.9.0):
+
+  Line 8222: XMALLOC allocates a block holding y, w0, w1, c, z, ct0,
+and -- with WC_DILITHIUM_CACHE_PRIV_VECTORS off (default) -- also s1,
+s2, t0 in NTT form. For ML-DSA-44, s1 is at offset 21504.
+
+  Lines 8417, 8958: XFREE without ForceZero.
+
+The fix is one line:
+
+  +    ForceZero(y, allocSz);
+       XFREE(y, key-&gt;heap, DYNAMIC_TYPE_DILITHIUM);
+
+Attack Chain
+------------
+
+  1. Application signs M1. wolfSSL allocates 50KB block with s1/s2/t0,
+frees without zeroing.
+  2. Same-process code calls malloc(50176). On glibc tcache, this
+returns the same block. Read s1 from offset 21504.
+  3. Forge a signature on different message M2 using s1 + public key
+via hint reconstruction (no s2 or t0 needed).
+  4. wc_dilithium_verify_msg() accepts the forged signature.
+
+s1 is the static signing key. One recovery = full signing key compromise.
+
+Proof of Concept
+----------------
+
+  poc_heap_forgery_v2.c -- end-to-end forgery (includes dilithium.c
+for access to static NTT functions).
+  verify_forged.c -- companion verifier linked against the compiled
+libwolfssl binary, not inlined code.
+
+  $ ./poc
+  --- heap reuse ---
+  got 12530/12544 nonzero dwords in block
+  s1 at offset 21504: 1024/1024 nonzero
+  --- forging sig on m2 ---
+    forged on attempt 2 (kf=4)
+  FORGERY OK - wc_dilithium_verify_msg accepted forged sig on m2
+
+  $ ./verify_forged
+  VERIFIED - linked libwolfssl accepted the forged signature
+
+Tested on v5.9.0-stable, gcc -O2: Ubuntu 22.04 x86_64 (10/10), Amazon
+Linux 2023 (5/5), Ubuntu 20.04 (5/5), macOS ARM64 (pass).
+
+Source + build instructions + full advisory:
+  <a href="https://abhinavagarwal07.github.io/posts/wolfssl-mldsa-forgery/" rel="nofollow">https://abhinavagarwal07.github.io/posts/wolfssl-mldsa-forgery/</a>
+
+Vendor Response
+---------------
+
+wolfSSL confirmed the finding, patched it within two days (PRs #10100,
+#10113), and credited me in the commits. wolfSSL evaluated the
+heap-reuse PoC and acknowledged it is "correct in using the data
+obtained from the heap buffer." They classified the finding as a bug
+rather than a vulnerability: "an attacker cannot simply call malloc()
+after the signing operation and then read all that memory."
+
+Timeline
+--------
+
+  2026-03-28  Report sent to wolfSSL with forgery PoC
+  2026-03-30  wolfSSL confirmed. PR #10100.
+  2026-03-30  Heap block addendum + patch sent.
+  2026-03-31  PR #10113. Declined CVE.
+  2026-04-02  wolfSSL reaffirmed. Ticket closed.
+  2026-04-09  Heap-reuse PoC sent to wolfSSL.
+  2026-04-10  wolfSSL evaluated, acknowledged correctness, maintained
+classification.
+  2026-04-13  Public disclosure.
+
+References
+----------
+
+  <a href="https://github.com/wolfSSL/wolfssl/pull/10100" rel="nofollow">https://github.com/wolfSSL/wolfssl/pull/10100</a>
+  <a href="https://github.com/wolfSSL/wolfssl/pull/10113" rel="nofollow">https://github.com/wolfSSL/wolfssl/pull/10113</a>
+  FIPS 204: <a href="https://csrc.nist.gov/pubs/fips/204/final" rel="nofollow">https://csrc.nist.gov/pubs/fips/204/final</a> (Section 3.6.3)
+
+Abhinav Agarwal
+<a href="https://github.com/abhinavagarwal07" rel="nofollow">https://github.com/abhinavagarwal07</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - FreeRDP fixes 12 CVEs in 3.22.0 release</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="../../../2026/02/10/1">[next&gt;]</a> <a href="../../../2026/02/10/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;c398efaa-3ff9-4eb7-bdf5-b417753a6a73&#64;oracle.com&gt;
+Date: Mon, 9 Feb 2026 15:31:46 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: FreeRDP fixes 12 CVEs in 3.22.0 release
+
+<a href="https://www.freerdp.com/2026/01/28/3_22_0-release" rel="nofollow">https://www.freerdp.com/2026/01/28/3_22_0-release</a> announced:
+ &gt; FreeRDP 3.22.0 has just been released and uploaded to
+ &gt;
+ &gt; <a href="https://pub.freerdp.com/releases/" rel="nofollow">https://pub.freerdp.com/releases/</a>
+ &gt;
+ &gt; Major bugfix release:
+ &gt;
+ &gt;   * Complete overhaul of SDL client
+ &gt;   * Introduction of new WINPR_ATTR_NODISCARD macro wrapping compiler or
+ &gt;      C language version specific [[nodiscard]] attributes
+ &gt;   * Addition of WINPR_ATTR_NODISCARD to (some) public API functions so
+ &gt;     usage errors are producing warnings now
+ &gt;   * Add some more stringify functions for logging
+ &gt;   * We’ve received CVE reports, check
+ &gt;      <a href="https://github.com/FreeRDP/FreeRDP/security/advisories" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories</a> for more details!
+ &gt;       - @Keryer reported an issue affecting client and proxy:
+ &gt;             CVE-2026-23948
+ &gt;       - @ehdgks0627 did some more fuzzying and found quite a number of client
+ &gt;         side bugs.
+ &gt;             CVE-2026-24682
+ &gt;             CVE-2026-24683
+ &gt;             CVE-2026-24676
+ &gt;             CVE-2026-24677
+ &gt;             CVE-2026-24678
+ &gt;             CVE-2026-24684
+ &gt;             CVE-2026-24679
+ &gt;             CVE-2026-24681
+ &gt;             CVE-2026-24675
+ &gt;             CVE-2026-24491
+ &gt;             CVE-2026-24680
+
+More details on each of these are available at:
+
+- CVE-2026-23948 NULL Pointer Dereference in `rdp_write_logon_info_v2()`
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-6f3c-qvqq-2px5" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-6f3c-qvqq-2px5</a>
+
+- CVE-2026-24682 Heap-buffer-overflow in audio_formats_free
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-vcw2-pqgw-mx6g" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-vcw2-pqgw-mx6g</a>
+
+- CVE-2026-24683 Heap-use-after-free in ainput_send_input_event
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-45pf-68pj-fg8q" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-45pf-68pj-fg8q</a>
+
+- CVE-2026-24676 Heap-use-after-free in audio_format_compatible
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-qh5p-frq4-pgxj" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-qh5p-frq4-pgxj</a>
+
+- CVE-2026-24677 Heap-buffer-overflow in ecam_encoder_compress_h264
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-xw37-j744-f8v7" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-xw37-j744-f8v7</a>
+
+- CVE-2026-24678 Heap-use-after-free in cam_v4l_stream_capture_thread
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-6gvg-29wx-6v7h" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-6gvg-29wx-6v7h</a>
+
+- CVE-2026-24684 Heap-use-after-free in play_thread
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-vcgv-xgjp-h83q" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-vcgv-xgjp-h83q</a>
+
+- CVE-2026-24679 Heap-buffer-overflow in urb_select_interface
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-2jp4-67x6-gv7x" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-2jp4-67x6-gv7x</a>
+
+- CVE-2026-24681 Heap-use-after-free in urb_bulk_transfer_cb
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-ccvv-hg2w-6x9j" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-ccvv-hg2w-6x9j</a>
+
+- CVE-2026-24675 Heap-use-after-free in urb_select_interface
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-x9jr-99h2-g7mj" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-x9jr-99h2-g7mj</a>
+
+- CVE-2026-24491 Heap-use-after-free in video_timer
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-4x6j-w49r-869g" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-4x6j-w49r-869g</a>
+
+- CVE-2026-24680 Heap-use-after-free in update_pointer_new(SDL)
+   <a href="https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-j893-9wg8-33rc" rel="nofollow">https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-j893-9wg8-33rc</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

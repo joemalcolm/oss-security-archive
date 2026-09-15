@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-48840: Exim 4.99.4: PROXY-protocol uninitialised-stack
+ information disclosure</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;fxbuuizw5bvmsoafd2rn7ntruzq2yhw7fw3ptvbabxaguozgyv&#64;iwyrf7ed3kgq&gt;
+Date: Fri, 29 May 2026 16:38:57 +0200
+From: Heiko Schlittermann &lt;hs&#64;...marc.schlittermann.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: exim-announce&#64;...ts.exim.org, exim-users&#64;...ts.exim.org
+Subject: CVE-2026-48840: Exim 4.99.4: PROXY-protocol uninitialised-stack
+ information disclosure
+
+Dear Exim users,
+
+The Exim maintainers are releasing a security fix for CVE-2026-48840.
+
+Identifier:   EXIM-Security-2026-05-19.1 (CVE-2026-48840)
+Type:         pre-authentication information disclosure
+Component:    Exim
+Affects:      4.88 (2017) through the current 4.99.3 release
+Corrected in: Exim 4.99.4 (exim-4.99.4)
+Credit:       Warisjeet Singh (sin99xx)
+
+Vulnerability Details
+---------------------
+
+proxy_protocol() declares hdr as an uninitialised stack union.  For a
+PROXYv2 frame, the only length guard is an upper bound: the frame size
+must not exceed sizeof(hdr).  No lower bound is checked.
+
+A frame with address family 0x21 (TCPv6) and len=0 sets the read size
+to 16, causing the read loop to copy exactly 0 bytes into the union.
+The TCPv6 dispatch arm then unconditionally calls:
+
+  memmove(tmpaddr6.sin6_addr.s6_addr, hdr.v2.addr.ip6.src_addr, 16)
+
+copying 16 uninitialised stack bytes into tmpip6, which inet_ntop
+formats as an IPv6 address string.  That string is written to
+sender_host_address and emitted in the SMTP greeting banner:
+
+  250 hostname Hello probe [::68ef:38ad:ffff:0]
+
+The same defect affects family 0x11 (TCPv4) with len &lt; 12 (4 leaked
+bytes instead of 16).
+
+The leaked bytes track ASLR entropy across daemon restarts and are
+confirmed to be live userspace VA pointers, making this an
+ASLR-defeat primitive usable as a chain component.
+
+Fix: add minimum-length checks per address family (12 bytes for
+TCPv4/0x11, 36 bytes for TCPv6/0x21) before the union is accessed.
+Frames that fail the check are rejected with proxyfail, consistent
+with all other malformed-frame handling in the function.
+
+Reported by Warisjeet Singh (sin99xx).  Tested on aarch64 Linux;
+architecture-independent (only leaked content varies).
+
+
+Affected Configurations
+-----------------------
+
+Exim compiled with SUPPORT_PROXY (default in Debian, Ubuntu,
+RHEL/Fedora packages) and hosts_proxy set to a non-empty value.
+The attacker's source IP must match hosts_proxy, or the attacker
+must be able to reach the port that expects a PROXY header through
+a host already in hosts_proxy.
+
+
+Mitigations
+-----------
+
+- Narrow hosts_proxy to the exact load-balancer IPs (not a CIDR superset).
+- Unset hosts_proxy entirely to disable PROXY-protocol parsing on the affected listener.
+
+Resolution
+----------
+
+Upgrade to Exim 4.99.4.  The fix is on branch exim-4.99+fixes,
+tag exim-4.99.4, signed by Heiko Schlittermann (HS12-RIPE) &lt;hs&#64;...littermann.de&gt;,
+key 0xDD98D92359DE9E3C2663F291697F0EDD68099F6F.
+
+Downloads
+---------
+
+  <a href="https://ftp.exim.org/pub/exim/exim4/" rel="nofollow">https://ftp.exim.org/pub/exim/exim4/</a>
+  <a href="https://code.exim.org/exim/exim/releases" rel="nofollow">https://code.exim.org/exim/exim/releases</a>
+
+Advisory
+--------
+
+  <a href="https://www.exim.org/static/doc/security/EXIM-Security-2026-05-19.1/" rel="nofollow">https://www.exim.org/static/doc/security/EXIM-Security-2026-05-19.1/</a>
+
+Timeline
+--------
+
+  2026-05-19 12:35 UTC  Report received from Warisjeet Singh (sin99xx)
+  2026-05-19 13:26 UTC  Acknowledgement sent to reporter
+  2026-05-19 14:06 UTC  Root cause confirmed; fix drafted
+  2026-05-25 13:30 UTC  CVE request submitted to Mitre via cveform.mitre.org
+  2026-05-25 17:57 UTC  CVE-2026-48840 assigned by MITRE
+  2026-05-26 00:41 UTC  Advance notice (distro-pre.txt) sent to distros&#64;...openwall.org
+  2026-05-26 00:47 UTC  Advance notice sent to exim-maintainers&#64;...ts.exim.org
+  2026-05-27 14:00 UTC  Fix branch and tag exim-4.99.4 pushed to exim-distros
+  2026-05-29 14:00 UTC  Public release
+
+-- 
+Heiko Schlittermann
+On behalf of the Exim Maintainers
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

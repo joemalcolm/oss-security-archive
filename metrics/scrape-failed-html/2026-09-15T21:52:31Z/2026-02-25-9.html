@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Telnetd Vulnerability Report</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="../../../2026/02/26/1">[next&gt;]</a> <a href="8">[&lt;thread-prev]</a> <a href="../../../2026/02/26/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;a0bae10a8982d3e5&#64;orthanc.ca&gt;
+Date: Wed, 25 Feb 2026 12:39:20 -0800
+From: "Lyndon Nerenberg (VE7TFX/VE6BBM)" &lt;lyndon&#64;...hanc.ca&gt;
+To: oss-security&#64;...ts.openwall.com
+cc: kf503bla&#64;...k.com, "bug-inetutils&#64;....org" &lt;bug-inetutils&#64;....org&gt;,
+    "ron.benyizhak&#64;...ebreach.com" &lt;ron.benyizhak&#64;...ebreach.com&gt;,
+    "simon&#64;...efsson.org" &lt;simon&#64;...efsson.org&gt;,
+    "auerswal&#64;...x-ag.uni-kl.de" &lt;auerswal&#64;...x-ag.uni-kl.de&gt;,
+    "justin.swartz&#64;...ingedge.co.za" &lt;justin.swartz&#64;...ingedge.co.za&gt;
+Subject: Re: Telnetd Vulnerability Report
+
+kf503bla&#64;...k.com writes:
+&gt; telnet is extremely old and just because there is still widespread use of =
+&gt; telnet or the daemon, doesn't provide a valid reason to keep using it. =
+&gt; these trivial vulnerabilities keep popping up and if you still insist of =
+&gt; using telnet, you deserve getting pwned
+
+You still seem to completely miss the point of what telnet is/does.
+It provedes a network terminal.  Nothing more, nothing less.   What
+the telnet servver does with the connection is strictly an
+implementation detail of the server.
+
+If your telnetd implementation runs login(1) on a UNIX server, in
+this day and age, that's bad.  But the solution is not to burn
+telnet, any more than the solution to DOS attacks is to burn IP.
+
+Telnet is "old" because iit is simple and does its job well.  It
+doesn't need all the new shiny knobs people throw at everything,
+nor does it need to grow HTML5 support.  It works as is, and it
+works well.  But if you still use it for remote logins, that's
+operator error, not a protocol security violation.
+
+Telnet is still used all over the place for things that are not
+login.  In my house this includes:
+
+	* LG TV remote control
+	* BluRay player remote control
+	* Stereo receiver remote control
+	* two laser printers
+	* three of my ham radio transceivers
+	* two oscilloscopes
+	* one RF signal generator
+	* vector network analyzer
+	* function generator
+	* several home brew radio controllers
+	* two Fortinet switches
+
+Other than the switches, none of these even understand the concept
+of a login.  Having "logins" on an oscilloscopes is nonsensical.
+Yes, they are all unsecure.  That is by design.  All these devices
+are protected by putting them on networks that can only be accessed
+by people who should be mucking with those bits of hardware.  I.e.
+they run in trusted environments.  Again, this is by design.
+
+I don't understand why people cannot grasp this concept any more.
+Using networks to isolate hardware was one of the first things I
+learned.
+
+
+I think a lot of the misunderstaning here is due to conflation
+of terminology.  There are three names for different things
+being used interchangeably, and thus the confusion.  So let's
+define some terms going forward:
+
+	TELNET		The protocol, as defined by RFC 854,
+			and extended by various options.
+	telnet		A terminal-oriented TELNET client
+	telnetd		A TELNET server implementation
+
+Almost all of the confusion here centers on telnetd.  Or more
+specifically, what telnetd does after accepting a connection.
+Everyone seems to assume that telnetd's only mandate is to
+invoke login(1) after accepting a connection.  THIS IS WRONG.
+While that was common practice in the 1980s and 90s, telnetd
+can invoke anything the telnetd server's writers want it to.
+
+So all the noise people are banging on about boils down
+specifically to what the specific telnetd server does after
+accepting a connection.  This is NOT a TELNET issue, so we
+can set the protocol aside.
+
+What needs to be fixed here are the telnetd implementations.  What
+we need on UNIX is a new telnetd that does NOT invoke login(1), but
+instead which allows for an arbitrary program to be specified that
+will be run on a connection.  (And many telnetds support this
+already.)  This is a simple change that can be quickly deployed
+across all UNIX distributions, and which immediately solves the
+"login" issue people are railing about.  (As a side note, telnetd
+on some of my hosts invokes a menu program that lets prople run
+adventure, zork, or connect as a guest to a pdp-11 emulator.  Invoked
+as 'telnetd -u nobody /usr/local/libexec/netmenu'.  Process isolated
+so that only the network listener runs as root.)
+
+But now, let's examine TELNET itself.  I think another big piece
+of this puzzle is that anyone born after 1980 doesn't even know
+what a terminal is, or does.  They live in a universe of windowing
+system systems.  And therefore their ignorance of terminals leads
+them to dismiss TELNET out of hand.  TELNET's implementation of
+mapping a terminal interface to a network connection is more than
+just banging bits back and forth across a TCP pipe.  At the time
+it was designed, networks were a lot slower, and the protocol
+provided assistance to work around that.  Probably the biggest boost
+came from the "linemode" option.  This allowed for local editing
+of a line of text before it was forwarded when the return key was
+pressed.  This avoided the RTT delays of having the remote echo the
+characters.  A big win back in the day.  But that option is still
+relevant today.  When I telnet into my various bits of test equipment,
+they do not have tty line mode drivers that implement UNIX style
+line editing.  So backspace, control-[ABE], etc, just get entered
+as command text, leading to an error message.  But when the devices
+telnetd imlements linemode, I get local command line editing for
+free (unlike nc(1)).  This is a *big* win.
+
+But maybe my favourite option is RFC 2117.  This allows me to
+remotely control a serial interface UART down to the control line
+level (e.g. toggle RTS and CTS).  I use this extensively on my home
+made embedded device controllers.  (Try *that* with ssh :-))
+
+As to TELNET insecurity, please note the various data encryption
+options: RFC 2946-2950 and others).
+
+To conclude my rant, I respectfully suggest all the people
+calling  for the banishment of TELNET and telnet and telnetd
+to the void:
+
+	* stop talking for a while
+	* read *all* the TELNET-related RFCs
+	* spend some time learning the history of terminals,
+	  UNIX terminal drivers, and remote terminal access
+
+That will put you in a position to make *informed* arguments on
+this topic.
+
+--lyndon (bofh apprentice for 40+ years)
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

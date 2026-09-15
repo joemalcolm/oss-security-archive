@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Recent Kernel exploits, attack surface reduction,
+ example IPSEC</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="6">[&lt;thread-prev]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;146c9b73-9c73-4f9e-a348-cd8fbb05cc7c&#64;yahoo.fr&gt;
+Date: Sat, 16 May 2026 19:20:52 +0200
+From: Lionel Debroux &lt;lionel_debroux&#64;...oo.fr&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Recent Kernel exploits, attack surface reduction,
+ example IPSEC
+
+Hi,
+
+ &gt; Multiple of the recent kernel exploits have affected the "esp" Linux
+ &gt; Kernel module. ESP is, as far as I understand, part of IPSEC, and I
+ &gt; think it's fair to say that IPSEC is not widely used these days. I
+ &gt; think this raises some questions about attack surface. I want to note
+ &gt; that I use IPSEC as an example here, but it likely applies in very
+ &gt; similar ways to many features that are part of the Linux Kernel and
+ &gt; are not used in most common setups.
+ &gt;
+ &gt; For everyone who builds custom kernels and doesn't use IPSEC, it's
+ &gt; probably a good idea to disable all IPSEC-related config options, e.g.:
+ &gt; CONFIG_INET_ESP
+ &gt; CONFIG_INET6_ESP
+ &gt; CONFIG_INET_AH
+ &gt; CONFIG_INET6_AH
+ &gt;
+ &gt; I believe IPCOM is also rarely used separately from IPSEC, so consider
+ &gt; also disabling these:
+ &gt; CONFIG_INET_IPCOMP
+ &gt; CONFIG_INET6_IPCOMP
+ &gt;
+ &gt; However, there's a broader point here: I think it's common these
+ &gt; days that Linux distributions install most or all kernel modules by
+ &gt; default, and loading them happens automatically. Which, in many cases,
+ &gt; means people are potentially affected by security flaws in features
+ &gt; they never use.
+ &gt; "Attack surface reduction" is widely considered to be a good security
+ &gt; principle, and I wonder if we can do better here.
+ &gt;
+ &gt; To pick the example of IPSEC, i wonder if it wouldn't be better to
+ &gt; have, e.g., a separate "linux-modules-ipsec" package that isn't
+ &gt; installed by default. People who use and need IPSEC will likely know
+ &gt; that they need it, and can install it separately.
+ &gt;
+ &gt; I'm aware this doesn't come for free, and will add increased
+ &gt; complexity to kernel packaging. But think about it like this: If we
+ &gt; had that separation, three of the recent kernel local root exploits
+ &gt; would've been much less impactful, and wouldn't have affected most
+ &gt; systems.
+Not building and installing by default infrequently used modules is 
+indeed one of the approaches for effective attack surface reduction.
+
+Let's mention two other ones:
+1) inserting dozens to hundreds of "install XYZ /bin/true" lines in 
+/etc/modprobe.d/*.conf files, plus lines in /etc/sysctl.d/*.conf files.
+
+2) making it harder for unprivileged programs to just auto-load kernel 
+modules corresponding to uncommon socket / filesystem / etc. types, and 
+exploit whichever vulnerabilities they contain. I'm thinking about the 
+MODHARDEN grsecurity feature here.
+
+
+I've been doing some of 1) for years against repeat security offenders 
+(tipc, dccp, sctp !, rds, can !, ppp*, ksmbd !, firewire*, n_hdlc, 
+n_gsm, several uncommon filesystems, unprivileged user namespaces !!, 
+BPF JIT !!, io_uring !!, etc.), to the extent that distro kernels allow 
+such hardening: nowadays, most distros force enable the BPF JIT...
+This whack-a-mole process is individual, inefficient and incomplete: I 
+had missed algif_aead, esp4, esp6 and rxrpc, because I hadn't seen them 
+featured on security vulnerability feeds before.
+
+As for 2): a '2010 grsec patch I have lying around already contains 
+occurrences of "MODHARDEN". The published 
+grsecurity-3.1-5.10.41-202105280954.patch contains 9 occurrences of 
+"MODHARDEN": preprocessor guards for 8 small blocks of code (&lt; 100 LOC 
+total) and the following Kconfig text (reformatted to prevent wrapping):
+
+config GRKERNSEC_MODHARDEN
+     bool "Harden module auto-loading"
+     default y if GRKERNSEC_CONFIG_AUTO
+     depends on MODULES
+     help
+        If you say Y here, module auto-loading in response to use of some
+        feature implemented by an unloaded module will be restricted to
+        root users.  Enabling this option helps defend against attacks
+        by unprivileged users who abuse the auto-loading behavior to
+        cause a vulnerable module to load that is then exploited.
+
+        If this option prevents a legitimate use of auto-loading for a
+        non-root user, the administrator can execute modprobe manually
+        with the exact name of the module mentioned in the alert log.
+        Alternatively, the administrator can add the module to the list
+        of modules loaded at boot by modifying init scripts.
+
+        Modification of init scripts will most likely be needed on
+        Ubuntu servers with encrypted home directory support enabled,
+        as the first non-root user logging in will cause the ecb(aes),
+        ecb(aes)-all, cbc(aes), and cbc(aes)-all  modules to be loaded.
+
+IOW, MODHARDEN is an old idea for hardening Linux, and its 
+implementation is tiny.
+(BTW, looking at the aforementioned patch: 3 of these blocks of code 
+prevent non-fs modules being loaded through mount... which would mean 
+that mainline Linux can be abused to do that)
+
+
+I used to use grsec kernels for daily desktop usage. MODHARDEN was 
+enabled in my configs and the ones of Debian-packaged kernels (I 
+remembered about the log splats caused by grub-probe, and I've just 
+checked the Debian config-4.9.0-4-grsec-amd64 file from December 2017). 
+My experience was that MODHARDEN didn't prevent me from doing what I 
+wanted and needed with my computer.
+Other mileages would vary... up to a point. Some desktop and server 
+users would definitely be unaffected like I was.
+
+
+Lionel Debroux.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

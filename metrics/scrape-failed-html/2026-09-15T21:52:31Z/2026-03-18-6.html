@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Multiple vulnerabilities in Jenkins and Jenkins plugins</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;44D7997A-04B0-4192-AE9F-B0B24A2E6F74&#64;beckweb.net&gt;
+Date: Wed, 18 Mar 2026 15:53:29 +0100
+From: Daniel Beck &lt;ml&#64;...kweb.net&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Multiple vulnerabilities in Jenkins and Jenkins plugins
+
+Jenkins is an open source automation server which enables developers around
+the world to reliably build, test, and deploy their software.
+
+The following releases contain fixes for security vulnerabilities:
+
+* Jenkins 2.555
+* Jenkins LTS 2.541.3
+* LoadNinja Plugin 2.2
+
+
+Summaries of the vulnerabilities are below. More details, severity, and
+attribution can be found here:
+<a href="https://www.jenkins.io/security/advisory/2026-03-18/" rel="nofollow">https://www.jenkins.io/security/advisory/2026-03-18/</a>
+
+We provide advance notification for security updates on this mailing list:
+<a href="https://groups.google.com/d/forum/jenkinsci-advisories" rel="nofollow">https://groups.google.com/d/forum/jenkinsci-advisories</a>
+
+If you discover security vulnerabilities in Jenkins, please report them as
+described here:
+<a href="https://www.jenkins.io/security/#reporting-vulnerabilities" rel="nofollow">https://www.jenkins.io/security/#reporting-vulnerabilities</a>
+
+---
+
+SECURITY-3657 / CVE-2026-33001
+Jenkins 2.554 and earlier, LTS 2.541.2 and earlier does not safely handle
+symbolic links during the extraction of `.tar` and `.tar.gz` archives. This
+allows crafted archives to write files to arbitrary locations on the
+filesystem, restricted only by file system access permissions of the user
+running Jenkins. For archives extracted on the controller, this can result
+in code execution by, e.g., writing malicious scripts to the
+`JENKINS_HOME/init.groovy.d/` directory, or deploying plugins to
+`JENKINS_HOME/plugins/`.
+
+A number of features and plugins use the affected functionality, most
+prominently the "Archive the artifacts" post-build action, and the
+`archiveArtifacts` and `archive` Pipeline steps, when using the standard
+artifact manager (i.e., archiving artifacts on the controller file system).
+This allows attackers with Item/Configure permission, or able to control
+agent processes, to exploit this vulnerability.
+
+
+SECURITY-3674 / CVE-2026-33002
+Jenkins has a built-in CLI to access Jenkins from a script or shell
+environment. Since Jenkins 2.217 and LTS 2.222.1, one of the ways to
+communicate with the CLI is through a WebSocket endpoint. This endpoint
+relies on the default Jenkins web request authentication functionality,
+like HTTP Basic authentication with API tokens, or session cookies. This
+endpoint is enabled when running on a version of Jetty for which Jenkins
+supports WebSockets. This is the case when using the provided native
+installers, packages, or the Docker containers, as well as when running
+Jenkins with the command `java -jar jenkins.war`.
+
+Jenkins 2.442 and LTS 2.426.3 introduced origin validation of requests made
+through the CLI WebSocket endpoint to prevent cross-site WebSocket
+hijacking (CSWSH) attacks (SECURITY-3315 in the 2024-01-24 security advisory).
+This validation is intended to ensure that only requests from the
+Jenkins web interface itself can access the CLI WebSocket endpoint,
+preventing malicious websites from establishing connections.
+
+Jenkins 2.442 through 2.554 (both inclusive), LTS 2.426.3 through LTS
+2.541.2 (both inclusive) performs this origin validation by computing the
+expected origin for comparison using the `Host` or `X-Forwarded-Host` HTTP
+request headers. This allows attackers to bypass the origin validation
+using DNS rebinding attacks. By causing a victim to visit a malicious
+website that uses DNS rebinding to resolve to the Jenkins controller's IP
+address, attackers can establish a WebSocket connection to the CLI endpoint
+from an untrusted origin and execute CLI commands as the anonymous user.
+
+This is impactful when Jenkins controllers are deployed on private networks
+with the anonymous user granted permissions.
+
+Exploitation requires all of the following conditions:
+
+* Jenkins is accessible over plain HTTP (not HTTPS).
+* The CLI WebSocket endpoint is accessible.
+
+The impact depends on the permissions of the anonymous user. With an
+authorization strategy like "Anyone can do anything", or when the anonymous
+user has explicitly been granted additional permissions, attackers can
+execute the CLI commands that these permissions allow using, up to and
+including Groovy scripting capabilities (`groovy` and `groovysh` commands)
+resulting in arbitrary code execution.
+
+If the anonymous user has no permissions, attackers can execute the
+`who-am-i` CLI command, obtaining limited information about the anonymous
+user in Jenkins.
+
+
+SECURITY-3642 / CVE-2026-33003 (storage) &amp; CVE-2026-33004 (masking)
+LoadNinja Plugin 2.1 and earlier stores LoadNinja API keys unencrypted in
+job `config.xml` files on the Jenkins controller as part of its
+configuration.
+
+These API keys can be viewed by users with Item/Extended Read permission or
+access to the Jenkins controller file system.
+
+Additionally, the job configuration form does not mask these API keys,
+increasing the potential for attackers to observe and capture them.
+
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

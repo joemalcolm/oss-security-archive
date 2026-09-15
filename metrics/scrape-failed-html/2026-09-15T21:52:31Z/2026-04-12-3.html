@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: GNU tar: listing/extraction desynchronization
+ allows hidden file injection</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87ik9wzumr.fsf&#64;gmail.com&gt;
+Date: Sat, 11 Apr 2026 21:10:20 -0700
+From: Collin Funk &lt;collin.funk1&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Vahagn Vardanian &lt;vahagn&#64;...rays.io&gt;,  Paul Eggert &lt;eggert&#64;...ucla.edu&gt;
+Subject: Re: GNU tar: listing/extraction desynchronization
+ allows hidden file injection
+
+Solar Designer &lt;solar&#64;...nwall.com&gt; writes:
+
+&gt;&gt; === BUG #03  (HIGH) ===
+&gt;&gt;     Signed integer overflow in PAX v0.0/v0.1 sparse offset+numbytes
+&gt;&gt; 
+&gt;&gt; Files:   src/xheader.c:1426 (sparse_numbytes_decoder)
+&gt;&gt;          src/xheader.c:1480 (sparse_map_decoder)
+&gt;&gt; Impact:  Signed 64-bit integer overflow in offset+numbytes arithmetic.
+&gt;&gt;          Undefined behavior that can corrupt internal state.
+&gt;&gt; 
+&gt;&gt; Description:
+&gt;&gt; 
+&gt;&gt; The PAX v1.0 decoder in sparse.c already checks:
+&gt;&gt; 
+&gt;&gt;   if (INT_ADD_OVERFLOW (sp.offset, u))
+&gt;&gt;     ...
+&gt;&gt; 
+&gt;&gt; But the PAX v0.0 and v0.1 decoders in xheader.c do not.  A crafted
+&gt;&gt; extended header with offset=9223372036854775800 and numbytes=100
+&gt;&gt; passes individual range checks but overflows signed off_t when summed.
+&gt;&gt; 
+&gt;&gt; UBSan output:
+&gt;&gt; 
+&gt;&gt;   xheader.c:1473: runtime error: signed integer overflow:
+&gt;&gt;     9223372036854775800 + 100 cannot be represented in type 'long int'
+&gt;&gt; 
+&gt;&gt; Proposed fix:
+&gt;&gt; 
+&gt;&gt; Add the same INT_ADD_OVERFLOW check after assigning numbytes in both
+&gt;&gt; sparse_numbytes_decoder() and sparse_map_decoder(), and return early
+&gt;&gt; with an error if the check fires.
+
+Both of the functions they reference check that the value fits in off_t.
+A commit from 16 years ago shows the relevant code [1], but even before
+that overflows where checked.
+
+&gt;&gt; === BUG #04  (LOW) ===
+&gt;&gt;     FLEXNSIZEOF overflow in create_placeholder_file
+&gt;&gt; 
+&gt;&gt; File:    src/extract.c:1444
+&gt;&gt; Impact:  Theoretical heap buffer overflow if link_name is near SIZE_MAX.
+&gt;&gt; 
+&gt;&gt; Description:
+&gt;&gt; 
+&gt;&gt; create_placeholder_file() computes:
+&gt;&gt; 
+&gt;&gt;   xmalloc (FLEXNSIZEOF (struct delayed_link, target,
+&gt;&gt;                          strlen (current_stat_info.link_name) + 1));
+&gt;&gt; 
+&gt;&gt; If strlen(link_name) is near SIZE_MAX, adding 1 overflows size_t, and
+&gt;&gt; FLEXNSIZEOF computes a small allocation size.  The subsequent strcpy
+&gt;&gt; writes past the buffer.  PAX extended headers allow arbitrarily long
+&gt;&gt; linkpath values, so the attacker controls the length.  In practice
+&gt;&gt; this requires the system to have nearly SIZE_MAX bytes of memory
+&gt;&gt; available, so it is mostly theoretical.
+&gt;&gt; 
+&gt;&gt; Proposed fix:
+&gt;&gt; 
+&gt;&gt;   size_t link_len = strlen (current_stat_info.link_name);
+&gt;&gt;   if (SIZE_MAX - sizeof (struct delayed_link) &lt;= link_len)
+&gt;&gt;     xalloc_die ();
+
+I think it is safe to assume that no one has SIZE_MAX bytes of memory.
+
+&gt;&gt; === BUG #09  (MEDIUM) ===
+&gt;&gt;     strcmp overread past the non-NUL-terminated magic field
+&gt;&gt; 
+&gt;&gt; File:    src/list.c:565, 632  (read_header, decode_header)
+&gt;&gt; Impact:  Buffer overread past the 6-byte magic field boundary.
+&gt;&gt;          Format misdetection with crafted headers.
+&gt;&gt; 
+&gt;&gt; Description:
+&gt;&gt; 
+&gt;&gt;   strcmp (h-&gt;magic, TMAGIC)                    // line 565
+&gt;&gt;   strcmp (header-&gt;header.magic, TMAGIC)        // line 632
+&gt;&gt; 
+&gt;&gt; TMAGIC is "ustar\0" (6 bytes including NUL).  The magic field in the
+&gt;&gt; header struct is exactly 6 bytes (char magic[6]).  If the field
+&gt;&gt; contains "ustar\x01" (no NUL terminator), strcmp reads past byte 5
+&gt;&gt; into the adjacent version[2] and uname[32] fields until it finds a NUL.
+&gt;&gt; 
+&gt;&gt; ASan (with tight heap allocator) reports:
+&gt;&gt; 
+&gt;&gt;   ERROR: AddressSanitizer: heap-buffer-overflow
+&gt;&gt;     READ of size 1 ... in __strcmp_sse42
+&gt;&gt; 
+&gt;&gt; Proposed fix:
+&gt;&gt; 
+&gt;&gt;   memcmp (h-&gt;magic, TMAGIC, sizeof TMAGIC)
+
+This is just copied from Paul's commit in 2025 [2].
+
+&gt;&gt; === BUG #10  (MEDIUM) ===
+&gt;&gt;     Incomplete destructor for delayed_link_table hash entries
+&gt;&gt; 
+&gt;&gt; File:    src/extract.c:1478  (create_placeholder_file)
+&gt;&gt; Impact:  Memory leak on hash collision/replacement.
+&gt;&gt; 
+&gt;&gt; Description:
+&gt;&gt; 
+&gt;&gt;   hash_initialize (0, 0, dl_hash, dl_compare, free)
+&gt;&gt; 
+&gt;&gt; The destructor callback is just free(), which frees the top-level
+&gt;&gt; struct delayed_link but not its sub-allocations: the sources linked
+&gt;&gt; list, cntx_name, acls_a_ptr, acls_d_ptr, and xattr_map.  When a hash
+&gt;&gt; collision causes an old entry to be evicted, these are leaked.
+&gt;&gt; 
+&gt;&gt; Proposed fix:
+&gt;&gt; 
+&gt;&gt; Write a proper destructor:
+&gt;&gt; 
+&gt;&gt;   static void
+&gt;&gt;   free_delayed_link (void *entry)
+&gt;&gt;   {
+&gt;&gt;     struct delayed_link *p = entry;
+&gt;&gt;     struct string_list *s, *next;
+&gt;&gt;     for (s = p-&gt;sources; s; s = next)
+&gt;&gt;       {
+&gt;&gt;         next = s-&gt;next;
+&gt;&gt;         free (s);
+&gt;&gt;       }
+&gt;&gt;     free (p-&gt;cntx_name);
+&gt;&gt;     free (p-&gt;acls_a_ptr);
+&gt;&gt;     free (p-&gt;acls_d_ptr);
+&gt;&gt;     xattr_map_free (&amp;p-&gt;xattr_map);
+&gt;&gt;     free (p);
+&gt;&gt;   }
+&gt;&gt; 
+&gt;&gt; And pass free_delayed_link instead of free to hash_initialize.
+
+GNU tar never calls hash_free, and therefore will never call the free
+function given to hash_initialize. It is explained in a comment and the
+commit message [3]:
+
+   if (false)
+     {
+       /* There is little point to freeing, as we are about to exit,
+	  and freeing is more likely to cause than cure trouble.  */
+       hash_free (delayed_link_table);
+       delayed_link_table = NULL;
+     }
+
+&gt;&gt; === BUG #13  (LOW) ===
+&gt;&gt;     Integer truncation in decode_record
+&gt;&gt; 
+&gt;&gt; File:    src/xheader.c:630  (decode_record)
+&gt;&gt; Impact:  Implicit narrowing from ptrdiff_t to int; UBSan
+&gt;&gt;          -fsanitize=implicit-conversion fires.
+&gt;&gt; 
+&gt;&gt; Description:
+&gt;&gt; 
+&gt;&gt;   int len_len = len_lim - p;    // line 630
+&gt;&gt; 
+&gt;&gt; len_lim - p is ptrdiff_t.  If the difference exceeds INT_MAX, the
+&gt;&gt; implicit conversion to int wraps to a negative value.  The value is
+&gt;&gt; only used to format an error message, so the practical impact is
+&gt;&gt; limited to a garbled diagnostic, but UBSan rightfully flags it.
+&gt;&gt; 
+&gt;&gt; Proposed fix:
+&gt;&gt; 
+&gt;&gt;   int len_len = (int) (len_lim - p &lt; 1000 ? len_lim - p : 1000);
+&gt;&gt; 
+&gt;&gt; This clamps the value to a reasonable range for the error message.
+
+This proposal was just copied from Paul's commit in 2024 [4].
+
+&gt;&gt; === SUMMARY TABLE ===
+&gt;&gt; 
+&gt;&gt;   #   Severity  File          Function / Line              Short description
+&gt;&gt;   --  --------  -----------   ---------------------------  --------------------------
+&gt;&gt;   01  CRITICAL  sparse.c:593  sparse_extract_file          Archive stream desync -&gt; file injection
+&gt;&gt;   14  CRITICAL  (same root cause as #01)                   Full RCE chain demo
+&gt;&gt;   02  HIGH      sparse.c:803  oldgnu_add_sparse            Overlapping sparse regions -&gt; corruption
+&gt;&gt;   03  HIGH      xheader.c     sparse_numbytes/map_decoder  Missing INT_ADD_OVERFLOW
+&gt;&gt;   04  LOW       extract.c:1444 create_placeholder_file     FLEXNSIZEOF size_t overflow
+&gt;&gt;   05  MEDIUM    extract.c:566 delay_set_stat               Memory leak on reuse path
+&gt;&gt;   06  MEDIUM    extract.c:996 apply_nonancestor_delayed..  Shallow xattr_map copy (UAF)
+&gt;&gt;   07  MEDIUM    extract.c:985 apply_nonancestor_delayed..  Uninitialized tar_stat_info
+&gt;&gt;   08  MEDIUM    extract.c:1898 apply_delayed_link          Uninitialized tar_stat_info
+&gt;&gt;   09  MEDIUM    list.c:565    read_header / decode_header  strcmp past magic field
+&gt;&gt;   10  MEDIUM    extract.c:1478 create_placeholder_file     Incomplete hash destructor
+&gt;&gt;   11  LOW       extract.c:364 check_time                   Signed overflow in time diff
+&gt;&gt;   12  LOW       extract.c:953 apply_nonancestor_delayed..  file_name_len=0 underflow
+&gt;&gt;   13  LOW       xheader.c:630 decode_record                ptrdiff_t -&gt; int truncation
+
+I didn't look much at the others since I am not very familiar with tar.
+Hopefully Paul can quickly tell if they are bogus or not.
+
+&gt;&gt; === REPRODUCTION ===
+&gt;&gt; 
+&gt;&gt; All bugs were confirmed on tar 1.35 (commit 8e3c8fa17 from
+&gt;&gt; <a href="https://git.savannah.gnu.org/cgit/tar.git" rel="nofollow">https://git.savannah.gnu.org/cgit/tar.git</a>).  Bugs #01, #02, and #14
+&gt;&gt; are reproducible without sanitizers on any 64-bit Linux system.  The
+&gt;&gt; remaining bugs require ASan, UBSan, or MSan to observe.
+
+This commit hash does not exist, which does not inspire much confidence:
+
+    $ git log 8e3c8fa17
+    fatal: ambiguous argument '8e3c8fa17': unknown revision or path not in the working tree.
+    Use '--' to separate paths from revisions, like this:
+    'git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]'
+
+Collin
+
+[1] <a href="https://git.savannah.gnu.org/cgit/tar.git/commit/?id=a59c819beb4886ee43f16dfd80ec1151fda1abe6" rel="nofollow">https://git.savannah.gnu.org/cgit/tar.git/commit/?id=a59c819beb4886ee43f16dfd80ec1151fda1abe6</a>
+[2] <a href="https://git.savannah.gnu.org/cgit/tar.git/commit/?id=c11084bcc2d7d9976570a12263b81d2488066115" rel="nofollow">https://git.savannah.gnu.org/cgit/tar.git/commit/?id=c11084bcc2d7d9976570a12263b81d2488066115</a>
+[3] <a href="https://git.savannah.gnu.org/cgit/tar.git/commit/?id=258d1c44e5ee7c58b28bf0000e9d737df6081885" rel="nofollow">https://git.savannah.gnu.org/cgit/tar.git/commit/?id=258d1c44e5ee7c58b28bf0000e9d737df6081885</a>
+[4] <a href="https://git.savannah.gnu.org/cgit/tar.git/commit/?id=d1e72a536f26188230a147d948b9057714fd0b6b" rel="nofollow">https://git.savannah.gnu.org/cgit/tar.git/commit/?id=d1e72a536f26188230a147d948b9057714fd0b6b</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

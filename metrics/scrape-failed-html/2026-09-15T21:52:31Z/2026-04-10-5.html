@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-4631 [cockpit] Unauthenticated remote code execution due to
+ SSH command-line argument injection</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;a65b1dc1-b629-4999-a812-e09b11bee75d&#64;vdwaa.nl&gt;
+Date: Fri, 10 Apr 2026 15:55:58 +0200
+From: Jelle van der Waa &lt;jelle&#64;...aa.nl&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-4631 [cockpit] Unauthenticated remote code execution due to
+ SSH command-line argument injection
+
+Cockpit's remote login feature passes user-supplied hostnames and 
+usernames from the web interface to the SSH client without validation or 
+sanitization. An attacker with network access to the Cockpit web service 
+can craft a single HTTP request to the login endpoint that injects 
+malicious SSH options or shell commands, achieving code execution on the 
+Cockpit host without valid credentials. The injection occurs during the 
+authentication flow before any credential verification takes place, 
+meaning no login is required to exploit the vulnerability.
+
+------------------------------------------------------------------------
+
+This was fixed in version 360 with versions &gt; 326 being vulnerable, a 
+patch for backporting is available in the GitHub security advisory. More 
+extensive details from the bugzilla issue are copy &amp; pasted below: [1] [2]
+
+By default, Cockpit supports logging into remote machines via SSH
+(<a href="https://github.com/cockpit-project/cockpit/blob/main/doc/authentication.md#remote-machines" rel="nofollow">https://github.com/cockpit-project/cockpit/blob/main/doc/authentication.md#remote-machines</a>). 
+
+While previous Cockpit versions used the dedicated cockpit-ssh helper
+(based on libssh), Cockpit since version 326/327 executes "python3 -m
+cockpit.beiboot", which in turn invokes the OpenSSH "ssh" client to
+connect to remote machines. The SSH "connect to" feature is available
+prior to authentication, meaning an attacker with access to the Cockpit
+webservice can trigger the execution of ssh on the Cockpit host. To be
+precise: the beiboot process is spawned as part of the authentication
+flow, but the attacker only needs to supply an arbitrary "Authorization:
+Basic" header with any credentials (even invalid ones) in a request to
+"/cockpit+=&lt;hostname&gt;/login" to trigger the ssh invocation. The injected
+commands execute before SSH authentication completes or fails.
+
+The security issue is that SSH connection parameters are passed down as
+command-line arguments to ssh without any validation or sanitization.
+Neither cockpit-ws (C code in cockpitauth.c / cockpitauthorize.c) nor
+cockpit.beiboot (Python code in beiboot.py) performs any character or
+format checks on the username or hostname before passing them to the ssh
+process. In particular, this allows an attacker to invoke ssh on the
+Cockpit host with an arbitrary username and hostname during the login flow.
+
+The resulting ssh invocation looks like (simplified; additional options
+like -o NumberOfPasswordPrompts=1 are omitted for clarity):
+
+     arg0: ssh
+     arg1: -l
+     arg2: &lt;username&gt;
+     arg3: &lt;hostname&gt;
+     arg4: python3 -ic '# cockpit-bridge'
+
+An attacker has full control over &lt;username&gt; and near-full control over
+&lt;hostname&gt; (some characters like whitespace and slashes cannot be used
+because the hostname is extracted from the URL path). Notably, there is
+no "--" separator between the ssh options and the destination argument,
+which enables option injection via the hostname field.
+
+This leads to the following two vulnerabilities:
+
+(1) Injection of malicious remote username leading to RCE
+
+SSH allows the use of the remote username as a variable in SSH
+configuration files via the %r token. A potential SSH configuration
+could be:
+
+     Match exec "/usr/bin/test %r = blocked_user"
+         ProxyCommand /bin/false
+
+With this configuration, ssh executes the command "/usr/bin/test
+&lt;username&gt; = blocked_user" during connection setup. Since %r is expanded
+before the command is passed to the shell, an attacker can inject
+arbitrary shell commands through the username. For example, using the
+username "x; touch /tmp/flag; #" would cause ssh to execute:
+
+     /usr/bin/test x; touch /tmp/flag; # = blocked_user
+
+The command injection occurs before ssh validates the username format.
+Although ssh ultimately terminates with "remote username containing
+invalid characters", the injected command ("touch /tmp/flag") has
+already been executed.
+
+This means if the Cockpit host's ssh_config uses %r in a "Match exec"
+directive, Cockpit is vulnerable to unauthenticated remote code execution.
+
+I am in parallel in contact with the OpenSSH maintainers to get this
+problem fixed in OpenSSH as well, though I believe it is also an issue
+in Cockpit for passing unverified data to ssh.
+
+(2) Injection of malicious hostname leading to RCE
+
+Since the hostname is passed as a positional argument to ssh without a
+preceding "--" separator (see via_ssh() in beiboot.py), an attacker can
+inject SSH options by supplying a hostname that starts with "-". For
+example, the attacker can pass "-oProxyCommand=&lt;malicious_command&gt;" as
+the hostname via the URL path
+"/cockpit+=-oProxyCommand=&lt;malicious_command&gt;/login".
+
+ProxyCommand is an SSH client option that executes a specified program
+whenever SSH connects to a remote host. When the original hostname field
+is consumed as an option instead of a hostname, ssh interprets the next
+positional argument, which is "python3 -ic '# cockpit-bridge'" (the
+remote command), as the actual hostname. This means the malicious
+ProxyCommand is executed as ssh attempts to "connect" to this
+misinterpreted hostname.
+
+Fortunately, OpenSSH version 9.6 introduced early hostname validation
+that bans shell metacharacters in command-line hostnames and usernames
+(<a href="https://github.com/openssh/openssh-portable/commit/7ef3787" rel="nofollow">https://github.com/openssh/openssh-portable/commit/7ef3787</a>) before
+establishing an SSH connection. With OpenSSH &gt;= 9.6, the command
+injection via "-oProxyCommand=&lt;malicious_command&gt;" fails because
+"python3 -ic '# cockpit-bridge'" contains invalid hostname characters
+(spaces, quotes, etc.), and ssh aborts before executing the
+ProxyCommand. Nevertheless, on older OpenSSH versions, this check is not
+available and &lt;malicious_command&gt; will be executed by OpenSSH in an
+attempt to connect to "python3 -ic '# cockpit-bridge'".
+
+The probability that a Cockpit host is vulnerable to this depends on the
+OpenSSH version installed. Cockpit migrated to the beiboot/OpenSSH path
+in version 327 (released 2024-10-23), while OpenSSH 9.6 was released on
+2023-12-18, which is roughly 10 months earlier. Systems that upgraded
+Cockpit to &gt;= 327 but did not update OpenSSH to &gt;= 9.6 would be
+vulnerable to unauthenticated remote code execution via hostname injection.
+
+Potential fix:
+
+1. Add a "--" separator before the destination argument in via_ssh()
+(beiboot.py) to prevent option injection via the hostname. This directly
+mitigates vulnerability (2).
+2. Validate both username and hostname using a character allowlist
+before passing them to ssh. Examples for such validation can be found in
+OpenSSH's source code: valid_hostname() and valid_ruser() in ssh.c. This
+mitigates both vulnerabilities (1) and (2).
+
+Summary:
+
+While the preconditions for these vulnerabilities will likely affect
+only a subset of Cockpit installations, the impact is critical:
+unauthenticated remote code execution on the Cockpit host. An attacker
+with network access to the Cockpit webservice can trigger the exploit
+with a single crafted HTTP request to the login endpoint. No valid
+credentials are required, as the injection occurs during the
+authentication flow before SSH authentication completes.
+
+[1] <a href="https://bugzilla.redhat.com/show_bug.cgi?id=2450246" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=2450246</a>
+[2] 
+<a href="https://github.com/cockpit-project/cockpit/security/advisories/GHSA-m4gv-x78h-3427" rel="nofollow">https://github.com/cockpit-project/cockpit/security/advisories/GHSA-m4gv-x78h-3427</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

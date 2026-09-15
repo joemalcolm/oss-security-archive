@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [OSSA-2026-013] Ironic: Denial of Service via specially crafted
+ deployment requests (CVE-2026-44919)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="38">[&lt;prev]</a> <a href="40">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;95422885-0743-44d4-b7e8-cd5822e4ccba&#64;jvf.cc&gt;
+Date: Tue, 19 May 2026 13:10:18 -0700
+From: Jay Faulkner &lt;jay&#64;....cc&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: [OSSA-2026-013] Ironic: Denial of Service via specially crafted
+ deployment requests (CVE-2026-44919)
+
+======================================================================================
+OSSA-2026-013: Denial of Service in Ironic under specially crafted 
+deployment requests
+======================================================================================
+
+:Date: May 19, 2026
+:CVE: CVE-2026-44919
+
+
+Affects
+~~~~~~~
+- Ironic: &gt;=23.0.4 &lt;29.0.6, &gt;=30.0.0 &lt;32.0.2, &gt;=33.0.0 &lt;35.0.2
+
+
+Description
+~~~~~~~~~~~
+Erichen of the Institute of Computing Technology at the Chinese Academy of
+Sciences reported a vulnerability in Ironic's image handling code where an
+authenticated and appropriately authorized user could request a special
+device or file path be deployed, where checksum evaluation would occur in
+advance of file path checking being asserted. This was a change introduced
+as a follow-up to soften CVE-2024-47211 image handling since "files on disk"
+are considered artifacts placed by the deployer/manager of the Ironic
+deployment.
+
+The result was that the user could request a deployment where the requested
+disk image was a special file, such as "file:///dev/zero", which would
+consume a conductor thread. This is a direct result of the auto-checksum
+behavior attempting to checksum the file.
+
+Repeated similar requests could then be leveraged to exhaust the 
+available pool of
+Ironic conductor threads resulting in a denial-of-service until the 
+service is
+restarted.
+
+Any authenticated user with access to write to ``node.instance_info`` and
+deploy a node can trigger this DoS.
+
+
+
+Patches
+~~~~~~~
+- <a href="https://review.opendev.org/c/openstack/ironic/+/988480" rel="nofollow">https://review.opendev.org/c/openstack/ironic/+/988480</a> 
+(2023.1/antelope (unmaintained))
+- <a href="https://review.opendev.org/c/openstack/ironic/+/988359" rel="nofollow">https://review.opendev.org/c/openstack/ironic/+/988359</a> (2024.1/caracal 
+(unmaintained))
+- <a href="https://review.opendev.org/c/openstack/ironic/+/988357" rel="nofollow">https://review.opendev.org/c/openstack/ironic/+/988357</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/c/openstack/ironic/+/988356" rel="nofollow">https://review.opendev.org/c/openstack/ironic/+/988356</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/c/openstack/ironic/+/988355" rel="nofollow">https://review.opendev.org/c/openstack/ironic/+/988355</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/c/openstack/ironic/+/988325" rel="nofollow">https://review.opendev.org/c/openstack/ironic/+/988325</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/c/openstack/ironic/+/988765" rel="nofollow">https://review.opendev.org/c/openstack/ironic/+/988765</a> (Bugfix/33.0)
+- <a href="https://review.opendev.org/c/openstack/ironic/+/988764" rel="nofollow">https://review.opendev.org/c/openstack/ironic/+/988764</a> (Bugfix/34.0)
+
+
+Credits
+~~~~~~~
+- Erichen from Institute of Computing Technology, Chinese Academy of 
+Sciences
+
+
+References
+~~~~~~~~~~
+- <a href="https://bugs.launchpad.net/ironic/+bug/2150332" rel="nofollow">https://bugs.launchpad.net/ironic/+bug/2150332</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-44919" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-44919</a>
+
+
+Notes
+~~~~~
+- Operators and vendors who backported
+<a href="https://review.opendev.org/q/Ib2fd5dcbee9a9d1c7e32770ec3d9b6cb20a2e2a" rel="nofollow">https://review.opendev.org/q/Ib2fd5dcbee9a9d1c7e32770ec3d9b6cb20a2e2a</a>
+   titled "Calculate missing checksum for file:// based images" are
+   vulnerable to this issue. Backports were made available to Xena,
+   Wallaby, and Victoria releases which did not land in OpenDev Gerrit.
+   Backports to the Zed, 2023.1, 2023.2, 2024.1, 2024.2, release branches
+   occured and were merged into OpenDev Gerrit, but were not universally
+   released to release branch and maintenance policies of the OpenStack
+   project. The affected product versions range covers these releases as
+   released by the OpenStack community.
+- Operators or vendors who may have backported patches independently of
+   upstream should take the action of backporting this fix along with
+   ensuring that they have the appropriate fix for OSSA-2025-001, from
+<a href="https://review.opendev.org/q/I2fa995439ee500f9dd82ec8ccfa1a25ee8e1179c" rel="nofollow">https://review.opendev.org/q/I2fa995439ee500f9dd82ec8ccfa1a25ee8e1179c</a>
+   if not already backported.
+- Patches are provided for active Ironic bugfix branches. Bugfix
+   branches will not get an updated release of Ironic.
+- Patches are provided for unmaintained branches as a courtesy. These
+   branches will not recieve updated releases.
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="39/1" rel="nofollow" download>OpenPGP_0x6B75D939B424C6D4.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (6373 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="39/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (496 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

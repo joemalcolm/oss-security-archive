@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Multiple vulnerabilities in aiohttp</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="13">[&lt;prev]</a> <a href="../../../2026/01/06/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;401a17361111759bd1c222bb5e43f4f11815735e.camel&#64;sambull.org&gt;
+Date: Mon, 05 Jan 2026 21:40:47 +0000
+From: Sam Bull &lt;9m199i&#64;...bull.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Multiple vulnerabilities in aiohttp
+
+aiohttp is an async Python library providing both an HTTP client and a web framework.
+These advisories primarily apply to users of the web framework.
+
+We'd first like to thank Radically Open Security (particularly Thomas Rinsma) for
+conducting a security audit. We'd also like to thank the NLnet foundation for funding the
+audit and development work spent on fixing these issues. Also thanks to other reporters
+and our regular sponsors.
+
+All of the below issues have been fixed in version 3.13.3.
+
+
+## (Severity: High) CVE-2025-69223 - aiohttp HTTP Parser auto_decompress feature
+susceptible to zip bomb
+<a href="https://github.com/aio-libs/aiohttp/security/advisories/GHSA-6mq8-rvhq-8wgg" rel="nofollow">https://github.com/aio-libs/aiohttp/security/advisories/GHSA-6mq8-rvhq-8wgg</a>
+
+### Summary
+A zip bomb can be used to execute a DoS against the aiohttp server.
+
+### Impact
+An attacker may be able to send a compressed request that when decompressed by aiohttp
+could exhaust the host's memory.
+
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/2b920c39002cee0ec5b402581779bbaaf7c9138a" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/2b920c39002cee0ec5b402581779bbaaf7c9138a</a>
+
+
+## (Severity: High) CVE-2025-69228 - Denial of service through large payloads
+<a href="https://github.com/aio-libs/aiohttp/security/advisories/GHSA-6jhg-hg63-jvvf" rel="nofollow">https://github.com/aio-libs/aiohttp/security/advisories/GHSA-6jhg-hg63-jvvf</a>
+
+### Summary
+A request can be crafted in such a way that an aiohttp server's memory fills up
+uncontrollably during processing.
+
+### Impact
+If an application includes a handler that uses the `Request.post()` method, an attacker
+may be able to freeze the server by exhausting the memory.
+
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/b7dbd35375aedbcd712cbae8ad513d56d11cce60" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/b7dbd35375aedbcd712cbae8ad513d56d11cce60</a>
+
+
+## (Severity: High) CVE-2025-69227 - DoS when bypassing asserts
+<a href="https://github.com/aio-libs/aiohttp/security/advisories/GHSA-jj3x-wxrx-4x23" rel="nofollow">https://github.com/aio-libs/aiohttp/security/advisories/GHSA-jj3x-wxrx-4x23</a>
+
+### Summary
+When assert statements are bypassed, an infinite loop can occur, resulting in a DoS attack
+when processing a POST body.
+
+### Impact
+If optimisations are enabled (`-O` or `PYTHONOPTIMIZE=1`), and the application includes a
+handler that uses the `Request.post()` method, then an attacker may be able to execute a
+DoS attack with a specially crafted message.
+
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/bc1319ec3cbff9438a758951a30907b072561259" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/bc1319ec3cbff9438a758951a30907b072561259</a>
+
+
+## (Severity: Medium) CVE-2025-69229 - DoS through chunked messages
+<a href="https://github.com/aio-libs/aiohttp/security/advisories/GHSA-g84x-mcqj-x9qq" rel="nofollow">https://github.com/aio-libs/aiohttp/security/advisories/GHSA-g84x-mcqj-x9qq</a>
+
+### Summary
+
+Handling of chunked messages can result in excessive blocking CPU usage when receiving a
+large number of chunks.
+
+### Impact
+
+If an application makes use of the `request.read()` method in an endpoint, it may be
+possible for an attacker to cause the server to spend a moderate amount of blocking CPU
+time (e.g. 1 second) while processing the request. This could potentially lead to DoS as
+the server would be unable to handle other requests during that time.
+
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/dc3170b56904bdf814228fae70a5501a42a6c712" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/dc3170b56904bdf814228fae70a5501a42a6c712</a>
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/4ed97a4e46eaf61bd0f05063245f613469700229" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/4ed97a4e46eaf61bd0f05063245f613469700229</a>
+
+
+## (Severity: Low) CVE-2025-69230 - Cookie Parser Warning Storm
+
+<a href="https://github.com/aio-libs/aiohttp/security/advisories/GHSA-fh55-r93g-j68g" rel="nofollow">https://github.com/aio-libs/aiohttp/security/advisories/GHSA-fh55-r93g-j68g</a>
+
+### Summary
+Reading multiple invalid cookies can lead to a logging storm.
+
+### Impact
+If the ``cookies`` attribute is accessed in an application, then an attacker may be able
+to trigger a storm of warning-level logs using a specially crafted Cookie header.
+
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/64629a0834f94e46d9881f4e99c41a137e1f3326" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/64629a0834f94e46d9881f4e99c41a137e1f3326</a>
+
+
+## (Severity: Low) CVE-2025-69226 - Brute-force leak of internal static ﬁle path
+components
+<a href="https://github.com/aio-libs/aiohttp/security/advisories/GHSA-54jq-c3m8-4m76" rel="nofollow">https://github.com/aio-libs/aiohttp/security/advisories/GHSA-54jq-c3m8-4m76</a>
+
+### Summary
+Path normalization for static files prevents path traversal, but opens up the ability for
+an attacker to ascertain the existence of absolute path components.
+
+### Impact
+If an application uses `web.static()` (not recommended for production deployments), it may
+be possible for an attacker to ascertain the existence of path components.
+
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/f2a86fd5ac0383000d1715afddfa704413f0711e" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/f2a86fd5ac0383000d1715afddfa704413f0711e</a>
+
+
+## (Severity: Low) CVE-2025-69224 - Unicode processing of header values could cause
+parsing discrepancies
+<a href="https://github.com/aio-libs/aiohttp/security/advisories/GHSA-69f9-5gxw-wvc2" rel="nofollow">https://github.com/aio-libs/aiohttp/security/advisories/GHSA-69f9-5gxw-wvc2</a>
+
+### Summary
+The Python HTTP parser may allow a request smuggling attack with the presence of non-ASCII
+characters.
+
+### Impact
+If a pure Python version of aiohttp is installed (i.e. without the usual C extensions) or
+AIOHTTP_NO_EXTENSIONS is enabled, then an attacker may be able to execute a request
+smuggling attack to bypass certain firewalls or proxy protections.
+
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/32677f2adfd907420c078dda6b79225c6f4ebce0" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/32677f2adfd907420c078dda6b79225c6f4ebce0</a>
+
+
+
+## (Severity: Low) CVE-2025-69225 - Unicode match groups in regexes for ASCII protocol
+elements
+<a href="https://github.com/aio-libs/aiohttp/security/advisories/GHSA-mqqc-3gqh-h2x8" rel="nofollow">https://github.com/aio-libs/aiohttp/security/advisories/GHSA-mqqc-3gqh-h2x8</a>
+
+### Summary
+
+The parser allows non-ASCII decimals to be present in the Range header.
+
+### Impact
+
+There is no known impact, but there is the possibility that there's a method to exploit a
+request smuggling vulnerability.
+
+Patch: <a href="https://github.com/aio-libs/aiohttp/commit/c7b7a044f88c71cefda95ec75cdcfaa4792b3b96" rel="nofollow">https://github.com/aio-libs/aiohttp/commit/c7b7a044f88c71cefda95ec75cdcfaa4792b3b96</a>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="14/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (196 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

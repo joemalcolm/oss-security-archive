@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - KVM shadow EPT stale rmap use-after-free</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAJ33NAWbTShcWk04-Nu+eeUtkkXOWbXM-nNb64xtwp=gN6dUmA&#64;mail.gmail.com&gt;
+Date: Mon, 30 Mar 2026 11:34:02 +0530
+From: Sandipan Roy &lt;saroy&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Paolo Bonzini &lt;pbonzini&#64;...hat.com&gt;, denis.pilipchuk&#64;...cle.com, bkov&#64;...zon.com, 
+	fgriffo&#64;...zon.com, Yogesh Mittal &lt;ymittal&#64;...hat.com&gt;, 
+	Mauro Matteo Cascella &lt;mcascell&#64;...hat.com&gt;
+Subject: KVM shadow EPT stale rmap use-after-free
+
+Hello OSS-Sec,
+
+Alexander Bulekov(bkov&#64;...zon.com) and Fred Griffoul (fgriffo&#64;...zon.com)
+reported a use-after-free in KVM's shadow paging code. The issue was found
+through fuzzing. It is
+
+exploitable from any x86 guest with nested virtualization enabled,
+
+on either Intel or AMD processors, or using shadow paging (ept=0 /
+
+npt=0). The bug leads to kernel memory corruption and DoS issues.
+
+
+Summary:
+
+mark_mmio_spte() overwrites a present shadow SPTE via mmu_spte_set()
+
+without first calling drop_spte() to remove the rmap entry. When the
+
+shadow page is later freed through a level-conflict zap, the stale rmap
+
+points into freed memory. Subsequent rmap traversal (dirty-page-tracking,
+ksmd,
+
+NUMA balancing, ...) dereferences the stale pointer, resulting in a
+
+use-after-free.
+
+The bug was introduced by commit a54aa15c6bda ("KVM: x86/mmu: Handle
+
+MMIO SPTEs directly in mmu_set_spte()").  It is present from
+
+v5.13 through current upstream/kvm-next.
+
+
+OVE ID: OVE-20260330-0003
+
+CVE ID: Pending from kernel.org CNA.
+
+Root cause:
+
+Commit a54aa15c6bda moved MMIO SPTE handling to an early return in
+
+mmu_set_spte() that bypasses the rmap cleanup. The original code was
+
+safe because mark_mmio_spte was called inside set_spte(), which ran
+
+after mmu_set_spte() had already cleaned up the rmap via drop_spte().
+
+The reasoning in the commit message ("it should be impossible to
+
+convert a valid SPTE to an MMIO SPTE") is motivated by the earlier
+
+commit e0c378684b65 ("KVM: x86/mmu: Retry page faults that hit an
+
+invalid memslot").  However, this protection does not apply if
+
+the page table entry is rewritten via DMA, thus bypassing the
+
+write protection on the guest's shadowed page tables.
+
+
+Trigger Mechanism:
+
+L1 (e.g. a normal QEMU VM) cooperates with L2. Two EPT12 PD entries
+
+both point to the same guest PT page, so L0 creates one shadow page
+
+for both paths.
+
+1. L2 accesses GPA_A (via PD[0] -&gt; PT[0]). L0 creates a shadow page
+
+   for the guest PT with a present SPTE at spt[0] and an rmap entry.
+
+2. L1 rewrites PT[0] to a noslot GPA via DMA (virtio-blk, bypasses
+
+   EPT01 write-protection). L0 does not invalidate EPT02.
+
+3. L2 accesses GPA_B (via PD[N] -&gt; PT[0]). This is a fresh EPT02 miss
+
+   on a different GPA, no invalidation needed. L0 resolves PT[0] to
+
+   noslot. mark_mmio_spte() overwrites spt[0] without drop_spte(),
+
+   leaving a stale rmap.
+
+4. L1 rewrites EPT12 via DMA to create a level conflict (guest PT page
+
+   reused as PD).
+
+5. L2 accesses through the level-conflict path. L0 zaps the shadow
+
+   page. mmu_page_zap_pte() clears the MMIO SPTE with
+
+   mmu_spte_clear_no_track() (no rmap removal). Shadow page freed,
+
+   stale rmap points to freed slab.
+
+6. Rmap traversal (dirty logging, fork/madvise via MMU notifier, ksmd)
+
+   dereferences the freed sptep. Use-after-free read and write.
+
+On 6.1.74, CONFIG_KASAN=y reports issues such as:
+
+1. use-after-free Write of size 8 in mmu_spte_clear_track_bits
+
+2. use-after-free Read of size 8 in mmu_spte_clear_track_bits
+
+3. use-after-free Read of size 8 in rmap_write_protect
+
+4. use-after-free Read of size 4 in mmu_spte_clear_track_bits
+
+5. null-ptr-deref at addr 0x24 in mmu_spte_clear_track_bits
+
+6. user-memory-access in mmu_spte_clear_track_bits
+
+7. slab-out-of-bounds Read in mmu_spte_clear_track_bits
+
+8. kernel BUG at mmu.c:1110, BUG_ON(!is_shadow_present_pte(*sptep))
+
+   in rmap_write_protect
+
+These demonstrate guest-to-host DoS and guest-to-host kernel heap
+
+corruption, potentially aiding VM escape.
+
+On kernels 6.16 and newer the reproducer also triggers a WARN, present
+
+since commit 11d45175111d ("KVM: x86/mmu: Warn if PFN changes on
+
+shadow-present SPTE in shadow MMU").
+
+
+Backport instructions:
+
+The code has seen small changes but the logic has not changed substantially
+
+since Linux v5.13. The "if (flush)" branch added by the patch is the same
+
+as the one that is already present at the end of mmu_set_spte().
+
+
+Timeline:
+
+March 4, 2026: vulnerability reported to security&#64;...nel.org by Alexander
+Bulekov &lt;bkov&#64;...zon.com&gt;, with Cc to the KVM-x86 maintainers (Paolo
+Bonzini &lt;pbonzini&#64;...hat.com&gt;, Sean Christopherson &lt;seanjc&#64;...gle.com)
+
+March 5, 2026: related WARN reported by Sean Christopherson
+
+March 6, 2026: final patches posted
+
+March 29, 2026: Patch Released as Public.
+
+
+Patches
+
+[1]
+<a href="https://lore.kernel.org/kvm/20260329162258.106549-1-pbonzini&#64;redhat.com/T/#u" rel="nofollow">https://lore.kernel.org/kvm/20260329162258.106549-1-pbonzini&#64;redhat.com/T/#u</a>
+
+[2]
+<a href="https://lore.kernel.org/kvm/20260329162258.106549-2-pbonzini&#64;redhat.com/T/#u" rel="nofollow">https://lore.kernel.org/kvm/20260329162258.106549-2-pbonzini&#64;redhat.com/T/#u</a>
+
+
+-- 
+*Sandipan Roy*
+
+Senior Product Security Engineer, Product Security
+
+Secure Engineering - Incident Response
+
+Email: sandipan&#64;...hat.com
+
+PGP:0x4B5C7470051BB332 &lt;<a href="https://bytehackr.fedorapeople.org/saroy.asc" rel="nofollow">https://bytehackr.fedorapeople.org/saroy.asc</a>&gt;
+
+*secalert&#64;...hat.com &lt;secalert&#64;...hat.com&gt;* For Urgent Response.
+&lt;<a href="https://www.redhat.com/" rel="nofollow">https://www.redhat.com/</a>&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

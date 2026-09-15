@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Multiple CVEs disclosed in CUPS</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;c7faf33c-7843-4569-89fc-279484c526dc&#64;oracle.com&gt;
+Date: Tue, 7 Apr 2026 17:50:12 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Multiple CVEs disclosed in CUPS
+
+<a href="https://heyitsas.im/posts/cups/" rel="nofollow">https://heyitsas.im/posts/cups/</a> discloses:
+
+&gt; 1. CVE-2026-34980: Shared PostScript queue lets anonymous Print-Job requests
+&gt;         reach lp code execution over the network
+&gt; 
+&gt; 2. CVE-2026-34990: Local print admin token disclosure using temporary printers
+&gt; 
+&gt; At a high level, in the first vulnerability, the attacker:
+&gt; 
+&gt;  1. Submits a malicious print job to a shared PostScript queue,
+&gt;  2. Gets CUPS to treat attacker-controlled text as a trusted queue config by
+&gt;     abusing a parsing bug, and
+&gt;  3. Gets code execution as the CUPS service user, lp (vim in the PoC)
+&gt; 
+&gt; And in the second vulnerability, the attacker:
+&gt; 
+&gt;  1. Uses any* unprivileged local user to set up a localhost listener,
+&gt;  2. Creates a local printer object in CUPS, pointing it at the listener above,
+&gt;  3. Gets CUPS to authenticate to it and captures the auth token,
+&gt;  4. Creates another queue pointing at file:///... for the target rootful write,
+&gt;  5. Uses the token to race against CUPS validation logic’s cleanup of the
+&gt;     dangerous queue, and
+&gt;  6. Writes what they want into the target file:///... (/etc/sudoers.d/... in
+&gt;     the PoC)
+&gt; 
+&gt; * any unprivileged local user that can bind on some TCP port and reach the
+&gt;   local CUPS listener.
+&gt; 
+&gt; Are you affected? + Mitigation
+&gt; 
+&gt; The unauth’d RCE as lp (CVE-2026-34980) requires the CUPS server to be
+&gt; reachable over the network and expose a shared PostScript queue (these are
+&gt; legacy, but still used). This would be a deliberate config choice – realistic
+&gt; for, say, networked printing servers in your corporate environment, but not
+&gt; for your desktop (unless you for some reason set it up to be a remote printing
+&gt; server).
+&gt; 
+&gt; The LPE to root file (over)write (CVE-2026-34990), on the other hand, works
+&gt; on the stock CUPS config.
+&gt; 
+&gt; For both issues, the harm can be limited by a security module that confines
+&gt; CUPS (e.g., SELinux, AppArmor, etc.). So, if you run CUPS under a sane
+&gt; security policy (default on some distributions), the impact of both
+&gt; vulnerabilities is much less severe – e.g., no rootful file writes outside 
+&gt; the paths CUPS is constrained to touch.
+&gt; 
+&gt; As of 4/5/2026, there are public commits with fixes to both issues but no
+&gt; fixed release (latest being 2.4.16). So, your best mitigations are:
+&gt; 
+&gt;  * Do not expose CUPS over the network with a shared PostScript queue – or at all
+&gt;  * If you must use a shared queue, require auth for job submissions to that queue
+&gt;  * Make sure your CUPS runs under a reasonable AppArmor/SELinux/etc. policy,
+&gt;    so that the impact is minimized even if you are targeted
+
+Further details, including about how the bugs were found and the PoC can be
+found in the blog post at <a href="https://heyitsas.im/posts/cups/" rel="nofollow">https://heyitsas.im/posts/cups/</a> and the article at
+<a href="https://www.theregister.com/2026/04/06/ai_agents_cups_server_rce/" rel="nofollow">https://www.theregister.com/2026/04/06/ai_agents_cups_server_rce/</a>
+
+The CUPS maintainers have published advisories for the above at:
+
+  CVE-2026-34980:
+    <a href="https://github.com/OpenPrinting/cups/security/advisories/GHSA-4852-v58g-6cwf" rel="nofollow">https://github.com/OpenPrinting/cups/security/advisories/GHSA-4852-v58g-6cwf</a>
+
+  CVE-2026-34990:
+    <a href="https://github.com/OpenPrinting/cups/security/advisories/GHSA-c54j-2vqw-wpwp" rel="nofollow">https://github.com/OpenPrinting/cups/security/advisories/GHSA-c54j-2vqw-wpwp</a>
+
+Additionally, in the past week they've also published advisories for:
+
+  CVE-2026-27447: Authorization bypass via case-insensitive group-member lookup
+    <a href="https://github.com/OpenPrinting/cups/security/advisories/GHSA-v987-m8hp-phj9" rel="nofollow">https://github.com/OpenPrinting/cups/security/advisories/GHSA-v987-m8hp-phj9</a>
+
+  CVE-2026-34978: Path traversal in RSS notify-recipient-uri enables file write
+    outside CacheDir/rss (and clobbering of job.cache)
+    <a href="https://github.com/OpenPrinting/cups/security/advisories/GHSA-f53q-7mxp-9gcr" rel="nofollow">https://github.com/OpenPrinting/cups/security/advisories/GHSA-f53q-7mxp-9gcr</a>
+
+  CVE-2026-34979: Heap overflow in `get_options()`
+    <a href="https://github.com/OpenPrinting/cups/security/advisories/GHSA-6qxf-7jx6-86fh" rel="nofollow">https://github.com/OpenPrinting/cups/security/advisories/GHSA-6qxf-7jx6-86fh</a>
+
+  CVE-2026-39314: Integer underflow in `_ppdCreateFromIPP` causes root cupsd
+    crash via negative `job-password-supported`
+    <a href="https://github.com/OpenPrinting/cups/security/advisories/GHSA-pp8w-2g52-7vj7" rel="nofollow">https://github.com/OpenPrinting/cups/security/advisories/GHSA-pp8w-2g52-7vj7</a>
+
+  CVE-2026-39316: Use-after-free in `cupsdDeleteTemporaryPrinters` via dangling
+    subscription pointer
+    <a href="https://github.com/OpenPrinting/cups/security/advisories/GHSA-pjv5-prqp-46rg" rel="nofollow">https://github.com/OpenPrinting/cups/security/advisories/GHSA-pjv5-prqp-46rg</a>
+
+  &lt;no CVE&gt;: Out-of-bounds heap read in cupsdSetPrinterAttr marker-types parsing
+    <a href="https://github.com/OpenPrinting/cups/security/advisories/GHSA-qfp8-9frx-5j48" rel="nofollow">https://github.com/OpenPrinting/cups/security/advisories/GHSA-qfp8-9frx-5j48</a>
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

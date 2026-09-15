@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: HTTP/2 Bomb affects Apache httpd, nginx, envoy, &amp;
+ pingora</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="14">[&lt;prev]</a> <a href="16">[next&gt;]</a> <a href="../../../2026/06/03/3">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;6e9eb782-2ebd-4ee7-84f5-92765d3d494a&#64;oracle.com&gt;
+Date: Thu, 4 Jun 2026 16:34:04 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: HTTP/2 Bomb affects Apache httpd, nginx, envoy, &amp;
+ pingora
+
+On 6/2/26 19:36, Alan Coopersmith wrote:
+&gt; <a href="https://blog.calif.io/p/codex-discovered-a-hidden-http2-bomb" rel="nofollow">https://blog.calif.io/p/codex-discovered-a-hidden-http2-bomb</a> says:
+&gt;&gt; The fix commits above are public and disclose the vectors directly; any
+&gt;&gt; capable AI model can turn those diffs into a working exploit, which is exactly
+&gt;&gt; how we found that Microsoft IIS, Envoy, and Pingora are also vulnerable.
+&gt;&gt; We've notified their maintainers. Given how short the commit-to-exploit path
+&gt;&gt; now is, we're releasing this writeup to provide users with the mitigations below.
+
+Additional patches have since been released by envoy &amp; h2o.
+Posts on twitter by @calif_io continue to discuss whether other
+packages are vulnerable or not.
+
+<a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-22m2-hvr2-xqc8" rel="nofollow">https://github.com/envoyproxy/envoy/security/advisories/GHSA-22m2-hvr2-xqc8</a> says:
+&gt; HTTP/2 memory exhaustion via cookie header size bypass and HPACK amplification
+&gt; 
+&gt; phlax published GHSA-22m2-hvr2-xqc8 Jun 3, 2026
+&gt; 
+&gt; Package:           github.com/envoyproxy/envoy
+&gt; Affected versions: &lt;1.39
+&gt; Patched versions:  1.35.11 1.36.7 1.37.3 1.38.1
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; 
+&gt; A vulnerability in Envoy's HTTP/2 downstream request processing allows an
+&gt; unauthenticated remote client to trigger excessive memory consumption,
+&gt; potentially resulting in OOM termination of the Envoy process and denial
+&gt; of service.
+&gt; 
+&gt; The issue arises from the combination of two behaviors:
+&gt; 
+&gt;  1. Cookie header bytes are not fully accounted for during request header size
+&gt;     validation in Envoy.
+&gt;  2. HPACK header block limits in oghttp2/quiche are enforced on encoded bytes
+&gt;     without a corresponding limit on total decoded header size.
+&gt; 
+&gt; Together, these behaviors allow a malicious client to cause large decoded header
+&gt; allocations while bypassing the intended request header size protections.
+&gt; 
+&gt; Affected Components
+&gt; -------------------
+&gt; 
+&gt;   * Envoy HTTP/2 downstream request processing
+&gt;   * Cookie header size accounting during header validation
+&gt;   * HPACK header block size enforcement in oghttp2/quiche
+&gt; 
+&gt; Details
+&gt; -------
+&gt; 
+&gt; During HTTP/2 request processing, cookie header fragments are buffered
+&gt; separately and merged only after request header size validation has completed.
+&gt; Because these buffered cookie bytes are not fully included in the effective
+&gt; header size check, oversized cookie data can bypass max_request_headers_kb
+&gt; enforcement.
+&gt; 
+&gt; Separately, oghttp2/quiche enforces header block limits on encoded HPACK bytes
+&gt; rather than on the fully decoded header size. A malicious client can exploit
+&gt; this asymmetry by using dynamic table references to keep the encoded
+&gt; representation relatively small while causing the decoded cookie header value
+&gt; to become much larger in memory.
+&gt; 
+&gt; When these behaviors are combined, a client can force Envoy to retain large
+&gt; per-stream allocations. Under sustained concurrency, this can rapidly increase
+&gt; process memory usage and lead to OOM termination.
+&gt; 
+&gt; Flow-control stalling can further increase the effectiveness of the attack by
+&gt; prolonging stream lifetime and delaying reclamation of per-stream memory.
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; 
+&gt; An unauthenticated remote attacker can cause denial of service by exhausting
+&gt; memory in the Envoy process.
+&gt; 
+&gt; In testing against envoyproxy/envoy-google-vrp-dev:latest (v1.36.0-dev), the
+&gt; Envoy edge process was OOM-killed under a 3 GiB memory limit within a few
+&gt; seconds using a limited number of HTTP/2 connections and streams.
+&gt; 
+&gt; Additional testing showed that the attack remained effective with significantly
+&gt; fewer connections and streams than initially required, indicating that
+&gt; exploitation can be efficient even under tighter attacker-side resource
+&gt; constraints.
+&gt; 
+&gt; A secondary operational effect observed during testing was that oversized
+&gt; decoded cookies forwarded upstream could exceed the upstream service's own
+&gt; header limits, potentially causing upstream HTTP/2 connection resets and
+&gt; transient request failures.
+&gt; 
+&gt; Attack Vector
+&gt; -------------
+&gt; 
+&gt; A malicious downstream HTTP/2 client sends specially crafted cookie headers
+&gt; that combine:
+&gt; 
+&gt;   * incomplete cookie-size accounting during request validation; and
+&gt;   * HPACK decoded-size amplification via small encoded representations.
+&gt; 
+&gt; The impact can be amplified further by using HTTP/2 flow-control behavior
+&gt; to extend stream lifetime and delay memory reclamation.
+&gt; 
+&gt; Patches
+&gt; -------
+&gt; 
+&gt; A complete fix requires addressing both contributing issues:
+&gt; 
+&gt;   * include buffered cookie bytes in request header size accounting before
+&gt;     request acceptance; and
+&gt;   * enforce limits on decoded header size, not only on encoded HPACK block size.
+&gt; 
+&gt; Fixing only one side may reduce exploitability but does not fully address the
+&gt; underlying issue.
+&gt; 
+&gt; Workarounds
+&gt; -----------
+&gt; 
+&gt; No complete workaround is known short of applying a fix.
+&gt; 
+&gt; Possible temporary mitigations include:
+&gt; 
+&gt;   * disabling downstream HTTP/2 where operationally feasible;
+&gt;   * enforcing stricter request header and cookie limits before traffic
+&gt;     reaches Envoy; and
+&gt;   * monitoring Envoy memory usage for abnormal growth under HTTP/2 traffic.
+&gt; 
+&gt; Detection
+&gt; ---------
+&gt; 
+&gt; Potential indicators of exploitation include:
+&gt; 
+&gt;   * rapid or sustained abnormal memory growth in the Envoy process;
+&gt;   * OOM termination, including exit status 137 in containerized environments; and
+&gt;   * unusual HTTP/2 traffic patterns involving repeated indexed cookie references.
+&gt; 
+&gt; Credits
+&gt; -------
+&gt; Credit: Ryoga Yamashita.
+&gt; 
+&gt; Severity: High, 7.5 / 10
+&gt; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+&gt; CVE ID: CVE-2026-47774
+
+
+<a href="https://github.com/h2o/h2o/security/advisories/GHSA-qcrr-wrhc-pgq9" rel="nofollow">https://github.com/h2o/h2o/security/advisories/GHSA-qcrr-wrhc-pgq9</a> says:
+&gt; HTTP/2 state amplification
+&gt; 
+&gt; kazuho published GHSA-qcrr-wrhc-pgq9 Jun 3, 2026
+&gt; 
+&gt; Package:           h2o
+&gt; Affected versions: commits up to 8dc37cb
+&gt; Patched versions:  9265bdd and above
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; 
+&gt; Recently, an attack against HTTP/2 servers was published that combines state
+&gt; amplification caused by HPACK decompression with Slowloris-style stream stalling:
+&gt; <a href="https://blog.calif.io/p/codex-discovered-a-hidden-http2-bomb" rel="nofollow">https://blog.calif.io/p/codex-discovered-a-hidden-http2-bomb</a>.
+&gt; 
+&gt; H2O reduces HPACK state amplification by representing HTTP header names and
+&gt; values internally as references where possible. However, in light of this
+&gt; attack, additional limits may be needed, depending on the configuration, to
+&gt; bound decoded header state and prevent amplified state from being retained
+&gt; by stalled HTTP/2 streams.
+&gt; 
+&gt; Patches
+&gt; -------
+&gt; Mitigations were added in #3597 and landed on master as 9265bdd:
+&gt; <a href="https://github.com/h2o/h2o/pull/3597" rel="nofollow">https://github.com/h2o/h2o/pull/3597</a>
+&gt; <a href="https://github.com/h2o/h2o/commit/9265bdd9a996ed992681055e3996baf3e09d2063" rel="nofollow">https://github.com/h2o/h2o/commit/9265bdd9a996ed992681055e3996baf3e09d2063</a>
+&gt; 
+&gt; References
+&gt; ----------
+&gt; <a href="https://blog.calif.io/p/codex-discovered-a-hidden-http2-bomb" rel="nofollow">https://blog.calif.io/p/codex-discovered-a-hidden-http2-bomb</a>
+&gt; 
+&gt; Severity: High, 7.5 / 10
+&gt; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+&gt; CVE ID: No known CVE
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - HTTP/2 Bomb affects Apache httpd, nginx, envoy, &amp;
+ pingora</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2026/06/04/15">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;db78849e-dc8f-45bb-bdd4-a67321d913c3&#64;oracle.com&gt;
+Date: Tue, 2 Jun 2026 19:36:15 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: HTTP/2 Bomb affects Apache httpd, nginx, envoy, &amp;
+ pingora
+
+<a href="https://blog.calif.io/p/codex-discovered-a-hidden-http2-bomb" rel="nofollow">https://blog.calif.io/p/codex-discovered-a-hidden-http2-bomb</a> says:
+&gt; We’re publishing HTTP/2 Bomb, a remote denial-of-service exploit against
+&gt; most major web servers, including:
+&gt; 
+&gt;   - nginx
+&gt;   - Apache httpd
+&gt;   - Microsoft IIS
+&gt;   - Envoy
+&gt;   - Cloudflare Pingora
+&gt; 
+&gt; The vulnerable behavior exists in each server's default HTTP/2 configuration.
+
+The blog tells the story of how it was found and provides technical details and
+PoCs.
+
+It also says:
+&gt; Credits
+&gt; 
+&gt;     Quang Luong for discovering the exploit. He'll be presenting his techniques
+&gt;     at the upcoming Real World AI Security conference at Stanford in June.
+&gt; 
+&gt;     Jun Rong and Duc Phan for confirming the attack on other web servers.
+
+and:
+&gt; Disclosure
+&gt; 
+&gt; We disclosed the issue to nginx in April. They responded by importing the
+&gt; max_headers directive from freenginx, shipping it in 1.29.8 the next day:
+&gt; <a href="https://github.com/nginx/nginx/commit/365694160a85229a7cb006738de9260d49ff5fa2" rel="nofollow">https://github.com/nginx/nginx/commit/365694160a85229a7cb006738de9260d49ff5fa2</a>
+&gt; At this point, we consider the attack public.
+&gt; 
+&gt; We disclosed to Apache on May 27, and Stefan Eissing fixed it on the same day
+&gt; by making cookie headers count against LimitRequestFields:
+&gt; <a href="https://github.com/apache/httpd/commit/47d3100b252dc6668a9e46ae885242be9eeca9cd" rel="nofollow">https://github.com/apache/httpd/commit/47d3100b252dc6668a9e46ae885242be9eeca9cd</a>
+&gt; The issue was assigned CVE-2026-49975.
+&gt; 
+&gt; The fix commits above are public and disclose the vectors directly; any
+&gt; capable AI model can turn those diffs into a working exploit, which is exactly
+&gt; how we found that Microsoft IIS, Envoy, and Pingora are also vulnerable.
+&gt; We've notified their maintainers. Given how short the commit-to-exploit path
+&gt; now is, we're releasing this writeup to provide users with the mitigations below.
+&gt; 
+&gt; 
+&gt; Mitigations
+&gt; 
+&gt; nginx: Upgrade to 1.29.8+, which adds the max_headers directive with a default
+&gt; of 1000. If you can't upgrade, disable HTTP/2 with http2 off;.
+&gt; 
+&gt; Apache httpd: The fix is in mod_http2 v2.0.41, available from the standalone
+&gt; mod_http2 releases and in httpd trunk but not yet in a 2.4.x release. If you
+&gt; can't upgrade, set Protocols http/1.1 to disable HTTP/2. Lowering
+&gt; LimitRequestFieldSize shrinks the per-stream blast radius (it caps the merged
+&gt; cookie, and so the crumb count), but it's only a partial mitigation, since an
+&gt; attacker can still multiply the effect across streams and connections.
+&gt; Lowering LimitRequestFields does nothing here: the duplicate cookie crumbs
+&gt; never count against it.
+&gt; 
+&gt; Microsoft IIS, Envoy, Cloudflare Pingora: No patch available at the time of
+&gt; writing. Disable HTTP/2 if you can, or front the server with something that
+&gt; enforces a hard cap on header count per request.
+&gt; 
+&gt; Generally: "Maximum decoded header size" and "maximum header count" are two
+&gt; different limits, and a server needs both. Any HTTP/2 termination point should
+&gt; cap the number of header fields per request, including cookie crumbs,
+&gt; independent of their total size, and should bound the lifetime of a stalled
+&gt; stream regardless of WINDOW_UPDATE activity. And if you can't do any of that
+&gt; today: cap per-worker memory (cgroups, ulimit -v, container limits) tight
+&gt; enough that a bombed worker gets OOM-killed and respawned before it drags the
+&gt; box into swap. A worker process rarely needs gigabytes; letting the kernel
+&gt; kill one early is a better failure mode than letting the attacker hold the
+&gt; whole machine at 95%.
+&gt; 
+&gt; 
+&gt; Takeaways
+&gt; 
+&gt; RFC 7541 has an entire section on this threat. §7.3 Memory Consumption opens
+&gt; with "an attacker can try to cause an endpoint to exhaust its memory," then
+&gt; explains that HPACK bounds the dynamic table via SETTINGS_HEADER_TABLE_SIZE
+&gt; and considers the matter handled. But when five independent implementations
+&gt; all read that section and still ship the same class of bug, the defect is in
+&gt; the spec.
+&gt; 
+&gt; The deeper miss is that the spec frames memory risk purely as an amplification
+&gt; ratio, and ratio is only half the equation. A 70:1 amplifier is harmless if
+&gt; the memory is freed when the request completes. It becomes an attack because
+&gt; HTTP/2 lets the client hold the connection open almost for free, pinning every
+&gt; allocated byte for as long as they like.
+&gt; 
+&gt; The other thing worth noting is how this exploit was found. Both halves have
+&gt; been public for a decade. What Codex did was read the codebases, recognize
+&gt; that the two compose, and build the combined attack. That combination is
+&gt; obvious once you see it, and yet as far as we can tell no human had put it
+&gt; together against these servers.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

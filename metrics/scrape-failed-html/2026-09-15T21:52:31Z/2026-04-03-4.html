@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Announce: OpenSSH 10.3 released</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href="7">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;ac-B5AHb_jwYnjPU&#64;eldamar.lan&gt;
+Date: Fri, 3 Apr 2026 11:01:24 +0200
+From: Salvatore Bonaccorso &lt;carnil&#64;...ian.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Damien Miller &lt;djm&#64;....openbsd.org&gt;
+Subject: Re: Announce: OpenSSH 10.3 released
+
+Hi Agostino,
+
+On Fri, Apr 03, 2026 at 09:43:49AM +0200, Agostino Sarubbo wrote:
+&gt; On giovedì 2 aprile 2026 11:25:08 Ora legale dell’Europa centrale Damien Miller wrote:
+&gt; &gt; Security
+&gt; &gt; ========
+&gt; &gt; 
+&gt; &gt;  * ssh(1): validation of shell metacharacters in user names supplied
+&gt; &gt;    on the command-line was performed too late to prevent some
+&gt; &gt;    situations where they could be expanded from %-tokens in
+&gt; &gt;    ssh_config. For certain configurations, such as those that use a
+&gt; &gt;    "%u" token in a "Match exec" block, an attacker who can control
+&gt; &gt;    the user name passed to ssh(1) could potentially execute arbitrary
+&gt; &gt;    shell commands.  Reported by Florian Kohnhäuser.
+&gt; &gt; 
+&gt; &gt;    We continue to recommend against directly exposing ssh(1) and
+&gt; &gt;    other tools' command-lines to untrusted input. Mitigations such
+&gt; &gt;    as this can not be absolute given the variety of shells and user
+&gt; &gt;    configurations in use.
+&gt; &gt; 
+&gt; &gt;  * sshd(8): when matching an authorized_keys principals="" option
+&gt; &gt;    against a list of principals in a certificate, an incorrect
+&gt; &gt;    algorithm was used that could allow inappropriate matching in
+&gt; &gt;    cases where a principal name in the certificate contains a
+&gt; &gt;    comma character. Exploitation of the condition requires an
+&gt; &gt;    authorized_keys principals="" option that lists more than one
+&gt; &gt;    principal *and* a CA that will issue a certificate that encodes
+&gt; &gt;    more than one of these principal names separated by a comma
+&gt; &gt;    (typical CAs stronly constrain which principal names they will
+&gt; &gt;    place in a certificate). This condition only applies to user-
+&gt; &gt;    trusted CA keys in authorized_keys, the main certificate
+&gt; &gt;    authentication path (TrustedUserCAKeys/AuthorizedPrincipalsFile)
+&gt; &gt;    is not affected. Reported by Vladimir Tokarev.
+&gt; &gt; 
+&gt; &gt;  * scp(1): when downloading files as root in legacy (-O) mode and
+&gt; &gt;    without the -p (preserve modes) flag set, scp did not clear
+&gt; &gt;    setuid/setgid bits from downloaded files as one might typically
+&gt; &gt;    expect. This bug dates back to the original Berkeley rcp program.
+&gt; &gt;    Reported by Christos Papakonstantinou of Cantina and Spearbit.
+&gt; &gt; 
+&gt; &gt;  * sshd(8): fix incomplete application of PubkeyAcceptedAlgorithms
+&gt; &gt;    and HostbasedAcceptedAlgorithms with regard to ECDSA keys.
+&gt; &gt;    Previously if one of these directives contains any ECDSA algorithm
+&gt; &gt;    name (say "ecdsa-sha2-nistp384"), then any other ECDSA algorithm
+&gt; &gt;    would be accepted in its place regardless of whether it was
+&gt; &gt;    listed or not.  Reported by Christos Papakonstantinou of Cantina
+&gt; &gt;    and Spearbit.
+&gt; &gt; 
+&gt; &gt;  * ssh(1): connection multiplexing confirmation (requested using
+&gt; &gt;    "ControlMaster ask/autoask") was not being tested for proxy mode
+&gt; &gt;    multiplexing sessions (i.e. "ssh -O proxy ..."). Reported by
+&gt; &gt;    Michalis Vasileiadis.
+&gt; 
+&gt; Hello Damien,
+&gt; 
+&gt; thank you for bringing this to oss-security so that everyone is aware of it.
+&gt; 
+&gt; Regarding the security changes, we do not see any CVE assigned. Could you please clarify 
+&gt; your perspective on this? Are these changes considered simply hardening improvements, 
+&gt; or do they have a security impact that would warrant a CVE?
+
+I think since yesterday there were CVE assigned actually by MITRE,
+they should be:
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-35414" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-35414</a>
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-35385" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-35385</a>
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-35386" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-35386</a>
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-35387" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-35387</a>
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-35388" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-35388</a>
+
+Regards,
+Salvatore
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

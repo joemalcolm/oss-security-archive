@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - netatalk 4.4.3 fixes 20 CVEs, leaves 18 for later</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="21">[&lt;prev]</a> <a href="23">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;f3e23103-683c-4b46-9a17-fdbf43312284&#64;oracle.com&gt;
+Date: Fri, 15 May 2026 12:36:24 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: netatalk 4.4.3 fixes 20 CVEs, leaves 18 for later
+
+<a href="https://sourceforge.net/p/netatalk/mailman/message/59334272/" rel="nofollow">https://sourceforge.net/p/netatalk/mailman/message/59334272/</a> announced:
+&gt; The Netatalk team is proud to announce the latest version in the Netatalk 4.4 release series.
+&gt; 
+&gt; In addition to the following security fixes, this release contains a handful of UAM and container hardening improvements.
+&gt; 
+&gt; CVE-2026-44047, CVE-2026-44048, CVE-2026-44049, CVE-2026-44050,
+&gt; CVE-2026-44051, CVE-2026-44052, CVE-2026-44054, CVE-2026-44055,
+&gt; CVE-2026-44057, CVE-2026-44060, CVE-2026-44062, CVE-2026-44064,
+&gt; CVE-2026-44066, CVE-2026-44068, CVE-2026-44076, CVE-2026-45354,
+&gt; CVE-2026-45355, CVE-2026-45356, CVE-2026-45698, CVE-2026-45699
+&gt; 
+&gt; All users of previous Netatalk versions are encouraged to upgrade to 4.4.3.
+&gt; 
+&gt; Release notes: <a href="https://netatalk.io/4.4/ReleaseNotes4.4.3" rel="nofollow">https://netatalk.io/4.4/ReleaseNotes4.4.3</a>
+&gt; 
+&gt; Security advisories: <a href="https://netatalk.io/security" rel="nofollow">https://netatalk.io/security</a>
+
+<a href="https://netatalk.io/4.4/ReleaseNotes4.4.3" rel="nofollow">https://netatalk.io/4.4/ReleaseNotes4.4.3</a> adds:
+&gt; Note that there are another outstanding 18 CVEs that are not fixed in
+&gt; this release, because the Netatalk team deemed them to be of lower
+&gt; severity. These will be addressed in a future feature release.
+
+<a href="https://netatalk.io/security" rel="nofollow">https://netatalk.io/security</a> provides these one line summaries, with
+links to more details:
+&gt; CVE ID          Subject                                                 Disclosure      Affected Vers   Severity
+&gt; CVE-2026-45699  Stack-based buffer overflow in copydir()                2026/05/13      3.2.0 - 4.4.2   High
+&gt; CVE-2026-45698  Stack-based buffer overflow in deletedir()              2026/05/13      3.2.0 - 4.4.2   High
+&gt; CVE-2026-45356  Integer underflow in Spotlight RPC count decrement      2026/05/13      3.1.0 - 4.4.2   High
+&gt; CVE-2026-45355  Integer underflow to heap OOB read                      2026/05/13      3.1.0 - 4.4.2   High
+&gt; CVE-2026-45354  Pre-authentication DSI protocol desync                  2026/05/13      1.5.0 - 4.4.2   High
+&gt; CVE-2026-44076  Shell injection via volume path                         2026/05/13      3.1.0 - 4.4.2   Medium
+&gt; CVE-2026-44075  Missing break in DSI OpenSession                        2026/05/13      1.5.0 - 4.4.3   None
+&gt; CVE-2026-44074  Bitwise OR of errno values                              2026/05/13      2.1.0 - 4.4.3   None
+&gt; CVE-2026-44073  seteuid failure ignored in auth modules                 2026/05/13      1.5.0 - 4.4.3   Medium
+&gt; CVE-2026-44072  system() after failed chdir()                           2026/05/13      2.2.1 - 4.4.3   Low
+&gt; CVE-2026-44071  FORTIFY_SOURCE disabled                                 2026/05/13      3.1.2 - 4.4.3   None
+&gt; CVE-2026-44070  Unbounded realloc in charset conversion                 2026/05/13      2.0.0 - 4.4.3   Low
+&gt; CVE-2026-44069  Integer underflow in volxlate                           2026/05/13      3.0.0 - 4.4.3   Low
+&gt; CVE-2026-44068  EA path traversal via incomplete sanitization           2026/05/13      2.1.0 - 4.4.2   High
+&gt; CVE-2026-44067  EA header parsing heap over-read                        2026/05/13      2.1.0 - 4.4.3   Low
+&gt; CVE-2026-44066  Heap out-of-bounds reads in Spotlight RPC unmarshalling 2026/05/13      3.0.0 - 4.4.2   High
+&gt; CVE-2026-44065  Off-by-two in papd lp_write()                           2026/05/13      2.0.0 - 4.4.3   Low
+&gt; CVE-2026-44064  ASP session ID out-of-bounds access                     2026/05/13      1.3 - 4.4.2     High
+&gt; CVE-2026-44063  LDAP filter injection                                   2026/05/13      2.1.0 - 4.4.3   Medium
+&gt; CVE-2026-44062  Missing o_len bounds check in pull_charset_flags()      2026/05/13      2.0.4 - 4.4.2   High
+&gt; CVE-2026-44061  DES-ECB auth with timing side channel                   2026/05/13      1.5.0 - 4.4.3   Medium
+&gt; CVE-2026-44060  Integer underflow in dsi_writeinit()                    2026/05/13      1.5.0 - 4.4.2   High
+&gt; CVE-2026-44059  Non-reentrant privilege toggle                          2026/05/13      2.2.5 - 4.4.3   Low
+&gt; CVE-2026-44058  Authentication bypass via admin auth user               2026/05/13      2.2.2 - 4.4.3   Medium
+&gt; CVE-2026-44057  Dead bounds check in Spotlight RPC unmarshaller         2026/05/13      3.0.0 - 4.4.2   None
+&gt; CVE-2026-44056  Stack buffer overflow in desktop.c                      2026/05/13      1.3 - 4.2.3     Medium
+&gt; CVE-2026-44055  Bitwise OR logic bug enables shell injection            2026/05/13      3.1.4 - 4.4.2   High
+&gt; CVE-2026-44054  Predictable afpd session token                          2026/05/13      2.0.0 - 4.4.2   Medium
+&gt; CVE-2026-44053  Weak cryptography in DHCAST128 UAM                      2026/05/13      1.5.0 - 4.2.3   High
+&gt; CVE-2026-44052  LDAP simple-bind password exposure in log output        2026/05/13      2.1.0 - 4.4.2   High
+&gt; CVE-2026-44051  Arbitrary file read via attacker-controlled symlink     2026/05/13      3.0.2 - 4.4.2   High
+&gt; CVE-2026-44050  Heap buffer overflow in CNID daemon comm_rcv()          2026/05/13      2.0.0 - 4.4.2   Critical
+&gt; CVE-2026-44049  Out-of-bounds write in convert_charset null termination 2026/05/13      2.0.4 - 4.4.2   High
+&gt; CVE-2026-44048  Stack buffer overflow via UCS-2 type confusion in ...   2026/05/13      2.0.4 - 4.4.2   High
+&gt; CVE-2026-44047  SQL injection in MySQL CNID backend                     2026/05/13      3.1.0 - 4.4.2   High
+&gt; CVE-2026-7837   TOCTOU with root privilege in ad_flush                  2026/05/13      3.0.0 - 4.4.3   None
+&gt; CVE-2026-7836   hextoint macro uppercase bug                            2026/05/13      2.0.0 - 4.4.3   Low
+&gt; CVE-2026-7835   Format string argument mismatch                         2026/05/13      3.0.3 - 4.4.3   Low
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

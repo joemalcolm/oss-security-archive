@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [vim-security] Path traversal issue with zip.vim and special crafted
+ zip archives in Vim &lt; v9.2.0280</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;ac1ITEgogng5SRlF&#64;256bit.org&gt;
+Date: Wed, 1 Apr 2026 18:31:08 +0200
+From: Christian Brabandt &lt;cb&#64;...bit.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: [vim-security] Path traversal issue with zip.vim and special crafted
+ zip archives in Vim &lt; v9.2.0280
+
+Path traversal issue with zip.vim and special crafted zip archives in Vim &lt; v9.2.0280
+=====================================================================================
+Date: 01.04.2026
+Severity: Low
+CVE: *not yet assigned*
+CWE: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') (CWE-22)
+
+## Summary
+
+A path traversal bypass in Vim's zip.vim plugin allows overwriting of arbitrary
+files when opening specially crafted zip archives, circumventing the previous fix
+for CVE-2025-53906.
+
+## Description
+
+Vim includes the zip.vim plugin, which enables viewing and editing of files
+within zip archives. A prior fix for CVE-2025-53906 added a check rejecting
+archive member paths beginning with `../`. However, that check can be bypassed
+by prefixing the traversal with a dummy directory component (e.g.,
+`a/../../../../../../tmp/foobar`). The leading `a/` causes the original pattern
+`^[.]\?[.]/` to not match, while the path still escapes the intended directory
+after normalization.
+
+Exploitation requires the same conditions as CVE-2025-53906:
+
+- The user opens a specially crafted archive in Vim.
+- The user selects and attempts to edit one of the malicious files within the archive.
+- Vim writes the file back to disk using `:w`.
+
+Only after all these steps are performed would Vim overwrite an existing file
+outside the intended working directory.
+
+- Vim does display the full path to be written, so a careful user may notice
+  suspicious behavior.
+- Standard zip utilities typically do not extract such paths and will warn or
+  skip them. This issue only affects Vim's internal handling, not the zip tool
+  itself.
+
+## Impact
+
+Impact is **low** because exploitation requires direct user interaction.
+However, successful exploitation can lead to overwriting sensitive files or
+placing executable code in privileged locations, depending on the permissions
+of the process editing the archive.
+
+The victim must edit such a file using Vim, which will reveal the filename
+and file content - a careful user may suspect something suspicious.
+
+## Acknowledgements
+The Vim project would like to thank Michał Majchrowicz for identifying the
+vulnerability chain, providing a detailed root cause analysis and reproduction
+steps.
+
+## References
+The issue has been fixed as of Vim patch [v9.2.0280](<a href="https://github.com/vim/vim/releases/tag/v9.2.0280" rel="nofollow">https://github.com/vim/vim/releases/tag/v9.2.0280</a>).
+
+- [Commit](<a href="https://github.com/vim/vim/commit/7088926316d8d4a7572a242d0765" rel="nofollow">https://github.com/vim/vim/commit/7088926316d8d4a7572a242d0765</a>)
+- [GitHub Advisory](<a href="https://github.com/vim/vim/security/advisories/GHSA-jc86-w7vm-8p24" rel="nofollow">https://github.com/vim/vim/security/advisories/GHSA-jc86-w7vm-8p24</a>)
+
+
+Best,
+Christian
+-- 
+Wie man sein Kind nicht nennen sollte: 
+  Tino Saurier 
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

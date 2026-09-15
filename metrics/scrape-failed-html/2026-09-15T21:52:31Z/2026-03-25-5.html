@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - backdoor in litellm version 1.82.7</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;acPxcn816qOzTzPk&#64;netmeister.org&gt;
+Date: Wed, 25 Mar 2026 10:30:35 -0400
+From: Jan Schaumann &lt;jschauma&#64;...meister.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: backdoor in litellm version 1.82.7
+
+The python package 'litellm' was compromised
+(apparently via the earlier trivy compromise) and a
+malicious version included code to steal credentials
+and install a backdoor.
+
+<a href="https://github.com/BerriAI/litellm/issues/24512" rel="nofollow">https://github.com/BerriAI/litellm/issues/24512</a>
+<a href="https://github.com/advisories/GHSA-5mg7-485q-xm76" rel="nofollow">https://github.com/advisories/GHSA-5mg7-485q-xm76</a>
+
+<a href="https://futuresearch.ai/blog/litellm-pypi-supply-chain-attack/" rel="nofollow">https://futuresearch.ai/blog/litellm-pypi-supply-chain-attack/</a>
+
+Full PYSEC-2026-2 advisory below:
+
+<a href="https://osv.dev/vulnerability/PYSEC-2026-2" rel="nofollow">https://osv.dev/vulnerability/PYSEC-2026-2</a>
+
+---
+Import Source
+<a href="https://github.com/pypa/advisory-database/blob/main/vulns/litellm/PYSEC-2026-2.yaml" rel="nofollow">https://github.com/pypa/advisory-database/blob/main/vulns/litellm/PYSEC-2026-2.yaml</a>
+
+JSON Data
+<a href="https://api.osv.dev/v1/vulns/PYSEC-2026-2" rel="nofollow">https://api.osv.dev/v1/vulns/PYSEC-2026-2</a>
+
+Aliases
+* MAL-2026-2144
+
+Published
+2026-03-24T16:15:08.809028Z
+
+Modified
+2026-03-24T22:41:32.746566Z
+
+Summary
+Two litellm versions published containing credential harvesting
+malware
+
+Details
+
+After an API Token exposure from an exploited Trivy dependency,
+two new releases of litellm were uploaded to PyPI containing
+automatically activated malware, harvesting sensitive credentials
+and files, and exfiltrating to a remote API.
+
+The malicious code runs during importing any module from the
+package and scans the file system and environment variables,
+collecting all kinds of sensitive data, including but not limited
+to private SSH keys, credentials to Git and Docker repositories,
+dotenv files, tokens to Kubernetes service accounts, databases and
+LDAP configuration. Also exfiltrated are multiple shell history
+files and cryptowallet keys. The malware actively attempts to
+obtain cloud access tokens from metadata servers and retrieve
+secrets stored in AWS Secrets Manager. All collected data are sent
+to the domain models.litellm[.]cloud
+
+Furthermore, the code includes a persistence mechanism by
+configuring a SystemD service unit masqueraded as "System
+Telemetry Service" on the host it runs on, and in a Kubernetes
+environment also by creating a new pod. The persistence script
+then contacts hxxps://checkmarx[.]zone/raw for further
+instructions.
+
+Anyone who has installed and run the project should assume any
+credentials available to litellm environment may have been
+exposed, and revoke/rotate them accordingly. The affected
+environment should be isolated and carefully reviewed against any
+unexpected modifications and network traffic.
+
+References
+* <a href="https://inspector.pypi.io/project/litellm/1.82.8/packages/f6/2c/731b614e6cee0bca1e010a36fd381fba69ee836fe3cb6753ba23ef2b9601/litellm-1.82.8.tar.gz/litellm-1.82.8/litellm_init.pth#line.1" rel="nofollow">https://inspector.pypi.io/project/litellm/1.82.8/packages/f6/2c/731b614e6cee0bca1e010a36fd381fba69ee836fe3cb6753ba23ef2b9601/litellm-1.82.8.tar.gz/litellm-1.82.8/litellm_init.pth#line.1</a>
+* <a href="https://inspector.pypi.io/project/litellm/1.82.7/packages/79/5f/b6998d42c6ccd32d36e12661f2734602e72a576d52a51f4245aef0b20b4d/litellm-1.82.7-py3-none-any.whl/litellm/proxy/proxy_server.py#line.130" rel="nofollow">https://inspector.pypi.io/project/litellm/1.82.7/packages/79/5f/b6998d42c6ccd32d36e12661f2734602e72a576d52a51f4245aef0b20b4d/litellm-1.82.7-py3-none-any.whl/litellm/proxy/proxy_server.py#line.130</a>
+* <a href="https://github.com/BerriAI/litellm/issues/24518" rel="nofollow">https://github.com/BerriAI/litellm/issues/24518</a>
+* <a href="https://futuresearch.ai/blog/litellm-pypi-supply-chain-attack/" rel="nofollow">https://futuresearch.ai/blog/litellm-pypi-supply-chain-attack/</a>
+* <a href="https://www.wiz.io/blog/teampcp-attack-kics-github-action" rel="nofollow">https://www.wiz.io/blog/teampcp-attack-kics-github-action</a>
+
+Credits
+*    * Callum McMahon, Futuresearch - REPORTER
+*    * Mike Fiedler - COORDINATOR
+*    * Kamil Mańkowski - ANALYST
+
+Affected packages
+
+PyPI / litellm
+
+Package
+
+Name
+litellm
+View open source insights on deps.dev
+
+Purl
+pkg:pypi/litellm
+
+Affected ranges
+
+Type
+ECOSYSTEM
+
+Events
+Introduced
+1.82.7
+Last affected
+1.82.8
+
+Affected versions
+
+1.*
+1.82.7
+1.82.8
+
+Database specific
+
+source
+
+"<a href="https://github.com/pypa/advisory-database/blob/main/vulns/litellm/PYSEC-2026-2.yaml" rel="nofollow">https://github.com/pypa/advisory-database/blob/main/vulns/litellm/PYSEC-2026-2.yaml</a>"
+
+PYSEC-2026-2 - OSV
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

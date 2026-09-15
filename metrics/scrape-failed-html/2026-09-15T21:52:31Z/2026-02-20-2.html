@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: MIT/Heimdal Kerberos credentials cache type FILE
+ risks</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2026/02/19/7">[&lt;thread-prev]</a> <a href="1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;dc5a9c05-ab0c-4922-9f8e-d0ce2e6a53b1&#64;gmail.com&gt;
+Date: Thu, 19 Feb 2026 20:57:48 -0600
+From: Jacob Bachmeyer &lt;jcb62281&#64;...il.com&gt;
+To: Russ Allbery &lt;eagle&#64;...ie.org&gt;
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: MIT/Heimdal Kerberos credentials cache type FILE
+ risks
+
+On 2/19/26 14:29, Russ Allbery wrote:
+&gt; It's been some years since I've worked on Kerberos extensively, but I
+&gt; still maintain some Kerberos-related software and may be able to provide
+&gt; some context here. I have not been closely tracking developments in
+&gt; keyring formats and do not know how usable KEYRING caches are these days,
+&gt; so I may get some of these details wrong.
+
+Excellent, someone with more and/or more-recent knowledge on the topic!  :-)
+
+&gt; Jacob Bachmeyer&lt;jcb62281&#64;...il.com&gt; writes:
+&gt;&gt;&gt; On Thu, Feb 05, 2026 at 10:24:03AM +0100, Raul Vega wrote:
+&gt;&gt;&gt;&gt; The core of this vulnerability is a semantic failure in object
+&gt;&gt;&gt;&gt; lifecycle management. While the Kerberos protocol is syntactically
+&gt;&gt;&gt;&gt; secure, current Linux implementations fail to semantically bound the
+&gt;&gt;&gt;&gt; identity token (bearer ticket) to the process lifetime.
+&gt;&gt; Which process lifetime are we talking about here?
+&gt; My understanding is that the context of this report is services running
+&gt; with Kerberos credentials. [...]
+
+That is an interesting way of looking at it.  The report seemed to me to 
+be describing hijacking user accounts after cracking a service.  I agree 
+that this is a greater risk for services, but also that those risks are 
+well-known, and I add that a service should have much narrower access 
+than a user.
+
+&gt; [...]
+&gt;
+&gt; In other words, this is a valid concern, but it's kind of a minor one.
+&gt; Having ticket caches lying around that live beyond the lifetime of the
+&gt; service creates some additional security risk, but in most cases it's less
+&gt; than the *necessary* security risk of having a keytab on the system that
+&gt; can be used to create new ticket caches at any time. [...]
+
+Exactly.  The risks here are already well-known; the report is bogus.
+
+&gt; [...]
+&gt;
+&gt;&gt; Arguable, but that is why you are supposed to invoke kdestroy in your
+&gt;&gt; logout script.
+&gt; A more typical design at institutions that use Kerberos heavily is to
+&gt; acquire Kerberos tickets on login via PAM (usually with sssd these days)
+&gt; and destroy them on logout via PAM as well so that users do not have to
+&gt; handle this in their shell files.
+
+... which only eliminates a potential source of user error, thus closing 
+that loophole and further managing the risks that the report blows out 
+of proportion.
+
+&gt;&gt;&gt;&gt; By weaponizing the "Crash and Trash" scenario, an attacker can
+&gt;&gt;&gt;&gt; transform a transient authentication secret into a persistent forensic
+&gt;&gt;&gt;&gt; artifact. This allows an unprivileged local attacker???or a remote
+&gt;&gt;&gt;&gt; attacker via an RCE/LFI chain???to bypass Kerberos protocol guarantees
+&gt;&gt;&gt;&gt; and achieve complete network-wide identity theft.
+&gt; Those are certainly all words. Some of them are even security-related.
+
+Exactly what LLMs are good at.  :-)
+
+&gt; [...]
+&gt;&gt;&gt;&gt; Exploitation: An LFI (Local File Inclusion) vulnerability in a web
+&gt;&gt;&gt;&gt; application can be used to "pull the trash" from /tmp, granting the
+&gt;&gt;&gt;&gt; attacker a valid TGT (Ticket Granting Ticket) with a ~10-hour TTL.
+&gt;&gt; Only if DAC is not being used properly.  If you are running a web
+&gt;&gt; application as root, you have bigger problems than stolen Kerberos
+&gt;&gt; tickets.
+&gt; I think the concern here is that the web application has its own tickets,
+&gt; which necessarily must be accessible to the web application. Therefore, if
+&gt; there is a vulnerability in the web application, that can be used to
+&gt; exfiltrate the Kerberos tickets for the web application.
+
+This does not necessarily give the attacker a ticket with a "~10-hour 
+TTL" (as claimed in the report) and it also blows up "The Grand Chain" 
+because a web application's Kerberos credentials should not be "the keys 
+to the kingdom" and the KDC admins should notice if the "web server" 
+suddenly starts asking for interactive login sessions, for example.
+
+Mallory could plausibly get to the resources (such as a database) 
+backing a web service, however.  This essentially could allow a local 
+file exfiltration to escalate into something close to an equivalent of 
+arbitrary code execution.
+
+However, a service's authentication tickets should be bound to the known 
+server addresses, unlike user TGTs that can plausibly follow a user 
+around the network.  If this is done, the attack fails completely:  
+Mallory gets the ticket, but it is useless to him without further access.
+
+&gt; Put that way, this is trivially and obviously correct. Maybe storing the
+&gt; tickets in a file in the file system makes it moderately easier to
+&gt; exfiltrate them given some sort of limited security flaw and keyring
+&gt; ticket caches might be less vulnerable, but this is highly speculative and
+&gt; depends on the exact nature of the vulnerability.
+
+If we are talking about exploitable web services, the larger risk is the 
+attacker finding some way to get the web service to simply *use* its 
+credentials to obtain information for the attacker. This is completely 
+independent of Kerberos or any other authentication scheme.
+
+&gt; [...]
+&gt;&gt;&gt;&gt; 2. Memory Lifecycle Failure (Crash and Trash)
+&gt;&gt;&gt;&gt; When an application handling Kerberos authentication crashes, the
+&gt;&gt;&gt;&gt; system generates a core dump (if enabled).
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; The Semantic Gap: The credential remains in the heap or stack during
+&gt;&gt;&gt;&gt; the crash. Because many distributions do not restrict access to core
+&gt;&gt;&gt;&gt; dumps or leave them in unencrypted storage, these secrets become
+&gt;&gt;&gt;&gt; "trash" that is readily harvestable via standard string extraction.
+&gt;&gt; If, and only if, the application crashed during the authentication, or did
+&gt;&gt; not take proper steps to discard the credential after using it.  Again,
+&gt;&gt; this is (probably) an application bug, although I am not familiar enough
+&gt;&gt; with the Kerberos libraries to say what extent of care is taken to
+&gt;&gt; extinguish no-longer-needed in-memory copies of tickets.
+&gt; Yeah, this is just every piece of software in existence that manages its
+&gt; own secure credentials. The same can be said of software using X.509
+&gt; credentials as well. If you want to use a differnet security system that
+&gt; stores all keys in a TPM, that may be the right choice in some security
+&gt; models, but that just means Kerberos is not a good fit for you.
+
+Which is another strike against the original report, which claimed a 
+weakness in Kerberos ticket caches specifically.
+
+&gt;&gt; Note that service tickets usually have much shorter lifetimes than TGTs,
+&gt;&gt; since they only need to be valid long enough to "run" from the KDC to the
+&gt;&gt; service, presenting the ticket at the latter.
+&gt; This varies a lot, and in my experience a more typical setup is for both
+&gt; TGTs and service tickets to have the same lifetimes. Regardless, though,
+&gt; for tickets for services that are managed externally, one can use a tool
+&gt; like kstart to regularly refresh the ticket cache, in which case you can
+&gt; set a short lifetime on *both*.
+
+I stand corrected ... unless we are talking about two different things.  
+I was using "service ticket" to mean the token a user obtains from the 
+KDC and presents to a service to obtain access. Are you using "service 
+ticket" to mean a service's TGT or similar?
+
+Or am I misremembering this part of Kerberos?
+
+&gt;&gt; If I remember correctly, stealing anything other than a TGT is useless,
+&gt;&gt; since service tickets are encrypted under a key in the TGT and contain a
+&gt;&gt; session key for talking to that service.
+&gt; No, this is not correct: If you have possession of the service ticket, you
+&gt; can authenticate as the user to that specific service. You do not need the
+&gt; TGT. Otherwise, limited ticket forwarding would not work.
+
+Then I misremembered that detail.  So the cache stores the decrypted 
+session key needed to use the ticket in all cases?
+
+
+-- Jacob
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [OSSA-2026-015] OpenStack Keystone: Multiple credential delegation
+ and authorization bypass vulnerabilities (CVE-2026-42998, CVE-2026-42999,
+ CVE-2026-43000, CVE-2026-43001, CVE-2026-44394)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;eda670ae-ab8d-470c-a2cb-b98fb3e86475&#64;gmail.com&gt;
+Date: Thu, 28 May 2026 09:38:01 -0700
+From: Goutham Pacha Ravi &lt;gouthampravi&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: [OSSA-2026-015] OpenStack Keystone: Multiple credential delegation
+ and authorization bypass vulnerabilities (CVE-2026-42998, CVE-2026-42999,
+ CVE-2026-43000, CVE-2026-43001, CVE-2026-44394)
+
+==================================================================================================
+OSSA-2026-015: Multiple credential delegation and authorization bypass 
+vulnerabilities in Keystone
+==================================================================================================
+
+:Date: May 28, 2026
+:CVE: CVE-2026-42998,
+       CVE-2026-42999,
+       CVE-2026-43000,
+       CVE-2026-43001,
+       CVE-2026-44394
+
+
+Affects
+~~~~~~~
+- Keystone: &gt;=14.0.0 &lt;27.0.2, &gt;=28.0.0 &lt;28.0.2, &gt;=29.0.0 &lt;29.0.2
+
+
+Description
+~~~~~~~~~~~
+Boris Bobrov from SAP SE reported that an authenticated attacker can 
+inject RBAC policy targets via the JSON request body, bypassing 
+authorization on any policy-protected endpoint to read credential 
+secrets, create credentials for arbitrary users, and escalate to cloud 
+admin (CVE-2026-42999). Application credential authentication does not 
+verify the caller owns the credential, enabling user impersonation 
+within a shared project (CVE-2026-42998). This impersonation can be 
+chained with trusts to escalate from member to admin, with the resulting 
+trust persisting independently (CVE-2026-43000). Tim Shepherd from 
+roiai.ca reported that application credentials scoped to one project can 
+create EC2 credentials for a different project (CVE-2026-43001). Erichen 
+from the Institute of Computing Technology, Chinese Academy of Sciences 
+reported that federated users can maintain access indefinitely by 
+repeatedly rescoping tokens before expiry, as each rescope issues a 
+fresh full-TTL token instead of inheriting the original expiry 
+(CVE-2026-44394). Additionally, Artem Goncharov from SysEleven GmbH 
+identified related issues in trust-scoped token handling and policy 
+enforcement during investigation. All Keystone deployments are affected; 
+CVE-2026-44394 only affects SAML2/OIDC deployments.
+
+
+
+Patches
+~~~~~~~
+- <a href="https://review.opendev.org/990500" rel="nofollow">https://review.opendev.org/990500</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/990501" rel="nofollow">https://review.opendev.org/990501</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/990502" rel="nofollow">https://review.opendev.org/990502</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/990503" rel="nofollow">https://review.opendev.org/990503</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/990504" rel="nofollow">https://review.opendev.org/990504</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/990495" rel="nofollow">https://review.opendev.org/990495</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/990496" rel="nofollow">https://review.opendev.org/990496</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/990497" rel="nofollow">https://review.opendev.org/990497</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/990498" rel="nofollow">https://review.opendev.org/990498</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/990499" rel="nofollow">https://review.opendev.org/990499</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/990490" rel="nofollow">https://review.opendev.org/990490</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/990491" rel="nofollow">https://review.opendev.org/990491</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/990492" rel="nofollow">https://review.opendev.org/990492</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/990493" rel="nofollow">https://review.opendev.org/990493</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/990494" rel="nofollow">https://review.opendev.org/990494</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/990485" rel="nofollow">https://review.opendev.org/990485</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/990486" rel="nofollow">https://review.opendev.org/990486</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/990487" rel="nofollow">https://review.opendev.org/990487</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/990488" rel="nofollow">https://review.opendev.org/990488</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/990489" rel="nofollow">https://review.opendev.org/990489</a> (2026.2/hibiscus)
+
+
+Credits
+~~~~~~~
+- Boris Bobrov from SAP SE (CVE-2026-42998, CVE-2026-42999, CVE-2026-43000)
+- Tim Shepherd from roiai.ca (CVE-2026-43001)
+- Erichen from Institute of Computing Technology, Chinese Academy of 
+Sciences (CVE-2026-44394)
+- Artem Goncharov from SysEleven GmbH
+
+
+References
+~~~~~~~~~~
+- <a href="https://launchpad.net/bugs/2148398" rel="nofollow">https://launchpad.net/bugs/2148398</a>
+- <a href="https://launchpad.net/bugs/2148477" rel="nofollow">https://launchpad.net/bugs/2148477</a>
+- <a href="https://launchpad.net/bugs/2149775" rel="nofollow">https://launchpad.net/bugs/2149775</a>
+- <a href="https://launchpad.net/bugs/2149789" rel="nofollow">https://launchpad.net/bugs/2149789</a>
+- <a href="https://launchpad.net/bugs/2150089" rel="nofollow">https://launchpad.net/bugs/2150089</a>
+- <a href="https://launchpad.net/bugs/2150379" rel="nofollow">https://launchpad.net/bugs/2150379</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-42998" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-42998</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-42999" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-42999</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-43000" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-43000</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-43001" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-43001</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-44394" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-44394</a>
+
+
+Notes
+~~~~~
+- The fix for CVE-2026-42999 modifies the trust policy structure.
+   Deployments with customized trust policies may experience issues with
+   image upload and Heat service functionality until the custom policy is
+   updated.
+- CVE-2026-44394 only affects deployments using SAML2 or OIDC
+   federation.
+
+
+--
+Goutham Pacha Ravi (gouthamr)
+OpenStack Vulnerability Management Team
+<a href="https://security.openstack.org/vmt.html" rel="nofollow">https://security.openstack.org/vmt.html</a>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="7/1" rel="nofollow" download>OpenPGP_0x0638DAD3B82C3988.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (3241 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="7/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (841 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

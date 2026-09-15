@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Two security advisories for Cargo from Rust</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;a6c44ea0-fb8e-4a61-a59d-13ae88f1b6f0&#64;oracle.com&gt;
+Date: Thu, 28 May 2026 11:04:55 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Two security advisories for Cargo from Rust
+
+The following advisories have been posted to both <a href="https://blog.rust-lang.org/" rel="nofollow">https://blog.rust-lang.org/</a>
+and <a href="https://groups.google.com/g/rustlang-security-announcements/" rel="nofollow">https://groups.google.com/g/rustlang-security-announcements/</a> earlier this
+week:
+
+&gt; # CVE-2026-5222: Cargo can be coerced to share credentials between registries
+&gt; 
+&gt; The Rust Security Response Team was notified that Cargo incorrectly normalized
+&gt; the URLs of third-party registries using the [sparse index protocol][1]. If a
+&gt; hosting provider allowed multiple registries to be hosted with arbitrary names
+&gt; within the same domain, an attacker able to publish crates in a registry could
+&gt; obtain the credentials of others users of the same registry.
+&gt; 
+&gt; This vulnerability is tracked as CVE-2026-5222. The severity of the
+&gt; vulnerability is **low**, due to the extremely niche requirements needed to
+&gt; achieve the attack.
+&gt; 
+&gt; ## Overview
+&gt; 
+&gt; Originally Cargo only supported storing a registry's index within git
+&gt; repositories. Most git hosting solutions allow accessing a git repository with
+&gt; or without the `.git` suffix, so Cargo mirrored this behavior when normalizing
+&gt; registry URLs. This allowed credentials for `<a href="https://example.com/index" rel="nofollow">https://example.com/index</a>` to be
+&gt; used for `<a href="https://example.com/index.git" rel="nofollow">https://example.com/index.git</a>`.
+&gt; 
+&gt; This normalization was unintentionally applied to the new sparse indexes too.
+&gt; Sparse indexes can be hosted on any HTTPS server, which treat URLs ending with
+&gt; `.git` as different URLs than those without the suffix.
+&gt; 
+&gt; If the following conditions apply:
+&gt; 
+&gt; * `<a href="https://example.com/index" rel="nofollow">https://example.com/index</a>` is a sparse index.
+&gt; * `<a href="https://example.com/index" rel="nofollow">https://example.com/index</a>` allows crates to depend on crates from any other
+&gt; registry.
+&gt; * The attacker is able to publish crates on `<a href="https://example.com/index" rel="nofollow">https://example.com/index</a>`.
+&gt; * The attacker is able to upload arbitrary files to
+&gt; `<a href="https://example.com/index.git" rel="nofollow">https://example.com/index.git</a>`.
+&gt; 
+&gt; ...the attacker could configure `<a href="https://example.com/index.git" rel="nofollow">https://example.com/index.git</a>` to be a Cargo
+&gt; sparse registry requiring authentication for downloads, and with a download URL
+&gt; pointing to a server recording any credentials set to it.
+&gt; 
+&gt; When the attacker then publishes a crate `foo` to `<a href="https://example.com/index" rel="nofollow">https://example.com/index</a>`
+&gt; depending on a crate `bar` from `<a href="https://example.com/index.git" rel="nofollow">https://example.com/index.git</a>`, and tricks the
+&gt; victim into downloading `foo`, Cargo will think the two registries share the
+&gt; same credential and send the victim's Cargo token to the malicious registry.
+&gt; 
+&gt; ## Mitigations
+&gt; 
+&gt; Rust 1.96, to be released on May 28th, 2026, will update Cargo to only strip the
+&gt; `.git` suffix from registry URLs using the git protocol. No mitigations are
+&gt; available for users of older versions of Cargo.
+&gt; 
+&gt; ## Affected versions
+&gt; 
+&gt; All versions of Cargo shipped between Rust 1.68 (the stabilization of sparse
+&gt; registries) and 1.96 are affected.
+&gt; 
+&gt; ## Acknowledgements
+&gt; 
+&gt; We'd like to thank Christos Papakonstantinou for reporting this to us according
+&gt; to the [Rust security policy][2].
+&gt; 
+&gt; We also want to thank the members of the Rust project who helped us address the
+&gt; vulnerability: Arlo Siemens for developing the fix; Weihang Lo, Eric Huss and
+&gt; Emily Albini for reviewing the fix; Emily Albini for writing this advisory;
+&gt; Emily Albini, Josh Stone and Manish Goregaokar for coordinating the disclosure.
+&gt; 
+&gt; [1]: <a href="https://doc.rust-lang.org/cargo/reference/registries.html#registry-protocols" rel="nofollow">https://doc.rust-lang.org/cargo/reference/registries.html#registry-protocols</a>
+&gt; [2]: <a href="https://rust-lang.org/policies/security" rel="nofollow">https://rust-lang.org/policies/security</a>
+
+
+
+&gt; # CVE-2026-5223: Crates in third party registries can override the cached source of other crates
+&gt; 
+&gt; The Rust Security Response Team was notified that Cargo incorrectly handled
+&gt; symlinks inside of crate tarballs downloaded from third-party registries,
+&gt; allowing a malicious crate to override the source code of another crate from the
+&gt; same registry.
+&gt; 
+&gt; This vulnerability is tracked as CVE-2026-5223. The severity of the
+&gt; vulnerability is **medium** for users of third-party registries. Users of
+&gt; crates.io are **not affected**, as crates.io forbids uploading crates containing
+&gt; any symlink.
+&gt; 
+&gt; ## Overview
+&gt; 
+&gt; When building a crate, Cargo extracts its source code in a local cache (stored
+&gt; within `~/.cargo`), reusing it for any future build. Cargo includes protections
+&gt; to prevent any file from being extracted outside of the crate's own cache
+&gt; directory.
+&gt; 
+&gt; It was discovered that it's possible to craft a malicious tarball able to
+&gt; extract files one level below the crate's own cache directory. With the way the
+&gt; cache is structured, that allowed the malicious crate to override the cache of
+&gt; other crates belonging to the same registry.
+&gt; 
+&gt; ## Mitigations
+&gt; 
+&gt; Rust 1.96.0, to be released on May 28th, 2026, will update Cargo to reject
+&gt; extracting *any* symlink within crate tarballs, regardless of whether they come
+&gt; from crates.io (which already forbids them) or third-party registries. Note that
+&gt; Cargo never added symlinks when running `cargo package` or `cargo publish`, so
+&gt; the impact of this should be minimal.
+&gt; 
+&gt; Users who are not able to upgrade to the most recent Rust version are
+&gt; recommended to audit the contents of their registry for the presence of any
+&gt; symlink, and to configure their registry to reject symlink (if such option is
+&gt; available).
+&gt; 
+&gt; ## Affected versions
+&gt; 
+&gt; All versions of Cargo shipped before Rust 1.96.0 are affected.
+&gt; 
+&gt; ## Acknowledgements
+&gt; 
+&gt; We'd like to thank Christos Papakonstantinou for reporting this to us according
+&gt; to the [Rust security policy][1].
+&gt; 
+&gt; We also want to thank the members of the Rust project who helped us address the
+&gt; vulnerability: Josh Triplett for developing the fix; Arlo Siemsen for reviewing
+&gt; the fix; Emily Albini for writing this advisory; Emily Albini, Josh Stone and
+&gt; Manish Goregaokar for coordinating the disclosure; Ed Page and Eric Huss for
+&gt; advising during the disclosure.
+&gt; 
+&gt; [1]: <a href="https://rust-lang.org/policies/security" rel="nofollow">https://rust-lang.org/policies/security</a>
+
+
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

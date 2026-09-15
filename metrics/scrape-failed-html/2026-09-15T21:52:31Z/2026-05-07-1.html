@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Linux kernel: KTLS + sockmap "Reverse Order" Use-After-Free / Data Corruption</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/05/06/8">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260507042708.GA2912&#64;openwall.com&gt;
+Date: Thu, 7 May 2026 06:27:08 +0200
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: xw x &lt;v3rdant.xiang&#64;...il.com&gt;
+Subject: Linux kernel: KTLS + sockmap "Reverse Order" Use-After-Free / Data Corruption
+
+Hi,
+
+V3rdant, CC'ed here, brought this Linux kernel issue to linux-distros on
+March 18, and apparently also to s@k.o at about the same time, citing
+the (outdated) syzkaller "Reporting Linux kernel bugs" instructions:
+
+<a href="https://www.openwall.com/lists/oss-security/2026/05/03/2">https://www.openwall.com/lists/oss-security/2026/05/03/2</a>
+
+So we immediately had a coordination problem, which V3rdant acknowledged:
+
+On Wed, Mar 18, 2026 at 10:28:23PM +0000, x xw wrote:
+&gt; I apologize, I sent the email because of this link: <a href="https://github.com/google/syzkaller/blob/master/docs/linux/reporting_kernel_bugs.md" rel="nofollow">https://github.com/google/syzkaller/blob/master/docs/linux/reporting_kernel_bugs.md</a>, which mentions, "There should ideally be no delay between reports to security&#64;...nel.org and linux-distros&#64;...openwall.org."
+&gt; 
+&gt; I will disclose this vulnerability on March 31st.
+&gt; 
+&gt; Regarding CVE-2025-37756, I am certain it is exploitable, not just for DOS. The original discoverer and the exploiter are not the same person; the exploit is already publicly available: <a href="https://github.com/google/security-research/tree/master/pocs/linux/kernelctf/CVE-2025-37756_mitigation" rel="nofollow">https://github.com/google/security-research/tree/master/pocs/linux/kernelctf/CVE-2025-37756_mitigation</a>. Therefore, my exploit conditions are the same.
+[...]
+&gt; V3rdant.
+
+So we got a planned public disclosure date anyway, which I recorded for
+my distros list statistics.
+
+Then there were a few more messages where V3rdant informed linux-distros
+that s@k.o responded and that the issue is now semi-public on netdev:
+
+<a href="https://lore.kernel.org/all/20260321033027.4044119-1-v3rdant.xiang&#64;gmail.com/" rel="nofollow">https://lore.kernel.org/all/20260321033027.4044119-1-v3rdant.xiang&#64;gmail.com/</a>
+<a href="https://lists.openwall.net/netdev/2026/03/21/49">https://lists.openwall.net/netdev/2026/03/21/49</a> (same as above)
+
+As you can see from the netdev thread, the fix V3rdant proposed was
+rejected (for a reason).  I could not find any attempt at another fix.
+
+It looks like literally everyone dropped the ball on this issue after
+that point.  This includes two distros who had volunteered for:
+
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/distros#contributing-back">https://oss-security.openwall.org/wiki/mailing-lists/distros#contributing-back</a>
+
+9. Stay on top of issues to ensure progress is being made, remind others
+when there's no apparent progress, as well as when the public disclosure
+date for an issue is approaching and when it's finally reached (unless
+the reporter beats you to it by making their mandatory posting to
+oss-security first) - primary: Gentoo, backup: Amazon
+
+I since heard back from Gentoo on this, but no word from Amazon yet.
+
+Unfortunately, I did not approach fully processing the distros list
+statistics for March until early May this time (I'd normally do that in
+mid-April), and so didn't rediscover that this issue fell through the
+cracks earlier.  Once I did, I pinged linux-distros about the issue
+again, suggesting we could still have a few days of semi-embargo since
+we exceeded the usual deadline by so much already, but no one cared.  So
+here I am doing what V3rdant should have done - taking care of the final
+public disclosure step, belatedly.
+
+I also note that the related CVE-2025-37756 is rated CVSS 3.3 Low by
+Red Hat and CVSS 5.5 by NVD.  Both claim there's only Availability
+impact.  This is inconsistent with existence of a code execution exploit
+at the kCTF link in V3rdant's quoted message above.  There are
+mitigating factors on specific distros, such as RHEL9 building with
+CONFIG_TLS=m and the kernel not auto-loading tls.ko and the exploit
+using hard-coded offsets for another distro's kernels.  But that's part
+of (non-)exposure and poor exploit portability, not impact, so the CVSS
+vectors not claiming any impact beyond Availability are wrong.  This CVE
+doesn't appear to be scored by the Linux kernel CNA.
+
+The new related issue reported by V3rdant doesn't appear to have a CVE
+yet - per Linux kernel CNA policy it'd normally need to be fixed first.
+
+I include V3rdant's original report below.  I am _not_ re-attaching
+the PoCs just yet - I may add them to this thread a week later - even
+though they are not complete weaponized exploits.  I tried running them
+against a RHEL9'ish kernel.  Without tls.ko loaded or/and without
+CAP_NET_ADMIN, they failed (with error returns from syscalls).  With
+tls.ko loaded and running as root, I got instant kernel crash, which I
+did not investigate (so I'm not sure it's the PoC's intended crash).
+
+I guess on a distro with CONFIG_TLS=y or with the module already loaded
+(such as if kTLS is in use), this issue could be exposed to non-root
+users through unprivileged network namespaces.
+
+Alexander
+
+On Wed, Mar 18, 2026 at 11:54:41AM +0000, x xw wrote:
+&gt; Hello Linux distros Team,
+&gt; 
+&gt; I am writing to report a vulnerability found in the Linux kernel's KTLS (Kernel TLS) subsystem when interacting with BPF sockmap.
+&gt; 
+&gt; **Summary:**
+&gt; 
+&gt; This is a bypass for the CVE-2025-37756 patch, triggered drain the skb using BPF, like `tcp_disconnect` in cve-2025-37756. There is a flaw in how the kernel handles the coexistence of KTLS and BPF sockmaps. While `sk_psock_init` correctly blocks adding a TLS-enabled socket to a sockmap (preventing "forward order" attachment), the `tls_init` path does not check if a socket is already attached to a sockmap.
+&gt; 
+&gt; This allows a malicious user with `CAP_BPF` and `CAP_NET_ADMIN` (e.g., inside a container) to set up a "reverse order" configuration:
+&gt; 1. Insert a TCP socket into a BPF sockmap (with a verdict program).
+&gt; 2. Enable ULP/KTLS on that same socket.
+&gt; and then LPE or Container Escape
+&gt; 
+&gt; This configuration corrupts the data path. The `sk_psock_verdict_data_ready` callback drains the TCP receive queue via `tcp_read_skb` but fails to update TCP sequence numbers (`copied_seq`) when the verdict is `SK_PASS`. The TLS strparser then attempts to read from an empty queue based on stale sequence numbers, leading to a `WARN_ON_ONCE` and potential Use-After-Free (UAF) or data corruption when `frag_list` pointers become dangling.
+&gt; 
+&gt; **Vulnerability Details:**
+&gt; 
+&gt; Attack flow:
+&gt; 1. Create TCP pair
+&gt; 2. Create sockmap with BPF SK_SKB_VERDICT program (returns SK_PASS)
+&gt; 3. Insert server socket into sockmap (BEFORE TLS setup)
+&gt; -&gt; sk-&gt;sk_data_ready = sk_psock_verdict_data_ready
+&gt; 4. Set up TLS TX on client, TLS RX on server
+&gt; -&gt; tls_sw_strparser_arm() saves sk_psock_verdict_data_ready as
+&gt; rx_ctx-&gt;saved_data_ready, sets sk-&gt;sk_data_ready = tls_data_ready
+&gt; 5. Client sends data (KTLS encrypts transparently)
+&gt; 6. Data arrives at server:
+&gt; a. tcp_data_ready() -&gt; tls_data_ready() -&gt; tls_strp_data_ready()
+&gt; b. tls_strp_check_rcv() -&gt; tls_strp_read_sock()
+&gt; c. tls_strp_load_anchor_with_queue() sets frag_list -&gt; TCP recv queue
+&gt; d. msg_ready = 1
+&gt; e. tls_rx_msg_ready() -&gt; ctx-&gt;saved_data_ready(sk)
+&gt; = sk_psock_verdict_data_ready(sk)
+&gt; f. tcp_read_skb() -&gt; __skb_unlink() removes all skbs from recv queue
+&gt; g. sk_psock_verdict_recv() -&gt; BPF SK_PASS -&gt; sk_psock_skb_ingress_self()
+&gt; Note: tcp_eat_skb() NOT called for SK_PASS -&gt; copied_seq unchanged
+&gt; h. frag_list now points to skb owned by psock (unlinked from recv queue)
+&gt; 7. Server calls recv():
+&gt; a. tls_sw_recvmsg() -&gt; tls_rx_rec_wait() -&gt; tls_strp_msg_load(force_refresh)
+&gt; b. tcp_inq() &gt;= full_len (stale! copied_seq wasn't advanced)
+&gt; c. tls_strp_load_anchor_with_queue() -&gt; tcp_recv_skb() returns NULL
+&gt; (queue is empty!) -&gt; WARN_ON_ONCE(!first) fires -&gt; returns
+&gt; d. frag_list still points to old (psock-owned or freed) skb
+&gt; e. tls_decrypt_sg() walks frag_list -&gt; potential UAF
+&gt; 
+&gt; **Affected Versions:**
+&gt; 
+&gt; Confimed on Linux 6.12.77 (LTS). Likely affects all versions supporting both KTLS and sockmap.
+&gt; 
+&gt; **Reproduction:**
+&gt; 
+&gt; A Proof-of-Concept (PoC) exploit (`poc_sockmap_tls_uaf.c`) is attached??wich could trigger `WARN_ON_ONCE`
+&gt; Compilation: `gcc -static -o poc_sockmap_tls_uaf poc_sockmap_tls_uaf.c`
+&gt; Requirement: `CAP_NET_ADMIN` (needed for `BPF_MAP_TYPE_SOCKMAP` on sockmap).
+&gt; 
+&gt; `poc_for_uaf.c` could trigger `KASAN: slab-use-after-free` crash.
+&gt; 
+&gt; **Impact:**
+&gt; 
+&gt; - **Kernel Warning/Crash**: Reliable `WARN_ON_ONCE` / `UAF` trigger.
+&gt; - **Privilege Escalation**: CVE-2025-37756 has been hacked on google KernelCTF. This is a bypass for the CVE-2025-37756 patch, also can used for LPE with the same flow of CVE-2025-37756.
+&gt; 
+&gt; **Suggested Fix:**
+&gt; 
+&gt; 1. **Block Reverse Order**: Modify `tls_init` in `net/tls/tls_main.c` to Block Reverse Order.
+&gt; 
+&gt; 
+&gt; Best regards,
+&gt; V3rdant
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [SBA-ADV-20260126-04] CVE-2026-42539: DFIR-IRIS before 2.4.28
+ Excessive Data Exposure</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;ae5371431cc84d1ea7b830d179ef4cfa&#64;sba-research.org&gt;
+Date: Tue, 19 May 2026 14:10:29 +0000
+From: SBA Research Security Advisory &lt;advisory&#64;...-research.org&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: [SBA-ADV-20260126-04] CVE-2026-42539: DFIR-IRIS before 2.4.28
+ Excessive Data Exposure
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+# DFIR-IRIS Excessive Data Exposure #
+
+Link: <a href="https://github.com/sbaresearch/advisories/tree/public/2026/SBA-ADV-20260126-04_DFIR-IRIS_Excessive_Data_Exposure" rel="nofollow">https://github.com/sbaresearch/advisories/tree/public/2026/SBA-ADV-20260126-04_DFIR-IRIS_Excessive_Data_Exposure</a>
+
+## Vulnerability Overview ##
+
+The IRIS web application returns sensitive data to the user which are not
+required for the client’s operation.
+
+* **Identifier**            : SBA-ADV-20260126-04
+* **Type of Vulnerability** : Excessive Data Exposure
+* **Software/Product Name** : [IRIS](<a href="https://www.dfir-iris.org/" rel="nofollow">https://www.dfir-iris.org/</a>)
+* **Vendor**                : [DFIR-IRIS](<a href="https://github.com/dfir-iris" rel="nofollow">https://github.com/dfir-iris</a>)
+* **Affected Versions**     : &lt;= 2.4.27
+* **Fixed in Version**      : v2.4.28
+* **CVE ID**                : CVE-2026-42539
+* **CVSS Vector**           : CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N
+* **CVSS Base Score**       : 6.5 (Medium)
+
+## Vendor Description ##
+
+&gt; IRIS is a collaborative digital platform designed for incident response
+&gt; analysts to share complex investigations at a technical level. It can be
+&gt; installed on a dedicated server or as a portable application for roaming
+&gt; investigations where internet access might not be available.
+
+Source: &lt;<a href="https://docs.dfir-iris.org/2.4.24/" rel="nofollow">https://docs.dfir-iris.org/2.4.24/</a>&gt;
+
+## Impact ##
+
+The following data points are returned by the application without necessity:
+
+* Password hashes
+* *Multi-Factor Authentication (MFA)* secrets
+* Local storage paths on the server
+
+## Vulnerability Description ##
+
+When accessing certain objects from the API, the response contains more
+fields than necessary for the application. Among these additional fields,
+there are sensitive ones that might be misused by an attacker. This might
+severely increase the impact of other vulnerabilities, such as access control
+issues.
+
+## Proof of Concept ##
+
+### User Details ###
+
+If an administrator updates information about an account, several sensitive
+data which is not required for the application’s operations are returned by
+the server:
+
+* The hash of the user’s password
+* The *Multi-Factor Authentication (MFA)* secret configured for the user
+
+```http
+POST /manage/users/update/2?cid=1 HTTP/1.1
+Host: myiris.local
+Cookie: session=.eJwt[...]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/json;charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 233
+Origin: <a href="https://myiris.local" rel="nofollow">https://myiris.local</a>
+Referer: <a href="https://myiris.local/manage/access-control?cid=1" rel="nofollow">https://myiris.local/manage/access-control?cid=1</a>
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+Priority: u=0
+Te: trailers
+Connection: keep-alive
+
+{"csrf_token":"IjgyNDllMDhhZjJhMWYwZmVkMmFkYTdjNzU0ODZlNDM1Y2JlZGY1YTYi.aWTS9Q.NpxZMD7Mi_3VtCQ8TTjBDG9mvvo","user_name":"Pen Tester I","user_login":"pt1","user_email":"pt1&#64;....zone","uuid":   "00000000-0000-48a3-bf5e-88455ce6c207"
+}
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Mon, 26 Jan 2026 11:02:00 GMT
+Content-Type: application/json
+Content-Length: 524
+Connection: keep-alive
+Vary: Cookie
+Content-Security-Policy: default-src 'self' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; script-src 'self' 'unsafe-inline' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; style-src 'self' 'unsafe-inline'; img-src 'self' data:;
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000: includeSubDomains
+Front-End-Https: on
+
+{"status": "success", "message": "User updated", "data": {"user_name": "Pen Tester I", "user_login": "pt1", "user_email": "pt1&#64;....zone", "user_password": "$2b$12$bYeULWZhSC/yg62cO/0tUuB9RjA2UACEWTI6EbPe/HXH2IiIS/aOm", "user_id": 2, "user_is_service_account": false, "id": 2, "uuid": "00000000-0000-48a3-bf5e-88455ce6c207", "active": true, "external_id": null, "in_dark_mode": true, "has_mini_sidebar": false, "has_deletion_confirmation": false, "mfa_secrets": 3VJMGO3K7JYRV5SQUJ2N33UQ5IY4UHVD, "webauthn_credentials": [], "mfa_setup_complete": true}}
+```
+
+The same information is returned if a user changes their own password:
+
+```http
+POST /user/update?cid=1 HTTP/1.1
+Host: myiris.local
+Cookie: session=.eJwt[...]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/json;charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 139
+Origin: <a href="https://myiris.local" rel="nofollow">https://myiris.local</a>
+Referer: <a href="https://myiris.local/user/settings?cid=1" rel="nofollow">https://myiris.local/user/settings?cid=1</a>
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+X-Pwnfox-Color: cyan
+Priority: u=0
+Te: trailers
+Connection: keep-alive
+
+{"csrf_token":"ImU0OTZmMjYyYzBjOTg0MmFhMmM1OTQ5YmRiMzZiODdlM2Q0N2JjMDci.aWe5GA.cEJbHuA4NiOkRPLF3NMw3pzyVU4","user_password":"Password123."}
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Mon, 26 Jan 2026 15:41:43 GMT
+Content-Type: application/json
+Content-Length: 588
+Connection: keep-alive
+Vary: Cookie
+Content-Security-Policy: default-src 'self' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; script-src 'self' 'unsafe-inline' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; style-src 'self' 'unsafe-inline'; img-src 'self' data:;
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000: includeSubDomains
+Front-End-Https: on
+
+{"status": "success", "message": "User updated", "data": {"user_name": "Pen Tester I", "user_login": "pt1", "user_email": "pt1&#64;....zone", "user_password": "$2b$12$JlEi/KilzrYHP42PDte83.vL/soWPs3ktooy/eYbTCQ2iNM6H580K", "user_id": 2, "user_primary_organisation_id": 1, "user_is_service_account": false, "id": 2, "uuid": "00000000-0000-48a3-bf5e-88455ce6c207", "active": true, "external_id": null, "in_dark_mode": true, "has_mini_sidebar": false, "has_deletion_confirmation": false, "mfa_secrets": "3VJMGO3K7JYRV5SQUJ2N33UQ5IY4UHVD", "webauthn_credentials": [], "mfa_setup_complete": true}}
+```
+
+### Datastore ###
+
+If a file gets uploaded to the *Datastore*, the full path where it is stored
+on the server gets sent to the client. This information can help to
+facilitate an attack and is never used by the client.
+
+```http
+POST /datastore/file/update/1?cid=1 HTTP/1.1
+Host: myiris.local
+Cookie: session=.eJwt[...]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+X-Requested-With: XMLHttpRequest
+Content-Type: multipart/form-data; boundary=----geckoformboundaryd21c3536d53c9c4ccda05f864fdff09a
+Content-Length: 886
+Origin: <a href="https://myiris.local" rel="nofollow">https://myiris.local</a>
+Referer: <a href="https://myiris.local/case?cid=1" rel="nofollow">https://myiris.local/case?cid=1</a>
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+Priority: u=0
+Te: trailers
+Connection: keep-alive
+
+- ------geckoformboundaryd21c3536d53c9c4ccda05f864fdff09a
+Content-Disposition: form-data; name="csrf_token"
+
+ImRmMTMzZTczYzAwZDRjMDk5ZjhiZWQ3MDViYTk0YmE4MDdiZDZjOTAi.aWjqnQ.TSlFufL8ddu9Yv4p6rgbo1dWn90
+- ------geckoformboundaryd21c3536d53c9c4ccda05f864fdff09a
+Content-Disposition: form-data; name="file_original_name"
+
+xss.svg
+- ------geckoformboundaryd21c3536d53c9c4ccda05f864fdff09a
+Content-Disposition: form-data; name="file_description"
+
+&lt;script&gt;alert(19)&lt;/script&gt;
+- ------geckoformboundaryd21c3536d53c9c4ccda05f864fdff09a
+Content-Disposition: form-data; name="file_tags"
+
+
+- ------geckoformboundaryd21c3536d53c9c4ccda05f864fdff09a
+Content-Disposition: form-data; name="file_is_evidence"
+
+y
+- ------geckoformboundaryd21c3536d53c9c4ccda05f864fdff09a
+Content-Disposition: form-data; name="file_content"
+
+undefined
+- ------geckoformboundaryd21c3536d53c9c4ccda05f864fdff09a--
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Thu, 22 Jan 2026 13:25:08 GMT
+Content-Type: application/json
+Content-Length: 812
+Connection: keep-alive
+Vary: Cookie
+Content-Security-Policy: default-src 'self' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; script-src 'self' 'unsafe-inline' <a href="https://analytics.dfir-iris.org" rel="nofollow">https://analytics.dfir-iris.org</a>; style-src 'self' 'unsafe-inline'; img-src 'self' data:;
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000: includeSubDomains
+Front-End-Https: on
+
+{"status": "success", "message": "File updated in datastore", "data": {"file_original_name": "xss.svg", "file_description": "&lt;script&gt;alert(19)&lt;/script&gt;", "file_id": 1, "file_uuid": "c162ea6b-4133-4dc6-b648-f467e0cfa08e", "file_local_name": "/home/iris/server_data/datastore/Regulars/case-1/dsf-c162ea6b-4133-4dc6-b648-f467e0cfa08e.zip", "file_date_added": "2026-01-22T13:17:42.118517", "file_tags": "", "file_size": 379, "file_is_ioc": false, "file_is_evidence": true, "file_password": "1234", "file_parent_id": 2, "file_sha256": "206D7864487C8B35155BD20657738F38985785182FA6204392495EF5CDD2B19C", "added_by_user_id": 3, "modification_history": {"1768483062.118545": {"user": "pt2", "user_id": 3, "action": "created"}, "1768483508.544956": {"user": "pt2", "user_id": 3, "action": "updated"}}, "file_case_id": 1}}
+```
+
+## Recommended Countermeasures ##
+
+We recommend updating to IRIS version 2.4.28 or later.
+
+We strongly recommend taking an allowlist approach when it comes to
+serializing object properties for API responses. Do not approach the
+vulnerability by blocklisting sensitive and unnecessary fields, as this is
+very error-prone. Sensitive fields added to entities later on might be
+forgotten to put on the blocklist.
+
+Another approach would be the usage of *Data Transfer Objects (DTOs)*. Those
+are classes which only hold those attributes that are required in the context
+at hand.
+
+## Timeline ##
+
+* `2026-01-26` Identified the vulnerability in version 2.4.26
+* `2026-01-30` Initial vendor contact via e-mail
+* `2026-02-27` Second vendor contact via e-mail
+* `2026-03-30` Report on GitHub due to a missing response from the vendor
+* `2026-04-27` Version containing fix (v2.4.28) tagged by vendor
+* `2026-04-28` GitHub assigned CVE-2026-42539
+* `2026-05-04` Confirm fix for v2.4.28
+* `2026-05-19` Public disclosure
+
+## References ##
+
+* OWASP API Security Top 10. API3:2023 Broken Object Property Level
+  Authorization:
+  &lt;<a href="https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/" rel="nofollow">https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/</a>&gt;
+* Baeldung. The DTO Pattern (Data Transfer Object):
+  &lt;<a href="https://www.baeldung.com/java-dto-pattern" rel="nofollow">https://www.baeldung.com/java-dto-pattern</a>&gt;
+* Common Weakness Enumeration. CWE-201 Insertion of Sensitive Information Into
+  Sent Data: &lt;<a href="https://cwe.mitre.org/data/definitions/201.html" rel="nofollow">https://cwe.mitre.org/data/definitions/201.html</a>&gt;
+
+## Credits ##
+
+* Michael Koppmann ([SBA Research](<a href="https://www.sba-research.org/" rel="nofollow">https://www.sba-research.org/</a>))
+* Mathias Tausig ([SBA Research](<a href="https://www.sba-research.org/" rel="nofollow">https://www.sba-research.org/</a>))
+
+The discovery of this vulnerability was made possible through support from
+[CYSSDE](<a href="https://cyssde.eu/" rel="nofollow">https://cyssde.eu/</a>) and the European Union.
+
+![CYSSDE](images/cyssde.png)
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAEBCAA5FiEEL9Wp/yZWFD9OpIt6+7iGL1j3dbIFAmoMb1IbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwxAAoJEPu4hi9Y93WyuJ0QAMZul9DdKZGAed2UK4jj
+ljX8kgInCGDJNDKwMAI8/bKY0ucqvfmUmzJ+tyyOQr2TDUM/89ti0mqfK0htyCRY
+lYvnJ2LkYDIDSB4gbqTCHynMmp+rtnTW6nmN0UHZYzXnlsIBdmrjzxCE1IOReHV3
+IX0kIDSCKJ/04rDUu9bJBP68tgUGb3EUFKUuXEkqy5WCdJXLjGjuxeYNsZehZ112
+PMw59WvNVl7t66c9FQd70ghI9iep0CM6wr/zYTa8v2WU+APRh49MxMkcQW12VrU1
+SIzBILySrk3xfWD3KssSnAH2iSFxU5drtyqXd0VfrCJt3WRhm6L3qV0/B+IDa26/
+shUcGv+NsT7fQuCn0acoaAX9HdXIJKkCUSMIibBTrufxi3rod8iFQeVeiZXoobbm
+JLuJJbjpR10DVAvqhwvt+r+2WmKBZhx3HBr18aL20dgGflzEWaaQl1DNPzFtbMW+
+gqixiyTPMXIGsN+QSUFn5o1QaeEuXxfA1ssMVs9vPO8pzHYifY+rAL8HX6t6UTXp
+Zw18/M0SdVXdkcq+5MMS9diL32X9DNzyPYKh8XUqQfCPEkGSQDJKMBXEoYyuyXPD
+jQfEF0xUhu4qGFIeb4xoAk6Y9ShCI/mCIh7nHUd31U9ZEcj7OeWW/dsXWZ5geRye
+6r+mNighP+ZFpWSw9FpOzfuB
+=o3fr
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

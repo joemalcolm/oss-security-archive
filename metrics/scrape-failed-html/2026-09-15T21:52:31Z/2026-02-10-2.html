@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - PowerDNS Security Advisory 2026-01: Crafted zones can lead to
+ increased resource usage in Recursor</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;2039257248.5426.1770720441152&#64;appsuite.open-xchange.com&gt;
+Date: Tue, 10 Feb 2026 11:47:21 +0100 (CET)
+From: Otto Moerbeek &lt;otto.moerbeek&#64;...erdns.com&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: PowerDNS Security Advisory 2026-01: Crafted zones can lead to
+ increased resource usage in Recursor
+
+   We have released PowerDNS Recursor 5.1.10, 5.2.8 and 5.3.5.
+
+   These releases fix a PowerDNS Security Advisory
+
+     * 2026-01: Crafted zones can lead to increased resource usage in
+       Recursor
+
+   There are two CVEs associated with this advisory, both of severity
+   Medium.
+     __________________________________________________________________
+
+     * CVE: CVE-2026-24027
+     * Date: 9th February 2026
+     * Affects: PowerDNS Recursor up and including to 5.1.9, 5.2.7 and
+       5.3.4
+     * Not affected: PowerDNS Recursor 5.1.10, 5.2.8 and 5.3.5
+     * Severity: Medium
+     * Impact: Denial of Service
+     * Exploit: This problem can be triggered by publishing and querying a
+       crafted zone that causes increased incoming network traffic.
+     * Risk of system compromise: None
+     * Solution: Upgrade to patched version
+
+   CVSS Score: 5.3, see
+   <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/P" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/P</a>
+   R:N/UI:N/S:U/C:N/I:N/A:L&amp;version=3.1[1]
+
+   The remedy is: upgrade to a patched version.
+
+   We would like to thank Shuhan Zhang from Tsinghua University for
+   bringing this issue to our attention.
+     * CVE: CVE-2026-0398
+     * Date: 9th February 2026
+     * Affects: PowerDNS Recursor up and including to 5.1.9, 5.2.7 and
+       5.3.4
+     * Not affected: PowerDNS Recursor 5.1.10, 5.2.8 and 5.3.5
+     * Severity: Medium
+     * Impact: Denial of Service
+     * Exploit: This problem can be triggered by publishing and querying a
+       crafted zone that causes large memory usage.
+     * Risk of system compromise: None
+     * Solution: Upgrade to patched version
+
+   CVSS Score: 5.3, see
+   <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/P" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/P</a>
+   R:N/UI:N/S:U/C:N/I:N/A:L&amp;version=3.1[2]
+
+   The remedy is: upgrade to a patched version.
+
+   We would like to thank Yufan You from Tsinghua University for bringing
+   this issue to our attention.
+
+   We would also like to thank TaoFei Guo from Peking University and Yang
+   Luo, JianJun Chen from Tsinghua University for bringing an issue of
+   caching irrelevant records related to CNAME chains to our attention.
+     __________________________________________________________________
+
+   Please refer to the changelogs  (5.1.10[3], 5.2.8[4] and 5.3.5[5]) for
+   additional details
+
+   Please send us all feedback and issues you might have via the mailing
+   list[6], or in case of a bug, via GitHub[7].
+
+   The tarballs (5.1.10[8], 5.2.8[9], 5.3.5[10]) (with signature files
+   5.1.10[11], 5.2.8[12], 5.3.5[13]) are available from our
+   download server[14] and packages for several distributions are
+   available from our repository[15].
+
+   At the moment of writing, the patches[16] are not incorporated yet in
+   the public github repository. There has been a delay in the process to
+   transfer them from our private repository (where they were developed)
+   to the public repository.
+
+   Recently we made changes to our Open Source End of Life policy. Older
+   release trains are now supported for one year after the following major
+   release. Consult the EOL policy[17] for more details.
+
+   We are grateful to the PowerDNS community for the reporting of bugs,
+   issues, feature requests, and especially to the submitters of fixes and
+   implementations of features.
+
+References
+
+   1. <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L&amp;version=3.1" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L&amp;version=3.1</a>
+   2. <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L&amp;version=3.1" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L&amp;version=3.1</a>
+   3. <a href="https://doc.powerdns.com/recursor/changelog/5.1.html#change-5.1.10" rel="nofollow">https://doc.powerdns.com/recursor/changelog/5.1.html#change-5.1.10</a>
+   4. <a href="https://doc.powerdns.com/recursor/changelog/5.2.html#change-5.2.8" rel="nofollow">https://doc.powerdns.com/recursor/changelog/5.2.html#change-5.2.8</a>
+   5. <a href="https://doc.powerdns.com/recursor/changelog/5.3.html#change-5.3.5" rel="nofollow">https://doc.powerdns.com/recursor/changelog/5.3.html#change-5.3.5</a>
+   6. <a href="https://mailman.powerdns.com/mailman/listinfo/pdns-users" rel="nofollow">https://mailman.powerdns.com/mailman/listinfo/pdns-users</a>
+   7. <a href="https://github.com/PowerDNS/pdns/issues/new/choose" rel="nofollow">https://github.com/PowerDNS/pdns/issues/new/choose</a>
+   8. <a href="https://downloads.powerdns.com/releases/pdns-recursor-5.1.10.tar.bz2" rel="nofollow">https://downloads.powerdns.com/releases/pdns-recursor-5.1.10.tar.bz2</a>
+   9. <a href="https://downloads.powerdns.com/releases/pdns-recursor-5.2.8.tar.bz2" rel="nofollow">https://downloads.powerdns.com/releases/pdns-recursor-5.2.8.tar.bz2</a>
+  10. <a href="https://downloads.powerdns.com/releases/pdns-recursor-5.3.5.tar.xz" rel="nofollow">https://downloads.powerdns.com/releases/pdns-recursor-5.3.5.tar.xz</a>
+  11. <a href="https://downloads.powerdns.com/releases/pdns-recursor-5.1.10.tar.bz2.sig" rel="nofollow">https://downloads.powerdns.com/releases/pdns-recursor-5.1.10.tar.bz2.sig</a>
+  12. <a href="https://downloads.powerdns.com/releases/pdns-recursor-5.2.8.tar.bz2.sig" rel="nofollow">https://downloads.powerdns.com/releases/pdns-recursor-5.2.8.tar.bz2.sig</a>
+  13. <a href="https://downloads.powerdns.com/releases/pdns-recursor-5.3.5.tar.xz.sig" rel="nofollow">https://downloads.powerdns.com/releases/pdns-recursor-5.3.5.tar.xz.sig</a>
+  14. <a href="https://downloads.powerdns.com/releases/" rel="nofollow">https://downloads.powerdns.com/releases/</a>
+  15. <a href="https://repo.powerdns.com/" rel="nofollow">https://repo.powerdns.com/</a>
+  16. <a href="https://downloads.powerdns.com/patches/2026-01/" rel="nofollow">https://downloads.powerdns.com/patches/2026-01/</a>
+  17. <a href="https://docs.powerdns.com/recursor/appendices/EOL.html" rel="nofollow">https://docs.powerdns.com/recursor/appendices/EOL.html</a>
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (486 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

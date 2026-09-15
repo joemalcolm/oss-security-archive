@@ -1,0 +1,437 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: lcms2 &lt;= 2.18 CubeSize() integer overflow: stock Ubuntu 24.04
+ Poppler / evince-thumbnailer / OpenJDK crashers (different triggers), no CVE</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="../../../2026/04/18/1">[&lt;thread-prev]</a> <a href="9">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAK3hNHaRuPRnSGtopabbG_k9O+i3E-WxQGaSGsrVrPf6YtZNNg&#64;mail.gmail.com&gt;
+Date: Wed, 29 Apr 2026 20:16:39 -0700
+From: Abhinav Agarwal &lt;abhinavagarwal1996&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: lcms2 &lt;= 2.18 CubeSize() integer overflow: stock Ubuntu 24.04
+ Poppler / evince-thumbnailer / OpenJDK crashers (different triggers), no CVE
+
+Three updates:
+
+(1) NVD has rescored CVE-2026-41254 to 7.5 (High)
+     from the initial CNA score of 4.0 (Medium)
+     AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H:
+       <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-41254" rel="nofollow">https://nvd.nist.gov/vuln/detail/CVE-2026-41254</a>
+
+(2) There is an additional adjacent security relevant finding (medium sev)
+    "ParseCube integer overflow in LUT allocation" which was similarly
+    fixed by upstream without CVE and ghsa was closed without
+    substantial engagement. CVE from MITRE has been requested.
+      <a href="https://github.com/mm2/Little-CMS/commit/6a68601" rel="nofollow">https://github.com/mm2/Little-CMS/commit/6a68601</a>
+
+(2) Upstream has shipped the stable release with fix (covers both CVE-2026-41254
+     and pending CVE for (2)): lcms2.19 (2026-04-24).
+
+-- Abhinav Agarwal
+
+On Sat, Apr 18, 2026 at 12:46 AM Abhinav Agarwal
+&lt;abhinavagarwal1996&#64;...il.com&gt; wrote:
+&gt;
+&gt; MITRE assigned CVE-2026-41254 on 2026-04-17
+&gt;
+&gt; -- Abhinav Agarwal
+&gt;
+&gt; On Fri, Apr 17, 2026 at 2:28 PM Abhinav Agarwal
+&gt; &lt;abhinavagarwal1996&#64;...il.com&gt; wrote:
+&gt; &gt;
+&gt; &gt; A 992-byte PDF crashes a bunch of stock Ubuntu 24.04 consumers:
+&gt; &gt; evince-thumbnailer, Poppler (pdftoppm / pdftocairo / pdfimages),
+&gt; &gt; the cups-filters PDF-to-raster print filter, Okular, and GIMP's
+&gt; &gt; PDF plug-in all segfault inside liblcms2. OpenJDK 21 on Ubuntu
+&gt; &gt; crashes too, and Windows Temurin 21.0.9 crashes in its bundled
+&gt; &gt; lcms.dll (3/3 independent runs). There's also a coarse seed-
+&gt; &gt; correlated heap-read primitive on Linux glibc with ASLR off - a
+&gt; &gt; real CWE-200 channel, though not a generic arbitrary read. Upstream
+&gt; &gt; fixed it on master in February/March but hasn't cut a release, no
+&gt; &gt; advisory, no CVE. The GHSA I filed was closed without a reply.
+&gt; &gt; Looking for a CVE and for distro attention.
+&gt; &gt;
+&gt; &gt; Full write-up: <a href="https://abhinavagarwal07.github.io/posts/lcms2-cubesize-overflow/" rel="nofollow">https://abhinavagarwal07.github.io/posts/lcms2-cubesize-overflow/</a>
+&gt; &gt;
+&gt; &gt; Reachability (Ubuntu 24.04 LTS stock, liblcms2-2 2.14-2build1; Windows
+&gt; &gt; Server 2022 with Temurin 21.0.9)
+&gt; &gt; --------------------------------------------------------------------------
+&gt; &gt;
+&gt; &gt; SEGV, no local code changes:
+&gt; &gt;
+&gt; &gt;   * tumblerd (D-Bus auto-activated thumbnail service). tumblerd is
+&gt; &gt;     the freedesktop thumbnail daemon that ships as the default on
+&gt; &gt;     Xfce and is available on GNOME as a fallback;
+&gt; &gt;     its bundled tumbler-poppler-thumbnailer.so plugin loads
+&gt; &gt;     libpoppler + liblcms2 directly into the daemon process. A
+&gt; &gt;     single `dbus-send` "Queue" call with the PDF's URI is enough:
+&gt; &gt;     tumblerd was not running beforehand and wasn't on $PATH, but
+&gt; &gt;     D-Bus auto-activated the service on the Queue call, the service
+&gt; &gt;     pulled the PDF, and the daemon SIGSEGV'd in liblcms2.so.2.0.14.
+&gt; &gt;     Reproduced 4/4, with kernel `segfault ... in liblcms2.so.2.0.14`
+&gt; &gt;     and apport records. This is the same D-Bus call that a file
+&gt; &gt;     manager issues when a directory is opened, so the real-world
+&gt; &gt;     shape is "open a folder containing the PDF, the system's
+&gt; &gt;     thumbnail daemon dies."
+&gt; &gt;
+&gt; &gt;     Direct evince-thumbnailer CLI (`evince-thumbnailer -s 200
+&gt; &gt;     poc.pdf out.jpg`) crashes the same way (SEGV at
+&gt; &gt;     liblcms2.so.2.0.14+0xb503, Eval4Inputs+643, cmsintrp.c:909).
+&gt; &gt;
+&gt; &gt; SHA256 (poc_iccbased_5ch.pdf):
+&gt; &gt; 5c328a4362185c6dca2d6cae13c74ed456889798220f3f16e840449648121b55
+&gt; &gt;
+&gt; &gt;   * Poppler: pdftoppm, pdftocairo, pdfimages -list. Same 992-byte PDF
+&gt; &gt;     with a 1x1 image XObject using /ColorSpace [/ICCBased 5 0 R].
+&gt; &gt;     Poppler warns on N&gt;4 and does not abort; goes on to call
+&gt; &gt;     cmsCreateTransform(). Same crash site.
+&gt; &gt;
+&gt; &gt;   * Okular 4:23.08.5 (xvfb-run). SEGV via
+&gt; &gt;     okularGenerator_poppler.so -&gt; libpoppler-qt5 -&gt; lcms2. Kernel:
+&gt; &gt;     `Okular::PixmapG[PID]: segfault ... in liblcms2.so.2.0.14[0xb503]`,
+&gt; &gt;     Eval4Inputs+643. Core file + gdb backtrace captured.
+&gt; &gt;
+&gt; &gt;   * cups-filters pdftoraster 2.0.0-0ubuntu4.1. This is the CUPS
+&gt; &gt;     PDF-to-raster filter. It lives at /usr/lib/cups/filter/pdftoraster
+&gt; &gt;     rather than on $PATH, so `which pdftoraster` misses it - invoke
+&gt; &gt;     it the way CUPS does: `/usr/lib/cups/filter/pdftoraster 1 root
+&gt; &gt;     "" 1 "" &lt; poc.pdf`. Kernel: `pdftoraster[PID]: segfault ... in
+&gt; &gt;     liblcms2.so.2.0.14[0xb503]`. Core + gdb backtrace captured in
+&gt; &gt;     the primary-evidence bundle.
+&gt; &gt;
+&gt; &gt;   * GIMP 2.10.36-3 file-pdf-load plug-in (under xvfb-run, headless
+&gt; &gt;     batch mode). The plug-in subprocess SIGSEGVs. GIMP installs
+&gt; &gt;     its own signal handler, so the usual kernel dmesg line doesn't
+&gt; &gt;     appear, but strace catches SIGSEGV{si_code=SEGV_ACCERR} at
+&gt; &gt;     fault time, and the frame-by-frame proof comes from running
+&gt; &gt;     the same PDF through evince-thumbnailer under gdb - identical
+&gt; &gt;     poppler + lcms2 library chain.
+&gt; &gt;
+&gt; &gt;   * LibreOffice import: inconsistent enough that I'd treat it as a
+&gt; &gt;     secondary target rather than cite it as confirmed. On the
+&gt; &gt;     authoritative fresh-VM run under script(1), LO rejected the PDF
+&gt; &gt;     at the load stage before ever calling into lcms2. On a separate
+&gt; &gt;     VM earlier, xpdfimport crashed with a matching dmesg line. Both
+&gt; &gt;     outcomes reproduce; I can't point at a single reliable command
+&gt; &gt;     that crashes LO the way the other rows do.
+&gt; &gt;
+&gt; &gt;   * Flask+Docker PDF thumbnailer spawning pdftoppm returns HTTP 500
+&gt; &gt;     (exit_code:-11) per upload. Same shape as any Poppler-backed
+&gt; &gt;     webmail preview, DMS thumbnailer, or CI artifact renderer.
+&gt; &gt;
+&gt; &gt;   * OpenJDK 21 on Ubuntu. ICC_Profile.getInstance() +
+&gt; &gt;     ICC_ColorSpace.toRGB(). SEGV in system liblcms2.so.2. Confirmed
+&gt; &gt;     with both the 18 MB 7CLR profile and a 4,819-byte 5CLR variant
+&gt; &gt;     (JdkPoc5.java, input array sized via getNumComponents()).
+&gt; &gt;
+&gt; &gt;   * OpenJDK 21 Temurin 21.0.9 on Windows Server 2022.
+&gt; &gt;     EXCEPTION_ACCESS_VIOLATION in lcms.dll+0x9fd2, 86-304 ms, 3/3
+&gt; &gt;     runs. Reproduced on two independent Azure VM instances. Windows
+&gt; &gt;     JDK bundles lcms.dll (not system-linked); Azure
+&gt; &gt;     WindowsServer:2022-datacenter-azure-edition images ship Temurin
+&gt; &gt;     21.0.9 pre-installed.
+&gt; &gt;
+&gt; &gt;   * transicc -l (lcms2's own bundled utility). 4,819-byte device-link
+&gt; &gt;     profile. SEGV, exit 139.
+&gt; &gt;
+&gt; &gt;   * Python ctypes, Rust lcms2 crate 5.6. Direct calls to
+&gt; &gt;     cmsCreateTransform with TYPE_CMYK5_8. SEGV.
+&gt; &gt;
+&gt; &gt; Paths that did not reproduce in my tests: Ghostscript, ImageMagick,
+&gt; &gt; tificc, jpgicc, Pillow ImageCms, libvips 8.15, Inkscape, Node.js
+&gt; &gt; @kittl/little-cms. See the write-up for per-consumer detail.
+&gt; &gt;
+&gt; &gt;
+&gt; &gt; Bug (one paragraph)
+&gt; &gt; -------------------
+&gt; &gt;
+&gt; &gt; src/cmslut.c:461, function CubeSize(). Check-after-multiply on a
+&gt; &gt; uint32 accumulator: `rv *= dim` wraps silently before the guard
+&gt; &gt; `rv &gt; UINT_MAX / dim` runs. Crafted CLUT dims where the product
+&gt; &gt; exceeds 2^32 but wraps to a small value (e.g. [61,7,161,245,255]
+&gt; &gt; wraps to 1,529 from a true product of ~4.3e9) pass every guard.
+&gt; &gt; cmsStageAllocCLut16bitGranular() undersizes the CLUT buffer (~9 KB
+&gt; &gt; instead of ~10 GB of nodes); the interpolator's opta[] strides are
+&gt; &gt; computed from the real dims and index past Tab.T[] during transform
+&gt; &gt; construction (OptimizeByResampling -&gt; cmsStageSampleCLut16bit) or
+&gt; &gt; during cmsDoTransform. CWE-190 causes CWE-125.
+&gt; &gt;
+&gt; &gt;
+&gt; &gt; Fix status
+&gt; &gt; ----------
+&gt; &gt;
+&gt; &gt; File:    src/cmslut.c
+&gt; &gt; Affects: all released versions through lcms2 2.18
+&gt; &gt; Fixed on master (unreleased), no CVE, no advisory:
+&gt; &gt;   <a href="https://github.com/mm2/Little-CMS/commit/da6110b" rel="nofollow">https://github.com/mm2/Little-CMS/commit/da6110b</a>  (widen rv to uint64)
+&gt; &gt;   <a href="https://github.com/mm2/Little-CMS/commit/e0641b1" rel="nofollow">https://github.com/mm2/Little-CMS/commit/e0641b1</a>  (guard before multiply)
+&gt; &gt;
+&gt; &gt;
+&gt; &gt; Affected
+&gt; &gt; --------
+&gt; &gt;
+&gt; &gt; Any distro shipping lcms2 &lt;= 2.18:
+&gt; &gt;   Ubuntu 24.04 LTS    liblcms2-2 2.14-2build1  (validated)
+&gt; &gt;   Debian bookworm     liblcms2-2 2.16-2
+&gt; &gt;   Fedora              lcms2 2.16
+&gt; &gt;   Alpine edge         lcms2 2.17-r0
+&gt; &gt;   Homebrew            little-cms2 2.18        (validated)
+&gt; &gt;
+&gt; &gt; JDK-bundled lcms: Temurin 21.0.9 on Windows confirmed vulnerable via
+&gt; &gt; its bundled lcms.dll (3/3 runs, EXCEPTION_ACCESS_VIOLATION in
+&gt; &gt; lcms.dll+0x9fd2). On Ubuntu 24.04, OpenJDK 21 uses the SYSTEM
+&gt; &gt; liblcms2.so.2, so patching liblcms2-2 fixes both the JDK and Poppler
+&gt; &gt; paths on that platform. Other mainstream JDK distributions (Oracle,
+&gt; &gt; Corretto, Zulu, Microsoft OpenJDK) commonly bundle their own lcms2
+&gt; &gt; source tree; patch status is per-vendor.
+&gt; &gt;
+&gt; &gt;
+&gt; &gt; Minimal C reproducer (stock Ubuntu 24.04)
+&gt; &gt; -----------------------------------------
+&gt; &gt;
+&gt; &gt;     sudo apt install liblcms2-dev gcc
+&gt; &gt;     cat &gt; poc.c &lt;&lt;'EOF'
+&gt; &gt;     #include &lt;stdio.h&gt;
+&gt; &gt;     #include &lt;stdlib.h&gt;
+&gt; &gt;     #include &lt;string.h&gt;
+&gt; &gt;     #include &lt;lcms2.h&gt;
+&gt; &gt;     static void be32(unsigned char*p,unsigned
+&gt; &gt; v){p[0]=v&gt;&gt;24;p[1]=v&gt;&gt;16;p[2]=v&gt;&gt;8;p[3]=v;}
+&gt; &gt;     int main(void){
+&gt; &gt;         const int N = 4587, tag = 32+36+20+N, tot = 128+4+12+tag;
+&gt; &gt;         unsigned char *b = calloc(1,tot);
+&gt; &gt;         be32(b,tot); b[8]=4; b[9]=0x30;
+&gt; &gt;         memcpy(b+12,"scnr",4); memcpy(b+16,"5CLR",4); memcpy(b+20,"Lab ",4);
+&gt; &gt;         memcpy(b+36,"acsp",4);
+&gt; &gt;         be32(b+68,63190); be32(b+72,65536); be32(b+76,54061);
+&gt; &gt;         be32(b+128,1); memcpy(b+132,"A2B0",4); be32(b+136,144); be32(b+140,tag);
+&gt; &gt;         unsigned char *t = b+144;
+&gt; &gt;         memcpy(t,"mAB ",4); t[8]=5; t[9]=3;
+&gt; &gt;         be32(t+12,32); be32(t+24,68);
+&gt; &gt;         for (int i=0;i&lt;3;i++) memcpy(t+32+i*12,"curv",4);
+&gt; &gt;         unsigned char g[] = {61,7,161,245,255};
+&gt; &gt;         memcpy(t+68,g,5); t[68+16]=1;
+&gt; &gt;         cmsHPROFILE h = cmsOpenProfileFromMem(b,tot);
+&gt; &gt;         cmsHPROFILE s = cmsCreate_sRGBProfile();
+&gt; &gt;         cmsCreateTransform(h, TYPE_CMYK5_8, s, TYPE_RGB_8, 0, 0);  // SEGV
+&gt; &gt;         return 0;
+&gt; &gt;     }
+&gt; &gt;     EOF
+&gt; &gt;     # ASAN (clean OOB frame):
+&gt; &gt;     gcc -fsanitize=address -g -o poc poc.c -llcms2 -lm &amp;&amp; ./poc
+&gt; &gt;
+&gt; &gt;     # Without ASAN (matches production behavior):
+&gt; &gt;     gcc -o poc_plain poc.c -llcms2 -lm &amp;&amp; ./poc_plain; echo "exit=$?"
+&gt; &gt;     # exit=139 (SIGSEGV)
+&gt; &gt;
+&gt; &gt; Python, Rust, Java, PDF, and device-link variants build equivalently.
+&gt; &gt;
+&gt; &gt; CVSS 3.1
+&gt; &gt; --------
+&gt; &gt;
+&gt; &gt;   Availability only (UI:R):
+&gt; &gt;     AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H = 6.5 (Medium)
+&gt; &gt;
+&gt; &gt;   Availability only, server-side renderer (UI:N):
+&gt; &gt;     AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H = 7.5 (High)
+&gt; &gt;
+&gt; &gt;   With demonstrated info disclosure, UI:R:
+&gt; &gt;     AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:H = 8.1 (High)
+&gt; &gt;
+&gt; &gt;   Same, UI:N (any headless Poppler-backed render worker fits this):
+&gt; &gt;     AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H = 9.1 (Critical)
+&gt; &gt;
+&gt; &gt; I don't have a write primitive. I looked at PatchLUT in
+&gt; &gt; cmsopt.c:632 as a possible mirror of the read side, but the math
+&gt; &gt; doesn't reach a signed-int wrap.
+&gt; &gt;
+&gt; &gt;
+&gt; &gt; Information disclosure (CWE-200)
+&gt; &gt; --------------------------------
+&gt; &gt;
+&gt; &gt; Coarse but real. On Ubuntu 24.04 with glibc's default allocator and
+&gt; &gt; ASLR off (setarch -R), the first output byte from cmsDoTransform
+&gt; &gt; tracks a pre-run heap-seed byte for specific inputs - so this is a
+&gt; &gt; seed-correlated leak of memory below the CLUT allocation. It isn't
+&gt; &gt; an arbitrary-heap-read: the first output byte isn't a raw heap byte,
+&gt; &gt; it's LinearInterp'd through the sRGB pipeline, so bytes come back
+&gt; &gt; with some blur. The reliable window on the 5CLR profile is axis 3's
+&gt; &gt; [-365 KB, -1.5 KB] offsets below the CLUT allocation.
+&gt; &gt;
+&gt; &gt; Two small tricks in cmsintrp.c make this work:
+&gt; &gt;
+&gt; &gt;   * EVAL_FNS(N,NM) short-circuits the far-corner read when
+&gt; &gt;     Input[i] == 0xFFFFU. With 8-bit input that's byte 0xFF, so
+&gt; &gt;     setting 4 of 5 axes to 0xFF collapses the usual 2^5=32 corner
+&gt; &gt;     reads down to 2.
+&gt; &gt;
+&gt; &gt;   * opta[NM] is uint32; opta[NM] * k0 is computed as uint32 and
+&gt; &gt;     wraps mod 2^32. The wrapped value then goes into int K0, and
+&gt; &gt;     anything above 2^31 reinterprets as a large negative int. So
+&gt; &gt;     LutTable + K0 ends up reading below the CLUT allocation, in
+&gt; &gt;     heap we've just sprayed.
+&gt; &gt;
+&gt; &gt; Axis 3 (opta[1] = 765) gives offsets of -1.5 KB to -365 KB, which
+&gt; &gt; a 260 MB malloc-spray covers comfortably.
+&gt; &gt;
+&gt; &gt; Evidence (16 sampled seed bytes spanning 0x00..0xFF: 0x00, 0x11,
+&gt; &gt; 0x22, ..., 0xEE, 0xFF):
+&gt; &gt;
+&gt; &gt;     seed=0xAA  axis=3 in=0xd9  out=aa3b53   (byte[0] = seed)
+&gt; &gt;     seed=0xAA  axis=3 in=0xf5  out=add800   (byte[0] ~ seed)
+&gt; &gt;     seed=0xCC  axis=3 in=0xd9  out=e32b45   (byte[0] tracks seed)
+&gt; &gt;     seed=0xCC  axis=3 in=0xf5  out=ebe300   (byte[0] tracks seed)
+&gt; &gt;
+&gt; &gt;     seed=0xAA  axis=3 in=0xea  out=005f91   (control, in-bounds)
+&gt; &gt;     seed=0xCC  axis=3 in=0xea  out=005f91   (same)
+&gt; &gt;
+&gt; &gt; Control input (0xea, in-bounds) produces byte-identical output across
+&gt; &gt; all 16 seeds; OOB inputs (0xd9, 0xf4, 0xf5) produce outputs whose
+&gt; &gt; first byte tracks the heap seed.
+&gt; &gt;
+&gt; &gt; POC (`infoleak_linux_v3.c`) and the 16-seed-sweep logs on request.
+&gt; &gt; Caveats: ASLR must be off and glibc's default allocator is
+&gt; &gt; assumed. Axis 3 is the reliable surface; axes 0-2 fall too far out
+&gt; &gt; of bounds without MAP_FIXED reservations or multi-GB sprays. The
+&gt; &gt; primitive is seed-correlated, not arbitrary-read.
+&gt; &gt;
+&gt; &gt;
+&gt; &gt; Timeline
+&gt; &gt; --------
+&gt; &gt;
+&gt; &gt;   2010-10      CubeSize() check-after-multiply pattern introduced.
+&gt; &gt;   2026-02-19   Fix 1: da6110b.
+&gt; &gt;   2026-03-12   Fix 2: e0641b1.
+&gt; &gt;   2026-04-13   GHSA-4xp6-rcgg-m9qq filed (private advisory).
+&gt; &gt;   2026-04-14   MITRE CVE request filed (CVE Request 2025002).
+&gt; &gt;                 Submitted with the evidence that existed at the time.
+&gt; &gt;   2026-04-16   Asked the maintainer on the GHSA whether he'd triage,
+&gt; &gt;                told him I'd publish otherwise.
+&gt; &gt;   2026-04-17   GHSA closed without engagement. Public disclosure
+&gt; &gt;
+&gt; &gt;
+&gt; &gt; References
+&gt; &gt; ----------
+&gt; &gt;
+&gt; &gt;   Vulnerable source (lcms2 2.18):
+&gt; &gt;     <a href="https://github.com/mm2/Little-CMS/blob/lcms2.18/src/cmslut.c#L461" rel="nofollow">https://github.com/mm2/Little-CMS/blob/lcms2.18/src/cmslut.c#L461</a>
+&gt; &gt;   Prior same-codebase CVEs: CVE-2018-16435, CVE-2016-10165.
+&gt; &gt;   CWEs: CWE-190, CWE-125.
+&gt; &gt;   Write-up + per-consumer evidence:
+&gt; &gt;     <a href="https://abhinavagarwal07.github.io/posts/lcms2-cubesize-overflow/" rel="nofollow">https://abhinavagarwal07.github.io/posts/lcms2-cubesize-overflow/</a>
+&gt; &gt;
+&gt; &gt; -- Abhinav Agarwal
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

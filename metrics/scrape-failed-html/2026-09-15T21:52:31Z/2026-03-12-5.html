@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Remote Pre-Auth Buffer Overflow in GNU Inetutils telnetd (LINEMODE SLC)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260312201721.GA24953&#64;openwall.com&gt;
+Date: Thu, 12 Mar 2026 21:17:21 +0100
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Justin Swartz &lt;justin.swartz&#64;...ingedge.co.za&gt;,
+	Adiel Sol &lt;adiel&#64;...amgroup.com&gt;,
+	Collin Funk &lt;collin.funk1&#64;...il.com&gt;
+Subject: Re: Remote Pre-Auth Buffer Overflow in GNU Inetutils telnetd (LINEMODE SLC)
+
+On Thu, Mar 12, 2026 at 08:24:42PM +0200, Justin Swartz wrote:
+&gt; I would like to draw the community's attention to the following
+&gt; vulnerability [1], summarized as "Remote Pre-Auth Buffer Overflow
+&gt; in GNU Inetutils telnetd (LINEMODE SLC)", which was reported to
+&gt; the bug-inetutils mailing list recently.
+&gt; 
+&gt; I am not affiliated with the researchers, inetutils, nor GNU/FSF.
+&gt; 
+&gt; Regards,
+&gt; Justin
+&gt; 
+&gt; ---
+&gt; 
+&gt; [1] 
+&gt; <a href="https://lists.gnu.org/archive/html/bug-inetutils/2026-03/msg00031.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-inetutils/2026-03/msg00031.html</a>
+
+Thank you, Justin!
+
+In cases like this, we should be bringing the entire report to
+oss-security, not just a link.  So I'll include it below.
+
+Further in the above thread, there's a link to a fix pull request by
+Collin Funk.  I didn't review it in full context, but even within the
+patch context it fails my review:
+
+add_slc (char func, char flag, cc_t val)
+{
+
+  /* Do nothing if the entire triplet cannot fit in the buffer.  */
+  if (slcbuf + sizeof slcbuf &lt;= slcptr + 6)
+    return;
+
+  if ((*slcptr++ = (unsigned char) func) == 0xff)
+    *slcptr++ = 0xff;
+
+  if ((*slcptr++ = (unsigned char) flag) == 0xff)
+    *slcptr++ = 0xff;
+
+  if ((*slcptr++ = (unsigned char) val) == 0xff)
+    *slcptr++ = 0xff;
+
+}				/* end of add_slc */
+
+In "slcptr + 6", it appears to rely on pointer math working outside of
+the object, but that's UB in C.  If the C compiler concludes that the
+"if" condition cannot be true within defined behavior, it is free to
+optimize the entire "if" and "return" out.  A proper check may be:
+
+  if (slcbuf + sizeof slcbuf - 6 &lt;= slcptr)
+
+or perhaps with "&lt;" in place of "&lt;=", unless we need an extra element
+for some reason.
+
+For comparison, here's the function from netkit-telnet-0.17/telnetd/slc.c:
+
+static unsigned char slcbuf[NSLC*6];    /* buffer for slc negotiation */
+
+static void add_slcbuf_raw_char(unsigned char ch) {
+   if (slcoff &lt; sizeof(slcbuf)) {
+      slcbuf[slcoff++] = ch;
+   }
+}
+
+static void add_slcbuf_char(unsigned char ch) {
+   add_slcbuf_raw_char(ch);
+   if (ch==0xff) {
+      add_slcbuf_raw_char(0xff);
+   }
+}
+
+#ifdef LINEMODE
+/*
+ * add_slc
+ *
+ * Add an slc triplet to the slc buffer.
+ */
+void add_slc(char func, char flag, cc_t val) {
+    add_slcbuf_char(func);
+    add_slcbuf_char(flag);
+    add_slcbuf_char(val);
+}
+
+Alexander
+
+---
+From: 	Adiel Sol
+Subject: 	Remote Pre-Auth Buffer Overflow in GNU Inetutils telnetd (LINEMODE SLC)
+Date: 	Wed, 11 Mar 2026 12:20:57 +0000
+
+Hi GNU Inetutils / Savannah Security Team,
+
+I would like to report a security vulnerability in GNU Inetutils telnetd.
+
+Summary
+
+The telnetd server has a buffer overflow in the LINEMODE SLC (Set Local Characters) suboption handler. An unauthenticated attacker can trigger it by connecting to port 23 and sending a crafted SLC suboption with many triplets. No login is required; the bug is hit during option negotiation, before the login prompt. The overflow corrupts memory and can be turned into arbitrary writes. In practice this can lead to remote code execution. Because telnetd usually runs as root (e.g. under inetd or xinetd), a successful exploit would give the attacker full control of the system.
+
+Affected Component
+
+telnetd/slc.c (functions add_slc, process_slc, do_opt_slc; buffer slcbuf at line 59)
+Versions: All GNU Inetutils through 2.7, including current development HEAD. Any telnetd derived from the BSD codebase that still uses this SLC implementation may also be affected.
+
+Root Cause
+
+The SLC response is built in a fixed 108-byte buffer, slcbuf, with only 104 bytes used for data after a 4-byte header. The function add_slc() (lines 162-175) appends 3 bytes per SLC triplet but never checks whether the buffer is full. The pointer slcptr is just incremented each time.
+When the server gets an SLC suboption, it calls process_slc() for each triplet. For any triplet with function code greater than 18 (NSLC), the server calls add_slc() to queue a "not supported" reply. There is no limit on how many such replies are queued.
+The client can send a long SLC suboption (the suboption buffer is 512 bytes, so about 170 triplets). After about 35 triplets with func &gt; 18, the 104-byte space is exceeded and the code writes past the end of slcbuf. That corrupts whatever lies after it in BSS (including the slcptr pointer). Later, end_slc() uses the corrupted slcptr to write the suboption end marker, which gives the attacker an arbitrary write in memory. So the bug is a classic buffer overflow with no bounds check (CWE-120, CWE-787).
+
+Impact
+
+CVSS 3.1: AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H (9.8 Critical)
+CWE-120 (Buffer Copy without Checking Size of Input), CWE-787 (Out-of-bounds Write)
+Any unauthenticated attacker with network access to port 23 can trigger the overflow with a single telnet connection and a crafted SLC suboption.
+Successful exploitation can lead to arbitrary code execution as root and full compromise of the host (backdoors, data exfiltration, pivot, etc.).
+
+Proof of Concept
+
+1. Start GNU Inetutils telnetd (e.g. with inetd or run telnetd manually) so it listens on port 23.
+2. From another machine, connect to the telnet port and complete the initial handshake. When the server sends DO LINEMODE, reply with WILL LINEMODE so the server enters LINEMODE negotiation.
+3. Send a single LINEMODE SLC suboption containing at least 40 to 50 triplets, each with a function code greater than 18 (e.g. 19, 20, 21, ... 68). Each triplet is 3 bytes (func, flag, value). Use 0x00 for flag and value. The suboption must be properly framed with IAC SB LINEMODE LM_SLC at the start and IAC SE at the end.
+4. The server will call add_slc() for each triplet. After about 35 triplets it will write past the end of slcbuf. You should observe a crash, or (if you craft the overflow) memory corruption and possibly code execution.
+
+Credit Request
+
+We kindly request that the following researchers be credited for this discovery:
+Adiel Sol, Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg, Daniel Lubel - DREAM Security Research Team
+Best regards,
+    DREAM Security Research Team
+
+Attachment: 13-16-27.mp4
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

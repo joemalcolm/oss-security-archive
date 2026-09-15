@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Systemd vsock sshd</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2026/01/02/1">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAM=PXV5xJyqj0wOPpHb+95_QgGVg6zejHfLgcjtY=MrdcAHs7g&#64;mail.gmail.com&gt;
+Date: Fri, 2 Jan 2026 17:48:00 -0700
+From: Greg Dahlman &lt;dahlman&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Systemd vsock sshd
+
+Thanks for the reply, I have been busy trying to figure out what breaks
+with apparmor and other options.
+
+Obviously runc is similar to the pain points of dbus, where it is call
+anywhere with no ability to set defaults, but I think a combo of the below
+works pretty well. Container runtimes should still set reasonable defaults
+in the long run IMHO, but a combo of the below seems to work, but it will
+probably break kata containers etc...  You can launch a vsock C2 container
+with runc as nobody with no issue and just a few env vars as an example.
+
+I am not sure if there are any hypervisor tools that are in
+flatpack/snap/bwrap etc... but pretty much everything that is given userns
+and unlabeled may need a apparmor.d/local file for users actually using
+vsock for critical use cases.
+
+This qualsys post from earlier this year applies:
+<a href="https://seclists.org/oss-sec/2025/q1/253" rel="nofollow">https://seclists.org/oss-sec/2025/q1/253</a>
+
+I am still trying to do more testing, but
+crun/runc/podman/buildah/chrome/chromium/firefox/etc. don't seem to break
+with a container only workload I have tested with the apparmor addition.
+Unfortunately putting it in globals would break things.
+
+
+
+Kernel boot string
+==================
+
+Disables systemd sshd vsock listener, will not protect the L4 bridge.
+
+The official way to disable vsock sshd is through a kernel command line
+parameters or system credentials logic. [systemd-ssh-generator]
+
+   systemd.ssh_auto=no
+
+
+Mask systemd socket
+===================
+
+This will disable the systemd sshd vsock listener, but will not protect
+the L4 bridge.
+
+   sudo systemctl mask sshd-vsock.socket
+
+Note:
+
+  If another unit **explicitly** wants "sshd-vsock.socket" it may
+  be started.
+
+
+AppArmor
+========
+
+This will remove access to the L4 bridge, which will also remove
+access to the systemd sshd vsock listener for targeted binaries.
+
+Add the following to "/etc/apparmor.d/local/&lt;filename&gt;" for each
+high risk command.
+
+   audit deny network vsock,
+
+
+SElinux
+=======
+
+TODO
+
+Seccomp
+=======
+
+CRIs and sandbox commands should probably follow the methods
+containerd used when containerd blocked vsock [7442]
+
+[7442] <a href="https://github.com/containerd/containerd/issues/7442" rel="nofollow">https://github.com/containerd/containerd/issues/7442</a>
+
+On Fri, Jan 2, 2026 at 4:14 PM &lt;wish42offcl98&#64;...teo.org&gt; wrote:
+
+&gt; I do not use Fedora, but I checked the update repo for f42.
+&gt; Neither openssh ¹, nor systemd ² have been updated for Fedora 42 in the
+&gt; last few weeks. Thus I have to guess that your method to setup/test the
+&gt; VM was different.
+&gt; Just in case, I have masked the vsock socket on all of my instances (no
+&gt; VMs though) and I will check on occasions if masking disappears.
+&gt;
+&gt; Nonetheless, I dug deeper into systemd and checked their source code ³.
+&gt; systemd-vmspawn uses another service:
+&gt; systemd.unit-dropin.sshd-vsock&#64;...rvice ⁴
+&gt; And there is also sshd-vsock&#64;...rvice ⁵ which might require another
+&gt; masking - same for sshd-unix-local&#64;...rvice ⁶.
+&gt;
+&gt; Since I do not use VMs, it was rather an addition for this list, thus I
+&gt; won't dig deeper for now.
+&gt; busctl is unknown to me (yet).
+&gt; The "RestrictAddressFamilies" option for services might be another idea
+&gt; to restrict sshd - but I don't know if it affects the unix-socket/vsock
+&gt; sockets generated by systemd - and whether this also influences access
+&gt; to local sockets (e.g. to control systemd itself).
+&gt;
+&gt; I haven't understood the L4 bridge issue completely yet, so I would need
+&gt; to read more into it and test it.
+&gt; My guess on the L4 bridge problem:
+&gt; - Exposed vsocks are in global namespace.
+&gt; - VMs with enabled vsock feature (on hypervisor and inside VM) expose
+&gt; their services.
+&gt; - Containers (with unmitigated container runtimes) run on the hypervisor
+&gt; (not within VMs) are able to access the vsocks of VMs.
+&gt; That's a short description of my current understanding to it.
+&gt;
+&gt;
+&gt;
+&gt; 1 <a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-ad76584c00" rel="nofollow">https://bodhi.fedoraproject.org/updates/FEDORA-2025-ad76584c00</a>
+&gt; 2 <a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-61132a053f" rel="nofollow">https://bodhi.fedoraproject.org/updates/FEDORA-2025-61132a053f</a>
+&gt; 3 <a href="https://github.com/systemd/systemd/" rel="nofollow">https://github.com/systemd/systemd/</a>
+&gt; 4
+&gt;
+&gt; <a href="https://github.com/systemd/systemd/blob/v259-stable/src/vmspawn/vmspawn.c#L2654" rel="nofollow">https://github.com/systemd/systemd/blob/v259-stable/src/vmspawn/vmspawn.c#L2654</a>
+&gt; 5
+&gt;
+&gt; <a href="https://github.com/systemd/systemd/blob/v259-stable/src/ssh-generator/ssh-generator.c#L228" rel="nofollow">https://github.com/systemd/systemd/blob/v259-stable/src/ssh-generator/ssh-generator.c#L228</a>
+&gt; 6
+&gt;
+&gt; <a href="https://github.com/systemd/systemd/blob/v259-stable/src/ssh-generator/ssh-generator.c#L265" rel="nofollow">https://github.com/systemd/systemd/blob/v259-stable/src/ssh-generator/ssh-generator.c#L265</a>
+&gt;
+&gt;
+&gt; On 12/30/25 21:44, Greg Dahlman wrote:
+&gt; &gt; Thanks for the reply Alex,
+&gt; &gt;
+&gt; &gt; I didn't include that option because I ran into an issue that I couldn't
+&gt; &gt; find the root cause for. Specifically on Fedora, a `dnf upgrade` resulted
+&gt; &gt; in the mask disappearing.  I could find some complaints with Fedora
+&gt; version
+&gt; &gt; upgrades, but couldn't find anything on package upgrade.
+&gt; &gt;
+&gt; &gt; As I don't have access to the RedHat support portal I decided to exclude
+&gt; it
+&gt; &gt; out of caution.
+&gt; &gt;
+&gt; &gt; It looked like there was nothing in /usr/lib/systemd/system-preset for
+&gt; &gt; sshd-vsock.socket that I found, and those should respect the mask for
+&gt; &gt; sshd-vsock.socket and wouldn't remove the
+&gt; &gt;   /etc/systemd/system/sshd-vsock.socket symlink as I understand it.
+&gt; &gt;
+&gt; &gt; I think that because it doesn't show up in `busctl --activatable`, and no
+&gt; &gt; packages I can find "Wants" sshd-vsock.socket explicitly that would
+&gt; &gt; probably work.
+&gt; &gt;
+&gt; &gt; I just tried a fresh install of Fedora Linux 42 workstation and didn't
+&gt; &gt; experience the unintended unmasking with a dnf upgrade. That was
+&gt; reliable a
+&gt; &gt; few weeks ago. Maybe I just was unlucky with a package that was fixed?
+&gt; &gt;
+&gt; &gt; Either way I think it is an option for people who use configuration
+&gt; &gt; management tools that can periodically check sshd-vsock.socket is still
+&gt; &gt; disabled.
+&gt; &gt;
+&gt; &gt; Also for normal *systemd* services that need isolation from the vsock
+&gt; &gt; bridge you can use:
+&gt; &gt;
+&gt; &gt; RestrictAddressFamilies=none # disable all af families
+&gt; &gt; RestrictAddressFamilies=AF_INET # only AF_INET
+&gt; &gt; RestrictAddressFamilies=~AF_VSOCK # not AF_VSOCK
+&gt; &gt;
+&gt; &gt;
+&gt; &gt; The L4 bridge problem will be harder for projects that use CRI's that are
+&gt; &gt; not containerd like the k8s/podman/crun/runc.
+&gt; &gt;
+&gt; &gt; If anyone on here is involved with them, or sandboxing tools
+&gt; &gt; like bubblewrap etc... Filtering address family 40 will still be required
+&gt; &gt; by default to have any real intra-container/pod/process network isolation
+&gt; &gt; on a node.
+&gt; &gt;
+&gt; &gt; Thanks,
+&gt; &gt;
+&gt; &gt; Greg
+&gt; &gt;
+&gt; &gt; On Tue, Dec 30, 2025 at 12:12 PM &lt;wish42offcl98&#64;...teo.org&gt; wrote:
+&gt; &gt;
+&gt; &gt;&gt; I have searched for that - instead of blacklisting the vsock module, I
+&gt; &gt;&gt; did myself two measures:
+&gt; &gt;&gt; - systemctl mask --now sshd-unix-local.socket
+&gt; &gt;&gt; to kill and mask the sshd unix socket created by that generator,
+&gt; &gt;&gt; - systemctl mask sshd-vsock.socket
+&gt; &gt;&gt; to mask the sshd vsock created by that generator (use --now if the
+&gt; &gt;&gt; socket has started or use systemctl stop... ).
+&gt; &gt;&gt;
+&gt; &gt;&gt; Though, vsock untested but I found that source mentioning that socket.
+&gt; &gt;&gt; <a href="https://linux-audit.com/system-administration/commands/systemd-analyze/" rel="nofollow">https://linux-audit.com/system-administration/commands/systemd-analyze/</a>
+&gt; &gt;&gt; Masking the sockets should stop them from starting again.
+&gt; &gt;&gt;
+&gt; &gt;&gt; The vsock kernel module should not be blacklisted if some hypervisor
+&gt; &gt;&gt; features are required:
+&gt; &gt;&gt; <a href="https://libvirt.org/ssh-proxy.html" rel="nofollow">https://libvirt.org/ssh-proxy.html</a>
+&gt; &gt;&gt; <a href="https://wiki.qemu.org/Features/VirtioVsock" rel="nofollow">https://wiki.qemu.org/Features/VirtioVsock</a>
+&gt; &gt;&gt;
+&gt; &gt;&gt; Greetings
+&gt; &gt;&gt; Alex
+&gt; &gt;&gt;
+&gt; &gt;&gt;
+&gt; &gt;&gt; On 12/29/25 05:11, Jacob Bachmeyer wrote:
+&gt; &gt;&gt;&gt; On 12/27/25 21:46, Greg Dahlman wrote:
+&gt; &gt;&gt;&gt;&gt; [...]
+&gt; &gt;&gt;&gt;&gt;
+&gt; &gt;&gt;&gt;&gt;    **Systemd v256 change** - When the *openssh-server* package is
+&gt; &gt;&gt;&gt;&gt;    installed on a VM with vsock support, systemd now automatically
+&gt; &gt;&gt;&gt;&gt;    starts an *sshd* instance that listens on the **af_vsock** socket
+&gt; in
+&gt; &gt;&gt;&gt;&gt;    the **global network namespace** without any manual configuration.
+&gt; &gt;&gt;&gt;
+&gt; &gt;&gt;&gt; Obvious question:  what manual configuration is required to kill that
+&gt; &gt;&gt;&gt; listener?
+&gt; &gt;&gt;&gt;
+&gt; &gt;&gt;&gt;
+&gt; &gt;&gt;&gt; -- Jacob
+&gt; &gt;&gt;
+&gt; &gt;&gt;
+&gt; &gt;
+&gt;
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

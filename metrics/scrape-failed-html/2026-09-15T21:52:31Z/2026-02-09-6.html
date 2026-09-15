@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - gnutls 3.8.12 fixes CVE-2026-1584 &amp; CVE-2025-14831</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;0ac1a299-042a-4bc0-8f2f-3d2b0dd68919&#64;oracle.com&gt;
+Date: Mon, 9 Feb 2026 13:36:00 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: gnutls 3.8.12 fixes CVE-2026-1584 &amp; CVE-2025-14831
+
+[<a href="https://gnutls.org/security-new.html" rel="nofollow">https://gnutls.org/security-new.html</a> does not yet seem to be updated with
+information on GNUTLS-SA-2026-02-09-1 &amp; GNUTLS-SA-2026-02-09-2.]
+
+
+-------- Forwarded Message --------
+Subject: gnutls 3.8.12
+Date: Mon, 9 Feb 2026 10:25:10 -0600
+From: Alexander Sosedkin &lt;asosedkin&#64;...hat.com&gt;
+To: gnutls-help&#64;...ts.gnutls.org
+CC: info-gnu&#64;....org
+
+Hello,
+
+We have just released gnutls-3.8.12. This is a bug fix, security and
+enhancement release on the 3.8.x branch.
+
+We would like to thank everyone who contributed in this release:
+Alexander Sosedkin, Daiki Ueno, Mikhail Dmitrichenko, František Krenželok,
+Jan Palus, Julien Olivain, Markus Theil, Maxim Cournoyer, xinpeng wang.
+
+The detailed list of changes follows:
+
+* Version 3.8.12 (released 2026-02-09)
+
+** libgnutls: Fix NULL pointer dereference in PSK binder verification
+    A TLS 1.3 resumption attempt with an invalid PSK binder value in ClientHello
+    could lead to a denial of service attack via crashing the server.
+    The updated code guards against the problematic dereference.
+    Reported by Jaehun Lee.
+    [Fixes: GNUTLS-SA-2026-02-09-1, CVSS: high] [CVE-2026-1584]
+
+** libgnutls: Fix name constraint processing performance issue
+    Verifying certificates with pathological amounts of name constraints
+    could lead to a denial of service attack via resource exhaustion.
+    Reworked processing algorithms exhibit better performance characteristics.
+    Reported by Tim Scheckenbach.
+    [Fixes: GNUTLS-SA-2026-02-09-2, CVSS: medium] [CVE-2025-14831]
+
+** libgnutls: Fix multiple unexploitable overflows
+    Reported by Tim Rühsen (#1783, #1786).
+
+** libgnutls: Fall back to thread-unsafe module initialization
+    Improve fallback handling for PKCS#11 modules that
+    don't support thread-safe initialization (#1774).
+    Also return filename from p11_kit_module_get_name() for unconfigured modules.
+
+** libgnutls: Accept NULL as digest argument for gnutls_hash_output
+    The accelerated implementation of gnutls_hash_output() now
+    properly accepts NULL as the digest argument, matching the
+    behavior of the reference implementation (#1769).
+
+** srptool: Avoid a stack buffer overflow when processing large SRP groups.
+    Reported and fixed by Mikhail Dmitrichenko (#1777).
+
+** API and ABI modifications:
+No changes since last version.
+
+
+Getting the Software
+================
+
+GnuTLS may be downloaded directly from
+<a href="https://www.gnupg.org/ftp/gcrypt/" rel="nofollow">https://www.gnupg.org/ftp/gcrypt/</a>
+A list of GnuTLS mirrors can be found at
+<a href="http://www.gnutls.org/download.html" rel="nofollow">http://www.gnutls.org/download.html</a>
+
+Here are the XZ compressed sources:
+<a href="https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.12.tar.xz" rel="nofollow">https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.12.tar.xz</a>
+
+Here are OpenPGP detached signatures signed using keys:
+5D46CB0F763405A7053556F47A75A648B3F9220C
+and
+E987AB7F7E89667776D05B3BB0E9DD20B29F1432
+<a href="https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.12.tar.xz.sig" rel="nofollow">https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.12.tar.xz.sig</a>
+
+Note that it has been signed with the following openpgp keys:
+
+pub   ed25519 2021-12-23 [SC] [expires: 2027-01-01]
+       5D46CB0F763405A7053556F47A75A648B3F9220C
+uid           [ultimate] Zoltan Fridrich &lt;zfridric&#64;...hat.com&gt;
+sub   cv25519 2021-12-23 [E] [expires: 2027-01-01]
+
+pub   rsa4096 2016-09-27 [SC]
+       E987AB7F7E89667776D05B3BB0E9DD20B29F1432
+uid           [ultimate] Alexander Sosedkin &lt;monk&#64;...oiled.info&gt;
+sub   rsa4096 2021-08-21 [A]
+sub   rsa4096 2016-09-27 [E]
+sub   rsa4096 2016-09-27 [S]
+
+
+Regards,
+Alexander Sosedkin
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

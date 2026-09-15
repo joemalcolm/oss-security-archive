@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - UAF in rsync 3.4.1 and below</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;69b791e8-91d6-47cd-ad81-827d13cc0b65&#64;frasunek.com&gt;
+Date: Thu, 16 Apr 2026 07:49:45 +0200
+From: Przemyslaw Frasunek &lt;przemyslaw&#64;...sunek.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: UAF in rsync 3.4.1 and below
+
+VULNERABILITY REPORT
+====================
+
+rsync: Use-After-Free via qsort Out-of-Bounds in receive_xattr()
+-----------------------------------------------------------------
+
+Reporter:       Przemyslaw Frasunek &lt;przemyslaw&#64;...sunek.com&gt;
+Date:           2026-04-16
+Affected:       rsync 3.0.1 through 3.4.1 (all versions with xattr abbreviation)
+                 Current development head (3.4.2dev, commit b905ab23) also affected.
+File:           xattrs.c, function receive_xattr(), line 864
+Severity:       Medium / High
+Attack vector:  Network (malicious rsync sender)
+
+
+1. SUMMARY
+
+The receive_xattr() function in rsync uses a wire-supplied count value as the
+length argument to qsort() instead of the actual number of items stored in the
+array. When xattr name filtering causes some items to be discarded, the count
+of items passed to qsort exceeds the number of valid items. The excess array
+positions contain stale data from a previously processed file's xattr list.
+After qsort reorders these stale entries into the stored positions, they are
+persisted in the global xattr list (rsync_xal_l) with dangling pointers to
+heap allocations that are subsequently freed and reallocated.
+
+This creates use-after-free conditions in the receiver process: stale datum
+pointers are dereferenced in rsync_xal_set() for checksum comparison and in
+recv_xattr_request() for name copying, and freed again in both functions,
+leading to double-free or free-of-allocated-memory scenarios.
+
+2. AFFECTED CONFIGURATIONS
+
+The bug is triggered when qsort runs over the stale array elements. The
+conditions depend on the operating system:
+
+Linux:
+   The need_sort flag defaults to 0 and is only set to 1 when a non-user
+   namespace xattr (e.g. system.*, security.*) is received and prefixed with
+   the rsync namespace prefix (RSYNC_PREFIX = "user.rsync."). This prefixing
+   only occurs when am_root &lt;= 0, specifically:
+
+   - rsync receiver running with --fake-super (am_root = -1): VULNERABLE.
+     Non-user namespace xattrs from the sender are prefixed and need_sort is
+     set. This is a common configuration for backup mirrors and rsyncd
+     deployments that operate without root privileges.
+
+   - rsync receiver running as non-root (am_root = 0) with xattr filter
+     (--filter='x ...') configured: VULNERABLE. Non-user xattrs that pass
+     the filter are prefixed and need_sort is set.
+
+   - rsync receiver running as root without --fake-super: NOT VULNERABLE
+     on Linux. Non-user xattrs are accepted without prefixing or sorting.
+
+   - rsync receiver running as non-root without xattr filter: NOT VULNERABLE.
+     Non-user xattrs are silently discarded without setting need_sort.
+
+FreeBSD, macOS, and other non-Linux platforms:
+   The need_sort flag defaults to 1 unconditionally (xattrs.c line 771).
+   The bug is triggerable whenever count &gt; 1. All configurations running with
+   -X/--xattrs are VULNERABLE.
+
+
+3. ROOT CAUSE
+
+In receive_xattr() (xattrs.c), the wire-supplied xattr count for each file
+is read at line 786:
+
+     if ((count = read_varint(f)) != 0) {
+         (void)EXPAND_ITEM_LIST(&amp;temp_xattr, rsync_xa, count);
+         temp_xattr.count = 0;
+     }
+
+The EXPAND_ITEM_LIST call ensures the temp_xattr.items array has room for
+count items. However, the loop that follows (lines 791-861) only adds items
+that pass namespace filtering and xattr filter checks. Each accepted item
+increments temp_xattr.count via EXPAND_ITEM_LIST(..., 1). Items that are
+filtered out are freed and skipped via continue.
+
+When some items are filtered, temp_xattr.count &lt; count. The array positions
+from temp_xattr.count to count-1 are not cleared. Because temp_xattr is a
+static variable reused across files, these positions contain stale rsync_xa
+structs from the most recent file whose receive_xattr() populated those
+indices.
+
+At line 863-864:
+
+     if (need_sort &amp;&amp; count &gt; 1)
+         qsort(temp_xattr.items, count, sizeof (rsync_xa), rsync_xal_compare_names);
+
+qsort operates on count items, including the stale entries. Since qsort sorts
+by xattr name (rsync_xal_compare_names), and the stale entries contain valid
+name pointers at this stage, the stale entries can be sorted into the first
+temp_xattr.count positions of the array.
+
+At line 866, rsync_xal_store(&amp;temp_xattr) copies exactly temp_xattr.count
+items into the global rsync_xal_l list. If stale entries were sorted into
+positions 0..temp_xattr.count-1, they are now permanently stored as the
+current file's xattr data, with datum and name pointers pointing into another
+file's xattr allocations.
+
+
+4. EXPLOITATION
+
+The stale rsync_xa structs stored in rsync_xal_l reference datum buffers
+allocated during a prior file's receive_xattr(). These buffers are freed when
+recv_xattr_request() processes that prior file's abbreviated xattr requests
+(line 753: free(old_datum)), creating dangling pointers in the current file's
+stored xattr list.
+
+The dangling pointers are subsequently dereferenced in two locations:
+
+a) recv_xattr_request() for the current file (if the generator requests the
+    stale items):
+
+      old_datum = rxa-&gt;datum;                                    // dangling
+      rxa-&gt;datum = new_array(char, rxa-&gt;datum_len + rxa-&gt;name_len);
+      memcpy(name, rxa-&gt;name, rxa-&gt;name_len);          // read-after-free
+      free(old_datum);                              // double-free / UAF free
+
+b) rsync_xal_set() for the current file:
+
+      if (XATTR_ABBREV(rxas[i])) {                     // struct field check
+          ptr = get_xattr_data(fnamecmp, name, &amp;len, 1); // read-after-free
+          if (memcmp(sum, rxas[i].datum + 1, ...) != 0)  // read-after-free
+          ...
+          free(rxas[i].datum);                      // double-free / UAF free
+
+4.1 Stock receiver exploitation constraints
+
+Stock rsync does not write to freed memory after free(rxas[i].datum) in
+rsync_xal_set(). Without a write-after-free primitive, redirecting tcache
+allocations to arbitrary addresses is not directly achievable.
+
+The following primitives ARE available on stock rsync:
+
+- Read-after-free: stale datum pointers are dereferenced for checksum
+   comparison (memcmp against heap contents) and xattr name reads (memcpy
+   from freed memory for name strings past tcache metadata offset).
+
+- Free-of-allocated-memory: stale pointers that were re-allocated by another
+   file's recv_xattr_request are freed again, bypassing glibc tcache key
+   detection (the key field was overwritten by application data during
+   re-allocation). This corrupts heap state by placing an in-use allocation
+   on the tcache free list.
+
+- Information disclosure: if rsync_xal_set processes a stale item via the
+   non-abbreviated path (lsetxattr), tcache metadata (safe-linked pointers,
+   tcache key) is written as xattr values on destination files. This leaks
+   heap layout information to the filesystem.
+
+- Denial of service: the double-free / heap corruption reliably crashes the
+   receiver process.
+
+
+5. TRIGGER CONDITIONS
+
+For a malicious sender to trigger the vulnerability:
+
+a) The victim must run rsync with -X (--xattrs) to enable xattr transfer.
+
+b) On Linux, the victim must also use --fake-super, or have an xattr filter
+    configured that passes non-user namespace xattrs. On FreeBSD/macOS, no
+    additional flags are required.
+
+c) The sender must include at least one non-user namespace xattr in the
+    triggering file's xattr list (Linux only, to set need_sort=1).
+
+d) The sender must set the wire count higher than the number of xattrs that
+    will pass filtering, and arrange for a prior file in the transfer to
+    populate the stale array positions with exploitable xattr structs.
+
+The sender fully controls conditions (c) and (d) through the rsync protocol.
+Conditions (a) and (b) depend on the victim's rsync invocation.
+
+
+6. SUGGESTED FIX
+
+Replace count with temp_xattr.count in the qsort call at xattrs.c line 864:
+
+   Before:
+     qsort(temp_xattr.items, count, sizeof (rsync_xa), rsync_xal_compare_names);
+
+   After:
+     qsort(temp_xattr.items, temp_xattr.count, sizeof (rsync_xa), 
+rsync_xal_compare_names);
+
+This ensures qsort only operates on actually populated items, preventing
+stale data from being sorted into the stored xattr list.
+
+
+7. TIMELINE
+
+2008-03-07  Bug introduced in commit d724dd186 (rsync 3.0.1pre1).
+             The commit added qsort to receive_xattr() for sorting xattrs
+             after namespace prefix munging in --fake-super mode.
+2026-04-16  This report.
+
+
+8. REFERENCES
+
+Source: <a href="https://github.com/RsyncProject/rsync" rel="nofollow">https://github.com/RsyncProject/rsync</a>
+Buggy commit: d724dd186 ("Fixed the interaction of --fake-super with
+   --link-dest &amp; --xattrs. Fixed the munging of non-user namespace xattrs
+   w/--fake-super. Fixed the sorting of received xattrs when name-munging
+   occurs.")
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

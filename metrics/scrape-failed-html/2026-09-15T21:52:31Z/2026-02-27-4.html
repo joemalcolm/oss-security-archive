@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - OSEC-2026-01 in the OCaml runtime: Buffer Over-Read in
+ OCaml Marshal Deserialization</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;a671aebf-fc45-4d06-a1dd-5ed6664aaa3c&#64;oracle.com&gt;
+Date: Fri, 27 Feb 2026 10:38:40 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: OSEC-2026-01 in the OCaml runtime: Buffer Over-Read in
+ OCaml Marshal Deserialization
+
+<a href="https://sympa.inria.fr/sympa/arc/ocsf-ocaml-security-announcements/2026-02/msg00000.html" rel="nofollow">https://sympa.inria.fr/sympa/arc/ocsf-ocaml-security-announcements/2026-02/msg00000.html</a> 
+announces:
+&gt; From: Hannes Mehnert &lt;hannes&#64;...nert.org&gt;
+&gt; To: ocsf-ocaml-security-announcements&#64;...ia.fr
+&gt; Subject: [ocsf-ocaml-security-announcements] OSEC-2026-01 in the OCaml runtime: Buffer Over-Read in OCaml Marshal Deserialization
+&gt; Date: Tue, 17 Feb 2026 15:16:54 +0100
+&gt; 
+&gt; Dear everyone,
+&gt; 
+&gt; it is my pleasure to announce the first security announcement of this year,
+&gt; and the first on this mailing list.
+&gt; 
+&gt; It should any moment now also appear at <a href="https://osv.dev/list?q=OSEC-2026-01" rel="nofollow">https://osv.dev/list?q=OSEC-2026-01</a>
+&gt; 
+&gt; Human link: <a href="https://github.com/ocaml/security-advisories/tree/main/advisories/2026/OSEC-2026-01.md" rel="nofollow">https://github.com/ocaml/security-advisories/tree/main/advisories/2026/OSEC-2026-01.md</a>
+&gt; 
+&gt; 
+&gt; ```
+&gt; id: OSEC-2026-01
+&gt; modified: "2026-02-17T13:30:00Z"
+&gt; published: "2026-01-24T13:30:00Z"
+&gt; aliases: [ GHSA-j26j-m5xr-g23c GHSA-m34r-cgq7-jhfm ]
+&gt; severity: "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+&gt; severity_score: "6.8"
+&gt; affected: "ocaml" {&lt; "4.14.3" | (&gt;= "5" &amp; &lt; "5.4.1")}
+&gt; events: [
+&gt; [
+&gt; git "<a href="https://github.com/ocaml/ocaml" rel="nofollow">https://github.com/ocaml/ocaml</a>"; [
+&gt; [fixed "b0a2614684a52acded784ec213f14ddfe085d146"]
+&gt; ]
+&gt; ]
+&gt; [
+&gt; git "<a href="https://github.com/ocaml/ocaml" rel="nofollow">https://github.com/ocaml/ocaml</a>"; [
+&gt; [fixed "e3919fef436f89271bc30bbe8592851f7289fb68"]
+&gt; ]
+&gt; ]
+&gt; ]
+&gt; references: [
+&gt; [report "<a href="https://github.com/ocaml/security-advisories/security/advisories/GHSA-j26j-m5xr-g23c" rel="nofollow">https://github.com/ocaml/security-advisories/security/advisories/GHSA-j26j-m5xr-g23c</a>";]
+&gt; ]
+&gt; credits: [
+&gt; [reporter "Justin Timperio"]
+&gt; [remediation_developer "Nicolás Ojeda Bär"]
+&gt; [remediation_developer "Xavier Leroy"]
+&gt; [remediation_developer "Gabriel Scherer"]
+&gt; [remediation_reviewer "Xavier Leroy"]
+&gt; [remediation_reviewer "Olivier Nicole"]
+&gt; [remediation_verifier "Mindy Preston"]
+&gt; [remediation_verifier "Edwin Török"]
+&gt; [coordinator "Hannes Mehnert"]
+&gt; ]
+&gt; cwe: [ CWE-126 CWE-502 CWE-754 ]
+&gt; ```
+&gt; 
+&gt; # Buffer Over-Read in OCaml Marshal Deserialization
+&gt; 
+&gt; ## Summary
+&gt; 
+&gt; A critical buffer over-read vulnerability in OCaml's Marshal deserialization
+&gt; (runtime/intern.c) enables remote code execution through a multi-phase attack
+&gt; chain. The vulnerability stems from missing bounds validation in the
+&gt; readblock() function, which performs unbounded memcpy() operations using
+&gt; attacker-controlled lengths from malicious Marshal data.
+&gt; 
+&gt; Please note that Marshal is not type safe, and you have to be careful if you
+&gt; use the deserialization on untrusted input (due to type confusion, and remote
+&gt; code execution by design - you can use Marshal for code).
+&gt; 
+&gt; Affected functions: `Marshal.from_channel`, `Marshal.from_bytes`,
+&gt; `Marshal.from_string`, `Stdlib.input_value`, `Pervasives.input_value`
+&gt; when reading data from an untrusted source.
+&gt; 
+&gt; ## Vulnerability Attack Vector
+&gt; 
+&gt; Corrupted or malicious marshaled data that causes undefined behaviour in the
+&gt; runtime system when unmarshaled.
+&gt; `input_value` should either fail cleanly or produce a well-formed OCaml object,
+&gt; without corrupting the runtime system.
+&gt; 
+&gt; Consequently, this excludes:
+&gt; 
+&gt; * well-formed marshaled data that produces an OCaml object that is not of the
+&gt;   type expected by the OCaml code and causes the Ocaml code to crash or misbehave
+&gt; 
+&gt; * misuses of the OCaml runtime system by the program performing input_value,
+&gt;   such as setting `Debugger.function_placeholder` to the wrong function.
+&gt; 
+&gt; The former issue may be addressed at some point by validating the unmarshaled
+&gt; OCaml value against the expected type, using the functions from module `Obj`
+&gt; and some kind of run-time type description.
+&gt; 
+&gt; The latter issue is a bug in the program that unmarshals the data.
+&gt; 
+&gt; ## Fix
+&gt; 
+&gt; ### OCaml runtime
+&gt; 
+&gt; The OCaml runtime has been hardened with additional bounds checks. An exception
+&gt; is raised on bad input.
+&gt; 
+&gt; ### Third party libraries
+&gt; 
+&gt; Third party libraries that want to harden their custom Marshal deserialization
+&gt; code can follow the example fix for bigarrays from the standard library.
+&gt; There are new macros in `custom.h` called `Wsize_custom_data` and
+&gt; `Bsize_custom_data` that return the size in words or bytes of the allocated
+&gt; custom destination block. The deserializer needs to ensure it only writes data
+&gt; within those bounds.
+&gt; 
+&gt; This only needs to be done if the library defines a custom type in a C binding,
+&gt; and `struct custom_operations`'s `deserialize` field is not set to `NULL` or
+&gt; `custom_deserialize_default`, and `struct custom_operations`'s `fixed_length`
+&gt; field is set to `NULL` or `custom_fixed_length_default`
+&gt; 
+&gt; Since `Marshal.from*` and `input_value` remain unsafe to use, the fix for the
+&gt; OCaml runtime is released, and we wouldn't attempt to coordinate updating all
+&gt; deserialization functions in the ecosystem.
+&gt; 
+&gt; ## Timeline
+&gt; 
+&gt; - Nov 4th 2025: Discovery Date: Discovered first in OxCaml
+&gt; - Nov 5th 2025: First Disclosure Date (Jane Street Team): Emailed top
+&gt;   maintainers, no response.
+&gt; - Nov 9th 2025: Second Disclosure Date (OCaml Team): Submitted to OCaml/ocaml
+&gt;   GitHub Repo as a Security Advisory.
+&gt; - Nov 11th 2025: Emailed OCaml Security Mail List: Submitted to OCaml over
+&gt;   email, responded asking for details.
+&gt; - Nov 11th 2025: Third Disclosure (OCaml Security Response Team): Submitted
+&gt;   to ocaml/security-advisories GitHub Repo as a Security Advisory.
+&gt; - Dec 16th 2025: Initial patch is developed
+&gt; - Dec 17th 2025: Fuzz testing found further issues
+&gt; - Dec 24th 2025: Final patch for OCaml is developed
+&gt; - Dec 25th 2025: Fuzz testing couldn't find any further issues
+&gt; - Jan 2nd 2026: Patch got reviewed by OCaml maintainers
+&gt; - Jan 4th 2026: Benchmarking of the patch with good results
+&gt; - Jan 6th 2026: Reporter got contacted to confirm
+&gt; - Jan 25th 2026: Further related issues discovered by fuzzing
+&gt; - Feb 17th 2026: fixed OCaml releases are published, security advisory is
+&gt;   published
+
+A followup note in
+<a href="https://sympa.inria.fr/sympa/arc/ocsf-ocaml-security-announcements/2026-02/msg00001.html" rel="nofollow">https://sympa.inria.fr/sympa/arc/ocsf-ocaml-security-announcements/2026-02/msg00001.html</a>
+notes that the "published" date in the JSON was incorrect and should be
+2026-02-17.
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

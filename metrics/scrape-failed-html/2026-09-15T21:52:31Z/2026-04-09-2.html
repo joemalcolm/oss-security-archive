@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - libpng 1.6.57: Use-after-free vulnerability fixed: CVE-2026-34757</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAAoVtZwZrCcUGJsGh9WKpd7gvSq0o0wFO=RB-VCxoHmdv-GONA&#64;mail.gmail.com&gt;
+Date: Thu, 9 Apr 2026 02:29:32 +0300
+From: Cosmin Truta &lt;ctruta&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: libpng 1.6.57: Use-after-free vulnerability fixed: CVE-2026-34757
+
+Hello, everyone,
+
+libpng 1.6.57 has been released, fixing a medium-severity
+use-after-free vulnerability in the chunk setter API, including a
+long-standing defect in png_set_hIST present since at least 1.0.9
+and regressions in png_set_PLTE and png_set_tRNS introduced in
+1.6.56.
+
+Users should either upgrade to libpng 1.6.57 or apply the fixes
+described below.
+
+=== CVE-2026-34757 ===
+
+Use-after-free in png_set_PLTE, png_set_tRNS and png_set_hIST
+leading to corrupted chunk data and potential heap information
+disclosure
+
+Security advisory:
+<a href="https://github.com/pnggroup/libpng/security/advisories/GHSA-6fr7-g8h7-v645" rel="nofollow">https://github.com/pnggroup/libpng/security/advisories/GHSA-6fr7-g8h7-v645</a>
+
+Fixes:
+<a href="https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f416dfdde3684e8a" rel="nofollow">https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f416dfdde3684e8a</a>
+<a href="https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5cd4f99b48c6bcc" rel="nofollow">https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5cd4f99b48c6bcc</a>
+
+CVSS 3.1: 5.1 (Medium) - CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N
+CWE: CWE-416 (Use-After-Free)
+Affected (png_set_PLTE, png_set_tRNS): libpng 1.6.56 only
+Affected (png_set_hIST): all versions since at least libpng 1.0.9
+Fixed: libpng 1.6.57
+
+Passing a pointer obtained from png_get_PLTE, png_get_tRNS, or
+png_get_hIST back into the corresponding setter on the same
+png_struct/png_info pair causes the setter to free the internal
+buffer before copying from the caller-supplied pointer, which now
+dangles. The subsequent copy reads from freed memory, producing
+corrupted chunk data or leaking unrelated heap contents into the
+chunk struct.
+
+The png_set_PLTE and png_set_tRNS defects are regressions
+introduced by the CVE-2026-33416 fix in libpng 1.6.56; earlier
+versions tolerated the aliased pointer by accident. The
+png_set_hIST defect has been present since at least libpng 1.0.9.
+
+The defect cannot be triggered by a crafted PNG file alone; it
+requires the application to call the getter and setter in sequence
+on the same struct pair. Any valid image carrying the relevant
+chunk suffices to populate the internal pointer that the
+application then aliases.
+
+Impact:
+- Corrupted chunk data: the setter copies stale or reallocated heap
+  contents into the replacement buffer, silently corrupting chunk
+  metadata
+- Information disclosure: unrelated heap data may become visible
+  through subsequent getter calls
+
+The same release also hardens the append-style setters
+(png_set_text, png_set_sPLT, png_set_unknown_chunks) against a
+theoretical variant of the same aliasing pattern.
+
+Workaround: applications that pass a getter's return value back to
+the corresponding setter on the same struct pair can simply remove
+the redundant setter call, or copy the getter's output into a
+caller-owned buffer before passing it to the setter.
+
+Credits:
+- @Iv4n550 (discovery of PLTE and tRNS defects)
+- Cosmin Truta (discovery of hIST defect and fix of all defects)
+
+=== References ===
+
+- Release: <a href="https://github.com/pnggroup/libpng/releases/tag/v1.6.57" rel="nofollow">https://github.com/pnggroup/libpng/releases/tag/v1.6.57</a>
+- libpng homepage: <a href="http://www.libpng.org/pub/png/libpng.html" rel="nofollow">http://www.libpng.org/pub/png/libpng.html</a>
+
+---
+Cosmin Truta
+libpng maintainer
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Django CVE-2026-6873, CVE-2026-7666, CVE-2026-8404, CVE-2026-35193,
+ and CVE-2026-48587</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAJVoTUvO-ZdkgV471qXvwpSuzuRs+NzdQCkL=PWfpH2JXX_3AQ&#64;mail.gmail.com&gt;
+Date: Wed, 3 Jun 2026 10:27:08 -0300
+From: Natalia Bidart &lt;nataliabidart&#64;...ngoproject.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Django Security Team &lt;security&#64;...ngoproject.com&gt;
+Subject: Django CVE-2026-6873, CVE-2026-7666, CVE-2026-8404, CVE-2026-35193,
+ and CVE-2026-48587
+
+* Announce:
+<a href="https://www.djangoproject.com/weblog/2026/jun/03/security-releases/" rel="nofollow">https://www.djangoproject.com/weblog/2026/jun/03/security-releases/</a>
+
+* CVE JSON Record for CVE-2026-6873:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-6873" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-6873</a>
+
+* CVE JSON Record for CVE-2026-7666:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-7666" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-7666</a>
+
+* CVE JSON Record for CVE-2026-8404:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-8404" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-8404</a>
+
+* CVE JSON Record for CVE-2026-35193:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-35193" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-35193</a>
+
+* CVE JSON Record for CVE-2026-48587:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-48587" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-48587</a>
+
+In accordance with [our security release policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/</a>),
+the Django team is issuing releases for
+[Django 6.0.6](<a href="https://docs.djangoproject.com/en/dev/releases/6.0.6/" rel="nofollow">https://docs.djangoproject.com/en/dev/releases/6.0.6/</a>) and
+[Django 5.2.15](<a href="https://docs.djangoproject.com/en/dev/releases/5.2.15/" rel="nofollow">https://docs.djangoproject.com/en/dev/releases/5.2.15/</a>).
+These releases address the security issues detailed below. We encourage all
+users of Django to upgrade as soon as possible.
+
+## CVE-2026-6873: Signed cookie salt namespace collision in
+`django.http.HttpRequest.get_signed_cookie`
+
+`get_signed_cookie()` derived the signing salt by concatenating the cookie
+name (`key`) and `salt` arguments. When distinct name and salt pairs
+produced the same concatenation, cookies could be accepted
+in a context different from the one where they were signed.
+
+Cookies are now signed with an unambiguous salt derivation. For backwards
+compatibility, cookies signed by older Django versions are accepted until
+Django 7.0.
+
+This issue has severity "low" according to the [Django security policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Peng Zhou for the report.
+
+## CVE-2026-7666: Potential unencrypted email transmission via `STARTTLS`
+in the SMTP backend
+
+When using `EMAIL_USE_TLS`, a failed `STARTTLS` handshake could leave a
+partially-initialized connection that would subsequently be reused for
+sending email without encryption. This can occur with `fail_silently=True`,
+as used by `send_mail()` and `BrokenLinkEmailsMiddleware`, among others.
+Connections configured with `EMAIL_USE_SSL` are not affected.
+
+This issue has severity "low" according to the [Django security policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Kasper Dupont for the report.
+
+## CVE-2026-8404: Potential exposure of private data via case-sensitive
+`Cache-Control` directives in `UpdateCacheMiddleware`
+
+`django.middleware.cache.UpdateCacheMiddleware` and
+`django.views.decorators.cache.cache_page` decorator incorrectly cached
+responses marked with private `Cache-Control` directives when using mixed
+or uppercase values (e.g. `Private`).
+
+The `django.views.decorators.cache.cache_control` decorator and
+`django.utils.cache.patch_cache_control()` function were not affected,
+since they normalize directives to lowercase. This issue only affects
+responses where `Cache-Control` is set manually.
+
+This issue has severity "low" according to the [Django security policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Ahmed Badawe for the report.
+
+## CVE-2026-35193: Potential exposure of private data via missing `Vary:
+Authorization` in `UpdateCacheMiddleware`
+
+`django.middleware.cache.UpdateCacheMiddleware` and
+`django.views.decorators.cache.cache_page` decorator allowed responses to
+requests bearing an `Authorization` header (and without `Cache-Control:
+public`) to be cached. To conform with the existing mechanism for
+constructing cache keys, responses to these requests will now vary on
+`Authorization`.
+
+This issue has severity "low" according to the [Django security policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Shai Berger for the report.
+
+## CVE-2026-48587: Potential exposure of private data via whitespace
+padding in `Vary` header
+
+`django.middleware.cache.UpdateCacheMiddleware` incorrectly cached
+responses whose `Vary` header values contained leading or trailing
+whitespace. Because `has_vary_header()` failed to strip that whitespace, a
+response with a `Vary: * ` header (note the trailing space) was not
+recognized as containing the wildcard, causing it to be stored and
+potentially served from the cache when it should not have been.
+
+This issue has severity "low" according to the [Django security policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Navid Rezazadeh for the report.
+
+## Affected supported versions
+
+* Django main
+* Django 6.1 (currently at alpha status)
+* Django 6.0
+* Django 5.2
+
+## Resolution
+
+Patches to resolve the issue have been applied to Django's
+main, 6.1 (currently at alpha status), 6.0, and 5.2 branches.
+The patches may be obtained from the following changesets.
+
+### CVE-2026-6873: Signed cookie salt namespace collision in
+`django.http.HttpRequest.get_signed_cookie`
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/70d36515b9cc71700105a14b275583070d48b689" rel="nofollow">https://github.com/django/django/commit/70d36515b9cc71700105a14b275583070d48b689</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/42bdfd74ff85eb9ddf8fd444e2359afd9add59c8" rel="nofollow">https://github.com/django/django/commit/42bdfd74ff85eb9ddf8fd444e2359afd9add59c8</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/c807d9c398022d23cb27518fa6ecaf343efb30cf" rel="nofollow">https://github.com/django/django/commit/c807d9c398022d23cb27518fa6ecaf343efb30cf</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/594360cbf58be7f56eb6da96d58644297c99ef85" rel="nofollow">https://github.com/django/django/commit/594360cbf58be7f56eb6da96d58644297c99ef85</a>
+)
+
+### CVE-2026-7666: Potential unencrypted email transmission via `STARTTLS`
+in the SMTP backend
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/df887f50198593a0e5b4638bfddbbd43a30fd276" rel="nofollow">https://github.com/django/django/commit/df887f50198593a0e5b4638bfddbbd43a30fd276</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/afd82a544910dc79941a44af078bbc59e3e18f1c" rel="nofollow">https://github.com/django/django/commit/afd82a544910dc79941a44af078bbc59e3e18f1c</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/625a670c467aa3118c0f8ae1e0df14dbebb3bf68" rel="nofollow">https://github.com/django/django/commit/625a670c467aa3118c0f8ae1e0df14dbebb3bf68</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/4e47d2b800435bcbfd1301ef3250b9c7fb8fa670" rel="nofollow">https://github.com/django/django/commit/4e47d2b800435bcbfd1301ef3250b9c7fb8fa670</a>
+)
+
+### CVE-2026-8404: Potential exposure of private data via case-sensitive
+`Cache-Control` directives in `UpdateCacheMiddleware`
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/d618d7ae4fec727d5b582bd24f803c28d17bf7cd" rel="nofollow">https://github.com/django/django/commit/d618d7ae4fec727d5b582bd24f803c28d17bf7cd</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/130467c8b4d05a69b885363aa7d47386e4f5d6a9" rel="nofollow">https://github.com/django/django/commit/130467c8b4d05a69b885363aa7d47386e4f5d6a9</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/b4330259ffbe1a031ed14daab1f35697460f10f2" rel="nofollow">https://github.com/django/django/commit/b4330259ffbe1a031ed14daab1f35697460f10f2</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/366d9ae6e8d1469c04e9ebdc1bcd098fc14a3b1e" rel="nofollow">https://github.com/django/django/commit/366d9ae6e8d1469c04e9ebdc1bcd098fc14a3b1e</a>
+)
+
+### CVE-2026-35193: Potential exposure of private data via missing `Vary:
+Authorization` in `UpdateCacheMiddleware`
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/a2faa8e895926ac5d63f72879b5ccf671b5b4ba9" rel="nofollow">https://github.com/django/django/commit/a2faa8e895926ac5d63f72879b5ccf671b5b4ba9</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/b7b23f4697850e232486d787df3459f19bd16dba" rel="nofollow">https://github.com/django/django/commit/b7b23f4697850e232486d787df3459f19bd16dba</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/664652f1a2dd80d8a4cd491b4313cad915ae6669" rel="nofollow">https://github.com/django/django/commit/664652f1a2dd80d8a4cd491b4313cad915ae6669</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/050a3dc276f9142067260e990e4d8d42d5e32863" rel="nofollow">https://github.com/django/django/commit/050a3dc276f9142067260e990e4d8d42d5e32863</a>
+)
+
+### CVE-2026-48587: Potential exposure of private data via whitespace
+padding in `Vary` header
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/42aa0b3364d312e7c6472258d8b0e9c0277fbf22" rel="nofollow">https://github.com/django/django/commit/42aa0b3364d312e7c6472258d8b0e9c0277fbf22</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/e06958dbfff789d6a72efb1d38c65b4b22b6690e" rel="nofollow">https://github.com/django/django/commit/e06958dbfff789d6a72efb1d38c65b4b22b6690e</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/1721035a72624aad7b38dd19b14013efd94b24b8" rel="nofollow">https://github.com/django/django/commit/1721035a72624aad7b38dd19b14013efd94b24b8</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/9b62b0af71a14c657d19d95371630ba839e83d9a" rel="nofollow">https://github.com/django/django/commit/9b62b0af71a14c657d19d95371630ba839e83d9a</a>
+)
+
+## The following releases have been issued
+
+* Django 6.0.6 ([tarball](
+<a href="https://www.djangoproject.com/download/6.0.6/tarball/" rel="nofollow">https://www.djangoproject.com/download/6.0.6/tarball/</a>) | [checksums](
+<a href="https://www.djangoproject.com/download/6.0.6/checksum/" rel="nofollow">https://www.djangoproject.com/download/6.0.6/checksum/</a>))
+* Django 5.2.15 ([tarball](
+<a href="https://www.djangoproject.com/download/5.2.15/tarball/" rel="nofollow">https://www.djangoproject.com/download/5.2.15/tarball/</a>) | [checksums](
+<a href="https://www.djangoproject.com/download/5.2.15/checksum/" rel="nofollow">https://www.djangoproject.com/download/5.2.15/checksum/</a>))
+
+The PGP key ID used for this release is Natalia Bidart: [2EE82A8D9470983E](
+<a href="https://github.com/nessita.gpg" rel="nofollow">https://github.com/nessita.gpg</a>)
+
+## General notes regarding security reporting
+
+As always, we ask that potential security issues be reported via private
+email
+to `security&#64;...ngoproject.com`, and not via Django's Trac instance, nor via
+the Django Forum. Please see
+[our security policies](<a href="https://www.djangoproject.com/security/" rel="nofollow">https://www.djangoproject.com/security/</a>) for further
+information.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

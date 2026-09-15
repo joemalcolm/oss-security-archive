@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - PuTTY 0.84 released with 3 minor security fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="10">[&lt;prev]</a> <a href="../../../2026/05/25/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;11f2d0ff-37da-49b2-980a-1b6739aa6ebf&#64;oracle.com&gt;
+Date: Sun, 24 May 2026 16:57:05 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: PuTTY 0.84 released with 3 minor security fixes
+
+<a href="https://lists.tartarus.org/pipermail/putty-announce/2026/000042.html" rel="nofollow">https://lists.tartarus.org/pipermail/putty-announce/2026/000042.html</a>
+announces the release of PuTTY 0.84 with 3 minor security fixes, along
+with other bug fixes and new features.
+
+<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/wishlist/rsakex-double-free.html" rel="nofollow">https://www.chiark.greenend.org.uk/~sgtatham/putty/wishlist/rsakex-double-free.html</a>
+provides the following info about the first vulnerability:
+&gt; summary: ECDSA signature verification can be made to fail an assertion
+&gt; class: vulnerability: This is a security vulnerability.
+&gt; present-in: 0.71
+&gt; fixed-in: 65b8f37c34cd80680693e813e0081cdafaf58324 (0.84)
+&gt; 
+&gt; The elliptic curve arithmetic in PuTTY contains an assertion statement
+&gt; which shouldn't be there. It fails an assertion if you try to add two
+&gt; elliptic curve points with the same y-coordinate, which is a perfectly
+&gt; normal thing to do and should not be a special or error case at
+&gt; all. (Adding points with the same x-coordinate is a special case.)
+&gt; 
+&gt; This assertion failure can be triggered during initial key exchange,
+&gt; by sending a carefully chosen host key and signature. The crashing
+&gt; calculation does not depend on any other part of the key exchange, so
+&gt; the malicious key and signature can be the same every time.
+&gt; 
+&gt; Verification of the host key signature occurs in PuTTY before the host
+&gt; key is checked against the cache. So even if you trust the server you
+&gt; think you're connecting to, a MITM could substitute this bogus key and
+&gt; signature for the real ones, and cause PuTTY to crash with an
+&gt; assertion failure before you received any warning about an unknown or
+&gt; incorrect host key.
+&gt; 
+&gt; This just about classifies as a DoS attack, and hence a vulnerability.
+&gt; However, it is a very minor one, on the borderline of not even counting
+&gt; as a vulnerability at all, because:
+&gt; 
+&gt;   - A MITM between a particular client and server can always deny service
+&gt;     in the sense of preventing a successful SSH connection setup. Nothing
+&gt;     can be done about that.
+&gt;   - The only interesting thing in this attack is that the MITM can cause
+&gt;     PuTTY to crash, rather than failing with a more sensible error message
+&gt;     (which is what happens in the same situation once this bug is fixed).
+&gt;   - PuTTY is always compiled with assertions turned on. So the crash is
+&gt;     only an ugly error message, and does not lead to any worse compromise.
+&gt;   - PuTTY runs one SSH session per process, so this crash does not terminate
+&gt;     any other running sessions.
+&gt;   - The only potential damage is that if you had valuable information in
+&gt;     your terminal scrollback (e.g. because you had already run one
+&gt;     successful SSH connection in the same window, and then used the
+&gt;     "Restart Session" menu option), you might lose that information
+&gt;     because PuTTY crashed.
+&gt; 
+&gt; This bug applies only to elliptic curves in Weierstrass form. In PuTTY that
+&gt; means the NIST curves: P256, P384 and P521. Ed25519 (and Ed448) is unaffected.
+&gt; 
+&gt; Thanks to Guido Vranken for reporting this bug, and also providing an
+&gt; example case in the P256 curve.
+
+<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/wishlist/rsakex-double-free.html" rel="nofollow">https://www.chiark.greenend.org.uk/~sgtatham/putty/wishlist/rsakex-double-free.html</a>
+provides the following info about the second vulnerability:
+&gt; summary: Server can provoke a double free in RSA KEX code
+&gt; class: vulnerability: This is a security vulnerability.
+&gt; absent-in: 7a49ff9ac1f65944434176251b0bfea9fcc44636
+&gt; present-in: 6d7a6d47e68e8368216f3ab1a0d071db32d20a11
+&gt; 	    0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.80 0.81 0.82 0.83
+&gt; fixed-in: ba3ed53e0bf6682f89940bc2c3e83da6b1524024 (0.84)
+&gt; 
+&gt; PuTTY's implementation of the little-used RSA kex exchange method (RFC 4432)
+&gt; has a double-free bug: in some situations it frees an RSA key by calling the
+&gt; special-purpose function ssh_rsakex_freekey and then also calling the normal
+&gt; free function on the outermost struct, which is wrong, because
+&gt; ssh_rsakex_freekey already freed the whole struct.
+&gt; 
+&gt; This bug does not happen if RSA kex completes normally. The double-free only
+&gt; occurs on an error handling path, triggered if the key sent by the server is
+&gt; unexpectedly short.
+&gt; 
+&gt; This bug allows a server to provoke the double-free on purpose, because it
+&gt; can present only RSA kex as an option in its KEXINIT, and then deliberately
+&gt; send a short key. Since it happens before host key verification, a MITM can
+&gt; do the same. Therefore, this bug is listed as a vulnerability, since it's a
+&gt; remote-triggerable crash. However, we don't know of any way in which the
+&gt; double-free can be exploited to achieve a controllable effect.
+&gt; 
+&gt; Thanks to Ben Smyth for the report.
+&gt; 
+&gt; Apparently this was introduced during work in 2019 to make a test SSH server
+&gt; out of the PuTTY code (including an option to pass in a fixed key pair for
+&gt; RSA kex, complicating the question of whether to free it after use).
+&gt; Confusion was increased by the historical oddity that PuTTY's RSA keys were
+&gt; originally held in a struct that was not freed along with its contents.
+
+<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/wishlist/telnet-trust-sigil.html" rel="nofollow">https://www.chiark.greenend.org.uk/~sgtatham/putty/wishlist/telnet-trust-sigil.html</a>
+descsribes the third vulnerability thusly:
+&gt; summary: Telnet session data is marked with trust sigils after authenticating
+&gt; 	 to a proxy
+&gt; class: vulnerability: This is a security vulnerability.
+&gt; present-in: 0.77
+&gt; fixed-in: 64712be3cbc4a02bda4a92ca97e8d4f294abbe9a (0.84)
+&gt; 
+&gt; During the initial authentication phase of a network connection, PuTTY
+&gt; marks its own prompts with a 'trust sigil': a small copy of the PuTTY
+&gt; icon, to the left of the text. This distinguishes prompts that PuTTY
+&gt; emitted itself from identical text sent by a server.
+&gt; 
+&gt; The idea is to protect against spoofing attacks in which a server lets
+&gt; you log in without any password, and then pretends that it's still
+&gt; PuTTY itself doing initial authentication, and presents a prompt for
+&gt; something like your SSH private key passphrase. You might be fooled
+&gt; into telling the server that passphrase, which shouldn't ever leave
+&gt; the client machine. The trust sigil offers some protection, because
+&gt; the server can't make PuTTY display one of those, so it can't make its
+&gt; spoof password prompt look just like the real one.
+&gt; 
+&gt; In the older protocols such as Telnet and Rlogin, there is no formal
+&gt; authentication phase in the protocol itself: if the server presents a
+&gt; password prompt then it does it as part of the main session data. So
+&gt; trust sigils are not usually shown at all.
+&gt; 
+&gt; However, there's an exception. proxy-password-prompt introduced the
+&gt; ability to enter a password interactively when connecting to your
+&gt; server through a network proxy. So a trust sigil can be used in a
+&gt; Telnet session: it might appear during proxy authentication, before
+&gt; the Telnet session itself begins at all.
+&gt; 
+&gt; When this happened in 0.83 and before, the trust status was
+&gt; accidentally not cleared between proxy authentication and the main
+&gt; session. So the whole session would have trust sigils down the
+&gt; left-hand side.
+&gt; 
+&gt; I committed the fix for this in public, thinking it was just a silly
+&gt; bug. (When your whole Telnet session has those symbols down the side,
+&gt; you're surely going to realise they're a mistake, and not be fooled.)
+&gt; But since then, I've re-thought: it is a minor vulnerability, because
+&gt; what if the first thing the Telnet server (or MITM) sends is a request
+&gt; for your proxy password, perhaps pretending your previous entry of it
+&gt; was unsuccessful? That's still be a piece of information you don't
+&gt; want attackers knowing, and you might be fooled by the trust sigil
+&gt; into believing the request, before you find out that the rest of your
+&gt; session is all marked with that same sigil. By the time you notice
+&gt; that, it's too late – the damage is done.
+&gt; 
+&gt; So I'm classifying this as a vulnerability, although its impact is
+&gt; surely very small compared to most vulnerabilities. (Especially since
+&gt; it requires you to be using an old insecure login protocol like
+&gt; Telnet.)
+
+Additionally, VulDB has issued CVE-2026-4115 for a bug fixed in this
+release that the maintainer does not believe is a vulnerability, as
+discussed in detail on:
+<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/wishlist/eddsa-overlarge-s.html" rel="nofollow">https://www.chiark.greenend.org.uk/~sgtatham/putty/wishlist/eddsa-overlarge-s.html</a>
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

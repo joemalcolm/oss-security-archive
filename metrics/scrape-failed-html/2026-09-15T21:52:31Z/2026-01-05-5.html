@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: Best practices for signature verifcation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;aVuxyNKwrPhbE0SH&#64;donburi.himad.notcom.org&gt;
+Date: Mon, 5 Jan 2026 14:52:39 +0200
+From: Valtteri Vuorikoski &lt;vuori&#64;...com.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Re: Best practices for signature verifcation
+
+On Sun, Jan 04, 2026 at 11:56:06AM +0000, Peter Gutmann wrote:
+&gt; As an aside, is anyone aware of a single-source design document for what
+&gt; Authenticode does?   There's a million web pages related to the business of
+&gt; selling signing certs, and less than a million on using it, but I can't find a
+&gt; single-source design doc, just lots of stuff in various places that I've
+&gt; picked up over the years.  By "single-source doc" I mean something that
+&gt; addresses all of the above issues and related ones in one place.
+
+Are you looking for something more detailed than the Microsoft document titled
+"Windows Authenticode Portable Executable Signature Format" from 2008?
+
+Download from the horse's mouth:
+&lt;<a href="https://download.microsoft.com/download/9/c/5/9c5b2167-8017-4bae-9fde-d599bac8184a/authenticode_pe.docx" rel="nofollow">https://download.microsoft.com/download/9/c/5/9c5b2167-8017-4bae-9fde-d599bac8184a/authenticode_pe.docx</a>&gt;)
+
+Here is the overview section of that document (via pandoc -t rst):
+
+Overview
+========
+
+The Authenticode signature in a PE file is in a PKCS #7 **SignedData**
+structure. The signature asserts that:
+
+-  The file originates from a specific software publisher.
+
+-  The file has not been altered since it was signed.
+
+The signature itself does not convey any information about the intent or
+quality of the software. However, signatures that are associated with
+programs such as the Windows Logo Program—that sign software only if it
+passes certain tests—can convey quality information.
+
+A PKCS #7 **SignedData** structure contains the PE file's hash value, a
+signature created by the software publisher’s private key, and the X.509
+v3 certificates that bind the software publisher’s signing key to a
+legal entity. A PKCS #7 **SignedData** structure can optionally contain:
+
+-  A description of the software publisher.
+
+-  The software publisher's URL.
+
+-  An Authenticode timestamp.
+
+The timestamp is generated by a timestamping authority (TSA) and asserts
+that a publisher’s signature existed before the specified time. The
+timestamp extends the lifetime of the signature when a signing
+certificate expires or is later revoked.
+
+Authenticode signatures can be “embedded” in a Windows PE file, in a
+location specified by the **Certificate Table** entry in **Optional
+Header Data Directories**. When Authenticode is used to sign a Windows
+PE file, the algorithm that calculates the file's Authenticode hash
+value excludes certain PE fields. When embedding the signature in the
+file, the signing process can modify these fields without affecting the
+file's hash value.
+
+Figure 1 provides a simplified overview of how an Authenticode signature
+is included in a Windows PE file. It includes the location of the
+embedded Authenticode signature and specifies which PE fields are
+excluded when calculating the PE file's hash value.
+
+For details about the PE file structure, see ”Microsoft Portable
+Executable and Common Object File Format Specification” (PE/COFF
+specification).
+
+For details on the PKCS #7 portion of the Authenticode signature see the
+Abstract Syntax Notation version 1 (ASN.1) structure definitions later
+in this paper.
+
+For details on how the Authenticode PE hash value is calculated, see
+“Calculating the PE Image Hash” later in this paper.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

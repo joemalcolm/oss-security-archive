@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2025-60486: Use-After-Free in GPAC/MP4Box via dasher_process on
+ crafted MPEG-2 TS file</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;trinity-00f7ac88-5044-4b60-8967-48b956e032be-1780349152227&#64;3c-app-mailcom-bs08&gt;
+Date: Mon, 1 Jun 2026 23:25:52 +0200
+From: "Alexander A. Shvedov" &lt;shvedov&#64;....com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2025-60486: Use-After-Free in GPAC/MP4Box via dasher_process on
+ crafted MPEG-2 TS file
+
+Product:   GPAC (MP4Box)
+Affected:  gpac/gpac prior to fix commit 3f20eb0cd22116367c036e6ffe6ace299b38d686 (GPAC version 2.5-DEV-rev1665-g3f20eb0cd-master)
+CVE:       CVE-2025-60486
+CWE:       CWE-416 (Use After Free)
+CVSS 3.1:  8.8 HIGH (AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H)
+Reporter:  sigdevel &lt;<a href="https://infosec.exchange/&#64;sigdevel" rel="nofollow">https://infosec.exchange/&#64;sigdevel</a>&gt;
+
+Description:
+  The dasher_configure_pid function in filters/dasher.c frees a PID context
+  structure at line 976 when reconfiguring a stream during DASH segmentation.
+  The freed pointer is not cleared after deallocation, and dasher_process
+  subsequently accesses the same memory region at line 9445 during the next
+  processing cycle, creating a heap use-after-free condition.
+
+  A crafted MPEG-2 TS file with repeated sync marker violations, broken PMT
+  descriptor sizes, and conflicting PID assignments triggers the reconfiguration
+  sequence that exposes the stale pointer. The subsequent READ of 4 bytes at
+  316 bytes into the freed 1096-byte region terminates the process. Code execution
+  cannot be ruled out; use-after-free vulnerabilities can allow an attacker to
+  control freed memory contents and redirect execution flow.
+
+  Crash is reproducible on the current master branch at the time of
+  discovery. No authentication or special privileges required beyond
+  ability to provide a crafted file.
+
+Reproduction:
+  -Build-opts: `--static-build --static-bin --static-modules --enable-debug --extra-cflags="-g -O0"` ;
+  -Command: ./MP4Box -dash 100 53_dasher_process_filters_dasher_c_9445
+
+Asan-log:
+==55065==ERROR: AddressSanitizer: heap-use-after-free on address 0x519000022cbc at pc 0x7f2fc41c3300 bp 0x7ffe86651b00 sp 0x7ffe86651af8
+==55065==The signal is caused by a READ memory access.
+    #0 0x7f2fc41c32ff in dasher_process filters/dasher.c:9445
+    #1 0x7f2fc4119440 in gf_filter_process_task filter_core/filter.c:3208
+    #2 0x7f2fc40ed45e in gf_fs_thread_proc filter_core/filter_session.c:2393
+
+PoC:
+  <a href="https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/53/53_dasher_process_filters_dasher_c_9445" rel="nofollow">https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/53/53_dasher_process_filters_dasher_c_9445</a>
+
+References:
+  <a href="https://github.com/gpac/gpac/issues/3314" rel="nofollow">https://github.com/gpac/gpac/issues/3314</a>
+  <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-60486" rel="nofollow">https://nvd.nist.gov/vuln/detail/CVE-2025-60486</a>
+  <a href="https://www.cve.org/CVERecord?id=CVE-2025-60486" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-60486</a>
+
+ 
+---
+Best regards,
+Alexander A. Shvedov
+<a href="https://github.com/sigdevel" rel="nofollow">https://github.com/sigdevel</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

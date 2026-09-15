@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request experience</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="22">[&lt;prev]</a> <a href="../../../2026/06/01/1">[next&gt;]</a> <a href="../../../2026/05/18/2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260531211311.5479a4d8.freebsd-listen&#64;fabiankeil.de&gt;
+Date: Sun, 31 May 2026 21:13:11 +0200
+From: Fabian Keil &lt;freebsd-listen&#64;...iankeil.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request experience
+
+Fabian Keil &lt;freebsd-listen&#64;...iankeil.de&gt; wrote on 2026-05-18 at 10:02:48:
+
+&gt; Fabian Keil &lt;freebsd-listen&#64;...iankeil.de&gt; wrote on 2021-01-31 at 13:13:29:
+&gt; 
+&gt; &gt; Nick Tait &lt;ntait&#64;...hat.com&gt; wrote on 2020-12-23:
+&gt; &gt; 
+&gt; &gt; &gt; That is a rather poor experience Fabian, sorry! Took a look at that
+&gt; &gt; &gt; incident number and no encrypted message appears on our end. I believe
+&gt; &gt; &gt; you did actually send a message but not sure what went wrong. While I
+&gt; &gt; &gt; can't directly help, did request the appropriate people follow up with
+&gt; &gt; &gt; you.
+&gt; &gt; 
+&gt; &gt; Thanks a lot for your help, Nick.
+&gt; &gt; 
+&gt; &gt; I was contacted by someone from Red Hat Product Security
+&gt; &gt; on 2020-12-24 and received a CVE.
+&gt; &gt; 
+&gt; &gt; I replied and requested CVEs for the other issues fixed in
+&gt; &gt; Privoxy 3.0.29 but did not receive a reply yet. I just
+&gt; &gt; forwarded the request to &lt;secalert&#64;...hat.com&gt;.
+&gt; 
+&gt; Privoxy 4.2.0, which is supposed to be released around 2026-05-30,
+&gt; will contain fixes for two security issues that are currently
+&gt; tracked as OVE-20260515-0001 and OVE-20260515-0002.
+
+The patches have been pushed to git today ([1], [2]).
+
+The official Privoxy 4.2.0 release will probably happen tomorrow.
+
+Quoting relevant parts of the preliminary announcement at [3] which
+I'll have to modify before the release as the reporter responded today:
+
+| Privoxy 4.2.0 fixes a couple of bugs including two reported security
+| issues and brings a couple of general improvements including support
+| for elliptic-curve keys.
+|
+| Unfortunately the reporter of the alleged security issues did not
+| answer questions about the report that was based on an unofficial git
+| mirror which was apparently two years behind. CVEs have been requested
+| but haven't been assigned in time for the release.
+|
+| - Security fixes:
+|   - Parse the chunk-size with a dedicated function and reject "unreasonably"
+|     large values to prevent silent truncation by sscanf(), integer overflows
+|     and misinterpretation of the content later on. Heap buffer overflows on
+|     platforms with 32-bit pointers were alleged as well.
+|     Commit 5b3bb22b77. OVE-20260515-0002. Reported by @TristanInSec.
+|   - ssl_send_certificate_error(): Store the generated message on the heap
+|     instead of the stack to prevent an alleged segmentation fault if there
+|     are enough certificates in the chain to exceed the stack size.
+|     While at it, replace another variable-length array that was probably
+|     unproblematic with a heap-based buffer as well.
+|     Commit 4963aa4f08. OVE-20260515-0001. Reported by @TristanInSec.
+
+While it wouldn't have helped here, I've also added two paragraphs
+to the "Reporting security problems" section [4] in the Privoxy
+documentation that request that use of "AI" is disclosed by reporters
+and that reporters should be prepared to respond to questions about
+their reports ...
+
+&gt; I tried to get two CVEs from Redhat yesterday by sending an encrypted
+&gt; mail to the address above, which is still listed at [0], but so far only
+&gt; received what looks like an automated response which claims that I
+&gt; need an "Atlassian" account to "finish" the request.
+&gt; 
+&gt; For various reasons I don't want an "Atlassian" or any other account ...
+
+I've sent a follow-up message to request a non-automated response
+on 2026-05-26 and received another obviously-automated response a
+bit later from "Atlassian &lt;noreply+[...]@id.atlassian.com&gt;".
+
+This seems to contradict [0] which claims:
+| Only members of Red Hat Product Security, a restricted and carefully
+| chosen group of Red Hat employees, will have access to material sent
+| to the secalert&#64;...hat.com address. No outside users can subscribe to
+| this list.
+
+Fabian
+
+[0]: &lt;<a href="https://access.redhat.com/security/team/contact/" rel="nofollow">https://access.redhat.com/security/team/contact/</a>&gt;
+[1]: &lt;<a href="https://www.privoxy.org/gitweb/?p=privoxy.git;a=commitdiff;h=4963aa4f08a378d0ea8a89433a95c3948a14bb9e" rel="nofollow">https://www.privoxy.org/gitweb/?p=privoxy.git;a=commitdiff;h=4963aa4f08a378d0ea8a89433a95c3948a14bb9e</a>&gt;
+[2]: &lt;<a href="https://www.privoxy.org/gitweb/?p=privoxy.git;a=commitdiff;h=5b3bb22b771c93adddf1726ec904c9378d584a66" rel="nofollow">https://www.privoxy.org/gitweb/?p=privoxy.git;a=commitdiff;h=5b3bb22b771c93adddf1726ec904c9378d584a66</a>&gt;
+[3]: &lt;<a href="https://www.privoxy.org/gitweb/?p=privoxy.git;a=blob_plain;f=doc/webserver/announce.txt;hb=c93c69df8ff0b22e6d0a1bc02d7ce170e850cf02" rel="nofollow">https://www.privoxy.org/gitweb/?p=privoxy.git;a=blob_plain;f=doc/webserver/announce.txt;hb=c93c69df8ff0b22e6d0a1bc02d7ce170e850cf02</a>&gt;
+[4]: &lt;<a href="https://www.privoxy.org/gitweb/?p=privoxy.git;a=commitdiff;h=84a1158f288df545ee45ed9326ccf984a360d4c7" rel="nofollow">https://www.privoxy.org/gitweb/?p=privoxy.git;a=commitdiff;h=84a1158f288df545ee45ed9326ccf984a360d4c7</a>&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

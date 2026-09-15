@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Foomuuri: Lack of Client Authorization and Input Verification allow
+ Control over Firewall Configuration (CVE-2025-67603, CVE-2025-67858)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="../../../2026/01/08/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;aV6x9IJym6OdzB9Y&#64;kasco.suse.de&gt;
+Date: Wed, 7 Jan 2026 20:20:20 +0100
+From: Matthias Gerstner &lt;mgerstner&#64;...e.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Foomuuri: Lack of Client Authorization and Input Verification allow
+ Control over Firewall Configuration (CVE-2025-67603, CVE-2025-67858)
+
+Hello list,
+
+please find below a report about security issues in the D-Bus interface
+in the Foomuuri firewall manager [1]. We also offer a rendered version
+of this report on our blog [2].
+
+Summary: Foomuuri is an nftables-based firewall manager for Linux. It
+contains a privileged D-Bus service which allows to change the firewall
+configuration. A lack of D-Bus client authorization and input data
+verification allow arbitrary local users to completely control the
+system's firewall configuration in Foomuuri before version 0.31.
+
+1) Introduction
+===============
+
+Foomuuri [1] is an nftables-based firewall manager for Linux. The
+project includes a D-Bus daemon which offers an API similar to
+firewalld. In early December an openSUSE community member asked us to
+review Foomuuri [3] for addition to openSUSE Tumbleweed.
+
+During the review we quickly noticed a lack of client authorization and
+input validation in the implementation of Foomuuri's D-Bus service. We
+reported the issues to upstream and performed coordinated disclosure.
+Upstream published version 0.31 [4] of Foomuuri on 2026-01-07 which
+contains bugfixes for the security issues.
+
+The next section provides an overview of the Foomuuri D-Bus service.
+Section 3) discusses the security issues in detail. Section 4) provides
+an overview of the upstream bugfixes to address the issues. Section 5)
+looks into the CVEs which were assigned. Section 6) gives insight into
+the coordinated disclosure process which was established for these
+findings.
+
+This report is based on Foomuuri release v0.29 [5].
+
+2) Overview of the D-Bus Service
+================================
+
+Foomuuri runs with full root privileges and registers a D-Bus interface
+[6] under the name"fi.foobar.Foomuuri1". Optionally a firewalld drop-in
+replacement interface is also registered under
+"org.fedoraproject.FirewallD1". Both interfaces hook into the same
+logic, however, and there is no need to look at them separately.
+
+There are only a few methods [7] provided by the D-Bus interface:
+getting the list of available zones and managing the assignment of
+network interfaces to zones.
+
+3) Security Issues
+==================
+
+3.1) Lack of Client Authorization
+---------------------------------
+
+There is no authentication layer like Polkit present in the Foomuuri
+D-Bus service, and there are also no restrictions on D-Bus configuration
+level [8] as to who is allowed to connect to the D-Bus interfaces
+provided.
+
+As a result any local user, including low privilege service user
+accounts or even `nobody`, can invoke the D-Bus interface and change the
+firewall configuration. The only state which can be modified this way is
+the assignment of interfaces to zones, but this is enough to weaken the
+firewall configuration or to perform a limited Denial-of-Service.
+
+3.2 Missing Input Parameter Verification
+----------------------------------------
+
+Apart from the lack of access restrictions pointed out above, the input
+parameters to the D-Bus methods are not carefully scrutinized. While the
+`zone` input parameter is at least checked against currently configured
+zones [9], no further checks are performed on the `interface` parameter.
+This means that, e.g. via the "addInterface" D-Bus method, arbitrary
+strings can be passed as interface name. There is also intentionally no
+check if the specified name corresponds to an existing network device in
+the system (to allow seamless coverage of network devices even before
+they are added to the system).
+
+One result from this can be log spoofing, since the `interface` name is
+passed to logging functions unmodified. The string could contain control
+characters or newlines, which can manipulate the log.
+
+In `DbusCommon.add_interface()` [10] the possibly crafted interface name
+is added to the to-be-generated JSON configuration via the `out()`
+method. While we did not verify whether this works in practice, a local
+attacker could attempt to largely control the JSON configuration passed
+to `nftables`, by skillfully embedding additional JSON configuration in
+the `interface` parameter.
+
+We were worried that this could even lead to arbitrary code execution by
+abusing features of `nftables` like loading external files or plugin
+code, but it turned out that there are no such features available in the
+`nftables` configuration format.
+
+3.3) Unsafe `umask` used in Daemonize Code
+------------------------------------------
+
+Foomuuri contains optional support to daemonize itself. Normally this is
+done by systemd and the code in question is not invoked. It contains
+logic [11] to set the daemon's `umask` to 0, however, which is a bad
+default, since applications or libraries which intend to foster user
+control of the file mode of newly created files can pass modes like
+`0666` to `open()`, rendering them world-writable.
+
+Foomuuri does not contain any code paths that create new files, but the
+`umask` setting is also inherited by child processes, for example. While
+we did not think this was a tangible security issue in this form, we
+suggested to choose a more conservative value here to prevent future
+issues.
+
+4) Upstream Bugfixes
+====================
+
+We suggested the following fixes to upstream:
+
+- restrict access to the D-Bus interfaces to `root` only, maybe also to
+  members of a dedicated opt-in group. Alternatively Polkit could be
+  used for authentication of callers, which is more effort and complex,
+  however.
+- the `interface` input parameter should be verified right from the
+  beginning of each D-Bus method to make sure that it does not contain
+  any whitespace or special characters and is not longer than `IFNAMSIZ`
+  bytes (which is currently 16 bytes on Linux).
+- as an additional hardening measure we also suggested to apply systemd
+  directives like `ProtectSystem=full` to Foomuuri's systemd services,
+  to prevent possible privilege escalation should anything go wrong at
+  the first line of defense.
+
+Upstream decided to implement Polkit authentication for Foomuuri's D-Bus
+service and otherwise followed closely our suggestions:
+
+- commit 5944a42 [12] adds Polkit authentication to the D-Bus service.
+  Changing firewall settings now requires admin authorization. The use
+  of Polkit can be disabled in Foomuuri, in which case only clients with
+  UID 0 are allowed to perform the operations.
+- commit d1961f4 [13] adds verification of the `interface` parameter to
+  prevent manipulation of the JSON configuration data.
+- commit 806e11d [14] sets the `umask` used in the daemonize code to a
+  more conservative `0o022` setting, preventing world- or group-writable
+  files from coming into existence.
+- commit 5fcf125 [15] adds the `ProtectSystem=full` directive to all
+  Foomuuri systemd service units.
+
+All of the bugfixes are contained in version 0.31 [4] of Foomuuri.
+
+5) CVE Assignment
+=================
+
+In agreement with upstream we assigned the following two CVEs
+corresponding to this report:
+
+- CVE-2025-67603: lack of client authorization allows arbitrary users to
+  influence the firewall configuration (issue 3.1).
+
+- CVE-2025-67858: a crafted `interface` input parameter to D-Bus methods
+  can lead to integrity loss of the firewall configuration or further
+  unspecified impact by manipulating the JSON configuration passed to
+  `nft` (issue 3.2).
+
+6) Coordinated Disclosure
+=========================
+
+We reported these issues to the upstream developer on 2025-12-11,
+offering coordinated disclosure. We soon got a reply and discussed the
+details of the non-disclosure process. Upstream quickly shared patches
+with us for review and we agreed on the final patches already on
+2025-12-19. In light of the approaching Christmas season we agreed on a
+publication date of 2026-01-07 for general disclosure.
+
+We want to thank the upstream author for the prompt reaction and
+cooperation in fixing the issues.
+
+7) Timeline
+===========
+
+2025-12-11: We contacted the Foomuuri developer by email providing a detailed report about the D-Bus related findings and offered coordinated disclosure.
+2025-12-12: The upstream author confirmed the issues, agreed to coordinated disclosure and asked us to assign CVEs the way we suggested them. 2026-01-07 was suggested for publication date.
+2025-12-15: We discussed some additional technical details like the umask issue and the question of whether arbitrary code execution could result from the ability to control the JSON configuration passed to `nft`.
+2025-12-18: Upstream shared with us a first version of patches for the issues we reported. The patches for minor issues and hardening were already published on GitHub at this point.
+2025-12-19: We provided feedback on the patches, suggesting minor improvements.
+2025-12-19: With the fixes ready we discussed whether earlier publication would make sense, but we agreed to stick to the date of 2026-01-07 to accommodate the Christmas holiday season.
+2026-01-07: Upstream release v0.31 [4] was published.
+2026-01-07: Publication of this report.
+
+[1]: <a href="https://github.com/FoobarOy/foomuuri" rel="nofollow">https://github.com/FoobarOy/foomuuri</a>
+[2]: <a href="https://security.opensuse.org/2026/01/07/foomuuri-lack-of-dbus-authorization.html" rel="nofollow">https://security.opensuse.org/2026/01/07/foomuuri-lack-of-dbus-authorization.html</a>
+[3]: <a href="https://bugzilla.suse.com/show_bug.cgi?id=1254385" rel="nofollow">https://bugzilla.suse.com/show_bug.cgi?id=1254385</a>
+[4]: <a href="https://github.com/FoobarOy/foomuuri/releases/tag/v0.31" rel="nofollow">https://github.com/FoobarOy/foomuuri/releases/tag/v0.31</a>
+[5]: <a href="https://github.com/FoobarOy/foomuuri/releases/tag/v0.29" rel="nofollow">https://github.com/FoobarOy/foomuuri/releases/tag/v0.29</a>
+[6]: <a href="https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L2856" rel="nofollow">https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L2856</a>
+[7]: <a href="https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L2763" rel="nofollow">https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L2763</a>
+[8]: <a href="https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/firewalld/fi.foobar.Foomuuri-FirewallD.conf#L20" rel="nofollow">https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/firewalld/fi.foobar.Foomuuri-FirewallD.conf#L20</a>
+[9]: <a href="https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L2698" rel="nofollow">https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L2698</a>
+[10]: <a href="https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L2692" rel="nofollow">https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L2692</a>
+[11]: <a href="https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L244" rel="nofollow">https://github.com/FoobarOy/foomuuri/blob/c532cc902a402bbaf88e90a972d078649425f34b/src/foomuuri#L244</a>
+[12]: <a href="https://github.com/FoobarOy/foomuuri/commit/5944a428f53a132fc343ff6792b1b7539f1c990e" rel="nofollow">https://github.com/FoobarOy/foomuuri/commit/5944a428f53a132fc343ff6792b1b7539f1c990e</a>
+[13]: <a href="https://github.com/FoobarOy/foomuuri/commit/d1961f420600d133e5f1d3125deb17445e7745ac" rel="nofollow">https://github.com/FoobarOy/foomuuri/commit/d1961f420600d133e5f1d3125deb17445e7745ac</a>
+[14]: <a href="https://github.com/FoobarOy/foomuuri/commit/806e11d59c1e582452668cec3b68397e4cbf71b3" rel="nofollow">https://github.com/FoobarOy/foomuuri/commit/806e11d59c1e582452668cec3b68397e4cbf71b3</a>
+[15]: <a href="https://github.com/FoobarOy/foomuuri/commit/5fcf1254537604b0b609047519efedeb7a2fd2cb" rel="nofollow">https://github.com/FoobarOy/foomuuri/commit/5fcf1254537604b0b609047519efedeb7a2fd2cb</a>
+
+Best Regards
+
+Matthias
+
+-- 
+Matthias Gerstner &lt;matthias.gerstner&#64;...e.de&gt;
+Security Engineer
+<a href="https://www.suse.com/security" rel="nofollow">https://www.suse.com/security</a>
+GPG Key ID: 0x14C405C971923553
+ 
+SUSE Software Solutions Germany GmbH
+HRB 36809, AG Nürnberg
+Geschäftsführer: Jochen Jaser, Andrew McDonald, Werner Knoblich
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="9/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

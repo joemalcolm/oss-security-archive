@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-5958: GNU sed: TOCTOU race in sed -i --follow-symlinks</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/05/12/25">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260513011413.GA4475&#64;openwall.com&gt;
+Date: Wed, 13 May 2026 03:14:13 +0200
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Jim Meyering &lt;jim&#64;...ering.net&gt;
+Subject: CVE-2026-5958: GNU sed: TOCTOU race in sed -i --follow-symlinks
+
+Hi,
+
+Jim kindly brought the below to linux-distros last month (thank you,
+Jim!), but seems to have failed to bring it to oss-security on the
+public disclosure date as required.  I only discovered this now while
+processing the distros list statistics for April.
+
+Gentoo and Amazon failed to stay on top of this, even though that was
+their contributing-back task.  We already figured this out with Gentoo
+in context of another issue, but I am yet to hear from Amazon.
+
+Also, in the brief discussion on linux-distros and with Jim we did
+realize this may need to have been on the full distros list rather than
+just linux-distros, as GNU sed exists e.g. in pkgsrc, which is a member
+of the full distros list.  However, we decided that this time the issue
+was too minor, so noted this for next time.
+
+I now see that Jim indeed made public announcements - just not here:
+
+<a href="https://lists.gnu.org/archive/html/info-gnu/2026-04/msg00009.html" rel="nofollow">https://lists.gnu.org/archive/html/info-gnu/2026-04/msg00009.html</a>
+<a href="https://lists.gnu.org/archive/html/sed-devel/2026-04/msg00012.html" rel="nofollow">https://lists.gnu.org/archive/html/sed-devel/2026-04/msg00012.html</a>
+
+&gt; * Noteworthy changes in release 4.10 (2026-04-21) [stable]
+&gt; 
+&gt; ** Bug fixes
+
+&gt;   'sed --follow-symlinks -i' no longer has a TOCTOU race that could let
+&gt;   an attacker swap a symlink between resolution and open, causing sed to
+&gt;   read attacker-chosen content and write it to the original target.
+&gt;   [bug introduced in sed 4.1e]
+
+Also listed are many other bug fixes that are not considered security.
+
+There's also:
+
+<a href="https://cert.pl/en/posts/2026/04/CVE-2026-5958/" rel="nofollow">https://cert.pl/en/posts/2026/04/CVE-2026-5958/</a>
+
+&gt; Vulnerability in GNU sed software
+&gt; 20 April 2026 | CERT Polska | #vulnerability, #warning, #cve
+&gt; 
+&gt; CVE ID 	CVE-2026-5958
+&gt; Publication date 	20 April 2026
+&gt; Vendor 	GNU
+&gt; Product 	sed
+&gt; Vulnerable versions 	From 4.1e below 4.10
+&gt; Vulnerability type (CWE) 	Time-of-check Time-of-use (TOCTOU) Race Condition (CWE-367)
+&gt; Report source 	Report to CERT Polska
+&gt; 
+&gt; Description
+&gt; 
+&gt; CERT Polska has received a report about vulnerability in GNU sed
+&gt; software and participated in coordination of its disclosure.
+&gt; 
+&gt; The vulnerability CVE-2026-5958: When sed is invoked with both -i
+&gt; (in-place edit) and --follow-symlinks, the function open_next_file()
+&gt; performs two separate, non-atomic filesystem operations on the same
+&gt; path: 1. resolves symlink to its target and stores the resolved path for
+&gt; determining when output is written, 2. opens the original symlink path
+&gt; (not the resolved one) to read the file. Between these two calls there
+&gt; is a race window. If an attacker atomically replaces the symlink with a
+&gt; different target during that window, sed will: read content from the new
+&gt; (attacker-chosen) symlink target and write the processed result to the
+&gt; path recorded in step 1. This can lead to arbitrary file overwrite with
+&gt; attacker-controlled content in the context of the sed process.
+&gt; 
+&gt; This issue was fixed in version 4.10.
+&gt; 
+&gt; Credits
+&gt; 
+&gt; We thank Michał Majchrowicz and Marcin Wyczechowski (AFINE Team) for
+&gt; the responsible vulnerability report.
+
+and NIST NVD lists this score:
+
+&gt; CNA:  CERT.PL
+&gt; CVSS-B 2.1 LOW
+&gt; Vector:  CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N
+
+Alexander
+
+----- Forwarded message from Jim Meyering &lt;jim&#64;...ering.net&gt; -----
+
+From: Jim Meyering &lt;jim&#64;...ering.net&gt;
+To: linux-distros&#64;...openwall.org
+Subject: [vs-plain] GNU sed: CVE-2026-5958: TOCTOU race in sed -i --follow-symlinks
+CC: Michał Majchrowicz &lt;mmajchrowicz&#64;...ne.com&gt;,
+ Paul Eggert &lt;eggert&#64;...ucla.edu&gt;
+Date: Fri, 10 Apr 2026 18:40:17 -0700
+
+A TOCTOU race in GNU sed allows an attacker to cause sed -i
+--follow-symlinks to read attacker-controlled content and write it to
+an unintended file. This can lead to arbitrary file overwrite as the
+sed process's user when a privileged process (e.g., root) runs sed on
+a path the attacker can influence.
+
+CVE: CVE-2026-5958
+CWE: CWE-367 (Time-of-Check Time-of-Use Race Condition)
+Affected: GNU sed 4.1e through 4.9 (all current releases with --follow-symlinks)
+Severity: Moderate: requires privileged sed invocation on an
+attacker-influenced path; a survey of Debian and GitHub shows
+--follow-symlinks is overwhelmingly used on root-owned paths
+
+Bug: follow_symlink() resolves the symlink via readlink(), then
+ck_fopen() reopens the original symlink path. Between these two
+syscalls, the symlink can be swapped, causing sed to read from one
+file and write to another. Reproduces reliably in ~14 attempts.
+
+Fix: One-line change -- open the already-resolved path instead of
+re-traversing the symlink:
+
+--- a/sed/execute.c
++++ b/sed/execute.c
+@@ -562,7 +562,7 @@ open_next_file (const char *name, struct input *input)
+       if (follow_symlinks)
+         input-&gt;in_file_name = follow_symlink (name);
+
+-      if ( ! (input-&gt;fp = ck_fopen (name, read_mode, false)) )
++      if ( ! (input-&gt;fp = ck_fopen (input-&gt;in_file_name, read_mode, false)) )
+         {
+           const char *ptr = strerror (errno);
+           fprintf (stderr, _("%s: can't read %s: %s\n"), program_name,
+
+Proposed disclosure date: 2026-04-19. I plan to push the fix and
+release GNU sed 4.10 on that date. If someone would like an extra
+week, that's fine, too. Let me know.
+
+Credit: Micha?? Majchrowicz and Marcin Wyczechowski (AFINE Team).
+
+Jim Meyering
+GNU sed maintainer
+
+----- End forwarded message -----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

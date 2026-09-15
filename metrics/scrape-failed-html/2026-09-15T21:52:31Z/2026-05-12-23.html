@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: [siren] [Security Advisory] Severity: CRITICAL -
+ Malicious Compromise of OpenSearch Pre-Release npm Packages</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="22">[&lt;prev]</a> <a href="24">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;62acad70-af9f-40a4-ad77-2cc425a8d390&#64;oracle.com&gt;
+Date: Tue, 12 May 2026 14:55:38 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: [siren] [Security Advisory] Severity: CRITICAL -
+ Malicious Compromise of OpenSearch Pre-Release npm Packages
+
+While the below email only mentions OpenSearch, hundreds of packages across
+NPM &amp; PyPi were affected in the last two days, see:
+<a href="https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised" rel="nofollow">https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised</a>
+<a href="https://socket.dev/blog/tanstack-npm-packages-compromised-mini-shai-hulud-supply-chain-attack" rel="nofollow">https://socket.dev/blog/tanstack-npm-packages-compromised-mini-shai-hulud-supply-chain-attack</a>
+
+-------- Forwarded Message --------
+Subject: [siren] [Security Advisory] Severity: CRITICAL - Malicious Compromise of OpenSearch Pre-Release npm Packages
+Date: Tue, 12 May 2026 14:46:33 -0700
+From: Christopher Robinson via lists.openssf-vuln.org &lt;christopher.robinson=linuxfoundation.org&#64;...ts.openssf-vuln.org&gt;
+Reply-To: siren&#64;...ts.openssf-vuln.org, christopher.robinson&#64;...uxfoundation.org
+To: siren&#64;...ts.openssf-vuln.org
+
+Title: Malicious Compromise of OpenSearch Pre-Release npm Packages
+Date: 12 May 2026
+Severity: Critical
+
+## Overview
+On May 11, the [OpenSearch Project](<a href="https://opensearch.org/" rel="nofollow">https://opensearch.org/</a>) Node Package Manager (npm) publishing infrastructure was compromised as part of a broader npm supply chain attack campaign.  While the incident was limited to the JavaScript client repository, compromised credentials were used to publish inauthentic OpenSearch prerelease artifacts containing malicious packages.
+
+The malicious packages were identified and removed from the npm repository as of 11:00 p.m. EDT on May 11, 2026.  At this time, the impacted versions are limited to the following prerelease packages:
+- 3.5.3
+- 3.6.2
+- 3.7.0
+- 3.8.0. Anyone who downloaded or installed these versions within the described window should immediately follow the remediation guidance in this advisory.
+As an additional precautionary measure, the project has blocked all write permissions on the project repositories until all credentials are rotated. We estimate this process will be complete on May 13, 2026.  Based on currently available evidence, the activity appears consistent with tactics associated with the broader “Mini Shari Halud” supply chain campaign targeting npm ecosystem projects and CI/CD publishing infrastructure.
+
+## Affected Versions
+### OpenSearch Project| Version | Published UTC | Published America/New_York |
+|------|------------------------------|-------------------------------|
+| 3.5.3 | 2026-05-12T00:47:39.185Z | May 11, 2026, 8:47:39 PM EDT |
+| 3.6.2 | 2026-05-12T00:29:34.210Z | May 11, 2026, 8:29:34 PM EDT |
+| 3.7.0 | 2026-05-12T00:42:29.686Z | May 11, 2026, 8:42:29 PM EDT |
+| 3.8.0 | 2026-05-12T00:43:54.445Z | May 11, 2026, 8:43:54 PM EDT |
+
+## RemediationAny computer that installed or executed these package versions:
+0000 UTC 12 May 2026 / 8:30 PM EDT 11 May 2026
+and
+0300 UTC 12 May 2026 / 11:00 PM EDT 11 May 2026 should be treated as potentially fully compromised pending forensic investigation.  All secrets and keys stored on that computer should be rotated immediately from an alternate system.  The affected packages should immediately be removed, but as full control of the computer may have been given to an outside entity, there is no guarantee that removing the package will remove all malicious software resulting from installing it.
+
+## Immediate Recommended Actions
+Because compromised publishing credentials were used to distribute malicious artifacts through legitimate package infrastructure, downstream consumers should treat these package versions as trusted-channel supply chain compromises rather than ordinary malicious downloads.
+Organizations should review:
+- CI/CD dependency caches
+- Artifact repositories
+- Build pipelines
+- Developer workstations
+- Container images
+- Software bills of materials (SBOMs)
+to identify whether affected versions were introduced into development or production environments.
+Organizations and users should take the following actions immediately:
+### 1. Isolate Potentially Affected Systems
+Disconnect affected systems from the network
+Prevent further communication with internal infrastructure and cloud services
+Preserve logs and forensic artifacts where possible
+
+### 2. Rotate Credentials and Secrets
+Immediately rotate from a separate trusted system:
+- Cloud credentialsCI/CD tokens
+- npm authentication tokens
+- GitHub/GitLab credentials
+- SSH keys
+- API keys
+- Kubernetes secrets
+- Signing keys and release credentials
+Assume any credentials accessible from the compromised machine may have been exfiltrated.
+
+### 3. Remove and Rebuild
+- Remove the affected package versions immediately
+- Rebuild systems from known-good sources where feasible
+- Validate dependencies and lockfiles before redeployment
+Because arbitrary code execution may have occurred, simply uninstalling the package may not fully remediate the compromise.
+
+### 4. Review CI/CD and Repository Activity
+Projects should immediately:
+- Audit CI/CD workflows and automation credentials
+- Review repository permissions and force-push access
+- Inspect recent commits, tags, and release artifacts
+- Review npm publication logs and maintainer activity
+- Rotate signing and publishing credentials
+
+### 5. Monitor for Secondary Compromise
+Watch for:
+- Unexpected outbound network connections
+- New SSH authorized keys
+- Unauthorized GitHub Actions workflow changes
+- Suspicious npm publications
+- Credential reuse attempts
+- Persistence mechanisms or scheduled tasks
+
+## Additional Recommendations for Maintainers
+This incident highlights the growing trend of attackers targeting software supply chains through CI/CD systems and package publication workflows.
+
+Projects are strongly encouraged to:
+- Enforce least-privilege access to CI/CD systems
+- Require MFA for package publishing
+- Protect release branches and tags
+- Eliminate unnecessary force-push permissions
+- Use ephemeral build credentials where possible
+- Monitor release pipelines for anomalous behavior
+- Conduct regular audits of automation tokens and repository permissions
+Projects aligned with the OpenSSF OSPS Baseline are materially better positioned to reduce the likelihood and impact of this class of attack through stronger controls around automation security, secrets management, code review, and release governance.
+
+## References and Additional Information
+- Snyk analysis of related npm ecosystem compromises [blog](<a href="https://snyk.io/blog/tanstack-npm-packages-compromised/" rel="nofollow">https://snyk.io/blog/tanstack-npm-packages-compromised/</a>) - OpenSSF [OSPS Baseline](<a href="https://baseline.openssf.org/" rel="nofollow">https://baseline.openssf.org/</a>)
+- OWASP npm security [best practices](<a href="https://cheatsheetseries.owasp.org/cheatsheets/NPM_Security_Cheat_Sheet.html" rel="nofollow">https://cheatsheetseries.owasp.org/cheatsheets/NPM_Security_Cheat_Sheet.html</a>)
+- [GHSA](<a href="https://github.com/opensearch-project/opensearch-js/security/advisories/GHSA-27f5-xjrr-q9ff" rel="nofollow">https://github.com/opensearch-project/opensearch-js/security/advisories/GHSA-27f5-xjrr-q9ff</a>)
+
+The investigation remains ongoing. Additional indicators of compromise (IOCs), forensic details, and remediation guidance may be published as more information becomes available.  Please share this advisory broadly with downstream consumers, CI/CD administrators, security teams, and affected development communities.
+
+
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#8): <a href="https://lists.openssf-vuln.org/g/siren/message/8" rel="nofollow">https://lists.openssf-vuln.org/g/siren/message/8</a>
+Mute This Topic: <a href="https://lists.openssf-vuln.org/mt/119288087/8539914" rel="nofollow">https://lists.openssf-vuln.org/mt/119288087/8539914</a>
+Group Owner: siren+owner&#64;...ts.openssf-vuln.org
+Unsubscribe: <a href="https://lists.openssf-vuln.org/g/siren/unsub" rel="nofollow">https://lists.openssf-vuln.org/g/siren/unsub</a> [alan.coopersmith&#64;...cle.com]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

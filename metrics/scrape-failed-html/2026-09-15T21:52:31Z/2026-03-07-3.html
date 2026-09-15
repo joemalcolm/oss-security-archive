@@ -1,0 +1,679 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Telnetd Vulnerability Report</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href="../../../2026/03/08/3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20260307002011.18141-1-justin.swartz&#64;risingedge.co.za&gt;
+Date: Sat,  7 Mar 2026 02:20:11 +0200
+From: Justin Swartz &lt;justin.swartz&#64;...ingedge.co.za&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: solar&#64;...nwall.com,
+	bug-inetutils&#64;....org,
+	ron.benyizhak&#64;...ebreach.com,
+	simon&#64;...efsson.org,
+	auerswal&#64;...x-ag.uni-kl.de
+Subject: Re: Telnetd Vulnerability Report
+
+Greetings all,
+
+
+On Tue, 24 Feb 2026 07:43:51 +0100, Solar Designer wrote:
+&gt; So it looks like in the Linux world non-use of an allow list is specific
+&gt; to InetUtils, which means primarily Debian and derived distros.
+
+
+Based on my interpretation of the whitelisting and path sanitization
+concepts discussed in this thread, and of the feedback I have received
+since starting this thread, I have submitted a patch set (including a
+cover letter [1]) to bug-inetutils which implements:
+
+
+WHITELISTING
+
+The obsolete blacklist, implemented by scrub_env(), has been removed.
+The daemon now clears the inherited environment and enforces a default
+whitelist (USER, LOGNAME, TERM, LANG, and LC_*) for all NEW_ENVIRON
+values.
+
+
+PATH SANITIZATION
+
+Expanding on the OWL patch approach, every allowed variable is sanitized.
+Whitelisted variables are dropped if their values contain a path separator
+('/'), an explicit reference to the current working directory (".") or an
+explicit reference to the parent directory ("..").
+
+
+TELOPT_TTYPE INTERCEPTION
+
+The whitelist validation has been extended, in the second version of the
+patch set, to intercept raw terminal type negotiations (aka TELOPT_TTYPE),
+to prevent questionable TERM payloads from bypassing the NEW_ENVIRON
+filter. 
+
+
+OPT-IN EXTENSIBILITY
+
+An --accept-env feature which allows an administrator to extend the white-
+list with up to 16 additional variables has been included as a separate
+patch. This feature is not mandatory if there is no need to augment the
+default whitelist, and may be enabled at build-time via the autoconf flag:
+--enable-accept-env.
+
+
+Regards,
+Justin Swartz
+
+
+PS: I've attached the patch set inline below this message.
+
+---
+
+[1] <a href="https://lists.gnu.org/archive/html/bug-inetutils/2026-03/msg00010.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-inetutils/2026-03/msg00010.html</a>
+
+
+&gt;From 2c6048893f05ef7a34c895b3ea6816710372428b Mon Sep 17 00:00:00 2001
+From: Justin Swartz &lt;justin.swartz&#64;...ingedge.co.za&gt;
+Date: Fri, 6 Mar 2026 19:23:22 +0200
+Subject: [PATCH v2 1/2] telnetd: replace environment blacklist with a
+ whitelist.
+
+The previous method of scrubbing environment variables, scrub_env(),
+and targeted calls to unsetenv() were insufficient to protect against
+glibc-based injection attacks, such as the recently reported
+CVE-1999-0073 regression.
+
+To fix this issue, the approach suggested by Simon Josefsson in
+&lt;<a href="https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00002.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00002.html</a>&gt;
+has been taken to replace the reactive blacklist with a fairly strict
+default whitelist of the following allowed environment variables:
+
+  USER LOGNAME TERM LANG LC_*
+
+The daemon now clears the inherited environment (preserving PATH
+and TERM, respectively, if present) before calling telnetd_setup().
+
+As suggested by Solar Designer, all whitelisted variables are sanitized.
+This ensures that the variable will be dropped if its value contains a
+path separator, or a reference to the current working directory or its
+parent.
+
+* telnetd/telnetd.c (main): Call exorcise_env() after argument parsing.
+* telnetd/utility.c (is_env_var_allowed): New function.
+(exorcise_env): New function. Snapshot PATH and TERM, then clearenv().
+(getterminaltype): Apply final whitelist validation to terminaltype.
+(terminaltypeok): Validate terminal type against the whitelist.
+* telnetd/state.c (suboption): Filter NEW_ENVIRON during parsing using
+is_env_var_allowed() and discard empty values.
+* telnetd/pty.c (start_login): Remove the obsolete scrubbing logic.
+* telnetd/telnetd.h: Add prototypes for new functions.
+
+---
+Changes in v2:
+- Added value inspection to the is_env_var_allowed() validation logic.
+- Implemented sanitization for whitelisted variables to reject path
+  separators, or reference to the current directory or its parent.
+- Modified getterminaltype() and terminaltypeok() to prevent
+  TELOPT_TTYPE abuse.
+---
+ telnetd/pty.c     | 32 ----------------
+ telnetd/state.c   | 32 ++++++++++++----
+ telnetd/telnetd.c |  2 +
+ telnetd/telnetd.h |  3 ++
+ telnetd/utility.c | 96 +++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 125 insertions(+), 40 deletions(-)
+
+diff --git a/telnetd/pty.c b/telnetd/pty.c
+index f3518049..4bf407ad 100644
+--- a/telnetd/pty.c
++++ b/telnetd/pty.c
+@@ -83,29 +83,6 @@ startslave (char *host, int autologin, char *autoname)
+   return master;
+ }
+ 
+-/*
+- * scrub_env()
+- *
+- * Remove a few things from the environment that
+- * don't need to be there.
+- *
+- * Security fix included in telnet-95.10.23.NE of David Borman &lt;deb&#64;...y.com&gt;.
+- */
+-static void
+-scrub_env (void)
+-{
+-  char **cpp, **cpp2;
+-
+-  for (cpp2 = cpp = environ; *cpp; cpp++)
+-    {
+-      if (strncmp (*cpp, "LD_", 3)
+-	  &amp;&amp; strncmp (*cpp, "_RLD_", 5)
+-	  &amp;&amp; strncmp (*cpp, "LIBPATH=", 8) &amp;&amp; strncmp (*cpp, "IFS=", 4))
+-	*cpp2++ = *cpp;
+-    }
+-  *cpp2 = 0;
+-}
+-
+ void
+ start_login (char *host, int autologin, char *name)
+ {
+@@ -117,8 +94,6 @@ start_login (char *host, int autologin, char *name)
+   (void) autologin;
+   (void) name;
+ 
+-  scrub_env ();
+-
+   /* Set the environment variable "LINEMODE" to indicate our linemode */
+   if (lmodetype == REAL_LINEMODE)
+     setenv ("LINEMODE", "real", 1);
+@@ -130,13 +105,6 @@ start_login (char *host, int autologin, char *name)
+     fatal (net, "can't expand login command line");
+   argcv_get (cmd, "", &amp;argc, &amp;argv);
+ 
+-  /* util-linux's "login" introduced an authentication bypass method
+-   * via environment variable "CREDENTIALS_DIRECTORY" in version 2.40.
+-   * Clear it from the environment before executing "login" to prevent
+-   * abuse via Telnet.
+-   */
+-  unsetenv ("CREDENTIALS_DIRECTORY");
+-
+   execv (argv[0], argv);
+   syslog (LOG_ERR, "%s: %m\n", cmd);
+   fatalperror (net, cmd);
+diff --git a/telnetd/state.c b/telnetd/state.c
+index a9a51e00..2efc65d4 100644
+--- a/telnetd/state.c
++++ b/telnetd/state.c
+@@ -1495,10 +1495,18 @@ suboption (void)
+ 	      case NEW_ENV_VAR:
+ 	      case ENV_USERVAR:
+ 		*cp = '\0';
+-		if (valp)
+-		  setenv (varp, valp, 1);
+-		else
+-		  unsetenv (varp);
++		if (is_env_var_allowed (varp, valp))
++		  {
++		    if (valp)
++		      {
++		        if (valp &amp;&amp; *valp != 0)
++		          setenv (varp, valp, 1);
++		      }
++		    else
++		      {
++		          unsetenv (varp);
++		      }
++		  }
+ 		cp = varp = (char *) subpointer;
+ 		valp = 0;
+ 		break;
+@@ -1514,10 +1522,18 @@ suboption (void)
+ 	      }
+ 	  }
+ 	*cp = '\0';
+-	if (valp)
+-	  setenv (varp, valp, 1);
+-	else
+-	  unsetenv (varp);
++	if (is_env_var_allowed (varp, valp))
++	  {
++	    if (valp)
++	      {
++	        if (valp &amp;&amp; *valp != 0)
++	          setenv (varp, valp, 1);
++	      }
++	    else
++	      {
++	        unsetenv (varp);
++	      }
++	  }
+ 	break;
+       }				/* end of case TELOPT_NEW_ENVIRON */
+ #if defined AUTHENTICATION
+diff --git a/telnetd/telnetd.c b/telnetd/telnetd.c
+index 219a19da..affa2c96 100644
+--- a/telnetd/telnetd.c
++++ b/telnetd/telnetd.c
+@@ -218,6 +218,8 @@ main (int argc, char **argv)
+   if (argc != index)
+     error (EXIT_FAILURE, 0, "junk arguments in the command line");
+ 
++  exorcise_env ();
++
+   telnetd_setup (0);
+   return telnetd_run ();	/* Never returning.  */
+ }
+diff --git a/telnetd/telnetd.h b/telnetd/telnetd.h
+index df31a819..5ee59e6e 100644
+--- a/telnetd/telnetd.h
++++ b/telnetd/telnetd.h
+@@ -316,6 +316,9 @@ extern void tty_setsofttab (int);
+ extern void tty_tspeed (int);
+ 
+ extern char *expand_line (const char *fmt);
++extern void exorcise_env (void);
++extern int is_env_var_allowed (const char *var, const char *val);
++
+ 
+ /*  FIXME */
+ extern void _termstat (void);
+diff --git a/telnetd/utility.c b/telnetd/utility.c
+index 2fe6730c..cabdcdfd 100644
+--- a/telnetd/utility.c
++++ b/telnetd/utility.c
+@@ -17,6 +17,16 @@
+   along with this program.  If not, see `<a href="http://www.gnu.org/licenses/'" rel="nofollow">http://www.gnu.org/licenses/'</a>. */
+ 
+ #include &lt;config.h&gt;
++#include &lt;fnmatch.h&gt;
++#include &lt;string.h&gt;
++
++#ifdef HAVE_PATHS_H
++# include &lt;paths.h&gt;
++#else
++# ifndef _PATH_DEFPATH
++#  define _PATH_DEFPATH "/usr/bin:/bin"
++# endif
++#endif
+ 
+ #define TELOPTS
+ #define TELCMDS
+@@ -65,6 +75,79 @@ static int pcc;
+ 
+ extern int not42;
+ 
++/* A default whitelist for environment variables. */
++static const char *allowed_env_vars[] = {
++  "USER",
++  "LOGNAME",
++  "TERM",
++  "LANG",
++  "LC_*",
++  NULL
++};
++
++int
++is_env_var_allowed (const char *var, const char *val)
++{
++  const char **p;
++  int allowed = 0;
++
++  for (p = allowed_env_vars; *p; p++)
++    {
++      if (fnmatch (*p, var, FNM_NOESCAPE) == 0)
++        {
++          allowed = 1;
++          break;
++        }
++    }
++
++  if (!allowed)
++    return 0;
++
++  if (val != NULL)
++    {
++      if (strchr (val, '/') != NULL)
++        return 0;
++
++      if (strcmp (val, "..") == 0)
++        return 0;
++
++      if (strcmp (val, ".") == 0)
++        return 0;
++    }
++
++  return 1;
++}
++
++void
++exorcise_env (void)
++{
++  char *path, *term, *value;
++
++  value = getenv ("PATH");
++  path = value ? strdup (value) : NULL;
++
++  value = getenv ("TERM");
++  term = is_env_var_allowed ("TERM", value) ? strdup (value) : NULL;
++
++  clearenv();
++
++  if (path)
++    {
++      setenv ("PATH", path, 1);
++      free (path);
++    }
++  else
++    {
++      setenv ("PATH", _PATH_DEFPATH, 1);
++    }
++
++  if (term)
++    {
++      setenv ("TERM", term, 1);
++      free (term);
++    }
++}
++
+ static int
+ readstream (int p, char *ibuf, int bufsize)
+ {
+@@ -863,6 +946,16 @@ getterminaltype (char *uname, size_t len)
+ 	}
+       free (first);
+       free (last);
++
++      /* Does TERM appear to be illogical? */
++      if (terminaltype)
++	{
++	   if (!is_env_var_allowed ("TERM", terminaltype))
++	     {
++		free (terminaltype);
++		terminaltype = NULL;
++	     }
++	}
+     }
+   return retval;
+ }
+@@ -876,6 +969,9 @@ getterminaltype (char *uname, size_t len)
+ int
+ terminaltypeok (char *s)
+ {
++  if (!is_env_var_allowed ("TERM", s))
++    return 0;
++
+ #ifdef HAVE_TGETENT
+   char buf[2048];
+ 
+-- 
+
+
+&gt;From f541133cd6ed58cbec37442e9eb174f65f59fb28 Mon Sep 17 00:00:00 2001
+From: Justin Swartz &lt;justin.swartz&#64;...ingedge.co.za&gt;
+Date: Sat, 7 Mar 2026 00:41:49 +0200
+Subject: [PATCH v2 2/2] telnetd: add optional --accept-env feature to extend
+ the whitelist.
+
+A new command line option, -W or --accept-env, has been added to
+allow administrators to extend the default whitelist with additional
+environment variable patterns.
+
+This feature is requires opt-in at compile time and must be enabled
+using the configure flag: --enable-accept-env
+
+This is useful for systems that require specific variables to be
+passed to the login process, which would otherwise be dropped by
+the default whitelist. Any variables allowed via this option are
+still subject to the global path-traversal sanitization implemented
+in the previous patch.
+
+* configure.ac: Add --enable-accept-env argument and define
+ENABLE_ACCEPT_ENV macro.
+* telnetd/telnetd.h: Add prototype for add_allowed_env_pattern()
+guarded by ENABLE_ACCEPT_ENV.
+* telnetd/telnetd.c (argp_options): Add the "W"/"accept-env" option
+guarded by ENABLE_ACCEPT_ENV.
+(parse_opt): Handle the 'W' case by calling add_allowed_env_pattern(),
+guarded by ENABLE_ACCEPT_ENV.
+* telnetd/utility.c: Declare user_env_vars storage and extend
+is_env_var_allowed() to check user patterns first, guarding all
+additions with ENABLE_ACCEPT_ENV.
+---
+ configure.ac      |  8 ++++++++
+ telnetd/telnetd.c | 10 ++++++++++
+ telnetd/telnetd.h |  4 ++++
+ telnetd/utility.c | 42 ++++++++++++++++++++++++++++++++++++++++--
+ 4 files changed, 62 insertions(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index ac6e6c59..89f73929 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -74,6 +74,14 @@ AC_ARG_ENABLE([authentication],
+               [test -z "$KERBEROS_VERSION" &amp;&amp; AC_MSG_ERROR([--enable-authentication is given, but a Kerberos version is not provided])],
+ 	      [test -z "$KERBEROS_VERSION" &amp;&amp; enable_authentication=no])
+ 
++AC_ARG_ENABLE([accept-env],
++              AS_HELP_STRING([--enable-accept-env],
++                             [Enable the --accept-env option in telnetd]),
++              [if test "$enableval" = yes; then
++                 AC_DEFINE([ENABLE_ACCEPT_ENV], 1, [Define as 1 to enable the --accept-env option in telnetd])
++              fi],
++              [enable_accept_env=no])
++
+ if test -n "$KERBEROS_VERSION"; then
+   test -n "$enable_authentication" || enable_authentication=yes
+   test -n "$enable_encryption" || enable_encryption=yes
+diff --git a/telnetd/telnetd.c b/telnetd/telnetd.c
+index affa2c96..acb6ce08 100644
+--- a/telnetd/telnetd.c
++++ b/telnetd/telnetd.c
+@@ -117,6 +117,10 @@ static struct argp_option argp_options[] = {
+    "do not print host information before login has been completed", GRID},
+   {"linemode", 'l', "MODE", OPTION_ARG_OPTIONAL,
+    "set line mode", GRID},
++#ifdef ENABLE_ACCEPT_ENV
++  {"accept-env", 'W', "PATTERN", 0,
++   "specify an additional environment variable pattern to accept", GRID},
++#endif
+   {"no-keepalive", 'n', NULL, 0,
+    "disable TCP keep-alive", GRID},
+   {"reverse-lookup", 'U', NULL, 0,
+@@ -180,6 +184,12 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
+       reverse_lookup = 1;
+       break;
+ 
++#ifdef ENABLE_ACCEPT_ENV
++    case 'W':
++      add_allowed_env_pattern (arg);
++      break;
++#endif
++
+ #ifdef	AUTHENTICATION
+     case 'X':
+       auth_disable_name (arg);
+diff --git a/telnetd/telnetd.h b/telnetd/telnetd.h
+index 5ee59e6e..259b3126 100644
+--- a/telnetd/telnetd.h
++++ b/telnetd/telnetd.h
+@@ -319,6 +319,10 @@ extern char *expand_line (const char *fmt);
+ extern void exorcise_env (void);
+ extern int is_env_var_allowed (const char *var, const char *val);
+ 
++#ifdef ENABLE_ACCEPT_ENV
++extern void add_allowed_env_pattern (const char *pattern);
++#endif
++
+ 
+ /*  FIXME */
+ extern void _termstat (void);
+diff --git a/telnetd/utility.c b/telnetd/utility.c
+index cabdcdfd..c9d38867 100644
+--- a/telnetd/utility.c
++++ b/telnetd/utility.c
+@@ -75,6 +75,12 @@ static int pcc;
+ 
+ extern int not42;
+ 
++#ifdef ENABLE_ACCEPT_ENV
++# define MAX_USER_ENV_VARS 16
++static const char *user_env_vars[MAX_USER_ENV_VARS];
++static size_t user_env_var_count = 0;
++#endif
++
+ /* A default whitelist for environment variables. */
+ static const char *allowed_env_vars[] = {
+   "USER",
+@@ -90,15 +96,30 @@ is_env_var_allowed (const char *var, const char *val)
+ {
+   const char **p;
+   int allowed = 0;
++#ifdef ENABLE_ACCEPT_ENV
++  size_t i;
+ 
+-  for (p = allowed_env_vars; *p; p++)
++  for (i = 0; i &lt; user_env_var_count; i++)
+     {
+-      if (fnmatch (*p, var, FNM_NOESCAPE) == 0)
++      if (fnmatch (user_env_vars[i], var, FNM_NOESCAPE) == 0)
+         {
+           allowed = 1;
+           break;
+         }
+     }
++#endif
++
++  if (!allowed)
++    {
++      for (p = allowed_env_vars; *p; p++)
++        {
++          if (fnmatch (*p, var, FNM_NOESCAPE) == 0)
++            {
++              allowed = 1;
++              break;
++            }
++        }
++    }
+ 
+   if (!allowed)
+     return 0;
+@@ -118,6 +139,23 @@ is_env_var_allowed (const char *var, const char *val)
+   return 1;
+ }
+ 
++#ifdef ENABLE_ACCEPT_ENV
++void
++add_allowed_env_pattern (const char *pattern)
++{
++  if (!pattern || *pattern == 0)
++    return;
++
++  if (user_env_var_count &gt;= MAX_USER_ENV_VARS)
++    {
++      syslog (LOG_NOTICE, "Ignoring --accept-env option: limit reached");
++      return;
++    }
++
++  user_env_vars[user_env_var_count++] = pattern;
++}
++#endif
++
+ void
+ exorcise_env (void)
+ {
+-- 
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Off-by-one heap buffer overflow in libuv</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="6">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CALrERead3gyi7riXr8e_2B=Gs-NhAZRJKNWESF=nvaFD_FqcEg&#64;mail.gmail.com&gt;
+Date: Thu, 19 Mar 2026 21:48:41 +0500
+From: Ali Raza &lt;elirazamumtaz&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Off-by-one heap buffer overflow in libuv
+
+### PoC
+
+Tested on Windows 10 22H2 x64, Visual Studio 2022 Build Tools, libuv v1.x
+HEAD.
+
+This is a detection-only PoC — it places a canary byte after the buffer and
+checks if the NUL overwrites it. No exploitation attempted.
+
+**1. Build libuv:**
+
+```cmd
+git clone <a href="https://github.com/libuv/libuv.git" rel="nofollow">https://github.com/libuv/libuv.git</a>
+cd libuv &amp;&amp; git checkout v1.x
+mkdir build &amp;&amp; cd build
+cmake .. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
+-DBUILD_TESTING=OFF -DLIBUV_BUILD_SHARED=OFF
+nmake
+cd ..
+```
+
+**2. Save as `poc\poc.c`:**
+
+```c
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include "uv.h"
+
+#define CJK_CHAR 0x4E2D  /* U+4E2D (中) — 3 UTF-8 bytes */
+
+static int test_overflow(size_t buf_size) {
+  size_t num_chars = buf_size / 3;
+  char *mem = (char *)malloc(buf_size + 16);
+  uint16_t *utf16 = (uint16_t *)malloc(num_chars * sizeof(uint16_t));
+  char *target;
+  size_t target_len;
+  unsigned char canary;
+  int rc;
+
+  if (!mem || !utf16) { free(mem); free(utf16); return -1; }
+
+  memset(mem, 0xAA, buf_size + 16);
+  for (size_t i = 0; i &lt; num_chars; i++)
+    utf16[i] = CJK_CHAR;
+
+  target = mem;
+  target_len = buf_size;  /* reproduces the tty.c:558 pattern — no -1 */
+  rc = uv_utf16_to_wtf8(utf16, (ssize_t)num_chars, &amp;target, &amp;target_len);
+  canary = (unsigned char)mem[buf_size];
+
+  printf("  buf=%-5zu chars=%-4zu rc=%-3d byte_after=0x%02X %s\n",
+         buf_size, num_chars, rc, canary,
+         canary == 0x00 ? "OVERFLOW" : "ok");
+
+  free(utf16);
+  free(mem);
+  return canary == 0x00 ? 1 : 0;
+}
+
+int main(void) {
+  size_t sizes[] = {48, 96, 192, 384, 768, 1536, 3072, 6144};
+  int n = sizeof(sizes) / sizeof(sizes[0]);
+  int hits = 0;
+
+  printf("=== uv_utf16_to_wtf8() off-by-one PoC ===\n\n");
+  printf("Test: buffer sizes divisible by 3 (should overflow):\n");
+  for (int i = 0; i &lt; n; i++)
+    hits += test_overflow(sizes[i]);
+
+  printf("\nControl: buffer size NOT divisible by 3:\n");
+  test_overflow(100);
+
+  printf("\n%s: %d/%d overflows detected\n",
+         hits &gt; 0 ? "VULNERABLE" : "NOT VULNERABLE", hits, n);
+  return hits &gt; 0 ? 1 : 0;
+}
+```
+
+**3. Compile and run (from x64 Native Tools Command Prompt for VS 2022):**
+
+```cmd
+mkdir poc &amp;&amp; cd poc
+cl /nologo /W3 /MD poc.c /I ..\include /link /LIBPATH:..\build libuv.lib
+advapi32.lib iphlpapi.lib psapi.lib shell32.lib user32.lib userenv.lib
+ws2_32.lib dbghelp.lib ole32.lib uuid.lib
+poc.exe
+```
+
+**Output:**
+SS Attached
+
+### Impact
+
+Out-of-bounds heap write (1 NUL byte) triggered by console input on
+Windows. The practical impact depends on heap layout and allocator behavior
+in the consuming application. Any Windows application using libuv's TTY
+line reading with a read buffer size divisible by 3 is affected. Versions
+v1.47.0 through current v1.x HEAD.
+
+Best,
+
+Ali Raza (@locus-x64)
+
+On Thu, 19 Mar 2026 at 21:45, Ali Raza &lt;elirazamumtaz&#64;...il.com&gt; wrote:
+
+&gt; Last few days ago I found an off-by-one heap buffer overflow in libuv.
+&gt; Off-by-one NUL write past a heap buffer in `uv_utf16_to_wtf8()` when
+&gt; called from the Windows TTY line-read path. When a user types or pastes CJK
+&gt; characters into a Windows console application backed by libuv, a 1-byte
+&gt; out-of-bounds NUL write occurs if the read buffer size is divisible by 3.
+&gt;
+&gt; I found this while reading through the TTY code. `uv_utf16_to_wtf8()` in
+&gt; src/idna.c unconditionally writes a NUL terminator at:
+&gt; ```c
+&gt; *target++ = '\0';   // idna.c:550 -- writes at target[target_len] when
+&gt; buffer is full
+&gt; ```
+&gt;
+&gt; The function's own comment says `*target_len_ptr` should be the length
+&gt; _excluding_ space for NUL. Two callers in util.c handle this correctly:
+&gt; ```c
+&gt; utf8_len = *size_ptr - 1; /* Reserve space for NUL */    // util.c:126
+&gt; *size -= 1; /* Reserve space for NUL. */                   // util.c:1121
+&gt; ```
+&gt;
+&gt; But the TTY line-read path passes the full buffer size without the
+&gt; subtraction:
+&gt; ```c
+&gt; read_bytes = bytes;    // tty.c:558 — should be bytes - 1
+&gt; uv_utf16_to_wtf8(utf16, read_chars,
+&gt;                  &amp;handle-&gt;tty.rd.read_line_buffer.base,
+&gt;                  &amp;read_bytes);
+&gt; ```
+&gt;
+&gt; The overflow happens when all the input characters encode to exactly 3
+&gt; UTF-8 bytes each (BMP characters in U+0800–U+FFFF range, like CJK
+&gt; ideographs). The TTY code computes `chars = bytes / 3` (tty.c:540), so when
+&gt; `bytes % 3 == 0`, the worst-case output `chars * 3` equals `bytes` exactly,
+&gt; and the NUL terminator writes one byte past the buffer.
+&gt;
+&gt; The buffer size comes from the application's `alloc_cb`. libuv suggests
+&gt; 8192 (not divisible by 3), but any application returning a size that's
+&gt; divisible by 3 hits this.
+&gt;
+&gt; Introduced in v1.47.0 (commit f3889085, PR #4021), still present on v1.x
+&gt; HEAD.
+&gt;
+&gt;
+&gt; Best
+&gt;
+&gt; Ali Raza (@locus-x64)
+&gt;
+
+<span style="font-family: times;"><strong>Content of type "</strong>text/html<strong>" skipped</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="5/1" rel="nofollow" download>poc.png</a><strong>" of type "</strong>image/png<strong>" (40768 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

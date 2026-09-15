@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - ngtcp2:
+ qlog_parameters_set_transport_params_stack_overflow [CVE-2026-40170]</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;d5ecc559-50d3-46b1-a0ce-ddb2a9e96969&#64;oracle.com&gt;
+Date: Fri, 17 Apr 2026 09:53:26 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: ngtcp2:
+ qlog_parameters_set_transport_params_stack_overflow [CVE-2026-40170]
+
+<a href="https://github.com/ngtcp2/ngtcp2/security/advisories/GHSA-f523-465f-8c8f" rel="nofollow">https://github.com/ngtcp2/ngtcp2/security/advisories/GHSA-f523-465f-8c8f</a> advises:
+&gt; qlog_parameters_set_transport_params_stack_overflow
+&gt; 
+&gt; tatsuhiro-t published GHSA-f523-465f-8c8f Apr 16, 2026
+&gt; 
+&gt; Package:           ngtcp2
+&gt; Affected versions: &lt;= 1.22.0
+&gt; Patched versions:  1.22.1
+&gt; 
+&gt; Summary
+&gt; -------
+&gt; ngtcp2_qlog_parameters_set_transport_params() serializes transport parameters
+&gt; into a fixed stack buffer (uint8_t buf[1024]) without complete bounds checks.
+&gt; 
+&gt; When qlog is enabled and peer-controlled transport parameters are large enough,
+&gt; this causes a stack buffer overflow (ASAN confirmed).
+&gt; 
+&gt; Details
+&gt; -------
+&gt; 1. The trigger starts in normal handshake processing.
+&gt; 
+&gt;    ngtcp2_conn_set_remote_transport_params sends peer transport parameters to
+&gt;    qlog serialization at lib/ngtcp2_conn.c#L11670:
+&gt; 
+&gt; ngtcp2_qlog_parameters_set_transport_params(&amp;conn-&gt;qlog, params, conn-&gt;server,
+&gt;                                             NGTCP2_QLOG_SIDE_REMOTE);
+&gt; 
+&gt; 2. Inside ngtcp2_qlog_parameters_set_transport_params, JSON is built in a fixed
+&gt;    stack buffer (buf[1024]) and a moving pointer p (lib/ngtcp2_qlog.c#L902,
+&gt;    lib/ngtcp2_qlog.c#L905):
+&gt; 
+&gt; void ngtcp2_qlog_parameters_set_transport_params(...) {
+&gt;   uint8_t buf[1024];
+&gt;   uint8_t *p = buf;
+&gt;   ...
+&gt; }
+&gt; 
+&gt; 3. The function then appends many peer-influenced fields
+&gt;    (CID/token/preferred-address data/limits).
+&gt; 
+&gt;    Representative writes are visible at lib/ngtcp2_qlog.c#L1004 and
+&gt;    lib/ngtcp2_qlog.c#L1006:
+&gt; 
+&gt; p = write_pair_cid(p, "initial_source_connection_id", &amp;params-&gt;initial_scid);
+&gt; ...
+&gt; p = write_pair_hex(p, "data", paddr-&gt;stateless_reset_token,
+&gt;                    sizeof(paddr-&gt;stateless_reset_token));
+&gt; 
+&gt; 4. There is no end-to-end guard that guarantees the full serialized output fits
+&gt;    into buf.
+&gt; 
+&gt;    With sufficiently large combined field output, p advances beyond buf + 1024,
+&gt;    and later helper writes become stack out-of-bounds writes.
+&gt; 
+&gt; 5. The final write that actually crosses the boundary happens in the
+&gt;    hex-encoding path used by qlog helpers.
+&gt; 
+&gt;    In write_hex (lib/ngtcp2_qlog.c#L58), the pointer is passed through to
+&gt;    ngtcp2_encode_hex:
+&gt; 
+&gt; static uint8_t *write_hex(uint8_t *p, const uint8_t *data, size_t datalen) {
+&gt;   *p++ = '"';
+&gt;   p = ngtcp2_encode_hex(p, data, datalen);
+&gt;   *p++ = '"';
+&gt;   return p;
+&gt; }
+&gt; 
+&gt;    Then ngtcp2_encode_hex (lib/ngtcp2_str.c#L51) writes bytes sequentially to
+&gt;    dest:
+&gt; 
+&gt; uint8_t *ngtcp2_encode_hex(uint8_t *dest, const uint8_t *data, size_t len) {
+&gt;   for (; len--;) {
+&gt;     *dest++ = low[(size_t)(*data &gt;&gt; 4)];
+&gt;     *dest++ = low[(size_t)(*data++ &amp; 0x0f)];
+&gt;   }
+&gt;   return dest;
+&gt; }
+&gt; 
+&gt;    Once p has already moved beyond buf + 1024, these writes become stack
+&gt;    out-of-bounds writes. ASAN reports this as AddressSanitizer:
+&gt;    stack-buffer-overflow and identifies buf in
+&gt;    ngtcp2_qlog_parameters_set_transport_params as the overflowing object.
+&gt; 
+[See GHSA link for PoC]
+&gt; 
+&gt; Impact
+&gt; ------
+&gt; 
+&gt; Vulnerability type:
+&gt; 
+&gt;     Stack-based out-of-bounds write (CWE-121 / CWE-787)
+&gt; 
+&gt; Who is impacted:
+&gt; 
+&gt;     Deployments that enable qlog callback (qlog-&gt;write != NULL) and process
+&gt;     untrusted peer transport parameters.
+&gt; 
+&gt; Patches
+&gt; -------
+&gt; ngtcp2 v1.22.1 fixes this vulnerability.
+&gt; 
+&gt; The following commit mitigates this vulnerability:
+&gt; 
+&gt; <a href="https://github.com/ngtcp2/ngtcp2/commit/708a7640c1f48fb8ffb540c4b8ea5b4c1dfb8ee5" rel="nofollow">https://github.com/ngtcp2/ngtcp2/commit/708a7640c1f48fb8ffb540c4b8ea5b4c1dfb8ee5</a>
+&gt; 
+&gt; Workarounds
+&gt; -----------
+&gt; Do not turn on qlog on client.
+&gt; 
+&gt; Severity:   High - 7.5 / 10
+&gt;             CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+&gt; CVE ID:     CVE-2026-40170
+&gt; Weaknesses: CWE-121 Stack-based Buffer Overflow
+&gt; Credits:    @Kherrisan Reporter
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

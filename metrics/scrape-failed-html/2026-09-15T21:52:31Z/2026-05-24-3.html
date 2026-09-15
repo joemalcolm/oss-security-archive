@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - root-project/root: Heap buffer overflow in TKey::Streamer / TBasket::ReadBasketBuffers</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CA+7nKoUW7p1=zC=b2C5j7+27jPtHRFyD-fo4BWO9AV4yndHLLA&#64;mail.gmail.com&gt;
+Date: Sun, 24 May 2026 22:07:07 +0700
+From: Manopakorn Kooharueangrong &lt;manopakorn.sec&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: root-project/root: Heap buffer overflow in TKey::Streamer / TBasket::ReadBasketBuffers
+
+Hello oss-security,
+
+I am writing to report a confirmed memory safety vulnerability in
+root-project/root (ROOT, the CERN C++ scientific computing framework)
+version v6-40-00 and below. The issue was confirmed end-to-end against
+the real ROOT library (v6-36-04, snap root-framework) with a
+deterministic 3/3 reproducer.
+
+I am requesting that you coordinate a CVE assignment. The maintainers
+confirmed the bug and merged a fix, but declined to classify it as a
+security advisory; I disagree for the reasons below.
+
+== Summary ==
+
+Issue: Heap buffer overflow in TBasket::ReadBasketBuffers via missing
+fObjlen + fKeylen additive-overflow check in TKey::Streamer. An
+attacker-controlled .root file triggers up to 32,767 bytes of OOB read and
+OOB write on the heap when opened by a victim process.
+Affected versions: v6-00-00 through v6-40-00 (262 release tags ship the
+vulnerable path).
+CVSS 3.1: AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H = 7.8 (High)
+CWE: CWE-20, CWE-122, CWE-190
+Authentication required: None.
+Fix: Merged upstream in PR #22377 —
+<a href="https://github.com/root-project/root/pull/22377" rel="nofollow">https://github.com/root-project/root/pull/22377</a>
+
+== Root cause ==
+
+io/io/src/TKey.cxx:1375-1426 (TKey::Streamer) clamps fNbytes, fObjlen,
+fKeylen to be non-negative but does not validate that fObjlen + fKeylen
+fits in Int_t. The sibling routine TKey::ReadKeyBuffer at
+io/io/src/TKey.cxx:1249-1254 does enforce this check (added in commit
+2a596309bf, April 2026) but the fix was not propagated to Streamer until PR
+#22377.
+
+The unvalidated values flow to tree/tree/src/TBasket.cxx:583:
+
+  uncompressedBufferLen = len &gt; fObjlen+fKeylen ? len : fObjlen+fKeylen;
+
+When fObjlen + fKeylen wraps to a negative value under signed overflow, the
+small attacker-supplied len is chosen as the destination allocation size.
+The subsequent memcpy at line 601 writes fKeylen bytes (up to 32,767, the
+Short_t range) into the undersized buffer:
+
+  memcpy(rawUncompressedBuffer, rawCompressedBuffer, fKeylen);
+
+This is OOB read on the source and OOB write on the destination.
+
+== PoC ==
+
+Reproducible 3/3 against ROOT v6-36-04 (snap root-framework). Steps:
+
+  $ /snap/bin/root -l -b -q make_good.C   # writes good.root, one TTree,
+one basket
+  $ python3 patch_basket.py               # 6-byte patch to basket header
+  $ /snap/bin/root -l -b -q trigger.C     # opens bad.root, calls
+tree-&gt;GetEntry(0)
+
+The patch overwrites two fields at file offset 0xde:
+  fObjlen (offset 0xe4): 0x00000020 -&gt; 0x7fff8001
+  fKeylen (offset 0xec): 0x0041     -&gt; 0x7fff (32767)
+  Result: fObjlen + fKeylen = 0x80000000 (signed wrap to INT_MIN)
+
+ROOT runtime output (smoking gun showing attacker values reaching the sink):
+
+  Processing trigger.C...
+  Error R__unzip_header: error in header.  Values: 00
+  Error in &lt;TBasket::ReadBasketBuffers&gt;: Inconsistency found in header
+(nin=0, nbuf=0)
+  Error in &lt;TBasket::ReadBasketBuffers&gt;: fNbytes = 97, fKeylen = 32767,
+fObjlen = 2147450881, noutot = 0, nout=0, nin=0, nbuf=0
+  Error in &lt;TBranch::GetBasket&gt;: File: bad.root at byte:222, branch:x,
+entry:0, badread=1, nerrors=1, basketnumber=0
+  double free or corruption (!prev)
+
+The middle line proves TKey::Streamer accepted fObjlen = 0x7fff8001 and
+fKeylen = 0x7fff without raising. The glibc abort line is heap metadata
+corruption from the memcpy at TBasket.cxx:601.
+
+gdb backtrace at abort through real ROOT symbols:
+
+  #3  __GI_abort ()
+  #5  malloc_printerr (str="double free or corruption (!prev)")
+  #6  _int_free_merge_chunk (size=389952)
+  #8  TBuffer::~TBuffer ()         from libCore.so
+  #9  TBufferIO::~TBufferIO ()     from libRIO.so
+  #10 TBufferFile::~TBufferFile () from libRIO.so
+  #12 TBranch::~TBranch ()         from libTree.so
+  #16 TTree::~TTree ()             from libTree.so
+  #22 TFile::Close ()              from libRIO.so
+
+Negative control: same flow against the original unpatched good.root prints
+"x = 0" (the legitimate branch value) and exits cleanly with no glibc abort
+and no error messages.
+
+== Maintainer response ==
+
+The bug was confirmed by @dpiparo on the GHSA-58gv-q2vp-fv8f draft advisory:
+
+  "We confirm a crafted ROOT file could trigger the bug. Now, in
+  presence of a tampered input, a crash would occur. Checks were put
+  in place thanks to your report, see #22377 and backports."
+
+The advisory was closed with: "We don't consider this item a security
+advisory."
+
+I disagree because:
+
+1. It is a confirmed heap buffer overflow (CWE-122) triggered by integer
+overflow (CWE-190) on attacker-controlled bytes parsed from a file. This
+matches standard CVE criteria for a memory safety issue in a parser.
+
+2. ROOT is routinely used to open files from multi-tenant and
+network-reachable sources: CERN SWAN, JupyterLab-ROOT, batch hadd workers,
+XRootD/EOS/CernVM-FS grid storage, CI artifacts, and downstream frameworks
+(CMSSW, Gaudi, Athena). A single crafted .root file delivered to any of
+these surfaces can compromise a long-running, grid-credentialed analysis
+process.
+
+3. The ~32 KB OOB write spans many glibc heap chunks and provides a
+primitive for vtable or function-pointer overwrite, not just a crash.
+
+== Recommended fix (matches upstream PR #22377) ==
+
+In io/io/src/TKey.cxx (TKey::Streamer), mirror the check that already
+exists in TKey::ReadKeyBuffer:
+
+  constexpr auto maxInt_t = std::numeric_limits&lt;Int_t&gt;::max();
+  if (fKeylen &gt; (maxInt_t - fObjlen)) {
+     Error("Streamer", "fObjlen (%d) + fKeylen (%d) &gt; max int (%d)",
+           fObjlen, fKeylen, maxInt_t);
+     MakeZombie();
+     return;
+  }
+
+Defence-in-depth: in tree/tree/src/TBasket.cxx, assert fKeylen &lt;= len and
+fKeylen &lt;= uncompressedBufferLen before the memcpy at line 601.
+
+== Credit ==
+
+Please credit: manop55555 (<a href="https://github.com/manop55555" rel="nofollow">https://github.com/manop55555</a>), Finder /
+Reporter.
+
+== Disclosure ==
+
+The fix is already public via PR #22377. I plan to publish this advisory
+once a CVE is assigned, or after 90 days from today if no CVE is assigned.
+Please acknowledge receipt.
+
+== References ==
+
+Upstream fix (merged): <a href="https://github.com/root-project/root/pull/22377" rel="nofollow">https://github.com/root-project/root/pull/22377</a>
+Sibling-fix commit: 2a596309bf (TKey::ReadKeyBuffer hardening, April 2026)
+Vulnerable files: io/io/src/TKey.cxx (TKey::Streamer, lines 1375-1426)
+tree/tree/src/TBasket.cxx (TBasket::ReadBasketBuffers, line 601)
+Affected range: v6-00-00 through v6-40-00
+Closed GHSA draft: GHSA-58gv-q2vp-fv8f (root-project/root)
+
+Best regards,
+manop55555
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

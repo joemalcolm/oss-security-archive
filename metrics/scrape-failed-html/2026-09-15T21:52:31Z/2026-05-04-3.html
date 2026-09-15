@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: mutt 2.3.2 released</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87o6iw9fvd.fsf&#64;gentoo.org&gt;
+Date: Mon, 04 May 2026 01:29:26 +0100
+From: Sam James &lt;sam&#64;...too.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: mutt 2.3.2 released
+
+In the ChangeLog [0], all of these are listed as security fixes.
+
+"""
+2026-04-26 10:45:26 +0800  Kevin J. McCarthy  &lt;kevin&#64;....us&gt; (4a9c9248)
+
+        * Update UPDATING file for 2.3.2 release.
+
+M	UPDATING
+
+2026-04-18 22:08:19 +0800  Kevin J. McCarthy  &lt;kevin&#64;....us&gt; (834c5a2e)
+
+        * Fix IMAP auth_cram MD5 digest of secret to use memcpy().
+        
+        For a secret longer than MD5_BLOCK_LEN, an MD5 digest is used instead.
+        However, mutt was incorrectly using strfcpy() instead of memcpy() on
+        the raw binary value returned by md5_buffer in hash_passwd.  If
+        hash_passwd contained an '\0' it would result in the value being
+        truncated.
+        
+        Additionally, the strfcpy was truncating the hash_passwd by one byte
+        regardless, due to passing a "size" of MD5_DIGEST_LEN when the data
+        itself was length MD5_DIGEST_LEN.
+        
+        This likely hasn't been a reported issue because:
+        1. CRAM-MD5 is not used much anymore
+        2. Most people likely don't have a password length greater than 64
+           bytes.
+        
+        Thanks to evilrabbit&#64;...amail.com for the security report.
+
+M	imap/auth_cram.c
+
+2026-04-18 22:40:46 +0800  Kevin J. McCarthy  &lt;kevin&#64;....us&gt; (12f54fe3)
+
+        * Check for embedded nul in url_pct_decode().
+        
+        Consider %00 an invalid character in a URL.
+        
+        Thanks to evilrabbit&#64;...amail.com for the security report.
+        
+        Reviewed-by: Alejandro Colomar &lt;alx&#64;...nel.org&gt;
+
+M	url.c
+
+2026-04-18 22:36:37 +0800  Kevin J. McCarthy  &lt;kevin&#64;....us&gt; (f547a849)
+
+        * Fix imap_auth_gss() security level size check and buf_size type.
+        
+        Make sure send_token.length is 4 bytes before reading the data.
+        
+        Fix the buf_size type to be uint32_t instead of long.  ntohl()
+        operates on, and returns, a 32 bit unsigned integer.  Most
+        architectures now use a 64-bit long.
+        
+        I believe this only worked because in Little-Endian, the
+        least-significant bits come first, so even though we were using 8
+        bytes of send_token.value (4 of which were out of bounds) for the cast
+        to long, only the first 4 bytes were used to truncate to the uint32_t
+        that ntohl() used.  Likewise when we converted htonl() further down.
+        
+        Additionally, the comments indicate that mutt wasn't using buf_size in
+        any case, so perhaps that also explains the lack of bug reports.
+        
+        Thanks to evilrabbit&#64;...amail.com for the security report.
+        
+        Reviewed-by: Alejandro Colomar &lt;alx&#64;...nel.org&gt;
+
+M	imap/auth_gss.c
+
+2026-04-18 21:54:34 +0800  Kevin J. McCarthy  &lt;kevin&#64;....us&gt; (fdc04a17)
+
+        * Fix infinite loop in gpgme data_object_to_stream().
+        
+        The code was not properly checking for a -1 return value in the read,
+        leading to an infinite loop, and printing past the buffer value to the
+        stream.
+        
+        Thanks to evilrabbit&#64;...amail.com for the security report.
+        
+        Reviewed-by: Alejandro Colomar &lt;alx&#64;...nel.org&gt;
+
+M	crypt-gpgme.c
+
+2026-04-18 21:41:23 +0800  Kevin J. McCarthy  &lt;kevin&#64;....us&gt; (ebfa2969)
+
+        * Fix NULL dereference in show_sig_summary().
+        
+        Inside show_one_sig_status(), if the error code is GPG_ERR_NO_PUBKEY,
+        key is NULL.  However, show_sig_summary() doesn't check for a NULL key
+        before dereferencing for the "key expired" case.
+        
+        Thanks to evilrabbit&#64;...amail.com for the security report.
+        
+        Thanks to Alejandro Colomar for his review and suggestion to keep the
+        ternary operator.
+        
+        Reviewed-by: Alejandro Colomar &lt;alx&#64;...nel.org&gt;
+
+M	crypt-gpgme.c
+"""
+
+[0] <a href="https://gitlab.com/muttmua/mutt/raw/mutt-2-3-2-rel/ChangeLog" rel="nofollow">https://gitlab.com/muttmua/mutt/raw/mutt-2-3-2-rel/ChangeLog</a>
+
+-------------------- Start of forwarded message --------------------
+Date: Sun, 26 Apr 2026 12:34:17 +0800
+From: "Kevin J. McCarthy" &lt;kevin&#64;....us&gt;
+To: mutt-announce&#64;...t.org
+Subject: mutt 2.3.2 released
+
+
+Hello Mutt Users,
+
+I've just released version 2.3.2.  Instructions for downloading are available
+at &lt;<a href="http://www.mutt.org/download.html" rel="nofollow">http://www.mutt.org/download.html</a>&gt;, or the tarball can be directly
+downloaded from &lt;<a href="http://ftp.mutt.org/pub/mutt/" rel="nofollow">http://ftp.mutt.org/pub/mutt/</a>&gt;.  Please take the time to
+verify the signature file against my public key[1].
+
+Please note that my public key expired a few weeks ago, however I
+updated the expiration date.  If you are receiving an expired key
+notice, please refresh your keyring, or just import my key again from
+one of the sources below.
+
+This release fixes an assortment of issues, including a possible segv in
+the GPGME code.  For more details see the commits:
+
+834c5a2e  Fix IMAP auth_cram MD5 digest of secret to use memcpy().
+12f54fe3  Check for embedded nul in url_pct_decode().
+f547a849  Fix imap_auth_gss() security level size check and buf_size type.
+fdc04a17  Fix infinite loop in gpgme data_object_to_stream().
+ebfa2969  Fix NULL dereference in show_sig_summary().
+
+Thanks to evilrabbit for reporting issues.  And thanks to my fellow 
+mutt-dev'ers for helping discuss, review code, and test the fixes.
+
+-Kevin
+
+[1]
+My public key is available at:
+    - my personal website: <a href="https://8t8.us/configs/80316BDA.asc.pubkey" rel="nofollow">https://8t8.us/configs/80316BDA.asc.pubkey</a>
+    - the mutt website: <a href="http://www.mutt.org/keys/kevin.key" rel="nofollow">http://www.mutt.org/keys/kevin.key</a>
+    - The keys.openpgp.org network
+      <a href="https://keys.openpgp.org/vks/v1/by-fingerprint/8975A9B33AA37910385C5308ADEF768480316BDA" rel="nofollow">https://keys.openpgp.org/vks/v1/by-fingerprint/8975A9B33AA37910385C5308ADEF768480316BDA</a>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (833 bytes)</strong></span>
+
+-------------------- End of forwarded message --------------------
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/2" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (419 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

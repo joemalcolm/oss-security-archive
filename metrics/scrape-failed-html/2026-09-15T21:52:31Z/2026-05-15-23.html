@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - PostgreSQL 18.4, 17.10, 16.14, 15.18, and 14.23
+ Released with security fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="22">[&lt;prev]</a> <a href="24">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;b6a2520c-fd09-40e8-a66c-43aca1edc5b8&#64;oracle.com&gt;
+Date: Fri, 15 May 2026 13:22:00 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: PostgreSQL 18.4, 17.10, 16.14, 15.18, and 14.23
+ Released with security fixes
+
+<a href="https://www.postgresql.org/message-id/177876604042.861.12327647497486409223%40wrigleys.postgresql.org" rel="nofollow">https://www.postgresql.org/message-id/177876604042.861.12327647497486409223%40wrigleys.postgresql.org</a>
+announces:
+&gt; The PostgreSQL Global Development Group has released an update to all
+&gt; supported versions of PostgreSQL, including 18.4, 17.10, 16.14, 15.18, and 14.23.
+&gt; This release fixes 11 security vulnerabilities and over 60 bugs reported
+&gt; over the last several months.
+&gt; 
+&gt; 
+&gt; For the full list of changes, please review the [release
+&gt; notes](<a href="https://www.postgresql.org/docs/release/" rel="nofollow">https://www.postgresql.org/docs/release/</a>).
+&gt; 
+&gt; 
+&gt; PostgreSQL 14 EOL Notice
+&gt; ------------------------
+&gt; 
+&gt; 
+&gt; PostgreSQL 14 will stop receiving fixes on November 12, 2026. If you are
+&gt; running PostgreSQL 14 in a production environment, we suggest that you make
+&gt; plans to upgrade to a newer, supported version of PostgreSQL. Please see our
+&gt; [versioning policy](<a href="https://www.postgresql.org/support/versioning/" rel="nofollow">https://www.postgresql.org/support/versioning/</a>) for more
+&gt; information.
+&gt; 
+&gt; 
+&gt; Security Issues
+&gt; ---------------
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6472](<a href="https://www.postgresql.org/support/security/CVE-2026-6472/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6472/</a>): PostgreSQL `CREATE TYPE` does not check `multirange` schema `CREATE` privilege
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [5.4](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 14 - 18.
+&gt; 
+&gt; 
+&gt; Missing authorization in PostgreSQL `CREATE TYPE` allows an object creator to
+&gt; hijack other queries that use `search_path` to find user-defined types,
+&gt; including extension-defined types. That is to say, the victim will execute
+&gt; arbitrary SQL functions of the attacker's choice.  Versions before PostgreSQL
+&gt; 18.4, 17.10, 16.14, 15.18, and 14.23 are affected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Jelte Fennema-Nio for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6473](<a href="https://www.postgresql.org/support/security/CVE-2026-6473/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6473/</a>): PostgreSQL server undersizes allocations, via integer wraparound
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [8.8](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 14 - 18.
+&gt; 
+&gt; 
+&gt; Integer wraparound in multiple PostgreSQL server features allows an application
+&gt; input provider to cause the server to undersize an allocation and write
+&gt; out-of-bounds. This results in a segmentation fault. Versions before PostgreSQL
+&gt; 18.4, 17.10, 16.14, 15.18, and 14.23 are affected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Anemone, A1ex, Xint Code, Jihe Wang, Jingzhou Fu,
+&gt; Pavel Kohout, Petr Simecek, www.aisle.com, Bruce Dang of Calif.io, and
+&gt; Sven Klemm for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6474](<a href="https://www.postgresql.org/support/security/CVE-2026-6474/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6474/</a>): PostgreSQL `timeofday()` can disclose portions of server memory
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [4.3](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 14 - 18.
+&gt; 
+&gt; 
+&gt; Externally-controlled format string in PostgreSQL `timeofday()` function allows
+&gt; an attacker to retrieve portions of server memory, via crafted timezone zones. 
+&gt; Versions before PostgreSQL 18.4, 17.10, 16.14, 15.18, and 14.23 are affected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Xint Code for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6475](<a href="https://www.postgresql.org/support/security/CVE-2026-6475/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6475/</a>): PostgreSQL `pg_basebackup` and `pg_rewind` can overwrite unrelated files of origin superuser choice
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [8.8](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 14 - 18.
+&gt; 
+&gt; 
+&gt; Symlink following in PostgreSQL `pg_basebackup` plain format and in `pg_rewind`
+&gt; allows an origin superuser to overwrite local files, e.g.
+&gt; `/var/lib/postgres/.bashrc`, that hijack the operating system account. It will
+&gt; remain the case that starting the server after these commands implicitly trusts
+&gt; the origin superuser, due to features like shared_preload_libraries. Hence, the
+&gt; attack has practical implications only if one takes relevant action between
+&gt; these commands and server start, like moving the files to a different VM or
+&gt; snapshotting the VM. Versions before PostgreSQL 18.4, 17.10, 16.14, 15.18, and
+&gt; 14.23 are affected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Valery Gubanov, XlabAI Team of Tencent Xuanwu Lab,
+&gt; Atuin Automated Vulnerability Discovery Engine,
+&gt; Zhanpeng Liu (pkugenuine(at)gmail(dot)com),
+&gt; Guannan Wang (wgnbuaa(at)gmail(dot)com), and
+&gt; Guancheng Li (lgcpku(at)gmail(dot)com) for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6476](<a href="https://www.postgresql.org/support/security/CVE-2026-6476/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6476/</a>): PostgreSQL `pg_createsubscriber` allows SQL injection via subscription name
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [7.2](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 17 - 18.
+&gt; 
+&gt; 
+&gt; SQL injection in PostgreSQL `pg_createsubscriber` allows an attacker with
+&gt; `pg_create_subscription` rights to execute arbitrary SQL as a superuser. The
+&gt; attack takes effect when `pg_createsubscriber` next runs. Within major versions
+&gt; 17 and 18, minor versions before PostgreSQL 18.4 and 17.10 are affected.
+&gt; Versions before PostgreSQL 17 are unaffected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Yu Kunpeng for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6477](<a href="https://www.postgresql.org/support/security/CVE-2026-6477/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6477/</a>): PostgreSQL `libpq` lo_* functions let server superuser overwrite client stack memory
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [8.8](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 14 - 18.
+&gt; 
+&gt; 
+&gt; Use of inherently dangerous function `PQfn(..., result_is_int=0, ...)` in
+&gt; PostgreSQL libpq `lo_export()`, `lo_read()`, `lo_lseek64()`, and `lo_tell64()`
+&gt; functions allows the server superuser to overwrite a client stack buffer with an
+&gt; arbitrarily-large response. Like `gets()`, `PQfn(..., result_is_int=0, ...)`
+&gt; stores arbitrary-length, server-determined data into a buffer of unspecified
+&gt; size. Because both the `\lo_export` command in `psql` and `pg_dump` call
+&gt; `lo_read()`, the server superuser can overwrite pg_dump or psql stack memory.
+&gt; Versions before PostgreSQL 18.4, 17.10, 16.14, 15.18, and 14.23 are affected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Yu Kunpeng and Martin Heistermann for reporting
+&gt; this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6478](<a href="https://www.postgresql.org/support/security/CVE-2026-6478/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6478/</a>): PostgreSQL discloses MD5-hashed passwords via covert timing channel
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [6.5](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 14 - 18.
+&gt; 
+&gt; 
+&gt; Covert timing channel in comparison of MD5-hashed password in PostgreSQL
+&gt; authentication allows an attacker to recover user credentials sufficient to
+&gt; authenticate. This does not affect scram-sha-256 passwords, the default in all
+&gt; supported releases.  However, current databases may have MD5-hashed passwords
+&gt; originating in upgrades from PostgreSQL 13 or earlier. Versions before
+&gt; PostgreSQL 18.4, 17.10, 16.14, 15.18, and 14.23 are affected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Joe Conway for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6479](<a href="https://www.postgresql.org/support/security/CVE-2026-6479/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6479/</a>): PostgreSQL SSL/GSS init causes denial of service, via uncontrolled recursion
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [7.5](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 14 - 18.
+&gt; 
+&gt; 
+&gt; Uncontrolled recursion in PostgreSQL SSL and GSS negotiation allows an attacker
+&gt; able to connect to a PostgreSQL AF_UNIX socket to achieve sustained denial of
+&gt; service. If SSL and GSS are both disabled, an attacker can do the same via
+&gt; access to a PostgreSQL TCP socket.  Versions before PostgreSQL 18.4, 17.10,
+&gt; 16.14, 15.18, and 14.23 are affected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Calif.io in collaboration with Claude and
+&gt; Anthropic Research for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6575](<a href="https://www.postgresql.org/support/security/CVE-2026-6575/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6575/</a>): PostgreSQL `pg_restore_attribute_stats` accepts values that cause query planning to read past end of stats array
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [4.3](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 18.
+&gt; 
+&gt; 
+&gt; Buffer over-read in PostgreSQL function `pg_restore_attribute_stats()` accepts
+&gt; array values of unmatched length, which causes query planning to read past end
+&gt; of one array. This allows a table maintainer to infer memory values past that
+&gt; array end. Within major version 18, minor versions before PostgreSQL 18.4 are
+&gt; affected. Versions before PostgreSQL 18 are unaffected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Jeroen Gui for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6637](<a href="https://www.postgresql.org/support/security/CVE-2026-6637/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6637/</a>): PostgreSQL `refint` allows stack buffer overflow and SQL injection
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [8.8](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 14 - 18.
+&gt; 
+&gt; 
+&gt; Stack buffer overflow in PostgreSQL module `refint` allows an unprivileged
+&gt; database user to execute arbitrary code as the operating system user running the
+&gt; database. A distinct attack is possible if the application declares a
+&gt; user-controlled column as a `refint` cascade primary key and facilitates
+&gt; user-controlled updates to that column. In that case, a SQL injection allows a
+&gt; primary key update value provider to execute arbitrary SQL as the database user
+&gt; performing the primary key update. Versions before PostgreSQL 18.4, 17.10,
+&gt; 16.14, 15.18, and 14.23 are affected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Nikolay Samokhvalov for reporting this problem.
+&gt; 
+&gt; 
+&gt; ### [CVE-2026-6638](<a href="https://www.postgresql.org/support/security/CVE-2026-6638/" rel="nofollow">https://www.postgresql.org/support/security/CVE-2026-6638/</a>): PostgreSQL `REFRESH PUBLICATION` allows SQL injection via table name
+&gt; 
+&gt; 
+&gt; CVSS v3.1 Base Score: [3.7](<a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:N" rel="nofollow">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?version=3.1&amp;vector=AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:N</a>)
+&gt; 
+&gt; 
+&gt; Supported, Vulnerable Versions: 16 - 18.
+&gt; 
+&gt; 
+&gt; SQL injection in PostgreSQL logical replication
+&gt; `ALTER SUBSCRIPTION ... REFRESH PUBLICATION` allows a subscriber table creator
+&gt; to execute arbitrary SQL with the subscription's publication-side credentials.
+&gt; The attack takes effect at the next `REFRESH PUBLICATION`. Within major versions
+&gt; 16, 17, and 18, minor versions before PostgreSQL 18.4, 17.10, and 16.14 are
+&gt; affected. Versions before PostgreSQL 16 are unaffected.
+&gt; 
+&gt; 
+&gt; The PostgreSQL project thanks Pavel Kohout, Aisle Research for reporting this
+&gt; problem.
+&gt; 
+&gt; 
+&gt; Bug Fixes and Improvements
+&gt; --------------------------
+&gt; 
+&gt; 
+&gt; This update fixes over 60 bugs that were reported in the last several
+&gt; months. The issues listed below affect PostgreSQL 18. Some of these issues may
+&gt; also affect other supported versions of PostgreSQL.
+&gt; 
+&gt; 
+&gt; * Fix queries that could return incorrect results when using a nondeterministic
+&gt; collation over a unique index.
+&gt; * Fix loss of deferrability of foreign-key triggers. Previously, a foreign key
+&gt; defined as `DEFERRABLE INITIALLY DEFERRED` would behave as `NOT DEFERRABLE`
+&gt; after being set to `NOT ENFORCED` status and then back to `ENFORCED`. If you
+&gt; have a foreign key with this problem, after installing this update you can fix
+&gt; it by setting it to `NOT ENFORCED` and then back to `ENFORCED`.
+&gt; * Improve the planner's ability to apply partition pruning to more cases.
+&gt; * Fix self-join removal to handle join clauses that are only boolean columns,
+&gt; for example, `ON t1.boolcol`.
+&gt; * Several fixes around virtual generated columns, including ensuring
+&gt; `INSERT ... ON CONFLICT` works when `EXCLUDED` references a virtual
+&gt; generated column.
+&gt; * Report a serialization failure when `MERGE` encounters a concurrently-updated
+&gt; tuple in "repeatable read" or "serializable"
+&gt; [isolation modes](<a href="https://www.postgresql.org/docs/current/transaction-iso.html" rel="nofollow">https://www.postgresql.org/docs/current/transaction-iso.html</a>).
+&gt; * Fix `CREATE TABLE ... LIKE ... INCLUDING STATISTICS` for cases where the
+&gt; source table had one or more dropped columns.
+&gt; * Fix `WITHOUT OVERLAPS` to allow domains.
+&gt; * Disallow making a composite type be a member of itself via a `multirange`.
+&gt; * Fix sometimes-incorrect results when `array_agg(anyarray)` executes in
+&gt; parallel.
+&gt; * Prevent bloating during restore of an incremental backup.
+&gt; * Prevent stuck logical replication slot synchronization worker processes from
+&gt; blocking promotion of a standby server.
+&gt; * Make the `pg_aios` system view `pid` column show `NULL` instead of `0` when an
+&gt; entry has no owning process.
+&gt; * Fix cases where `pg_stat_replication` shows `NULL` lag even while replication
+&gt; is active.
+&gt; * Correctly display JOIN alias variables that are used in `GROUP BY`.
+&gt; * If the startup process fails, properly shut down other child processes before
+&gt; exiting the postmaster.
+&gt; * Fix race condition that could cause a standby server following WAL from a
+&gt; primary of an older minor version to get into a crash-and-restart loop.
+&gt; * Prevent indefinite wait in shutdown of a walsender process when logical
+&gt; replication is actively publishing data.
+&gt; * Ensure that free space map changes are persisted during recovery. This could
+&gt; have performance ramifications on a standby server after promotion.
+&gt; * Fix assorted bugs in backup decompression and tar-parsing code used in
+&gt; `pg_basebackup` and `pg_verifybackup`.
+&gt; * Ensure `pg_dumpall` doesn't skip role grants with dangling grantor OIDs,
+&gt; restoring the behavior before PostgreSQL 16. Emits a warning about missing
+&gt; grantor if the source server is PostgreSQL 16 or later.
+&gt; * Fix `pg_upgrade` to use the correct protocol version when connecting to older
+&gt; source servers.
+&gt; * Fix output in `pg_overexplain` when using the `RANGE_TABLE` option.
+&gt; * Fix `postgres_fdw` crash due to premature cleanup of a failed connection.
+&gt; 
+&gt; 
+&gt; This release also updates time zone data files to tzdata release 2026b, in which
+&gt; British Columbia (America/Vancouver) will be on year-round UTC-07
+&gt; (effectively, permanent DST) beginning in November 2026. This release assumes
+&gt; that their TZ abbreviation will be MST from that time forward (though this
+&gt; could change). There is also a historical correction for Moldova, which has used
+&gt; EU DST transition times since 2022.
+&gt; 
+&gt; 
+&gt; Updating
+&gt; --------
+&gt; 
+&gt; 
+&gt; All PostgreSQL update releases are cumulative. As with other minor releases,
+&gt; users are not required to dump and reload their database or use `pg_upgrade`
+&gt; in order to apply this update release; you may simply stop PostgreSQL and
+&gt; update its binaries.
+&gt; 
+&gt; 
+&gt; Users who have skipped one or more update releases may need to run additional
+&gt; post-update steps; please see the release notes from earlier versions for
+&gt; details.
+&gt; 
+&gt; 
+&gt; For more details, please see the [release notes](<a href="https://www.postgresql.org/docs/release/" rel="nofollow">https://www.postgresql.org/docs/release/</a>).
+&gt; 
+&gt; 
+&gt; Links
+&gt; -----
+&gt; 
+&gt; 
+&gt; * [Download](<a href="https://www.postgresql.org/download/" rel="nofollow">https://www.postgresql.org/download/</a>)
+&gt; * [Release Notes](<a href="https://www.postgresql.org/docs/release/" rel="nofollow">https://www.postgresql.org/docs/release/</a>)
+&gt; * [Security](<a href="https://www.postgresql.org/support/security/" rel="nofollow">https://www.postgresql.org/support/security/</a>)
+&gt; * [Versioning Policy](<a href="https://www.postgresql.org/support/versioning/" rel="nofollow">https://www.postgresql.org/support/versioning/</a>)
+&gt; * [Submit a Bug](<a href="https://www.postgresql.org/account/submitbug/" rel="nofollow">https://www.postgresql.org/account/submitbug/</a>)
+&gt; * [Donate](<a href="https://www.postgresql.org/about/donate/" rel="nofollow">https://www.postgresql.org/about/donate/</a>)
+&gt; 
+&gt; 
+&gt; If you have corrections or suggestions for this release announcement, please send them to the _pgsql-www(at)lists(dot)postgresql(dot)org_ public [mailing list](<a href="https://www.postgresql.org/list/" rel="nofollow">https://www.postgresql.org/list/</a>).
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

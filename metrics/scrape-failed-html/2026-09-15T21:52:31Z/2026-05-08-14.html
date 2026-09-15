@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: io_uring zcrx freelist OOB write</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="13">[&lt;prev]</a> <a href="15">[next&gt;]</a> <a href="10">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;4a1d2a85-0e44-4d90-9610-9c96a10f9805&#64;kernel.dk&gt;
+Date: Fri, 8 May 2026 06:34:03 -0600
+From: Jens Axboe &lt;axboe&#64;...nel.dk&gt;
+To: Solar Designer &lt;solar&#64;...nwall.com&gt;
+Cc: oss-security&#64;...ts.openwall.com,
+ Mohamed salem Eddah &lt;medsalemeddah&#64;...il.com&gt;, security&#64;...nel.org,
+ Pavel Begunkov &lt;asml.silence&#64;...il.com&gt;
+Subject: Re: CVE request: io_uring zcrx freelist OOB write
+
+On 5/7/26 8:32 PM, Solar Designer wrote:
+&gt; On Thu, May 07, 2026 at 04:28:56PM -0600, Jens Axboe wrote:
+&gt;&gt; On 5/7/26 11:48 AM, Solar Designer wrote:
+&gt;&gt;&gt; I only skimmed, but as far as I can tell Mohamed isn't the original
+&gt;&gt;&gt; finder of this issue and the report and PoCs are AI-generated, which
+&gt;&gt;&gt; could be why Mohamed is not communicating further.  It's becoming a
+&gt;&gt;&gt; trend - someone sends AI-generated report and doesn't communicate.
+&gt;&gt;&gt; Which doesn't mean the report is useless, but it does complicate its
+&gt;&gt;&gt; handling.
+&gt; 
+&gt; I'm sorry Mohamed for just assuming you didn't communicate further; I
+&gt; got too used to send-and-forget kind of vulnerability reports lately.
+&gt; 
+&gt;&gt; I'm pretty sure that issue was fixed by:
+&gt;&gt;
+&gt;&gt; commit 003049b1c4fb8aabb93febb7d1e49004f6ad653b
+&gt;&gt; Author: Kai Aizen &lt;kai&#64;...ilsploit.com&gt;
+&gt;&gt; Date:   Wed Feb 18 17:36:41 2026 +0000
+&gt;&gt;
+&gt;&gt;     io_uring/zcrx: fix user_ref race between scrub and refill paths
+&gt;&gt;
+&gt;&gt; which is already in stable.
+&gt;&gt;
+&gt;&gt; CC'ing in Pavel, who was inexplicably dropped from the emails, even
+&gt;&gt; though he is the one guy that should indeed be on the CC list.
+&gt; 
+&gt; I'm at fault for dropping Pavel.  The oss-security list adds Reply-To
+&gt; pointing to the list, which at least with Mutt replaces what's in From
+&gt; in reply-to-all, and I forgot to override that.  I then realized, but
+&gt; thought (maybe wrongly) that since Pavel had replied to the thread he
+&gt; must be either on the list or on s@k.o anyway.  Sorry, and thank you
+&gt; Jens for re-adding Pavel.
+&gt; 
+&gt;&gt;&gt; Meanwhile, it looks like there's a blog post (by someone else? I am
+&gt;&gt;&gt; confused) on exploitation of this issue, with exploit files attached:
+&gt;&gt;&gt;
+&gt;&gt;&gt; <a href="https://ze3tar.github.io/post-zcrx.html" rel="nofollow">https://ze3tar.github.io/post-zcrx.html</a>
+&gt;&gt;
+&gt;&gt; I won't comment too much on this to avoid offending anyone, but I'm a
+&gt;&gt; bit puzzled by:
+&gt;&gt;
+&gt;&gt; "Once we have the address of modprobe_path (from KASLR step above), we
+&gt;&gt; write our script path via /proc/sys/kernel/modprobe: c
+&gt;&gt;
+&gt;&gt; int fd = open("/proc/sys/kernel/modprobe", O_WRONLY);
+&gt;&gt; write(fd, "/var/tmp/evil.sh", 16);
+&gt;&gt;
+&gt;&gt; This sysctl entry writes directly into modprobe_path in kernel memory
+&gt;&gt; and is writable with CAP_SYS_ADMIN, which we already have via
+&gt;&gt; CAP_NET_ADMIN on container configurations that grant both."
+&gt;&gt;
+&gt;&gt; as surely the point of a local exploit is, in fact, to gain root in the
+&gt;&gt; first place. If you already have CAP_SYS_ADMIN, what is the point?
+&gt;&gt;
+&gt;&gt; But hey, someone wrote a blog post about something that sounds
+&gt;&gt; dangerous.
+&gt; 
+&gt; Oh, wow.  That is indeed ridiculous, and puts everything else in this
+&gt; report in (greater) doubt.  Not only would that require privileges to
+&gt; write into that sysctl, but also why determine "the address of
+&gt; modprobe_path" if we were going to just use sysctl.  The actual code in
+&gt; zcrx_lpe.c tries to determine the address, but then does not use the
+&gt; address, and does not use sysctl either.  So it would not do what's
+&gt; claimed even if run as root, as far as I can see.  Note that "mp" is a
+&gt; local variable that's only checked for non-NULL and not passed anywhere:
+&gt; 
+&gt;     uint64_t mp = kallsyms_addr("modprobe_path");
+&gt;     uint64_t kt = kallsyms_addr("_text");
+&gt;     if (mp) printf("[+] modprobe_path @ 0x%lx\n", mp);
+&gt;     else    printf("[!] modprobe_path unreadable (kptr_restrict)\n");
+&gt;     if (kt) printf("[+] _text @ 0x%lx\n", kt);
+&gt; 
+&gt;     time_t t0 = write_evil_sh();
+&gt;     printf("[*] evil.sh written (t0=%ld)\n", t0);
+&gt; 
+&gt;     if (method == 0 || method == 1) method_a(ifname);
+&gt;     if (method == 0 || method == 2) method_b(ifname);
+&gt;     if (method == 0 || method == 3) method_c(ifname);
+&gt; 
+&gt;     printf("\n[*] dmesg:\n");
+&gt;     system("dmesg 2&gt;/dev/null | tail -20 | "
+&gt;            "grep -iE 'warn_on|bug:|oob|free_count|zcrx|niov|kasan|panic' "
+&gt;            "|| echo '    (nothing)'" );
+&gt; 
+&gt;     if (mp) {
+&gt;         printf("\n[*] modprobe escalation...\n");
+&gt;         trigger_modprobe(t0);
+&gt;         escalate(t0);
+&gt;     }
+&gt; 
+&gt;     printf("\n[*] done\n");
+&gt;     return 0;
+&gt; 
+&gt; So AI slop it is.  The question is whether there's any substance here?
+
+As far as I can tell, none. There was a real bug which I referenced
+higher up, fixed by 003049b1c4fb8aabb93febb7d1e49004f6ad653b. Which
+is from 3 months ago and is in -stable. Flagging some WARN_ON_ONCE()
+sanity check thing as any kind of real fix is, indeed, nonsense and
+just shows what kind of real thought went into this.
+
+-- 
+Jens Axboe
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

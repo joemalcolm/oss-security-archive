@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: Best practices for signature verifcation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;d4cba678-401e-4295-9dea-2bce57444e4c&#64;gmail.com&gt;
+Date: Wed, 31 Dec 2025 20:50:09 -0500
+From: Demi Marie Obenour &lt;demiobenour&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com, Simon Josefsson &lt;simon&#64;...efsson.org&gt;,
+ kf503bla&#64;...k.com
+Subject: Re: Re: Best practices for signature verifcation
+
+On 12/31/25 08:07, Simon Josefsson wrote:
+&gt; "What to use instead?" is indeed the bigger question, and it get lost in
+&gt; all the GnuPG bashing.  To my mind, the alternatives are in a seriously
+&gt; worse state than GnuPG is in.  So in some sense, the practical
+&gt; consequence of moving away from GnuPG is to weaken people's security,
+&gt; which is something to consider when giving advice here.  I think we
+&gt; should all be worried about this state of affairs, and try to improve
+&gt; things, instead of telling people to stop using strong proven solutions.
+&gt; 
+&gt; A small survey:
+&gt; 
+&gt; 1) X509 with CMS/PKCS#7 - I'm happy that few appear to seriously
+&gt; consider this, since that ecosystem have almost all of PGP's flaws but
+&gt; add tons of more complexity to run attacks through.
+
+Unless the CMSAlgorithmProtection attribute is added (RFC8933), it's
+also vulnerable to algorithm substitution attacks.  No such attacks
+are currently known, but the fact that is even possible indicates
+a misdesign.
+
+I do think that better CMS/PKCS#7 implementations would be worth
+pursuing.  This is because it is hard-coded into a huge number
+of applications that will be extremely difficult to change.
+These include:
+
+- Windows and UEFI Authenticode.
+- macOS and iOS code signing.
+- Legally binding CMS Advanced Electronic Signatures (CAdES).
+
+&gt; 2) Special-purpose tools like Minisign, signify, ed25519-cli, and
+&gt; saltpack.  Typically lacks a stable specification and/or decentralized
+&gt; process to pave the way to add PQ options.  Often lacks protocol
+&gt; specifications for MIME integration, file format conventions, and
+&gt; sometimes lack multiple interoperable implementations.
+
+Signify at least provides a way to change the algorithm in the future,
+by replacing the "Ed" bytes.  This will break all of the existing
+consumers, though.
+
+&gt; 3) Age.  Modern design with multiple implementations and decent
+&gt; documentation.  Lacks sign+verify.  Lacks MIME interaction.
+&gt; 
+&gt; 4) SSH signatures.  Reasonable minimal design, multiple implementations,
+&gt; integration into Git, IETF standardization work in progress [1] and some
+&gt; PQ drafts [2] [3].  Lacks MIME integration.  No encryption support.  I
+&gt; wish 'age' supported SSH signatures to make this format more popular.
+
+I like this one.  It also has fields that could be used for structured
+metadata in the future.
+
+&gt; 5) XMLDigSig and JSON Web Signatures.  (I hope I manage to provoke both
+&gt; communities by placing these two in the same category.)  Reasonably well
+&gt; specified with multiple implementations, although suffering from
+&gt; non-minimal design and canonicalization concerns.  The toolchain to work
+&gt; with these blobs is often web-oriented and primitive implementations are
+&gt; lacking, making it less suitable for low-level software supply-chain
+&gt; integrity protection.  For JSON some PQ alternatives exist.  Both
+&gt; ecosystems are negatively tainted by the X.509 WebPKI complexity.
+
+XML-DSIG is even worse than OpenPGP or CMS.  See XML Signature Wrapping
+and the endless stream of vulnerabilities in SAML implementations.
+Peter Gutmann refuses to support it in cryptlib because it requires
+a full XML processor.
+
+<a href="https://portswigger.net/web-security/jwt" rel="nofollow">https://portswigger.net/web-security/jwt</a> lists design problems with
+JSON Web Signatures.
+
+&gt; 6) Sigstore and Sigsum.  (I hope I provoke both camps here too :)) These
+&gt; are modern designs that realize that signatures without transparency is
+&gt; not effective against practical attacks.  Reasonable well specified,
+&gt; although lacking in multiple implementations and PQ options.  Sigstore
+&gt; suffer from complexity and its focus on container security.  Sigsum
+&gt; suffer from lack of non-Go implementations and MIME integration.
+
+Sigstore also focuses on short-lived certificates, with issuance gated
+by OAuth.  It relies on a transparency log to detect misissuance.
+Sigsum seems to lack this weakness, but post-quantum threshold
+signatures might be needed for reasonable post-quantum signed logs.
+
+&gt; 7) Non-GnuPG PGP implementations.  This offers a simple migration path,
+&gt; and some have already taken it.  The complexity of PGP is still present,
+&gt; and most of the attacks are consequences of the PGP design rather than
+&gt; GnuPG problems.  GnuPG is shipping PQ options already and the others are
+&gt; catching up, but the PGP schism is likely to cause continued eco-system
+&gt; self-harm.  While one could have hoped for something here, I'm not sure
+&gt; if this offers enough beyond a non-GPL license.
+
+Sequoia provides memory safety and better testing, though the LGPL
+license is a horrible fit for Rust due to the unstable Rust ABI.
+
+&gt; Did I forget some option?
+&gt; 
+&gt; Personally, I'm staying with GnuPG using Ed25519 keys on physical
+&gt; hardware dongles and I'm adding Sigsum, using a different Ed25519 key on
+&gt; the same physical device, see a GNU InetUtils release --
+&gt; <a href="https://lists.gnu.org/archive/html/bug-inetutils/2025-12/msg00017.html" rel="nofollow">https://lists.gnu.org/archive/html/bug-inetutils/2025-12/msg00017.html</a>
+&gt; -- for inspiration.  I will help with SSH Signature standardization and
+&gt; PQ options, since I believe SSH Signatures is the approach that is
+&gt; nearest a IETF-level standardization maturity.  I hope/encourage that
+&gt; Sigsum will add PQ options, a C+Python implementation, and resolve MIME
+&gt; integration -- and that Sigstore will continue to offer a challenging
+&gt; popular competitor.  I believe that Ed25519+SLH-DSA is the best
+&gt; near-term PQ variant for long-term software protection, alas no
+&gt; practical tools offers this today.
+
+Would it be possible to standardize some form of metadata for SSH signatures?
+
+CMS and OpenPGP support time-stamping countersignatures is critical.
+This is critical for some applications, notably Authenticode and CAdES.
+Should this be supported?
+
+&gt; /Simon
+&gt; 
+&gt; [1] <a href="https://datatracker.ietf.org/doc/html/draft-josefsson-sshsig-format-03" rel="nofollow">https://datatracker.ietf.org/doc/html/draft-josefsson-sshsig-format-03</a>
+&gt; [2] <a href="https://datatracker.ietf.org/doc/html/draft-josefsson-ssh-sphincs-01" rel="nofollow">https://datatracker.ietf.org/doc/html/draft-josefsson-ssh-sphincs-01</a>
+&gt; [3] <a href="https://datatracker.ietf.org/doc/html/draft-josefsson-ssh-ed25519mldsa65-01" rel="nofollow">https://datatracker.ietf.org/doc/html/draft-josefsson-ssh-ed25519mldsa65-01</a>
+&gt; 
+&gt; kf503bla&#64;...k.com writes:
+&gt; 
+&gt;&gt; then what do you suggest to use? i hear it all the time "pgp sucks" but what's the alternative huh?
+&gt;&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; In light of the recent GnuPG vulnerabilities, I remembered that OpenPGP
+&gt;&gt;&gt; is almost never the right choice. CMS/PKCS#7 isn't any better, and
+&gt;&gt;&gt; X.509 is also bad except that its extremely wide deployment in TLS
+&gt;&gt;&gt; keeps it alive.
+&gt;&gt;&gt;
+&gt;&gt;&gt; See <a href="https://www.latacora/com/blog/2019/07/16/the-pgp-problem/" rel="nofollow">https://www.latacora/com/blog/2019/07/16/the-pgp-problem/</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; and <a href="https://soatok.blog/2024/11/15/what-to-use-instead-of-pgp/" rel="nofollow">https://soatok.blog/2024/11/15/what-to-use-instead-of-pgp/</a>.
+&gt;&gt;&gt;
+&gt;&gt;&gt; --
+&gt;&gt;&gt; Sincerely,
+&gt;&gt;&gt; Demi Marie Obenour (she/her/hers)
+&gt;&gt;
+
+
+-- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>OpenPGP_0xB288B55FFF9C22C1.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (7141 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
