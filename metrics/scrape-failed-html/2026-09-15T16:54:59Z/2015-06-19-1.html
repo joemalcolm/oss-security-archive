@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Bug#786909: chromium: unconditionally downloads binary blob</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/06/18/13">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/06/16/5">[&lt;thread-prev]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CANTw=MPhYqnVgYghW2Z4EqOnoYKCJBXaiH+76czz294DAbDVhg&#64;mail.gmail.com&gt;
+Date: Thu, 18 Jun 2015 20:19:02 -0400
+From: Michael Gilbert &lt;mgilbert&#64;...ian.org&gt;
+To: Christoph Anton Mitterer &lt;calestyo&#64;...entia.net&gt;
+Cc: 786909&#64;...s.debian.org, oss-security&#64;...ts.openwall.com
+Subject: Re: Bug#786909: chromium: unconditionally downloads binary blob
+
+Since this made it to LWN [0] and Y Combinator [1] with an incredible
+amount of misinformation, let's attempt a (hopefully) non-hyped
+conversation about this, which unfortunately didn't happen a few days
+ago.
+
+On Tue, Jun 16, 2015 at 9:15 AM, Christoph Anton Mitterer wrote:
+&gt; On Tue, 2015-06-16 at 00:49 -0400, Michael Gilbert wrote:
+&gt;&gt; Barring the obtusely incorrect rootkit miscategorization
+&gt;
+&gt; Well, as I've said,.. no one can really tell what it is, since it's a
+&gt; blob,... and even if one would assume that someone could correctly
+&gt; reverse engineer it, or reproducibly build it from public sources,
+&gt; there's absolutely no guarantee that malicious software might have been
+&gt; just distributed to selected people.
+
+Except that the actual contents of the downloaded files in many ways
+do not actually matter.  Those files are nacl executables, which are
+sandboxed in any nacl-enabled chromium, so barring a sandbox escape
+included in the files, this is functionally the same as visiting any
+nacl website (less the fact that hotword automatically gets microphone
+permission, which itself is worth independent critique).
+
+Additionally, the Debian packages are intentionally built with nacl
+disabled (in fact not built at all).  So, at least on Debian, even if
+the downloaded files were in fact malicious, without a nacl
+interpreter present, there is absolutely no way to trigger the
+badness.
+
+&gt;&gt; oss-sec is a
+&gt;&gt; far better venue for discussion since Debian is not the only
+&gt;&gt; distribution that includes chromium 43 .
+&gt;
+&gt; I don't see how that would practically ever change something at the
+&gt; Debian level; this seems rather like simply pushing away and unpleasant
+&gt; issue.
+
+Maybe now it's clear that a meaningful conversation at the time would
+have preempted the ensuing misinformation campaign.
+
+&gt; And just because all other distros ship software which injects possibly
+&gt; malicious blobs, we don't have to do the same.
+
+I simply do not follow the logic leading to this conclusion.  How does
+engaging in discussion lead to any specific problem being ignored
+exactly?
+
+Anyway, if some incredibly basic homework had been done, you could
+have convinced yourself of the non-issue nature of this problem,
+rather than engaging in unfounded speculation.
+
+&gt; Anyway, I haven't said that banning such software from Debian would be
+&gt; the only solution... but at least these incidents come far too frequent
+&gt; recently, so apparently something needs to be done at Debian level to
+&gt; pro-actively prevent future cases/compromises like this.
+
+That is exactly what Debian unstable is for, and in many ways it
+worked as intended, except for the special snowflake that is chromium.
+Since major chromium versions get uploaded to both unstable and stable
+to fix security issues, problems introduced into unstable also
+unfortunately get introduced to stable.
+
+&gt; And there's still no single sign of properly visible announcements to
+&gt; user what might have happened here. :(
+
+Well, it is out there now [0,1], unfortunately with a huge amount of
+misinformation.
+
+Anyway the Debian security tracker is tracking this [2].  As stated
+there, it will be fixed along with the next incoming round of chromium
+security issues.  It is absolutely not worth fixing on its own.
+
+Best wishes,
+Mike
+
+[0] <a href="https://lwn.net/Articles/648392" rel="nofollow">https://lwn.net/Articles/648392</a>
+[1] <a href="https://news.ycombinator.com/item?id=9724409" rel="nofollow">https://news.ycombinator.com/item?id=9724409</a>
+[2] <a href="https://security-tracker.debian.org/tracker/TEMP-0000000-A21526" rel="nofollow">https://security-tracker.debian.org/tracker/TEMP-0000000-A21526</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

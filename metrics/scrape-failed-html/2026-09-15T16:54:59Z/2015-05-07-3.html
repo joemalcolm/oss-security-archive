@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Linux kernel pointer poisoning (was: CVE request for a fixed bug
+ existed in all versions of linux kernel from KeenTeam)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2015/05/06/3">[&lt;thread-prev]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150507093639.GA4522&#64;cachalot&gt;
+Date: Thu, 7 May 2015 12:36:39 +0300
+From: Vasily Kulikov &lt;segoon&#64;...nwall.com&gt;
+To: Solar Designer &lt;solar&#64;...nwall.com&gt;
+Cc: Wen Xu &lt;hotdog3645&#64;...il.com&gt;, oss-security&#64;...ts.openwall.com,
+	kernel-hardening&#64;...ts.openwall.com
+Subject: Linux kernel pointer poisoning (was: CVE request for a fixed bug
+ existed in all versions of linux kernel from KeenTeam)
+
+[cc'ed kernel-hardening@]
+
+On Sat, May 02, 2015 at 15:53 +0300, Solar Designer wrote:
+&gt; Then, perhaps we should harden the poison pointers to be either below
+&gt; typical mmap_min_addr or in an unmapped portion of kernel space?  Do I
+&gt; understand correctly that, short of possible mmap_min_addr bypasses in
+&gt; general (if relevant), this would mitigate the issue?
+&gt; 
+&gt; Right now, they are:
+&gt; 
+&gt; /*
+&gt;  * These are non-NULL pointers that will result in page faults
+&gt;  * under normal circumstances, used to verify that nobody uses
+&gt;  * non-initialized list entries.
+&gt;  */
+&gt; #define LIST_POISON1  ((void *) 0x00100100 + POISON_POINTER_DELTA)
+&gt; #define LIST_POISON2  ((void *) 0x00200200 + POISON_POINTER_DELTA)
+&gt; 
+&gt; I'd change them to e.g.:
+&gt; 
+&gt; #define LIST_POISON1  ((void *) 0x00000100 + POISON_POINTER_DELTA)
+&gt; #define LIST_POISON2  ((void *) 0x00000200 + POISON_POINTER_DELTA)
+&gt; 
+&gt; where POISON_POINTER_DELTA would normally be 0 on 32-bit x86, so they'd
+&gt; be below mmap_min_addr on that arch.  Meanwhile, a mitigation appears to
+&gt; be to set mmap_min_addr higher than 0x00200200 (slightly over 2 MB), but
+&gt; that's not great as it leaves significantly less ASCII-armored space for
+&gt; libraries.
+&gt; 
+&gt; BTW, it appears that on x86_64 POISON_POINTER_DELTA is
+&gt; 0xdead000000000000 by default, which I guess would hit an unmapped page
+&gt; even with the current LIST_POISON2 value?  If so, is the bug at worst a
+&gt; kernel Oops on x86_64 unless someone changed POISON_POINTER_DELTA in
+&gt; their build?
+&gt; 
+&gt; config ILLEGAL_POINTER_VALUE
+&gt; 	hex
+&gt; 	default 0 if X86_32
+&gt; 	default 0xdead000000000000 if X86_64
+&gt; 
+&gt; Regardless, as a supporter of that kernel patch, I am embarrassed!
+
+Besides setting current poison pointer constant to sane values we should
+also think of API clearness and usability.  I'd want to also slightly
+change the macros in question to ease common kernel developer to
+introduce new poison pointer constants for new subsystems.
+
+What do we want from the API?
+
+1) poisoned pointer base must be non-mmap'able
+2) all poisoned pointers (i.e. base+offset) must be non-mmap'able
+3) a small offset relative to poisoned pointers must be non-mmap'able
+4) poisoned pointers from different subsystems should be different
+
+A kernel developer might want to pass a subsystem id to a macro instead
+of explicit math, like in the following patch:
+
+diff --git a/include/linux/poison.h b/include/linux/poison.h
+index 7b2a7fc..5cdff6b 100644
+--- a/include/linux/poison.h
++++ b/include/linux/poison.h
+@@ -1,40 +1,54 @@
+ #ifndef _LINUX_POISON_H
+ #define _LINUX_POISON_H
++#include &lt;linux/bug.h&gt;
+ 
+ /********** include/linux/list.h **********/
+ 
+ /*
+  * Architectures might want to move the poison pointer offset
+  * into some well-recognized area such as 0xdead000000000000,
+- * that is also not mappable by user-space exploits:
++ * that is also not mappable by user-space exploits,
++ * by adjusting CONFIG_ILLEGAL_POINTER_VALUE:
+  */
+ #ifdef CONFIG_ILLEGAL_POINTER_VALUE
+ # define POISON_POINTER_DELTA _AC(CONFIG_ILLEGAL_POINTER_VALUE, UL)
+ #else
+ # define POISON_POINTER_DELTA 0
+ #endif
++/* 
++ * Poisoned pointers of different subsystems should be different
++ * but must not move far away from POISON_POINTER_DELTA.
++ * Otherwise poisoned pointer might be mmap'able on some architectures.
++ */
++#define POISON_AREA_SIZE 0x1000
++#define POISON_POINTER(x) \
++	({ \
++		BUILD_BUG_ON(x &gt;= POISON_AREA_SIZE); \
++       	((void *)(x) + POISON_POINTER_DELTA);})
+ 
+ /*
+  * These are non-NULL pointers that will result in page faults
+  * under normal circumstances, used to verify that nobody uses
+  * non-initialized list entries.
+  */
+-#define LIST_POISON1  ((void *) 0x00100100 + POISON_POINTER_DELTA)
+-#define LIST_POISON2  ((void *) 0x00200200 + POISON_POINTER_DELTA)
++#define LIST_POISON1  POISON_POINTER(0x0100)
++#define LIST_POISON2  POISON_POINTER(0x0200)
+ 
+ /********** include/linux/timer.h **********/
+ /*
+  * Magic number "tsta" to indicate a static timer initializer
+  * for the object debugging code.
+  */
+-#define TIMER_ENTRY_STATIC	((void *) 0x74737461)
++#define TIMER_ENTRY_STATIC	((void*)0x0300 + POISON_POINTER_DELTA)
++// FIXME
++//#define TIMER_ENTRY_STATIC	POISON_POINTER(0x0300)
+ 
+ /********** mm/debug-pagealloc.c **********/
+ #define PAGE_POISON 0xaa
+ 
+ /********** mm/page_alloc.c ************/
+ 
+-#define TAIL_MAPPING	((void *) 0x01014A11 + POISON_POINTER_DELTA)
++#define TAIL_MAPPING	POISON_POINTER(0x0400)
+ 
+ /********** mm/slab.c **********/
+ /*
+
+
+
+POISON_POINTER() checks whether an offset argument is sane.  If it is
+not, it leads to a build failure:
+
+  CC      mm/page_alloc.o
+  mm/page_alloc.c: In function 'free_pages_prepare':
+  mm/page_alloc.c:840:23: error: call to '__compiletime_assert_840' declared with attribute error: BUILD_BUG_ON failed: 0x0111400 &gt;= POISON_AREA_SIZE
+  mm/page_alloc.c: In function 'prep_compound_page':
+  mm/page_alloc.c:447:16: error: call to '__compiletime_assert_447' declared with attribute error: BUILD_BUG_ON failed: 0x0111400 &gt;= POISON_AREA_SIZE
+  make[1]: *** [mm/page_alloc.o] Error 1
+  make: *** [mm] Error 2
+
+
+Two questions here:
+
+a) how to fairy use arch-specific non-mmap'able zone to resolve (2) and
+(3)?  Current 0x1000 is a hardcoded copy-pasted default value of
+DEFAULT_MMAP_MIN_ADDR.  Using DEFAULT_MMAP_MIN_ADDR instead of 0x1000
+might not be a solution -- we don't want a build to fail in this case,
+user must be able to use DEFAULT_MMAP_MIN_ADDR=0 too.
+
+b) how to check for an insane POISON_POINTER() arg in case of
+TIMER_ENTRY_STATIC (and such)?  The current implementation of
+POISON_POINTER() fails as following:
+
+mm/page_alloc.c: In function 'free_pages_prepare':
+mm/page_alloc.c:840:23: error: call to '__compiletime_assert_840' declared with attribute error: BUILD_BUG_ON failed: 0x0111400 &gt;= POISON_AREA_SIZE
+
+
+Thanks,
+
+-- 
+Vasily Kulikov
+<a href="http://www.openwall.com">http://www.openwall.com</a> - bringing security into open computing environments
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

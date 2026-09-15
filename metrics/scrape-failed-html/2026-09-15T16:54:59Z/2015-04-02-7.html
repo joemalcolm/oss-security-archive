@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE-2014-8159 kernel: infiniband: uverbs: unprotected physical
+ memory access</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="5">[&lt;thread-prev]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;1427987752.22575.65.camel&#64;opteya.com&gt;
+Date: Thu, 02 Apr 2015 17:15:52 +0200
+From: Yann Droneaud &lt;ydroneaud&#64;...eya.com&gt;
+To: Shachar Raindel &lt;raindel&#64;...lanox.com&gt;
+Cc: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;, 
+	"&lt;linux-rdma&#64;...r.kernel.org&gt; (linux-rdma&#64;...r.kernel.org)"
+	 &lt;linux-rdma&#64;...r.kernel.org&gt;, "linux-kernel&#64;...r.kernel.org"
+	 &lt;linux-kernel&#64;...r.kernel.org&gt;, "stable&#64;...r.kernel.org"
+	 &lt;stable&#64;...r.kernel.org&gt;
+Subject: Re: CVE-2014-8159 kernel: infiniband: uverbs: unprotected physical
+ memory access
+
+Hi,
+Le jeudi 02 avril 2015 à 10:52 +0000, Shachar Raindel a écrit :
+&gt; &gt; -----Original Message-----
+&gt; &gt; From: Yann Droneaud [mailto:ydroneaud&#64;...eya.com]
+&gt; &gt; Sent: Thursday, April 02, 2015 1:05 PM
+&gt; &gt; Le mercredi 18 mars 2015 à 17:39 +0000, Shachar Raindel a écrit :
+...
+&gt; &gt; &gt; +	/*
+&gt; &gt; &gt; +	 * If the combination of the addr and size requested for this
+&gt; &gt; memory
+&gt; &gt; &gt; +	 * region causes an integer overflow, return error.
+&gt; &gt; &gt; +	 */
+&gt; &gt; &gt; +	if ((PAGE_ALIGN(addr + size) &lt;= size) ||
+&gt; &gt; &gt; +	    (PAGE_ALIGN(addr + size) &lt;= addr))
+&gt; &gt; &gt; +		return ERR_PTR(-EINVAL);
+&gt; &gt; &gt; +
+&gt; &gt; 
+&gt; &gt; Can access_ok() be used here ?
+&gt; &gt; 
+&gt; &gt;          if (!access_ok(writable ? VERIFY_WRITE : VERIFY_READ,
+&gt; &gt;                         addr, size))
+&gt; &gt;                   return ERR_PTR(-EINVAL);
+&gt; &gt; 
+&gt; 
+&gt; No, this will break the current ODP semantics.
+&gt; 
+&gt; ODP allows the user to register memory that is not accessible yet.
+&gt; This is a critical design feature, as it allows avoiding holding
+&gt; a registration cache. Adding this check will break the behavior,
+&gt; forcing memory to be all accessible when registering an ODP MR.
+&gt; 
+
+Failed to notice previously, but since this would break ODP, and ODP is 
+only available starting v3.19-rc1, my proposed fix might be applicable 
+for older kernel (if not better).
+
+&gt;From 2a3beaeb4b35d968f127cb59cfda2f12dbd87e4b Mon Sep 17 00:00:00 2001
+From: Yann Droneaud &lt;ydroneaud&#64;...eya.com&gt;
+Date: Thu, 2 Apr 2015 17:01:05 +0200
+Subject: [RFC PATCH] IB/core: reject invalid userspace memory range registration
+
+Signed-off-by: Yann Droneaud &lt;ydroneaud&#64;...eya.com&gt;
+---
+ drivers/infiniband/core/umem.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
+index df0c4f605a21..6758b4ac56eb 100644
+--- a/drivers/infiniband/core/umem.c
++++ b/drivers/infiniband/core/umem.c
+@@ -90,6 +90,7 @@ struct ib_umem *ib_umem_get(struct ib_ucontext *context, unsigned long addr,
+ 	DEFINE_DMA_ATTRS(attrs);
+ 	struct scatterlist *sg, *sg_list_start;
+ 	int need_release = 0;
++	bool writable;
+ 
+ 	if (dmasync)
+ 		dma_set_attr(DMA_ATTR_WRITE_BARRIER, &amp;attrs);
+@@ -97,6 +98,19 @@ struct ib_umem *ib_umem_get(struct ib_ucontext *context, unsigned long addr,
+ 	if (!can_do_mlock())
+ 		return ERR_PTR(-EPERM);
+ 
++	/*
++	 * We ask for writable memory if any access flags other than
++	 * "remote read" are set.  "Local write" and "remote write"
++	 * obviously require write access.  "Remote atomic" can do
++	 * things like fetch and add, which will modify memory, and
++	 * "MW bind" can change permissions by binding a window.
++	 */
++	writable  = !!(access &amp; ~IB_ACCESS_REMOTE_READ);
++
++	if (!access_ok(writable ? VERIFY_WRITE : VERIFY_READ,
++		       (void __user *)addr, size))
++		return ERR_PTR(-EFAULT);
++
+ 	umem = kzalloc(sizeof *umem, GFP_KERNEL);
+ 	if (!umem)
+ 		return ERR_PTR(-ENOMEM);
+@@ -106,14 +120,7 @@ struct ib_umem *ib_umem_get(struct ib_ucontext *context, unsigned long addr,
+ 	umem-&gt;offset    = addr &amp; ~PAGE_MASK;
+ 	umem-&gt;page_size = PAGE_SIZE;
+ 	umem-&gt;pid       = get_task_pid(current, PIDTYPE_PID);
+-	/*
+-	 * We ask for writable memory if any access flags other than
+-	 * "remote read" are set.  "Local write" and "remote write"
+-	 * obviously require write access.  "Remote atomic" can do
+-	 * things like fetch and add, which will modify memory, and
+-	 * "MW bind" can change permissions by binding a window.
+-	 */
+-	umem-&gt;writable  = !!(access &amp; ~IB_ACCESS_REMOTE_READ);
++	umem-&gt;writable  = writable;
+ 
+ 	/* We assume the memory is from hugetlb until proved otherwise */
+ 	umem-&gt;hugetlb   = 1;
+-- 
+2.1.0
+
+Regards.
+
+-- 
+Yann Droneaud
+OPTEYA
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: Froxlor - information leak</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="../../../2015/08/09/1">[next&gt;]</a> <a href="../../../2015/07/29/8">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150807170419.E36E66C0166&#64;smtpvmsrv1.mitre.org&gt;
+Date: Fri,  7 Aug 2015 13:04:19 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: oss-security-list&#64;...lak.de
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: Froxlor - information leak
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; An unauthenticated remote attacker is able to get the database password
+&gt; via webaccess due to wrong file permissions of the /logs/ folder in
+&gt; froxlor version 0.9.33.1 and earlier. The plain SQL password and
+&gt; username may be stored in the /logs/sql-error.log file. This directory
+&gt; is publicly reachable under the default configuration/setup.
+&gt; 
+&gt; The certain section looks like this:
+&gt; 
+&gt; /var/www/froxlor/lib/classes/database/class.Database.php(279):
+&gt; PDO-&gt;__construct('mysql:host=127....', 'DATABASE_USER',
+&gt; 'PLAIN_DATABASE_PW', Array)
+
+&gt; - replace passwords even before logging:
+&gt; 
+&gt; <a href="https://github.com/Froxlor/Froxlor/commit/8558533a9148a2a0302c9c177abff8e4e4075b92" rel="nofollow">https://github.com/Froxlor/Froxlor/commit/8558533a9148a2a0302c9c177abff8e4e4075b92</a>
+
+Based on the code changes, it appears that the most important
+vulnerability is that the password was logged (regardless of where it
+was logged). Use CVE-2015-5959 for this issue.
+
+&gt;&gt; $error_message = str_replace($sql['password'], 'DB_UNPRIV_PWD', $error_message);
+
+Presumably this is considered sufficient because a properly chosen
+password is unlikely to occur elsewhere in the error message.
+(Otherwise, it might be possible to determine the password by looking
+for any error message that contains the substring "DB_UNPRIV_PWD" more
+than once.)
+
+
+The use of syslog rather than logs/sql-error.log does not, by itself,
+seem to be an independent vulnerability fix because the documentation
+doesn't mention setting the permissions of the file that will store
+syslog LOG_LOCAL0 messages. Also, not using syslog was apparently
+intentional: lib/classes/database/class.Database.php says "log to a
+file, so we can actually ask people for the error (no one seems to
+find the stuff in the syslog)."
+
+&gt; - log db errors to syslog instead of /logs/sql-error.log file:
+&gt; 
+&gt; <a href="https://github.com/Froxlor/Froxlor/commit/4ec376b29671593a50556630551e04e34bc83c1c" rel="nofollow">https://github.com/Froxlor/Froxlor/commit/4ec376b29671593a50556630551e04e34bc83c1c</a>
+
+If you are also reporting this as a vulnerability, please let us know
+and we can assign another CVE ID for the issue that the log was
+available remotely (regardless of whether it contained a password).
+
+
+[ Finally, it seems somewhat unusual that the security fix leads to
+the deletion of the existing logs/sql-error.log file, possibly without
+documenting that that will happen. This step is potentially useful in
+the sense that the password might already be present in that file. In
+some cases, a customer would prefer manual instructions for cleanup of
+an information leak, either because the logs/sql-error.log file has
+other useful information, or because the customer actually needs to
+know whether the password was ever present there. Typically, CVE IDs
+are not used for issues about whether, or how, a vulnerability fix
+attempts to address an already-triggered vulnerability. ]
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEcBAEBCAAGBQJVxOTKAAoJEKllVAevmvmsM2EH/Rlms397iuOVH0d3Tdd5XASB
+yYVPQT8rUUMVKteAM+Zja8Xwdco0koGhf+htrxz5trmxSW8xOr+QtcUM6D5qy9N/
+7n+/nEdDNeXKQMq69Ui1pAeQW1p1cvhdHPDZymMEAvQDEfaLOjxjpNgWxggeSQ3+
+3GI+cIEMBLmqDt/NlnKjAExDGgZGYEyacZvhTUJwILfFr1w3ZNvhxysZagx6tRUt
+J+2O2pfXGez7gG21ehP44+HX0f9w8dWYHHDbZppqr2H338nDDez4z8DxBaH9z8Ip
+nfRxOFXmyUAsbAGXCZ2rKWrPXb2SG9O/G1jUTGE2pshKh0fR7SThGDBAB28Ui9Y=
+=I3Yv
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

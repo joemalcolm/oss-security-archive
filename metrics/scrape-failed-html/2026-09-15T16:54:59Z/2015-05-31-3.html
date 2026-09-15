@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request for attic : encrypted backups attack</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="../../../2015/05/25/3">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150531133236.6ADCE6C003C&#64;smtpvmsrv1.mitre.org&gt;
+Date: Sun, 31 May 2015 09:32:36 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: ml-oss&#64;...call.eu
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request for attic : encrypted backups attack
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; attic is a deduplicating backup program written in Python.
+&gt; It features encrypted remote backups.
+&gt; 
+&gt; Unfortunately :
+&gt; <a href="https://github.com/jborg/attic/issues/271" rel="nofollow">https://github.com/jborg/attic/issues/271</a>
+&gt; allow an attacker able to modify a remote encrypted directory to cause the
+&gt; client to send unencrypted data on the next backup run.
+&gt; 
+&gt; It was fixed in this commit :
+&gt; <a href="https://github.com/jborg/attic/commit/78f9ad1faba7193ca7f0acccbc13b1ff6ebf9072" rel="nofollow">https://github.com/jborg/attic/commit/78f9ad1faba7193ca7f0acccbc13b1ff6ebf9072</a>
+
+As far as we can tell, this means that the client determines whether
+to send encrypted or unencrypted data by asking the server about the
+value of the "manifest type byte" stored on the server.
+
+The reported security problem is that the client user is not asked to
+confirm that unencrypted data is acceptable. There are two cases
+(either the repository has never been used, or the repository has
+previously been used for encrypted data), but these are conceptually
+the same. Use CVE-2015-4082.
+
+A separate question is whether there is any remaining vulnerability.
+The documentation says:
+
+&gt; <a href="https://github.com/jborg/attic/blob/master/docs/faq.rst" rel="nofollow">https://github.com/jborg/attic/blob/master/docs/faq.rst</a>
+&gt; 
+&gt; When backing up to remote servers, is data encrypted before leaving
+&gt; the local machine, or do I have to trust that the remote server isn't
+&gt; malicious?
+&gt; 
+&gt; Yes, everything is encrypted before leaving the local machine.
+
+We also know that use of remote servers for unencrypted data is
+intentional functionality, as long as the client user has previously
+agreed to send unencrypted data to that server.
+
+It seems that for this advertised functionality, normally, a client's
+decision on whether to encrypt would be specified in the client's
+configuration, on the client's command line, or in a client-side user
+interface. Asking the server seems to be an unusual design decision.
+(Conceivably, it is unusual enough to have its own CVE, but we are
+not sure about that.) A potentially problematic case would be a user
+who uses attic from many client machines, communicating with many
+servers, and intentionally chooses to encrypt in some cases but not
+all. The user goes to one client machine and types:
+
+  ATTIC_PASSPHRASE="My secret passphrase" attic create storage::second my\ data
+
+but has forgotten that the applicable server has always been set up
+for unencrypted use. Maybe a safer alternative would be for a client
+to always send encrypted data unless:
+
+  A. an option such as --cleartext is on the command line
+
+  or
+
+  B. the client configuration specifies cleartext and the attic
+     process does not have access to a passphrase
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVaw0GAAoJEKllVAevmvmsKtEH/31saU48vhkXpcmwXa7ogWNs
+VU8yKdnLV018/66+/A4rGOLxm/5Pe9uY3kVmULiHqffeL54d0mCUeyH60LG64key
+StyLBAv4b36Zvt8kD367H8THp53abYXQlfIk4N769y2i3DUtMfEkL2GRLPW4U5eF
+FUxerVWqhBNUWIYk8haGsLbqgTvPzaj46incW6/ls0P4f102yzMjDE6gWdVJBraq
+iBauI23JJiPC8ZzVVyY+z/xJ6sV6E5zZav8YjbN52yw+5lstGPgjUcJ7Vlcq4o/7
+VTwpYzsxEkDPHeDsFpbq+xsRapZA/eRqddIKbpxfP+DkIltaXhV95QtMKcbWbpg=
+=Eu6l
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

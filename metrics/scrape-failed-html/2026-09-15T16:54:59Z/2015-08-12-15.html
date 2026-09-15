@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: CVE Request - Go net/http library - HTTP smuggling</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="14">[&lt;prev]</a> <a href="16">[next&gt;]</a> <a href="11">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CA+s3sfHPVyVzeZ2brBmS0Zpg+yM7fbdqZ=KAvzNHsG3-VeLzzQ&#64;mail.gmail.com&gt;
+Date: Wed, 12 Aug 2015 18:52:58 +0000
+From: Jason Buberel &lt;jbuberel&#64;...gle.com&gt;
+To: Martin Prpic &lt;mprpic&#64;...hat.com&gt;, oss-security&#64;...ts.openwall.com
+Subject: Re: Re: CVE Request - Go net/http library - HTTP smuggling
+
+Agreed - that will be included in 1.4.3.
+
+-jason
+
+On Wed, Aug 12, 2015 at 8:34 AM Jason Buberel &lt;jbuberel&#64;...gle.com&gt; wrote:
+
+&gt; Having not heard back, we're planning to start preparing a 1.4.3 release
+&gt; to include the following patches:
+&gt;
+&gt; CVE-2015-5739 &lt;<a href="https://security-tracker.debian.org/tracker/CVE-2015-5739" rel="nofollow">https://security-tracker.debian.org/tracker/CVE-2015-5739</a>&gt;
+&gt; "Content Length" treated as valid header:
+&gt; 117ddcb83d7f42d6aa72241240af99ded81118e9
+&gt; &lt;<a href="https://github.com/golang/go/commit/117ddcb83d7f42d6aa72241240af99ded81118e9" rel="nofollow">https://github.com/golang/go/commit/117ddcb83d7f42d6aa72241240af99ded81118e9</a>&gt;
+&gt;
+&gt; CVE-2015-5740 &lt;<a href="https://security-tracker.debian.org/tracker/CVE-2015-5740" rel="nofollow">https://security-tracker.debian.org/tracker/CVE-2015-5740</a>&gt;
+&gt; Double content-length headers does not return 400 error:
+&gt; 300d9a21583e7cf0149a778a0611e76ff7c6680f
+&gt; &lt;<a href="https://github.com/golang/go/commit/300d9a21583e7cf0149a778a0611e76ff7c6680f" rel="nofollow">https://github.com/golang/go/commit/300d9a21583e7cf0149a778a0611e76ff7c6680f</a>&gt;
+&gt;
+&gt; CVE-2015-5741 &lt;<a href="https://security-tracker.debian.org/tracker/CVE-2015-5741" rel="nofollow">https://security-tracker.debian.org/tracker/CVE-2015-5741</a>&gt;
+&gt; Additional hardening, not sending Content-Length w/Transfer-Encoding,
+&gt; Closing connections:
+&gt; 300d9a21583e7cf0149a778a0611e76ff7c6680f
+&gt; &lt;<a href="https://github.com/golang/go/commit/300d9a21583e7cf0149a778a0611e76ff7c6680f" rel="nofollow">https://github.com/golang/go/commit/300d9a21583e7cf0149a778a0611e76ff7c6680f</a>&gt;
+&gt; I0bf18006d7d8f6537529823fc450f2e2bdb7c18e
+&gt; &lt;<a href="https://go-review.googlesource.com/#/q/I0bf18006d7d8f6537529823fc450f2e2bdb7c18e" rel="nofollow">https://go-review.googlesource.com/#/q/I0bf18006d7d8f6537529823fc450f2e2bdb7c18e</a>&gt;
+&gt; I077eb0b8dff35c5d5534ee5f6386127c9954bd58
+&gt; &lt;<a href="https://go-review.googlesource.com/#/q/I077eb0b8dff35c5d5534ee5f6386127c9954bd58" rel="nofollow">https://go-review.googlesource.com/#/q/I077eb0b8dff35c5d5534ee5f6386127c9954bd58</a>&gt;
+&gt;
+&gt; -jason
+&gt;
+&gt; On Mon, Aug 10, 2015 at 1:34 PM Jason Buberel &lt;jbuberel&#64;...gle.com&gt; wrote:
+&gt;
+&gt;&gt; Any updates fro the cve-assigners on this 4th item?
+&gt;&gt;
+&gt;&gt;
+&gt;&gt; On Thu, Aug 6, 2015 at 7:30 AM Jason Buberel &lt;jbuberel&#64;...gle.com&gt; wrote:
+&gt;&gt;
+&gt;&gt;&gt; Martin,
+&gt;&gt;&gt;
+&gt;&gt;&gt; We agree that that issue should be included in a 1.4.3 release under a
+&gt;&gt;&gt; 4th CVE ID. In addition, we would also like to include:
+&gt;&gt;&gt;
+&gt;&gt;&gt; <a href="https://go-review.googlesource.com/#/c/12865/" rel="nofollow">https://go-review.googlesource.com/#/c/12865/</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; Which addresses the very closely related issue:
+&gt;&gt;&gt;
+&gt;&gt;&gt; <a href="https://golang.org/issue/11930" rel="nofollow">https://golang.org/issue/11930</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; ...under the same (4th, not yet assigned) CVE ID.
+&gt;&gt;&gt;
+&gt;&gt;&gt; -jason
+&gt;&gt;&gt;
+&gt;&gt;&gt; On Thu, Aug 6, 2015 at 1:55 AM Martin Prpic &lt;mprpic&#64;...hat.com&gt; wrote:
+&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; Hi, this looks like it needs a CVE as well:
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; <a href="https://github.com/golang/go/commit/26049f6f9171d1190f3bbe05ec304845cfe6399f" rel="nofollow">https://github.com/golang/go/commit/26049f6f9171d1190f3bbe05ec304845cfe6399f</a>
+&gt;&gt;&gt;&gt; <a href="https://github.com/golang/go/issues/12027" rel="nofollow">https://github.com/golang/go/issues/12027</a>
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; Can you please assign one? Thank you!
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; --
+&gt;&gt;&gt;&gt; Martin Prpič / Red Hat Product Security
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; cve-assign&#64;...re.org writes:
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;&gt; &gt; -----BEGIN PGP SIGNED MESSAGE-----
+&gt;&gt;&gt;&gt; &gt; Hash: SHA256
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt;&gt;
+&gt;&gt;&gt;&gt; <a href="https://github.com/golang/go/commit/117ddcb83d7f42d6aa72241240af99ded81118e9" rel="nofollow">https://github.com/golang/go/commit/117ddcb83d7f42d6aa72241240af99ded81118e9</a>
+&gt;&gt;&gt;&gt; &gt;&gt;
+&gt;&gt;&gt;&gt; &gt;&gt; * Invalid headers are parsed as valid headers (like "Content
+&gt;&gt;&gt;&gt; Length:" with a
+&gt;&gt;&gt;&gt; &gt;&gt; space in the middle)
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt; For purposes of CVE assignments, we feel that this needs to be
+&gt;&gt;&gt;&gt; &gt; categorized separately from the other parts of the report. The primary
+&gt;&gt;&gt;&gt; &gt; factor is that there are different sets of affected versions. This
+&gt;&gt;&gt;&gt; &gt; behavior apparently was not present in all versions of Go: it was
+&gt;&gt;&gt;&gt; &gt; added in February 2012. Also, it is not really an error in determining
+&gt;&gt;&gt;&gt; &gt; the semantics of a set of headers; it's a security-relevant error in
+&gt;&gt;&gt;&gt; &gt; interpretation of the syntax of an individual header.
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt; Use CVE-2015-5739.
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt;&gt;
+&gt;&gt;&gt;&gt; <a href="https://github.com/golang/go/commit/300d9a21583e7cf0149a778a0611e76ff7c6680f" rel="nofollow">https://github.com/golang/go/commit/300d9a21583e7cf0149a778a0611e76ff7c6680f</a>
+&gt;&gt;&gt;&gt; &gt;&gt;
+&gt;&gt;&gt;&gt; &gt;&gt; * Double Content-length headers in a request does not generate a 400
+&gt;&gt;&gt;&gt; error,
+&gt;&gt;&gt;&gt; &gt;&gt; the second Content-length is ignored
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt; Use CVE-2015-5740 for the reporter's finding of a security-relevant
+&gt;&gt;&gt;&gt; &gt; RFC 7230 3.3.3 4 violation ("MUST respond with a 400 (Bad Request)
+&gt;&gt;&gt;&gt; &gt; status code").
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt; 300d9a21583e7cf0149a778a0611e76ff7c6680f also has code changes that
+&gt;&gt;&gt;&gt; &gt; were not mentioned in your "as provided by the reporter" section. Our
+&gt;&gt;&gt;&gt; &gt; interpretation is that there were separate internal discoveries of
+&gt;&gt;&gt;&gt; &gt; other security-relevant RFC 7230 violations, such as "MUST NOT send a
+&gt;&gt;&gt;&gt; &gt; Content-Length header field in any message that contains a
+&gt;&gt;&gt;&gt; &gt; Transfer-Encoding header field." Use CVE-2015-5741 for one or more
+&gt;&gt;&gt;&gt; &gt; internal discoveries reflected in
+&gt;&gt;&gt;&gt; &gt; 300d9a21583e7cf0149a778a0611e76ff7c6680f.
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt; Finally, if there is a code change in
+&gt;&gt;&gt;&gt; &gt; 300d9a21583e7cf0149a778a0611e76ff7c6680f that is exclusively for the
+&gt;&gt;&gt;&gt; &gt; purposes of hardening (i.e., no RFC requires the change as a smuggling
+&gt;&gt;&gt;&gt; &gt; security fix, and the code change is not for addressing an
+&gt;&gt;&gt;&gt; &gt; individually exploitable problem), then that code change is outside
+&gt;&gt;&gt;&gt; &gt; the scope of CVE.
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt; - --
+&gt;&gt;&gt;&gt; &gt; CVE assignment team, MITRE CVE Numbering Authority
+&gt;&gt;&gt;&gt; &gt; M/S M300
+&gt;&gt;&gt;&gt; &gt; 202 Burlington Road, Bedford, MA 01730 USA
+&gt;&gt;&gt;&gt; &gt; [ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a>
+&gt;&gt;&gt;&gt; ]
+&gt;&gt;&gt;&gt; &gt; -----BEGIN PGP SIGNATURE-----
+&gt;&gt;&gt;&gt; &gt; Version: GnuPG v1
+&gt;&gt;&gt;&gt; &gt;
+&gt;&gt;&gt;&gt; &gt; iQEcBAEBCAAGBQJVwjr0AAoJEKllVAevmvms4SgH/1K26OmJwLV0/D+IgSIcWq8q
+&gt;&gt;&gt;&gt; &gt; ecN2DlngcNpU7W/fq9o/brN4hoMGVzh/aEPU3JIqC0JbY0OhidPe/DZmqLcndnwb
+&gt;&gt;&gt;&gt; &gt; iQ4wS4r89akrzZpdOYc09oBlqyxKtto1exwFHWqqdVIbBjHdq+nQhEBwYGyjf/XK
+&gt;&gt;&gt;&gt; &gt; 0DyEX6f72Msa//HFhNKycOKM4KPKsi1Gh5Dl+L9nddWnPdTnTSHoIdD+RGmXDDkD
+&gt;&gt;&gt;&gt; &gt; 8i6WI/e5QVrGL2g24mrpefDUWX/p9T/cx9LR1hiiUUDuvns40NVz11E1i8PD2fv3
+&gt;&gt;&gt;&gt; &gt; wRzEjUqyt94syYh9PNa0+ZFH7sPUyYOhnpi3/1UzRkSUSI++FfpDFrq3rOEZ4Jk=
+&gt;&gt;&gt;&gt; &gt; =rNSr
+&gt;&gt;&gt;&gt; &gt; -----END PGP SIGNATURE-----
+&gt;&gt;&gt;&gt;
+&gt;&gt;&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

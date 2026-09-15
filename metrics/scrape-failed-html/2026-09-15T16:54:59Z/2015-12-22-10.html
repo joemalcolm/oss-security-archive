@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request for math/big.Exp</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href="9">[&lt;thread-prev]</a> <a href="../../../2015/12/23/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CA+s3sfEYAD1bLbTMR0ccvGS8qNOfFu6fj2vtnoxeB+LFi9+30g&#64;mail.gmail.com&gt;
+Date: Tue, 22 Dec 2015 21:24:18 +0000
+From: Jason Buberel &lt;jbuberel&#64;...gle.com&gt;
+To: cve-assign&#64;...re.org
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request for math/big.Exp
+
+The Go team plans to release Go 1.5.3 on Wednesday, January 13th to address
+this issue.
+
+On Tue, Dec 22, 2015 at 12:36 PM &lt;cve-assign&#64;...re.org&gt; wrote:
+
+&gt; -----BEGIN PGP SIGNED MESSAGE-----
+&gt; Hash: SHA256
+&gt;
+&gt; &gt; The problem that was
+&gt; &gt; identified is similar to CVE-2015-3193
+&gt;
+&gt; &gt;&gt; math/big: fix carry propagation in Int.Exp Montgomery code
+&gt; &gt;&gt; src/math/big/nat.go
+&gt;
+&gt; Use CVE-2015-8618.
+&gt;
+&gt; - --
+&gt; CVE assignment team, MITRE CVE Numbering Authority
+&gt; M/S M300
+&gt; 202 Burlington Road, Bedford, MA 01730 USA
+&gt; [ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+&gt; -----BEGIN PGP SIGNATURE-----
+&gt; Version: GnuPG v1
+&gt;
+&gt; iQIcBAEBCAAGBQJWebPbAAoJEL54rhJi8gl5LMsP/20/WzubhID16KKW84qnlMAo
+&gt; F6w3/kPkfTTBr+42W3bNZYSCY0ieVwQsvTN6uz8GrMxJ6H/Vko3H17ltXZAx0nxP
+&gt; Vc53H2QbAiyCaaUA6+vqAeosjBbBhvXNkw7Dj9utDu1hJ2rbBtf5ujddF48CxjoJ
+&gt; +Fsrr7TYHX3Su/4r7MNtBtcMjOeWfD3xB+h++Lp5CL/z4tRKXBS02OM+tlVvdGvq
+&gt; llQQ8dwGIYaJv8v3ZIIdXk1dzurws2B6gvF6uDeaseXtbFpMbRpXxgeFddLowjtZ
+&gt; th9I7oxQUvFASrraIQrobaKPpEOfDJrMjhVzFHPtEFtTvrR71qYqq58NXaoflGV1
+&gt; gEtSptbjm5sAwsjxOWhOVO+wA9JHA8upV2ZVxczdeFGlvyko2KBWdMorjEIWLQGI
+&gt; x2DbkL2+hXlCJfZZUfNy0BjyGpZPGlmT7ZAYguxz6VTT/EC67gJ6pkiv5mZKOeBY
+&gt; PHtH7UaYVBYwh6h5opdmvhkhTJ/a9lXhIez5s5HhX01P31DHmx6RLUMeTBikjwmz
+&gt; IFOEulqQhAH0Qtp2XvPAMKeICXpEv7iWmoP8yNAYQ0SzS4awc7ZjK1mcRka1hcY5
+&gt; Bc5nbQvbZGPag0QeyYPdKyYuNqugj6d3J81kIlcpNfjCT1lSVhxxwjQQzlpi0FCR
+&gt; YJqwm2p3NhpjW57fGRux
+&gt; =HP2t
+&gt; -----END PGP SIGNATURE-----
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

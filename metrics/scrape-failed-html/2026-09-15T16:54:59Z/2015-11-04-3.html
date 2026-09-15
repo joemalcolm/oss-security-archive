@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: urlfetch range handling flaw in Cyrus IMAP</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="../../../2015/11/05/1">[next&gt;]</a> <a href="../../../2015/10/13/5">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151104160656.26856332060&#64;smtpvbsrv1.mitre.org&gt;
+Date: Wed,  4 Nov 2015 11:06:56 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: mprpic&#64;...hat.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: urlfetch range handling flaw in Cyrus IMAP
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; "Security fix: handle urlfetch range starting outside message range"
+&gt; [<a href="https://docs.cyrus.foundation/imap/release-notes/2.4/x/2.4.18.html" rel="nofollow">https://docs.cyrus.foundation/imap/release-notes/2.4/x/2.4.18.html</a>]
+
+This was a somewhat complex situation for CVE assignment. The
+<a href="http://www.openwall.com/lists/oss-security/2015/09/30/3">http://www.openwall.com/lists/oss-security/2015/09/30/3</a> post
+identified one commit associated with an upstream security-fix
+release, but it was later found that there were two similar commits
+associated with the same type of security fix in that release. The
+oss-security thread was extremely helpful in providing a specific URL
+for where upstream discussion was attempted, but the only upstream
+discussion occurred after the last oss-security message. Finally,
+there is the somewhat-common question of what to do if a Linux
+distributor interprets an oss-security message as an indication that a
+new distribution package can be safely produced by backporting one
+commit, rather than by packaging a new upstream version.
+
+The scope of CVE-2015-8076 is both of the June 2015 commits by the
+cyrus-imapd developers for preventing read operations that go beyond
+the size of a message, i.e.,
+
+  <a href="https://cyrus.foundation/cyrus-imapd/commit/?id=07de4ff1bf2fa340b9d77b8e7de8d43d47a33921" rel="nofollow">https://cyrus.foundation/cyrus-imapd/commit/?id=07de4ff1bf2fa340b9d77b8e7de8d43d47a33921</a>
+
+  and
+
+  <a href="https://cyrus.foundation/cyrus-imapd/commit/?id=c21e179c1f6b968fe69bebe079176714e511587b" rel="nofollow">https://cyrus.foundation/cyrus-imapd/commit/?id=c21e179c1f6b968fe69bebe079176714e511587b</a>
+
+(We don't know of cases where a Linux distribution backported only
+07de4ff1bf2fa340b9d77b8e7de8d43d47a33921. For example, the September
+updates from openSUSE state that they packaged version 2.3.19. If any
+Linux distributions backported only
+07de4ff1bf2fa340b9d77b8e7de8d43d47a33921, each of those distributions
+should now have another unique CVE for an "incomplete fix for
+CVE-2015-8076" problem. If we already knew that that had occurred, we
+may have chosen separate CVEs for the upstream
+07de4ff1bf2fa340b9d77b8e7de8d43d47a33921 and
+c21e179c1f6b968fe69bebe079176714e511587b fixes, to simplify the
+overall CVE assignment work.)
+
+The original oss-security message suggested that the fixed version was
+2.4.18, but actually all of these changelogs seem applicable:
+
+  <a href="https://docs.cyrus.foundation/imap/release-notes/2.3/x/2.3.19.html" rel="nofollow">https://docs.cyrus.foundation/imap/release-notes/2.3/x/2.3.19.html</a>
+  <a href="https://docs.cyrus.foundation/imap/release-notes/2.4/x/2.4.18.html" rel="nofollow">https://docs.cyrus.foundation/imap/release-notes/2.4/x/2.4.18.html</a>
+  <a href="https://docs.cyrus.foundation/imap/release-notes/2.5/x/2.5.4.html" rel="nofollow">https://docs.cyrus.foundation/imap/release-notes/2.5/x/2.5.4.html</a>
+
+The scope of CVE-2015-8077 is the discovery by Florian Weimer that
+there can be an integer overflow in the start_octet addition after the
+07de4ff1bf2fa340b9d77b8e7de8d43d47a33921 fix. This discovery
+corresponds to:
+
+  <a href="https://cyrus.foundation/cyrus-imapd/commit/?id=745e161c834f1eb6d62fc14477f51dae799e1e08" rel="nofollow">https://cyrus.foundation/cyrus-imapd/commit/?id=745e161c834f1eb6d62fc14477f51dae799e1e08</a>
+
+The scope of CVE-2015-8078 is the discovery by a cyrus-imapd developer
+that there can be an integer overflow in the section_offset addition
+after the c21e179c1f6b968fe69bebe079176714e511587b fix. This discovery
+corresponds to:
+
+  <a href="https://cyrus.foundation/cyrus-imapd/commit/?id=6fb6a272171f49c79ba6ab7c6403eb25b39ec1b2" rel="nofollow">https://cyrus.foundation/cyrus-imapd/commit/?id=6fb6a272171f49c79ba6ab7c6403eb25b39ec1b2</a>
+
+CVE-2015-8077 and CVE-2015-8078 potentially affect all released
+versions (see the <a href="ftp://ftp.cyrusimap.org/cyrus-imapd/" rel="nofollow">ftp://ftp.cyrusimap.org/cyrus-imapd/</a> listing.)
+
+There is no CVE for the
+<a href="https://cyrus.foundation/cyrus-imapd/commit/?id=d81a712401418cc0bd1daa49ded8e5bcc4b69f21" rel="nofollow">https://cyrus.foundation/cyrus-imapd/commit/?id=d81a712401418cc0bd1daa49ded8e5bcc4b69f21</a>
+buffer overflow because we don't know of a realistic case in which a
+privilege boundary can be crossed by an untrusted person who controls
+the imtest command line.
+
+There is no CVE for
+<a href="https://cyrus.foundation/cyrus-imapd/commit/?id=ff4e6c71d932b3e6bbfa67d76f095e27ff21bad0" rel="nofollow">https://cyrus.foundation/cyrus-imapd/commit/?id=ff4e6c71d932b3e6bbfa67d76f095e27ff21bad0</a>
+because of the upstream comments in the
+<a href="https://lists.andrew.cmu.edu/pipermail/cyrus-devel/2015-October/003550.html" rel="nofollow">https://lists.andrew.cmu.edu/pipermail/cyrus-devel/2015-October/003550.html</a>
+post.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWOiyZAAoJEL54rhJi8gl5d0kQAKXrBLVlHSAv5O2P39UEUFAQ
+Kug9b8p3ktVyPWMADkXVhkureQ9Sjdyjqtfb+NeyCSzm8AdiYjwYDpFnBqT8DCFj
+7z6Q88mAgSyI4hbKKnylAR+2pEagLct1MGZCm990VjtMkRKgUil2S013hRU0ol5D
+NfLaYsZuO12DhzyXYVbcz2Yu83AfdapiG4UfDedeMPCrX/WpDdDIpElMDv9zuBha
+I4sb4v/1TlI/MWLDIRv6VVguL5q8Qj7xnHTpIcaKUkjmJJBbMxn/8+4zOOxZqgnx
+Z+qOmz7h3nQ9nY7j+AgoD268a0UPACemG4Wc9enzD8toiXCQ1rU2eegdUSXNXL3k
+m+JbVn9aOQB0P6m2bthWzbtkcMBnGY/mqvqqf/w7W+0qKXzE4EFUtny8D6ApQCYJ
+hxdPDlt2iAHxrR5gZg3jH+UjZ4eE80ORN7+1ZUcW5h/FHWyUrFfVIeY2GkXpu1rc
+9+ciRPUOW6fI9oK5fiyCi3kGmfg4V3i2i+IpYkK7s+/gF3ehj5kmwxaFVCQX9Dib
+cj0kLJIG/yzBRN/DGaHdfKSsxp1P5e3JyojikdOKuXMfgxX3ZXFZA5O9TcvX9siV
+lGGB4wDjrSk+jyC+iAf6gO8pqCas8POkMgfu2ktnklXJQZUceSINmMPLlwbDA4Lx
+ZnWm8ntzkESdiXorQIE2
+=utTo
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

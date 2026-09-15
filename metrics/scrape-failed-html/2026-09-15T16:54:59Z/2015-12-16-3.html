@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: Linux Kernel: information leak from getsockname</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151216153019.0E37272E018&#64;smtpvbsrv1.mitre.org&gt;
+Date: Wed, 16 Dec 2015 10:30:19 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: meissner&#64;...e.de
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: Linux Kernel: information leak from getsockname
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; Could we merge them with this CVE?
+&gt; 
+&gt; <a href="http://git.kernel.org/cgit/linux/kernel/git/davem/net.git/commit/?id=5233252fce714053f0151680933571a2da9cbfb4" rel="nofollow">http://git.kernel.org/cgit/linux/kernel/git/davem/net.git/commit/?id=5233252fce714053f0151680933571a2da9cbfb4</a>
+&gt; 
+&gt; in bluetooth/sco
+
+No, we assign a new ID for a similar issue that is separately discovered.
+Use CVE-2015-8575 for this sco_sock_bind issue.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWcYM3AAoJEL54rhJi8gl5b0MP/iNeJVjRm3mO+t1zcZMLJUQr
+sRf3XySNu8vBcfK59FgmHJ2PVOSscPuS557qHvJMAOVQ6smmF/9jl58uRbyl4WYh
+41wHTsQJBlyuRiSfzy2fowdoTPGKMqJyRatsvXbaJk3TB86lOK58tDOCcgqMYk0i
+mhW7YXAcpS4Kt3bpuwCBHKFUKHDUHPYDtR3QFZeERYYusWL8nwfnrd0LBBw2qAg5
+xCDT8s+DCxXTeE4Wr8zGMq8+QHI9yUf/jveqo8xCu7ur0TEqM98nKZ6mX2rtoVGt
+DvoFX3G4DOz4++ForUQgcLefyLW/T1f9zwj0OrHXzLeTeAyZpwFS2fQ9pZCG8frR
+1qJPvIjWzGcu8ojR5whSNbQdKwDdaz0gaBBEvPvL083t5TGQxgseTlZHvcfVdxWD
+x4KGNG8GtUgwJ7HXvWGejOPEkgAcxblnzSTOZsmi35AIze5whfWDGnl1a6EGelgt
+LPn5d3XGjZC7smLUxVrai0ENHhBuaG1KHRuTbaS+NR1YcE56Bg7ikMvWt7Twgyqz
+LeuGoNwQqwuSs38+CSI3pmpFVph2AN7z6gxWug7sN4nuQzhV9s9nJat4TSsQt7lp
+RN4kTepa6vcxPVPBa0khOpAOWtfBUhPwbuXB+TTQjWslf54e+fNlIErZGLDf/F6r
+cLpJcVHqqM6Jm20eusPc
+=akG6
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request : IPv6 Hop limit lowering via RA messages</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2015/04/03/6">[&lt;thread-prev]</a> <a href="../../../2015/04/07/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150404072749.B0AF66C0033&#64;smtpvmsrv1.mitre.org&gt;
+Date: Sat,  4 Apr 2015 03:27:49 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: ljungmark&#64;...io.se
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request : IPv6 Hop limit lowering via RA messages
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; An unprivileged user on a local network can use IPv6 Neighbour
+&gt; Discovery ICMP to broadcast a non-route with a low hop limit, this
+&gt; causing machines to lower the hop limit on existing IPv6 routes.
+
+&gt; Projects impacted:  Linux kernel,  NetworkManager, FreeBSD Kernel
+
+&gt; <a href="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=6fd99094de2b83d1d4c8457f2c83483b2828e75a" rel="nofollow">https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=6fd99094de2b83d1d4c8457f2c83483b2828e75a</a>
+
+Use CVE-2015-2922 for the Linux kernel vulnerability.
+
+
+&gt; <a href="https://lists.freebsd.org/pipermail/freebsd-net/2015-April/041934.html" rel="nofollow">https://lists.freebsd.org/pipermail/freebsd-net/2015-April/041934.html</a>
+
+Use CVE-2015-2923 for the FreeBSD vulnerability.
+
+
+&gt; ,  NetworkManager
+
+This might refer to
+<a href="http://cgit.freedesktop.org/NetworkManager/NetworkManager/tree/src/rdisc/nm-lndp-rdisc.c" rel="nofollow">http://cgit.freedesktop.org/NetworkManager/NetworkManager/tree/src/rdisc/nm-lndp-rdisc.c</a>
+
+  hop_limit = ndp_msgra_curhoplimit (msgra);
+  if (rdisc-&gt;hop_limit != hop_limit) {
+          rdisc-&gt;hop_limit = hop_limit;
+          changed |= NM_RDISC_CONFIG_HOP_LIMIT;
+
+however, the MITRE CVE team is not directly familiar with this part of
+the NetworkManager code and has not researched any changes to the
+"rdisc-&gt;hop_limit != hop_limit" test. There is apparently no commit
+available yet at:
+
+  <a href="http://cgit.freedesktop.org/NetworkManager/NetworkManager/log/src/rdisc/nm-lndp-rdisc.c" rel="nofollow">http://cgit.freedesktop.org/NetworkManager/NetworkManager/log/src/rdisc/nm-lndp-rdisc.c</a>
+
+but, again, we don't know whether changes would need to occur there.
+
+Use CVE-2015-2924 for the NetworkManager vulnerability.
+
+
+Also, note that
+
+  <a href="http://patchwork.ozlabs.org/patch/453995/" rel="nofollow">http://patchwork.ozlabs.org/patch/453995/</a>
+
+refers to affected closed-source products. (CVE IDs for closed-source
+products would be announced elsewhere.) It also refers to Android. We
+don't know whether Android was listed only because of a
+shared-codebase issue, e.g.,
+
+  <a href="https://android.googlesource.com/kernel/common/+/android-3.18/net/ipv6/ndisc.c" rel="nofollow">https://android.googlesource.com/kernel/common/+/android-3.18/net/ipv6/ndisc.c</a>
+
+(there is no commit at
+<a href="https://android.googlesource.com/kernel/common/+log/android-3.18/net/ipv6/ndisc.c" rel="nofollow">https://android.googlesource.com/kernel/common/+log/android-3.18/net/ipv6/ndisc.c</a>
+currently)
+
+or whether Android is affected in other ways. Unless there is
+incorrect hop_limit processing in code that is specific to Android,
+Android would not have a unique CVE ID.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVH5GoAAoJEKllVAevmvmsL4EH/3oXUCv+ibZ7VXqeLpvkcmeq
+R6dPpU6QJVLvirY/2Huoq0eLlSm9l6Tg9Z0h8WoWJpa8nQjrEthXc0XnWh6l4aoW
+GzcRAJLjh21WZGTF4euTVMTSyR+ftw2jNp5WkfiI4BxCvikyDlrktj1qYVgsB7AK
+3Svrv9jUDDjQX8Xd2gAqCEcSiRe9OO+JWErRD9ZyKSia9KcgFmmw3XQgUgefz6Ra
+oKWuc0nZbYKq80JwIiiX8ThRyETuoNOtT4w7JdRVJfhFlUml8+FNh1hFiz52GsBF
+iOOninmlM0i1EZw2v8JV/V+ihHB071YbT3K7xdoOu65CZymDy5qq+fc2ok5IOFY=
+=qiwd
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Squid HTTP proxy CVE request</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="../../../2015/07/10/1">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href="../../../2015/07/10/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAESArwn24tDQ1kD_Tfb65zCSUTr_Nz8AYwy0a_vKP8V4be5utw&#64;mail.gmail.com&gt;
+Date: Thu, 9 Jul 2015 13:47:55 -0700
+From: Reed Black &lt;reed&#64;...afeword.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Squid HTTP proxy CVE request
+
+As I read this, issue #1 allows CONNECT requests to proceed that shouldn't
+otherwise. Is unsetting AllowTcpForwarding also sufficient for the "Determining
+if your version is vulnerable" section?
+
+On Mon, Jul 6, 2015 at 4:26 AM, Amos Jeffries &lt;squid3&#64;...enet.co.nz&gt; wrote:
+
+&gt; -----BEGIN PGP SIGNED MESSAGE-----
+&gt; Hash: SHA1
+&gt;
+&gt; Greetings,
+&gt;
+&gt; This months release of Squid HTTP proxy, version 3.5.6, contains fixes
+&gt; for two security issues.
+&gt;
+&gt;
+&gt; Issue #1:
+&gt;
+&gt; Due to incorrect handling of peer responses in a hierarchy of 2 or
+&gt; more proxies remote clients (or scripts run on a client) are able to
+&gt; gain unrestricted access through a gateway proxy to its backend proxy.
+&gt;
+&gt; If the two proxies have differing levels of security this could lead
+&gt; to authentication bypass or unprivileged access to supposedly secure
+&gt; resources.
+&gt;
+&gt; &lt;<a href="http://www.squid-cache.org/Versions/v3/3.5/changesets/squid-3.5-13856.p" rel="nofollow">http://www.squid-cache.org/Versions/v3/3.5/changesets/squid-3.5-13856.p</a>
+&gt; atch&gt;
+&gt;
+&gt; All Squid up to and including 3.5.5 are vulnerable.
+&gt;
+&gt; (when published the advisory for this will be
+&gt; &lt;<a href="http://www.squid-cache.org/Advisories/SQUID-2015_2.txt" rel="nofollow">http://www.squid-cache.org/Advisories/SQUID-2015_2.txt</a>&gt;)
+&gt;
+&gt;
+&gt; Issue #2:
+&gt;
+&gt; This is somewhat more obscure, and I am seeking clarification perhapse
+&gt; more than assignment.
+&gt;
+&gt; Squid up to and including 3.5.5 are apparently vulnerable to DoS
+&gt; attack from malicious clients using repeated TLS renegotiation
+&gt; messages. This has not been verified as it also seems to require
+&gt; outdated (0.9.8l and older) OpenSSL libraries.
+&gt;
+&gt; &lt;<a href="http://www.squid-cache.org/Versions/v3/3.5/changesets/squid-3.5-13849.p" rel="nofollow">http://www.squid-cache.org/Versions/v3/3.5/changesets/squid-3.5-13849.p</a>
+&gt; atch&gt;
+&gt;
+&gt; CVE-2009-3555 was mentioned by the submitter, but that was clearly
+&gt; assigned for server-initiated renegotiation. This Squid change is
+&gt; specifically for the client-initiated renegotiation part of the TLS
+&gt; protocol flaw.
+&gt;
+&gt; There may be some relevant CVE already assigned, although I've been
+&gt; unable to find it. Only CVE-2011-1473 which is for the library itself
+&gt; and disputed.
+&gt;
+&gt; So, is server software being assigned specific CVE (or a shared
+&gt; generic one) for resolving this flaw? Please indicate which CVE Squid
+&gt; announcements should mention (if any).
+&gt;
+&gt;
+&gt; Thanks,
+&gt; Amos Jeffries
+&gt; Squid Software Foundation
+&gt; -----BEGIN PGP SIGNATURE-----
+&gt; Version: GnuPG v2.0.22 (MingW32)
+&gt;
+&gt; iQIcBAEBAgAGBQJVmmXyAAoJEGvSOzfXE+nLLjMP/2qTXQODFIdE9zfL3ZQ8MRhZ
+&gt; Edh4PNFxSkhvVyYn8kU6ZMg2jx7hiXXEfiP/Ilvo3XcY/eDWf64g+POgLX20X5jV
+&gt; o/StXDKHvcZUargImliJb2W1nalIGw1iqBERs6qwfRJhK67MHPgGWwxHu/SFEWsM
+&gt; Kk2GRlGlIM4H8g7FnsDvwAnAYweGm3+iSqZlQEaX5JOqem2M8qukGziQsc28yU4E
+&gt; SU5YIwNltW563pQYD+UTerz5i24Dt086in1AvSEFiLfqAMq4o3AdcFK73RhBdKyY
+&gt; yJJ0rKaz3o18vtru3I7soms8dmUI0mLxX6imPrBHOeSInjGbbRvPIU3g2WYpcdwF
+&gt; o6/7Xbg8HB+9QORXINqzC02aBiIJf8blleBnUKJQt1JMhQkb8vXAW4wcHoKfKTPo
+&gt; w9gyhwHgbBCYk0gSQ5CuIlaqPUEPAST0DiV0OIDHltjeLSq7vsq5zij9OKLxQdDJ
+&gt; nemVr03jrPHELCvV6eKXT/UJj6X+vfpCJk+giQq6rXC8ikhTvpID1aU/xOGxNJGq
+&gt; ig9ThwADl6RE2/cgjh7bnz1IPcG679V85uMbwPVTXU38XmhTyWQKjDdt5DuAdd6a
+&gt; RUsheekgzf5Lhhcv7/wht/ecNxDbBKvW8o8fvMinn5j9c0GNSNXtGbp8QYlySFS9
+&gt; ycdNaJLFdIm8LnV5rNSW
+&gt; =COJ4
+&gt; -----END PGP SIGNATURE-----
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

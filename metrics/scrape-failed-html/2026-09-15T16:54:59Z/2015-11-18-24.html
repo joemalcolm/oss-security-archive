@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: Fwd: x86 ROP mitigation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="23">[&lt;prev]</a> <a href="25">[next&gt;]</a> <a href="21">[&lt;thread-prev]</a> <a href="27">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAGfLVYzktacNa_ZyenDrybe-37A499rv4LEw6BSp9Jqcj5YaOA&#64;mail.gmail.com&gt;
+Date: Wed, 18 Nov 2015 17:33:37 +0100
+From: Fabio Pagani &lt;pagabuc&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Re: Fwd: x86 ROP mitigation
+
+Hello everybody,
+
+I'm jumping into this discussion since I've worked the last couple of
+months on this topic.
+
+The plan outlined in the previous email seems reasonable but, for a
+more complete overview, you should definitely check G-Free:
+<a href="https://www.iseclab.org/papers/gfree.pdf" rel="nofollow">https://www.iseclab.org/papers/gfree.pdf</a>
+
+&gt; It seems to me that if the stack canary check happened directly before
+&gt; the RET instruction, after restoring the registers, it would make it
+&gt; more difficult to abuse the RET instruction.  With the code above, you
+&gt; can just jump to the address 1c6e7 and have access to quite a few useful
+&gt; POP instructions.
+
+You are right. Attackers will have access to POP instruction and
+potentially to any instruction found in an unaligned fashion.
+Shifting down the check will work but it's very dangerous, because you
+are accessing a part of the stack that was deallocated with the add.
+
+Actually I've implemented G-Free for X86-64 (except the "symbolic
+addresses" part) in the LLVM backend.
+The source will be released max in 2 weeks, but anyway i will be very
+happy to discuss and help for a GCC implementation.
+
+// Fab
+
+On Wed, Nov 18, 2015 at 4:49 PM, Steve Grubb &lt;sgrubb&#64;...hat.com&gt; wrote:
+&gt; On Wednesday, November 18, 2015 11:51:23 AM Florian Weimer wrote:
+&gt;&gt; On 11/18/2015 03:10 AM, Solar Designer wrote:
+&gt;&gt; &gt; This approach makes sense to me, but I think we should have a better
+&gt;&gt; &gt; idea of whether and how "a point where ROP gadgets are reasonably hard
+&gt;&gt; &gt; to find &amp; exploit" is potentially reachable.  If it is not even
+&gt;&gt; &gt; potentially reachable, then this undermines the effort, unfortunately.
+&gt;&gt;
+&gt;&gt; This came up in other discussions as well.  We even got to the point
+&gt;&gt; where someone ran a ROP gadget finding tool on a core library, which did
+&gt;&gt; not find any gadgets at all, and someone else found a useful one in a
+&gt;&gt; few minutes with objdump and no other tool support (and this did not
+&gt;&gt; even include jumping into the middle of instructions).
+&gt;
+&gt; This was something that I was involved in. What I did was get the latest
+&gt; source code of ROPgadget. [1]  I have no idea how good it is compared to other
+&gt; tools. But it does have a command line switch that builds a full ROP chain so
+&gt; that you have a working exploit.
+&gt;
+&gt; Next, I wrote a small script to iterate over the directories on my Fedora 22
+&gt; system that should hold programs or libraries the attacker might exploit and
+&gt; check each and every one of them using ROPgadget. I was curious what the size
+&gt; of the elephant is that we have.
+&gt;
+&gt; What I found was that the list of libraries or programs that ROPgadget could
+&gt; build a chain for is fairly small. I thought about reasons why that might be
+&gt; the case and then considered that maybe if the gadgets from several libraries
+&gt; were combined, maybe it would find more. But I think ASLR would make too many
+&gt; moving parts for that to be practical. If you use a whole library or
+&gt; application, then everything moves together up or down as a unit to the new
+&gt; offset.
+&gt;
+&gt; Another thought in explaining why the list was so small is that the quality of
+&gt; the chaining that ROPgadget has needs a lot of improvement. Could someone more
+&gt; clever piece together gadgets that make a chain that ROPgadget didn't see? I
+&gt; don't have the expertise to do this by hand. So, I'll do what others would do
+&gt; and look for another tool. There is only one other tools that I could find,
+&gt; ropper [2]. It dies due to a programming bug. So, I doubt its being used.
+&gt;
+&gt; The following files are the ones that ROPgadget was able to build a chain for:
+&gt;
+&gt; /usr/lib64/ld-2.21.so
+&gt; /usr/lib64/libasound.so.2.0.0
+&gt; /usr/lib64/libavfilter.so.5.11.102
+&gt; /usr/lib64/libc-2.21.so
+&gt; /usr/lib64/libcln.so.6.0.4
+&gt; /usr/lib64/libdb-5.3.so
+&gt; /usr/lib64/libfreetype.so.6.11.4
+&gt; /usr/lib64/libgs.so.9.16
+&gt; /usr/lib64/libgtk-3.so.0.1600.7
+&gt; /usr/lib64/libgtk-x11-2.0.so.0.2400.28
+&gt; /usr/lib64/libliveMedia.so.36.0.6
+&gt; /usr/lib64/libmozjs-17.0.so
+&gt; /usr/lib64/libmozjs185.so.1.0.0
+&gt; /usr/lib64/libmozjs-24.so
+&gt; /usr/lib64/libpython3.4m.so.1.0
+&gt; /usr/lib64/libQtWebKit.so.4.10.4
+&gt; /usr/lib64/libruby.so.2.2.0
+&gt; /usr/lib64/libsamba-util.so.0.0.1
+&gt; /usr/lib64/libsmbconf.so.0
+&gt; /usr/lib64/libsqlite3.so.0.8.6
+&gt; /usr/lib64/libtcl8.6.so
+&gt; /usr/lib64/libwebkit2gtk-4.0.so.37.6.8
+&gt; /usr/lib64/libwebkitgtk-1.0.so.0.22.15
+&gt; /usr/lib64/libwebkitgtk-3.0.so.0.22.15
+&gt; /usr/lib64/libxml2.so.2.9.2
+&gt; /usr/libexec/mysqld
+&gt; /usr/sbin/ldconfig
+&gt; /usr/sbin/sln
+&gt; /usr/bin/clang
+&gt; /usr/bin/clang-check
+&gt; /usr/bin/dvipdfmx
+&gt; /usr/bin/gimp-2.8
+&gt; /usr/bin/inkscape
+&gt; /usr/bin/js
+&gt; /usr/bin/shotwell
+&gt; /usr/bin/virtuoso-t
+&gt;
+&gt; This is on a desktop with a lot of server and software development packages
+&gt; that total up to approx 3800 rpms. If we are going to try to spoil ROP
+&gt; gadgets, I would suggest that we as a community pick one tool and give it some
+&gt; love so that it finds all kinds of gadgets. This way we know how effective any
+&gt; mitigations are.
+&gt;
+&gt; During this study, Florian had suggested checking -fstack-protector-all. This
+&gt; defeated ROPgadget. It was not able to find any ROP gadgets in anything
+&gt; compiled that way. If it were better at finding gadgets I would like to retry
+&gt; the study to see if that still holds true.
+&gt;
+&gt;
+&gt;&gt; In the end, this boils down to lack of concrete goals.  “Blinding ROP
+&gt;&gt; gadget finder X“ is easy (just change the ELF format in such a way that
+&gt;&gt; it's no longer recognized by the tool), but probably not very useful if
+&gt;&gt; you want to improve security, for any useful definition of “security”.
+&gt;&gt;
+&gt;&gt; We face the problem that I and my immediate colleagues (on the Red Hat
+&gt;&gt; tools team) do not have access to information about successful
+&gt;&gt; compromises, and what attackers actually do today, on GNU/Linux systems,
+&gt;&gt; both to achieve initial access
+&gt;
+&gt; There is information about this scattered around. It largely depends on what
+&gt; the role of the system is, what exploit is recently circulating, and external
+&gt; vs internal threat actors. Fishing around for the top uses of Linux servers
+&gt; [3] reveals probably what we all knew its used for: virtualization, database
+&gt; servers, web servers, application servers, etc.
+&gt;
+&gt; For web servers, there are studies [4] that show what people do. TL;DR: they
+&gt; find a hole in the web software to issue a wget command to pull down software,
+&gt; this lands in /tmp, they then execute the software downloaded.
+&gt;
+&gt; There's 3 different points where this could have been defeated. 1) mod_security
+&gt; probably would have blocked whatever weird URL or hole they found. 2) /tmp
+&gt; should be mounted noexec. But noexec is easy to defeat by invoking the
+&gt; interpreter or ld.so directly. 3) This is the hard one and yet so simple to
+&gt; fix....make all interpreters check the execute bit before executing. They need
+&gt; to be a policy enforcement point for the noexec mount option. Otherwise we may
+&gt; as well ask the kernel guys to remove the noexec mount option because its
+&gt; useless.
+&gt;
+&gt; For other servers, its a similar pattern.
+&gt;
+&gt;&gt; and to maintain a presence afterwards.
+&gt;
+&gt; This is something I am also interested in. There are groups of people studying
+&gt; this. One such project is ATT&amp;CK [5] run by MITRE. I have been collecting
+&gt; information for Linux systems to add to their project. The idea of that
+&gt; project is to enumerate the various ways that an attacker can perform actions
+&gt; post exploit. With a catalogue, you can then go build tools that check the
+&gt; hiding places. If they get a rootkit installed, you might not be able to
+&gt; detect it on the host, but rather by its actions on the network.
+&gt;
+&gt; From this catalogue, you can the create indicators of compromise to look for.
+&gt; Mandiant has one method [6], but I would rather see something based around
+&gt; SCAP tooling so that its standardized.
+&gt;
+&gt;
+&gt;&gt; Under these conditions, anything we implement is, to some degree,
+&gt;&gt; arbitrary and a shot in the dark.  We can still use our best judgment to
+&gt;&gt; set priorities, but we are very far from being guided by empirical evidence.
+&gt;
+&gt; I hope I filled in some of the blanks. I am sure that others can point to more
+&gt; information to help fill in more gaps.
+&gt;
+&gt; -Steve
+&gt;
+&gt;
+&gt; 1 - <a href="http://shell-storm.org/project/ROPgadget/" rel="nofollow">http://shell-storm.org/project/ROPgadget/</a>
+&gt; 2 - <a href="https://github.com/sashs/Ropper" rel="nofollow">https://github.com/sashs/Ropper</a>
+&gt; 3 - <a href="https://www.daniweb.com/hardware-and-software/linux-and-unix/news/258647/10-ways-that-enterprises-use-linux" rel="nofollow">https://www.daniweb.com/hardware-and-software/linux-and-unix/news/258647/10-ways-that-enterprises-use-linux</a>
+&gt; 4 - <a href="https://www.sans.org/reading-room/whitepapers/malicious/introduction-linux-based-malware-36097" rel="nofollow">https://www.sans.org/reading-room/whitepapers/malicious/introduction-linux-based-malware-36097</a>
+&gt; 5 - <a href="https://attack.mitre.org/wiki/Main_Page" rel="nofollow">https://attack.mitre.org/wiki/Main_Page</a>
+&gt; 6 - <a href="http://www.openioc.org/" rel="nofollow">http://www.openioc.org/</a>
+&gt;
+&gt;
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

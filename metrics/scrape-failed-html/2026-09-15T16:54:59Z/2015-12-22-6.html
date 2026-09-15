@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: Use after free in PHP Collator::sortWithSortKeys function</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151222171213.8E8206C046C&#64;smtpvmsrv1.mitre.org&gt;
+Date: Tue, 22 Dec 2015 12:12:13 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: emmanuel.law&#64;...il.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com, security&#64;....net
+Subject: Re: CVE Request: Use after free in PHP Collator::sortWithSortKeys function
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; I reported a use after free in PHP's Intl extension. The vulnerability
+&gt; is in Collator::sortWithSortKeys function. Only Php 7.0.0 is affected.
+&gt; 
+&gt; This can potentially be remotely exploitable if the sorting function
+&gt; is called on a user supplied array.
+&gt; 
+&gt; <a href="https://bugs.php.net/bug.php?id=71020" rel="nofollow">https://bugs.php.net/bug.php?id=71020</a>
+
+&gt;&gt;   - Array is destroyed via zval_ptr_dtor( array );
+&gt;&gt;   - sortKeyIndxBuf[0....0xba].zstr are now dangling pointers
+&gt;&gt;   - New array initialized (Hashtable with initial element size of 8)
+&gt;&gt;   - As the dangling pointers are added to array, the size of the Hashtable grows.
+&gt;&gt;   - As the Hashtable grows, it's allocated more memory via zend_hash_do_resize()
+&gt;&gt;   - It will then be allocated memory that co-incides with an address
+&gt;&gt;     pointed to by the dangling pointer sortKeyIndxBuf[j].zstr. Thus
+&gt;&gt;     sortKeyIndxBuf[j].zstr now no longer points to a valid zval.
+&gt;&gt;   - ... it will access dereference whatever is the value within this "corrupted zval"
+
+&gt;&gt; [2015-12-07 19:04 UTC] ab&#64;....net
+&gt;&gt; Yeah, we should have kept this till short before the release, as usually done
+&gt;&gt; for security patches.
+
+Use CVE-2015-8616.
+
+
+Also, while we're doing CVEs for PHP 7.0.1, this one is CVE-2015-8617:
+
+  <a href="https://bugs.php.net/bug.php?id=71105" rel="nofollow">https://bugs.php.net/bug.php?id=71105</a>
+  <a href="http://php.net/ChangeLog-7.php" rel="nofollow">http://php.net/ChangeLog-7.php</a>
+  <a href="https://github.com/php/php-src/commit/b101a6bbd4f2181c360bd38e7683df4a03cba83e" rel="nofollow">https://github.com/php/php-src/commit/b101a6bbd4f2181c360bd38e7683df4a03cba83e</a>
+
+  [2015-12-13 02:48 UTC] laruence&#64;....net ... this is a security fix
+
+  A format string vulnerability exists in PHP-7.0.0 due to how
+  non-existent class names are handled. ... Adding a "%s" as the
+  second parameter there seems to fix the issue.
+
+
+If anyone is familiar with "Fixed double free in error condition of
+format printer" in that changelog and wants a CVE ID, please let us
+know.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWeYPqAAoJEL54rhJi8gl5xLsP/irDZCa+BewL5P85OM4lSVpH
+EXymkZ8YPztD9d2F0ulbworvpZfM5HKASUHIAM1GwpHm4yOvUvIZKh+U7h0/S8bM
+BEeURKkhCH3IO/fpPC9P3rMK9psBMuLpWLOvOBLDdDVRhnL79SfGa+sMlTZa66BF
+E+a4hSpjAj9zIz9rL3kYfVcQDNb8AAlHvtCBNMawTt6fOvG2+Be1jKRYmp4RZYjK
+6ypArIvMpsRqN3DaYgT44xVR73MgHBk3AmiS8aFzWHNBC3NC7FeYRCth9Zj/MXu+
+4wRBOnTkDsBve/zTHjhDaa+689Qqtj5y+i7WBjnG+0FA1/u9gLm2jq2RfBMK03QC
+vo1789S/49E/DqJ62IwfgBuZoqZWwN2CcScl1f2oevqB2MqyJEFlBIXr/Wz1XrOK
+UPRhheFu70xsh+S1C+2a73CROBuVcoe5IUcACSyTRCBTCY6kZhi+pekPfqG/dpZi
+tTHNeY+BBdfmFOGE73GacgVZgAotLi0oYn6FtAevW4Tpncg/5q0jpDkbLzl5ph8i
+YgEbh+NKnK/8ozJ1f81fMk7ABpv5nnElnxh+PLAgtMns91CjGERcE+iPX/eEkJcP
+OuWyEzRXmGiegWj2wSoePSHqyehvMHg5HIFLQewUUcgAn5Qww8EZoF/kG2dH1v7G
+ugNG8OFxuFJlXpNRTaGH
+=4znN
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

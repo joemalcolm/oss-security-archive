@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 141 (CVE-2015-6654) - printk is not
+ rate-limited in xenmem_add_to_physmap_one</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1ZWlSt-00030m-NL&#64;xenbits.xen.org&gt;
+Date: Tue, 01 Sep 2015 13:19:07 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 141 (CVE-2015-6654) - printk is not
+ rate-limited in xenmem_add_to_physmap_one
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+            Xen Security Advisory CVE-2015-6654 / XSA-141
+                              version 3
+
+         printk is not rate-limited in xenmem_add_to_physmap_one
+
+UPDATES IN VERSION 3
+====================
+
+Public release.
+
+ISSUE DESCRIPTION
+=================
+
+XENMAPSPACE_gmfn_foreign dumps the p2m, on ARM, when it fails to get a
+reference on the foreign page.  However, dump_p2m_lookup does not use
+rate-limited printk.
+
+A malicious infrastructure domain, which is allowed to map memory of
+a foreign guest, would be able to flood the Xen console.
+
+IMPACT
+======
+
+Domains deliberately given partial management control may be able to
+deny service to other parts of the system.
+
+As a result, in a system designed to enhance security by radically
+disaggregating the management, the security may be reduced.  But, the
+security will be no worse than a non-disaggregated design.
+
+VULNERABLE SYSTEMS
+==================
+
+This issue is only relevant to systems which intend to increase
+security through the use of advanced disaggregated management
+techniques.
+
+This does not include systems using libxl, libvirt, xm/xend,
+XCP/XenServer, OpenStack or CloudStack (unless substantially modified
+or supplemented, as compared to versions supplied by the respective
+upstreams).
+
+This issue is not relevant to stub device models, driver domains, or
+stub xenstored.  Those disaggregation techniques do not rely on
+granting the semi-privileged support domains access to the affected
+hypercall, and are believed to provide the intended security benefits.
+
+Only ARM systems are potentially affected.  All Xen versions which
+support ARM are potentially affected.
+
+MITIGATION
+==========
+
+Reducing the hypervisor log level can be used to suppress messages.
+
+Switching from disaggregated to a non-disaggregated operation does NOT
+mitigate these vulnerabilities.  Rather, it simply recategorises the
+vulnerability to hostile management code, regarding it "as designed";
+thus it merely reclassifies these issues as "not a bug".  Users and
+vendors of disaggregated systems should not change their
+configuration.
+
+CREDITS
+=======
+
+This issue was discovered by Julien Grall of Citrix.
+
+RESOLUTION
+==========
+
+Applying the appropriate attached patch resolves this issue.
+
+xsa141.patch        Xen 4.4.x, 4.5.x, xen-unstable
+
+$ sha256sum xsa141*.patch
+12358565dc443e1855a1b5776fa9008c5ea5e5854bd4e93b88ab4178c698fc2a  xsa141.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of the patches and/or mitigations described above (or
+others which are substantially similar) is permitted during the
+embargo, even on public-facing systems with untrusted guest users and
+administrators.
+
+But: Distribution of updated software is prohibited (except to other
+members of the predisclosure list).
+
+Predisclosure list members who wish to deploy significantly different
+patches and/or mitigations, please contact the Xen Project Security
+Team.
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJV5aV+AAoJEIP+FMlX6CvZz74H/jn2L3URqeatI7eBXRtpC9SL
+DshKXMZRC746x5W06nsFp9dxr/ggSrMG1avM3q/V2dF5Sb/RDyH3A4D8DVhZOFQh
+jxYScztKJI2OjRmPJvPatVR9oYBQhLpwg8yE3ye6//ObHCO3PSqX28VqWkS8gZha
+E3Cr3PpbWN1nO1PkHZBqq9BRT7B6Nq/1HE3TnbgjYVWUryWMUUp6GZOZ9QYOTbQB
+F5I7oimZ/mW2B4PL9p2lCKnCBDJIELpeE6sZAmv8yeQg7Lq7UhwWnB57U8gOOe1I
+uzV5z852a9Hqdn8flUOGn0eQxputFRdOTamaMqQ2UtG2f0E+l2R6ahD1CGyTmBM=
+=pKQu
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="9/1" rel="nofollow" download>xsa141.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (1052 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

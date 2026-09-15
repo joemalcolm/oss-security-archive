@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 149 (CVE-2015-7969) - leak of main
+ per-domain vcpu pointer array</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1Zrlsd-00025q-DJ&#64;xenbits.xen.org&gt;
+Date: Thu, 29 Oct 2015 12:00:31 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 149 (CVE-2015-7969) - leak of main
+ per-domain vcpu pointer array
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+            Xen Security Advisory CVE-2015-7969 / XSA-149
+                              version 3
+
+              leak of main per-domain vcpu pointer array
+
+UPDATES IN VERSION 3
+====================
+
+Public release.
+
+ISSUE DESCRIPTION
+=================
+
+A domain's primary array of vcpu pointers can be allocated by a
+toolstack exactly once in the lifetime of a domain via the
+XEN_DOMCTL_max_vcpus hypercall.
+
+This array is leaked on domain teardown.  This memory leak could --
+over time -- exhaust the host's memory.
+
+IMPACT
+======
+
+A domain given partial management control via XEN_DOMCTL_max_vcpus can
+mount a denial of service attack affecting the whole system.
+
+The ability to also restart or create suitable domains is also
+required to fully exploit the issue.  Without this the leak is limited
+to a small multiple of the maximum number of vcpus for the domain.
+
+The maximum leak is 64kbytes per domain (re)boot (less on ARM).
+
+VULNERABLE SYSTEMS
+==================
+
+This issue is only relevant to systems which intend to increase
+security through the use of advanced disaggregated management
+techniques.
+
+This does not include systems using libxl, libvirt, or OpenStack
+(unless substantially modified or supplemented, as compared to
+versions supplied by the respective upstreams).
+
+Versions of Xen from 4.0 onwards are vulnerable.
+
+All architectures are affected.
+
+MITIGATION
+==========
+
+The leak is small.  Preventing the creation of large numbers of new
+domains, and limiting the number of times an existing domain can be
+rebooted, can reduce the impact of this vulnerability.
+
+Switching from disaggregated to a non-disaggregated operation does NOT
+mitigate the XEN_DOMCTL_max_vcpus vulnerability.  Rather, it simply
+recategorises the vulnerability to hostile management code, regarding
+it "as designed"; thus it merely reclassifies these issues as "not a
+bug".  Users and vendors of disaggregated systems should not change
+their configuration.
+
+NOTE REGARDING CVE
+==================
+
+Note that CVE-2015-7969 covers both this issue and XSA-151.
+
+CREDITS
+=======
+
+This issue was discovered by Ian Campbell of Citrix.
+
+RESOLUTION
+==========
+
+Applying the attached patch resolves this issue.
+(To resolve CVE-2015-7969, the patch from XSA-151 is required too.)
+
+xsa149.patch        xen-unstable, Xen 4.6.x, Xen 4.5.x, Xen 4.4.x, Xen 4.3.x
+
+$ sha256sum xsa149*.patch
+e01628400b81c4bb7bafba348f2ecb1fe80f16e3162cee5013e0be1d7311738b  xsa149.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of the PATCH (or others which are substantially similar) is
+permitted during the embargo, even on public-facing systems with
+untrusted guest users and administrators.
+
+
+However deployment of the (RE)BOOT LIMIT MITIGATION is NOT permitted
+(except where all the affected systems and VMs are administered and
+used only by organisations which are members of the Xen Project
+Security Issues Predisclosure List).  Specifically, deployment on
+public cloud systems is NOT permitted.
+
+This is because applying domain creation and reboot limits in
+connection with a security issue would be a user-visible change which
+could lead to the rediscovery of the vulnerability.
+
+Deployment of the mitigation is permitted only AFTER the embargo ends.
+
+
+Also: Distribution of updated software is prohibited (except to other
+members of the predisclosure list).
+
+Predisclosure list members who wish to deploy significantly different
+patches and/or mitigations, please contact the Xen Project Security
+Team.
+
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJWMgm7AAoJEIP+FMlX6CvZ5EEH/RpWXVKVpA5JdTGGfWan9ojV
++9Froz+RdUJmINLHE/sIIAudfCIlc7zA1Ap/ukSUC9YfBZvjwMpiouTz2IJV+kgp
+C0zTjTHrqf0RG7k9aXKTqDNhHWP/FukVv6V4KZ+vmC9CluV8ODhnvogO0bS4wO2y
+dzJAtQZxhD1r0rgvLWlT0Wq0LylTqW6mXg0lHiBv+HFonKJAIEeg/0dJbriKsc0N
+1+vI4DujVzE1Q3LuhkGtaxdGyZ/4rcfMexmIYHzpvehHLXKa63oHg7IGX2SchiKb
+YFumc9K3sYdv+AHkqM9FdtKEgDvwcHL9+d4YVgGfQm9ukh2onEC6uw7VeVnPlXY=
+=/Ww0
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/1" rel="nofollow" download>xsa149.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (510 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

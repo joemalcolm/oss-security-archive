@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: tor: new upstream releases (0.2.6.7, 0.2.5.12 and 0.2.4.27) fixing security issues</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="5">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150406200700.46EEEB2E2E3&#64;smtpvbsrv1.mitre.org&gt;
+Date: Mon,  6 Apr 2015 16:07:00 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: carnil&#64;...ian.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com, team&#64;...urity.debian.org, weasel&#64;...ian.org
+Subject: Re: CVE Request: tor: new upstream releases (0.2.6.7, 0.2.5.12 and 0.2.4.27) fixing security issues
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt;&gt;   o Major bugfixes (security, hidden service):
+&gt;&gt;     - Fix an issue that would allow a malicious client to trigger an
+&gt;&gt;       assertion failure and halt a hidden service. Fixes bug 15600;
+&gt;&gt;       bugfix on 0.2.1.6-alpha. Reported by "disgleirio".
+&gt; 
+&gt; <a href="https://trac.torproject.org/projects/tor/ticket/15600" rel="nofollow">https://trac.torproject.org/projects/tor/ticket/15600</a>
+
+Use CVE-2015-2928.
+
+
+&gt;&gt;     - Fix a bug that could cause a client to crash with an assertion
+&gt;&gt;       failure when parsing a malformed hidden service descriptor. Fixes
+&gt;&gt;       bug 15601; bugfix on 0.2.1.5-alpha. Found by "DonnchaC".
+&gt; 
+&gt; <a href="https://trac.torproject.org/projects/tor/ticket/15601" rel="nofollow">https://trac.torproject.org/projects/tor/ticket/15601</a>
+
+Use CVE-2015-2929.
+
+
+&gt;&gt;   This release also contains two simple improvements to make hidden
+&gt;&gt;   services a bit less vulnerable to denial-of-service attacks.
+
+&gt;&gt;   o Minor features (DoS-resistance, hidden service):
+&gt;&gt;     - Introduction points no longer allow multiple INTRODUCE1 cells to
+&gt;&gt;       arrive on the same circuit. This should make it more expensive for
+&gt;&gt;       attackers to overwhelm hidden services with introductions.
+&gt;&gt;       Resolves ticket 15515.
+&gt; 
+&gt; <a href="https://trac.torproject.org/projects/tor/ticket/15515" rel="nofollow">https://trac.torproject.org/projects/tor/ticket/15515</a>
+&gt; 
+&gt;&gt;     - Decrease the amount of reattempts that a hidden service performs
+&gt;&gt;       when its rendezvous circuits fail. This reduces the computational
+&gt;&gt;       cost for running a hidden service under heavy load. Resolves
+&gt;&gt;       ticket 11447.
+&gt; 
+&gt; <a href="https://trac.torproject.org/projects/tor/ticket/11447" rel="nofollow">https://trac.torproject.org/projects/tor/ticket/11447</a>
+
+There are no CVE IDs for these issues. Typically a CVE ID is not
+assigned for an issue that the software's author describes as an
+"improvement." In each case, the "bit less vulnerable to
+denial-of-service attacks" is apparently a tradeoff against something
+else, such as robustness during times when no flooding attack is
+underway. In the first case, possibly a legitimate client cannot make
+use of the first INTRODUCE1 cell and therefore sends another one
+intentionally. In the second case, maybe the rendezvous circuits are
+failing because of physical problems with the network, and more
+reattempts would have been helpful.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVIuYhAAoJEKllVAevmvmsA9AH/0g5xRDiJfAW7yD+cZMskSBF
+3l9bw8plaGOhXOx48Y35dOt9aWBIQKT48lvJzVoYMMB0s69igfw4Zl/LR7aKcOQ9
+Bxp2orKDKInprwW319cU4+3pGSWFcn6rhY+pDY61VpCIhhRPN7YITMafGZkgEyRK
+7ORCrOsIA+vCOquiHfwptXfTc5HO6vC1fqjAs7at1UiAvYFTPTw40krPO1MGICYY
+fqglQ2+qFLknQGW0QWemrrbsGomrZ91e+eMry2EIgTEFQ4M+v1DD/AUeWv31XFDv
+5u+bQ3z3JX7Ky2IxzxSdO/tzKc+mMev50oqZaOoTR/5QPJXHBqUQQVqP+/tKLZM=
+=HH4n
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Re: CVE Request: Multiple vulnerabilities in
+ freexl 1.0.0g</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="../../../2015/03/27/13">[&lt;thread-prev]</a> <a href="17">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20150706124945.3b70a6fa&#64;redhat.com&gt;
+Date: Mon, 6 Jul 2015 12:49:45 +0200
+From: Stefan Cornelius &lt;scorneli&#64;...hat.com&gt;
+To: cve-assign&#64;...re.org
+Cc: jodie.cunningham&#64;...il.com, oss-security&#64;...ts.openwall.com,
+        a.furieri&#64;....it
+Subject: Re: Re: CVE Request: Multiple vulnerabilities in
+ freexl 1.0.0g
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+On Fri, 27 Mar 2015 19:48:01 -0400 (EDT)
+cve-assign&#64;...re.org wrote:
+
+&gt; -----BEGIN PGP SIGNED MESSAGE-----
+&gt; Hash: SHA1
+&gt; 
+&gt; &gt;&gt; #4: FreeXL 1.0.0g did not properly check requests for workbook
+&gt; &gt;&gt; memory allocation. A specially crafted input file could cause a
+&gt; &gt;&gt; Denial of Service, or possibly write onto the stack.
+&gt; 
+&gt; &gt; This vulnerability is related to the missing "&gt; 1024 * 1024" test in
+&gt; &gt; the parse_SST function.
+&gt; 
+&gt; Use CVE-2015-2776.
+&gt; 
+&gt; 
+&gt; &gt;&gt;&gt; #2: A flaw was found in the function allocate_cells(). A specially
+&gt; &gt;&gt;&gt; crafted file with invalid workbook dimensions could possibly
+&gt; &gt;&gt;&gt; result in stack corruption near freexl.c:1074
+&gt; 
+&gt; &gt;&gt; Does this refer to the missing "== NULL" tests within the
+&gt; &gt;&gt; allocate_cells function?
+&gt; 
+&gt; &gt; Yes
+&gt; 
+&gt; &gt;&gt; Is a NULL pointer dereference going to occur
+&gt; &gt;&gt; before the code reaches a point where there can be stack
+&gt; &gt;&gt; corruption?
+&gt; 
+&gt; &gt; I don't believe so. It looks like these are initialized as NULL, and
+&gt; &gt; if they are still NULL at this point in execution then we assume the
+&gt; &gt; input file was malformed and exit with the appropriate return code.
+&gt; 
+&gt; In that case, we don't know what vulnerability you mean for #2.
+&gt; 
+&gt; Between the unpatched code and the patched code, the only change in
+&gt; the allocate_cells function is the addition of checks for whether
+&gt; workbook or workbook-&gt;active_sheet is NULL. In the unpatched code, if
+&gt; either of these were NULL, workbook-&gt;active_sheet-&gt;rows would result
+&gt; in a NULL pointer dereference. As far as we know, this outcome is not
+&gt; typically described as "stack corruption."
+&gt; 
+&gt; If the design of the allocate_cells function was supposed to
+&gt; anticipate that callers might provide a NULL value for workbook or
+&gt; workbook-&gt;active_sheet, then the unpatched code had a vulnerability in
+&gt; the allocate_cells function that might loosely be described as a "NULL
+&gt; pointer dereference vulnerability."
+&gt; 
+&gt; We think you may mean that, in some cases, stack corruption has
+&gt; occurred because of invalid workbook dimensions before the
+&gt; allocate_cells function is called. In some or all of these cases, a
+&gt; side effect of the stack corruption is that either workbook or
+&gt; workbook-&gt;active_sheet is NULL. The patched code, instead of
+&gt; preventing the stack corruption (or detecting the stack corruption
+&gt; before calling allocate_cells), chooses to use these "== NULL" tests
+&gt; to infer that stack corruption has occurred. Is this correct?
+
+Hi,
+
+It seems like this still has no CVE, apparently because the exact
+details of this issue are unclear. I'll try to clear up the situation
+and will also provide details for another, new issue below.
+
+Further info for "issue #2":
+============================
+The common_open() function initializes the workbook (at that point,
+most interesting members are NULL). A bit further down, it parses
+all the biff records via the loop around read_biff_next_record():
+&gt;  while (1)
+&gt;    {
+&gt;	int ret = read_biff_next_record (workbook, swap, &amp;errcode);
+&gt;	if (ret == -1)
+&gt;	    break;	/* EOF */
+&gt;	if (ret == 0)
+&gt;	    goto stop;
+&gt;    }
+
+
+After parsing all the records, the workbook-&gt;first_sheet member
+points to something valid, but workbook-&gt;active_sheet does not,
+it's still NULL.
+common_open() has a check for first_sheet, but since the
+allocate_cells() function operates on the workbook-&gt;active_sheet
+member, so we ultimately get a NULL pointer dereference in
+allocate_cells(). I've not seen any indication of a stack
+corruption.
+
+&gt;     p_sheet = workbook-&gt;first_sheet;
+&gt;     while (p_sheet)
+&gt;       {
+&gt; 	  if (p_sheet-&gt;valid_dimension == 0)
+&gt; 	    {
+&gt; 		/* setting Sheet dimensions */
+&gt; 		int ret;
+&gt; 		p_sheet-&gt;rows += 1;
+&gt; 		p_sheet-&gt;columns += 1;
+&gt; 		ret = allocate_cells (workbook);
+
+Does that clear the situation up enough to assign a CVE to this?
+
+New issue: allocate_cells() integer overflow
+============================================
+
+There's an integer overflow in the allocate_cells() function
+when trying to allocate the memory for worksheet with specially
+crafted row/column dimensions. This can be exploited to cause a
+heap memory corruption. The most likely outcome of this is a crash
+when trying to initialize the cells later in the function.
+&gt; workbook-&gt;active_sheet-&gt;cell_values =
+&gt; 	malloc (sizeof (biff_cell_value) *
+&gt; 		(workbook-&gt;active_sheet-&gt;rows *
+&gt; 		 workbook-&gt;active_sheet-&gt;columns));
+
+I've not assigned a CVE to this, so I'm hereby requesting one (mainly
+because this thread is a bit old and the problem is fairly close to the
+patched code, so there may be a slim chance that somebody else noticed
+this independently and requested a CVE for this in private).
+
+I've CCed the maintainer to this mail.
+
+Thanks and kind regards,
+- -- 
+Stefan Cornelius / Red Hat Product Security
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJVml1KAAoJEETwiYCjVSmPiPAH/0LcBh/EBFJvZARebc5uyBNg
+azHfurdkGBSSOnkSbywePGdJ0hxttzaaLtmu5H/pnJTksW8LgeIC53/+/Bi83YNX
+hMvRiiVZBhl1qbnvU95BuykoLmaetCt0CkwcnfFm7Fqx5+r+leE/RXEGm4D6NyPR
+jfyEOT2/Y736OM/cASSaE8gw0ypWada44rRfLisvFk1afPp2RPY0rqUHpCXaD6Vk
+NR96Lli/XZS/g3p1wEQMsoA+DZbuu7IqFu89PZbEvrOOawEIZcn/bec83vRQVq+T
+wLYpxagvzkQ0FIPHLFuTSM+/OCwWGgzi4AGVimvt2O3oQqo6BMwN9avp4R9N9vo=
+=o+1a
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

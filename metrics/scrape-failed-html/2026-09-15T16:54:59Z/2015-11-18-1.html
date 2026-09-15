@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE-Request: Assign CVE for common-collections
+ remote code execution on deserialisation flaw</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/11/17/19">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/11/17/19">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;564BC37F.4090000&#64;oracle.com&gt;
+Date: Tue, 17 Nov 2015 16:17:03 -0800
+From: "Oracle Security Alerts (Thomas)" &lt;secalert_us&#64;...cle.com&gt;
+To: Gsunde Orangen &lt;gsunde.orangen&#64;...il.com&gt;, oss-security&#64;...ts.openwall.com,
+        security&#64;...che.org
+CC: cve-assign&#64;...re.org
+Subject: Re: CVE-Request: Assign CVE for common-collections
+ remote code execution on deserialisation flaw
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+We do not have a problem with this use of the CVE# we registered
+(CVE-2015-4852).
+
+Thomas Keefe
+Oracle Security Alerts
+
+
+On 11/13/2015 11:44 AM, Gsunde Orangen wrote:
+&gt; inline...
+&gt; 
+&gt; On 2015-11-13, 17:14 Lisa Bradley wrote:
+&gt;&gt; Seems Oracle has a CVE for this:
+&gt;&gt; <a href="https://blogs.oracle.com/security/entry/security_alert_cve_2015_4852" rel="nofollow">https://blogs.oracle.com/security/entry/security_alert_cve_2015_4852</a>
+&gt; Thanks for the pointer!
+&gt; CVE-2015-4852 was thus created by Oracle CNA (to address the issue in
+&gt; WebLogic). I would propose to use this ID for Apache Commons-Collectio
+ns
+&gt; as well, plus as a reference for other applications that suffer from
+&gt; unsafe deserialisation in combination with the functors packages.
+&gt; 
+&gt; But I am certainly not the one to decide ;-) - CC goes to Mitre, Apach
+e
+&gt; &amp; Oracle.
+&gt; 
+&gt; Regarding Mark's (valid) concerns see further down below.
+&gt; 
+&gt; Gsunde
+&gt; 
+&gt; 
+&gt; On 2015-11-13, 15:37 Mark Felder wrote:
+&gt;&gt; On Fri, Nov 13, 2015, at 01:58, Gsunde Orangen wrote:
+&gt;&gt;&gt;
+&gt;&gt;&gt; I share Tim's view [2] and a dozen of (own) applications we checked
+&gt;&gt;&gt; won't break. A property that re-enables deserialization of course wo
+uld
+&gt;&gt;&gt; help additionally: allow applications that really *need* this to get
+ it
+&gt;&gt;&gt; working; but that requires an explicit step - so latest by that time
+:
+&gt;&gt;&gt; those, whose applications break after including a "fixed" version of
+&gt;&gt;&gt; Commons-Collections would (hopefully) start to think about their des
+ign.
+&gt;&gt;&gt;
+&gt;&gt;&gt; Gsunde
+&gt;&gt;&gt;
+&gt;&gt;&gt; [1] <a href="http://seclists.org/oss-sec/2015/q4/238" rel="nofollow">http://seclists.org/oss-sec/2015/q4/238</a>
+&gt;&gt;&gt; [2] <a href="http://seclists.org/oss-sec/2015/q4/263" rel="nofollow">http://seclists.org/oss-sec/2015/q4/263</a>
+&gt;&gt;
+&gt;&gt; This statement is how we have been operating our mitigation strategy:
+&gt;&gt;
+&gt;&gt; "Applications which use Apache Commons Collections and do not use
+&gt;&gt; deserialization are not vulnerable."
+&gt; I agree
+&gt; 
+&gt;&gt;
+&gt;&gt; Assuming that statement is correct, disabling deserialization by defa
+ult
+&gt;&gt; doesn't offer additional protection to people. Instead it requires a
+&gt;&gt; code change when they upgrade to re-enable it and cause them to be
+&gt;&gt; vulnerable again.
+&gt; It does offer additional protection to those applications who use
+&gt; deserialization in general, but don't want to have this executed on th
+e
+&gt; unsafe Commons-Collections classes (or even are not aware that theses
+&gt; classes are reachable via their remote interfaces).
+&gt; From my point of view and investigation this may be a lot of
+&gt; applications in the world.
+&gt; All those may not need to do anything else than upgrading their
+&gt; Commons-Collections package to be safe from this particular issue.
+&gt; (not addressing the important general issue of course yet...)
+&gt; 
+&gt;&gt;
+&gt;&gt; Would the greater community be better served by additional documentat
+ion
+&gt;&gt; on how to safely handle the deserialization in their application?
+&gt; Definitely yes, I agree! For the sustainable and long term.
+&gt; 
+&gt;&gt; Is there such a method, or is this hopelessly broken?
+&gt; I have to leave this up to the top Java experts (where I am not a memb
+er of)
+&gt; Again, this is something very useful for the long term (and honestly I
+&gt; would expect these activities starting latest by now - we may also awa
+it
+&gt; the next posts, where others again will find other widespread classes
+&gt; that are exploitable in a similar way. The race is on...)
+&gt; 
+&gt; My main point with having a single CVE ID and a new Apache
+&gt; Commons-Collections version that fixes this ID is:
+&gt; If you don't do it, then you end up with 1-5 CVE ids (individually for
+&gt; those applications mentioned in the original publication: WebLogic,
+&gt; Jenkins, etc.) and they all are reported in the context of these
+&gt; individual applications only.
+&gt; We would miss to address a significant number of applications in the
+&gt; world, as it's not on their radar (but they have Commons-Collections
+&gt; included, so that is on their radar)
+&gt; 
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlZLw30ACgkQf36Vx1dNy5r+xgCfS37T2qb+nqQDNjfQIGd8l484
+zC8An0rJgwO+bkDYKGqckw/Uqo13VZUs
+=Bm+E
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE Request regarding Firefox FindMyDevice Service Critical ClickJacking</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAHu6=a7_KG+Sy5uFiX39J=93LnqoKs9f96gcLa83+w82AhnVCA&#64;mail.gmail.com&gt;
+Date: Sun, 25 Oct 2015 12:01:47 -0600
+From: "Mohamed A. Baset" &lt;symbian2010&#64;...il.com&gt;
+To: secalert&#64;...hat.com, oss-security&#64;...ts.openwall.com
+Subject: CVE Request regarding Firefox FindMyDevice Service Critical ClickJacking
+
+Vulnerability Title:
+Firefox FindMyDevice Service Critical ClickJacking
+
+Author Name
+Mohamed Abdelbasset Elnouby Abouelwaffa
+
+Contact Details:
+<a href="https://twitter.com/SymbianSyMoh" rel="nofollow">https://twitter.com/SymbianSyMoh</a>
+<a href="https://mx.linkedin.com/in/SymbianSyMoh" rel="nofollow">https://mx.linkedin.com/in/SymbianSyMoh</a>
+
+Report Date:
+2014-11-15 11:54:12 PST
+
+Report Status:
+Fixed / 2015-03-23 13:23:19 PDT
+
+Vulnerability Type:
+ClickJacking
+
+Info:
+<a href="https://www.owasp.org/index.php/Clickjacking" rel="nofollow">https://www.owasp.org/index.php/Clickjacking</a>
+
+Affected URL(s):
+<a href="https://find.firefox.com" rel="nofollow">https://find.firefox.com</a>
+
+PoC Screenshot:
+Included as an attachment
+For non email receptionist "<a href="https://goo.gl/FUkFVm" rel="nofollow">https://goo.gl/FUkFVm</a>"
+
+In-depth analysis of the Vulnerability:
+Regardless The security protection mechanism which is that that attacker
+definitely can't guess or brute force the Device id
+"8fcXXXXc40de04b3803945XXXXXXXXXX" which is a part of the URL to the
+victim's profile to make a successful clickjacking attack iframe, in fact
+this protection mechanism is too low coz all the attacker to do is just to
+point the logged in user to his iframe source <a href="https://find.firefox.com" rel="nofollow">https://find.firefox.com</a> and
+Mozilla will care about the rest "redirect the victim to the correct logged
+in active device id.
+
+What attacker can do:
+1-"Erase the victim's device data" With just only 3 clicks by the victim
+himself if he tricked with "click here to win a 50 BTC for Example
+2-"Lock The victim device or change his lock code" if it is the first time
+to be set "4 clicks"
+3-"Makes the Device ringing" 2 clicks"
+
+Expected results:
+Find My Device web interface mustn't be iframed Apply XFO or Frame Busting
+techniques
+
+More Details About clickjacking:
+Because of No Frame Busting Techniques or X-Frame-Options header, the whole
+website is vulnerable to Clickjacking attacks which could lead to a full
+account takeover considering such scenario:
+1. Attacker will iframe any sensitive the website page and adjust the
+iframe size and add a "divs" as a layers on the unwanted-to-show parts of
+the original web page to fool and trick the user.
+2. User get tricked by the crafted page and followed the attacker's
+instruction to do a specific clicks to the iframed page
+3. Unwanted actions happened in the logged in user's session in result to
+the attack's clicks.
+
+Remedy:
+1- Add an X-Frame-Options HTTP Header and set it's value to "Deny" or
+"Sameorigin" as you can see it suitable to mitigate such attacks
+2- Use iframe busting techmiques in JS code like this:
+
+&lt;script type="text/javascript"&gt;
+ if (self === top) {
+ var antiClickjack = document.getElementById("antiClickjack");
+ antiClickjack.parentNode.removeChild(antiClickjack);
+ } else {
+ top.location = 'Your_Website_URL_Here';
+ }
+&lt;/script&gt;
+
+or
+
+&lt;script type="text/javascript"&gt;
+ // Disable frame hijacking
+ if (top != self)
+ top.location.href = location.href;
+ &lt;/script&gt;
+
+Actual results:
+Find My Device web interface is iframable which makes it vulnerable to
+ClickJacking Attacks
+
+References:
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options" rel="nofollow">https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options</a>
+Original Report: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1100004" rel="nofollow">https://bugzilla.mozilla.org/show_bug.cgi?id=1100004</a>
+
+Thanks​
+
+
+*Mohamed Abdelbaset Elnoby*Guru Programmer, Senior Information Security
+Consultant &amp; Web Application Penetration Tester at Seekurity Inc
+&lt;<a href="http://www.Seekurity.com" rel="nofollow">http://www.Seekurity.com</a>&gt;.
+
+Contact me at:
+LinkedIn
+&lt;<a href="https://www.linkedin.com/in/symbiansymoh" rel="nofollow">https://www.linkedin.com/in/symbiansymoh</a>&gt;Facebook
+&lt;<a href="https://fb.com/symbiansymoh" rel="nofollow">https://fb.com/symbiansymoh</a>&gt;Twitter &lt;<a href="https://twitter.com/symbiansymoh" rel="nofollow">https://twitter.com/symbiansymoh</a>&gt;
+&lt;<a href="https://twitter.com/symbiansymoh" rel="nofollow">https://twitter.com/symbiansymoh</a>&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

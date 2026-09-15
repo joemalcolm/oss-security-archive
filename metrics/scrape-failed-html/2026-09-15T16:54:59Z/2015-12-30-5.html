@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: Squashfs 4.2 Race Condition</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="../../../2015/12/31/1">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="../../../2015/12/31/2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;A1D60BD4-70C3-481D-87A2-5F1B40F0CF3E&#64;member.fsf.org&gt;
+Date: Thu, 31 Dec 2015 06:29:55 +0900
+From: Jihyeok Seo &lt;limeburst&#64;...ber.fsf.org&gt;
+To: cve-assign&#64;...re.org
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: Squashfs 4.2 Race Condition
+
+Privilege boundary crossing does not necessarily happen. However, since unsquashfs is often run with sudo (Squashfs filesystem containing files owned by root), it is a possibility. I do not know if this bug can lead to code execution.
+
+However, firmware upgrade procedures (remote or local) which uses unsquashfs, on devices such as network routers, could be crashed with an untrusted Squashfs filesystem image and lead to denial of service.
+
+&gt; On Dec 31, 2015, at 5:37 AM, cve-assign&#64;...re.org wrote:
+&gt; 
+&gt; -----BEGIN PGP SIGNED MESSAGE-----
+&gt; Hash: SHA256
+&gt; 
+&gt;&gt; A malformed Squashfs filesystem can cause a race condition in unsquashfs.
+&gt;&gt; 
+&gt;&gt; This is caused by the decompress thread attempting to access a shared
+&gt;&gt; queue, resulting in a SIGSEGV.
+&gt;&gt; 
+&gt;&gt;    struct cache_entry *entry = queue_get(to_deflate);
+&gt; 
+&gt; Do you have any information about a scenario in which this bug crosses
+&gt; a privilege boundary?
+&gt; 
+&gt; Do you mean that, because of the details of the SIGSEGV, there's a
+&gt; reasonable likelihood of code execution when a victim runs unsquashfs
+&gt; on an untrusted SquashFS filesystem image?
+&gt; 
+&gt; Other possibilities in which there could be a CVE ID assigned include:
+&gt; 
+&gt;  - if the affected unsquashfs code were also available as a library
+&gt;    that was used to build a program that was supposed to remain
+&gt;    running to handle multiple unsquash operations
+&gt; 
+&gt;  - if the affected unsquashfs code were also used to support a
+&gt;    SquashFS filesystem that was mounted on a system, and an
+&gt;    unprivileged user could crash the system by reading from the
+&gt;    filesystem
+&gt; 
+&gt;  - (again for this use of the affected code) if a system exists that
+&gt;    automatically mounts SquashFS filesystems found on removable
+&gt;    media, and inserting removable media could crash the system
+&gt; 
+&gt;  - (again for this use of the affected code) maybe a scenario in
+&gt;    which the SIGSEGV ultimately leads to disclosure of private data
+&gt;    that wasn't contained in the SquashFS filesystem
+&gt; 
+&gt; - -- 
+&gt; CVE assignment team, MITRE CVE Numbering Authority
+&gt; M/S M300
+&gt; 202 Burlington Road, Bedford, MA 01730 USA
+&gt; [ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+&gt; -----BEGIN PGP SIGNATURE-----
+&gt; Version: GnuPG v1
+&gt; 
+&gt; iQIcBAEBCAAGBQJWhEAZAAoJEL54rhJi8gl51ikP/icQQJUyV/Zw43KeOs5BmVJg
+&gt; dWCI2KqVbhjDWW0esdrzL/LAzYMSvH+jXfNBZthzg2e5pFb3+YjkvKiejS5CZszT
+&gt; DTfWTFEfbjDKtIbrISqMAOM7SS9dCy3Zqu37VA1riqzpDRjD4PyoQTn5d95ck8Y9
+&gt; 1aPEEgkTv9Z+VbAv1ONvOK6vLeHXcyovkyXyBdJxPYoXXCQjn3CC6TAYW9HF9qrL
+&gt; AYgSLCogHI3e1PnjA+EHsBqRBYeh70nkH8yrYWj0WDxZFwmnMTb1p+KE5rOwJw/a
+&gt; Gpvq5cM4rtWdV//XFMdBsyg4q/hbJ1leY9W5invnAeeqe8wkVGuJCApS7neRB5pU
+&gt; TV9wvGudvn73hkE61yDSR6Hp2qUGcIYZ1FHK9+uSrYmO6zczJJy7F6lax90BmgWD
+&gt; bvJUvquYRCwV+OUWLMkN7vctY5BXTiM47wLIi6bJMUma65e3Q5TXHcBd6F3p8pCe
+&gt; 7OoNfuzqSDRU1FHz8oxuzLtVMIEzRT9sz9JMTo6ZtdLfzDZBet1qM9p9dXo8Nyej
+&gt; 2Kpm1jN2mlvlnHCQzN1XtweCM/eAbQaxM0/WZzhJ3ipIJQnMLCFSeZH7QS6BbuDC
+&gt; AAnHD8BIH70VYhmZrHLDaRrW08RYWtyaAdiJMeygsiFIxdNxpPUjmFOHHvElkzw1
+&gt; LhwDS57lxKg9o5p1S+zH
+&gt; =riOK
+&gt; -----END PGP SIGNATURE-----
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

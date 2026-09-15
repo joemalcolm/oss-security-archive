@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: IPTables-Parse: Use of predictable names for temporary files</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href="6">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151124171655.1DABC6C002B&#64;smtpvmsrv1.mitre.org&gt;
+Date: Tue, 24 Nov 2015 12:16:55 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: carnil&#64;...ian.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: IPTables-Parse: Use of predictable names for temporary files
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; <a href="https://github.com/mtrmac/IPTables-Parse/commit/b400b976d81140f6971132e94eb7657b5b0a2b87" rel="nofollow">https://github.com/mtrmac/IPTables-Parse/commit/b400b976d81140f6971132e94eb7657b5b0a2b87</a>
+&gt; <a href="https://metacpan.org/source/MRASH/IPTables-Parse-1.6/Changes" rel="nofollow">https://metacpan.org/source/MRASH/IPTables-Parse-1.6/Changes</a>
+
+&gt; - _iptout =&gt; $args{'iptout'} || '/tmp/ipt.out' . $$,
+&gt; - _ipterr =&gt; $args{'ipterr'} || '/tmp/ipt.err' . $$,
+&gt; + _iptout =&gt; $args{'iptout'} || mktemp('/tmp/ipt.out.XXXXXX'),
+&gt; + _ipterr =&gt; $args{'ipterr'} || mktemp('/tmp/ipt.err.XXXXXX'),
+
+Use CVE-2015-8326 for the vulnerability with the above fix.
+
+
+&gt; If a user manually overrides the temporary file
+&gt; locations with the 'iptout' and 'ipterr' hash keys, it is recommended to
+&gt; not use predictable names either.
+
+&gt; - 'iptout' =&gt; '/tmp/iptables.out',
+&gt; - 'ipterr' =&gt; '/tmp/iptables.err',
+
+The deletion of the /tmp/iptables.out and /tmp/iptables.err lines is a
+documentation change. In some cases, there can be a CVE ID when
+documentation indicates an unsafe way to use a product, and a CVE ID
+for documentation would typically be separate from a CVE ID for code.
+Here, however, there is no CVE ID for the documentation change. We
+feel that a reader's most likely interpretation of those lines was
+simply that configuration was possible, not that it was a good
+configuration for a multi-user system. In general, it seems that a CVE
+ID for documentation would be more useful if a documented usage
+example were dangerous in an unexpected or subtle way.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWVJsVAAoJEL54rhJi8gl5v4EQAMsL6bSZx9YHmeP1V/Mg1+Bl
++/4JD0hoPGHzpnCWBge9It2yjz0Qyg9VdqLHPQhyuZbO84l56bq4KrznhS9BjvwS
+bRi7toqCZ5VUqyCKDR67KU23enz2peNRuUkcTBHcen2YIsbLdUhpbkLgfhxgFWDV
+zAeTjpf7QEEiiG/kKchq0kOp5/zC0INy7AuhOOaxrv+qfrqFZhcpA4Jx+aiMHbFh
+/I+QkEDoarnV9lLQh0/3LePvfZ4RZm4TrqAT/NMlhJrM762iQ6qMsasgnR3Q3Yf6
+y61uYuTZZfRcRPsykQQTNOV8VQYSsR1gRoJqalD2S0pMehQEOcckstUVxcfAqjQc
+lXn4lLd7y7OWd4ZYDfHl4UDXXvDt8urxt0OCh1J/skdsQwK6QvrUEJLiqD6++iVC
+DQ4j2zyGIAS+Aqtjk0xSZCPZiSdNkF8GtouQVWIrv6hOJiuWG2LiRSoic8sdFeK3
+5Kta/FF/bp3YCPHlTnBHxLEzs4UgcmO/bG42v4cySBrmaeqA4hyJUWsKGxFPfPab
+8q9eAj+bWJA5fPw/YQ4mpwSkPbs8ut2DoZ1z3gXQBwlTFayJxx36sqh8NH0kZVts
+GdL46xuiHlpEnAzFOhI5nDq6uqHPU4Swi+Jj7QWrwHpD2Vb/5qxXccKEH1c5GVwC
+yWF6xKDli3IDwDGl+pbr
+=Nw8v
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

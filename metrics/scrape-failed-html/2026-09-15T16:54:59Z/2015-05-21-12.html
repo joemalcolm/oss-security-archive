@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: ssl.match_hostname(): sub string wildcard should not match IDNA prefix</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href="../../../2015/05/18/6">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150521184650.AFDABB2E2B0&#64;smtpvbsrv1.mitre.org&gt;
+Date: Thu, 21 May 2015 14:46:50 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: mprpic&#64;...hat.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: ssl.match_hostname(): sub string wildcard should not match IDNA prefix
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; <a href="https://bugs.python.org/issue17997" rel="nofollow">https://bugs.python.org/issue17997</a>
+&gt; <a href="https://hg.python.org/cpython/rev/10d0edadbcdd/" rel="nofollow">https://hg.python.org/cpython/rev/10d0edadbcdd/</a>
+
+Our perspective on issue17997 is that the "multiple wildcards" issue
+can have a CVE ID but the "IDNA prefix" issue probably cannot.
+
+RFC 2818 says "Names may contain the wildcard character * which is
+considered to match any single domain name component or component
+fragment. E.g., *.a.com matches foo.a.com but not bar.foo.a.com.
+f*.com matches foo.com but not bar.com." It isn't completely clear
+whether multiple instances of '*' such as *.*.com were considered
+valid. Also, <a href="https://bugs.python.org/msg194950" rel="nofollow">https://bugs.python.org/msg194950</a> says "For security
+reasons matching rules like *.*.com should be not supported." Use
+CVE-2013-7440 for this issue.
+
+The IDNA report seems to be about wanting to change the specification
+from RFC 2818 to RFC 6125. <a href="https://bugs.python.org/msg189454" rel="nofollow">https://bugs.python.org/msg189454</a> mentions
+that the old behavior 'can result into false positive matches for a
+rule like "x*.example.de"' but, in practice, it seems unlikely that
+anyone would have a need for rules beginning with x* or xn* or xn-*
+(these are essentially the only three cases). It seems more likely
+that someone would have created a rule for xn--*.example.de because
+they specifically wanted to match all IDNA names but did not want to
+match www.example.de (which might be separately administered). In
+other words, the IDNA aspect of 10d0edadbcdd doesn't seem to be a
+vulnerability fix; it seems to be a policy change that, relative to
+existing deployments, sometimes strengthens security and sometimes
+weakens security. The policy change (i.e., adopting a more recent RFC)
+does, of course, seem appropriate for new deployments. Similarly,
+<a href="https://bugs.python.org/msg227895" rel="nofollow">https://bugs.python.org/msg227895</a> says "I won't apply this for 3.2
+since at this point a behavior change might do more harm than good."
+In any case, because RFC 2818 was intended when the code was written,
+we feel that 'false positive matches for a rule like "x*.example.de"'
+is not a vulnerability and should not have a CVE.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVXielAAoJEKllVAevmvmsOiAH/ihqkIzpYITVkDisLMRfcvyz
+M3NxEbB2l7PozcWTmupMQ7CSyG6lSPjzB/eBA7sJgzDkPnbJRQu6OD0YHLsQ7H9O
+DUMq77w9utEy+KbrMOKaYqu4uRAWY8s7zmRlumqO6nJ8YTMhqbHj+laaVJK/VIon
+7Yr83n8H6BLSse67n9khcxmmxyhwPaQRMNVg5Bpk4A3S2E6jpPQUXiSTSreHGwfU
+jemrbYn9bPosy0Ga7zl8HUzWVHFkEP1zexXcI3Ruk/lRVqhRlcwOEKXHsz0RpfAx
+vrF70GHR3kGg+lPi6DGZGW4rmEkk4shemg/fCy55j7p2YxxDnufIxClaUJmDmoE=
+=68Zt
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

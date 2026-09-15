@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: IPython CSRF validation</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CA+tbMaUZzefcMReWsFakBurpeUJWtuhZr+d90JbiFUZLY6CrVA&#64;mail.gmail.com&gt;
+Date: Tue, 21 Jul 2015 13:19:51 -0500
+From: Kyle Kelley &lt;rgbkrk&#64;...il.com&gt;
+To: cve-assign&#64;...re.org
+Cc: oss-security&#64;...ts.openwall.com, Muhammad A Khan &lt;khanam&#64;...ibm.com&gt;, 
+	security &lt;security&#64;...thon.org&gt;
+Subject: Re: CVE request: IPython CSRF validation
+
+We realized that introducing CSRF everywhere in old releases was not going
+to be backwards compatible, so we made more stringent decisions about
+explicit Host and Origin checking. By design we don't protect against
+untrusted clients, just cross-origin from regular browsers.
+
+-- Kyle Kelley
+
+On Tue, Jul 21, 2015 at 6:50 AM, &lt;cve-assign&#64;...re.org&gt; wrote:
+
+&gt; -----BEGIN PGP SIGNED MESSAGE-----
+&gt; Hash: SHA1
+&gt;
+&gt; &gt; Software name: IPython notebook
+&gt; &gt; Attack outcome: Possible remote execution
+&gt; &gt; Patches:
+&gt; &gt;   2.x:
+&gt; &gt;
+&gt; <a href="https://github.com/ipython/ipython/commit/a05fe052a18810e92d9be8c1185952c13fe4e5b0" rel="nofollow">https://github.com/ipython/ipython/commit/a05fe052a18810e92d9be8c1185952c13fe4e5b0</a>
+&gt; &gt;   3.x:
+&gt; &gt;
+&gt; <a href="https://github.com/ipython/ipython/commit/1415a9710407e7c14900531813c15ba6165f0816" rel="nofollow">https://github.com/ipython/ipython/commit/1415a9710407e7c14900531813c15ba6165f0816</a>
+&gt; &gt;
+&gt; &gt; POST requests exposed via the IPython REST API are vulnerable to
+&gt; &gt; cross-site request forgery (CSRF). Web pages on different domains can
+&gt; make
+&gt; &gt; non-AJAX POST requests to known IPython URLs, and IPython will honor
+&gt; them.
+&gt; &gt; The user's browser will automatically send IPython cookies along with the
+&gt; &gt; requests.
+&gt;
+&gt; Use CVE-2015-5607.
+&gt;
+&gt; This part of the patch seems unusual, but we haven't researched it at all:
+&gt;
+&gt;   host = self.request.headers.get("Host")
+&gt;   origin = self.request.headers.get("Origin")
+&gt;
+&gt;   # If no header is provided, assume it comes from a script/curl.
+&gt;   # We are only concerned with cross-site browser stuff here.
+&gt;   if origin is None or host is None:
+&gt;      return True
+&gt;
+&gt; Is this a case where it is safe to skip CSRF protection in all
+&gt; situations where the client omits an Origin header?
+&gt;
+&gt; - --
+&gt; CVE assignment team, MITRE CVE Numbering Authority
+&gt; M/S M300
+&gt; 202 Burlington Road, Bedford, MA 01730 USA
+&gt; [ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+&gt; -----BEGIN PGP SIGNATURE-----
+&gt; Version: GnuPG v1.4.14 (SunOS)
+&gt;
+&gt; iQEcBAEBAgAGBQJVrjG9AAoJEKllVAevmvms5UwH/2hScDKEqZ7YRg+Rrh5GNsZj
+&gt; /EqVTy7VhFSr67xFxE1p/wn8X6UsRs4c4C1BtqGdbFFgh/UHE2X3uFrqeSEX+mWg
+&gt; i5fDE+OGKSZdqK+UM0pazNsEtWCyrvx/5j+zJ7PSL2Jejrc4v81F/UGP83qtY5CC
+&gt; 1cbslombkmi1juKiupm57sQwqCAhVPASrTaQn9LFZyDlcuvpa/93OlGgdKtlyqX4
+&gt; u77/cDUVQ+RVb0Ivj9EJAJbfjhfdZ8h/BDn8GiAbQ51ADpogTDCpPpIqRN+9/0d1
+&gt; LAaDDbROGwBc0IdDzlDB8D2sW2z28o/D6tL9U7Kj5xYKsHuXC8PjPkSBaHZ3om8=
+&gt; =jjDB
+&gt; -----END PGP SIGNATURE-----
+&gt;
+
+
+
+-- 
+Kyle Kelley (@rgbkrk &lt;<a href="https://twitter.com/rgbkrk" rel="nofollow">https://twitter.com/rgbkrk</a>&gt;; lambdaops.com,
+developer.rackspace.com)
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

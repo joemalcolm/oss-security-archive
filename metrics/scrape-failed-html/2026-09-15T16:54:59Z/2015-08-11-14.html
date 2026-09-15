@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Terminal escape sequences - the new XSS for admins?</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="13">[&lt;prev]</a> <a href="15">[next&gt;]</a> <a href="13">[&lt;thread-prev]</a> <a href="15">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;55CA6BBC.7070101&#64;amacapital.net&gt;
+Date: Tue, 11 Aug 2015 14:40:12 -0700
+From: Andy Lutomirski &lt;luto&#64;...capital.net&gt;
+To: oss security list &lt;oss-security&#64;...ts.openwall.com&gt;
+Cc: Daniel Kahn Gillmor &lt;dkg&#64;...thhorseman.net&gt;,
+ Kurt Seifried &lt;kseifried&#64;...hat.com&gt;
+Subject: Re: Terminal escape sequences - the new XSS for admins?
+
+On 08/11/2015 01:29 PM, Steve Grubb wrote:
+&gt; On Tuesday, August 11, 2015 04:13:48 PM Daniel Kahn Gillmor wrote:
+&gt;&gt; On Tue 2015-08-11 12:23:59 -0400, Kurt Seifried wrote:
+&gt;&gt;&gt; So we've had a bunch of this stuff over the years:
+&gt;&gt;&gt;
+&gt;&gt;&gt; <a href="http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=terminal+escape" rel="nofollow">http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=terminal+escape</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; And now more recently:
+&gt;&gt;&gt;
+&gt;&gt;&gt; <a href="http://turbochaos.blogspot.ca/2014/08/journalctl-terminal-escape-injection" rel="nofollow">http://turbochaos.blogspot.ca/2014/08/journalctl-terminal-escape-injection</a>
+&gt;&gt;&gt; .html <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1084577" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=1084577</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; And we have at least one more coming down the pipeline that's pretty
+&gt;&gt;&gt; widespread.
+&gt;&gt;&gt;
+&gt;&gt;&gt; Also I'm thinking of all those docker apps that log to STDOUT.
+&gt;&gt;&gt;
+&gt;&gt;&gt; So the basic TL;DR: please don't use really ancient terminal programs that
+&gt;&gt;&gt; are vulnerable to this stuff. It appears in testing that most (all?) of
+&gt;&gt;&gt; the
+&gt;&gt;&gt; Red Hat stuff is ok, but I can't speak for other vendors.
+&gt;&gt;
+&gt;&gt; Do we have a catalog of terminal programs that are vulnerable, or of
+&gt;&gt; particularly dangerous escape sequences to test with each terminal
+&gt;&gt; emulator?
+&gt;
+&gt; echo $'\e[30m'   - turns foreground black (used to trick people by hiding
+&gt; text)
+&gt; echo $'\e]2;ls -al\a' - set window title to 'ls -al'
+&gt; echo $'\e[21t' - print the window title to the command prompt. This is the one
+&gt; to watch out for.
+&gt;
+&gt; In my survey recently, Some emulators could set the window title; none of them
+&gt; supported reading the window title back to the command prompt. If you find one
+&gt; that does, it is one that is at risk.
+&gt;
+&gt; Also note that an attempt to foil or make it hard to set window titles is in
+&gt; bashrc under something called PROMPT_COMMAND. You may have to export
+&gt; PROMPT_COMMAND="" and then start a new shell to launch the terminal windows.
+&gt;
+&gt; In my survey over the weekend, I used Fedora 22 and tested the following:
+&gt;
+&gt; xterm - not vulnerable
+&gt; gnome-terminal - not vulnerable
+&gt; konsole - not vulnerable
+&gt; terminator - not vulnerable.
+&gt; qterminal - not vulnerable (Undecodable sequence: \001b(hex)[21t)
+&gt; Eterm - not vulnerable
+&gt; rxvt - not vulnerable
+&gt; st - not vulnerable (erresc: unknown csi ESC[21t)
+&gt; lilyterm - not vulnerable
+&gt; sakura - not vulnerable
+&gt; caja-terminal - not vulnerable
+&gt; xfce4-terminal - not vulnerable
+&gt; roxterm - not vulnerable
+&gt; mate-terminal - not vulnerable
+&gt; termit - not vulnerable
+&gt;
+&gt; A lot were based on the vte package. So, I dug into the vte package. In the
+&gt; file, vteseq.c, is this:
+&gt;
+&gt;                  case 21:
+&gt;                          /* Report a static window title, since the real
+&gt;                             window title should NEVER be reported, as it
+&gt;                             creates a security vulnerability.  See
+&gt;                             <a href="http://marc.info/?l=bugtraq&amp;m=104612710031920&amp;w=2" rel="nofollow">http://marc.info/?l=bugtraq&amp;m=104612710031920&amp;w=2</a>
+&gt;                             and CVE-2003-0070. */
+&gt;                          _vte_debug_print(VTE_DEBUG_PARSE,
+&gt;                                          "Reporting fake window title.\n");
+&gt;                          /* never use terminal-&gt;window_title here! */
+&gt;                          g_snprintf (buf, sizeof (buf),
+&gt;                                      _VTE_CAP_OSC "lTerminal" _VTE_CAP_ST);
+&gt;                          vte_terminal_feed_child(terminal, buf, -1);
+&gt;                          break;
+&gt;
+&gt; At this point, I was convinced that most major emulators are safe. That
+&gt; said...there are all the ones I didn't check including older ones. The older
+&gt; ones are likely to be the ones I'd be most concerned about.
+
+Are all the supposedly invulnerable terminals actually safe? 
+Gnome-terminal reports:
+
+0000000: 1b5d 6c54 6572 6d69 6e61 6c1b 5c       .]lTerminal.\
+
+That's not as bad as echoing 'ls -al' back to the terminal input, but 
+why is it considered acceptable for terminals to input anything 
+whatsoever in response to the in-band data they receive?
+
+--Andy
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

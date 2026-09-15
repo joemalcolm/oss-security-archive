@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: Linux Kernel Ozwpan Driver - Remote packet-of-death vulnerabilities</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="../../../2015/06/06/1">[next&gt;]</a> <a href="../../../2015/05/31/1">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150605212922.123888BC10A&#64;smtpvmsrv1.mitre.org&gt;
+Date: Fri,  5 Jun 2015 17:29:22 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: Jason&#64;...c4.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: Linux Kernel Ozwpan Driver - Remote packet-of-death vulnerabilities
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; Two of them result in
+&gt; a memcpy(kernel_buffer, network_packet, -length), one of them is a
+&gt; divide-by-zero, and one of them is a loop that decrements -1 until it's
+&gt; zero.
+&gt; 
+&gt; Please assign CVEs for these vulnerabilities. I believe the first two
+&gt; patches of this set can receive one CVE for both, and the remaining two
+&gt; can receive one CVE each.
+
+Determining the right number of CVE IDs is typically not based on
+looking at the number of impacts. We have reorganized your request to
+account for that.
+
+
+&gt; 1. A remote packet can be sent, resulting in funny subtractions of
+&gt; signed integers, which causes a memcpy(kernel_heap,
+&gt; network_user_buffer, -network_user_provided_length).
+&gt;
+&gt; <a href="https://lkml.org/lkml/2015/5/13/744" rel="nofollow">https://lkml.org/lkml/2015/5/13/744</a>
+&gt; <a href="https://git.kernel.org/cgit/linux/kernel/git/gregkh/staging.git/commit/?id=b1bb5b49373b61bf9d2c73a4d30058ba6f069e4c" rel="nofollow">https://git.kernel.org/cgit/linux/kernel/git/gregkh/staging.git/commit/?id=b1bb5b49373b61bf9d2c73a4d30058ba6f069e4c</a>
+
+In this case, the primary problem was using the wrong integer data
+type. No code needed to be added; the only change was from signed to
+unsigned. Use CVE-2015-4001.
+
+
+&gt; 1. A remote packet can be sent, resulting in funny subtractions of
+&gt; signed integers, which causes a memcpy(kernel_heap,
+&gt; network_user_buffer, -network_user_provided_length).
+&gt;
+&gt; <a href="https://lkml.org/lkml/2015/5/13/740" rel="nofollow">https://lkml.org/lkml/2015/5/13/740</a>
+&gt; <a href="https://git.kernel.org/cgit/linux/kernel/git/gregkh/staging.git/commit/?id=d114b9fe78c8d6fc6e70808c2092aa307c36dc8e" rel="nofollow">https://git.kernel.org/cgit/linux/kernel/git/gregkh/staging.git/commit/?id=d114b9fe78c8d6fc6e70808c2092aa307c36dc8e</a>
+
+&gt; 3. A remote packet can be sent, resulting in a funny subtraction,
+&gt; causing an insanely big loop to lock up the kernel:
+&gt;
+&gt; <a href="https://lkml.org/lkml/2015/5/13/742" rel="nofollow">https://lkml.org/lkml/2015/5/13/742</a>
+&gt; <a href="https://git.kernel.org/cgit/linux/kernel/git/gregkh/staging.git/commit/?id=9a59029bc218b48eff8b5d4dde5662fd79d3e1a8" rel="nofollow">https://git.kernel.org/cgit/linux/kernel/git/gregkh/staging.git/commit/?id=9a59029bc218b48eff8b5d4dde5662fd79d3e1a8</a>
+
+In these two cases, the primary problem was lack of a check for
+whether a length value (elt-&gt;length or len) was too small. (A
+secondary factor is that the data types needed to be changed to
+implement this check.) The nature of the later code results in two
+different types of impacts, but the two issues can still share the
+same CVE ID. Use CVE-2015-4002.
+
+
+&gt; 2. A remote packet can be sent, resulting in divide-by-zero in
+&gt; softirq, causing hard crash:
+&gt; <a href="https://lkml.org/lkml/2015/5/13/741" rel="nofollow">https://lkml.org/lkml/2015/5/13/741</a>
+&gt; <a href="https://git.kernel.org/cgit/linux/kernel/git/gregkh/staging.git/commit/?&amp;id=04bf464a5dfd9ade0dda918e44366c2c61fce80b" rel="nofollow">https://git.kernel.org/cgit/linux/kernel/git/gregkh/staging.git/commit/?&amp;id=04bf464a5dfd9ade0dda918e44366c2c61fce80b</a>
+
+Use CVE-2015-4003.
+
+
+&gt; 4. Multiple out-of-bounds reads, resulting in possible information
+&gt; leakage, explained in the last paragraph of the introductory email
+&gt; here:
+&gt; <a href="https://lkml.org/lkml/2015/5/13/739" rel="nofollow">https://lkml.org/lkml/2015/5/13/739</a>
+
+&gt; The maintainer has not yet written a patch to fix this issue, so it
+&gt; remains an open case.
+
+&gt; When ozwpan receives a packet,
+&gt; it casts the packet into a variety of different structs, based on the
+&gt; value of type and length parameters inside the packet. When making these
+&gt; casts, and when reading bytes based on this length parameter, the actual
+&gt; length of the packet in the socket buffer is never actually consulted. As
+&gt; such, it's very likely that a packet could be sent that results in the
+&gt; kernel reading memory in adjacent buffers, resulting in an information
+&gt; leak, or from unpaged addresses, resulting in a crash.
+
+The "actual length ... is never actually consulted" issues are
+essentially what is described on the
+<a href="http://cwe.mitre.org/data/definitions/130.html" rel="nofollow">http://cwe.mitre.org/data/definitions/130.html</a> page. Use CVE-2015-4004
+for all of these CWE-130 issues. An issue can, of course, have an
+out-of-bounds read impact but not be a CWE-130 issue.
+
+
+&gt; So, I'd highly
+&gt; recommend the maintainers of this driver go branch-by-branch from the
+&gt; initial rx function, adding checks to ensure all reads and casts are
+&gt; within the bounds of the socket buffer.
+
+If the maintainers (or any researcher) decide to disclose a
+security-relevant out-of-bounds read issue that is outside the defined
+scope of CVE-2015-4004, then they're certainly welcome to ask for
+their own CVE ID.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVchQ8AAoJEKllVAevmvmsDikH/2bokNcp2iLCX6V+hudRyavo
+te5PksfYBRHVRUPoboMx3nchFIAHU4o4ZxTpSvbdt6/WNr2xTRra0tL7hl1tXDA3
+RoFOxQtzjE5R80E/yWkxphvnsVMLDEUJKNt0ojI9xjGiFGD/XgyOGHnrZU26/Z9V
+hrjezTzAqLH8pN43byarVHBDv8QyB7e5vKljWvIKW6zWldnpUnPX8HRnIILxBDsK
+AkvjPLFGekPo0YfLNN9s1DgKg/Bjp+fHbK+1XckbA73furworOiI4z5O8yCzDhi5
+Ee4vzJBGlcCJU6YcoLO0Gz8nnozH89JvJXecCqDihGk1jrMHfVHFN3HMzu/Cel4=
+=ge8R
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

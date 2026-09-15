@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE Request: MediaWiki 1.25.3, 1.24.4 and 1.23.11</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="../../../2015/10/29/14">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAKcmtDz6cemDXMhP0jjzeo6oyAh-xu8=PBmi+u4J-4GEop52UQ&#64;mail.gmail.com&gt;
+Date: Mon, 19 Oct 2015 13:52:26 -0700
+From: Chris Steipp &lt;csteipp&#64;...imedia.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE Request: MediaWiki 1.25.3, 1.24.4 and 1.23.11
+
+We recently released new mediawiki versions to address several security
+issues in core an extensions. The relevant parts of the release
+announcements are here. Can we get CVE's assigned?
+
+* Wikipedia user RobinHood70 reported that the API failed to correctly stop
+adding new chunks to the upload when the reported size was exceeded,
+allowing a malicious users to upload add an infinite number of chunks for a
+single file upload.
+&lt;<a href="https://phabricator.wikimedia.org/T91203" rel="nofollow">https://phabricator.wikimedia.org/T91203</a>&gt;
+
+* Wikipedia user RobinHood70 also reported that a malicious user could
+upload chunks of 1 byte for very large files, potentially creating a very
+large number of files on the server's filesystem.
+&lt;<a href="https://phabricator.wikimedia.org/T91205" rel="nofollow">https://phabricator.wikimedia.org/T91205</a>&gt;
+
+* Internal review discovered that it is not possible to throttle file
+uploads.
+&lt;<a href="https://phabricator.wikimedia.org/T91850" rel="nofollow">https://phabricator.wikimedia.org/T91850</a>&gt;
+
+* Internal review discovered a missing authorization check when removing
+suppression from a revision. This allowed users with the 'viewsuppressed'
+user right but not the appropriate 'suppressrevision' user right to
+unsuppress revisions.
+&lt;<a href="https://phabricator.wikimedia.org/T95589" rel="nofollow">https://phabricator.wikimedia.org/T95589</a>&gt;
+
+* Richard Stanway from teamliquid.net reported that thumbnails of PNG files
+generated with ImageMagick contained the local file path in the image
+metadata.
+&lt;<a href="https://phabricator.wikimedia.org/T108616" rel="nofollow">https://phabricator.wikimedia.org/T108616</a>&gt;
+
+* Extension:PageTriage - MediaWiki user Grunny discovered a DOM-based XSS in
+the way the extension handled page titles.
+&lt;<a href="https://phabricator.wikimedia.org/T111029" rel="nofollow">https://phabricator.wikimedia.org/T111029</a>&gt;
+
+* Extension:Echo - Internal review discovered that Echo could display
+deleted
+or suppressed usernames when the username was previously used to Thank
+users.
+&lt;<a href="https://phabricator.wikimedia.org/T110553" rel="nofollow">https://phabricator.wikimedia.org/T110553</a>&gt;
+
+* Extension:OAuth - Wikipedia user Sitic discovered that the OAuth
+extension did not correctly enforce the IP restrictions of a Consumer when
+using previously negotiated credentials.
+&lt;<a href="https://phabricator.wikimedia.org/T103022" rel="nofollow">https://phabricator.wikimedia.org/T103022</a>&gt;
+
+* Extension:OAuth - Wikipedia user Sitic discovered that OAuth would accept
+a valid signature from any Consumer when checking the authorization
+signature. This allowed a registered Consumer who gained access to another
+Consumer's users' access tokens and secrets to use those credentials.
+&lt;<a href="https://phabricator.wikimedia.org/T103023" rel="nofollow">https://phabricator.wikimedia.org/T103023</a>&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE requests for Drupal contributed modules (from
+ SA-CONTRIB-2015-034 to SA-CONTRIB-2015-099)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="../../../2015/04/25/6">[&lt;thread-prev]</a> <a href="../../../2015/06/12/7">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;Pine.LNX.4.64.1506111008020.23801&#64;beijing.mitre.org&gt;
+Date: Thu, 11 Jun 2015 10:08:48 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: oss-security&#64;...ts.openwall.com
+cc: Security Team &lt;security&#64;...pal.org&gt;, cve-assign&#64;...re.org
+Subject: Re: CVE requests for Drupal contributed modules (from
+ SA-CONTRIB-2015-034 to SA-CONTRIB-2015-099)
+
+
+&gt;SA-CONTRIB-2015-034 - Commerce WeDeal - Open Redirect
+&gt;<a href="https://www.drupal.org/node/2420089" rel="nofollow">https://www.drupal.org/node/2420089</a>
+
+Use CVE-2015-3393.
+
+&gt;SA-CONTRIB-2015-035 - Ajax Timeline - Cross Site Scripting (XSS)
+&gt;<a href="https://www.drupal.org/node/2420099" rel="nofollow">https://www.drupal.org/node/2420099</a>
+
+Use CVE-2015-3392.
+
+&gt;SA-CONTRIB-2015-036 - Public Download Count - Cross Site Scripting (XSS)
+&gt;<a href="https://www.drupal.org/node/2420119" rel="nofollow">https://www.drupal.org/node/2420119</a>
+
+Use CVE-2015-3389.
+
+&gt;SA-CONTRIB-2015-037 - Path Breadcrumbs - Access Bypass
+&gt;<a href="https://www.drupal.org/node/2420139" rel="nofollow">https://www.drupal.org/node/2420139</a>
+
+Use CVE-2015-3391.
+
+&gt;SA-CONTRIB-2015-038 - Facebook Album Fetcher - Cross Site Scripting (XSS)
+&gt;<a href="https://www.drupal.org/node/2420161" rel="nofollow">https://www.drupal.org/node/2420161</a>
+
+Use CVE-2015-3390.
+
+&gt;DRUPAL-SA-CONTRIB-2015-039 - Views - Open redirect
+
+Use CVE-2015-3378.
+
+&gt;DRUPAL-SA-CONTRIB-2015-039 - Views - Access bypass
+&gt;<a href="https://www.drupal.org/node/2424403" rel="nofollow">https://www.drupal.org/node/2424403</a>
+
+Use CVE-2015-3379.
+
+&gt;DRUPAL-SA-CONTRIB-2015-040 - Webform prepopulate block - XSS
+&gt;<a href="https://www.drupal.org/node/2424405" rel="nofollow">https://www.drupal.org/node/2424405</a>
+
+Use CVE-2015-1621.
+
+&gt;DRUPAL-SA-CONTRIB-2015-041 - Feature Set - CSRF
+&gt;<a href="https://www.drupal.org/node/2424409" rel="nofollow">https://www.drupal.org/node/2424409</a>
+
+Use CVE-2015-3380.
+
+&gt;DRUPAL-SA-CONTRIB-2015-042 - Node basket - CSRF
+
+Use CVE-2015-3382.
+
+&gt;DRUPAL-SA-CONTRIB-2015-042 - Node basket - XSS
+
+Use CVE-2015-3381.
+
+&gt;DRUPAL-SA-CONTRIB-2015-042 - Node basket - Open redirect
+&gt;<a href="https://www.drupal.org/node/2424419" rel="nofollow">https://www.drupal.org/node/2424419</a>
+
+Use CVE-2015-3383.
+
+&gt;DRUPAL-SA-CONTRIB-2015-043 - Commerce Balanced Payments - XSS
+
+Use CVE-2015-3384.
+
+&gt;DRUPAL-SA-CONTRIB-2015-043 - Commerce Balanced Payments - CSRF
+&gt;<a href="https://www.drupal.org/node/2424435" rel="nofollow">https://www.drupal.org/node/2424435</a>
+
+Use CVE-2015-3388.
+
+&gt;DRUPAL-SA-CONTRIB-2015-044 - Taxonomy Path - XSS
+&gt;<a href="https://www.drupal.org/node/2424439" rel="nofollow">https://www.drupal.org/node/2424439</a>
+
+Use CVE-2015-3385.
+
+&gt;DRUPAL-SA-CONTRIB-2015-045 - Node Access Product - XSS
+&gt;<a href="https://www.drupal.org/node/2424349" rel="nofollow">https://www.drupal.org/node/2424349</a>
+
+Use CVE-2015-3386.
+
+&gt;DRUPAL-SA-CONTRIB-2015-046 - Taxonomy Tools - XSS
+&gt;<a href="https://www.drupal.org/node/2424355" rel="nofollow">https://www.drupal.org/node/2424355</a>
+
+Use CVE-2015-3387.
+
+&gt;SA-CONTRIB-2015-047 - Panopoly Magic - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2428799" rel="nofollow">https://www.drupal.org/node/2428799</a>
+
+Use CVE-2015-2086.
+
+&gt;SA-CONTRIB-2015-048 - Avatar Uploader - Arbitrary PHP code execution
+&gt;<a href="https://www.drupal.org/node/2428793" rel="nofollow">https://www.drupal.org/node/2428793</a>
+
+Use CVE-2015-2087.
+
+&gt;SA-CONTRIB-2015-049 - Navigate - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2428815" rel="nofollow">https://www.drupal.org/node/2428815</a>
+
+Use CVE-2015-2101.
+
+&gt;SA-CONTRIB-2015-050 - Services Basic Authentication - Access bypass
+&gt;<a href="https://www.drupal.org/node/2428851" rel="nofollow">https://www.drupal.org/node/2428851</a>
+
+Use CVE-2015-4344.
+
+&gt;SA-CONTRIB-2015-051 - Term Queue - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2428853" rel="nofollow">https://www.drupal.org/node/2428853</a>
+
+Use CVE-2015-2088.
+
+&gt;SA-CONTRIB-2015-052 - RESTful Web Services - Access Bypass
+&gt;<a href="https://www.drupal.org/node/2428863" rel="nofollow">https://www.drupal.org/node/2428863</a>
+
+Use CVE-2015-4345.
+
+&gt;SA-CONTRIB-2015-053 - Entity API - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2437905" rel="nofollow">https://www.drupal.org/node/2437905</a>
+
+Use CVE-2015-2197.
+
+&gt;SA-CONTRIB-2015-054 - SMS Framework - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2437943" rel="nofollow">https://www.drupal.org/node/2437943</a>
+
+Use CVE-2015-4346.
+
+&gt;SA-CONTRIB-2015-055 - Services single sign-on server helper - Open Redirect
+&gt;<a href="https://www.drupal.org/node/2437965" rel="nofollow">https://www.drupal.org/node/2437965</a>
+
+Use CVE-2015-2215.
+
+&gt;SA-CONTRIB-2015-056 - inLinks Integration - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2437969" rel="nofollow">https://www.drupal.org/node/2437969</a>
+
+Use CVE-2015-4347.
+
+&gt;SA-CONTRIB-2015-057 - Spider Contacts - Multiple vulnerabilities - SQL Injection
+
+Use CVE-2015-4348.
+
+&gt;SA-CONTRIB-2015-057 - Spider Contacts - Multiple vulnerabilities -
+&gt;Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2437973" rel="nofollow">https://www.drupal.org/node/2437973</a>
+
+Use CVE-2015-4349.
+
+&gt;SA-CONTRIB-2015-058 - Spider Catalog - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2437977" rel="nofollow">https://www.drupal.org/node/2437977</a>
+
+Use CVE-2015-4350.
+
+&gt;SA-CONTRIB-2015-059 - Spider Video Player - Arbitrary file deletion
+
+Use CVE-2015-4351.
+
+&gt;SA-CONTRIB-2015-059 - Spider Video Player - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2437981" rel="nofollow">https://www.drupal.org/node/2437981</a>
+
+Use CVE-2015-4352.
+
+&gt;SA-CONTRIB-2015-060 - Custom Sitemap - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2437985" rel="nofollow">https://www.drupal.org/node/2437985</a>
+
+Use CVE-2015-4353.
+
+&gt;SA-CONTRIB-2015-061 - Ubercart Webform Integration - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2437991" rel="nofollow">https://www.drupal.org/node/2437991</a>
+
+Use CVE-2015-4354.
+
+&gt;SA-CONTRIB-2015-062 - Watchdog Aggregator - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2437993" rel="nofollow">https://www.drupal.org/node/2437993</a>
+
+Use CVE-2015-4355.
+
+&gt;SA-CONTRIB-2015-063 has already been requested in
+&gt;<a href="http://www.openwall.com/lists/oss-security/2015/03/22/35">http://www.openwall.com/lists/oss-security/2015/03/22/35</a>
+&gt;SA-CONTRIB-2015-063 - Webform - XSS related to Webform Submissions
+
+Use CVE-2015-4356.
+
+&gt;SA-CONTRIB-2015-063 - Webform - XSS related to Blocks
+&gt;<a href="https://www.drupal.org/node/2445935" rel="nofollow">https://www.drupal.org/node/2445935</a>
+
+Use CVE-2015-4357.
+
+&gt;SA-CONTRIB-2015-064 - Ubercart Discount Coupons - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2445953" rel="nofollow">https://www.drupal.org/node/2445953</a>
+
+Use CVE-2015-4358.
+
+&gt;SA-CONTRIB-2015-065 - Registration codes - Cross Site Scripting
+
+Use CVE-2015-4359.
+
+&gt;SA-CONTRIB-2015-065 - Registration codes - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2445955" rel="nofollow">https://www.drupal.org/node/2445955</a>
+
+Use CVE-2015-4360.
+
+We also noticed this comment:
+
+&gt;<a href="https://www.drupal.org/node/2446157#comment-9717643" rel="nofollow">https://www.drupal.org/node/2446157#comment-9717643</a>
+&gt;I found another CSRF in the regcode_og sub module.
+
+We believe that the CSRF vulnerability in the regcode_og sub module
+reported in Comment #11 was originally discovered by Pere Orga and
+reported in SA-CONTRIB-2015-065.  It this is not the case, then MITRE
+will assign a new CVE ID to the vulnerability.
+
+&gt;<a href="https://www.drupal.org/node/2446157#comment-9699601" rel="nofollow">https://www.drupal.org/node/2446157#comment-9699601</a>
+&gt;some CSRF fixes that allowed anyone to trick administrators to delete ... the
+&gt;registration codes (6.x-1.x only).
+
+Use CVE-2015-4361.
+
+&gt;SA-CONTRIB-2015-066 - Tracking Code - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2445961" rel="nofollow">https://www.drupal.org/node/2445961</a>
+
+Use CVE-2015-4362.
+
+&gt;SA-CONTRIB-2015-067 - Finder - Open Redirect
+&gt;<a href="https://www.drupal.org/node/2445967" rel="nofollow">https://www.drupal.org/node/2445967</a>
+
+Use CVE-2015-4363.
+
+&gt;SA-CONTRIB-2015-068 - Campaign Monitor - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2445971" rel="nofollow">https://www.drupal.org/node/2445971</a>
+
+Use CVE-2015-4364.  The scope of CVE-2015-4364 is limited to only the
+enable and disable list subscription vectors.  Any other
+vulnerabilities reported in <a href="https://www.drupal.org/node/2449747" rel="nofollow">https://www.drupal.org/node/2449747</a> would
+need separate CVE IDs.
+
+&gt;SA-CONTRIB-2015-069 - Taxonomy Accordion - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2445973" rel="nofollow">https://www.drupal.org/node/2445973</a>
+
+Use CVE-2015-4365.
+
+&gt;SA-CONTRIB-2015-070 - Mover - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2445977" rel="nofollow">https://www.drupal.org/node/2445977</a>
+
+Use CVE-2015-4366.
+
+&gt;SA-CONTRIB-2015-071 - Simple Subscription - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2446019" rel="nofollow">https://www.drupal.org/node/2446019</a>
+
+Use CVE-2015-4367.
+
+&gt;SA-CONTRIB-2015-072 - Commerce Ogone - Access bypass
+&gt;<a href="https://www.drupal.org/node/2446051" rel="nofollow">https://www.drupal.org/node/2446051</a>
+
+Use CVE-2015-4368.
+
+&gt;SA-CONTRIB-2015-073 - Trick Question - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2446065" rel="nofollow">https://www.drupal.org/node/2446065</a>
+
+Use CVE-2015-4369.
+
+&gt;SA-CONTRIB-2015-074 - Site Documentation - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2450387" rel="nofollow">https://www.drupal.org/node/2450387</a>
+
+Use CVE-2015-4370.
+
+&gt;SA-CONTRIB-2015-075 - Perfecto - Open Redirect
+&gt;<a href="https://www.drupal.org/node/2450391" rel="nofollow">https://www.drupal.org/node/2450391</a>
+
+Use CVE-2015-4371.
+
+&gt;SA-CONTRIB-2015-076 - Image Title - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2450393" rel="nofollow">https://www.drupal.org/node/2450393</a>
+
+Use CVE-2015-4372.
+
+&gt;SA-CONTRIB-2015-077 - OG tabs - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2450427" rel="nofollow">https://www.drupal.org/node/2450427</a>
+
+Use CVE-2015-4373.
+
+&gt;SA-CONTRIB-2015-078 has already been requested in
+&gt;<a href="http://www.openwall.com/lists/oss-security/2015/03/22/35">http://www.openwall.com/lists/oss-security/2015/03/22/35</a>
+&gt;SA-CONTRIB-2015-078 - Webform - XSS related to Webform Components
+&gt;<a href="https://www.drupal.org/node/2454903" rel="nofollow">https://www.drupal.org/node/2454903</a>
+
+Use CVE-2015-4374.
+
+&gt;SA-CONTRIB-2015-079 has already been requested in
+&gt;<a href="http://www.openwall.com/lists/oss-security/2015/03/22/35">http://www.openwall.com/lists/oss-security/2015/03/22/35</a>
+&gt;SA-CONTRIB-2015-079 - Chaos tool suite (ctools) - Access bypass
+
+Use CVE-2015-4375.
+
+&gt;SA-CONTRIB-2015-079 - Chaos tool suite (ctools) - Open redirect
+&gt;<a href="https://www.drupal.org/node/2454909" rel="nofollow">https://www.drupal.org/node/2454909</a>
+
+Use CVE-2015-4398.
+
+&gt;SA-CONTRIB-2015-080 - Profile2 Privacy - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2455011" rel="nofollow">https://www.drupal.org/node/2455011</a>
+
+Use CVE-2015-4376.
+
+&gt;SA-CONTRIB-2015-081 - Petition - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2459311" rel="nofollow">https://www.drupal.org/node/2459311</a>
+
+Use CVE-2015-4377.
+
+&gt;SA-CONTRIB-2015-082 - Crumbs - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2459315" rel="nofollow">https://www.drupal.org/node/2459315</a>
+
+Use CVE-2015-4378.
+
+&gt;SA-CONTRIB-2015-083 - Webform Multiple File Upload - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2459323" rel="nofollow">https://www.drupal.org/node/2459323</a>
+
+Use CVE-2015-4379.
+
+&gt;SA-CONTRIB-2015-084 - Linear Case - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2459327" rel="nofollow">https://www.drupal.org/node/2459327</a>
+
+Use CVE-2015-4380.
+
+&gt;SA-CONTRIB-2015-085 - Invoice - Cross Site Scripting
+
+Use CVE-2015-4381.
+
+&gt;SA-CONTRIB-2015-085 - Invoice - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2459337" rel="nofollow">https://www.drupal.org/node/2459337</a>
+
+Use CVE-2015-4382.
+
+&gt;SA-CONTRIB-2015-086 - Decisions - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2459349" rel="nofollow">https://www.drupal.org/node/2459349</a>
+
+Use CVE-2015-4383.
+
+&gt;SA-CONTRIB-2015-087 - Ubercart Webform Checkout Pane - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2459359" rel="nofollow">https://www.drupal.org/node/2459359</a>
+
+Use CVE-2015-4384.
+
+&gt;SA-CONTRIB-2015-088 - Imagefield Info - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2463823" rel="nofollow">https://www.drupal.org/node/2463823</a>
+
+Use CVE-2015-4385.
+
+&gt;SA-CONTRIB-2015-089 - EntityBulkDelete - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2463831" rel="nofollow">https://www.drupal.org/node/2463831</a>
+
+Use CVE-2015-4386.
+
+&gt;SA-CONTRIB-2015-090 - Password Policy - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2463835" rel="nofollow">https://www.drupal.org/node/2463835</a>
+
+Use CVE-2015-4387.
+
+&gt;SA-CONTRIB-2015-091 - Current Search Links - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2463843" rel="nofollow">https://www.drupal.org/node/2463843</a>
+
+Use CVE-2015-4388.
+
+&gt;SA-CONTRIB-2015-092 - Open Graph Importer - Access bypass
+&gt;<a href="https://www.drupal.org/node/2463891" rel="nofollow">https://www.drupal.org/node/2463891</a>
+
+Use CVE-2015-4389.
+
+&gt;SA-CONTRIB-2015-093 - User Import - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2463949" rel="nofollow">https://www.drupal.org/node/2463949</a>
+
+Use CVE-2015-4390.
+
+&gt;SA-CONTRIB-2015-094 - CiviCRM private report - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2467697" rel="nofollow">https://www.drupal.org/node/2467697</a>
+
+Use CVE-2015-4391.
+
+&gt;SA-CONTRIB-2015-095 - Display Suite - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2471733" rel="nofollow">https://www.drupal.org/node/2471733</a>
+
+Use CVE-2015-4392.
+
+&gt;SA-CONTRIB-2015-096 - Services - Access bypass (file upload and execution)
+
+Use CVE-2015-4393.
+
+&gt;SA-CONTRIB-2015-096 - Services - Information Disclosure
+&gt;<a href="https://www.drupal.org/node/2471879" rel="nofollow">https://www.drupal.org/node/2471879</a>
+
+Use CVE-2015-4394.
+
+&gt;SA-CONTRIB-2015-097 - HybridAuth Social Login - Information Disclosure
+&gt;<a href="https://www.drupal.org/node/2475943" rel="nofollow">https://www.drupal.org/node/2475943</a>
+
+Use CVE-2015-4395.
+
+&gt;SA-CONTRIB-2015-098 - Keyword Research - Cross Site Request Forgery
+&gt;<a href="https://www.drupal.org/node/2475953" rel="nofollow">https://www.drupal.org/node/2475953</a>
+
+Use CVE-2015-4396.
+
+&gt;SA-CONTRIB-2015-099 - Node Template - Cross Site Scripting
+&gt;<a href="https://www.drupal.org/node/2475955" rel="nofollow">https://www.drupal.org/node/2475955</a>
+
+Use CVE-2015-4397.
+
+---
+
+CVE assignment team, MITRE CVE Numbering Authority M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

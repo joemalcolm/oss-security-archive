@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE Request: PHP remote exploits (even more)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="../../../2015/09/07/5">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150908174553.E20E352E7ED&#64;smtpvbsrv1.mitre.org&gt;
+Date: Tue,  8 Sep 2015 13:45:53 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: meissner&#64;...e.de
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE Request: PHP remote exploits (even more)
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+The CVE IDs in this message apply to PHP before 5.4.45, 5.5.x before
+5.5.29, and 5.6.x before 5.6.13.
+
+
+&gt;         <a href="https://bugs.php.net/bug.php?id=70172" rel="nofollow">https://bugs.php.net/bug.php?id=70172</a>   Use After Free Vulnerability in unserialize()
+&gt;                 Given attacker input to unserialize() we should consider this a security issue.
+
+&gt;         <a href="https://bugs.php.net/bug.php?id=70365" rel="nofollow">https://bugs.php.net/bug.php?id=70365</a>   yet another use-after-free vulnerability in unserialize() with SplObjectStorage
+&gt;                 I would also say this can be attacker driven, so needs a CVE.
+&gt; 
+&gt;         <a href="https://bugs.php.net/bug.php?id=70366" rel="nofollow">https://bugs.php.net/bug.php?id=70366</a>   yet another use-after-free vulnerability in unserialize() with SplDoublyLinkedL
+&gt;                 Same.
+
+Use CVE-2015-6834 for this set of taoguangchen&#64;...oud.com
+use-after-free discoveries. Note that the scope of CVE-2015-6834 does
+not include any subsequent work on these bugs after the release of
+5.6.13. For example, 70172 has an apparently pending "2015-09-04
+08:50" comment. The code as shipped in 5.6.13 has ext/standard/var.c
+with:
+
+   var_push_dtor_no_addref(&amp;var_hash, &amp;return_value);
+   /* FIXME: old_rval is not freed in some scenarios, see bug #70172
+      var_push_dtor_no_addref(&amp;var_hash, &amp;old_rval); */
+
+ 
+&gt;         <a href="https://bugs.php.net/bug.php?id=70219" rel="nofollow">https://bugs.php.net/bug.php?id=70219</a>   Use after free vulnerability in session deserializer
+&gt;                 Same.
+
+Our feeling is that this discovery is somewhat specific to the
+implementation details of session_decode, and that the use-after-free
+is resultant. Use CVE-2015-6835. Also, note the "2015-08-17 01:07"
+comment of "Also I understand that this requires control over the
+session content, which for most applications would mean the security
+is already overridden, as session usually contains all security data."
+
+
+&gt;         <a href="https://bugs.php.net/bug.php?id=70388" rel="nofollow">https://bugs.php.net/bug.php?id=70388</a>   SOAP serialize_function_call() type confusion / RCE
+&gt;                 Definitely, even the summary has enough indication for me.
+
+Use CVE-2015-6836 for this andrea.palazzo&#64;...el.it discovery.
+&gt; 
+&gt; 
+&gt;         <a href="https://bugs.php.net/bug.php?id=69782" rel="nofollow">https://bugs.php.net/bug.php?id=69782</a>   NULL pointer dereference
+&gt;                 Denial of service, these queries might be fed from remote.
+
+It appears that some copies of ext/xsl/xsltprocessor.c have one of the
+cases fixed, but not the other. We would like to assign, and maintain,
+two separate CVE IDs for this, regardless of ultimate cause. The PHP
+5.6.13 release has a check for a NULL return value both in the "if
+(error == 1)" code block and on the later "if (obj == NULL ||
+obj-&gt;stringval == NULL)" line. However, the current
+<a href="http://git.php.net/?p=php-src.git;a=blob;f=ext/xsl/xsltprocessor.c" rel="nofollow">http://git.php.net/?p=php-src.git;a=blob;f=ext/xsl/xsltprocessor.c</a>
+code (i.e.,
+<a href="http://git.php.net/?p=php-src.git;a=blob;f=ext/xsl/xsltprocessor.c;h=ee52336c4ebd46b2a42046a00b938dcff5461308;hb=HEAD" rel="nofollow">http://git.php.net/?p=php-src.git;a=blob;f=ext/xsl/xsltprocessor.c;h=ee52336c4ebd46b2a42046a00b938dcff5461308;hb=HEAD</a>)
+has the former but not the latter.
+
+Use CVE-2015-6837 for the vulnerability fixed by the:
+
+  -      xmlXPathFreeObject(obj);
+  +
+  +      if (obj) {
+  +          xmlXPathFreeObject(obj);
+  +      }
+
+patch.
+
+
+Use CVE-2015-6838 for the vulnerability fixed by the:
+  
+  -   if (obj-&gt;stringval == NULL) {
+  -      php_error_docref(NULL, E_WARNING, "Handler name must be a string");
+  -      xmlXPathFreeObject(obj);
+  +   if (obj == NULL || obj-&gt;stringval == NULL) {
+  +      if (obj &amp;&amp; obj-&gt;stringval == NULL) {
+  +         php_error_docref(NULL, E_WARNING, "Handler name must be a string");
+  +         xmlXPathFreeObject(obj);
+  +      }
+
+patch.
+
+(Also, neither copy of the code made a change related to "obj =
+valuePop(ctxt); switch (obj-&gt;type)" -- if this is a remaining
+vulnerability, it would have its own CVE ID.)
+
+
+&gt; Perhaps CVEs also for:
+&gt;         <a href="https://bugs.php.net/bug.php?id=70385" rel="nofollow">https://bugs.php.net/bug.php?id=70385</a>   Buffer over-read in exif_read_data with TIFF IFD tag byte value of 32 bytes
+&gt; 
+&gt;         Questionable. It seems no crash was observed, so no denial of service. At most a information leak.
+
+It says "potential data leak" but there's no example of a plausible
+PHP application in which a client user may obtain private information.
+
+
+&gt;         <a href="https://bugs.php.net/bug.php?id=70312" rel="nofollow">https://bugs.php.net/bug.php?id=70312</a>   HAVAL gives wrong hashes in specific cases
+&gt; 
+&gt;         Questionable. I am not sure this is attacker driveable or if an attacker could do anything with this.
+
+This might be primarily an interoperability bug. 70312 doesn't attempt
+to show that the hashes produced by PHP's HAVAL implementation had
+weaker security properties than those produced by a correct
+implementation. (One might also argue that applications requiring
+especially good hash properties should not be using HAVAL at all.)
+
+
+&gt;         <a href="https://bugs.php.net/bug.php?id=70345" rel="nofollow">https://bugs.php.net/bug.php?id=70345</a>
+&gt; 
+&gt;         Various PCRE issues caused by the regexp string. There has been a tendency to either declare this CVE worthy or
+&gt;         declare that its not attacker driven usually.
+
+There is related discussion at the end of the
+<a href="http://www.openwall.com/lists/oss-security/2015/03/11/8">http://www.openwall.com/lists/oss-security/2015/03/11/8</a> post. A
+regular expression can be untrusted input from an attacker, but in a
+typical PHP application it is not. Also, 70345 doesn't have much
+impact analysis beyond "exploitation to achieve arbitrary code
+execution might be possible, but not trivial." In addition, there is
+an overlap with the security fixes available in the unreleased PCRE
+8.38 (see the
+<a href="http://vcs.pcre.org/pcre/code/trunk/ChangeLog?view=markup" rel="nofollow">http://vcs.pcre.org/pcre/code/trunk/ChangeLog?view=markup</a> page).
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJV7xy6AAoJEL54rhJi8gl5pxYP+wQBwYyvuTbVMDi7pPoyMJjI
+I6h2kkEDQ7GxE6Tc5kC9wF2AeyWcNbs5/PuBzAIcKr7YCaRuxX/tlHqZ68gYmlwN
+q1vUGOM23InUSuIFYz0em9vXAw22Y1sujKZRj00v2R2/dxi1vonJehVdXM9ft5cu
+zx6v63oLe23loLrHNVID9IcAAwnBPmB8aa1m3fGx5vbbL35CPzXR8rNLeWjG++JP
+CMYlRQdCMnCPiT9gH5EqwABjwP/NDvh0gKYZM25KQ2GaUkRNHYFQOKNAdB/KAEys
+fhyYtfYhUS7rwBfQ0cU6nmZm1AeGoZ7o0/I4jgT/ANiYDfRFYsIEuAwIM+ubumpl
+JtrI6ocDySZVvAC2yh+n9z1jAuJw8lsSSaNy+8fD/JdDJ080OXEYSJ8e81pMFbde
+Ngj282U8M+n8P9FueP61O0U5jbHwlKxhCyXmVePuiB8xf8JYRD+OMWxBXbRtzSCC
+lo7GbaHrzk6q70rQdEFxZWk+6CCPmNP9iNxPCZSvYhq62Nbh3Vh4LiqB9bIk1PVV
+6NN+uXiaBvH+OUNpA96HaG913fGhE3SzPbqY+fCSj+QOPUf/ZjEf1J6fa9GiMuxU
+GFFqzKTLTwhW8IQqFYQ86dYBFt2+fUUSltWPuxSoMsbOn1ChC2OThgC6xfCmYOqt
+yClKtAjpIOMDRaivspjp
+=ha5T
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [OSSA 2015-012] Neutron L2 agent DoS through incorrect allowed address
+ pairs (CVE-2015-3221)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;558992A6.9050708&#64;redhat.com&gt;
+Date: Tue, 23 Jun 2015 10:08:54 -0700
+From: Tristan Cacqueray &lt;tdecacqu&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: [OSSA 2015-012] Neutron L2 agent DoS through incorrect allowed address
+ pairs (CVE-2015-3221)
+
+===========================================================================
+OSSA-2015-012: Neutron L2 agent DoS through incorrect allowed address pairs
+===========================================================================
+
+:Date: June 23, 2015
+:CVE: CVE-2015-3221
+
+
+Affects
+~~~~~~~
+- Neutron: 2014.2 versions through 2014.2.3 and 2015.1.0 version
+
+
+Description
+~~~~~~~~~~~
+Darragh O'Reilly from HP reported a vulnerability in Neutron. By
+adding an address pair which is rejected as invalid by the ipset tool,
+an authenticated user may crash the Neutron L2 agent resulting in a
+denial of service attack. Neutron setups using the IPTables firewall
+driver are affected.
+
+
+Patches
+~~~~~~~
+- <a href="https://review.openstack.org/194696" rel="nofollow">https://review.openstack.org/194696</a> (Juno)
+- <a href="https://review.openstack.org/194697" rel="nofollow">https://review.openstack.org/194697</a> (Kilo)
+- <a href="https://review.openstack.org/194695" rel="nofollow">https://review.openstack.org/194695</a> (Liberty)
+
+
+Credits
+~~~~~~~
+- Darragh O'Reilly from HP (CVE-2015-3221)
+
+
+References
+~~~~~~~~~~
+- <a href="https://launchpad.net/bugs/1461054" rel="nofollow">https://launchpad.net/bugs/1461054</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3221" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3221</a>
+
+
+Notes
+~~~~~
+- This fix will be included in future 2014.2.4 (juno) and 2015.1.1 (kilo)
+  releases.
+- Zero prefixed address pairs are no longer accepted by the Juno API, users
+  need to use 0.0.0.0/1 and 128.0.0.1/1 or ::/1 and 8000::/1 instead. The
+  fix_zero_length_ip_prefix.py tool is provided to clean ports previously
+  configured with a zero prefixed address pair
+
+--
+Tristan Cacqueray
+OpenStack Vulnerability Management Team
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="3/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (474 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

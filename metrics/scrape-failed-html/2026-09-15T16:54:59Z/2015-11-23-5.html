@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request -- linux kernel: Null pointer dereference when mounting ext4 filesystem</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="../../../2015/11/24/1">[next&gt;]</a> <a href="2">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151123212748.4C2036C01B3&#64;smtpvmsrv1.mitre.org&gt;
+Date: Mon, 23 Nov 2015 16:27:48 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: vdronov&#64;...hat.com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request -- linux kernel: Null pointer dereference when mounting ext4 filesystem
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; It was reported that there are some exit paths in ext4_fill_super() which result
+&gt; in destruction of workqueue which is not yet initialized, leading to kernel NULL
+&gt; pointer dereference. A privileged user with permission to mount a filesystem or
+&gt; anybody having physical access to the system's USB port and prepared filesystem
+&gt; on USB disk which will be automatically mounted can cause system panic and thus
+&gt; DoS.
+&gt; 
+&gt; <a href="https://bugs.openvz.org/browse/OVZ-6541" rel="nofollow">https://bugs.openvz.org/browse/OVZ-6541</a> - initial public disclosure
+&gt; 
+&gt; <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1267261" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=1267261</a> - red hat public bug
+&gt; 
+&gt; commit 744692dc059845b2a3022119871846e74d4f6e11 - upstream Linux kernel commit
+&gt; which fixes the issue (only part of the commit is related).
+
+&gt;&gt; <a href="http://ftp.linux.org.uk/pub/linux/linux-2.6/ChangeLog-2.6.34" rel="nofollow">http://ftp.linux.org.uk/pub/linux/linux-2.6/ChangeLog-2.6.34</a>
+&gt;&gt; <a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=744692dc059845b2a3022119871846e74d4f6e11" rel="nofollow">http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=744692dc059845b2a3022119871846e74d4f6e11</a>
+
+As far as we can tell, what you mean is that:
+
+  - "[media] usbvision: usbvision_probe() can trigger a kernel NULL
+    pointer dereference" in the "Thread-Topic" header of your message
+    is completely unrelated to the vulnerability. That header
+    apparently originated in a message you composed a few weeks ago.
+
+  - this is an ext4 issue that was fixed in 2.6.34 in May 2010
+
+  - the possible security relevance wasn't publicly described until
+    2015
+
+Use CVE-2015-8324.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWU4RmAAoJEL54rhJi8gl5750P/35CCN2s9KIAsEXcMmxtyXQh
+kF9RUSoIm/jjBJHr2BYNnuzKXuk62InfdsgPPI4zFRTFXfLZaY+XJootyv4iSwVO
+a9u4hYuVktm4HdEnRmKcOwTjXVGnVKXT+Ax9rMWD8w/OeZTyjVAf4EI/ETvyRlFl
+unuRQ9XqlEUr44iF+FmgqFXBUxCghZPGBTFlAZxgvEiXN7md4mtUOgmnSyD+fdbR
+wHDQxqh70ErQ+qUajK1wDxDT52YcwnzK9MRf44AiE7+HFMtANGB1fzhOUJM6h0aD
+lHPsn+N9+QjZlcCz2sEYBQakJaGoUzZl0//J//CZWNGmUwDxGopNSBdEDVfCWshD
+8opUhDMkWQfr2Tk9WOrjas4ZMiSjN6qksJqWzDzvJjdSqn3jX3Z7ougFl7TUN9Mb
+ItPHWRNlUYHGFgBp4A9MjADwib/LxSQ+lbC5FM/T5E+kwTU7Umf1P0fr6LRpbASU
+IEJDgy3l25NlGeZ6bzYsUwzNgoUqvY6o9O/yvh2kwP4wHgIBSYrW2Or2xx7P5TAj
++dab6qsJ019bZW56m8gWnGTf/hD0pgIMGSQGaOQOe5mtocfVohZm0ZZfyltRhJqO
+ZOLLtjmtlL9FSSEJtQqiUWCvFztp5C/WFSWkfsLjCm5Yoy3bHbTK9HJ+aIlI7hJq
+O90sihjXAtWBittcww4m
+=Iq/e
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: mail-client/claws-mail-3.13.1: Stack Overflow - CVE needed?</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/12/30/5">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/12/22/2">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;1451531793.25978.92.camel&#64;decadent.org.uk&gt;
+Date: Thu, 31 Dec 2015 03:16:33 +0000
+From: Ben Hutchings &lt;ben&#64;...adent.org.uk&gt;
+To: cve-assign&#64;...re.org, kseifried&#64;...hat.com
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: mail-client/claws-mail-3.13.1: Stack Overflow - CVE needed?
+
+On Mon, 2015-12-21 at 21:31 -0500, cve-assign&#64;...re.org wrote:
+&gt; &gt; <a href="https://bugs.gentoo.org/show_bug.cgi?id=569010" rel="nofollow">https://bugs.gentoo.org/show_bug.cgi?id=569010</a>
+&gt; 
+&gt; &gt; <a href="http://www.thewildbeast.co.uk/claws-mail/bugzilla/show_bug.cgi?id=3557" rel="nofollow">http://www.thewildbeast.co.uk/claws-mail/bugzilla/show_bug.cgi?id=3557</a>
+&gt; 
+&gt; &gt; &gt; So in codeconv.c there is a function for japanese character set
+&gt; &gt; &gt; conversion called conv_jistoeuc(). There is no bounds checking on the
+&gt; &gt; &gt; output buffer, which is created on the stack with alloca().
+&gt; 
+&gt; &gt; &gt; <a href="http://git.claws-mail.org/?p=claws.git;a=commit;h=d390fa07f5548f3173dd9cc13b233db5ce934c82" rel="nofollow">http://git.claws-mail.org/?p=claws.git;a=commit;h=d390fa07f5548f3173dd9cc13b233db5ce934c82</a>
+&gt; &gt; &gt; 
+&gt; &gt; &gt; conv_jistoeuc
+&gt; &gt; &gt; conv_euctojis
+&gt; &gt; &gt; conv_sjistoeuc
+&gt; 
+&gt; The original discoverer found a conv_jistoeuc issue, and then the
+&gt; vendor apparently also found conv_euctojis and conv_sjistoeuc issues.
+&gt; However, we don't see an indication that these issues arose in
+&gt; independent ways. (Also, there is no vendor statement that
+&gt; conv_euctojis or conv_sjistoeuc is exploitable.) It seems best to
+&gt; assign CVE-2015-8614 to the combination of the conv_jistoeuc,
+&gt; conv_euctojis, and conv_sjistoeuc issues.
+[...]
+
+Note that two of the bounds checks added in that commit are incorrect:
+
+1. In conv_jistoeuc() the check uses &gt; rather than &lt;, which causes all
+   conversions to return an empty string.  This is presumably not a
+   security issue, but is a regression.
+
+3. In conv_euctojis() the comparison is with outlen - 3, but each pass
+   through the loop uses up to 5 bytes and the rest of the function may
+   add another 4 bytes.  The comparison should presumably be 
+   '&lt;= outlen - 9' or equivalently '&lt; outlen - 8'.
+
+The first check is fixed by a later commit:
+<a href="http://git.claws-mail.org/?p=claws.git;a=commitdiff;h=e3ffcb455e0376053451ce968e6c71ef37708222" rel="nofollow">http://git.claws-mail.org/?p=claws.git;a=commitdiff;h=e3ffcb455e0376053451ce968e6c71ef37708222</a>
+
+Ben.
+
+-- 
+Ben Hutchings
+All the simple programs have been written, and all the good names taken.
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (812 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

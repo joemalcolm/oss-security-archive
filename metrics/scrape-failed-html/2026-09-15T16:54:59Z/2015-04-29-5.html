@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: [oCERT-2015-003] MySQL SSL/TLS downgrade</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="4">[&lt;thread-prev]</a> <a href="../../../2015/04/30/5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAN1difs9XYhuXST0JiOtxyy5DEqNo0pktDQPNR-8ft9NyXtHzA&#64;mail.gmail.com&gt;
+Date: Wed, 29 Apr 2015 16:41:45 +0200
+From: Michał Staruch &lt;msta&#64;...kciarz.pl&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: [oCERT-2015-003] MySQL SSL/TLS downgrade
+
+Even using "--ssl-verify-server-cert" won't help you much, as certificate
+validation
+performed by MySQL client is a joke, far from meeting RFC 5280 requirements.
+
+I've performed some tests and given the details to Oracle in 2014 Q3 (MySQL
+bug #74066, hidden from public) - but no progress, so far.
+
+
+On Wed, Apr 29, 2015 at 4:00 PM, Andrea Barisani &lt;lcars&#64;...rt.org&gt; wrote:
+
+&gt;
+&gt; #2015-003 MySQL SSL/TLS downgrade
+&gt;
+&gt; Description:
+&gt;
+&gt; The MySQL project is an open source relational database management system.
+&gt;
+&gt; A vulnerability has been reported concerning the impossibility for MySQL
+&gt; users
+&gt; (with any major stable version) to enforce an effective SSL/TLS connection
+&gt; that would be immune from man-in-the-middle (MITM) attacks performing a
+&gt; malicious downgrade.
+&gt;
+&gt; While the issue has been addressed in MySQL preview release 5.7.3 in
+&gt; December
+&gt; 2013, it is perceived that the majority of MySQL users are not aware of
+&gt; this
+&gt; limitation and that the issue should be treated as a vulnerability.
+&gt;
+&gt; The vulnerability lies within the behaviour of the '--ssl' client option,
+&gt; which on affected versions it is being treated as "advisory". Therefore
+&gt; while
+&gt; the option would attempt an SSL/TLS connection to be initiated towards a
+&gt; server, it would not actually require it. This allows a MITM attack to
+&gt; transparently "strip" the SSL/TLS protection.
+&gt;
+&gt; The issue affects the ssl client option whether used directly or triggered
+&gt; automatically by the use of other ssl options ('--ssl-xxx') that imply
+&gt; '--ssl'.
+&gt;
+&gt; Such behavior is clearly indicated in MySQL reference manual as follows:
+&gt;
+&gt;   For the server, this option specifies that the server permits but does
+&gt; not require
+&gt;   SSL connections.
+&gt;
+&gt;   For a client program, this option permits but does not require the
+&gt; client to
+&gt;   connect to the server using SSL. Therefore, this option is not
+&gt; sufficient in
+&gt;   itself to cause an SSL connection to be used. For example, if you
+&gt; specify this
+&gt;   option for a client program but the server has not been configured to
+&gt; permit
+&gt;   SSL connections, an unencrypted connection is used.
+&gt;
+&gt; In a similar manner to the new '--ssl' option behaviour, users of the MySQL
+&gt; client library (Connector/C, libmysqlclient), as of MySQL 5.7.3, can take
+&gt; advantage of the MYSQL_OPT_SSL_ENFORCE option to enforce SSL/TLS
+&gt; connections.
+&gt;
+&gt; The vulnerability also affects the MySQL forks MariaDB and Percona Server,
+&gt; as
+&gt; the relevant 5.7.3 patch has not been pulled, at the time of this
+&gt; advisory, in
+&gt; their respective stable versions.
+&gt;
+&gt; Affected version:
+&gt;
+&gt; MySQL &lt;= 5.7.2
+&gt;
+&gt; MySQl Connector/C (libmysqlclient) &lt; 6.1.3
+&gt;
+&gt; Percona Server, all versions
+&gt;
+&gt; MariaDB, all versions
+&gt;
+&gt; Fixed version:
+&gt;
+&gt; MySQL &gt;= 5.7.3
+&gt;
+&gt; MySQl Connector/C (libmysqlclient) &gt;= 6.1.3
+&gt;
+&gt; Percona Server, N/A
+&gt;
+&gt; MariaDB, N/A
+&gt;
+&gt; Credit: vulnerability report from Adam Goodman, Principal Security
+&gt; Architect
+&gt; at Duo Security.
+&gt;
+&gt; CVE: CVE-2015-3152 (MariaDB, Percona)
+&gt;
+&gt; Timeline:
+&gt;
+&gt; 2015-03-20: vulnerability report received
+&gt; 2015-03-23: contacted Oracle Security
+&gt; 2015-04-04: oCERT sets embargo date to April 29th
+&gt; 2015-04-20: reporter confirms MariaDB is affected
+&gt; 2015-04-22: contacted MariaDB and affected vendors, assigned CVEs
+&gt; 2015-04-23: contacted Percona
+&gt; 2015-04-29: advisory release
+&gt;
+&gt; References:
+&gt;
+&gt; <a href="https://github.com/mysql/mysql-server/commit/3bd5589e1a5a93f9c224badf983cd65c45215390" rel="nofollow">https://github.com/mysql/mysql-server/commit/3bd5589e1a5a93f9c224badf983cd65c45215390</a>
+&gt; <a href="http://mysqlblog.fivefarmers.com/2014/04/02/redefining-ssl-option" rel="nofollow">http://mysqlblog.fivefarmers.com/2014/04/02/redefining-ssl-option</a>
+&gt; <a href="http://dev.mysql.com/doc/relnotes/mysql/5.7/en/news-5-7-3.html" rel="nofollow">http://dev.mysql.com/doc/relnotes/mysql/5.7/en/news-5-7-3.html</a>
+&gt; <a href="https://mariadb.atlassian.net/browse/MDEV-7937" rel="nofollow">https://mariadb.atlassian.net/browse/MDEV-7937</a>
+&gt; <a href="https://bugs.launchpad.net/percona-server/+bug/1447527" rel="nofollow">https://bugs.launchpad.net/percona-server/+bug/1447527</a>
+&gt;
+&gt; Permalink:
+&gt; <a href="http://www.ocert.org/advisories/ocert-2015-003.html" rel="nofollow">http://www.ocert.org/advisories/ocert-2015-003.html</a>
+&gt;
+&gt; --
+&gt; Andrea Barisani |                Founder &amp; Project Coordinator
+&gt;           oCERT | OSS Computer Security Incident Response Team
+&gt;
+&gt; &lt;lcars&#64;...rt.org&gt;                         <a href="http://www.ocert.org" rel="nofollow">http://www.ocert.org</a>
+&gt;  0x864C9B9E 0A76 074A 02CD E989 CE7F AC3F DA47 578E 864C 9B9E
+&gt;         "Pluralitas non est ponenda sine necessitate"
+&gt;
+
+
+
+-- 
+
+Pozdrawiam | Best Regards
+
+Michał Staruch | Information Security Officer
+
+ul. Sienkiewicza 9, 65-001 Zielona Góra
+
+msta&#64;...kciarz.pl
+
+Find us on Bloomberg CKPL &lt;GO&gt;
+ [image: Cinkciarz.pl Sp. z.o.o] &lt;<a href="https://cinkciarz.pl" rel="nofollow">https://cinkciarz.pl</a>&gt;
+
+*Cinkciarz.pl Sp. z o.o.*
+
+*Siedziba:* ul. Sienkiewicza 9, 65-001 Zielona Góra
+
+*Biuro PL:* Al. Jerozolimskie 123A, 00-965 Warszawa | *Biuro UK:* The
+Broadgate Tower, 20 Primrose Street, London EC2A 2EW
+
+*Sekretariat:* +48 726 666 655 | *Infolinia:* +48 68 410 99 50
+
+biuro&#64;...kciarz.pl | <a href="https://cinkciarz.pl" rel="nofollow">https://cinkciarz.pl</a>
+
+KRS 0000364722 | Kapitał zakładowy 23.263.500 zł
+
+REGON 080465538 | NIP 9291830388
+
+Audited by: Grant Thornton
+
+[image: Oficjalny sponsor Reprezentacji Polski w piłce nożnej]
+
+Treść tej wiadomości zawiera informacje poufne, przeznaczone tylko dla
+adresata. Udostępnianie, ujawnianie, powielanie, rozpowszechnianie bądź
+powoływanie się na jakikolwiek jej fragment przez inne osoby jest
+zabronione. W razie przypadkowego otrzymania tej wiadomości prosimy o
+powiadomienie o tym nadawcy oraz trwałe jej usunięcie. Informacje zawarte w
+tej wiadomości mogą być objęte tajemnicą zawodową lub chronione innymi
+przepisami prawnymi. Nadawca nie bierze odpowiedzialności za jakiekolwiek
+szkody spowodowane wirusem komputerowym przetransmitowanym w tej
+wiadomości.  Poglądy i opinie przedstawione w tej wiadomości są wyłącznie
+poglądami i opiniami jej autora i niekoniecznie reprezentują poglądy i
+opinie firmy.
+
+This is a confidential e-mail intended solely for the use of the entity or
+the individual to whom it is addressed. Unauthorized publication, use,
+dissemination or disclosure of this message, either in whole or in part is
+strictly prohibited. If you have received this message in error please send
+it back to the sender and delete it. It may also be privileged or otherwise
+protected by work product immunity or other legal rules. The company
+accepts no liability for any damage caused by any virus transmitted by this
+e-mail. Any views or opinions presented in this e-mail are solely those of
+the author and do not necessarily represent those of the company.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

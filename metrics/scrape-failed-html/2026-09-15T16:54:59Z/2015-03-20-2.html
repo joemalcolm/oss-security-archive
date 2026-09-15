@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE requests for Drupal Core - Moderately Critical - Multiple Vulnerabilities - SA-CORE-2015-001</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2015/03/19/5">[&lt;thread-prev]</a> <a href="../../../2015/03/21/3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150320004509.C29C252E033&#64;smtpvbsrv1.mitre.org&gt;
+Date: Thu, 19 Mar 2015 20:45:09 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: pere&#64;...a.cat
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE requests for Drupal Core - Moderately Critical - Multiple Vulnerabilities - SA-CORE-2015-001
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; Access bypass (Password reset URLs - Drupal 6 and 7)
+&gt; Password reset URLs can be forged under certain circumstances,
+&gt; allowing an attacker to gain access to another user's account without
+&gt; knowing the account's password.
+
+Based on the
+<a href="http://cgit.drupalcode.org/drupal/commit/?id=8e54eca05a65c6231b02510e1917af0c9191e549" rel="nofollow">http://cgit.drupalcode.org/drupal/commit/?id=8e54eca05a65c6231b02510e1917af0c9191e549</a>
+changes, we think that there is a single underlying issue in which the
+attack vector seems to be essentially expressed by:
+
+  $attack_reset_url = str_replace("user/reset/{$user1-&gt;id()}",
+                                  "user/reset/{$user2-&gt;id()}", $reset_url);
+
+regardless of the Drupal version -- i.e., 6.x, 7.x, or an unreleased
+8.x version. (For purposes of determining the correct number of CVE
+IDs, it is probably not relevant that 6.x and 7.x have different ways
+in which problematic accounts may have been created.)
+
+Use CVE-2015-2559.
+
+
+&gt; Open redirect (Several vectors including the "destination" URL
+&gt; parameter - Drupal 6 and 7)
+&gt; Under certain circumstances, malicious users can use the destination
+&gt; URL parameter to construct a URL that will trick users into being
+&gt; redirected to a 3rd party website, thereby exposing the users to
+&gt; potential social engineering attacks.
+
+This one might be more complicated for CVE assignment. If a single
+change to a single piece of code addressed all of these open-redirect
+issues, then a single CVE ID may be possible. However, it appears that
+the situation might be a series of related problems that were found in
+different places (and possibly different versions) by different
+people. <a href="https://www.drupal.org/SA-CORE-2015-001" rel="nofollow">https://www.drupal.org/SA-CORE-2015-001</a> lists two external
+discoverers, as well as discoverers from the Drupal Security Team. As
+an example, suppose that there were three independent reports, and
+each report included three unique affected parameters: one of which
+existed only in 6.x, one of which existed only in 7.x, and one of
+which existed in both 6.x and 7.x. That would have 9 CVE IDs.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVC20XAAoJEKllVAevmvmsY2UH/3H4RpFVSHhCL/TT1XA2aV9q
+IqXTfWqJb2CXDbb/zPFPyf5fWihmwB222+mLgIUfxuGIJ3QM2/rr39rYFQmMEvrG
+dkVOBiAb8napQy4hmpIOzcqav9PUBLIocRVM1Z+qDC8GM0HC55RgZyKVRKlp8UWF
+ljIyfMKJI22SR5SQNl/kyaf3NYx7cpSNq8G45mn12aegUgifrHL/HEiF+E1SerjQ
+N14t4HVCDoaIMCA5DIclIyLGeSJQrBuP4kvJsQA9P951ksk9K0GU5X06tlCQRRTg
+jN6uZ8a2LZ1zGydXsLdnk+EtY2Tf69Cdbs9xUJ4rd2W9vhhF3zWAoaviDxvEcKw=
+=bJNA
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request: libgpf: use-after-free vulnerability in Decoder.cpp</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="../../../2015/08/26/1">[next&gt;]</a> <a href="../../../2015/08/19/14">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150825172553.F1D61B2E107&#64;smtpvbsrv1.mitre.org&gt;
+Date: Tue, 25 Aug 2015 13:25:53 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: pcheng&#64;....com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: CVE request: libgpf: use-after-free vulnerability in Decoder.cpp
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; An use-after-free issue in Decoder.cpp was reported to upstream. The
+&gt; problem is due to lack of validation of ColorTableSize.
+&gt; 
+&gt; <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1251749" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=1251749</a>
+&gt; <a href="https://sourceforge.net/p/libpgf/code/147/" rel="nofollow">https://sourceforge.net/p/libpgf/code/147/</a>
+&gt; <a href="https://sourceforge.net/p/libpgf/code/148/" rel="nofollow">https://sourceforge.net/p/libpgf/code/148/</a>
+
+We think you mean that a use-after-free can occur when the
+<a href="http://sourceforge.net/p/libpgf/code/HEAD/tree/trunk/libpgf/INSTALL" rel="nofollow">http://sourceforge.net/p/libpgf/code/HEAD/tree/trunk/libpgf/INSTALL</a>
+instructions are followed. Use CVE-2015-6673.
+
+<a href="https://sourceforge.net/p/libpgf/code/147/" rel="nofollow">https://sourceforge.net/p/libpgf/code/147/</a> seems to be a series of
+changes for handling failed input validation by propagating an error
+status, rather than by using assert calls. Typically these cases do
+not have CVE IDs (see the
+<a href="http://openwall.com/lists/oss-security/2014/11/28/8">http://openwall.com/lists/oss-security/2014/11/28/8</a> post). When
+writing a general-purpose open-source library, it is often best not to
+rely on assert calls, because someone may not realize their role, and
+may decide to adapt the library code and integrate it into their own
+build process that uses NDEBUG.
+
+There can be a CVE ID for behavior of a library with NDEBUG if any of
+these are true:
+
+  - the author doesn't provide build instructions
+
+  - the build instructions always or sometimes use NDEBUG
+
+  - there's other information suggesting that NDEBUG is acceptable
+    (e.g., "all of the asserts are for impossible conditions that were
+    only relevant during development")
+
+  - the author intended to support use of NDEBUG
+
+or possibly a few other similar conditions (e.g., end users would
+reasonably guess that NDEBUG was acceptable based on the author's past
+practices or on how the library is used).
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJV3KRBAAoJEL54rhJi8gl58a8P/jBFCHH5anrDKTyqXxxBk/AI
+638SN+O/ve3CssNmXk75E75i5+bZhJvuXpGWDPx3Ew3B5ijlaJ0tzDr5+LXJeo7L
+OcKTTB1FuepD/5BwittRW1HQDS1X83247tbHpKWNqZVWfMaJb92NU0MTyvB8kU/K
+modDPxBoY06+aMJvS+p489BfZYMi97/H1mkwGFEekuFEZsET9PA8l0a/Or3Jcbv+
+ObdpXWkbiOYlrLJPfPBXFwZ3zRlx3PgRpVfqeB60u0PAU4WW+ZkQdN4ZqntqAwet
+6NkfLKcqaMEkcsGNT82lh6eQXbReJS0UWVegE5HJcOu+weAkjjMkxsv6gydeUvEW
+fChjJ3uinsUifb29XXJ1ofROQhQ1kHxOckiXWKh2MY6ThDXbSPVwPvVnFtzHDZuw
+BXomIDpLeXcXnXBwtXx6esXQ1WM82BvwKcvnY5kR1crrM6xXUOOpnjf7fnzL/nWn
+DTZWM6vhmOH21vNX6D7V6oHRkn056R5xxZmpK/MH6p30Dt3hSDUds+BMziC2RerL
+7urAVKCbebZOFU4wIJC+78cqcuh6kTost+8nlsqSr6GSstICbgqxk19D9MWGtzRF
+gFo4z8b/x1709jNMowqnCkLnHnDkDbhw3AJ5Plu05sMoQpyR+QizYKC447lQQwIo
+0rrvxnRcjdvtIgzFQiAk
+=7Eio
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

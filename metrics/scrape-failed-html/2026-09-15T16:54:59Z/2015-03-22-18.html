@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE for Kali Linux</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="17">[&lt;prev]</a> <a href="19">[next&gt;]</a> <a href="17">[&lt;thread-prev]</a> <a href="20">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;550EB16C.2020207&#64;gmail.com&gt;
+Date: Sun, 22 Mar 2015 08:11:24 -0400
+From: Daniel Micay &lt;danielmicay&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: CVE for Kali Linux
+
+&gt;&gt; I fully agree that the PKI system is downright awful. HTTPS + HSTS is
+&gt;&gt; still way better than nothing for the vast majority of users who aren't
+&gt;&gt; going to validate the ISO download manually. Debian would have no issue
+&gt;&gt; getting a certificate pinned in Chromium and Firefox, and I expect that
+&gt;&gt; even much smaller distributions could get included.
+&gt; 
+&gt; Cert pinning would increase the vulnerability footprint with regards to
+&gt; whether the browser being used was trusted, ANd whether the pinned cert
+&gt; database was tructworthy. Same as the issues already outlined for
+&gt; obtaining gpg and apt trust.
+
+Their browser and operating system are inherently trusted when modeling
+the threats involved in the user downloading something with it. It's not
+an excuse to introduce unnecessary vulnerabilities.
+
+&gt;&gt; The home page that users land on when they want to download the distro
+&gt;&gt; is secured via HTTPS so you're relying on that to initiate the trust
+&gt;&gt; model regardless of the better PGP-based model that's used for package
+&gt;&gt; signing afterwards.
+&gt; 
+&gt; Look a bit closer, past the https://. Debian are using DANE (DNSSEC and
+&gt; TLSA records) to publish their HTTPS details in a way which avoids
+&gt; dependence on the browser organizations security and pinned certificate
+&gt; registry.
+
+Debian is not using HTTPS for the ISO download. I was pointing out that
+the trust starts when the user arrives at the site. The point is that a
+compromise at this point is all that's necessary for an attacker.
+
+It doesn't really matter what you think about HTTPS. It must work for a
+non-expert user to visit the site and download the distro securely. The
+attacker could provide instructions and files of their choice if it did
+not work, so it's an upper bound on the security of the whole process.
+
+DNSSEC/DANE provides another model for securing that HTTPS connection,
+but since it's unimplemented by clients it has no value here. Anyway, it
+means trusting an even more centralized system run by people who have
+decided that 1024-bit RSA is good enough for the keys with the ultimate
+level of trust.
+
+&gt; Its also far more portable than browser pinning allows.
+
+It's more portable in the sense that no one implements it, rather than a
+few projects implementing it. There's no inherent limitation of HPKP to
+web browsers. HPKP is the ideal solution for critical infrastructure and
+popular sites. The problem with it is the the inability to scale, which
+is why stuff like PKI and DANE exists in the first place.
+
+There's no reason that HSTS or HPKP is limited to web browsers. It would
+work fine for tools like curl/wget if someone felt like doing the work
+to implement it. The lists in Chromium/Firefox could be extracted and
+merged together. It's a set of restrictions, not something that is
+granting extra permissions.
+
+&gt; Unfortunately the browser vendors are letting us all down by refusing to
+&gt; implement DANE validation and going with their in-house developed
+&gt; mechanisms instead.
+
+I can see why they don't want to implement a non-solution. Is placing
+ultimate trust in Verisign for every .com domain really what you want?
+
+The domain name registrars they feel like doing business with are the
+other set of people you have to trust.
+
+Perhaps people aren't implementing it because we don't need another
+overly complex and very flawed security technology. It has a *lot* more
+wrong with it than simply the lackluster trust model. I'm not here to
+argue about DANE though...
+
+&gt; HTTPS as commonly implemented is a joke, which is how the channels get
+&gt; routinely hijacked.
+
+The GPG implementation is in way worse shape than the widely used
+implementations of TLS. Regardless, HTTPS is used to secure things
+initially so you don't gain security by using something else for the
+later steps.
+
+&gt; HSTS is a joke today due to the insecure channels - so your going to
+&gt; send a flag saying the content MUST be kept secure ... over the channel
+&gt; that just got hijacked. Yay.
+
+You missed that I've been talking about HSTS preload lists. If you set
+the expiry long enough you can simply ask for it to be included in
+Chromium and Firefox and they'll do it. What's the problem with that?
+
+&gt; HPKP helps - but increases the footprint of things that have to be
+&gt; secured and thus trusted. And only covers the major browsers or
+&gt; implementers capable of developing their own registries for pinned certs
+&gt; - otherwise you are back to trusting the browser vendors X, Y, or Z
+&gt; registry again.
+
+It doesn't increase any footprint. I agree that it can't scale, but it
+only needs to scale enough to bootstrap sane trust systems like the
+package signing models used by distros like Debian and Arch. It's a set
+of restrictions so I don't see what you'd lose by using Mozilla's list
+of pinned keys elsewhere just as Debian and other distributions use
+their list of trusted root certs.
+
+&gt; With DANE the TLSA record is under control of the publisher, and DNSSEC
+&gt; ties it securely to both the origin server for the HTTPS channel, and to
+&gt; the keys of a mutually trusted upstream authority in a web-of-trust like
+&gt; model. Only the DNS root server key needs to be bootstrapped at some
+&gt; point down the chain.
+
+The root server as the ultimate authority. I can't see centralizing all
+trust in organizations like Comodo and Verisign. Seriously, DNSSEC is
+dead after the NSA shitstorm. I doubt that people are going to place
+ultimate trust in a few American corporations with very close ties to
+the US government. That applies to the IANA too, regardless of any
+rebranding they feel like doing.
+
+&gt; Single point of vulnerability with 0-24hr DNS TTL updates turnover when
+&gt; attacked,
+&gt;  vs.
+&gt; multiple points of vulnerability with weeks of turnaround to publish new
+&gt; browser updates plus all the time to get the user population upgraded.
+
+The delay in revoking keys is very minor issue compared to "place full
+trust in VeriSign *and* your domain registrar".
+
+&gt;&gt; You only need to provide the users with a torrent file securely and
+&gt;&gt; you've done your job, as the torrent client will validate SHA1 hashes.
+&gt;&gt; The mirrors work fine as web seeds. Note that this doesn't require the
+&gt;&gt; user to take any additional *optional* steps to validate, because once
+&gt;&gt; you do that you've failed the majority of users.
+&gt; 
+&gt; You still have the bootstrap problem of how to validate the torrent
+&gt; client binary. Might as well use apt validation and avoid the complexity
+&gt; of torrent.
+
+Again, I am not talking about package signing.
+
+The user can't be assumed to have apt and the Debian keychain... they
+are downloading the distribution.
+
+If you somehow convinced every operator system vendor to bundle the GPG
+key used to sign the ISO for distribution X, then great, you solved the
+issue for the few users who are going to manually verify it.
+
+I mentioned torrents to point out that users choosing to download via a
+torrent file provided by the original site are already validating that
+the download is what it was supposed to be. A direct download via HTTPS
+works fine too... if there isn't a bandwidth issue.
+
+&gt;&gt; Windows users are also left out without this: they don't have GPG, and
+&gt;&gt; they don't have a secure way to obtain GPG.
+&gt;&gt;
+&gt; 
+&gt; Ironically the safest way to obtain GPG is probably to download it with
+&gt; Internet Explorer these days.
+&gt; 
+&gt; Consider the signed boot loader validated by CPU itself, loading a
+&gt; signed OS, loading signed WUpdate binary, installing signed MSIE and
+&gt; certificates binaries, running the resulting signed browser to connect
+&gt; to a HTTPS download site for signed GPG installer - should (in theory at
+&gt; least) be signed from top to bottom.
+
+So you're turning the problem of obtaining an ISO into the dual problem
+of obtaining a GPG implementation via TLS, obtaining a GPG key via TLS
+and then doing the necessary verification. This is a solution to the
+issue of TLS being insecure?
+
+&gt;  Of course there are loopholes at the browser trusted-CA and cert
+&gt; pinning stages, browser not veryfing download signatures and side
+&gt; channel infections are an ever present problem. But then those are still
+&gt; issues if one uses a non-IE browser installed between the IE and GPG
+&gt; stages (at risk of more software ~= larger vulnerability footprint).
+
+How does the user obtain the GPG key? It means security-aware users
+already on Debian can download it securely.
+
+GPG is an awful, legacy codebase in a memory unsafe language. It's also
+suffering from lack of developers. You're not drawing a contrast with
+TLS implementations but rather pointing out a problem that afflicts GPG
+to an even greater degree. You already have TLS as part of your trust
+chain so GPG is just increasing the vulnerability footprint if you don't
+have the key already.
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="18/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (820 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

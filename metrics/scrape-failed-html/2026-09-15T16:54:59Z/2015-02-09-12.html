@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE request: sudo TZ issue</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Date: Mon, 09 Feb 2015 14:42:19 -0700
+From: "Todd C. Miller" &lt;Todd.Miller&#64;...rtesan.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE request: sudo TZ issue
+
+I'm going to be releasing sudo 1.8.12 shortly which includes sanity
+checks for the TZ environment variable.
+
+This issue was previously discussed here:
+    <a href="http://www.openwall.com/lists/oss-security/2014/10/15/24">http://www.openwall.com/lists/oss-security/2014/10/15/24</a>
+
+There is an associated Debian bug:
+    <a href="https://bugs.debian.org/772707" rel="nofollow">https://bugs.debian.org/772707</a>
+
+&gt;From <a href="http://www.sudo.ws/alerts/tz.html" rel="nofollow">http://www.sudo.ws/alerts/tz.html</a>
+
+Summary:
+
+Prior to sudo 1.8.12, the TZ environment variable was passed through
+unchecked.  Most libc tzset() implementations support passing an
+absolute pathname in the time zone to point to an arbitrary,
+user-controlled file.  This may be used to exploit bugs in the C
+library's TZ parser or open files the user would not otherwise have
+access to.  Arbitrary file access via TZ could also be used in a
+denial of service attack by reading from a file or fifo that will
+block.
+
+Beginning with sudo 1.8.12, TZ is only passed through by default
+if it is considered "safe".  The TZ variable is now considered
+"unsafe" if any of the following are true:
+
+    o   It consists of a fully-qualified path name that
+        does not match the location of the zoneinfo directory.
+
+    o   It contains a ".." path element.
+
+    o   It contains white space or non-printable characters.
+
+    o   It is longer than the value of PATH_MAX.
+
+Sudo versions affected:
+
+Sudo versions prior to 1.8.12 are affected.
+
+Details:
+
+Unix systems support a user-specified time zone value stored in the
+TZ environment variable.  On many systems, the value of TZ is ignored
+for set user ID processes (such as sudo) if it does not pass certain
+sanity checks.  However, while the value may be ignored, it is not
+actually removed from the environment.  As such, a program run via
+sudo will inherit the (possibly malicious) value of TZ.
+
+A user with sudo access may take advantage of this to exploit bugs
+in the C library functions which parse the TZ environment variable.
+The TZ handling in most C libraries (including GNU libc and the
+tzcode used by BSD and others) supports reading arbitrary files.
+
+By setting TZ to a fully-qualified path name, a command run via
+sudo may be used to read (but not disclose the contents of) files
+that the user would not otherwise be able to open.  This is generally
+benign for regular files, but it may be possible to change the
+behavior of the system by reading from device special files.  For
+instance, it may be possible to hijack the output from a terminal
+device file, consume kernel log messages or cause a tape drive to
+change position.  It may also be possible to cause a command run
+by sudo to hang if TZ is set to the value of a named pipe or a
+device special file that blocks on read.
+
+Impact:
+
+A user with sudo access may be able to exploit parsing bugs in the
+time zone parsing functions of the system's C library functions.
+The user may also be able to read arbitrary files, potentially
+causing changes in system behavior when reading certain device
+special files or simply causing the program run via sudo to block.
+
+Fix:
+
+The bug is fixed in sudo 1.8.12.
+
+Credit:
+
+Jakub Wilk began a discussion about abusing the TZ environment
+variable on the oss-security mailing list.
+
+Stephane Chazelas also reported the problem and supplied some
+concrete examples of how it could be abused.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

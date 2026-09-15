@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Kernel oops on 32 bits arch</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/04/13/11">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/04/10/6">[&lt;thread-prev]</a> <a href="../../../2015/04/16/14">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150414062141.CE1CE6C4009&#64;smtpvmsrv1.mitre.org&gt;
+Date: Tue, 14 Apr 2015 02:21:41 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: pierre&#64;...ctos.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: Kernel oops on 32 bits arch
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+&gt; This bug report has been brought to my attention [1] where under high
+&gt; load a server can be oopsed, be it grsec or vanilla kernel.
+&gt; 
+&gt; Apparently, it's due to a partial fix that would have only be deployed
+&gt; to 64 bits Linux [2].
+&gt; 
+&gt; Has anyone more info on this? Like why there was only a 64 bits fix?
+&gt; Was a CVE assigned for this?
+&gt; 
+&gt; [1]: <a href="https://bugs.gentoo.org/show_bug.cgi?id=536040" rel="nofollow">https://bugs.gentoo.org/show_bug.cgi?id=536040</a>
+&gt; [2]: <a href="https://lkml.org/lkml/2014/4/29/497" rel="nofollow">https://lkml.org/lkml/2014/4/29/497</a>
+
+As far as we can tell, <a href="https://lkml.org/lkml/2014/4/29/497" rel="nofollow">https://lkml.org/lkml/2014/4/29/497</a> ultimately
+resulted in the
+<a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=d5c9fde3dae750889168807038243ff36431d276" rel="nofollow">http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=d5c9fde3dae750889168807038243ff36431d276</a>
+commit.
+
+<a href="https://bugs.gentoo.org/show_bug.cgi?id=536040#c20" rel="nofollow">https://bugs.gentoo.org/show_bug.cgi?id=536040#c20</a> says
+
+  so we think it's an upstream bug <a href="https://lkml.org/lkml/2014/4/29/497" rel="nofollow">https://lkml.org/lkml/2014/4/29/497</a>
+  that was fixed only on 64 bit archs. on 32 bit archs the function in
+  question uses a 32 bit type (unsigned long) instead of u64 and
+  therefore the trunction issue mentioned in the thread can very well
+  happen.
+
+This suggests that the same source code is used on all platforms, but
+the code with the d5c9fde3dae750889168807038243ff36431d276 patch is
+correct if the size of "unsigned long" is 8, but incorrect if the size
+of "unsigned long" is 4. (There isn't a patch offered for the latter
+case, although the implication seems to be that the code is inherently
+incorrect, and isn't affected by any compiler bug.) If so, then
+conceivably there could be at least two CVE IDs, i.e.,
+
+  First issue: reachable "divide by zero" in versions before 3.14.6 on
+  64-bit platforms
+  (<a href="https://www.kernel.org/pub/linux/kernel/v3.x/ChangeLog-3.14.6" rel="nofollow">https://www.kernel.org/pub/linux/kernel/v3.x/ChangeLog-3.14.6</a>)
+
+  Second issue: reachable "divide by zero" in these versions and newer
+  versions on 32-bit platforms
+
+[ there hasn't been a report of a security impact for the
+  "incorrect value when (setpoint - limit) exceeds 2^32" issue ]
+
+The available information about the attack vector for the second issue
+is "unspecified traffic to an Apache HTTP Server 2.x that leads to a
+substantial amount of disk I/O to an ext4 filesystem." There is no
+available information about an attack vector for the first issue.
+
+We don't know whether there are other attack vectors involving FUSE.
+The comments in page-writeback.c refer to the effects of "mistrusted
+filesystems" on the number of dirty pages, and possibly such a
+filesystem could make it easier to reach a case with a
+pos_ratio_polynom bug.
+
+In general, the two issues listed above are ones that often would not
+have CVE IDs because the attack methodology is underspecified, or
+because too little is known about the relationship between an attack
+and the bug. However, it seems very likely that the untrusted HTTP
+traffic is, indirectly, causing the bug to be triggered much more
+often than it otherwise would have been. So, it does seem valid for
+the issues to have CVE IDs, if the CVE IDs are useful to someone.
+
+Was "Was a CVE assigned for this?" intended to mean that a CVE ID is
+useful, i.e., you would actually use a CVE ID to track an OOPS issue
+in the management of dirty pages?
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVLLFFAAoJEKllVAevmvmst+QH/jF6SuBJAtxYZX+WYpWkcSwu
+f8h4dGncGX947++aB0NWVVmD2AlckRkZOdIYL2r2JE9M/2yrHHNq72cAPylYQD//
+m55DggeJ6mia756FWng9JSV3qf48tNqZq5nAFFZH8OsIG9dlNV4esCqLS0qsYtAo
+To6LixAVrcFpofzi+q7U8ON0IxfBoix+J1eQoT3ITyRJ+NwnvWX/jLm6jOk/lbSS
+Q4Wh61+/EQEpxIga3CJ2J3g0pHM20wrSNxMV9Tpgl7vFwWSP9csNsc+XPp4HUZB7
+XYwAf6FQWAdYC0WyhzYxqEZP2YIkrd0uhVp0KJdvcj8pRow20/MhCN7Rl7Q8vto=
+=/Ro0
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

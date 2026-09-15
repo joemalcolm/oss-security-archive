@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: CVE request - read underflow in libpng 1.2.55, 1.0.65, 1.4.18, and 1.5.25 (pngwutil.c)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2015/12/10/7">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2015/12/10/7">[&lt;thread-prev]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20151211153602.450948BC15E&#64;smtpvmsrv1.mitre.org&gt;
+Date: Fri, 11 Dec 2015 10:36:02 -0500 (EST)
+From: cve-assign&#64;...re.org
+To: xiaoqixue_1&#64;....com
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com, yuchen&#64;...l.tsinghua.edu.cn
+Subject: Re: CVE request - read underflow in libpng 1.2.55, 1.0.65, 1.4.18, and 1.5.25 (pngwutil.c)
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+&gt; there is a underflow read in png_check_keyword in pngwutil.c in libpng-1.2.54
+
+&gt; if the data of "key" is only ' ' (0x20), it will read a byte before the buffer in line 1288.
+
+&gt; it also impacts libpng 1.2.55, 1.0.65, 1.4.18, and 1.5.25 .
+
+&gt;&gt; The bug was introduced in libpng-0.90, was fixed in libpng-1.6.0, and will be
+&gt;&gt; fixed in libpng-1.0.66, 1.2.56, 1.4.19, and 1.5.26.
+
+&gt; <a href="https://sourceforge.net/p/libpng/bugs/244/" rel="nofollow">https://sourceforge.net/p/libpng/bugs/244/</a>
+
+This says the problem was on a "1288 while (kp == ' ')" line but that
+seems very confusing because that line doesn't appear to be present in
+libpng-1.2.54 or any other version. As far as we can tell, the
+unpatched code has
+
+  while (*kp == ' ')
+
+and the patched code has
+
+  while (key_len &amp;&amp; *kp == ' ')
+
+See
+
+  <a href="http://sourceforge.net/p/libpng/code/ci/d9006f683c641793252d92254a75ae9b815b42ed/" rel="nofollow">http://sourceforge.net/p/libpng/code/ci/d9006f683c641793252d92254a75ae9b815b42ed/</a>
+
+Use CVE-2015-8540.
+
+Any instance of "kp ==" instead of "*kp ==" would have been a
+different type of problem but we don't think that problem ever
+occurred.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBCAAGBQJWab8eAAoJEL54rhJi8gl5SlYP/A779vmL+vtcTcO1vhnhU4Z/
+hr7Qm2C8sE7TUvgWc7bUqthJjNs4T2jEhgYGGcRHeuzm+qneBVkh3w2R5pD/gn04
+/sD2FH+c7MaAMGWWZYzudqgh2zNrVud9zY5VFjJTbNAWGsTnU6ix3A94TC6KUq9C
+zLVxrc7c5BxFhvgtg+rdb/TSj9lfzUXNJqVENGONUK3PDth567FvVJkJJPlvxPts
+yZx9467dLcR9yJSSWVsDPg4PqhIc2oU6f8fdt9tYI16lc7wMFRn71B2xuvcOvzRO
+yWYd8xNvfY+sb0iWwuRgDTI+2b0gd2sDwAHR0KCq2vQwVUQOWa4hhbC0X2UxLOHg
+TKwXrXg9HVpXUYQr7wE+QO+V4fLnkUI3mRb+9enVcL9mSvzAA49gtIh6oee+wGeF
+dMNWR02dxjitTSK0FcgNvzKLzff2l1K6WSY5cFzrOXqUkNdXZOEHAWGdBYCv0/Sv
+LKrz3IoO4kpRRSGk0ZRWDCi7r2fjZQh2BAFWjKMqoMGRG33wLCHqQ5Me65FtleMc
+VLfmcITghJHhWi3J9aihshJ6QouoS6jzVaiOnw3X3ZNW4Uw/Jvh5XTDbGbAY93Z+
+rZZqMCE1YJqBjvx8N/lGxPJIQHLgw4pT+Z6MKc23EqdchTVEM0Sh39x5RoZKb3Wg
+MHAIUGPZQf7YS/kpzTHE
+=h4md
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

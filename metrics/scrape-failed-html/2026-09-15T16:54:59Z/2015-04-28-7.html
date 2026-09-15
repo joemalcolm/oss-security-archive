@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Possible CVE Request: Wordpress 4.1.2 security release</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href="../../../2015/04/26/2">[&lt;thread-prev]</a> <a href="8">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;20150428192703.4F86E52E01D&#64;smtpvbsrv1.mitre.org&gt;
+Date: Tue, 28 Apr 2015 15:27:03 -0400 (EDT)
+From: cve-assign&#64;...re.org
+To: carnil&#64;...ian.org
+Cc: cve-assign&#64;...re.org, oss-security&#64;...ts.openwall.com
+Subject: Re: Possible CVE Request: Wordpress 4.1.2 security release
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Here are CVE IDs for some of the vulnerabilities fixed in either 4.1.2
+or 4.2.1.
+
+
+&gt; <a href="http://codex.wordpress.org/Version_4.1.2" rel="nofollow">http://codex.wordpress.org/Version_4.1.2</a>
+&gt; <a href="https://wordpress.org/news/2015/04/wordpress-4-1-2/" rel="nofollow">https://wordpress.org/news/2015/04/wordpress-4-1-2/</a>
+
+&gt; WordPress versions 4.1.1 and earlier are affected by a critical
+&gt; cross-site scripting vulnerability, which could enable anonymous users
+&gt; to compromise a site. This was reported by Cedric Van Bockhaven and
+&gt; fixed by Gary Pendergast, Mike Adams, and Andrew Nacin of the
+&gt; WordPress security team.
+
+Use CVE-2015-3438. We don't know whether this is related to, for
+example, the <a href="https://core.trac.wordpress.org/changeset/32167" rel="nofollow">https://core.trac.wordpress.org/changeset/32167</a> change.
+Our expectation is that this is not related to the
+<a href="https://core.trac.wordpress.org/changeset/32176" rel="nofollow">https://core.trac.wordpress.org/changeset/32176</a> change, because the
+4.1.2 announcement says "Four hardening changes, including better
+validation of post titles within the Dashboard." (There are currently
+no CVE IDs being assigned for the "Four hardening changes.")
+
+
+&gt; In WordPress 4.1 and higher, files with invalid or unsafe names could
+&gt; be uploaded. Discovered by Michael Kapfer and Sebastian Kraemer of
+&gt; HSASec.
+
+We feel that there isn't yet enough information available to determine
+the correct number of CVE IDs. This could possibly be related to
+<a href="https://core.trac.wordpress.org/changeset/32172" rel="nofollow">https://core.trac.wordpress.org/changeset/32172</a> (if wp_check_filetype
+had been using a problematic regular expression that resulted in
+incorrect conclusions about safe file extensions), or
+<a href="https://core.trac.wordpress.org/changeset/32169" rel="nofollow">https://core.trac.wordpress.org/changeset/32169</a> (if the issue was in
+the Plupload codebase), or both.
+
+
+&gt; In WordPress 3.9 and higher, a very limited cross-site scripting
+&gt; vulnerability could be used as part of a social engineering attack.
+&gt; Discovered by Jakub Zoczek.
+
+Use CVE-2015-3439. We don't know whether this is related to, for
+example, the <a href="https://core.trac.wordpress.org/changeset/32167" rel="nofollow">https://core.trac.wordpress.org/changeset/32167</a> change.
+
+
+&gt; Some plugins were vulnerable to an SQL injection vulnerability.
+&gt; Discovered by Ben Bidner of the WordPress security team.
+
+We feel that there isn't yet enough information available to determine
+the correct number of CVE IDs. This could possibly be related to the
+<a href="https://core.trac.wordpress.org/changeset/32165" rel="nofollow">https://core.trac.wordpress.org/changeset/32165</a> and
+<a href="https://core.trac.wordpress.org/changeset/32163" rel="nofollow">https://core.trac.wordpress.org/changeset/32163</a> changes. In general,
+it seems possible that one change to the validation of SQL statements
+resolved SQL injection vulnerabilities affecting the use of plugins in
+one set of WordPress versions, and another change to the validation of
+SQL statements resolved SQL injection vulnerabilities affecting the
+use of plugins in a different set of WordPress versions.
+
+
+&gt; <a href="https://make.wordpress.org/plugins/2015/04/20/fixing-add_query_arg-and-remove_query_arg-usage/" rel="nofollow">https://make.wordpress.org/plugins/2015/04/20/fixing-add_query_arg-and-remove_query_arg-usage/</a>
+
+&gt; Due to a now-fixed ambiguity in the documentation for the
+&gt; add_query_arg() and remove_query_arg() functions, many plugins were
+&gt; using them incorrectly, allowing for potential XSS attack vectors in
+&gt; their code.
+
+We feel that this documentation ambiguity isn't necessarily a
+vulnerability in the WordPress product itself. There seems to be
+related documentation of add_query_arg within the
+wp-includes/functions.php file. If the vendor decides to change the
+documentation at
+<a href="https://core.trac.wordpress.org/browser/trunk/src/wp-includes/functions.php" rel="nofollow">https://core.trac.wordpress.org/browser/trunk/src/wp-includes/functions.php</a>
+and wants a CVE ID for that, then we would assign one.
+
+
+&gt; <a href="http://codex.wordpress.org/Version_4.2.1" rel="nofollow">http://codex.wordpress.org/Version_4.2.1</a>
+&gt; <a href="https://wordpress.org/news/2015/04/wordpress-4-2-1/" rel="nofollow">https://wordpress.org/news/2015/04/wordpress-4-2-1/</a>
+&gt; <a href="https://core.trac.wordpress.org/changeset/32299" rel="nofollow">https://core.trac.wordpress.org/changeset/32299</a>
+
+&gt; a cross-site scripting vulnerability, which could enable commenters to
+&gt; compromise a site. The vulnerability was discovered by Jouko Pynnonen.
+
+&gt; WPDB: Sanity check that any strings being stored in the DB are not too
+&gt; long to store correctly.
+
+Use CVE-2015-3440.
+
+- -- 
+CVE assignment team, MITRE CVE Numbering Authority
+M/S M300
+202 Burlington Road, Bedford, MA 01730 USA
+[ PGP key available through <a href="http://cve.mitre.org/cve/request_id.html" rel="nofollow">http://cve.mitre.org/cve/request_id.html</a> ]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (SunOS)
+
+iQEcBAEBAgAGBQJVP929AAoJEKllVAevmvmsU+sH/2iJF4qrDkW1QY27QFktZSvg
+YF/zQR7jVLHs+74UPyWHMlAgBMxx4y54GUgukvnytE6lI8LMuz6aMJOjbSg+5jWT
+jZ2mSSbPceH8Bm4cmh4/2dStBDgxFJxFvRm1Lr/9zNpcS4IYRWkZuaKtJbNkBs2X
+/j+rMdzmtYY2B+naNOkHtGjRloRZE5apd1zRRtS559fho/l6kFSrXMa0uNbdL1eu
+eG3+BnkRDj6v/zKRpqLW9FXVmiQWu+VW1TIqqCuliD2vjTbSRqEvAtm9GsmUOUhk
+fJujPRPZbLXLCbZmsJQ/D5tk0VRkXjGi47xhqb7chV5D5JvHDmxVFZuG+duCmQQ=
+=GzWO
+-----END PGP SIGNATURE-----
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

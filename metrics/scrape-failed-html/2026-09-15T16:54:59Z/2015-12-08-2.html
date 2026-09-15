@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 159 (CVE-2015-8339,CVE-2015-8340) -
+ XENMEM_exchange error handling issues</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1a6GyG-0003nX-Mh&#64;xenbits.xen.org&gt;
+Date: Tue, 08 Dec 2015 12:02:16 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 159 (CVE-2015-8339,CVE-2015-8340) -
+ XENMEM_exchange error handling issues
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+     Xen Security Advisory CVE-2015-8339,CVE-2015-8340 / XSA-159
+                              version 4
+
+                 XENMEM_exchange error handling issues
+
+UPDATES IN VERSION 4
+====================
+
+Public release.
+
+ISSUE DESCRIPTION
+=================
+
+Error handling in the operation may involve handing back pages to
+the domain. This operation may fail when in parallel the domain gets
+torn down. So far this failure unconditionally resulted in the host
+being brought down due to an internal error being assumed. This is
+CVE-2015-8339.
+
+Furthermore error handling so far wrongly included the release of a
+lock. That lock, however, was either not acquired or already released
+on all paths leading to the error handling sequence. This is
+CVE-2015-8340.
+
+IMPACT
+======
+
+A malicious guest administrator may be able to deny service by
+crashing the host or causing a deadlock.
+
+VULNERABLE SYSTEMS
+==================
+
+All Xen versions from at least 3.2 onwards are vulnerable.  Older
+versions have not been inspected.
+
+MITIGATION
+==========
+
+The vulnerability can be avoided if the guest kernel is controlled by
+the host rather than guest administrator, provided that further steps
+are taken to prevent the guest administrator from loading code into
+the kernel (e.g. by disabling loadable modules etc) or from using
+other mechanisms which allow them to run code at kernel privilege.  In
+Xen HVM, controlling the guest's kernel would involve locking down the
+bootloader.
+
+CREDITS
+=======
+
+This issue was discovered by Julien Grall of Citrix and
+Jan Beulich of SUSE.
+
+RESOLUTION
+==========
+
+Applying the attached patch resolves this issue.
+
+xsa159.patch      xen-unstable, Xen 4.6.x, Xen 4.5.x, Xen 4.4.x, Xen 4.3.x
+
+$ sha256sum xsa159*
+05c35871c1430e9cfdbee049411b23fca6c64c5bc9f112d7508afe5cbd289cef  xsa159.patch
+$
+
+DEPLOYMENT DURING EMBARGO
+=========================
+
+Deployment of the patches and/or mitigations described above (or
+others which are substantially similar) is permitted during the
+embargo, even on public-facing systems with untrusted guest users and
+administrators.
+
+But: Distribution of updated software is prohibited (except to other
+members of the predisclosure list).
+
+Predisclosure list members who wish to deploy significantly different
+patches and/or mitigations, please contact the Xen Project Security
+Team.
+
+
+(Note: this during-embargo deployment notice is retained in
+post-embargo publicly released Xen Project advisories, even though it
+is then no longer applicable.  This is to enable the community to have
+oversight of the Xen Project Security Team's decisionmaking.)
+
+For more information about permissible uses of embargoed information,
+consult the Xen Project community's agreed Security Policy:
+  <a href="http://www.xenproject.org/security-policy.html" rel="nofollow">http://www.xenproject.org/security-policy.html</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJWZr8HAAoJEIP+FMlX6CvZXp8IAMNhe/G7435bJNiwMbWIT6vt
+8piJPArKxhd3yohEiAx0wG7BXTQ7ockAKFCjdSL8ZGPQuaxwuYrdm4wH14ucxRY6
+wgHyU2766g5VuP1bJ1eU/XxZpNGWCqDQaaMzbwQLKVO7rhsZc14txY2nYFZ5cvLT
+nMDR8rfcNSeGMSCzg9vrdnFhmmslT797fgRXrCnZ2+bEDerTiYu5nDlS+aIZPiSt
+WwKbiYN/RJLIo4EThvYfPdbm9SPeSdNYNUws2MVkl50x2h4hm33eqKDNxAtUMgDq
+CZzHQGCMjAtrhK/64AQePiXRHO4SHYbX4FmeO9Yrkbgf971PqpEYed79UJ2a0SA=
+=sIvq
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>xsa159.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (1665 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 132 (CVE-2015-3340) - Information leak
+ through XEN_DOMCTL_gettscinfo</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1Ykuae-0001bB-4K&#64;xenbits.xen.org&gt;
+Date: Wed, 22 Apr 2015 13:21:20 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security&#64;....org&gt;
+Subject: Xen Security Advisory 132 (CVE-2015-3340) - Information leak
+ through XEN_DOMCTL_gettscinfo
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+            Xen Security Advisory CVE-2015-3340 / XSA-132
+                              version 2
+
+             Information leak through XEN_DOMCTL_gettscinfo
+
+UPDATES IN VERSION 2
+====================
+
+CVE assigned.
+
+ISSUE DESCRIPTION
+=================
+
+The handler for XEN_DOMCTL_gettscinfo failed to initialize a padding
+field subsequently copied to guest memory.
+
+A similar leak existed in XEN_SYSCTL_getdomaininfolist, which is being
+addressed here regardless of that operation being declared unsafe for
+disaggregation by XSA-77.
+
+IMPACT
+======
+
+Malicious or buggy stub domain kernels or tool stacks otherwise living
+outside of Domain0 may be able to read sensitive data relating to the
+hypervisor or other guests not under the control of that domain.
+
+VULNERABLE SYSTEMS
+==================
+
+Xen 4.0.x and later are vulnerable.
+
+Only x86 systems are vulnerable.  ARM systems are not vulnerable.
+
+The vulnerability is only exposed to service domains with privilege over
+another guest.  In a usual configuration that means only device model
+emulators (qemu-dm) when these are running in a separate domain.
+
+In the case of HVM guests whose device model is running in an
+unrestricted dom0 process, qemu-dm already has the ability to cause
+problems for the whole system.  So in that case the vulnerability is
+not applicable.
+
+This vulnerability is applicable for an HVM guest with a stub qemu-dm.
+That is, where the device model runs in a separate domain (in the case
+of xl, as requested by "device_model_stubdomain_override=1" in the xl
+domain configuration file).  In this case a guest which has already
+exploited another vulnerability, to gain control of the device model,
+would be able to exercise the information leak.
+
+However, the security of a system with qemu-dm running in a stub domain
+is still better than with a qemu-dm running as an unrestricted dom0
+process.  Therefore users with these configurations should not switch
+to an unrestricted dom0 qemu-dm.
+
+Finally, in a radically disaggregated system, where the service domain
+software (probably, the device model domain image in the HVM case) is
+not always supplied by the host administrator, a malicious service
+domain administrator can exercise this vulnerability.
+
+MITIGATION
+==========
+
+There is no mitigation available.
+
+In a radically disaggregated system, restricting HVM service domains
+to software images approved by the host administrator will avoid the
+vulnerability (so long as there isn't also a vulnerability in the
+service domain).
+
+NOTE REGARDING LACK OF EMBARGO
+==============================
+
+The fix for this bug was publicly posted on xen-devel, before it was
+appreciated that there was a security problem.
+
+CREDITS
+=======
+
+This issue was recognized as security issue by Jan Beulich of SUSE.
+
+RESOLUTION
+==========
+
+Applying the appropriate attached patch resolves this issue.
+
+xsa132-unstable.patch        xen-unstable, Xen 4.5.x, Xen 4.4.x, Xen 4.3.x
+xsa132-4.2.patch             Xen 4.2.x
+
+$ sha256sum xsa132*.patch
+3a28eb33c02360ec22c51824e469b1cf6be87941256d0b3aa34a5bd1d7735328  xsa132-4.2.patch
+329d4edf1e1133795ece41f2fc8887c5f4cc06b42ced63c810c610b17bcee46d  xsa132.patch
+$
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJVN6AYAAoJEIP+FMlX6CvZ6R8H/Rq4H94uwp/c8mYM/DHFJf1S
+YXWGD7jtYYAArAKwG+b3mDYQVzaDhsUR76jS6lssoSWQbSHmqzAKWjZ01Rd5EQDW
+PqLNwtmIkj9hXCxJdpNubxbr12j0TWzIAOpsUj5alDoy7TaNVMNLG7zSj+jOyNzp
+uCgIo7TGwWu6OS1xBYZay18oTjv8rEifQgJ8CBRUZHG+xezm94Gbz0iJaonm4bY3
+Rjl7U3hfk0O74ncthHOJM5bVTXyDefxeZsR1xkRIWk15GSZ9FXguwfny/m0NQC7Y
+7OfGyOyOT27AbxYTOnn30XYwmPAzhw1jrEpdbAwSjxvzRe9iKoxwhezrzgXQ+Q0=
+=1c8S
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="7/1" rel="nofollow" download>xsa132-4.2.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (866 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="7/2" rel="nofollow" download>xsa132.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (849 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
