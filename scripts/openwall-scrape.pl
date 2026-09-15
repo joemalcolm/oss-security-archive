@@ -162,46 +162,65 @@ if (defined $save_failed) {
     make_path($save_failed) unless -d $save_failed;
 }
 
-# ---- Phase-4 diff mode: preload archive Message-IDs ---------------------
-# When --diff-against INBOX_NAME is set, build an in-memory set of every
-# Message-ID already present in that public-inbox. Then scrape_one skips
-# any URL whose fetched message carries an ID we already have, and never
-# invokes write_maildir for it. Net effect: we still hit openwall for
-# every message page (to read its ID), but we don't ingest or write
-# anything for the ~99% of messages that dedup would have caught. This
-# is the Phase-4 within-range gap-fill mode from MASTER_PLAN — meant
-# for date ranges where a Maildir already covers most of the traffic.
+# ---- Phase-4 diff mode: per-message lookup via PublicInbox::Over --------
+# When --diff-against INBOX_NAME is set, open a handle on the target
+# inbox's over.sqlite3 (the Message-ID index public-inbox maintains
+# alongside its Xapian search index). Each scraped message's ID is
+# looked up in that index; matches are skipped without ever writing
+# to the scratch maildir. Optimal because:
+#   - Preload cost: essentially zero (one SQLite `open`).
+#   - Per-message cost: one indexed SELECT on the `msgid` table
+#     (O(log N) with SQLite's default B-tree index). Sub-millisecond.
+#   - Archive-size-independent: doesn't matter if the inbox has 10k
+#     or 10M messages; per-lookup cost stays constant.
+# The naive alternative (walk git blobs to preload every MID) was
+# O(N) subprocess spawns — ~5 min for a 27k-message archive — and
+# scales badly. Removed.
 #
-# For a full pre-Maildir backfill (2008-2015), omit --diff-against and
-# every message is ingested unconditionally.
-my %KNOWN_MIDS;
+# For pre-Maildir years the archive has no matching MIDs so nothing
+# is skipped — safe to leave --diff-against on unconditionally.
+my $OVER;
 if (defined $diff_against) {
     require PublicInbox::Config;
-    require PublicInbox::Inbox;
+    require PublicInbox::Over;
     my $cfg = PublicInbox::Config->new
         or die "cannot load public-inbox config for --diff-against\n";
     my $ibx = $cfg->lookup_name($diff_against)
         or die "no inbox named '$diff_against' in public-inbox config\n";
-    my $ep  = "$ibx->{inboxdir}/git/0.git";
-    warn "loading Message-IDs from $ep for --diff-against ...\n";
-    open my $log, "-|", "git", "-C", $ep, "log", "--format=%H"
-        or die "git log $ep: $!";
-    my $n = 0;
-    while (my $c = <$log>) {
-        chomp $c;
-        open my $show, "-|", "git", "-C", $ep, "show", "$c:m" or next;
-        while (my $line = <$show>) {
-            last if $line =~ /^\r?\n\z/;
-            if ($line =~ /^[Mm]essage-[Ii][Dd]:\s*(.+?)\s*\r?$/) {
-                $KNOWN_MIDS{$1} = 1;
-                $n++;
-                last;
-            }
-        }
-        close $show;
+    # over.sqlite3 lives inside the Xapian index dir (xap15 for v2).
+    # If it doesn't exist yet — first import, or index was wiped —
+    # --diff-against becomes a no-op with a loud warning; we still
+    # scrape and ingest normally.
+    my $over_path = "$ibx->{inboxdir}/xap15/over.sqlite3";
+    if (-f $over_path) {
+        $OVER = PublicInbox::Over->new($over_path);
+        warn "--diff-against enabled via $over_path (per-lookup dedup)\n";
+    } else {
+        warn "$0: --diff-against: over.sqlite3 not found at $over_path\n";
+        warn "$0: (public-inbox-index hasn't run against this inbox yet?)\n";
+        warn "$0: proceeding without dedup — every scraped message will ingest\n";
     }
-    close $log;
-    warn "  loaded ", scalar(keys %KNOWN_MIDS), " Message-IDs\n";
+}
+
+# Test whether a Message-ID already exists in the target inbox.
+# Called from build_rfc822 for each scraped message; returns 1 if the
+# MID is already indexed, 0 otherwise (or when $OVER is undef).
+# public-inbox stores MIDs WITHOUT the surrounding <angle brackets>,
+# so we strip them before the query.
+sub known_mid {
+    my ($mid) = @_;
+    return 0 unless $OVER && defined $mid && length $mid;
+    my $bare = $mid;
+    $bare =~ s/\A\s*<?//;
+    $bare =~ s/>?\s*\z//;
+    return 0 unless length $bare;
+    my $sth = $OVER->dbh->prepare_cached(
+        'SELECT 1 FROM msgid WHERE mid = ? LIMIT 1'
+    );
+    $sth->execute($bare);
+    my ($hit) = $sth->fetchrow_array;
+    $sth->finish;
+    return $hit ? 1 : 0;
 }
 my $state_file = "$maildir/.scrape-state";
 my $resume_after = read_state($state_file);
@@ -449,19 +468,16 @@ sub build_rfc822 {
     }
 
     # 7a-bis. Phase-4 diff mode: after rot13 normalization, check the
-    # (now-canonical) Message-ID against %KNOWN_MIDS. If we already
-    # have it, skip — don't write to the Maildir, don't invoke mda.
-    # Emit a structured SCRAPE_WARN so the wrapper's tally shows how
-    # many messages were correctly diff-skipped vs. actually new.
-    if (%KNOWN_MIDS) {
+    # (now-canonical) Message-ID against the target inbox's Over
+    # index. If we already have it, skip — don't write to the
+    # Maildir, don't invoke mda. Emit a structured SCRAPE_WARN so the
+    # wrapper's tally shows how many messages were correctly
+    # diff-skipped vs. actually new.
+    if ($OVER) {
         my ($mid_h) = grep { lc($_->[0]) eq 'message-id' } @hdrs;
-        if ($mid_h) {
-            my $mid = $mid_h->[1];
-            $mid =~ s/^\s+|\s+$//g;
-            if (exists $KNOWN_MIDS{$mid}) {
-                scrape_warn('diff-skip-known', $source_url);
-                return undef;
-            }
+        if ($mid_h && known_mid($mid_h->[1])) {
+            scrape_warn('diff-skip-known', $source_url);
+            return undef;
         }
     }
 

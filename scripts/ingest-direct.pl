@@ -40,6 +40,7 @@ use warnings;
 use PublicInbox::Config;
 use PublicInbox::InboxWritable;
 use PublicInbox::Eml;
+use PublicInbox::Over;
 
 if (@ARGV != 1 || $ARGV[0] eq '-h' || $ARGV[0] eq '--help') {
     print STDERR "usage: $0 <inbox-name> < msg.eml\n";
@@ -63,6 +64,46 @@ die "empty stdin: no message to ingest\n"
     unless defined $raw && length $raw;
 
 my $eml = PublicInbox::Eml->new(\$raw);
+
+# Message-ID pre-check via the target inbox's Over index.
+# V2Writable::add() dedups on content-hash, NOT Message-ID — so when
+# body bytes differ between two copies of "the same" message (e.g.
+# openwall-scraped vs. subscriber-Maildir, which always differ in
+# From-elision, Received chain, tracer headers), both get stored as
+# separate blobs. Verified 2026-09-13: 9,923 of the openwall-backfill
+# messages for 2016-2022 landed as duplicates of Maildir originals.
+#
+# This pre-check enforces MID-level dedup upstream of add(). O(log N)
+# per lookup via SQLite's B-tree index on the msgid column;
+# sub-millisecond in practice regardless of archive size. If the MID
+# is already present, we exit 0 (idempotent-success) without invoking
+# git-fast-import at all — same semantics as V2Writable's own dedup
+# would give if it were MID-based.
+#
+# If over.sqlite3 doesn't exist yet (first ingest before any
+# public-inbox-index run), the pre-check silently skips and we fall
+# through to add(). No harm — an empty archive has nothing to dedup
+# against anyway.
+{
+    my $over_path = "$ibx->{inboxdir}/xap15/over.sqlite3";
+    if (-f $over_path) {
+        my $mid = $eml->header_raw('Message-ID');
+        if (defined $mid) {
+            $mid =~ s/\A\s*<?//;
+            $mid =~ s/>?\s*\z//;
+            if (length $mid) {
+                my $over = PublicInbox::Over->new($over_path);
+                my $sth = $over->dbh->prepare_cached(
+                    'SELECT 1 FROM msgid WHERE mid = ? LIMIT 1'
+                );
+                $sth->execute($mid);
+                my ($hit) = $sth->fetchrow_array;
+                $sth->finish;
+                exit 0 if $hit;   # already present — nothing to do
+            }
+        }
+    }
+}
 
 # The V2Writable importer object exposes add()/done(). Some older
 # public-inbox versions expose it as ->importer, newer via ->_importer;
