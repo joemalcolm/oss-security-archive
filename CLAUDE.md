@@ -143,6 +143,32 @@ run: |
   # commit metrics/imports.tsv alongside the inbox commit
 ```
 
+### Local-vs-workflow divergence — operating rule
+
+Any time a local ingest AND a workflow push both modify the archive, the two branches advance `inbox/git/0.git/refs/heads/master` (plus `inbox/git/0.git/info/refs`) to different commits. `git pull` then refuses to fast-forward with:
+
+```
+error: Your local changes to the following files would be overwritten by merge:
+  inbox/git/0.git/info/refs
+  inbox/git/0.git/refs/heads/master
+Please commit your changes or stash them before you merge.
+```
+
+Or, if you did commit locally first, a merge conflict on those same files — which is unmergeable in text (each ref points at one commit, not a diffable payload).
+
+**Operating rule:** always `git pull` **before** any local `perl scripts/ingest-direct.pl` or `scripts/backfill-openwall.sh` invocation, and always `git add inbox && git commit && git push` **immediately after**. Local ingests that sit uncommitted are the direct cause of this conflict, since the next workflow push races them.
+
+**Recovery when it happens anyway:**
+
+- If your local changes are just runtime ref state from an ingest whose *content* you're okay losing (e.g. a message that's also in the workflow's push, or one you can re-run from `metrics/failed-msgs/`):
+   ```bash
+   git checkout -- inbox   # drop local runtime state
+   git pull                 # fast-forward to workflow's version
+   ```
+- If your local ingest has content the workflow doesn't (a message you manually recovered from `metrics/failed-msgs/` that isn't in the workflow's push): easier to just re-do the ingest after pulling. `git checkout -- inbox && git pull`, then re-run the recovery sweep — it's idempotent and will re-catch the same messages.
+
+**Longer-term fix:** the recovery sweep should live inside the workflow itself. Every backfill run's `Backfill` step would first walk `metrics/failed-msgs/*/*.eml` from previous runs, re-attempt any that succeed on retry, then proceed to the fresh scrape. All ingest happens on the runner, no local drift ever gets created, and the file conflict class disappears. About 10 lines added to `backfill-openwall.yml`'s `Backfill` step. Not urgent while backfill volume is one year per hour; worth doing before ongoing-sync goes live (where every 4-hour run would compound the drift risk).
+
 ## Querying the archive
 
 ### Full-text search with lei
