@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Retrospective by 'gpg.fail' authors</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="../../../2026/09/14/32">[&lt;thread-prev]</a> <a href="../../../2026/09/16/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87jyomvoi3.fsf&#64;jacob.g10code.de&gt;
+Date: Tue, 15 Sep 2026 11:43:16 +0200
+From: Werner Koch &lt;wk&#64;...pg.org&gt;
+To: Clemens Lang &lt;cllang&#64;...hat.com&gt;
+Cc: oss-security&#64;...ts.openwall.com,  "Lexi Groves (49016)" &lt;contact&#64;....fail&gt;
+Subject: Re: Retrospective by 'gpg.fail' authors
+
+Hi!
+
+On Mon, 14 Sep 2026 21:28, Clemens Lang said:
+
+&gt; (1) A RCE in `gpgsm` 2.4.9 when invoked as `gpgsm --debug all --import
+&gt; bad.cert`, with the bad.cert file at [1]. This is apparently a 0-day,
+
+Actually in all versions &gt; 2.2 if you use --debug x509.  The result is
+that you get garbled output on stderr.  Using the certificates from
+their Git repo we have not been able to get more than a segv.  That is
+obvious because the DER is used as printf format string.  How it is
+possible to get a an RCE is not clear to me - at least not with the
+sample certificate.  We need a real reproducers.  Maybe the presentation
+used a custom build.  It uses libgcrypt 1.12.4 which is not yet used in
+any binary we released.
+
+This is the fix:
+
+               if (DBG_X509)
+-                log_debug(skider, skiderlen, "ski is:");
++                log_printhex (skider, skiderlen, "ski is:");
+
+We did not used -Wformat-nonliteral which would have caught it due to
+gcc problems and distros requiring -Werror.  There is one other case
+where the wrong log function was used but that only affects a certain
+rare smartcard.  BTW, the debug interface is subject to change at any
+time and should thus not to be used for production.
+
+&gt; (2) An integer underflow followed by a buffer overflow in libgcrypt’s
+&gt; RSASSA-PSS verification discussed in slides 38-45 of [2], fixed in
+&gt; libgcrypt commit 0d64fc2 [3] (also reported by somebody using Claude
+
+ CommitDate: Wed Aug 5 14:11:03 2026 +0900
+
+    cipher:rsa: Fix verify RSA PSS verify.
+    
+    * cipher/rsa-common.c (_gcry_rsa_pss_verify): Validate EMLEN, before
+    the allocation.
+    
+    --
+    
+    This issue was found by Anthropic using Claude, and has been reviewed
+    manually by David Korczynski from Ada Logics.
+
+&gt; Code) released in (apparently) libgcrypt 1.12.3 without a CVE
+&gt; assigned. The researcher(s) claim this can be used for RCE from the
+&gt; S/MIME verifier and GnuPG with a 53-bit preimage attack (they don’t
+
+We have no information about this except for the slides.  We have not
+been contacted at all.  But the bug used is anyway public for more than
+a month.  From the orginal bug report:
+
+    Severity (our reading; we defer the final rating to you)
+    --------------------------------------------------------
+    We assess the defect as High: an attacker-controlled out-of-bounds
+    heap write (the content, the write length via the hash algorithm,
+    and the underflow offset via the modulus size are all
+    attacker-chosen) reached from the primary public verification API in
+    a default (non-FIPS) build, before any signature parsing. We want to
+    be candid about the deployment precondition, though: the trigger
+    requires the application to verify against a public key whose size
+    it has not vetted (raw signature/key-import-then-verify flows,
+    protocol messages carrying a key). Major consumers such as GnuPG and
+    GnuTLS reject toy-sized RSA keys before libgcrypt sees them, which
+    limits real-world reach; the practical impact ceiling for those is
+    bounded. We leave the final classification to you.
+
+And our reply:
+
+    In normal use cases, before the call of gcry_pk_verify, the key is
+    validated.  That's my understanding.  Perhaps, we will handle this
+    bug, as a normal bug.  (Please note that GnuPG does not use RSA
+    PSS.)
+
+Fixed in libgcrypt 1.12.3 released 2026-08-26
+
+
+
+Shalom-Salam,
+
+   Werner
+
+-- 
+The pioneers of a warless world are the youth that
+refuse military service.             - A. Einstein
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>openpgp-digital-signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (285 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
