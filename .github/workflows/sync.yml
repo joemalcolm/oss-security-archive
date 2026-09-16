@@ -1,41 +1,117 @@
 name: Sync oss-security
 
+# Rolling sync every 4 hours. Uses scripts/sync.sh which wraps
+# scripts/backfill-openwall.sh over a yesterday+today window. All
+# the hardening the backfill workflow accumulated (--diff-against
+# dedup, prime-index-first, metrics-aware commit messages,
+# rebase-retry on push, GHA-injection-safe env binding) is inherited
+# by inheriting from the same pipeline.
+
 on:
   schedule:
-    - cron: '0 */4 * * *'
-  workflow_dispatch: {}
+    # Every 4 hours at :07 to avoid the top-of-hour thundering herd.
+    - cron: '7 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      days_back:
+        description: 'Rolling-window size in days (default 1 = yesterday+today)'
+        required: false
+        default: '1'
+        type: string
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    timeout-minutes: 60   # sync should be quick — a 4h window has few msgs
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install public-inbox
+      - name: Install deps
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq public-inbox xapian-tools
+          sudo apt-get install -y -qq \
+            public-inbox xapian-tools \
+            libwww-perl liblwp-protocol-https-perl libhtml-parser-perl
 
       - name: Initialize inbox (idempotent — writes config on every run)
         run: ./scripts/setup-inbox.sh inbox
 
-      - name: Sync recent posts
-        run: ./scripts/sync.sh
+      - name: Prime search index for --diff-against
+        # --diff-against in the scraper (via backfill-openwall.sh's
+        # DIFF_AGAINST default) queries inbox/xap15/over.sqlite3 to
+        # skip messages already in the archive. That file is
+        # gitignored so a fresh runner has no index until this step
+        # runs. Without it, --diff-against silently no-ops and every
+        # yesterday-and-today message re-ingests as a duplicate.
+        # Cost: 5-10 min for a 40k-message archive on cold Xapian.
+        run: public-inbox-index inbox
+
+      - name: Sync
         env:
-          INBOX_DIR: inbox
+          DAYS_BACK: ${{ inputs.days_back || '1' }}
+          FAIL_THRESHOLD_PCT: '0'
+        run: |
+          SYNC_DAYS_BACK="$DAYS_BACK" \
+            INBOX_DIR=inbox \
+            METRICS_LOG=metrics/imports.tsv \
+            FAIL_THRESHOLD_PCT="$FAIL_THRESHOLD_PCT" \
+            ./scripts/sync.sh
+
+      - name: Build indexes (incorporate new messages)
+        run: public-inbox-index inbox
 
       - name: Commit and push
         run: |
           git add -A
           if git diff --cached --quiet; then
             echo "No new posts to commit."
-          else
-            git config user.name "oss-security-bot"
-            git config user.email "bot@users.noreply.github.com"
-            git commit -m "sync: $(date -u +%Y-%m-%d) oss-security posts"
-            git push
+            exit 0
           fi
+
+          # Extract counts from the metrics lines this run appended.
+          # Same logic as the backfill workflow — see backfill-openwall.yml
+          # for the format documentation.
+          added=0; failed=0; diff_skips=0; total=0
+          if [[ -s metrics/imports.tsv ]]; then
+            read total added failed < <(
+              awk -F'\t' '$2 == "import-maildir" {t=$3; i=$4; f=$5}
+                          END {print t+0, i+0, f+0}' metrics/imports.tsv
+            )
+            diff_skips=$(awk -F'\t' '$2 == "backfill-openwall" {d=$7}
+                                     END {print d+0}' metrics/imports.tsv)
+          fi
+          scraped=$((added + failed + diff_skips))
+          ts=$(date -u +%FT%TZ)
+          if [[ "$diff_skips" -gt 0 ]]; then
+            msg="sync: $ts ($scraped processed: $added added, $diff_skips pre-skipped"
+          else
+            msg="sync: $ts ($added added"
+          fi
+          [[ "$failed" != "0" ]] && msg="$msg, $failed failed"
+          msg="$msg)"
+
+          git config user.name "oss-security-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git commit -m "$msg"
+
+          # Rebase-retry same as backfill workflow — see there for
+          # the race-condition rationale.
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main 2>&1; then
+              if git push origin main 2>&1; then
+                echo "  push succeeded on attempt $attempt"
+                break
+              fi
+            fi
+            if [[ $attempt -eq 3 ]]; then
+              echo "  push failed after 3 attempts — bailing" >&2
+              exit 1
+            fi
+            echo "  attempt $attempt failed, sleeping 30s..." >&2
+            sleep 30
+            git rebase --abort 2>/dev/null || true
+          done
