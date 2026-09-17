@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Multiple vulnerabilities in Jenkins plugins</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAKG2iZg-7aLdv8+pELMq7V78Ob4VRYwQobJsT3HOrBjwmR7Riw&#64;mail.gmail.com&gt;
+Date: Wed, 16 Sep 2026 15:27:29 +0200
+From: Kevin Guerroudj &lt;kguerroudj&#64;...udbees.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Multiple vulnerabilities in Jenkins plugins
+
+Jenkins is an open source automation server which enables developers around
+the world to reliably build, test, and deploy their software.
+
+The following releases contain fixes for security vulnerabilities:
+
+* Bitbucket Push and Pull Request Plugin 4.1.0
+* Bitbucket Server Integration Plugin 6.0.2
+* Coverage Plugin 3.3361.v0626103a_67e6
+* Gitee Plugin 1304.v2702f1d71cde
+* GitLab Plugin 1.2152.veec0897048b_0
+* Gradle Plugin 2.20.1253.vc116f0763a_eb_
+* Keycloak Authentication Plugin 2.4.2
+* OWASP Dependency-Check Plugin 5.6.5
+* Pipeline: Groovy Libraries Plugin 806.v408277b_33d1d
+* Pipeline: Multibranch Plugin 842.v3a_b_59b_57b_e6e
+* Robot Framework Plugin 6.3.0
+* Script Security Plugin 1422.v06869826dd9b_
+* Warnings Plugin 13.10259.v80f407cb_03a_e
+
+
+Summaries of the vulnerabilities are below. More details, severity, and
+attribution can be found here:
+<a href="https://www.jenkins.io/security/advisory/2026-09-16/" rel="nofollow">https://www.jenkins.io/security/advisory/2026-09-16/</a>
+
+We provide advance notification for security updates on this mailing list:
+<a href="https://groups.google.com/d/forum/jenkinsci-advisories" rel="nofollow">https://groups.google.com/d/forum/jenkinsci-advisories</a>
+
+If you discover security vulnerabilities in Jenkins, please report them as
+described here:
+<a href="https://www.jenkins.io/security/#reporting-vulnerabilities" rel="nofollow">https://www.jenkins.io/security/#reporting-vulnerabilities</a>
+
+---
+
+SECURITY-3929 / CVE-2026-92122
+Script Security Plugin provides a sandbox feature that allows running
+user-provided scripts safely by intercepting and checking potentially
+unsafe operations.
+
+Groovy coerces a value to an interface by creating a proxy that forwards
+each interface method call to a method of the same name on that value.
+
+Script Security Plugin 1415.v9a_f9b_3a_c253d and earlier does not check the
+method that the proxy calls when the value inherits a method of the same
+name as an interface method.
+
+This allows attackers with permission to define and run sandboxed scripts,
+including Pipelines, to bypass the sandbox protection and execute arbitrary
+code in the context of the Jenkins controller JVM.
+
+
+SECURITY-3931 / CVE-2026-92123
+Script Security Plugin provides a sandbox feature that allows running
+user-provided scripts safely by intercepting and checking potentially
+unsafe operations.
+
+Script Security Plugin 1415.v9a_f9b_3a_c253d and earlier does not intercept
+operations performed on a `null` receiver (method calls, property and
+attribute accesses, and array accesses).
+
+This allows attackers with permission to define and run sandboxed scripts,
+including Pipelines, to bypass the sandbox protection and execute arbitrary
+code in the context of the Jenkins controller JVM.
+
+
+SECURITY-3923 / CVE-2026-92124
+Script Security Plugin provides a sandbox feature that allows running
+user-provided scripts safely by intercepting and checking potentially
+unsafe operations.
+
+Groovy casts a collection to another type using the elements of that
+collection, either passing them to a constructor of that type or casting
+each of them.
+
+Script Security Plugin 1415.v9a_f9b_3a_c253d and earlier checks the
+operations Groovy will perform with the elements it reads from the
+collection, but performs the cast on the collection itself rather than on
+the elements it checked.
+
+This allows attackers with permission to define and run sandboxed scripts,
+including Pipelines, to have the cast performed on different elements by
+overriding the methods of a collection, bypassing the sandbox protection
+and executing arbitrary code in the context of the Jenkins controller JVM.
+
+
+SECURITY-3925 (1) / CVE-2026-92125
+Script Security Plugin provides a sandbox feature that allows running
+user-provided scripts safely by intercepting and checking potentially
+unsafe operations.
+
+Script Security Plugin 1415.v9a_f9b_3a_c253d and earlier does not reject
+the `&#64;...ovyASTTransformationClass` annotation, which a script can use to
+link an annotation type it declares to an arbitrary AST transformation,
+causing Groovy to run that transformation at compile time, before the
+sandbox is applied.
+
+This allows attackers with permission to define and run sandboxed scripts,
+including Pipelines, to bypass the sandbox protection and execute arbitrary
+code in the context of the Jenkins controller JVM.
+
+
+SECURITY-3925 (2) / CVE-2026-92126
+Script Security Plugin provides a sandbox feature that allows running
+user-provided scripts safely by intercepting and checking potentially
+unsafe operations.
+
+Groovy's `&#64;...lder` annotation generates builder code at compile time using
+the strategy class named by its `builderStrategy` member, which can be one
+of the strategies provided by Groovy or a custom implementation.
+
+Script Security Plugin 1415.v9a_f9b_3a_c253d and earlier does not reject
+`&#64;...lder` annotations whose `builderStrategy` member names an arbitrary
+class, which causes Groovy to instantiate that class at compile time,
+before the sandbox is applied.
+
+This may allow attackers with permission to define and run sandboxed
+scripts, including Pipelines, to execute code outside the sandbox, in the
+rare case that a suitable class is present on the classpath of the
+component that evaluates the script.
+
+
+SECURITY-3897 / CVE-2026-92127
+Script Security Plugin allows Groovy scripts to load classpath entries from
+JAR files, which administrators must approve before any script is allowed
+to use them.
+
+Script Security Plugin 1415.v9a_f9b_3a_c253d and earlier automatically
+approves the classpath entries in an item configuration when a user with
+Overall/Administer permission copies the item, or updates that
+configuration through the REST API or CLI, allowing attackers able to
+define classpath entries to execute arbitrary code in the context of the
+Jenkins controller JVM.
+
+
+SECURITY-3932 / CVE-2026-92128
+Script Security Plugin allows Groovy scripts to load classpath entries from
+JAR files, specified either by file path or by URL, which administrators
+must approve before any script is allowed to use them.
+
+Script Security Plugin 1415.v9a_f9b_3a_c253d and earlier downloads a JAR
+file specified by URL twice when a script is evaluated, confirming the
+approval of the first download and loading the classpath entries from the
+second.
+
+This results in a time-of-check to time-of-use (TOCTOU) race condition that
+allows attackers able to define classpath entries to execute arbitrary code
+in the context of the Jenkins controller JVM.
+
+NOTE: Exploitation requires an already approved JAR file to be served from
+an attacker-controlled server.
+
+
+SECURITY-3977 / CVE-2026-92129
+Script Security Plugin provides a sandbox feature that allows running
+user-provided scripts safely by intercepting and checking potentially
+unsafe operations.
+
+Groovy allows an existing class to be extended at runtime with additional
+methods.
+
+Script Security Plugin 1415.v9a_f9b_3a_c253d and earlier does not check
+calls to such methods from sandboxed scripts.
+
+This allows attackers with permission to define and run sandboxed scripts,
+including Pipelines, to bypass the sandbox protection and execute code
+outside the sandbox.
+
+NOTE: Exploitation requires that the dynamically added methods have already
+been defined by code running outside the sandbox, e.g. by a plugin, as
+sandboxed scripts cannot extend a class themselves.
+
+
+SECURITY-3729 / CVE-2026-92130
+Pipeline: Multibranch Plugin 841.vec5b_9e1806ec and earlier does not set
+the appropriate context for credentials lookup in the `resolveScm` Pipeline
+step, allowing the use of System-scoped credentials otherwise reserved for
+the global configuration.
+
+This allows attackers with Item/Configure permission to access and capture
+credentials they are not entitled to use.
+
+
+SECURITY-3796 / CVE-2026-92131
+Pipeline: Groovy Libraries Plugin provides the `library` step to retrieve a
+shared library from an SCM, using a library path to specify the directory
+containing the library inside the SCM checkout.
+
+Pipeline: Groovy Libraries Plugin 805.va_fc79344957d and earlier does not
+restrict that library path to a relative path inside the SCM checkout.
+
+Additionally, it follows symbolic links to locations outside of the SCM
+checkout when retrieving the library.
+
+This results in a path traversal vulnerability, allowing attackers able to
+configure Pipelines to read files in a `resources` directory and to delete
+files in a `test` directory on the Jenkins controller file system.
+
+
+SECURITY-4028 / CVE-2026-92132
+Gradle Plugin provides global options for administrators to detect build
+scan links in build logs, and to show an enriched build scan summary for
+those build scans on the build page.
+
+In Gradle Plugin 2.19.1252.v15196b_5a_6e10 and earlier, the enriched build
+scan summary requests data from the build scan link detected in the build
+log, even when a Develocity server URL is configured in the global
+configuration.
+
+This allows attackers able to control the build log to capture the
+Develocity access key configured in the global configuration by having
+Jenkins connect to an attacker-specified URL.
+
+
+SECURITY-3851 / CVE-2026-92133
+GitLab Plugin allows jobs to override the globally configured GitLab API
+token credentials with an alternative one, and caches the GitLab API client
+it builds for those credentials.
+
+GitLab Plugin 1.2149.vcfc32c82b_f7f and earlier derives the cache key from
+the credentials ID alone, omitting the folder in which the credentials are
+resolved, resulting in the GitLab API token credentials being taken from
+the folder of the job that created the cache entry.
+
+This allows attackers with Item/Configure permission to access GitLab API
+token credentials they are not entitled to use.
+
+
+SECURITY-3937 / CVE-2026-92134
+Warnings Plugin uses analysis results IDs to create the links to analysis
+results on the Jenkins UI.
+
+Warnings Plugin 13.10258.va_17d49a_78c3b_ and earlier does not validate the
+analysis results ID when a job configuration is submitted through the REST
+API. This allows attackers with Item/Configure permission to use a
+`javascript:` scheme URL as identifier, resulting in a stored cross-site
+scripting (XSS) vulnerability.
+
+TIP: On Jenkins 2.539 and newer, LTS 2.541.1 and newer, enforcing
+Content Security Policy protection mitigates this vulnerability.
+
+
+SECURITY-4118 / CVE-2026-92135
+Coverage Plugin uses coverage results IDs to create the links to coverage
+results on the Jenkins UI.
+
+Coverage Plugin 3.3358.v9487dde48783 and earlier does not validate the
+coverage results ID when a job configuration is submitted through the REST
+API. This allows attackers with Item/Configure permission to use a
+`javascript:` scheme URL as identifier, resulting in a stored cross-site
+scripting (XSS) vulnerability.
+
+TIP: On Jenkins 2.539 and newer, LTS 2.541.1 and newer, enforcing
+Content Security Policy protection mitigates this vulnerability.
+
+
+SECURITY-3992 / CVE-2026-92136
+OWASP Dependency-Check Plugin 5.6.4 and earlier does not escape CWE values
+from Dependency-Check reports on the Jenkins UI.
+
+This results in a stored cross-site scripting (XSS) vulnerability
+exploitable by attackers with Item/Configure permission.
+
+TIP: On Jenkins 2.539 and newer, LTS 2.541.1 and newer, enforcing
+Content Security Policy protection mitigates this vulnerability.
+
+
+SECURITY-3971 / CVE-2026-92137
+Robot Framework Plugin 6.2.2 and earlier does not check that the archive
+directory configured for Robot Framework report files is contained within
+the build directory on the Jenkins controller.
+
+This allows attackers with Item/Configure permission to create or replace
+arbitrary files on the Jenkins controller file system with
+attacker-specified content, which can lead to remote code execution.
+
+
+SECURITY-3778 / CVE-2026-92138
+Bitbucket Server Integration Plugin implements an OAuth provider for
+Bitbucket Server.
+
+The OAuth authorization endpoint in Bitbucket Server Integration Plugin
+6.0.1 and earlier reads the `oauth_callback` URL from the submitted form
+rather than from the server-side stored request token. An attacker who can
+manipulate the form submission can cause Jenkins to redirect the
+authorizing user's browser to an arbitrary URL. The redirect includes the
+`oauth_token` and `oauth_verifier` parameters, allowing the attacker to
+complete the OAuth flow and obtain an access token on behalf of the victim.
+
+NOTE: Exploiting this vulnerability requires the attacker to have
+previously registered an OAuth consumer (requires Overall/Administer
+permission) and to be able to intercept and modify the victim's form
+submission.
+
+
+SECURITY-3980 / CVE-2026-92139
+Bitbucket Push and Pull Request Plugin provides a webhook endpoint at
+`/bitbucket-hook/` to receive webhook notifications.
+
+When acting on these notifications, Bitbucket Push and Pull Request Plugin
+4.0.1 and earlier trusts values provided in the webhook payload, including
+certain URLs, and uses configured Bitbucket credentials to connect to those
+URLs.
+
+This allows attackers to capture Bitbucket credentials stored in Jenkins by
+sending a crafted webhook payload.
+
+
+SECURITY-4027 / CVE-2026-92140
+Gitee Plugin 1301.v8957053c7902 and earlier does not escape the sender name
+from Gitee push webhook payloads in build causes.
+
+This results in a stored cross-site scripting (XSS) vulnerability
+exploitable by attackers able to trigger builds via the Gitee Plugin
+webhook endpoint.
+
+
+SECURITY-3767 / CVE-2026-92141
+Keycloak Authentication Plugin 2.4.1 and earlier does not restrict the
+redirect URL after login.
+
+This allows attackers to perform phishing attacks by having users go to a
+Jenkins URL that will forward them to a different site after successful
+authentication.
+
+-- 
+CONFIDENTIALITY NOTICE:_ This email and any attachments contain 
+confidential and proprietary information of CloudBees intended only for the 
+named recipient(s). Unauthorized use or distribution is prohibited. If you 
+received this in error, please notify the sender and delete this email._
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
