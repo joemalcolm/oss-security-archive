@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-73638: Imager versions from 0.45_02 before 1.035 for Perl
+ read outside the EXIF block via unchecked start offsets in tiff_load_ifd</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1D899BA-25E2-4C7F-A793-3CB236654D51&#64;stig.io&gt;
+Date: Thu, 17 Sep 2026 23:27:30 +0200
+From: Stig Palmquist &lt;stig&#64;...g.io&gt;
+To: cve-announce&#64;...urity.metacpan.org,
+ oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-73638: Imager versions from 0.45_02 before 1.035 for Perl
+ read outside the EXIF block via unchecked start offsets in tiff_load_ifd
+
+========================================================================
+CVE-2026-73638                                       CPAN Security Group
+========================================================================
+
+        CVE ID:  CVE-2026-73638
+
+  Distribution:  Imager
+      Versions:  from 0.45_02 before 1.035
+      MetaCPAN:  <a href="https://metacpan.org/dist/Imager" rel="nofollow">https://metacpan.org/dist/Imager</a>
+      VCS Repo:  <a href="https://github.com/tonycoz/imager" rel="nofollow">https://github.com/tonycoz/imager</a>
+
+
+Imager versions from 0.45_02 before 1.035 for Perl read outside the
+EXIF block via unchecked start offsets in tiff_load_ifd
+
+Description
+-----------
+Imager versions from 0.45_02 before 1.035 for Perl read outside the
+EXIF block via unchecked start offsets in tiff_load_ifd.
+
+tiff_load_ifd() validates an IFD entry's data by checking that
+`entry-&gt;offset + entry-&gt;size` stays within the EXIF block, and never
+checks the start offset itself. Where that sum is not the real end of
+the data, the check passes with the entry starting outside the block.
+
+Through 1.032 `entry-&gt;offset` is a plain int, so on the usual
+two's-complement implementations an offset with the high bit set
+converts to negative and the sum can land back inside the block. From
+1.033 the field is a size_t and the addition wraps only where size_t is
+32 bits. The IFD's own start offset is checked the same way and wraps
+where unsigned long is 32 bits, which includes 64-bit Windows.
+
+Any caller of Imager-&gt;read() on an attacker-supplied image may receive
+EXIF tags holding bytes from outside the block, or crash the process.
+
+Problem types
+-------------
+- CWE-125 Out-of-bounds Read
+
+Solutions
+---------
+Upgrade to Imager 1.035 or later.
+
+References
+----------
+<a href="https://github.com/tonycoz/imager/security/advisories/GHSA-j47j-8w8p-3mmc" rel="nofollow">https://github.com/tonycoz/imager/security/advisories/GHSA-j47j-8w8p-3mmc</a>
+<a href="https://github.com/tonycoz/imager/commit/48ba8ac0749f89466b6e6681fb88cbdb51086ebd.patch" rel="nofollow">https://github.com/tonycoz/imager/commit/48ba8ac0749f89466b6e6681fb88cbdb51086ebd.patch</a>
+<a href="https://github.com/tonycoz/imager/commit/6f1fd003a8e48c7e6e58b7019a04cc71bbfec2c3.patch" rel="nofollow">https://github.com/tonycoz/imager/commit/6f1fd003a8e48c7e6e58b7019a04cc71bbfec2c3.patch</a>
+<a href="https://github.com/tonycoz/imager/issues/568" rel="nofollow">https://github.com/tonycoz/imager/issues/568</a>
+<a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1144226" rel="nofollow">https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1144226</a>
+<a href="https://metacpan.org/release/TONYC/Imager-1.035/changes" rel="nofollow">https://metacpan.org/release/TONYC/Imager-1.035/changes</a>
+
+Timeline
+--------
+- 2026-08-19: Version 1.035 released with fix.
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
