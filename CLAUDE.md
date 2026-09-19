@@ -35,6 +35,13 @@ scripts/
   backfill-openwall.sh   — Wrap openwall-scrape.pl into the maildir-import pipeline
   ingest-direct.pl       — Write RFC822 directly to public-inbox via V2Writable::add,
                            bypassing mda's delivery-policy prechecks (DEC-ARCHIVE-005)
+  export-index.pl        — Project the inbox into index/ as flat JSON, one row per
+                           Message-ID (DEC-ARCHIVE-007)
+  verify-index.pl        — Validate index/ (runs in CI after every export)
+  write-status.pl        — Write status.json (ops health document, repo root)
+  publish-index.sh       — export → verify → status; the step workflows call
+index/                   — Generated projection for consumers. Never hand-edit.
+status.json              — Generated ops health document.
 ```
 
 ### Direct writer vs. `public-inbox-mda` (DEC-ARCHIVE-005)
@@ -168,6 +175,47 @@ Or, if you did commit locally first, a merge conflict on those same files — wh
 - If your local ingest has content the workflow doesn't (a message you manually recovered from `metrics/failed-msgs/` that isn't in the workflow's push): easier to just re-do the ingest after pulling. `git checkout -- inbox && git pull`, then re-run the recovery sweep — it's idempotent and will re-catch the same messages.
 
 **Longer-term fix:** the recovery sweep should live inside the workflow itself. Every backfill run's `Backfill` step would first walk `metrics/failed-msgs/*/*.eml` from previous runs, re-attempt any that succeed on retry, then proceed to the fresh scrape. All ingest happens on the runner, no local drift ever gets created, and the file conflict class disappears. About 10 lines added to `backfill-openwall.yml`'s `Backfill` step. Not urgent while backfill volume is one year per hour; worth doing before ongoing-sync goes live (where every 4-hour run would compound the drift risk).
+
+## Published index (DEC-ARCHIVE-007)
+
+`index/` is a flat JSON projection of the inbox for consumers that don't have public-inbox (first consumer: vulntools / `cvetools`). Full contract in `SPEC-index.md`; rationale in the header of `scripts/export-index.pl`.
+
+```
+index/
+  manifest.json           schema, built_from (epoch → commit), per-file count + sha256, totals
+  messages/YYYY.jsonl     one row per Message-ID; YYYY = posting year (UTC), sorted by (date, message_id)
+  bodies/YYYY.jsonl       decoded plain-text bodies, same rows in the same order
+  cves/YYYY.json          CVE ID → [mentions in date order]; YYYY = the CVE's own year
+status.json               ops health (last run, freshness, counts, problems)
+```
+
+**It is a projection.** Deterministic, regenerated in full on every workflow run (~20 s for 48k messages), never hand-edited, safe to `rm -rf index` and rebuild. Two runs on the same inbox are byte-identical except `manifest.generated_at`, so an ordinary sync only produces a git diff in the current year's `messages/` + `bodies/`, the `cves/` files that gained a mention, `manifest.json` and `status.json`. `.gitattributes` marks `index/**/*.jsonl` as `-diff` so `git log -p` stays readable.
+
+```bash
+# what the workflows run, after public-inbox-index and before git add -A
+bash scripts/publish-index.sh
+
+# or the pieces
+perl scripts/export-index.pl --inbox inbox --out index --source oss-security --url-scheme openwall
+perl scripts/verify-index.pl index
+```
+
+Needs `public-inbox` plus `libhtml-format-perl` (HTML-only mail → text). `libcpanel-json-xs-perl` is optional but makes the validator ~25× faster than core `JSON::PP`.
+
+**The index papers over duplicates; it does not fix them.** The inbox stores ~13.5k Message-IDs twice (maildir+scrape and scrape+scrape pairs). The exporter groups every stored copy by Message-ID and emits one row: best provenance wins (`maildir` > `upstream` > anything with an `X-Archive-Source`, e.g. `openwall-scrape`), then the latest commit. Losing copies are listed in the row's `duplicates`. `manifest.total_stored − total_messages` is the live dedup backlog, deliberately visible. The exporter is read-only on the inbox — purging the stored duplicates is a separate task (`scripts/purge-dedup-scraped.pl`, `scripts/dedup-rebuild.pl`), and because consumers only see `index/`, it can happen later with no downstream effect.
+
+Things worth knowing before touching the exporter:
+
+- **`body_conflict`** means "these copies are really different messages", not "the bytes differ" — a scraped copy never has equal bytes. Comparison masks addresses (openwall elides them in bodies too), collapses whitespace, undoes mbox `>From` escaping, and accepts one body being a prefix of the other (openwall renders later text parts — inline patches, list footers — into the same page). That takes ~6.3k byte-level mismatches down to ~30 real ones (charset damage in the scrape, plus genuine Message-ID reuse such as `<20150804123051.GA27639@lakka.kapsi.fi>`).
+- **`url`** for a maildir row borrows the scraped twin's `X-Archive-Source-URL` when there is one, so it is an exact permalink; only messages with no scraped copy fall back to the day-level URL (UTC day, which can be off by one from openwall's).
+- **`thread_root`** unions public-inbox's `tid` (from `over.sqlite3`) with the messages' own `References`/`In-Reply-To`. A from-scratch `public-inbox-index` skips same-Message-ID copies ("is a duplicate"), so `tid` alone can miss the winning copy; and the union means a missing or stale `over.sqlite3` yields the same output. Root = earliest message in the thread whose parent isn't in the archive. Scraped messages carry no threading headers and are their own roots until the `[thread-prev]` synthesis pass lands.
+- **`in_reply_to`** is the first ID in `In-Reply-To`, else the *last* ID in `References` (the RFC 5322 parent; ~120 messages have only `References`).
+- **`date`** is the `Date:` header unless it is missing, unparseable, or more than two days ahead of the list's own evidence of when the message arrived. That evidence is tried in order: the topmost openwall `Received:` (a `by …openwall.com` clause, or ezmlm's `(qmail N invoked by uid N); DATE` form) → the `YYYY/MM/DD` in `X-Archive-Source-URL` → the commit timestamp. Commit is last on purpose: on a backfilled archive it is the ingest date, which would put an old message with a bad `Date:` into the current year's shard and poison first-mention dates. `date_source` (`date` | `received` | `source_url` | `commit`) is on every row, and `verify-index.pl` prints the fallback tally. Today: 4 rows, all `received` (mail that arrived with no `Date:` at all).
+- **Message-IDs ending `@z`** were generated by public-inbox at ingest for mail that arrived without one; they are treated as ordinary IDs. The `synthetic_mid` path exists for inboxes where even that is absent.
+- **`cves/`** is faithful to the text: typos and examples in posts produce shards like `cves/2107.json` and `cves/1066.json`. Consumers should filter by plausible year if they care.
+- JSON is written by hand in the exporter (fixed key order, fixed escaping) so output doesn't depend on which JSON module a host has.
+
+**Failure handling.** `publish-index.sh` always writes `status.json`. If export or verify fails it rolls `index/` back to the committed version, writes `last_run.status = "error"` with `top_error` set and `last_success_at` unchanged, and exits non-zero. Workflows run that step with `continue-on-error`, commit as usual (new mail and the error status still get pushed), then a final step fails the job so GitHub sends the normal failure notification.
 
 ## Querying the archive
 

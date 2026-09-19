@@ -34,12 +34,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Mark run start (for status.json last_run.duration_s)
+        run: echo "RUN_STARTED_AT=$(date +%s)" >> "$GITHUB_ENV"
+
       - name: Install deps
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq \
             public-inbox xapian-tools \
-            libwww-perl liblwp-protocol-https-perl libhtml-parser-perl
+            libwww-perl liblwp-protocol-https-perl libhtml-parser-perl \
+            libhtml-format-perl libcpanel-json-xs-perl
 
       - name: Initialize inbox (idempotent — writes config on every run)
         # setup-inbox.sh is safe to run against an already-initialized inbox
@@ -90,6 +94,20 @@ jobs:
 
       - name: Build indexes
         run: public-inbox-index inbox
+
+      - name: Export index
+        # DEC-ARCHIVE-007 / SPEC-index.md. Regenerates index/ (one row per
+        # Message-ID — papers over stored duplicates, never purges them),
+        # validates it, and writes status.json. On failure the script
+        # rolls index/ back to the committed version and records the
+        # error in status.json; continue-on-error lets the commit step
+        # still push new mail + that error status, and the last step
+        # of the job then turns the run red.
+        id: export_index
+        continue-on-error: true
+        env:
+          METRICS_LOG: metrics/imports.tsv
+        run: bash scripts/publish-index.sh
 
       - name: Commit and push
         env:
@@ -175,3 +193,9 @@ jobs:
               git rebase --abort 2>/dev/null || true
             done
           fi
+
+      - name: Fail the run if the index export failed
+        if: steps.export_index.outcome == 'failure'
+        run: |
+          echo "index export/verify failed — see the 'Export index' step and status.json" >&2
+          exit 1
