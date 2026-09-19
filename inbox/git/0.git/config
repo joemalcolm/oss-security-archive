@@ -1,0 +1,8 @@
+[core]
+	repositoryFormatVersion = 0
+	filemode = true
+	bare = true
+[repack]
+	writeBitmaps = true
+[include]
+	path = ../../all.git/config
