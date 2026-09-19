@@ -1,0 +1,9 @@
+{
+"CVE-2001-0117":[{"message_id":"20160510192837.GB30154@sisay.ephaone.org","date":"2016-05-10T19:28:38Z","url":"https://www.openwall.com/lists/oss-security/2016/05/10/10","thread_root":"CANO=Ty0jMX=XhW5D71G4__tqtHwHY5iFX-YKZO71skbgin5U8w@mail.gmail.com"},{"message_id":"20160510194050.GA19811@mcvoy.com","date":"2016-05-10T19:40:50Z","url":"https://www.openwall.com/lists/oss-security/2016/05/10/13","thread_root":"CANO=Ty0jMX=XhW5D71G4__tqtHwHY5iFX-YKZO71skbgin5U8w@mail.gmail.com"}],
+"CVE-2001-0554":[{"message_id":"20260312225454.GA26766@openwall.com","date":"2026-03-12T22:54:54Z","url":"https://www.openwall.com/lists/oss-security/2026/03/12","thread_root":"6d90b416fd9f2e4e8483885a480b390d@risingedge.co.za"}],
+"CVE-2001-0955":[{"message_id":"20150817202748.GA3032@openwall.com","date":"2015-08-17T20:27:48Z","url":"https://www.openwall.com/lists/oss-security/2015/08/17","thread_root":"CANO=Ty1ku4Hs-eFzCWK_K0=QXEZbtDFR4c--gBnoHPQi7Ko+XQ@mail.gmail.com"}],
+"CVE-2001-1350":[{"message_id":"Pine.GSO.4.51.0803241808300.27382@faron.mitre.org","date":"2008-03-24T22:08:34Z","url":"https://www.openwall.com/lists/oss-security/2008/03/24/5","thread_root":"Pine.GSO.4.51.0803241808300.27382@faron.mitre.org"}],
+"CVE-2001-1384":[{"message_id":"20260520154548.GB1738@localhost.localdomain","date":"2026-05-20T15:46:05Z","url":"https://www.openwall.com/lists/oss-security/2026/05/20","thread_root":"20260515022033.GA10889@localhost.localdomain"}],
+"CVE-2001-1501":[{"message_id":"CADSkJJWpn3Z6VermSdq9f2ckxQ59BUXDZ4y=_A0gSQKv7YZ+zg@mail.gmail.com","date":"2017-04-24T14:06:52Z","url":"https://www.openwall.com/lists/oss-security/2017/04/24/3","thread_root":"CADSkJJWpn3Z6VermSdq9f2ckxQ59BUXDZ4y=_A0gSQKv7YZ+zg@mail.gmail.com"}],
+"CVE-2001-1593":[{"message_id":"201402051239.s15CdI6Y021951@linus.mitre.org","date":"2014-02-05T12:39:18Z","url":"https://www.openwall.com/lists/oss-security/2014/02/05/5","thread_root":"201402051239.s15CdI6Y021951@linus.mitre.org"}]
+}

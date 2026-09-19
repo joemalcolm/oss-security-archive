@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "system": "oss-security-archive",
+  "generated_at": "2026-09-19T13:01:21Z",
+  "last_success_at": "2026-09-19T13:01:21Z",
+  "last_run": {
+    "status": "ok",
+    "duration_s": 160,
+    "imported": 0,
+    "failed": 0,
+    "top_error": null
+  },
+  "freshness": {
+    "expected_interval_s": 14400,
+    "source_lag_s": 24158
+  },
+  "counts": {
+    "messages": 34298,
+    "stored": 47861,
+    "duplicates": 13563
+  },
+  "problems": [],
+  "links": {
+    "logs": "https://github.com/joemalcolm/oss-security-archive/actions",
+    "index": "https://raw.githubusercontent.com/joemalcolm/oss-security-archive/main/index/manifest.json"
+  }
+}
