@@ -188,7 +188,7 @@ Or, if you did commit locally first, a merge conflict on those same files — wh
 `index/` is a flat JSON projection of the inbox for consumers that don't have public-inbox (first consumer: vulntools / `cvetools`). Full contract in `SPEC-index.md`; rationale in the header of `scripts/export-index.pl`.
 
 ```
-index/
+index/oss-security/         one directory per list (DEC-ARCHIVE-009; a second list adds a sibling)
   manifest.json           schema, built_from (epoch → commit), per-file count + sha256, totals
   messages/YYYY.jsonl     one row per Message-ID; YYYY = posting year (UTC), sorted by (date, message_id)
   bodies/YYYY.jsonl       decoded plain-text bodies, same rows in the same order
@@ -196,15 +196,15 @@ index/
 status.json               ops health (last run, freshness, counts, problems)
 ```
 
-**It is a projection.** Deterministic, regenerated in full on every workflow run (~20 s for 48k messages), never hand-edited, safe to `rm -rf index` and rebuild. Two runs on the same inbox are byte-identical except `manifest.generated_at`, so an ordinary sync only produces a git diff in the current year's `messages/` + `bodies/`, the `cves/` files that gained a mention, `manifest.json` and `status.json`. `.gitattributes` marks `index/**/*.jsonl` as `-diff` so `git log -p` stays readable.
+The index directory is `index/<source>/`, so `raw.githubusercontent.com/joemalcolm/oss-security-archive/main/index/oss-security/manifest.json` is the consumer URL; `status.json` stays at the repo root. **It is a projection.** Deterministic, regenerated in full on every workflow run (~20 s for 48k messages), never hand-edited, safe to `rm -rf index` and rebuild. Two runs on the same inbox are byte-identical except `manifest.generated_at`, so an ordinary sync only produces a git diff in the current year's `messages/` + `bodies/`, the `cves/` files that gained a mention, `manifest.json` and `status.json`. `.gitattributes` marks `index/**/*.jsonl` as `-diff` so `git log -p` stays readable.
 
 ```bash
 # what the workflows run, after public-inbox-index and before git add -A
 bash scripts/publish-index.sh
 
 # or the pieces
-perl scripts/export-index.pl --inbox inbox --out index --source oss-security --url-scheme openwall
-perl scripts/verify-index.pl index
+perl scripts/export-index.pl --inbox inbox --out index/oss-security --source oss-security --url-scheme openwall
+perl scripts/verify-index.pl index/oss-security
 ```
 
 Needs `public-inbox` plus `libhtml-format-perl` (HTML-only mail → text). `libcpanel-json-xs-perl` is optional but makes the validator ~25× faster than core `JSON::PP`.

@@ -7,7 +7,8 @@
 # Usage:
 #   verify-index.pl <index-dir> [--inbox <dir>] [--max-errors N]
 #
-# --inbox defaults to <index-dir>/../inbox. When an inbox is available,
+# --inbox defaults to the inbox/ beside the index tree (<index-dir>/../../inbox
+# for index/<source>/, else <index-dir>/../inbox). When an inbox is available,
 # total_stored is re-counted independently from git at the exact commits
 # recorded in manifest.built_from (so it stays checkable after the inbox
 # has moved on). Without one, that single check is skipped with a notice.
@@ -30,7 +31,8 @@ GetOptions(\%opt, 'inbox=s', 'max-errors=i', 'help|h') && @ARGV == 1 && !$opt{he
     or do { print STDERR "usage: $0 <index-dir> [--inbox <dir>] [--max-errors N]\n";
             exit($opt{help} ? 0 : 2) };
 my $DIR = $ARGV[0];
-my $INBOX = $opt{inbox} // "$DIR/../inbox";
+# index/<source>/ sits two levels below the repo root; a bare index/ one.
+my $INBOX = $opt{inbox} // (-d "$DIR/../../inbox" ? "$DIR/../../inbox" : "$DIR/../inbox");
 
 my $JSON = do {
     my $j;

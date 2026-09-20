@@ -26,23 +26,23 @@ lei q -I inbox -f json "CVE-2026"
 
 ```bash
 # First mention of a CVE on the list (cves/ is sharded by the CVE's own year)
-jq '."CVE-2026-86089"[0]' index/cves/2026.json
+jq '."CVE-2026-86089"[0]' index/oss-security/cves/2026.json
 
 # Every message that mentions it (messages/ and bodies/ are sharded by posting year)
-jq -c 'select(.cve_ids | index("CVE-2024-3094")) | {date, from, subject, url}' index/messages/2024.jsonl
+jq -c 'select(.cve_ids | index("CVE-2024-3094")) | {date, from, subject, url}' index/oss-security/messages/2024.jsonl
 
 # The decoded body of one message
-jq -r 'select(.message_id == "20240329155126.kjjfduxw2yrlxgzm@awork3.anarazel.de") | .body' index/bodies/2024.jsonl
+jq -r 'select(.message_id == "20240329155126.kjjfduxw2yrlxgzm@awork3.anarazel.de") | .body' index/oss-security/bodies/2024.jsonl
 
 # A whole thread
-jq -c 'select(.thread_root == "20240329155126.kjjfduxw2yrlxgzm@awork3.anarazel.de") | {date, from}' index/messages/2024.jsonl
+jq -c 'select(.thread_root == "20240329155126.kjjfduxw2yrlxgzm@awork3.anarazel.de") | {date, from}' index/oss-security/messages/2024.jsonl
 
 # What's there, and whether the archive is healthy
-curl -s https://raw.githubusercontent.com/joemalcolm/oss-security-archive/main/index/manifest.json | jq '{generated_at, total_messages, total_cves}'
+curl -s https://raw.githubusercontent.com/joemalcolm/oss-security-archive/main/index/oss-security/manifest.json | jq '{generated_at, total_messages, total_cves}'
 curl -s https://raw.githubusercontent.com/joemalcolm/oss-security-archive/main/status.json | jq '{last_success_at, freshness, problems}'
 ```
 
-`manifest.json` lists every file with its row count and sha256, so a consumer can fetch only the shards that changed. Row fields: `message_id`, `date` (ISO 8601 UTC) with `date_source` (`date` unless the header was unusable), `from`, `subject`, `in_reply_to`, `thread_root`, `url`, `provenance` (`maildir` = full-fidelity subscriber copy, `openwall-scrape` = reconstructed from openwall's HTML, addresses elided), `cve_ids`, `body_sha` (cache key for the body), `duplicates` / `body_conflict` (other stored copies of the same Message-ID, and whether any of them really differs). The schema is specified in [SPEC-index.md](SPEC-index.md); validate a copy with `perl scripts/verify-index.pl index`.
+`manifest.json` lists every file with its row count and sha256, so a consumer can fetch only the shards that changed. Row fields: `message_id`, `date` (ISO 8601 UTC) with `date_source` (`date` unless the header was unusable), `from`, `subject`, `in_reply_to`, `thread_root`, `url`, `provenance` (`maildir` = full-fidelity subscriber copy, `openwall-scrape` = reconstructed from openwall's HTML, addresses elided), `cve_ids`, `body_sha` (cache key for the body), `duplicates` / `body_conflict` (other stored copies of the same Message-ID, and whether any of them really differs). The schema is specified in [SPEC-index.md](SPEC-index.md); validate a copy with `perl scripts/verify-index.pl index/oss-security`.
 
 ## Bootstrap
 

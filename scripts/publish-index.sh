@@ -18,7 +18,7 @@
 #
 # Env (all optional):
 #   INBOX_DIR        default: inbox
-#   INDEX_DIR        default: index
+#   INDEX_DIR        default: index/$INDEX_SOURCE
 #   INDEX_SOURCE     default: oss-security
 #   INDEX_URL_SCHEME default: openwall
 #   METRICS_LOG      default: metrics/imports.tsv
@@ -29,8 +29,10 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INBOX_DIR="${INBOX_DIR:-inbox}"
-INDEX_DIR="${INDEX_DIR:-index}"
 SOURCE="${INDEX_SOURCE:-oss-security}"
+# One directory per list under index/, so a second list can share the repo
+# without moving anything (index/<source>/manifest.json is the consumer URL).
+INDEX_DIR="${INDEX_DIR:-index/$SOURCE}"
 SCHEME="${INDEX_URL_SCHEME:-openwall}"
 METRICS_LOG="${METRICS_LOG:-metrics/imports.tsv}"
 STARTED="${RUN_STARTED_AT:-$(date +%s)}"

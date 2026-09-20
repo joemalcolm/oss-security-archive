@@ -6,7 +6,7 @@
 #
 # Usage:
 #   write-status.pl --status ok|error [--top-error <text>]
-#                   [--index index] [--out status.json]
+#                   [--index index/<source>] [--out status.json]
 #                   [--metrics metrics/imports.tsv] [--started-at <epoch>]
 #                   [--repo owner/name] [--system <name>] [--interval 14400]
 #
@@ -21,7 +21,7 @@ use JSON::PP ();
 use POSIX qw(strftime);
 use Time::Local qw(timegm);
 
-my %o = (index => 'index', out => 'status.json', metrics => 'metrics/imports.tsv',
+my %o = (index => 'index/oss-security', out => 'status.json', metrics => 'metrics/imports.tsv',
          interval => 14400, system => 'oss-security-archive',
          repo => $ENV{GITHUB_REPOSITORY} || 'joemalcolm/oss-security-archive');
 GetOptions(\%o, 'status=s', 'top-error=s', 'index=s', 'out=s', 'metrics=s',
@@ -93,7 +93,7 @@ my $doc = [
     counts          => $counts,
     problems        => \@problems,
     links           => [ logs  => "https://github.com/$o{repo}/actions",
-                         index => "https://raw.githubusercontent.com/$o{repo}/main/index/manifest.json" ],
+                         index => "https://raw.githubusercontent.com/$o{repo}/main/$o{index}/manifest.json" ],
 ];
 
 sub emit {                      # $doc-style pair list -> pretty JSON object

@@ -24,12 +24,12 @@ Everything in `index/` is a projection: deterministic, regenerated on every sync
 ## Layout
 
 ```
-index/
+index/<source>/           one directory per list (oss-security today); added 2026-09-19 before any consumer integrated
   manifest.json
   messages/YYYY.jsonl     message → metadata + CVE IDs; YYYY = posting year (Date header, UTC)
   cves/YYYY.json          CVE ID → messages;            YYYY = the CVE's own year
   bodies/YYYY.jsonl       decoded plain-text bodies;    YYYY = posting year
-status.json               ops health document (repo root, not under index/)
+status.json               ops health document (repo root, not under index/; one per repo, not per list)
 ```
 
 Shard keys are chosen so a routine 4-hour run rewrites only the current year's `messages/` and `bodies/` files, plus whichever `cves/` files gained an entry. Do not shard messages by CVE year — a message can mention CVEs from several years or none.
@@ -165,7 +165,7 @@ Written by the same workflow step, schema per the ops plan:
   "freshness": {"expected_interval_s": 14400, "source_lag_s": <now − newest message date>},
   "counts": {"messages": 34305, "stored": 47836, "duplicates": 13531},
   "problems": [],
-  "links": {"logs": "https://github.com/joemalcolm/oss-security-archive/actions", "index": "https://raw.githubusercontent.com/joemalcolm/oss-security-archive/main/index/manifest.json"}
+  "links": {"logs": "https://github.com/joemalcolm/oss-security-archive/actions", "index": "https://raw.githubusercontent.com/joemalcolm/oss-security-archive/main/index/oss-security/manifest.json"}
 }
 ```
 
@@ -178,9 +178,9 @@ In `sync.yml`, between "Build indexes" and "Commit and push":
 ```yaml
       - name: Export index
         run: |
-          perl scripts/export-index.pl --inbox inbox --out index --source oss-security --url-scheme openwall
-          perl scripts/verify-index.pl index
-          scripts/write-status.sh   # or inline; reads metrics/imports.tsv + index/manifest.json
+          perl scripts/export-index.pl --inbox inbox --out index/oss-security --source oss-security --url-scheme openwall
+          perl scripts/verify-index.pl index/oss-security
+          scripts/write-status.sh   # or inline; reads metrics/imports.tsv + index/oss-security/manifest.json
 ```
 
 Same step in `backfill-openwall.yml` and `import-maildir.yml`, since they also change the inbox. The existing commit-message logic is unchanged; `index/` and `status.json` ride in the same commit as the inbox.
@@ -200,8 +200,8 @@ Add a `.gitattributes` entry `index/**/*.jsonl -diff` so `git log -p` stays usab
 - `verify-index.pl` passes; summary shows `unique ≈ 34.3k`, `stored = 47836` (± whatever synced since), `duplicates ≈ 13.5k`.
 - Spot check three known maildir+scrape pairs: the emitted row has `provenance: maildir`, an un-elided `from`, and one entry in `duplicates` with `provenance: openwall-scrape`.
 - Running the exporter twice locally yields no diff except `generated_at`.
-- `curl https://raw.githubusercontent.com/joemalcolm/oss-security-archive/main/index/manifest.json` returns the manifest.
-- README shows: `jq '."CVE-2026-86089"[0]' index/cves/2026.json` as the no-tools way to find a CVE's first mention.
+- `curl https://raw.githubusercontent.com/joemalcolm/oss-security-archive/main/index/oss-security/manifest.json` returns the manifest.
+- README shows: `jq '."CVE-2026-86089"[0]' index/oss-security/cves/2026.json` as the no-tools way to find a CVE's first mention.
 
 ## Implementation notes (2026-09-17)
 
@@ -218,3 +218,4 @@ Where the implementation is more specific than, or departs from, the text above.
 - **Workflow deps**: `libhtml-format-perl` (required for HTML-only mail), `libcpanel-json-xs-perl` (validator speed).
 - "No Message-ID at all" does occur upstream (7 messages), but public-inbox appended a generated `<…@z>` ID at ingest, so the synthetic path is still unused here.
 - Measured on `aeac4ccf` (2026-09-17): stored 47,841 · unique 34,278 · duplicates 13,563 (11,026 maildir+scrape, 2,536 scrape+scrape, 1 maildir+maildir) · body_conflicts 28 · CVEs 21,732 · index 96 MB (largest shard 7 MB) · export 19 s, verify 3 s on 2 cores.
+- **Index path** (2026-09-19, DEC-ARCHIVE-009): everything lives under `index/<source>/` (`index/oss-security/`), not a bare `index/`, so the same repo can index further lists without a breaking path change. Done before vulntools integrated. `status.json` stays at the root.
