@@ -188,20 +188,26 @@ bad("rows + duplicate copies = " . ($rows + $dup_copies) . " but manifest.total_
     unless ($rows // 0) + ($dup_copies // 0) == ($man->{total_stored} // -1);
 
 # Independent recount of stored messages, straight from git, at the commits
-# the index claims to be built from: every commit on master stores one
-# message, except a removal (`d`) commit, which stores none and cancels one.
+# the index claims to be built from: a stored message is a commit that
+# writes path `m`; a removal writes path `d` (none exist today). Counted
+# from --raw output rather than rev-list so a commit that touches neither
+# (never produced by public-inbox, but possible by hand) is not miscounted.
 if (-d "$INBOX/git") {
     my $stored = 0;
     for my $ep (sort { $a <=> $b } keys %{ $man->{built_from} // {} }) {
         my $gd = "$INBOX/git/$ep.git";
         my $at = $man->{built_from}{$ep};
         $at =~ /\A[0-9a-f]{40,64}\z/ or do { bad("built_from.$ep is not a commit id"); next };
-        my $all = qx(git --git-dir="$gd" rev-list --count --first-parent $at 2>/dev/null);
-        my $del = qx(git --git-dir="$gd" rev-list --count --first-parent $at -- d 2>/dev/null);
-        my ($n_all) = $all =~ /\A(\d+)\s*\z/
-            or do { bad("cannot count commits at $at in $gd"); next };
-        my ($n_del) = $del =~ /\A(\d+)/;
-        $stored += $n_all - 2 * ($n_del // 0);
+        open(my $fh, '-|', 'git', "--git-dir=$gd", qw(log --first-parent --root --raw
+             --no-abbrev --no-renames -m --format=), $at)
+            or do { bad("cannot run git log in $gd"); next };
+        my ($m, $d) = (0, 0);
+        while (<$fh>) {
+            $m++ if /\A:\d+ \d+ [0-9a-f]+ [0-9a-f]+ [AM]\tm$/;
+            $d++ if /\A:\d+ \d+ [0-9a-f]+ [0-9a-f]+ [AM]\td$/;
+        }
+        close $fh or do { bad("cannot count commits at $at in $gd"); next };
+        $stored += $m - $d;
     }
     bad("manifest.total_stored=$man->{total_stored} but git has $stored stored messages at built_from")
         unless $stored == ($man->{total_stored} // -1);

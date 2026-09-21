@@ -18,4 +18,8 @@ oss-sec-tmp/
 .claude/
 
 inbox/inbox.lock
+# The epoch is its own repository (DEC-ARCHIVE-010); scripts/inbox-repo.sh
+# clones it here. inbox.lock above is tracked anyway (git add -f): it is
+# public-inbox's v2 marker.
+inbox/git/
 MASTER_PLAN.md

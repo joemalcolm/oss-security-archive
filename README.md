@@ -1,13 +1,14 @@
 # oss-security-archive
 
-A [public-inbox](https://public-inbox.org/) mirror of the [oss-security](https://www.openwall.com/lists/oss-security/) mailing list.
+A [public-inbox](https://public-inbox.org/) mirror of the [oss-security](https://www.openwall.com/lists/oss-security/) mailing list. The mail lives in [oss-security-inbox](https://github.com/joemalcolm/oss-security-inbox) (a public-inbox v2 epoch: one commit per message); this repo holds the ingest pipeline and publishes a JSON index of it.
 
 ## Quick start
 
 ```bash
-# Clone and build indexes
+# Clone, fetch the mail, build indexes
 git clone https://github.com/joemalcolm/oss-security-archive.git
 cd oss-security-archive
+scripts/inbox-repo.sh fetch      # clones oss-security-inbox into inbox/git/0.git
 public-inbox-index inbox
 
 # Search for a CVE
@@ -57,6 +58,6 @@ public-inbox-index inbox
 
 ## How it works
 
-A GitHub Action runs every 4 hours, fetches new posts from Openwall's mbox endpoint, and ingests them via `public-inbox-mda`. Indexes (Xapian full-text + SQLite metadata) are rebuilt locally by each consumer — they are not committed to git.
+A GitHub Action runs every 4 hours: it fetches the epoch from oss-security-inbox, scrapes the last two days from openwall, ingests anything new, pushes the epoch back, and regenerates `index/`. Xapian/SQLite indexes are rebuilt locally by each consumer — they are not committed to git.
 
 See [CLAUDE.md](CLAUDE.md) for detailed architecture and maintenance instructions.

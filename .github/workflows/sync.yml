@@ -22,6 +22,11 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    # One writer at a time on the epoch: sync, backfill and import share
+    # this group so their pushes never race.
+    concurrency:
+      group: inbox-writer
+      cancel-in-progress: false
     permissions:
       contents: write
     timeout-minutes: 60   # sync should be quick — a 4h window has few msgs
@@ -40,6 +45,12 @@ jobs:
             public-inbox xapian-tools \
             libwww-perl liblwp-protocol-https-perl libhtml-parser-perl \
             libhtml-format-perl libcpanel-json-xs-perl
+
+      - name: Fetch inbox epoch from oss-security-inbox
+        # DEC-ARCHIVE-010: the epoch is its own repository. This clones it
+        # into inbox/git/0.git (gitignored here); the rest of the inbox
+        # scaffolding (all.git, inbox.lock, description) is tracked.
+        run: bash scripts/inbox-repo.sh fetch
 
       - name: Initialize inbox (idempotent — writes config on every run)
         run: ./scripts/setup-inbox.sh inbox
@@ -67,6 +78,14 @@ jobs:
 
       - name: Build indexes (incorporate new messages)
         run: public-inbox-index inbox
+
+      - name: Push inbox epoch to oss-security-inbox
+        # Before the index export: new mail is safe even if the export
+        # fails. A non-fast-forward rejection means another writer pushed
+        # first; the job fails and the next run re-ingests (idempotent).
+        env:
+          INBOX_PUSH_TOKEN: ${{ secrets.INBOX_PUSH_TOKEN }}
+        run: bash scripts/inbox-repo.sh push
 
       - name: Export index
         # DEC-ARCHIVE-007 / SPEC-index.md. Regenerates index/ (one row per

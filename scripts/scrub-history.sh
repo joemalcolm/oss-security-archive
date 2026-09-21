@@ -2,6 +2,11 @@
 # scrub-history.sh — rewrite the OUTER repo's history so no past commit
 # still carries the pre-sanitize epoch packs (DEC-ARCHIVE-008, step 3).
 #
+# HISTORICAL. Run once on 2026-09-19. Since DEC-ARCHIVE-010 the epoch is
+# its own repository and inbox/git/ is not tracked here, so this script
+# has nothing left to scrub; a future redaction is a force-push of the
+# epoch repo (see resanitize-epoch.pl). Kept for the record.
+#
 # What it does, in a FRESH clone (git filter-repo insists on one):
 #   1. clone <remote> into <workdir>
 #   2. copy the current inbox/ aside

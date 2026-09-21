@@ -23,8 +23,6 @@
 #   the checkout is. The previous epoch is moved to a gitignored backup
 #   path, never deleted. Xapian/over/msgmap are moved aside too: they
 #   reference the old blobs and are rebuilt by `public-inbox-index`.
-#   The outer repo's history still contains the old packs; scrubbing that
-#   is a separate decision (git filter-repo + force-push).
 #   Measured 2026-09-19: 1,724 of 47,861 stored messages change — the
 #   1,641 leaked ones plus ~85 older messages whose SENDER's rspamd left
 #   X-Rspamd-*/X-Spamd-* verdicts that the new anywhere-rule also drops
@@ -39,10 +37,13 @@
 #                  Maildir). Repeatable. Printed loudly; never implicit.
 #   --dry-run      report what would change; write nothing.
 #
-# Run it from the repo root, with no ingest running (stop or wait out the
-# scheduled sync), then commit `inbox/` and push immediately — see the
-# local-vs-workflow rule in CLAUDE.md. The next workflow run rebuilds the
-# index; every messages/*.jsonl row's `blob` changes, nothing else does.
+# Run it from the repo root after `scripts/inbox-repo.sh fetch`, with no
+# ingest running (wait out the scheduled sync), then force-push the epoch
+# (DEC-ARCHIVE-010: it is its own repo, so that is the whole rewrite):
+#   git --git-dir=inbox/git/0.git -c http.postBuffer=524288000 push --force \
+#       https://github.com/joemalcolm/oss-security-inbox.git master
+# The next workflow run clones fresh and rebuilds the index; every
+# messages/*.jsonl row's `blob` changes, nothing else does.
 #
 # Exit codes: 0 ok, 1 failure (nothing swapped), 2 usage error.
 

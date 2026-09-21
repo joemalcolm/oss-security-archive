@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This repo is a public-inbox mirror of the oss-security mailing list (https://www.openwall.com/lists/oss-security/). It stores every post as a git-native email object, with Xapian full-text search and SQLite metadata indexes.
+This repo drives a public-inbox mirror of the oss-security mailing list (https://www.openwall.com/lists/oss-security/). The mail itself — every post as a git-native email object — lives in its own repository, https://github.com/joemalcolm/oss-security-inbox (DEC-ARCHIVE-010); this repo holds the ingest scripts, the workflows, run metrics, and the published JSON index consumers read.
 
 Anyone can clone, search, and build on this archive.
 
@@ -42,12 +42,20 @@ scripts/
   publish-index.sh       — export → verify → status; the step workflows call
   resanitize-epoch.pl    — Rewrite an epoch so every stored message passes the
                            current sanitizer; git + Perl only (DEC-ARCHIVE-008)
-  scrub-history.sh       — Drop inbox/ and index/ from the outer repo's history
-                           (fresh clone + git filter-repo), re-add the current
-                           inbox as one snapshot; prints the force-push, never runs it
+  scrub-history.sh       — (historical) the 2026-09-19 outer-history scrub; the inbox
+                           is no longer tracked here, so it has nothing left to do
+  inbox-repo.sh          — fetch / push / status / reset the epoch against
+                           oss-security-inbox (DEC-ARCHIVE-010)
+inbox/                   — public-inbox v2 scaffolding (all.git, inbox.lock, description) —
+                           tracked. inbox/git/0.git is the epoch: a clone of
+                           oss-security-inbox, gitignored, created by inbox-repo.sh fetch
 index/                   — Generated projection for consumers. Never hand-edit.
 status.json              — Generated ops health document.
 ```
+
+### Where the mail lives (DEC-ARCHIVE-010)
+
+Epoch 0 is the repository https://github.com/joemalcolm/oss-security-inbox, branch `master` (what public-inbox v2 reads and writes). It was committed as ordinary files inside this repo until 2026-09-20; that fought git at every level — every repack of the epoch committed a new generation of packs (a 108 MiB inbox had grown this repo to 335 MiB in weeks), `refs/heads/master` and `info/refs` were unmergeable single values, GitHub's 100 MB file cap forced pack splitting, and redacting a message meant rewriting two histories. Now each message is one small commit in its own repo, pushes are incremental, and a history rewrite is an ordinary one. `scripts/inbox-repo.sh fetch` clones it into `inbox/git/0.git` (gitignored); `push` sends new commits back, refusing a non-fast-forward. The workflows fetch at the start of every run and push right after ingest, before the index export, so mail is never held hostage by an index failure; a `concurrency` group serialises the three writing workflows. CI pushes with the `INBOX_PUSH_TOKEN` secret (fine-grained PAT, Contents: write on oss-security-inbox), sent as an Authorization header for that one command and never written to config. `index/oss-security/manifest.json` → `built_from` names the epoch commit an index was built from: that is the link between the two repos.
 
 ### Direct writer vs. `public-inbox-mda` (DEC-ARCHIVE-005)
 
@@ -66,9 +74,11 @@ The git data lives in the default public-inbox v2 format. public-inbox manages s
 
 ### Initialize
 ```bash
-./scripts/setup-inbox.sh
+scripts/inbox-repo.sh fetch     # clone the epoch from oss-security-inbox into inbox/git/0.git
+./scripts/setup-inbox.sh inbox  # register the inbox in ~/.public-inbox/config
+public-inbox-index inbox        # build Xapian/SQLite locally (gitignored)
 ```
-This creates the public-inbox v2 epoch repositories and config.
+`setup-inbox.sh` still creates a fresh v2 structure if `inbox/all.git` is missing, but in this repo it never is: the scaffolding is tracked and the epoch comes from the inbox repo.
 
 ### Bootstrap historical data
 
@@ -104,7 +114,7 @@ The script iterates `cur/` and `new/`, runs each message through `scripts/saniti
 
 **Header sanitization (DEC-ARCHIVE-003).** A subscriber's Maildir copy of a list message carries header blocks added by their own infrastructure on top of the canonical message: their MX's `Received` chain, locally-added `Authentication-Results` / `ARC-*` / `DKIM-Signature`, their spam filter's `X-Spam-*`, plus `Delivered-To` / `X-Original-To` / `Return-Path` that reveal the subscriber's address. The sanitizer strips this cruft so the archived message matches what every other subscriber received. The boundary is the first `Received:` that is either a hop whose `by` clause names openwall, a hop whose `from` clause names openwall (the subscriber's MX writing down the gateway hop — stripped too), or ezmlm's own `Received: (qmail N invoked by uid N); DATE` stamp — everything from that hop onward (openwall's internal Receives plus the sender's own chain) is preserved verbatim. If no openwall hop is found (unusual for a list message), the message is passed through unchanged. Independently of the boundary, `X-Rspamd-*` / `X-Spamd-*` are stripped wherever they appear: an rspamd milter appends them at the *bottom* of the header block, so position can't catch them. See the comment header of `scripts/sanitize-headers.pl` for the full stripped-name list.
 
-**Gap found 2026-09-19 (DEC-ARCHIVE-008).** On the current mail path the relay writes no `Received: from …openwall` of its own, so the only openwall hop is the qmail stamp; the sanitizer had no rule for it and passed 1,641 messages (2025–2026) through verbatim, relay headers included. The qmail rule and the anywhere-rule above close the gap. To apply a sanitizer fix to messages already stored, run `perl scripts/resanitize-epoch.pl --inbox inbox --dry-run`, then without `--dry-run`: it replays the epoch through `sanitize()` keeping author/committer/timestamps/order byte-identical, verifies every new blob against the original before swapping, moves the old epoch and stale indexes to a gitignored `tmp/resanitize-<stamp>/`, and splits packs under 40 MB so GitHub accepts them. Needs only git and Perl. Run it with no ingest in flight, from a clean pull, and commit + push `inbox/` straight away (the local-vs-workflow rule below). The index follows on the next workflow run: only `blob` ids change. The outer repo's history keeps the old packs until `scripts/scrub-history.sh --yes` is run: it works in a fresh clone, removes `inbox/` and `index/` from every historical commit with `git filter-repo`, re-adds the current inbox as a single snapshot commit, and prints the `git push --force` for you to run (never pushes itself). Done 2026-09-19; the history before the snapshot commit therefore has no inbox at any revision, and the inbox's own git history lives inside the epoch packs where it always did. `inbox/inbox.lock` is tracked on purpose even though `.gitignore` lists it: public-inbox decides an inbox is v2 by that file's presence, and without it every ingest fails with "not a git repository: inbox". After any such force-push: delete stale remote branches (they pin the old packs), re-clone or hard-reset + `reflog expire` + `gc --prune=now` every checkout, and ask GitHub Support to purge cached commits.
+**Gap found 2026-09-19 (DEC-ARCHIVE-008).** On the current mail path the relay writes no `Received: from …openwall` of its own, so the only openwall hop is the qmail stamp; the sanitizer had no rule for it and passed 1,641 messages (2025–2026) through verbatim, relay headers included. The qmail rule and the anywhere-rule above close the gap. To apply a sanitizer fix to messages already stored, run `perl scripts/resanitize-epoch.pl --inbox inbox --dry-run`, then without `--dry-run`: it replays the epoch through `sanitize()` keeping author/committer/timestamps/order byte-identical, verifies every new blob against the original before swapping, moves the old epoch and stale indexes to a gitignored `tmp/resanitize-<stamp>/`, and splits packs under 40 MB so GitHub accepts them. Needs only git and Perl. Run it with no ingest in flight, after `scripts/inbox-repo.sh fetch`, then force-push the rewritten epoch to oss-security-inbox (`git --git-dir=inbox/git/0.git -c http.postBuffer=524288000 push --force https://github.com/joemalcolm/oss-security-inbox.git master`); the workflows' next fetch starts from a fresh clone, so they pick it up unaided. The index follows on the next workflow run: only `blob` ids change. Since DEC-ARCHIVE-010 the epoch is its own repository, so that force-push is the whole of the history rewrite; the 2026-09-19 scrub of this repo's history (`scripts/scrub-history.sh`, kept for the record) was only needed because the packs used to be committed here. `inbox/inbox.lock` is tracked on purpose even though `.gitignore` lists it: public-inbox decides an inbox is v2 by that file's presence, and without it every ingest fails with "not a git repository: inbox". After any force-push of the epoch: re-clone or hard-reset + `reflog expire` + `gc --prune=now` every checkout of it, and ask GitHub Support to purge cached commits.
 
 In CI, the `Import Maildir` workflow takes an HTTPS URL to a `.tar.gz` of the Maildir:
 ```bash
@@ -157,31 +167,15 @@ run: |
   # commit metrics/imports.tsv alongside the inbox commit
 ```
 
-### Local-vs-workflow divergence — operating rule
+### Local ingest vs. the workflows — operating rule
 
-Any time a local ingest AND a workflow push both modify the archive, the two branches advance `inbox/git/0.git/refs/heads/master` (plus `inbox/git/0.git/info/refs`) to different commits. `git pull` then refuses to fast-forward with:
+The epoch is an ordinary git repository, so local and workflow writers race the ordinary way: whoever pushes second gets a non-fast-forward rejection, and nothing is ever silently lost or unmergeable. The rule is the usual one:
 
-```
-error: Your local changes to the following files would be overwritten by merge:
-  inbox/git/0.git/info/refs
-  inbox/git/0.git/refs/heads/master
-Please commit your changes or stash them before you merge.
-```
+1. `scripts/inbox-repo.sh fetch` **before** any local `perl scripts/ingest-direct.pl`, `scripts/import-maildir.sh` or `scripts/backfill-openwall.sh`.
+2. `scripts/inbox-repo.sh push` **immediately after**. Locally that pushes over HTTPS with the credentials your git already holds for github.com (SSH is not set up on the usual machine; set `INBOX_REPO_PUSH_URL` to an SSH URL if you prefer). Nothing else in this repo needs to be committed for the mail to be published.
+3. If the push is rejected, another writer (usually the 4-hourly sync) got there first: `scripts/inbox-repo.sh reset`, `public-inbox-index inbox`, re-run the ingest (idempotent — already-present messages are skipped), push again. Same if `fetch` reports the local and remote epoch have diverged.
 
-Or, if you did commit locally first, a merge conflict on those same files — which is unmergeable in text (each ref points at one commit, not a diffable payload).
-
-**Operating rule:** always `git pull` **before** any local `perl scripts/ingest-direct.pl` or `scripts/backfill-openwall.sh` invocation, and always `git add inbox && git commit && git push` **immediately after**. Local ingests that sit uncommitted are the direct cause of this conflict, since the next workflow push races them.
-
-**Recovery when it happens anyway:**
-
-- If your local changes are just runtime ref state from an ingest whose *content* you're okay losing (e.g. a message that's also in the workflow's push, or one you can re-run from `metrics/failed-msgs/`):
-   ```bash
-   git checkout -- inbox   # drop local runtime state
-   git pull                 # fast-forward to workflow's version
-   ```
-- If your local ingest has content the workflow doesn't (a message you manually recovered from `metrics/failed-msgs/` that isn't in the workflow's push): easier to just re-do the ingest after pulling. `git checkout -- inbox && git pull`, then re-run the recovery sweep — it's idempotent and will re-catch the same messages.
-
-**Longer-term fix:** the recovery sweep should live inside the workflow itself. Every backfill run's `Backfill` step would first walk `metrics/failed-msgs/*/*.eml` from previous runs, re-attempt any that succeed on retry, then proceed to the fresh scrape. All ingest happens on the runner, no local drift ever gets created, and the file conflict class disappears. About 10 lines added to `backfill-openwall.yml`'s `Backfill` step. Not urgent while backfill volume is one year per hour; worth doing before ongoing-sync goes live (where every 4-hour run would compound the drift risk).
+The workflows never push a rewritten history (`push` is a plain, non-force push), so a `--force` to oss-security-inbox is always a deliberate human act — `resanitize-epoch.pl` is the one script that produces such a history, and it prints the command.
 
 ## Published index (DEC-ARCHIVE-007)
 
@@ -242,7 +236,7 @@ lei q -I inbox -f json "CVE-2026"
 ```
 
 ### Walking git objects directly
-For consumers that don't have public-inbox installed:
+For consumers that don't have public-inbox installed (`git clone https://github.com/joemalcolm/oss-security-inbox.git inbox/git/0.git`, or `scripts/inbox-repo.sh fetch` from this repo):
 ```bash
 git -C inbox/git/0.git log --format='%H' | while read hash; do
   git -C inbox/git/0.git show "$hash:m" 2>/dev/null  # raw email content
@@ -286,4 +280,4 @@ public-inbox generates two types of indexes from the git data:
 - Stored in `inbox/over.sqlite3` (not committed to git)
 - Rebuilt with `public-inbox-index inbox`
 
-Both indexes are regenerated from git data. Any consumer who clones the repo can rebuild them locally. The indexes are listed in `.gitignore`.
+Both indexes are regenerated from git data. Any consumer who clones the inbox repo can rebuild them locally. The indexes are listed in `.gitignore`.
