@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: A quartet of Linux local root vulns: DirtyAH6, PPPoEject, TUNderflow, and DiagSpill</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="../../../2026/09/19/7">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;6288-1789924616.794246&#64;7dSB.AgCk.mJ86&gt;
+Date: Sun, 20 Sep 2026 17:16:56 +0000
+From: Roman Fiedler &lt;roman.fiedler&#64;...aralleled.eu&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: A quartet of Linux local root vulns: DirtyAH6, PPPoEject, TUNderflow, and DiagSpill
+
+On Sat, 19 Sep 2026 14:50:50 -0600 Greg Dahlman wrote:
+&gt; I may be missing something but I do see a path that may be clean
+&gt; without inventing new package manager features or relying on brittle,
+&gt; text-based version strings. The concern regarding loose version
+&gt; matching and local source rebuilds breaking the ABI is real, but IMHO
+&gt; we don't need to invent a new package manager feature to fix it.
+&gt;
+&gt; As long as `CONFIG_MODVERSIONS` is enabled, why not simply hash a
+&gt; sorted version of CRCs Module.symvers, (maybe needing to use
+&gt; KBUILD_EXTRA_SYMBOLS for external dependencies? for some distros)
+&gt;
+&gt; Then use `Provides: kernel-abi-token =3D &lt;hash&gt;` and `Depends:
+&gt; kernel-abi-token =3D &lt;hash&gt;` and let people use weak depanancies.
+&gt;
+&gt; You could have a monolithic source recipe, but the automated build
+&gt; pipeline programmatically spits out separate .deb, .rpm, or
+&gt; .pkg.tar.zst files for each module.
+&gt;
+&gt; There is a complexity shift to the repository infrastructure but does
+&gt; not require sub-packaging and also solves the local build conflict
+&gt; problem at least in the common case I am thinking about.
+&gt;
+&gt; I guess the recommends may get a bit large and require metapackages by
+&gt; following the simplest pattern:
+&gt;
+&gt; ```
+&gt; Package: linux-image-generic
+&gt; Recommends: linux-module-pppoe, linux-module-sctp, linux-module-rds, ...
+&gt; ```
+&gt; So there may be some risk based packaging decisions to make or...
+&gt;
+&gt; To me it seems that `Provides: kernel-abi-token =3D &lt;hash&gt;` resolves
+&gt; many of the above concerns.
+&gt;
+&gt; On Fri, Sep 18, 2026 at 11:57=E2=80=AFAM Eli Schwartz &lt;eschwartz&#64;...too.org=
+&gt;&gt; wrote:
+&gt;&gt;
+&gt;&gt; On 9/18/26 11:30 AM, Kevin Riggle wrote:
+&gt;&gt; &gt; Would it be as conceptually straightforward on the distro side as
+&gt;&gt; &gt; breaking most of these less-common modules out into their own
+&gt;&gt; &gt; packages, e.g. linux-module-pppoe, linux-module-sctp, etc?
+&gt;&gt;
+&gt;&gt; That is exactly what Hanno said to do, so I presume that he thinks it is
+&gt;&gt; as simple as that.
+&gt;&gt;
+&gt;&gt; There are, of course, challenges. Not all distribution package managers
+&gt;&gt; support split subpackages -- the Gentoo package manager does not, albeit
+&gt;&gt; people often compile from source on that distro ;) so it is redundant
+&gt;&gt; for the most part but also impossible to implement for
+&gt;&gt; "gentoo-kernel-bin", or for `--getbinpkg "gentoo-kernel"`.
+&gt;&gt;
+&gt;&gt; It also opens up a slightly worrying concern, that if you don't ship the
+&gt;&gt; whole thing together they can get out of sync. I doubt it would be very
+&gt;&gt; good for ABI if modules can be built against one kernel .config, then
+&gt;&gt; loaded against a very different one because package managers aren't
+&gt;&gt; describing the binding between two packages with anything closer than a
+&gt;&gt;
+&gt;&gt; rundepend=3D"
+&gt;&gt;     ${parent_package}=3D=3D${exact_release_tag}-${monotonic_integer_build=
+&gt; id}
+&gt;&gt;
+&gt;&gt; "
+&gt;&gt;
+&gt;&gt; Depending on package manager, buildid may be stored as:
+&gt;&gt;
+&gt;&gt; - part of the "Version" field (e.g. debian) and defined purely as a
+&gt;&gt;   versioning convention
+&gt;&gt;
+&gt;&gt; - some extra field that is parsed as a version, e.g. Gentoo "${PR}"
+&gt;&gt;   (package revision) or Arch Linux "pkgrel", rpm "Release:", etc.
+&gt;&gt;
+&gt;&gt;
+&gt;&gt; Where it exists, it inevitably refers to a text value in a build recipe.
+&gt;&gt; For rpm, you can use %autorelease which parses git log; it doesn't
+&gt;&gt; really solve the problem here.
+&gt;&gt;
+&gt;&gt; So you would have to be very careful about consistently incrementing
+&gt;&gt; that and then it would break anyway if someone decides to rebuild an
+&gt;&gt; existing package from source, which, well, *kernels* and people
+&gt;&gt; rebuilding from source. ;) Hardly uncommon.
+&gt;&gt;
+&gt;&gt; It's quite rare for software to need such tight binding. So adding such
+&gt;&gt; a package manager feature (to bind subpackages to an extra metadata
+&gt;&gt; field outside of version + revision/buildid, probably a UUID or hash) is
+&gt;&gt; potentially a lot of one-off effort.
+&gt;&gt;
+&gt;&gt; ...
+&gt;&gt;
+&gt;&gt; Alternatively, kernels could ship with a default /usr/lib/modprobe.d
+&gt;&gt; file that sets "install ... /bin/false" for modules that are shipped but
+&gt;&gt; "a bad idea unless you really know you need it". The size of the
+&gt;&gt; resulting package cannot be minimized by dropping unneeded large files,
+&gt;&gt; but that's the status quo today. It seems eminently reasonable that this
+&gt;&gt; would solve the security issue, and people could install an override in
+&gt;&gt; /etc/modprobe.d for any modules they don't want to be masked.
+&gt;&gt;
+&gt;&gt; Some distros also have a package manager config file setting
+&gt;&gt; (INSTALL_MASK, NoExtract) to skip individual filenames or filename globs
+&gt;&gt; from being unpacked by any package. It is a bit bulky to use (one record
+&gt;&gt; per module you don't use) and likely not suitable for automatic
+&gt;&gt; deployment with user opt-out as it's quite disruptive if you do end up
+&gt;&gt; needing the module.
+&gt;&gt; --
+&gt;&gt; Eli Schwartz
+
+Well, splitting the kernel in per module packages may have other
+advantages, e.g. less data transferred due to using selected small
+packages only, but I don't know if in age of GBit-networking and
+huge disks is worth it.
+
+Otherwise I would assume, that package selection on diverse hardware
+might get quite annoying during install: you detect some USB hardware,
+install some USB controller packages, install them, load the
+modules, the next run detects some USB devices, you select more
+packages, load modules, ...
+
+I would more appreciate it, if modprobing would stop using historic
+blacklist approach - which was to my knowledge mainly used to
+avoid system lockup due to loading of buggy hardware drivers -
+and go to a whitelist approach.
+
+The kernel module packaging could stay as is, also no custom kernel
+compiling is needed. Instead the modprobe would be changed and
+distros could just ship 3 whitelists for convenience: all.whitelist;
+recommended.whitelist; none.whitelist.
+
+After a successful install with "all.whitelist", security-aware folks
+could essentially just do a "lsmod | sed -e '...' &gt; my.whitelist.
+
+Too easy, so what have I gotten wrong, missed?
+
+Roman
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
