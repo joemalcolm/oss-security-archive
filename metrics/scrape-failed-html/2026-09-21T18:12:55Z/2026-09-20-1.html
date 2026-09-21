@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Suricata 8.0.7 released with 67 vulnerabilities
+ fixed</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/09/19/7">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/09/19/3">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87pky8ik5z.fsf&#64;gentoo.org&gt;
+Date: Sun, 20 Sep 2026 06:08:56 +0100
+From: Sam James &lt;sam&#64;...too.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Suricata 8.0.7 released with 67 vulnerabilities
+ fixed
+
+Victor Julien &lt;lists&#64;...iniac.net&gt; writes:
+
+Hi Victor,
+
+&gt; Thanks for sharing this. I'm leading the Suricata project and I'm a
+&gt; long time list lurker here. Happy to post these announcements to the
+&gt; list myself if this would be appreciated.
+&gt;
+
+Please do if you can! It would be much appreciated.
+
+&gt; Cheers,
+&gt; Victor
+&gt;
+&gt; On 9/19/26 02:58, Alan Coopersmith wrote:
+&gt;&gt; <a href="https://forum.suricata.io/t/suricata-8-0-7-released/6467" rel="nofollow">https://forum.suricata.io/t/suricata-8-0-7-released/6467</a> states:
+&gt;&gt;&gt; We are pleased to announce the release of Suricata 8.0.7.
+&gt;&gt;&gt;
+&gt;&gt;&gt; This is a security release, fixing a number of important
+&gt;&gt;&gt; issues. This is the
+&gt;&gt;&gt; release with the highest number of vulnerability reports we’ve had
+&gt;&gt;&gt; so far,
+&gt;&gt;&gt; as a result of the rise of AI(-assisted) analysis, resulting in a much
+&gt;&gt;&gt; higher-than-usual number of issues.
+&gt;&gt;&gt;
+&gt;&gt;&gt; Get the release here:
+&gt;&gt;&gt;     <a href="https://www.openinfosecfoundation.org/download/suricata-8.0.7.tar.gz" rel="nofollow">https://www.openinfosecfoundation.org/download/suricata-8.0.7.tar.gz</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; Notable Changes
+&gt;&gt;&gt; ---------------
+&gt;&gt;&gt;
+&gt;&gt;&gt; Various security, performance, accuracy, and stability issues have
+&gt;&gt;&gt; been fixed.
+&gt;&gt;&gt;
+&gt;&gt;&gt; All tickets for 8.0.7: <a href="https://redmine.openinfosecfoundation.org/" rel="nofollow">https://redmine.openinfosecfoundation.org/</a>
+&gt;&gt;&gt; versions/236
+&gt;&gt;&gt;
+&gt;&gt;&gt; (note that private Suricata tickets will be opened to the public 2
+&gt;&gt;&gt; weeks after the release)
+&gt;&gt;&gt;
+&gt;&gt;&gt; CVE IDs Addressed:
+&gt;&gt;&gt; ------------------
+&gt;&gt;&gt; CVE             Severity (OISF) Severity (CVSS 3.1)     Tickets
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                9013
+&gt;&gt;&gt; Pending         HIGH            HIGH                    9009
+&gt;&gt;&gt; Pending         LOW             LOW                     9005
+&gt;&gt;&gt; Pending         CRITICAL        CRITICAL                9004
+&gt;&gt;&gt; Pending         HIGH            MODERATE                9002
+&gt;&gt;&gt; Pending         HIGH            HIGH                    9000
+&gt;&gt;&gt; Pending         HIGH            HIGH                    8998
+&gt;&gt;&gt; Pending         LOW             LOW                     8989
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8988
+&gt;&gt;&gt; Pending         LOW             LOW                     8987
+&gt;&gt;&gt; Pending         LOW             LOW                     8986
+&gt;&gt;&gt; Pending         LOW             LOW                     8985
+&gt;&gt;&gt; Pending         LOW             MODERATE                8984
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8983
+&gt;&gt;&gt; Pending         LOW             LOW                     8982
+&gt;&gt;&gt; Pending         LOW             LOW                     8981
+&gt;&gt;&gt; Pending         LOW             MODERATE                8977
+&gt;&gt;&gt; Pending         CRITICAL        CRITICAL                8974
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8972
+&gt;&gt;&gt; Pending         MODERATE        LOW                     8971
+&gt;&gt;&gt; Pending         LOW             LOW                     8965
+&gt;&gt;&gt; Pending         LOW             LOW                     8963
+&gt;&gt;&gt; Pending         HIGH            HIGH                    8957
+&gt;&gt;&gt; Pending         LOW             LOW                     8950
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8947
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8946
+&gt;&gt;&gt; Pending         HIGH            HIGH                    8945
+&gt;&gt;&gt; Pending         HIGH            MODERATE                8941
+&gt;&gt;&gt; Pending         LOW             MODERATE                8938
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8937
+&gt;&gt;&gt; Pending         HIGH            LOW                     8933
+&gt;&gt;&gt; Pending         LOW             MODERATE                8932
+&gt;&gt;&gt; Pending         HIGH            MODERATE                8931
+&gt;&gt;&gt; Pending         HIGH            LOW                     8930
+&gt;&gt;&gt; Pending         LOW             MODERATE                8927
+&gt;&gt;&gt; Pending         HIGH            LOW                     8925
+&gt;&gt;&gt; Pending         LOW             LOW                     8924
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8922
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8921
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8920
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8913
+&gt;&gt;&gt; Pending         LOW             MODERATE                8910
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8909
+&gt;&gt;&gt; Pending         HIGH            LOW                     8906
+&gt;&gt;&gt; Pending         HIGH            MODERATE                8898
+&gt;&gt;&gt; Pending         LOW             LOW                     8883
+&gt;&gt;&gt; Pending         MODERATE        LOW                     8881
+&gt;&gt;&gt; Pending         HIGH            MODERATE                8877
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8875
+&gt;&gt;&gt; Pending         LOW             MODERATE                8872
+&gt;&gt;&gt; Pending         HIGH            MODERATE                8871
+&gt;&gt;&gt; Pending         HIGH            MODERATE                8870
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8810
+&gt;&gt;&gt; Pending         HIGH            MODERATE                8808
+&gt;&gt;&gt; Pending         HIGH            LOW                     8806
+&gt;&gt;&gt; Pending         HIGH            HIGH                    8801
+&gt;&gt;&gt; Pending         HIGH            HIGH                    8794
+&gt;&gt;&gt; Pending         MODERATE        HIGH                    8792
+&gt;&gt;&gt; Pending         MODERATE        HIGH                    8790
+&gt;&gt;&gt; Pending         MODERATE        MODERATE                8788
+&gt;&gt;&gt; Pending         LOW             MODERATE                8769
+&gt;&gt;&gt; Pending         MODERATE        HIGH                    8758
+&gt;&gt;&gt; Pending         HIGH            HIGH                    8756
+&gt;&gt;&gt; Pending         LOW             LOW                     8751
+&gt;&gt;&gt; Pending         HIGH            HIGH                    8746
+&gt;&gt;&gt; Pending         LOW             LOW                     8732
+&gt;&gt;&gt; Pending         HIGH            MODERATE                8677
+&gt;&gt;&gt;
+&gt;&gt;&gt; Severity scores defined by OISF and CVSS may vary due to how we
+&gt;&gt;&gt; assess and
+&gt;&gt;&gt; evaluate impact. While CVSS has a more generic view on
+&gt;&gt;&gt; vulnerabilities and
+&gt;&gt;&gt; will penalize any network-related issues, for instance, OISF considers
+&gt;&gt;&gt; Suricata context as the baseline (thus, as example, affecting the network
+&gt;&gt;&gt; isn’t taken into account).
+&gt;&gt;&gt;
+&gt;&gt;&gt; Suricata Security Policies:
+&gt;&gt;&gt; <a href="https://github.com/OISF/suricata/security/" rel="nofollow">https://github.com/OISF/suricata/security/</a> policy
+&gt;&gt;&gt;
+&gt;&gt;&gt; Suricata Security Advisories: <a href="https://github.com/OISF/suricata/" rel="nofollow">https://github.com/OISF/suricata/</a>
+&gt;&gt;&gt; security/advisories
+&gt;&gt;&gt;
+&gt;&gt;&gt; Security Issues
+&gt;&gt;&gt; ---------------
+&gt;&gt;&gt;
+&gt;&gt;&gt; Note that we have refined our severities sometime back. CRITICAL
+&gt;&gt;&gt; severity is
+&gt;&gt;&gt; reserved for issues affecting Tier 1 features enabled by default,
+&gt;&gt;&gt; involving
+&gt;&gt;&gt; remotely triggerable traffic-based code execution. HIGH severity
+&gt;&gt;&gt; also covers
+&gt;&gt;&gt; Tier 1 features enabled by default, where there’s possible loss of
+&gt;&gt;&gt; visibility
+&gt;&gt;&gt; or availability.
+&gt;&gt;&gt;
+&gt;&gt;&gt; If you think you’ve encountered a security vulnerability, please see
+&gt;&gt;&gt; <a href="https://github.com/OISF/suricata/security/policy#reporting-issues" rel="nofollow">https://github.com/OISF/suricata/security/policy#reporting-issues</a>
+&gt;&gt;&gt;
+&gt;&gt;&gt; Suricata 7 is End of Life
+&gt;&gt;&gt; -------------------------
+&gt;&gt;&gt;
+&gt;&gt;&gt; Suricata 7 has reached EOL with the last Suricata 7.0.17. Please upgrade
+&gt;&gt;&gt; your setups to the latest supported version in the Suricata 8 branch.
+&gt;&gt;&gt;
+&gt;&gt;&gt; With Suricata 7 EOL, the LibHTP project is also end-of-life now, and the
+&gt;&gt;&gt; repository has been archived: <a href="https://github.com/OISF/libhtp" rel="nofollow">https://github.com/OISF/libhtp</a>?
+&gt;&gt;&gt; tab=readme-ov-file
+&gt;&gt;&gt;
+&gt;&gt;&gt; Special Thanks
+&gt;&gt;&gt; --------------
+&gt;&gt;&gt;
+&gt;&gt;&gt; For contributing patches, reporting vulnerabilities and bugs, or
+&gt;&gt;&gt; otherwise
+&gt;&gt;&gt; helping keep Suricata code secure, we appreciate:
+&gt;&gt;&gt;
+&gt;&gt;&gt; Aaron Chen, Ada Logics in collaboration with Anthropic Research,
+&gt;&gt;&gt; Adam Kiripolsky, Alexander Stadnikov, Luukas Larinkoski,
+&gt;&gt;&gt; Nozomi Networks Labs Advisory, Antoine Abou Faysal, Andreas Dolp,
+&gt;&gt;&gt; aramosf,
+&gt;&gt;&gt; Arthur Chan, Binbin Xu of Tencent YUNDING LAB CodeBuddy Security,
+&gt;&gt;&gt; Bin Luo (University of Electronic Science and Technology of China
+&gt;&gt;&gt; (UESTC)),
+&gt;&gt;&gt; Communications Security Establishment Canada (CSE), Denis Balashov,
+&gt;&gt;&gt; z00xcv,
+&gt;&gt;&gt; Feng Xue,
+&gt;&gt;&gt; Kevin Valerio and Quan Nguyen from Trail of Bits in collaboration
+&gt;&gt;&gt; with OpenAI,
+&gt;&gt;&gt; Lucas Ariel Sotomayor, Maksim Hayder, Kuniyoshi Noguchi (野口晋義),
+&gt;&gt;&gt; Riyan Dhiman,
+&gt;&gt;&gt; Stephen Donnelly, Urval Kheni, Yash Datre, Yazan Balawneh,
+&gt;&gt;&gt; OSS-Fuzz, Coverity.
+&gt;&gt;&gt;
+&gt;&gt;&gt; About Suricata
+&gt;&gt;&gt;
+&gt;&gt;&gt; Suricata is a high-performance Network Threat Detection, IDS, IPS,
+&gt;&gt;&gt; and Network
+&gt;&gt;&gt; Security Monitoring engine. Open-source and owned by a
+&gt;&gt;&gt; community-run non-profit
+&gt;&gt;&gt; foundation, the Open Information Security Foundation (OISF). Suricata is
+&gt;&gt;&gt; developed by OISF, its supporting vendors, and the community.
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (419 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
