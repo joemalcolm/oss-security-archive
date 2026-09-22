@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [OSSA-2026-039] OpenStack Octavia: HAProxy configuration injection
+ leading to remote code execution in Octavia (CVE-2026-pending)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2026/09/22/18">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;b4a3c8ea-ad74-4eb9-9d0b-bae3ef6fc22a&#64;gmail.com&gt;
+Date: Mon, 21 Sep 2026 10:08:43 -0700
+From: Goutham Pacha Ravi &lt;gouthampravi&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: [OSSA-2026-039] OpenStack Octavia: HAProxy configuration injection
+ leading to remote code execution in Octavia (CVE-2026-pending)
+
+==========================================================================================
+OSSA-2026-039: HAProxy configuration injection leading to remote code 
+execution in Octavia
+==========================================================================================
+
+:Date: September 21, 2026
+:CVE: CVE-2026-pending,
+       CVE-2026-pending
+
+
+Affects
+~~~~~~~
+- Octavia: &gt;=0.8.0 &lt;16.1.0, ==17.0.0, ==18.0.0
+
+
+Description
+~~~~~~~~~~~
+Chen YuXiang from the Institute of Computing Technology, Chinese
+Academy of Sciences reported input validation flaws in the Octavia
+load balancer API. The listener and pool ``tls_ciphers`` fields and
+the L7 policy ``redirect_url`` and ``redirect_prefix`` fields were
+written into the HAProxy configuration generated on the amphora
+without rejecting control characters, allowing an authenticated user
+who owns a load balancer managed by OpenStack Octavia's Amphora
+provider to inject arbitrary HAProxy configuration directives.
+
+Subsequently, an independent reporter, "Rolix", demonstrated that
+these flaws can be exploited to execute arbitrary commands as root
+on the provider-managed amphora, to disclose other tenants' TLS
+private keys and certificates and the deployment heartbeat key
+stored on the amphora, and to reach the control-plane network to
+which the amphora is attached.
+
+Only the Amphora provider driver is affected. Deployments that use a
+different provider driver do not render tenant input into an HAProxy
+configuration and are not affected.
+
+
+
+Patches
+~~~~~~~
+- <a href="https://review.opendev.org/1001096" rel="nofollow">https://review.opendev.org/1001096</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1001097" rel="nofollow">https://review.opendev.org/1001097</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1001094" rel="nofollow">https://review.opendev.org/1001094</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1001095" rel="nofollow">https://review.opendev.org/1001095</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1001091" rel="nofollow">https://review.opendev.org/1001091</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1001092" rel="nofollow">https://review.opendev.org/1001092</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/999553" rel="nofollow">https://review.opendev.org/999553</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/999555" rel="nofollow">https://review.opendev.org/999555</a> (2026.2/hibiscus)
+
+
+Credits
+~~~~~~~
+- Chen YuXiang from Institute of Computing Technology, Chinese Academy 
+of Sciences
+- "Rolix" from Independent
+
+
+References
+~~~~~~~~~~
+- <a href="https://launchpad.net/bugs/2167565" rel="nofollow">https://launchpad.net/bugs/2167565</a>
+- <a href="https://launchpad.net/bugs/2162101" rel="nofollow">https://launchpad.net/bugs/2162101</a>
+- <a href="https://launchpad.net/bugs/2162103" rel="nofollow">https://launchpad.net/bugs/2162103</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-pending" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-pending</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-pending" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-pending</a>
+
+
+Notes
+~~~~~
+- Two changes are required on each branch: one fixes the ``tls_ciphers``
+   fields and one fixes the L7 policy redirect fields.
+- The listener and pool ``tls_ciphers`` fields were introduced in
+   Octavia 6.0.0. Releases within the affected range that predate 6.0.0
+   are vulnerable only through the L7 policy ``redirect_url`` and
+   ``redirect_prefix`` fields.
+- These issues were originally triaged as a low-severity hardening
+   opportunity and the fixes were developed and merged in public. They
+   were reclassified after a proof of concept demonstrated remote code
+   execution as root on the amphora and reachability of the control-plane
+   network.
+- The remote code execution issue was reported to the OpenStack VMT by
+   Thomas Goirand (zigo) of Infomaniak, on behalf of the reporter,
+   "Rolix".
+- CVE identifiers were requested from MITRE for these two
+   vulnerabilities on 2026-09-17. The CVEs will be added to this advisory
+   by errata once assigned.
+
+--
+Goutham Pacha Ravi
+OpenStack Vulnerability Management Team
+<a href="https://security.openstack.org/vmt.html" rel="nofollow">https://security.openstack.org/vmt.html</a>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/1" rel="nofollow" download>OpenPGP_0x0638DAD3B82C3988.asc</a><strong>" of type "</strong>application/pgp-keys<strong>" (3241 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/2" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (841 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
