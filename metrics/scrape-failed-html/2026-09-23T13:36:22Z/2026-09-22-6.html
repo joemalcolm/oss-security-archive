@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Vulnerabilities in libheif and libde265</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href="../../../2026/09/19/5">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20260922092201.55b16073&#64;hboeck.de&gt;
+Date: Tue, 22 Sep 2026 09:22:01 +0200
+From: Hanno Böck &lt;hanno&#64;...eck.de&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Vulnerabilities in libheif and libde265
+
+libheif has released another update with various security fixes:
+<a href="https://github.com/strukturag/libheif/releases/tag/v1.23.5" rel="nofollow">https://github.com/strukturag/libheif/releases/tag/v1.23.5</a>
+
+Pasting the relevant part of the release notes below.
+
+I believe this from the project's README is also relevant:
+
+"Project status (September 2026). libheif and libde265 are maintained
+by a single independent developer with almost no recurring funding,
+while 61 security advisories had to be investigated, fixed and released
+in 2026 alone."
+
+-------------------
+
+v1.23.5 is a security and bugfix release. It is ABI- and API-compatible
+with v1.23.4 and is a drop-in replacement.
+
+One of the fixed issues is rated high, so all users are advised to
+upgrade. Security fixes
+
+(CVE numbers will be added when assigned.)
+
+    CVE-2026-XXXXX (GHSA-v8qw-hwjv-44hw) Memory exhaustion through a
+    mismatch between the container and the bitstream image size. A
+    crafted image can declare a small size in its ispe property while
+    the bitstream declares a much larger coded frame. The
+    container-level checks used the ispe size, so the oversized
+    bitstream reached the decoder, which allocated a frame buffer for
+    the in-band size before libheif rejected the mismatch. The advisory
+    demonstrated this for AV1 with the libaom backend (a 351-byte AVIF
+    declaring 64x64 but coding up to 27648x27648, allocating hundreds
+    of MB to more than 10 GB), but the same class affects every codec
+    whose real frame size lives in the bitstream. The coded size is now
+    checked against max_image_size_pixels in the codec-independent
+    decode path, before any bytes reach a decoder plugin: all AV1
+    sequence headers, all HEVC/AVC/VVC SPS NAL units (including those
+    carried in the item data, not only the ones in the configuration
+    record), the JPEG SOF marker and the JPEG 2000 SIZ reference grid
+    are scanned for the largest coded size. (high) CVE-2026-XXXXX
+    (GHSA-qwpf-5wf7-r996) Heap use-after-free and double free when
+    encoding an image that carries a TAI timestamp, including
+    transcoding a file with an itai property. ImageDescription
+    shallow-copied its raw heif_tai_timestamp_packet pointer, and a
+    temporary in ImageItem::encode_to_bitstream_and_boxes() freed the
+    packet while the item and the source image still held it. The
+    timestamp is now stored by value. (medium) CVE-2026-XXXXX
+    (GHSA-9c75-9g8r-4728) Memory amplification through a JPEG 2000 pclr
+    box declaring zero palette columns. The entry-count bound was
+    skipped for zero columns, so an 11-byte box allocated 65,535 empty
+    palette entries, and nested j2kH containers could repeat this
+    within the child and nesting limits: a 3 KB file reached about 330
+    MB RSS, none of it charged to max_total_memory. Zero columns are
+    rejected (ISO/IEC 15444-1 requires 1 to 255), the byte bound is
+    unconditional, and the palette storage is charged to the memory
+    limits. (medium) CVE-2026-XXXXX (GHSA-r7gr-2xm2-23wf) Heap
+    out-of-bounds read in alpha compositing for uncompressed (unci)
+    images whose colour planes have different bit depths.
+    Op_flatten_alpha_plane read every plane through the sample type of
+    the first colour plane, so an 8-bit blue plane next to 16-bit red
+    and green planes was read with a halved stride past its end, and
+    the bytes ended up in the composited output. ColorState now tracks
+    one bit depth per plane, and the operator declines mixed sample
+    widths at planning time. (medium) CVE-2026-XXXXX
+    (GHSA-q492-cfcm-895h) The OpenJPEG decoder plugin's pre-decode size
+    check bounded the JPEG 2000 window span (x1-x0)*(y1-y0) but not the
+    absolute reference-grid coordinates, so a codestream with a
+    17-pixel window on a grid near the 32-bit boundary reached
+    opj_decode(). Against OpenJPEG 2.3.1 this produced a
+    heap-buffer-overflow write inside OpenJPEG (the class of
+    CVE-2020-6851); OpenJPEG 2.5.4 rejects the input. The
+    reference-grid area is now bounded as well. (low)
+    (GHSA-qfj5-c4pq-q998) Heap out-of-bounds read in the uncompressed
+    encoder when an application attached a separate alpha plane to an
+    image with an interleaved chroma format. The interleaved encoders
+    took their component list from the chroma format (three entries)
+    but decided whether to write alpha from the presence of an alpha
+    plane, and indexed the list at [3]. heif_image_add_plane() now
+    rejects a separate alpha plane on interleaved images, and the
+    encoders derive both decisions from the chroma format. Only
+    reachable through the public API; decoding never produces such an
+    image. (low) (GHSA-7pwf-qh74-p35w) The caller's
+    heif_security_limits were not applied when parsing a mini box (the
+    MIAF minimized image format) or the av1C/hvcC blob embedded in it;
+    the built-in defaults were used instead. An application that
+    tightened the limits got no enforcement of its
+    max_memory_block_size or max_total_memory on such files. The
+    allocations are bounded by the bytes present in the box, so this
+    could not amplify memory use. (low)
+
+Thanks to @homm, @jitxie (Yunding Lab, Tencent Security), @peter-hendy,
+@joelczk, @adamyordan, @k3mlol, @bruhdev1290 and @hyunjungdoh for
+reporting these issues, and to @SomnathDas, @sil3ntwizard and @iceray00
+for the reports behind the API-contract and UBSan items under
+Hardening. Hardening
+
+    Colour conversion tracks one bit depth per plane instead of one
+    image-wide value, and every operator declares the sample width and
+    the per-plane depths it can read, so images with mixed plane depths
+    (which unci allows) are declined at planning time instead of being
+    caught, or not, by runtime checks. The blanket check that refused
+    every mixed-depth YCbCr conversion (GHSA-w7mc-p8jc-p853) is
+    replaced by per-operator constraints The colour-conversion and
+    encoder entry points verify the plane layout: the planes that an
+    image's colorspace and chroma format imply must be present exactly
+    once, at the implied sizes. Missing, duplicate or foreign planes
+    previously failed deep inside an operator, passed through as a
+    no-op, or hit an assert() in the x265 plugin that release builds
+    compile out heif_image_add_plane() rejects a Cb or Cr plane whose
+    size does not match the chroma subsampling of the image. An
+    oversized plane built this way fooled the row fill in
+    heif_image_extend_to_size_fill_with_zero() into a 4 GB
+    out-of-bounds write (GHSA-j2rv-58fh-w8pw), an undersized one caused
+    out-of-bounds reads in the RGB conversion (#1796). Only reachable
+    by an application constructing an inconsistent image through the
+    public API heif_image_extend_to_size_fill_with_zero() rejects a
+    target smaller than the current image with a usage error instead of
+    underflowing the fill length and writing past the plane
+    (GHSA-hqc2-cx5m-g6ff, only reachable by out-of-contract API use)
+    memcpy() is never called with a NULL pointer, even for zero-length
+    copies (empty box payloads, zero-length iloc extents, empty ICC
+    profiles or masks). This is undefined behaviour in C17 and C++ and
+    was reported by UBSan (GHSA-2764-mqj2-c458, GHSA-x8qp-vqp7-mm4r)
+    JPEG 2000 pclr: the palette precision field is read and written as
+    the specification defines it (the low 7 bits hold the precision
+    minus one), and the entry count is returned as the 16-bit value it
+    is
+
+
+-- 
+Hanno Böck
+<a href="https://hboeck.de/" rel="nofollow">https://hboeck.de/</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
