@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Vulnerabilities in ntfs-3g</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;6db2826a-e05a-4a3a-8f5e-2a75a83b597c&#64;tuxera.com&gt;
+Date: Wed, 23 Sep 2026 15:04:10 +0300
+From: Rostislav &lt;rostislav&#64;...era.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Vulnerabilities in ntfs-3g
+
+Hello oss-security,
+
+Multiple vulnerabilities have been discovered in ntfs-3g 
+(<a href="https://github.com/tuxera/ntfs-3g" rel="nofollow">https://github.com/tuxera/ntfs-3g</a>). The vulnerabilities have been fixed 
+in version 2026.9.18.
+
+Below is the list of vulnerabilities with their CVSS score and severity:
+[NTFS-3G-SA_2026-06-1_20] Heap buffer overflow in ntfs_acl_owner()
+CVSS: 6.2 Severity: Moderate
+Credit: Jurre van Bergen
+
+[NTFS-3G-SA_2026-06-1_19] Heap buffer overflow in ntfs_same_sid()
+CVSS: 6.8 Severity: Moderate
+Credit: Jurre van Bergen
+
+[NTFS-3G-SA_2026-06-1_12] Denial-of-service in 
+ntfs_inode_attach_all_extents()
+CVSS: 6.2 Severity: Moderate
+Credit: Jurre van Bergen
+
+[NTFS-3G-SA_2026-06-1_11] Heap buffer overflow in ntfs_check_restart_area()
+CVSS: 2.9 Severity: Low
+Credit: Jurre van Bergen
+
+[NTFS-3G-SA_2026-06-1_10] Heap buffer overflow in ntfs_ea_check_wsldev()
+CVSS: 4.0 Severity: Moderate
+Credit: Matthieu Olivier at ANSSI and Jurre van Bergen
+
+[NTFS-3G-SA_2026-06-1_08] Heap buffer overflow in ntfs_external_attr_find()
+CVSS: 2.9 Severity: Low
+Credit: Jurre van Bergen
+
+[NTFS-3G-SA_2026-06-1_07] Heap data corruption in 
+ntfs_mapping_pairs_decompress_i()
+CVSS: 2.9 Severity: Low
+Credit: Jurre van Bergen
+
+[NTFS-3G-SA_2026-06-1_05] Heap out of bounds read/write in ntfs_ie_add_vcn()
+CVSS: 6.2 Severity: Moderate
+Credit: Jurre van Bergen
+
+CVE IDs have been requested for these vulnerabilities. They will be 
+published separately after we receive them.
+
+Links to the latest version with fixes and patches for older versions:
+
+<a href="https://download.tuxera.com/opensource/ea5899b4ab87d243f6bed2f8fc13e6e5ff1f6d51fdf22b2ccbe708c8c0256166/ntfs-3g-2026.9.18.tar.gz" rel="nofollow">https://download.tuxera.com/opensource/ea5899b4ab87d243f6bed2f8fc13e6e5ff1f6d51fdf22b2ccbe708c8c0256166/ntfs-3g-2026.9.18.tar.gz</a>
+<a href="https://download.tuxera.com/opensource/ea5899b4ab87d243f6bed2f8fc13e6e5ff1f6d51fdf22b2ccbe708c8c0256166/ntfs-3g_2022.10.3_SR_2026-09_patches.tar.gz" rel="nofollow">https://download.tuxera.com/opensource/ea5899b4ab87d243f6bed2f8fc13e6e5ff1f6d51fdf22b2ccbe708c8c0256166/ntfs-3g_2022.10.3_SR_2026-09_patches.tar.gz</a>
+<a href="https://download.tuxera.com/opensource/ea5899b4ab87d243f6bed2f8fc13e6e5ff1f6d51fdf22b2ccbe708c8c0256166/ntfs-3g_2026.7.7_SR_2026-09_patches.tar.gz" rel="nofollow">https://download.tuxera.com/opensource/ea5899b4ab87d243f6bed2f8fc13e6e5ff1f6d51fdf22b2ccbe708c8c0256166/ntfs-3g_2026.7.7_SR_2026-09_patches.tar.gz</a>
+
+SHA256 checksums:
+bcf3cf301a79e42d330128ffb52d4cf615bd1d30c10a92d9d8d14f2bb4fcd9bf 
+ntfs-3g-2026.9.18.tar.gz
+cee152395dd784e4c5ccb6f8766d7612da51bce38a4941d62e96a50d7bd5425e 
+ntfs-3g_2022.10.3_SR_2026-09_patches.tar.gz
+051bb6d0ea123087cd3ffa029ca7969b43489fbdda9ce8e5767eed098cff49ca 
+ntfs-3g_2026.7.7_SR_2026-09_patches.tar.gz
+
+We would like to thank Matthieu Olivier at ANSSI and Jurre van Bergen 
+for reporting the vulnerabilities and coordinating disclosure with us.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
