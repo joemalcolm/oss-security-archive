@@ -1,6 +1,6 @@
 # SPEC-index.md — Published index for consumers
 
-Status: **implemented 2026-09-17 as DEC-ARCHIVE-007; pending first green `sync.yml` run** (workflow wiring is in `tmp/index-workflows.patch` until applied). Owner: this repo. First consumer: vulntools (`cvetools`). Next decision number: DEC-ARCHIVE-008. Implementation notes at the end of this file.
+Status: **implemented 2026-09-17 as DEC-ARCHIVE-007; live since 2026-09-20; GHSA IDs added 2026-09-25 (DEC-ARCHIVE-011).** Owner: this repo. First consumer: vulntools (`cvetools`). Next decision number: DEC-ARCHIVE-012. Implementation notes at the end of this file.
 
 ## Why
 
@@ -28,6 +28,7 @@ index/<source>/           one directory per list (oss-security today); added 202
   manifest.json
   messages/YYYY.jsonl     message → metadata + CVE IDs; YYYY = posting year (Date header, UTC)
   cves/YYYY.json          CVE ID → messages;            YYYY = the CVE's own year
+  ghsas/all.json          GHSA ID → messages;           unsharded (GHSA IDs carry no year) — DEC-ARCHIVE-011
   bodies/YYYY.jsonl       decoded plain-text bodies;    YYYY = posting year
 status.json               ops health document (repo root, not under index/; one per repo, not per list)
 ```
@@ -60,6 +61,7 @@ Extract:
 - `source_url` — `X-Archive-Source-URL` if present.
 - `body` — see Bodies below.
 - `cve_ids` — every match of `/\bCVE-\d{4}-\d{4,}\b/i` in subject + decoded body, uppercased, deduplicated, sorted.
+- `ghsa_ids` (DEC-ARCHIVE-011) — every match of `/\bGHSA(-[23456789cfghjmpqrvwx]{4}){3}\b/i` (GitHub's advisory alphabet) in subject + decoded body, normalised to GitHub's form (`GHSA-` + lowercase), deduplicated, sorted. Bare IDs and IDs inside `…/security/advisories/GHSA-…` URLs both count; repository-level and draft advisories are included even though some never resolve publicly. No GHSA↔CVE aliasing: the index records what the text says, and consumers resolve aliases (e.g. via OSV).
 
 ### Step 3 — resolve duplicates: one row per Message-ID
 
@@ -95,13 +97,19 @@ Plain text only:
 `messages/YYYY.jsonl`, one object per line, sorted by `(date, message_id)`:
 
 ```json
-{"message_id":"444ae456-3665-45d1-9f51-0325d35cb2c6@gpg.fail","synthetic_mid":false,"epoch":0,"blob":"<oid>","duplicates":[{"blob":"<oid>","provenance":"openwall-scrape"}],"body_conflict":false,"date":"2026-09-15T23:48:31Z","from":"\"Lexi Groves\" <contact@....fail>","subject":"Re: Retrospective by 'gpg.fail' authors","in_reply_to":null,"thread_root":"444ae456-3665-45d1-9f51-0325d35cb2c6@gpg.fail","url":"https://www.openwall.com/lists/oss-security/2026/09/16/1","provenance":"openwall-scrape","cve_ids":["CVE-2026-86089"],"body_sha":"9f2c1a0b7e3d"}
+{"message_id":"444ae456-3665-45d1-9f51-0325d35cb2c6@gpg.fail","synthetic_mid":false,"epoch":0,"blob":"<oid>","duplicates":[{"blob":"<oid>","provenance":"openwall-scrape"}],"body_conflict":false,"date":"2026-09-15T23:48:31Z","from":"\"Lexi Groves\" <contact@....fail>","subject":"Re: Retrospective by 'gpg.fail' authors","in_reply_to":null,"thread_root":"444ae456-3665-45d1-9f51-0325d35cb2c6@gpg.fail","url":"https://www.openwall.com/lists/oss-security/2026/09/16/1","provenance":"openwall-scrape","cve_ids":["CVE-2026-86089"],"ghsa_ids":[],"body_sha":"9f2c1a0b7e3d"}
 ```
 
 `cves/YYYY.json`, one object, keys sorted, entries in `date` order (first entry = first mention):
 
 ```json
 {"CVE-2026-86089":[{"message_id":"...","date":"2026-09-15T21:02:11Z","url":"...","thread_root":"..."}]}
+```
+
+`ghsas/all.json`, same shape as a `cves/` shard (one object, one ID per line, keys sorted, entries in `date` order). It is a single file because GHSA IDs have no year to shard on and there are only ~600; if it ever outgrows one file, shard by the first suffix character. It is always written, even when empty, so the manifest shape is fixed:
+
+```json
+{"GHSA-2whq-6rcm-64m8":[{"message_id":"...","date":"2026-09-20T15:17:40Z","url":"...","thread_root":"..."}]}
 ```
 
 `bodies/YYYY.jsonl`, one object per line, same order as `messages/YYYY.jsonl`:
@@ -120,10 +128,12 @@ Plain text only:
   "built_from": {"0": "<epoch 0 master commit>"},
   "messages": {"2008": {"count": 812, "sha256": "<sha256 of file>"}, "...": {}},
   "cves":     {"2019": {"count": 1431, "sha256": "..."}, "...": {}},
+  "ghsas":    {"all": {"count": 590, "sha256": "..."}},
   "bodies":   {"2008": {"count": 812, "bytes": 3140221, "sha256": "..."}, "...": {}},
   "total_messages": 34305,
   "total_stored": 47836,
-  "total_cves": 30117
+  "total_cves": 30117,
+  "total_ghsas": 590
 }
 ```
 
@@ -144,12 +154,13 @@ Exit non-zero on any of:
 - duplicate `message_id` across all `messages/*.jsonl`;
 - a `cves/*.json` entry references a `message_id` not present in `messages/`;
 - a `bodies/` row without a matching `messages/` row or vice versa, or out of order;
+- `ghsas/all.json` not the only `ghsas` shard; an ID not in canonical form; an entry whose message's `ghsa_ids` lacks that ID, or a message's `ghsa_id` with no entry (checked both ways); entries out of `date` order; `total_ghsas` ≠ keys found;
 - `manifest.json` `count`/`sha256` disagrees with any file;
 - `total_messages` ≠ rows emitted, or `total_stored` ≠ stored messages counted independently;
 - any row where `body_sha` ≠ sha256 of the body in `bodies/`;
 - `date` not parseable ISO 8601, or year of `date` ≠ file's YYYY.
 
-Also print a one-line summary: stored, unique, duplicates, body_conflicts, cves, bytes.
+Also print a one-line summary: stored, unique, duplicates, body_conflicts, cves, ghsas, bytes.
 
 ## `status.json` (repo root)
 
@@ -219,4 +230,5 @@ Where the implementation is more specific than, or departs from, the text above.
 - "No Message-ID at all" does occur upstream (7 messages), but public-inbox appended a generated `<…@z>` ID at ingest, so the synthetic path is still unused here.
 - Measured on `aeac4ccf` (2026-09-17): stored 47,841 · unique 34,278 · duplicates 13,563 (11,026 maildir+scrape, 2,536 scrape+scrape, 1 maildir+maildir) · body_conflicts 28 · CVEs 21,732 · index 96 MB (largest shard 7 MB) · export 19 s, verify 3 s on 2 cores.
 - **Index path** (2026-09-19, DEC-ARCHIVE-009): everything lives under `index/<source>/` (`index/oss-security/`), not a bare `index/`, so the same repo can index further lists without a breaking path change. Done before vulntools integrated. `status.json` stays at the root.
+- **GitHub advisory IDs** (2026-09-25, DEC-ARCHIVE-011): `ghsa_ids` on every row plus `ghsas/all.json`, `manifest.ghsas`, `manifest.total_ghsas`. Motivation: advisories published only as GHSAs (no CVE) were unfindable by ID. Additive, so `schema` stays 1; adding the field rewrote every `messages/` shard once (22 MB, accepted — no consumer had integrated). If another per-row field is ever added, weigh that full rewrite again (e.g. emit only when non-empty, or bump `schema`). Measured on inbox `6f5aaa4`: 590 GHSA IDs in 402 messages, 88 of which name no CVE; `cves/` and `bodies/` byte-identical to the previous exporter. Other advisory schemes were counted and are negligible (PYSEC, GO, RUSTSEC: one ID each; OSV, GSD, EUVD: none).
 - **Epoch location** (2026-09-20, DEC-ARCHIVE-010): the inbox epoch is the repository `joemalcolm/oss-security-inbox`; `manifest.built_from` commit ids refer to it. Consumers of `index/` are unaffected.

@@ -69,8 +69,8 @@ bad("manifest.schema is not 1") unless ($man->{schema} // 0) == 1;
 parse_ts($man->{generated_at} // '') or bad("manifest.generated_at is not ISO 8601 UTC");
 
 # Every shard on disk must be in the manifest, and vice versa.
-for my $kind (qw(messages cves bodies)) {
-    my $ext = $kind eq 'cves' ? 'json' : 'jsonl';
+for my $kind (qw(messages cves ghsas bodies)) {
+    my $ext = $kind =~ /\A(?:cves|ghsas)\z/ ? 'json' : 'jsonl';
     my %disk = map { m{/([^/]+)\.\Q$ext\E\z} ? ($1 => 1) : () } glob("$DIR/$kind/*");
     my %want = map { $_ => 1 } keys %{ $man->{$kind} // {} };
     bad("$kind/$_.$ext on disk but not in manifest") for grep { !$want{$_} } sort keys %disk;
@@ -78,7 +78,7 @@ for my $kind (qw(messages cves bodies)) {
 }
 
 # ---------------------------------------------------------------- messages + bodies
-my (%seen, %date_src, $total_bytes, $rows, $dup_copies, $conflicts);
+my (%seen, %date_src, %ghsa_rows, $total_bytes, $rows, $dup_copies, $conflicts);
 $total_bytes = -s "$DIR/manifest.json";
 
 for my $y (sort keys %{ $man->{messages} // {} }) {
@@ -124,8 +124,9 @@ for my $y (sort keys %{ $man->{messages} // {} }) {
                 if $i && ($ts < $prev_ts || ($ts == $prev_ts && ($mid cmp $prev_mid) <= 0));
             ($prev_ts, $prev_mid) = ($ts, $mid);
         }
-        ref $m->{duplicates} eq 'ARRAY' && ref $m->{cve_ids} eq 'ARRAY'
-            or bad("$where duplicates/cve_ids must be arrays");
+        ref $m->{duplicates} eq 'ARRAY' && ref $m->{cve_ids} eq 'ARRAY' && ref $m->{ghsa_ids} eq 'ARRAY'
+            or bad("$where duplicates/cve_ids/ghsa_ids must be arrays");
+        if (ref $m->{ghsa_ids} eq 'ARRAY') { $ghsa_rows{$_}{$mid} = 1 for @{ $m->{ghsa_ids} } }
         defined $m->{thread_root} or bad("$where has no thread_root");
         $rows++;
         $dup_copies += @{ $m->{duplicates} // [] };
@@ -179,11 +180,54 @@ for my $y (sort keys %{ $man->{cves} // {} }) {
     }
 }
 
+# ---------------------------------------------------------------- ghsas
+# One unsharded file (GHSA IDs have no year). Checked both ways against the
+# rows' ghsa_ids: every mention listed must be a row naming that ID, and
+# every row naming an ID must be listed under it.
+my $ghsas = 0;
+bad("manifest.ghsas must be exactly {\"all\": ...}")
+    unless join(',', sort keys %{ $man->{ghsas} // {} }) eq 'all';
+if (my $gm = $man->{ghsas}{all}) {
+    my $raw = slurp("$DIR/ghsas/all.json");
+    if (defined $raw) {
+        $total_bytes += length $raw;
+        bad("ghsas/all.json sha256 disagrees with manifest")
+            unless sha256_hex($raw) eq ($gm->{sha256} // '');
+        my $g = eval { $JSON->decode($raw) };
+        if (ref $g eq 'HASH') {
+            $ghsas = keys %$g;
+            bad("ghsas/all.json has $ghsas IDs, manifest says " . ($gm->{count} // '?'))
+                unless $ghsas == ($gm->{count} // -1);
+            for my $id (sort keys %$g) {
+                bad("ghsas/all.json: '$id' is not a canonical GHSA ID")
+                    unless $id =~ /\AGHSA(?:-[23456789cfghjmpqrvwx]{4}){3}\z/;
+                my ($prev, %listed) = (-1);
+                for my $e (@{ $g->{$id} }) {
+                    my $mid = $e->{message_id} // '';
+                    $listed{$mid} = 1;
+                    bad("ghsas/all.json: $id lists <$mid>, which has no such ghsa_id")
+                        unless $ghsa_rows{$id}{$mid};
+                    my ($ts) = parse_ts($e->{date} // '');
+                    bad("ghsas/all.json: $id entries are not in date order")
+                        if !defined $ts || $ts < $prev;
+                    $prev = $ts // $prev;
+                }
+                bad("ghsas/all.json: $id is missing <$_>")
+                    for grep { !$listed{$_} } sort keys %{ $ghsa_rows{$id} // {} };
+            }
+            bad("ghsas/all.json is missing $_ (named in ghsa_ids)")
+                for grep { !exists $g->{$_} } sort keys %ghsa_rows;
+        } else { bad("ghsas/all.json does not parse as an object") }
+    }
+}
+
 # ---------------------------------------------------------------- totals
 bad("manifest.total_messages=$man->{total_messages} but $rows rows emitted")
     unless ($man->{total_messages} // -1) == ($rows // 0);
 bad("manifest.total_cves=$man->{total_cves} but $cves CVE keys found")
     unless ($man->{total_cves} // -1) == $cves;
+bad("manifest.total_ghsas=" . ($man->{total_ghsas} // 'missing') . " but $ghsas GHSA keys found")
+    unless ($man->{total_ghsas} // -1) == $ghsas;
 bad("rows + duplicate copies = " . ($rows + $dup_copies) . " but manifest.total_stored=$man->{total_stored}")
     unless ($rows // 0) + ($dup_copies // 0) == ($man->{total_stored} // -1);
 
@@ -215,12 +259,12 @@ if (-d "$INBOX/git") {
     print STDERR "note: no inbox at $INBOX — skipping the independent total_stored recount\n";
 }
 
-printf "%s: stored=%d unique=%d duplicates=%d body_conflicts=%d date_fallbacks=%d (%s) cves=%d bytes=%d\n",
+printf "%s: stored=%d unique=%d duplicates=%d body_conflicts=%d date_fallbacks=%d (%s) cves=%d ghsas=%d bytes=%d\n",
     $errors ? 'INVALID' : 'ok', $man->{total_stored} // 0, $rows // 0,
     ($man->{total_stored} // 0) - ($rows // 0), $conflicts // 0,
     ($rows // 0) - ($date_src{date} // 0),
     join(',', map { "$_=$date_src{$_}" } grep { $_ ne 'date' } sort keys %date_src) || 'none',
-    $cves, $total_bytes // 0;
+    $cves, $ghsas, $total_bytes // 0;
 if ($errors) {
     print STDERR "... and ", $errors - $opt{'max-errors'}, " more\n" if $errors > $opt{'max-errors'};
     print STDERR "verify-index: $errors problem(s)\n";

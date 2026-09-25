@@ -38,6 +38,11 @@
 #                (date | received | source_url | commit). A Date: more than
 #                two days ahead of the independent evidence is discarded.
 #
+#   ghsa_ids     GitHub advisory IDs (DEC-ARCHIVE-011), `GHSA-` + lowercase,
+#                from subject + body; also collected into ghsas/all.json
+#                (unsharded: GHSA IDs carry no year). Faithful to the text:
+#                no CVE aliasing, unresolvable repo/draft advisories kept.
+#
 #   body_conflict "these copies are really different messages", not "the
 #                bytes differ" — a scraped copy never has equal bytes.
 #                Copies are compared after normalising both bodies:
@@ -326,6 +331,19 @@ sub parse_message {
     }
     $m{cves} = [ sort keys %cve ];
 
+    # GitHub advisory IDs (DEC-ARCHIVE-011). GitHub's alphabet has no
+    # vowels, 0, 1 or l, so prose can't false-match. Canonical form is
+    # GitHub's own: `GHSA-` + lowercase. Most mentions sit inside
+    # .../security/advisories/GHSA-... URLs; repo-level and draft advisories
+    # are indexed too even though some never resolve. No GHSA<->CVE linking
+    # here: the index records what the text says, consumers alias via OSV.
+    my %ghsa;
+    for (\$subj_chars, \$body) {
+        $ghsa{'GHSA' . lc $1} = 1
+            while $$_ =~ /\bGHSA((?:-[23456789cfghjmpqrvwx]{4}){3})\b/gi;
+    }
+    $m{ghsas} = [ sort keys %ghsa ];
+
     # Full-body digest (pre-truncation) is what duplicate copies are
     # compared on; body_sha is over the bytes actually emitted.
     $m{full_sha} = sha256_hex($body);
@@ -518,6 +536,7 @@ sub message_line {
         ',"url":', js($m->{url}),
         ',"provenance":', js($m->{prov}),
         ',"cve_ids":[', join(',', map { js($_) } @{ $m->{cves} }), ']',
+        ',"ghsa_ids":[', join(',', map { js($_) } @{ $m->{ghsas} // [] }), ']',
         ',"body_sha":', js($m->{body_sha}), "}\n");
 }
 
@@ -533,12 +552,13 @@ sub put {                                  # atomic write, returns sha256
     ($sha->hexdigest, $n);
 }
 
-make_path(map { "$OUT/$_" } qw(messages cves bodies));
+make_path(map { "$OUT/$_" } qw(messages cves ghsas bodies));
 
-my (%year, %cve_year);
+my (%year, %cve_year, %ghsa);
 for my $m (sort { $a->{ts} <=> $b->{ts} || $a->{mid} cmp $b->{mid} } @rows) {
     push @{ $year{ strftime('%Y', gmtime $m->{ts}) } }, $m;
     push @{ $cve_year{ substr($_, 4, 4) }{$_} }, $m for @{ $m->{cves} };
+    push @{ $ghsa{$_} }, $m for @{ $m->{ghsas} // [] };
 }
 
 my (%man, $total_cves);
@@ -554,11 +574,12 @@ for my $y (sort keys %year) {
     });
     $man{bodies}{$y} = { count => scalar @$list, bytes => $bytes, sha256 => $bsha };
 }
-for my $y (sort keys %cve_year) {
-    my $c = $cve_year{$y};
-    # One CVE per line: still a single JSON object, but a new mention
-    # costs a one-line git delta instead of rewriting the whole file.
-    my ($sha) = put("$OUT/cves/$y.json", sub {
+# ID -> [mentions in date order], one ID per line: still a single JSON
+# object, but a new mention costs a one-line git delta instead of
+# rewriting the whole file.
+sub put_id_map {
+    my ($path, $c) = @_;
+    my ($sha) = put($path, sub {
         my @ids = sort keys %$c;
         $_[0]->("{\n");
         for my $i (0 .. $#ids) {
@@ -569,15 +590,26 @@ for my $y (sort keys %cve_year) {
         }
         $_[0]->("}\n");
     });
-    $man{cves}{$y} = { count => scalar keys %$c, sha256 => $sha };
+    $sha;
+}
+for my $y (sort keys %cve_year) {
+    my $c = $cve_year{$y};
+    $man{cves}{$y} = { count => scalar keys %$c, sha256 => put_id_map("$OUT/cves/$y.json", $c) };
     $total_cves += keys %$c;
 }
+# GHSA IDs carry no year, so there is nothing stable to shard on; ~600 IDs
+# fit one small file. Keyed `all` in the manifest so consumers can treat
+# every section as {shard => {count, sha256}} -> <kind>/<shard>.<ext>.
+# If this ever outgrows one file, shard by the first suffix character.
+# Always written, even when empty, so the manifest shape is fixed.
+$man{ghsas}{all} = { count => scalar keys %ghsa, sha256 => put_id_map("$OUT/ghsas/all.json", \%ghsa) };
+my $total_ghsas = keys %ghsa;
 
 # Shards that no longer have any content (only possible after a purge or
 # a date fix) must not linger: the index is a projection, not a log.
-for my $kind (qw(messages cves bodies)) {
+for my $kind (qw(messages cves ghsas bodies)) {
     for my $f (glob("$OUT/$kind/*")) {
-        my ($y) = $f =~ m{/(\d{4})\.jsonl?\z} or next;
+        my ($y) = $f =~ m{/(\d{4}|all)\.jsonl?\z} or next;
         unlink $f or die "unlink $f: $!" unless $man{$kind}{$y};
     }
 }
@@ -599,11 +631,13 @@ put("$OUT/manifest.json", sub { $_[0]->(join(",\n",
                                      sort { $a <=> $b } keys %built_from) . '}',
     section('messages', qw(count sha256)),
     section('cves', qw(count sha256)),
+    section('ghsas', qw(count sha256)),
     section('bodies', qw(count bytes sha256)),
     '  "total_messages": ' . scalar(@rows),
     '  "total_stored": ' . scalar(@stored),
-    '  "total_cves": ' . ($total_cves // 0)) . "\n}\n") });
+    '  "total_cves": ' . ($total_cves // 0),
+    '  "total_ghsas": ' . $total_ghsas) . "\n}\n") });
 
-note(sprintf('wrote %s: stored=%d unique=%d duplicates=%d body_conflicts=%d cves=%d',
+note(sprintf('wrote %s: stored=%d unique=%d duplicates=%d body_conflicts=%d cves=%d ghsas=%d',
     $OUT, scalar @stored, scalar @rows, @stored - @rows,
-    scalar(grep { $_->{body_conflict} } @rows), $total_cves // 0));
+    scalar(grep { $_->{body_conflict} } @rows), $total_cves // 0, $total_ghsas));
