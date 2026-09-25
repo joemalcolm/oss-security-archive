@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: Tor Project Forum: Security Release 0.4.9.13</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87ecejcink.fsf&#64;cmpct.info&gt;
+Date: Thu, 24 Sep 2026 06:39:27 +0100
+From: Sam James &lt;sam&#64;...too.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: Tor Project Forum: Security Release 0.4.9.13
+
+Here's the relevant release notes at the link in the email below:
+"""
++Changes in version 0.4.9.13 - 2026-09-23
++  This security release includes several high severity fixes, once again
++  originating from the LLM report firehose. The fixes affect all Tor
++  components: relays, clients, and onion services. We strongly recommend
++  upgrading as soon as possible.
++
++  o Major bugfixes (security):
++    - Avoid a set of possible memory corruption, double-free, and null
++      pointer dereference bugs that could occur with some reverse DNS
++      virtual address configurations. Fixes bug 41381; bugfix on
++      0.1.0.1-rc. Tracked as TROVE-2026-051.
++    - Avoid cacheing DNS PTR responses when DNS caching is disabled.
++      Previous code to prevent this caching parsed the response
++      addresses incorrectly, and defaulted to caching when the address
++      could not be parsed. Fixes bug 41380; bugfix on 0.2.4.7-alpha.
++      Tracked as TROVE-2026-050.
++
++  o Major bugfixes (client stream handling):
++    - Stop trying to reattach BEGIN_DIR directory streams. Previously we
++      would look at the reason field in the END cell and consider
++      retrying it like a normal BEGIN exit request, which led to bizarre
++      behavior. TROVE-2026-052. Fixes bug 41369; bugfix on 0.1.2.5-alpha.
++
++  o Major bugfixes (client, guard):
++    - Stop blaming guards for circuit, stream, directory-request, and
++      generic channel-close failures, and instead only record guard
++      failure once per unsuccessful outgoing connection establishment.
++      This also covers directory guards, synchronous failures, and proxy
++      or pluggable transport paths.
++      This fixes TROVE-2026-030, TROVE-2026-038, TROVE-2026-041.
++      Fixes bug 41360; bugfix on 0.3.0.1-alpha, bug 41365;
++      bugfix on 0.3.0.1-alpha, and bug 41366; bugfix on 0.3.0.1-alpha.
++
++  o Major bugfixes (connection handling):
++    - Fix a use-after-free when a TCP connection succeeds immediately
++      but starting its TLS handshake fails. Fixed by detaching the OR
++      connection from its channel before freeing the channel, so
++      deferred connection cleanup cannot access freed memory. This fixes
++      TROVE-2026-056. Fixes bug 41398; bugfix on 0.2.4.4-alpha.
++
++  o Major bugfixes (onion service):
++    - A service-side rendezvous circuit that failed before reaching the
++      rendezvous point was relaunched twice (once when marked for close
++      and once more when freed), producing two concurrent circuits that
++      carried the same rendezvous cookie and key material and, with
++      repeated failures, 2^(N+1)-1 circuit builds per INTRODUCE2 instead
++      of N+1. It is now relaunched exactly once. TROVE-2026-058. Fixes
++      bug 41408; bugfix on 0.4.7.11.
++    - Rotate intro point at the service if the INTRODUCE2 replay cache
++      is at capacity. TROVE-2026-012. Fixes bug 41256; bugfix
++      on 0.3.2.1-alpha.
++
++  o Major bugfixes (onion service, TROVE):
++    - Reject INTRODUCE2 cells containing a zeroed rendezvous point ntor
++      onion key. Previously, we would record a first-hop failure against
++      a guard that was never contacted. This is trove TROVE-2026-030.
++      Fixes bug 41360; bugfix on 0.4.9.1-alpha.
++
++  o Major bugfixes (relay, ):
++    - Remove circuits waiting for a channel from the pending channel
++      list as soon as they are marked for close instead of waiting until
++      they are freed. Fixes bug 41393; bugfix on 0.2.8.1-alpha.
++
++  o Major bugfixes (stream isolation):
++    - When a client establishes a circuit to an onion service, but the
++      original stream had already closed, we were mistakenly clearing
++      the isolation parameters on that circuit, allowing it to be reused
++      by a future stream from a different isolation context. A malicious
++      onion service or HSDir relay could use this technique to break
++      first-party isolation (FPI) in Tor Browser. TROVE-2026-053. Fixes
++      bug 41368; bugfix on 0.2.3.3-alpha.
++
++  o Minor features (fallbackdir):
++    - Regenerate fallback directories generated on September 23, 2026.
++
++  o Minor features (geoip data):
++    - Update the geoip files to match the IPFire Location Database, as
++      retrieved on 2026/09/23.
++
++  o Minor features (HSDirs):
++    - Rate limit "Service descriptor has an invalid signature length"
++      messages at HSDir relays. This step only makes a flooding attack
++      more tolerable; it does not resolve or explain a flooding attack.
++      Improves the situation for ticket 41339. Bugfix on 0.3.0.1-alpha.
++
++  o Minor bugfixes (client, stream handling):
++    - When an exit or onion service answers a BEGIN with an END cell
++      whose reason byte is 0, report the stream to the application and
++      to controllers as a generic remote failure. Previously reason 0
++      turned into the internal "succeeded" value, so SOCKS clients got a
++      success reply, HTTP CONNECT clients got "200 OK", and controllers
++      got a STREAM SUCCEEDED event for a stream that never connected.
++      Also fix the formatting of unrecognized END reasons in controller
++      STREAM events. Fixes bug 41353; bugfix on 0.1.2.3-alpha.
++
++  o Minor bugfixes (controller):
++    - No longer seg fault if a local authenticated controller connection
++      asks for SETCIRCUITPURPOSE with no arguments. Fixes bug 41332;
++      bugfix on 0.4.1.1-alpha.
++
++  o Minor bugfixes (directory parsing):
++    - When parsing an authority certificate with an explicit length, do
++      not skip trailing whitespace beyond that length. All current
++      callers pass NUL-terminated strings, so no bug was reachable in
++      practice. Fixes bug 41378; bugfix on 0.4.0.1-alpha.
++
++  o Minor bugfixes (metrics):
++    - Fix an off-by-one in metrics_store_hist_entry_get_value() that
++      read one histogram bucket past the end of the array when asked for
++      a bucket boundary that does not exist. No in-tree caller currently
++      passes such a value. Fixes bug 41376; bugfix on 0.4.8.1-alpha.
++
++  o Minor bugfixes (pluggable transports):
++    - Bridge clients or bridge relays no longer mangle memory the second
++      time a pluggable transport or socksproxy configuration is changed,
++      such as by setconf, resetconf, or sighup. Fixes bug 41375; bugfix
++      on 0.4.0.1-alpha.
++
+"""
+
+-------------------- Start of forwarded message --------------------
+Date: Wed, 23 Sep 2026 20:33:05 +0000
+From: David Goulet &lt;noreply&#64;...um.torproject.org&gt;
+To: sam&#64;...ct.info
+Subject: Tor Project Forum: Security Release 0.4.9.13
+
+
+
+
+# Where to Download
+
+* [Tarballs](<a href="https://dist.torproject.org/" rel="nofollow">https://dist.torproject.org/</a>)
+* [Gitlab Repository](<a href="https://gitlab.torproject.org/tpo/core/tor" rel="nofollow">https://gitlab.torproject.org/tpo/core/tor</a>)
+* [Bug Report](<a href="https://gitlab.torproject.org/tpo/core/tor/-/issues/new" rel="nofollow">https://gitlab.torproject.org/tpo/core/tor/-/issues/new</a>)
+
+# Changes
+
+Below are the major changes of the released versions and links to more detailed release notes.
+
+## Stable
+
+Today, we released stable version **0.4.9.13** to again address a series of high-severity security issues and some minor fixes.
+
+We expect to make the related tickets public roughly one week from today. Until then, the only publicly available details about these security issues can be found in the `ReleaseNotes` file (see below).
+
+We **strongly** recommend updating as soon as possible. Debian packages are already available [here](<a href="https://deb.torproject.org" rel="nofollow">https://deb.torproject.org</a>), and packages for other distributions should follow shortly after this announcement.
+
+These issues affect all entities that is clients, onion services and relays.
+
+#### Release Notes
+
+* [0.4.9.x](<a href="https://gitlab.torproject.org/tpo/core/tor/-/raw/release-0.4.9/ReleaseNotes" rel="nofollow">https://gitlab.torproject.org/tpo/core/tor/-/raw/release-0.4.9/ReleaseNotes</a>)
+
+
+
+
+
+---
+[Visit Topic](<a href="https://forum.torproject.org/t/security-release-0-4-9-13/22178/1" rel="nofollow">https://forum.torproject.org/t/security-release-0-4-9-13/22178/1</a>) or reply to this email to respond.
+
+To unsubscribe from these emails, [click here](<a href="https://forum.torproject.org/email/unsubscribe/2a894c70a56b1df8286c9023d551f5adb718ebf3174e0c96f6a6ba5e5e3e220a" rel="nofollow">https://forum.torproject.org/email/unsubscribe/2a894c70a56b1df8286c9023d551f5adb718ebf3174e0c96f6a6ba5e5e3e220a</a>).
+
+<span style="font-family: times;"><strong>Content of type "</strong>text/html<strong>" skipped</strong></span>
+
+-------------------- End of forwarded message --------------------
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="2/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (419 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
