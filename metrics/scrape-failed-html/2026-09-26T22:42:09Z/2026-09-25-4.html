@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [NotCVE-2026-0014] Input Leap 3.0.3 Drag-and-Drop File Transfer Path
+ Traversal Allows Arbitrary File Write Outside the Drop Directory</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;179032685474.254052.15397970022917167373&#64;notcve.org&gt;
+Date: Fri, 25 Sep 2026 11:00:54 +0200
+From: advisories&#64;...cve.org
+To: oss-security&#64;...ts.openwall.com
+Subject: [NotCVE-2026-0014] Input Leap 3.0.3 Drag-and-Drop File Transfer Path
+ Traversal Allows Arbitrary File Write Outside the Drop Directory
+
+----------------------------------------------------------------------------
+NotCVE Advisory — NotCVE-2026-0014
+----------------------------------------------------------------------------
+
+[-] Summary:
+Improper limitation of a pathname in the drag-and-drop file transfer
+feature of Input Leap, the open-source keyboard and mouse sharing tool,
+allows a connected peer to write a file outside the configured drop-target
+directory. Writing into the per-user Startup folder turns this into code
+execution as the receiving user at the next login. CVSS:3.1 5.3
+(AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:N).
+
+[-] Affected:
+Input Leap through 3.0.3 (the final release) and master, on Windows and
+macOS. The input-leap/input-leap repository was archived read-only on
+26 July 2026; no fixed version exists or is expected.
+
+[-] Technical Description:
+DragInformation::parseDragInfo() in src/lib/inputleap/DragInformation.cpp
+reduces each received filename to its basename. It picks one separator for
+the whole received blob ('/' if the data contains a '/' anywhere, otherwise
+'\') and then locates the last separator at or before each entry's comma:
+
+  findResult2 = data.find_last_of(slash, findResult1);
+  ...
+  if (findResult1 - findResult2 &gt; 1) {
+      auto filename = data.substr(findResult2 + 1,
+                                  findResult1 - findResult2 - 1);
+
+find_last_of() returns std::string::npos when no separator is present, and
+that value is never tested. The unsigned arithmetic wraps: findResult2 + 1
+becomes 0, the guard still passes, and the call degrades to
+data.substr(0, findResult1) - the whole attacker-supplied string up to the
+comma, with any ".." sequences intact.
+
+Because the separator is chosen once per blob, a peer can force the
+mismatch: a single stray '/' after the first comma selects '/', while a
+filename written with '\' separators contains no '/' before that comma.
+
+DropHelper::writeToDir() in src/lib/inputleap/DropHelper.cpp appends the
+result to the drop-target directory and opens it for writing, with no
+normalisation, no check for ".." or absolute prefixes, and no check that
+the path stays beneath the drop target. A name such as
+..\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ escapes
+the configured folder, and a file written there runs as the receiving user
+at the next login.
+
+Preconditions: the feature is opt-in (--enable-drag-drop, not the
+default), and ArgParser refuses the flag on Linux, so only Windows and
+macOS targets are affected. Both directions are reachable (malicious
+client against a server, malicious server against a client). Under the
+default ENCRYPTED_AUTHENTICATED level the sender must already be a paired
+peer; a target started with --disable-crypto has no such requirement.
+
+The same unchecked find_last_of() result is present in the ancestor
+debauchee/barrier codebase. The sibling fork Deskflow removed drag-and-drop
+file transfer and does not appear to carry this code path.
+
+Weaknesses:
+CWE-22: Improper Limitation of a Pathname to a Restricted Directory
+CWE-191: Integer Underflow (Wrap or Wraparound)
+CAPEC-126: Path Traversal
+CAPEC-139: Relative Path Traversal
+
+[-] Credit:
+Discovered by Christopher Duram
+(<a href="https://www.linkedin.com/in/christopherduram/" rel="nofollow">https://www.linkedin.com/in/christopherduram/</a>).
+
+[-] Full Details and Updates:
+<a href="https://notcve.org/notcve/NotCVE-2026-0014" rel="nofollow">https://notcve.org/notcve/NotCVE-2026-0014</a>
+
+[-] Main References:
+<a href="https://github.com/input-leap/input-leap" rel="nofollow">https://github.com/input-leap/input-leap</a>
+<a href="https://github.com/input-leap/input-leap/blob/v3.0.3/src/lib/inputleap/DragInformation.cpp" rel="nofollow">https://github.com/input-leap/input-leap/blob/v3.0.3/src/lib/inputleap/DragInformation.cpp</a>
+
+[-] About NotCVE:
+NotCVE (<a href="https://notcve.org" rel="nofollow">https://notcve.org</a>) assigns public, timestamped NotCVE IDs to
+vulnerabilities not acknowledged by vendors. Vendor will not assign a CVE?
+Request a NotCVE: <a href="https://notcve.org/form/" rel="nofollow">https://notcve.org/form/</a> · Contributors:
+<a href="https://notcve.org/hall/" rel="nofollow">https://notcve.org/hall/</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
