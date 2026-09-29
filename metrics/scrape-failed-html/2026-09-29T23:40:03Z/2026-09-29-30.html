@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: groff 1.24.2 released</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="29">[&lt;prev]</a> <a href="31">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;19b6bc81-a01f-40dc-8412-cc6e10e048ec&#64;oracle.com&gt;
+Date: Tue, 29 Sep 2026 10:36:45 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: groff 1.24.2 released
+
+
+
+
+-------- Forwarded Message --------
+Subject: groff 1.24.2 released
+Date: Tue, 29 Sep 2026 02:54:35 -0500
+From: G. Branden Robinson &lt;g.branden.robinson&#64;...il.com&gt;
+To: info-gnu&#64;....org, info-groff&#64;....org
+CC: groff&#64;....org, linux-man&#64;...r.kernel.org
+
+We are anxious to announce the availability of groff 1.24.2.  This
+release resolves recently discovered security vulnerabilities affecting
+all groff releases dating back to 2012, and even farther.
+
+Obtain it from the GNU mirror network,
+
+   <a href="https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz" rel="nofollow">https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz</a>
+
+or, if the network is for some reason inoperative, directly from GNU.
+
+   <a href="https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz" rel="nofollow">https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz</a>
+
+Ensure the integrity of your download by checking this source code
+archive's cryptographic signature; see "Obtaining groff" below.
+
+
+What is groff?
+==============
+
+groff (GNU roff) is a typesetting system that reads plain text input
+that includes formatting commands to produce output in PostScript,
+PDF, HTML, or DVI formats or for display to a terminal.  Formatting
+commands can be low-level typesetting primitives, macros from a
+supplied package, or user-defined macros.  All three approaches can be
+combined.
+
+A reimplementation and extension of troff and other programs from AT&amp;T
+Unix, groff is widely available on POSIX and other systems owing to its
+long association with Unix manuals, including man pages.  It and its
+predecessor have produced several best-selling software engineering
+texts.  groff can create typographically sophisticated documents while
+consuming minimal system resources.
+
+   <a href="https://www.gnu.org/software/groff/" rel="nofollow">https://www.gnu.org/software/groff/</a>
+
+
+Details
+-------
+
+Since groff 1.24.1 was released on 14 March 2026, 2 people have
+authored a total of 6 commits on the "1.24.x" stable branch.
+
+      5  G. Branden Robinson
+      1  Deri James
+
+This release resolves the following issues in the GNU Savannah ticket
+tracker.
+
+bug #68689: [PATCH] [mm] `mmroff` vulnerable to command injection (CWE-78)
+bug #68688: [PATCH] [grohtml] `pre-grohtml` vulnerable to command injection (CWE-78)
+bug #68687: [PATCH] [pdfmom] vulnerable to command injection (CWE-78)
+bug #68152: [gxditview] SEGVs when invoked with no arguments
+
+One way of capturing the amount of revision is as follows.
+
+$ COLUMNS=72 git diff --stat 1.24.1 1.24.2
+  ChangeLog                       | 52 +++++++++++++++++++++++++++++++++
+  NEWS                            | 21 +++++++++++++
+  arch/mingw/grap2graph.cmd       |  2 +-
+  contrib/mm/ChangeLog            | 15 ++++++++++
+  contrib/mm/mmroff.pl            |  2 +-
+  doc/webpage.ms                  |  2 +-
+  src/devices/gropdf/pdfmom.pl    | 29 ++++++++++++------
+  src/devices/xditview/xditview.c | 24 ++++++++-------
+  src/preproc/html/pre-html.cpp   | 11 +++++++
+  src/roff/troff/input.cpp        | 14 +++++++++
+  10 files changed, 149 insertions(+), 23 deletions(-)
+
+
+Obtaining groff
+===============
+
+Here are the compressed sources and a GPG detached signature[*].
+   <a href="https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz" rel="nofollow">https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz</a>
+   <a href="https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz.sig" rel="nofollow">https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz.sig</a>
+
+Use a mirror for higher download bandwidth.
+   <a href="https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz" rel="nofollow">https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz</a>
+   <a href="https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz.sig" rel="nofollow">https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz.sig</a>
+
+Here are the SHA-1 and SHA-256 checksums.
+
+8f43c4d049207689b85af8a211742d87356e64e6  groff-1.24.2.tar.gz
++cHv1b6743/G4QY9t0c86N8ePgvk/w9DzgT85X6cXdk=  groff-1.24.2.tar.gz
+
+The SHA-256 checksum is encoded in Base64 instead of the hexadecimal
+form that most checksum tools default to.  The mechanism follows.
+
+sha256sum &lt; groff-1.24.2.tar.gz | cut -f1 -d\  | xxd -r -p | base64
+
+(Because "base64" reads from a pipe, it doesn't know the file name, and
+so the file name will not appear in the output.)
+
+[*] Use a .sig file to verify that the corresponding file (without the
+     .sig suffix) is intact.  First, be sure to download both the .sig
+     file and the corresponding archive.  Then, verify the archive.
+
+       gpg --verify groff-1.24.2.tar.gz{.sig,}
+
+     If that command fails because you don't have the required public
+     key, you can import it.
+
+       wget -O 108747.asc \
+         '<a href="https://savannah.gnu.org/people/viewgpg.php?user_id=108747'" rel="nofollow">https://savannah.gnu.org/people/viewgpg.php?user_id=108747'</a>
+       gpg --import 108747.asc
+
+     Re-run the 'gpg --verify' command above again subsequently.
+
+
+Caveats
+=======
+
+o GNU tools, or otherwise POSIX-conforming ones, are generally required
+   to build on Solaris 10 or 11.  See the "PROBLEMS" file in the
+   distribution archive.
+
+o Solaris 10 has known problems with automated tests; see the "PROBLEMS"
+   file in the distribution archive.
+
+
+News
+====
+
+This release corrects command injection security vulnerabilities
+(CWE-78) in the mmroff, pdfmom, and pre-grohtml programs.  The last of
+these is a preprocessor that is run when groff or troff is run with the
+`-T html` or `-T xhtml` options.  The vulnerabilities are variously
+14-26 years old.  Malicious input can escape groff's default "safer"
+mode, running commands embedded in that input at the user's privilege
+level.  The groff development team recommends this release to any users
+who employ the named tools or GNU troff output formats with untrusted
+inputs.
+
+Man page rendering is not vulnerable unless rendering (X)HTML.
+
+This release also resolves a command-line argument processing defect in
+the gxditview program.  It is not known to have any security impact.
+
+There are no new features.
+
+
+Acknowledgements
+================
+
+We'd like to thank the following people for helping ensure the quality
+of this release.
+
+Deri James
+Ingo Schwarze
+Pavol Sloboda
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
