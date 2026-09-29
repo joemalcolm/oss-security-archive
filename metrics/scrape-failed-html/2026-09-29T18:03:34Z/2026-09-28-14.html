@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-85644: XS::Parse::Infix versions from 0.40 through 0.49 for
+ Perl treat a number as an array reference</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="13">[&lt;prev]</a> <a href="../../../2026/09/29/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;a1f0c38b-5c22-4d1c-ada2-e1e63cc60124&#64;cpansec.org&gt;
+Date: Mon, 28 Sep 2026 17:10:19 +0100
+From: Robert Rothenberg &lt;rrwo&#64;...nsec.org&gt;
+To: cve-announce&#64;...urity.metacpan.org, oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-85644: XS::Parse::Infix versions from 0.40 through 0.49 for
+ Perl treat a number as an array reference
+
+========================================================================
+CVE-2026-85644                                       CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-85644
+
+   Distribution:  XS-Parse-Keyword
+       Versions:  from 0.40 through 0.49
+       MetaCPAN:  <a href="https://metacpan.org/dist/XS-Parse-Keyword" rel="nofollow">https://metacpan.org/dist/XS-Parse-Keyword</a>
+
+
+XS::Parse::Infix versions from 0.40 through 0.49 for Perl treat a
+number as an array reference
+
+Description
+-----------
+XS::Parse::Infix versions from 0.40 through 0.49 for Perl treat a
+number as an array reference.
+
+The wrapper function XS::Parse::Infix generates for a list-associative
+infix operator checks whether arguments are array references, but it
+tests using SvRV() rather than SvROK(). SvRV() reads a union slot that
+only holds a referent once SvROK(sv) is true, so the guard never
+validates that it is a reference. For an IV or NV that slot holds the
+number itself, SvRV() returns the caller's value and SvTYPE()
+dereferences it at offset 12. This will generally result in a
+segmentation fault.
+
+An application that hands the wrapper a list built from decoded input
+(for example, from JSON) lets whoever supplies a number in that list
+choose the address that the interpreter dereferences.
+
+An ordinary string's byte 12 is rarely SVt_PVAV so the guard croaks by
+luck, but an attacker-crafted string carrying 0x0b there passes, and
+the buffer is then used as an AV head, with AvARRAY taken from bytes
+16-23 and its entries pushed onto the Perl stack as live SVs.
+
+A simple proof-of-concept uses the zip operator:
+
+     use Syntax::Operator::Zip 'zip';
+
+     my @args = ([1], 2);
+     zip(@args);
+
+Problem types
+-------------
+- CWE-843 Access of Resource Using Incompatible Type ('Type Confusion')
+- CWE-125 Out-of-bounds Read
+
+Workarounds
+-----------
+For deployments that cannot upgrade, ensure that correct arguments
+(only array references where they are expected) are passed to
+list-associative operators that are defined with XS::Parse::Infix, such
+as those in Syntax::Operator::Zip.
+
+Solutions
+---------
+Upgrade to XS-Parse-Keyword 0.50 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/PEVANS/XS-Parse-Keyword-0.50/changes" rel="nofollow">https://metacpan.org/release/PEVANS/XS-Parse-Keyword-0.50/changes</a>
+<a href="https://metacpan.org/release/PEVANS/XS-Parse-Keyword-0.50/diff/PEVANS/XS-Parse-Keyword-0.49#src/infix.c" rel="nofollow">https://metacpan.org/release/PEVANS/XS-Parse-Keyword-0.50/diff/PEVANS/XS-Parse-Keyword-0.49#src/infix.c</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
