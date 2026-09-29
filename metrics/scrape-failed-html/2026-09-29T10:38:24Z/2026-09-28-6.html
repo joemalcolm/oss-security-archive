@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Flatpak 1.18.4 fixes multiple security vulnerabilities</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;arpxQYDVantx_OC9&#64;definition.pseudorandom.co.uk&gt;
+Date: Mon, 28 Sep 2026 14:53:05 +0100
+From: Simon McVittie &lt;smcv&#64;...ian.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: flatpak&#64;...ts.freedesktop.org
+Subject: Flatpak 1.18.4 fixes multiple security vulnerabilities
+
+Flatpak 1.18.4 fixes several security vulnerabilties.
+&lt;<a href="https://github.com/flatpak/flatpak/releases/tag/1.18.4" rel="nofollow">https://github.com/flatpak/flatpak/releases/tag/1.18.4</a>&gt;
+All older releases should be assumed to be vulnerable.
+
+&gt;* Prevent privileged overwrite of arbitrary files with an empty file or a
+&gt;  symlink to /run/host/monitor/resolv.conf when a malicious app is installed
+&gt;  (CVE-2026-97024, GHSA-8xgq-v545-vgvf; thanks to Sebastian Wick)
+&gt;
+&gt;* Prevent privileged deletion of arbitrary files when a malicious app
+&gt;  is installed
+&gt;  (CVE-2026-97023, GHSA-5p67-xh8x-rq54; thanks to Sebastian Wick)
+&gt;
+&gt;* When downloading apps or runtimes from an OCI repository that requires
+&gt;  authentication, don't make the authentication token visible to other users
+&gt;  (CVE-2026-97025, GHSA-7rvf-rqr3-43j4; thanks to AISLE in cooperation
+&gt;  with Red Hat)
+&gt;
+&gt;* Restrict permissions on temporary repository directories in
+&gt;  /var/tmp/flatpak-cache-*
+&gt;  (CVE-2026-97026, GHSA-r9w3-qx54-qvc8; thanks to AISLE in cooperation
+&gt;  with Red Hat)
+&gt;
+&gt;* Filter .desktop and D-Bus .service files against an allowlist of fields,
+&gt;  preventing denial of service and unintended interactions with host services
+&gt;  (CVE-2026-97027, GHSA-v64f-hrwr-j4vh; thanks to Markus Göllnitz)
+&gt;
+&gt;* Prevent apps from sending signals to a process group that includes a
+&gt;  parent process outside the app, causing denial of service by killing
+&gt;  the desktop environment
+&gt;  (CVE-2026-97029, GHSA-f3p8-vr7v-gxf2; thanks to Guthrie Armstrong,
+&gt;  Coalition, Inc.)
+
+For more details please see the Github advisories linked from the 
+release announcement 
+&lt;<a href="https://github.com/flatpak/flatpak/releases/tag/1.18.4" rel="nofollow">https://github.com/flatpak/flatpak/releases/tag/1.18.4</a>&gt;.
+
+This release also improves hardening against symlink traversal (related 
+to CVE-2026-97023 and CVE-2026-97024), and updates the Meson wrap file 
+for xdg-dbus-proxy to a version that is not vulnerable to 
+CVE-2026-94422.
+
+If possible please upgrade to the latest stable release, 1.18.4. For 
+users of development prereleases, the 1.19.2 prerelease also fixes the 
+same vulnerabilities.
+
+Older LTS operating system distributions might prefer to backport fixes
+to an older stable-branch. The 1.16.x branch is no longer supported by
+upstream and is unlikely to receive new formal releases, but backports
+of the applicable vulnerability fixes are included in the upstream git
+repository in the flatpak-1.16.x branch,
+<a href="https://github.com/flatpak/flatpak/commits/flatpak-1.16.x/" rel="nofollow">https://github.com/flatpak/flatpak/commits/flatpak-1.16.x/</a> (for example
+those changes should appear in a Debian 13 security update soon).
+
+-- 
+Simon McVittie, Collabora Ltd. / Debian
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
