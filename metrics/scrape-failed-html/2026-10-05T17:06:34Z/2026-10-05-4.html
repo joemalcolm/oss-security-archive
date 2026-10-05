@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: cloud computing provider disclosures</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="3">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;775962383b00d78067fec6158c678c71&#64;herricane.ca&gt;
+Date: Sun, 04 Oct 2026 22:25:45 -0400
+From: Katie &lt;katie&#64;...ricane.ca&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: cloud computing provider disclosures
+
+On 2026-10-04 21:45, Aaron Rainbolt wrote:
+&gt; On Sun, 4 Oct 2026 18:56:44 -0400
+&gt; Jan Schaumann &lt;jschauma&#64;...meister.org&gt; wrote:
+&gt; 
+&gt;&gt; Hello,
+&gt;&gt; 
+&gt;&gt; I was wondering whether it might make sense to
+&gt;&gt; establish a disclosure list for cloud computing /
+&gt;&gt; virtual private server hosting providers.
+&gt;&gt; 
+&gt;&gt; The reason that I think this might make sense is that
+&gt;&gt; not every cloud computing provider necessarily offers
+&gt;&gt; their own OS / Linux distribution, and thus may not be
+&gt;&gt; qualified for membership on distros@.
+&gt;&gt; 
+&gt;&gt; At the same time there are vulnerabilities that
+&gt;&gt; directly and significantly impact cloud computing
+&gt;&gt; providers such that the internet would benefit from
+&gt;&gt; them being able to mitigate prior to disclosure on
+&gt;&gt; e.g., oss-security@.
+&gt;&gt; 
+&gt;&gt; An obvious example might be disclosure of VM escapes,
+&gt;&gt; which disproportionally impacts such service
+&gt;&gt; providers.
+&gt;&gt; 
+&gt;&gt; Another option might be to grant cloud computing
+&gt;&gt; providers membership on distros@ even if they do not
+&gt;&gt; offer their own custom Linux distribution.
+&gt;&gt; 
+&gt;&gt; What do people think?
+&gt; 
+&gt; I don't really think I'm a frequent enough contributor here to have
+&gt; much say, nor do I run a cloud service, but I personally don't like 
+&gt; this
+&gt; idea so much. Cloud providers have to have a robust method to update
+&gt; their world at any instant because the zero-day market is a thing, and
+&gt; because people sometimes see a fix go public and immediately come up
+&gt; with an exploit for the vuln it fixes without knowing anything more
+&gt; about the vuln. If cloud providers can't update with near-zero notice,
+&gt; they arguably shouldn't be providing cloud services. (Maybe I'm showing
+&gt; my ignorance by saying this...)
+&gt; 
+&gt; The "early access to security vuln details" group should be as tiny as
+&gt; possible to reduce the chances of anyone malicious being in the early
+&gt; access list. Restricting it to people who can meaningfully contribute
+&gt; seems like a good middle ground to me.
+&gt; 
+&gt; What might be useful is some system to alert users that something
+&gt; important is going to be fixed soon and they need to brace for impact.
+&gt; Maybe at the same time a VM escape vuln is disclosed on distros@, for
+&gt; instance, an email could be sent to oss-security@ saying "A
+&gt; high-severity vulnerability has been discovered in the Linux kernel.
+&gt; Cloud providers are expected to be disproportionately affected." Of
+&gt; course then the challenge becomes how to figure out what use cases are
+&gt; affected by a certain vulnerability with the least possible effort on
+&gt; the reporters, and how to not flood the list with notices for every
+&gt; single high-severity vuln that affects a niche use case.
+&gt; 
+&gt; --
+&gt; Aaron
+
+A thought at the bottom.
+
+On 2026-10-04 21:45, Aaron Rainbolt wrote:
+&gt; On Sun, 4 Oct 2026 18:56:44 -0400
+&gt; Jan Schaumann &lt;jschauma&#64;...meister.org&gt; wrote:
+&gt; 
+&gt;&gt; Hello,
+&gt;&gt; 
+&gt;&gt; I was wondering whether it might make sense to
+&gt;&gt; establish a disclosure list for cloud computing /
+&gt;&gt; virtual private server hosting providers.
+&gt;&gt; 
+&gt;&gt; The reason that I think this might make sense is that
+&gt;&gt; not every cloud computing provider necessarily offers
+&gt;&gt; their own OS / Linux distribution, and thus may not be
+&gt;&gt; qualified for membership on distros@.
+&gt;&gt; 
+&gt;&gt; At the same time there are vulnerabilities that
+&gt;&gt; directly and significantly impact cloud computing
+&gt;&gt; providers such that the internet would benefit from
+&gt;&gt; them being able to mitigate prior to disclosure on
+&gt;&gt; e.g., oss-security@.
+&gt;&gt; 
+&gt;&gt; An obvious example might be disclosure of VM escapes,
+&gt;&gt; which disproportionally impacts such service
+&gt;&gt; providers.
+&gt;&gt; 
+&gt;&gt; Another option might be to grant cloud computing
+&gt;&gt; providers membership on distros@ even if they do not
+&gt;&gt; offer their own custom Linux distribution.
+&gt;&gt; 
+&gt;&gt; What do people think?
+&gt; 
+&gt; I don't really think I'm a frequent enough contributor here to have
+&gt; much say, nor do I run a cloud service, but I personally don't like 
+&gt; this
+&gt; idea so much. Cloud providers have to have a robust method to update
+&gt; their world at any instant because the zero-day market is a thing, and
+&gt; because people sometimes see a fix go public and immediately come up
+&gt; with an exploit for the vuln it fixes without knowing anything more
+&gt; about the vuln. If cloud providers can't update with near-zero notice,
+&gt; they arguably shouldn't be providing cloud services. (Maybe I'm showing
+&gt; my ignorance by saying this...)
+&gt; 
+&gt; The "early access to security vuln details" group should be as tiny as
+&gt; possible to reduce the chances of anyone malicious being in the early
+&gt; access list. Restricting it to people who can meaningfully contribute
+&gt; seems like a good middle ground to me.
+&gt; 
+&gt; What might be useful is some system to alert users that something
+&gt; important is going to be fixed soon and they need to brace for impact.
+&gt; Maybe at the same time a VM escape vuln is disclosed on distros@, for
+&gt; instance, an email could be sent to oss-security@ saying "A
+&gt; high-severity vulnerability has been discovered in the Linux kernel.
+&gt; Cloud providers are expected to be disproportionately affected." Of
+&gt; course then the challenge becomes how to figure out what use cases are
+&gt; affected by a certain vulnerability with the least possible effort on
+&gt; the reporters, and how to not flood the list with notices for every
+&gt; single high-severity vuln that affects a niche use case.
+&gt; 
+&gt; --
+&gt; Aaron
+
+Interesting conversation.  I notice that Aaron mentions restricting the 
+early access group to those who can meaningfully contribute. To some 
+(like myself) a meaningful contribution might be creating a piece of art 
+(ex. fan art) for the oss-security list.  Therefore, it might be best to 
+qualify the type of contribution (ex. those who can meaningfully 
+contribute code maintenance).
+
+-Katie
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
