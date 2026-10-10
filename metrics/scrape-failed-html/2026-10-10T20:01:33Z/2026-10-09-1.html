@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - [OSSA-2026-044] OpenStack Mistral: Four authorization and privilege
+ vulnerabilities in Mistral (CVE-2026-93858, CVE-2026-93860, CVE-2026-93861,
+ CVE-2026-97147))</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/10/08/10">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;asewIvEqCHJAK2gp&#64;yuggoth.org&gt;
+Date: Thu, 8 Oct 2026 15:00:50 +0000
+From: Jeremy Stanley &lt;fungi&#64;...goth.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: [OSSA-2026-044] OpenStack Mistral: Four authorization and privilege
+ vulnerabilities in Mistral (CVE-2026-93858, CVE-2026-93860, CVE-2026-93861,
+ CVE-2026-97147))
+
+==========================================================================
+OSSA-2026-044: Four authorization and privilege vulnerabilities in Mistral
+==========================================================================
+
+:Date: October 08, 2026
+:CVE: CVE-2026-93858,
+       CVE-2026-93860,
+       CVE-2026-93861,
+       CVE-2026-97147
+
+Affects
+~~~~~~~
+- Mistral: &lt;20.1.1, ==21.0.0, ==22.0.0, ==23.0.0
+
+Description
+~~~~~~~~~~~
+Arnaud Morin from OVHcloud reported that several of Mistral's v2 API 
+write paths resolve the target object with a query that can return 
+another project's resource, then write to it (CVE-2026-97147). An 
+authenticated project member can use this to rewrite and un-publish 
+another project's public action definitions and environments. A 
+project administrator can create a workbook whose embedded ad-hoc 
+action or workflow name collides with a resource of another project, 
+which moves that resource into the caller's project and causes the 
+original owner's subsequent updates of it to fail with server 
+errors. All deployments exposing the Mistral API are affected.
+
+Chen YuXiang from the Institute of Computing Technology, Chinese 
+Academy of Sciences reported that Mistral's workflow membership API 
+lets a project that has accepted a share of another project's 
+private workflow create a further membership naming a third project 
+(CVE-2026-93861). The new membership row is created with its 
+project_id defaulted to the accepting project rather than the 
+original workflow owner, so the owner can neither see nor delete it. 
+The third project can accept this membership it was never actually 
+granted by the owner, then read and execute the owner's private 
+workflow; only the accepting (not the owning) project can later 
+revoke that access.
+
+Chen YuXiang also reported a vulnerability in Mistral's ssh_proxied 
+action provider (CVE-2026-93858). By supplying a specially-crafted 
+action payload, an unprivileged authenticated user may override 
+paramiko's proxy_command resulting in execution of arbitrary code on 
+the executor host operating system. Only Mistral deployments 
+allowing the std.ssh_proxied action provider (the default) are 
+affected.
+
+Chen YuXiang further reported a vulnerability in Mistral's 
+maintenance API method (CVE-2026-93860). By calling the maintenance 
+API method, an unprivileged authenticated user may pause processing 
+for creation of new objects for all tenant projects resulting in a 
+temporary denial of service. All Mistral deployments are affected.
+
+Patches
+~~~~~~~
+- <a href="https://review.opendev.org/1009502" rel="nofollow">https://review.opendev.org/1009502</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1009503" rel="nofollow">https://review.opendev.org/1009503</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1009504" rel="nofollow">https://review.opendev.org/1009504</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1009505" rel="nofollow">https://review.opendev.org/1009505</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1009506" rel="nofollow">https://review.opendev.org/1009506</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1009507" rel="nofollow">https://review.opendev.org/1009507</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1009508" rel="nofollow">https://review.opendev.org/1009508</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1009509" rel="nofollow">https://review.opendev.org/1009509</a> (2025.1/epoxy)
+- <a href="https://review.opendev.org/1009493" rel="nofollow">https://review.opendev.org/1009493</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1009494" rel="nofollow">https://review.opendev.org/1009494</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1009495" rel="nofollow">https://review.opendev.org/1009495</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1009496" rel="nofollow">https://review.opendev.org/1009496</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1009497" rel="nofollow">https://review.opendev.org/1009497</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1009498" rel="nofollow">https://review.opendev.org/1009498</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1009499" rel="nofollow">https://review.opendev.org/1009499</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1009500" rel="nofollow">https://review.opendev.org/1009500</a> (2025.2/flamingo)
+- <a href="https://review.opendev.org/1009484" rel="nofollow">https://review.opendev.org/1009484</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1009485" rel="nofollow">https://review.opendev.org/1009485</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1009486" rel="nofollow">https://review.opendev.org/1009486</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1009487" rel="nofollow">https://review.opendev.org/1009487</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1009488" rel="nofollow">https://review.opendev.org/1009488</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1009489" rel="nofollow">https://review.opendev.org/1009489</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1009490" rel="nofollow">https://review.opendev.org/1009490</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1009491" rel="nofollow">https://review.opendev.org/1009491</a> (2026.1/gazpacho)
+- <a href="https://review.opendev.org/1009476" rel="nofollow">https://review.opendev.org/1009476</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/1009477" rel="nofollow">https://review.opendev.org/1009477</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/1009478" rel="nofollow">https://review.opendev.org/1009478</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/1009479" rel="nofollow">https://review.opendev.org/1009479</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/1009480" rel="nofollow">https://review.opendev.org/1009480</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/1009481" rel="nofollow">https://review.opendev.org/1009481</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/1009482" rel="nofollow">https://review.opendev.org/1009482</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/1009483" rel="nofollow">https://review.opendev.org/1009483</a> (2026.2/hibiscus)
+- <a href="https://review.opendev.org/1009468" rel="nofollow">https://review.opendev.org/1009468</a> (2027.1/indri (development))
+- <a href="https://review.opendev.org/1009469" rel="nofollow">https://review.opendev.org/1009469</a> (2027.1/indri (development))
+- <a href="https://review.opendev.org/1009470" rel="nofollow">https://review.opendev.org/1009470</a> (2027.1/indri (development))
+- <a href="https://review.opendev.org/1009471" rel="nofollow">https://review.opendev.org/1009471</a> (2027.1/indri (development))
+- <a href="https://review.opendev.org/1009472" rel="nofollow">https://review.opendev.org/1009472</a> (2027.1/indri (development))
+- <a href="https://review.opendev.org/1009473" rel="nofollow">https://review.opendev.org/1009473</a> (2027.1/indri (development))
+- <a href="https://review.opendev.org/1009474" rel="nofollow">https://review.opendev.org/1009474</a> (2027.1/indri (development))
+- <a href="https://review.opendev.org/1009475" rel="nofollow">https://review.opendev.org/1009475</a> (2027.1/indri (development))
+
+Credits
+~~~~~~~
+- Arnaud Morin from OVHcloud (CVE-2026-97147)
+- Chen YuXiang from Institute of Computing Technology, Chinese 
+   Academy of Sciences (CVE-2026-93858, CVE-2026-93860, 
+   CVE-2026-93861)
+
+
+References
+~~~~~~~~~~
+- <a href="https://launchpad.net/bugs/2160267" rel="nofollow">https://launchpad.net/bugs/2160267</a> (CVE-2026-97147)
+- <a href="https://launchpad.net/bugs/2161277" rel="nofollow">https://launchpad.net/bugs/2161277</a> (CVE-2026-93861)
+- <a href="https://launchpad.net/bugs/2162100" rel="nofollow">https://launchpad.net/bugs/2162100</a> (CVE-2026-93858)
+- <a href="https://launchpad.net/bugs/2162789" rel="nofollow">https://launchpad.net/bugs/2162789</a> (CVE-2026-93860)
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-93858" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-93858</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-93860" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-93860</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-93861" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-93861</a>
+- <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-97147" rel="nofollow">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-97147</a>
+
+-- 
+Jeremy Stanley
+OpenStack Vulnerability Management Team
+<a href="https://security.openstack.org/vmt.html" rel="nofollow">https://security.openstack.org/vmt.html</a>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (964 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
