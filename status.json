@@ -1,18 +1,18 @@
 {
   "schema": 1,
   "system": "oss-security-archive",
-  "generated_at": "2026-10-10T23:30:44Z",
-  "last_success_at": "2026-10-10T23:30:44Z",
+  "generated_at": "2026-10-11T05:38:06Z",
+  "last_success_at": "2026-10-11T05:38:06Z",
   "last_run": {
     "status": "ok",
-    "duration_s": 177,
+    "duration_s": 133,
     "imported": 0,
     "failed": 0,
     "top_error": null
   },
   "freshness": {
     "expected_interval_s": 14400,
-    "source_lag_s": 38524
+    "source_lag_s": 60566
   },
   "counts": {
     "messages": 34620,
