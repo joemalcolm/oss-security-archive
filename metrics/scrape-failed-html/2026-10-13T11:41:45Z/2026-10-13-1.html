@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: Announcing FreeType version 2.15.0</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/10/12/7">[&lt;prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;8880da36-027d-436c-b6b0-ae583d0c2b77&#64;oracle.com&gt;
+Date: Mon, 12 Oct 2026 18:27:24 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: Announcing FreeType version 2.15.0
+
+While the notes below only mention the fix for CVE-2026-95512,
+the CVE record for CVE-2026-50811 also lists a commit included
+in this release.
+
+The git log also mentions pulling in the fix for CVE-2026-27171
+to the vendored copy of zlib 1.3.1 included in FreeType.
+
+	-alan-
+
+-------- Forwarded Message --------
+Subject: 	Announcing FreeType version 2.15.0
+Date: 	Mon, 12 Oct 2026 21:18:47 +0000
+From: 	Werner LEMBERG &lt;wl&#64;....org&gt;
+To: 	freetype-announce&#64;...gnu.org, freetype&#64;...gnu.org, freetype-devel&#64;...gnu.org
+
+FreeType 2.15.0 has been released.
+
+It is available from
+
+      <a href="https://download.savannah.gnu.org/releases/freetype/" rel="nofollow">https://download.savannah.gnu.org/releases/freetype/</a>
+
+or
+
+      <a href="https://sourceforge.net/projects/freetype/files/" rel="nofollow">https://sourceforge.net/projects/freetype/files/</a>
+
+The latter site also holds older versions of the FreeType library.
+
+See below for the relevant snippet from the CHANGES file.
+
+Enjoy!
+
+
+     Werner
+
+
+PS: Downloads from  savannah.nongnu.org  will redirect to your nearest
+      mirror site.   Files on  mirrors may  be subject to  a replication
+      delay   of   up   to   24   hours.   In   case   of  problems  use
+      <a href="https://download-mirror.savannah.gnu.org/releases/" rel="nofollow">https://download-mirror.savannah.gnu.org/releases/</a>
+
+
+----------------------------------------------------------------------
+
+
+<a href="https://www.freetype.org" rel="nofollow">https://www.freetype.org</a>
+
+
+FreeType 2  is a software  font engine that  is designed to  be small,
+efficient,  highly   customizable,  and  portable   while  capable  of
+producing high-quality output (glyph images) of most vector and bitmap
+font formats.
+
+Note that  FreeType 2 is  a font service  and doesn't provide  APIs to
+perform higher-level features, like text layout or graphics processing
+(e.g.,  colored  text  rendering,  'hollowing',  etc.).   However,  it
+greatly simplifies these tasks by providing a simple, easy to use, and
+uniform interface to access the content of font files.
+
+FreeType  2  is  released  under  two open-source  licenses:  our  own
+BSD-like FreeType  License and the  GPL.  It can  thus be used  by any
+kind of projects, be they proprietary or not.
+
+
+----------------------------------------------------------------------
+
+
+You  can use  a  `.sig` file  to verify  that  the corresponding  file
+(without the  `.sig` suffix)  is intact.  First,  be sure  to download
+both  the `.sig`  file and  the  corresponding archive.   Then, run  a
+command like this:
+
+    gpg --verify freetype-2.15.0.tar.gz.sig
+
+If that command fails because you  don't have the required public key,
+execute
+
+    gpg --keyserver pgp.mit.edu --recv-keys BE6C3AAC63AD8E3F
+
+to import it, then rerun the `gpg --verify` command.
+
+SHA1 file checksums:
+
+a28dbab6c7dd2d49d2987cbd93f2d485ed888b34  freetype-2.15.0.tar.gz
+1cddd9a66c8ce2972c20890c07b7a75231c21787  freetype-2.15.0.tar.xz
+fd13d7dc433e129c756478352d728298560972e1  ft2150.zip
+2639d289a08699acfabd0f885e60047dad7519c5  ft2demos-2.15.0.tar.gz
+7ada0e81cee60715e6a3258edbb1b06c66321e7a  ft2demos-2.15.0.tar.xz
+8cf05e9972aa34b3a230feea81ebc184ea24f97d  ftdmo2150.zip
+23fadcc0da7b8ead6d3ab51e020e52b26c733af5  freetype-doc-2.15.0.tar.gz
+e4dce0796ecbf26edfdcff10ed9ec06bcf13482e  freetype-doc-2.15.0.tar.xz
+b10d8a9d7a6574d5a792abcb9adef9be4783c380  ftdoc2150.zip
+
+SHA256 file checksums:
+
+9186627467a616d9a9e3e574748ac0c45fa77398e6364edef3041a8ba8d92f64 
+freetype-2.15.0.tar.gz
+93cd47eb719c325107f2d3cf087d06299e944c3b48a40b55537302304dea1dd5 
+freetype-2.15.0.tar.xz
+6de0090703ff0658ec2886c1de3c1887801d4988b9fd72d622e815a5c5d768c9  ft2150.zip
+c1640bddfdf17ef93de7171f51216a1b7828e740cf69ad54451256085a9acc07 
+ft2demos-2.15.0.tar.gz
+9b77c9ccf3965d2c5e65383c7c7fdb411d6239c402426f32f7411fade396c268 
+ft2demos-2.15.0.tar.xz
+c2a086745711de854efe4c70d3c6a6e03589cfb08e76eeaa32f82cba487757ee  ftdmo2150.zip
+a20a05dc7226b9c995cd0ea508bfa627a9604393e2223ee44bff8e11ee4cc80a 
+freetype-doc-2.15.0.tar.gz
+151b3f0a221b39775a0b2aa8e5893a60c4ef5ed7081371c5cce27250808bdff5 
+freetype-doc-2.15.0.tar.xz
+ce21770d4329806f4e79649bbee0b9fe8cb546993db19061ce5c428077cd0be9  ftdoc2150.zip
+
+
+CHANGES BETWEEN 2.14.3 and 2.15.0 (2026-Oct-12)
+
+    I. IMPORTANT CHANGES
+
+    - Support for the ISO Open Font  Format, Edition 5 (released in July
+      2026) has been contributed by  Behdad Esfahbod, using various LLMs
+      for deriving  basic code from HarfBuzz  and other implementations,
+      followed by manual fine-tuning, mainly for greater speed.
+
+      . The  new  'VARC' table  allows  a  file  size reduction  of  CJK
+        Variation fonts by up to 90%.
+
+      . OpenType fonts with  more than 65536 glyphs can  now be handled.
+        The  new tables  related to  this feature  are all  written with
+        uppercase  letters:  'MAXP',  'GLYF',  'LOCA',  'HHEA',  'VHEA',
+        'HMTX', 'VMTX', 'GVAR', 'DMAP'.
+
+      . The new 'GLYF' table also supports outlines with mixed cubic and
+        conic segments.
+
+    - The anti-aliased rasterizer now uses dynamic heap memory for large
+      glyphs,  which  significantly improves  its performance  at  sizes
+      above 40 ppem.
+
+    - An  experimental  HVF  driver   has  been  contributed  by  Apple,
+      currently available on macOS only.
+
+    - The  TrueType   version  40  interpreter  got   several  ClearType
+      rendering  improvements.   It  now   better  honors  'gasp'  table
+      requests  for  symmetric  grid  fitting and  smoothing,  and  more
+      closely  emulates  native   ClearType  horizontal  hinting.   This
+      includes improved handling of rounded point instructions, `ROUND`,
+      CVT cut-in, minimum distance, and composite glyph positioning.
+
+      These changes improve  the rendering of fonts such  as 'Segoe UI',
+      'Calibri', 'Corbel', 'Constantia', 'Malgun Gothic', 'SimSun',  and
+      'Comic Sans MS'.
+
+
+    II. IMPORTANT BUG FIXES
+
+    - Continued efforts to scrutinize FreeType with AI tools resulted in
+      more bugs  being fixed, some with  potential security implications
+      (e.g., CVE-2026-95512).
+
+
+    III. MISCELLANEOUS
+
+    - The PFR driver returned wrong kerning values in some cases.
+
+    - A port to the Plan 9 operating system is now available.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
