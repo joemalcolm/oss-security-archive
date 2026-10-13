@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "source": "oss-security",
-  "generated_at": "2026-10-12T17:48:07Z",
-  "built_from": {"0": "d41966d489e989b1dc5526322bb97b4852c5d0d6"},
+  "generated_at": "2026-10-13T02:00:25Z",
+  "built_from": {"0": "ea0fef1b444cd4fc5ebc5d8ed355745b22329522"},
   "messages": {
     "2008": {"count": 1358, "sha256": "e7a49d2a86e94083b6358b2ed13d49bea50c5a5d998a0296ad83b098d1288745"},
     "2009": {"count": 1103, "sha256": "ecf8d86e677c520c89bc87030d27f6525c4269c5873c93cc86eca3739b9feda1"},
@@ -22,7 +22,7 @@
     "2023": {"count": 1172, "sha256": "a2ff81100186bb25b2e77f3a5e8ebfd717463b20cfe20ce3a4a80ef252ea14a3"},
     "2024": {"count": 1150, "sha256": "f3b3fec21f5b7006c5cde347e18b71a5f46d3cf856c4b777a25f00358553f831"},
     "2025": {"count": 1168, "sha256": "94f46ce6faa230b5aed67258dabf115150810a54ef65d125c5f557ca88b345d4"},
-    "2026": {"count": 2746, "sha256": "7e7d4b64bc4f033cefe213f2460b3e18323aa0d425a2c1da8f53e84d5deafdab"}
+    "2026": {"count": 2752, "sha256": "cf4fda3d31d8f2383b3b1c1632550734468903e790dce24e29279a080dd7c977"}
   },
   "cves": {
     "1066": {"count": 1, "sha256": "4dcffb7e8d60aa1b367c7b8db41fdea60c047a11e651485a40d5f23bd46a81bb"},
@@ -53,13 +53,13 @@
     "2023": {"count": 969, "sha256": "8bcc48a044f73d2d0fc28609e064fd9d31a638f8720a386b5c42e5701c88dd7f"},
     "2024": {"count": 881, "sha256": "0ec86312dc2d9641bd7569c384a8133d62f5508ed08f8db9729e56529cdd00d5"},
     "2025": {"count": 924, "sha256": "26fbc6b1a185043bf7f245a799077a4fdd2233cc97d2f967171f60e571bb5d62"},
-    "2026": {"count": 3449, "sha256": "afb36e8db2f99197a046c931e68d5aa3df4d57bc5a289a4f96b5eb4b27bdfe5d"},
+    "2026": {"count": 3454, "sha256": "6e0c241765a5ba27ba67ece342e072e085eae49233a35e25ca863269a780de24"},
     "2045": {"count": 1, "sha256": "4b6b1a511cf7c45d065312d08452efb16f3e5893adb27ff4646dd82b156ce33e"},
     "2099": {"count": 1, "sha256": "c1c412696a6086e92e5d7cdd8a0e693564f85885a852fba95e6e7d38a6525401"},
     "2107": {"count": 2, "sha256": "41230acd99f8e1fb3b01f90458127f719cebfa1fa6c17a041a4d2f5ab55685de"}
   },
   "ghsas": {
-    "all": {"count": 617, "sha256": "f8c26095e47b2926d3d290ef21759dea01e9293132fa0c1ded637d75ed7209bf"}
+    "all": {"count": 619, "sha256": "57dbfd21838f1a5f81fd03e06bd78c12218adc6ccb6645055eba29560af9ac05"}
   },
   "bodies": {
     "2008": {"count": 1358, "bytes": 1663747, "sha256": "1ee6b51cb617314a412d0ea36f9a38bb3c62f7df469948979f6293434b77529f"},
@@ -80,10 +80,10 @@
     "2023": {"count": 1172, "bytes": 3134803, "sha256": "c75359562f1dd90e778f9e640441a795acfdbcf41b08a32aa597b76ccbeec86a"},
     "2024": {"count": 1150, "bytes": 3138855, "sha256": "25c65440eebb454a52f4528ae544534892cd92d66c5013de5b84c6aa753857c9"},
     "2025": {"count": 1168, "bytes": 2989772, "sha256": "39030515cec42d77df1eb942ca7bacd8756d7897642358a5078b1038b3d00cc1"},
-    "2026": {"count": 2746, "bytes": 7922634, "sha256": "fb4d83961bd83fe6394fbc46dc8d503c486d410e1c7919aecbd0a223b98d59cc"}
+    "2026": {"count": 2752, "bytes": 7935346, "sha256": "ca576f7977f7d35f1c32aed3f5f422de6e4fa956240657b269efecec40ffecb7"}
   },
-  "total_messages": 34623,
-  "total_stored": 48267,
-  "total_cves": 22382,
-  "total_ghsas": 617
+  "total_messages": 34629,
+  "total_stored": 48273,
+  "total_cves": 22387,
+  "total_ghsas": 619
 }
