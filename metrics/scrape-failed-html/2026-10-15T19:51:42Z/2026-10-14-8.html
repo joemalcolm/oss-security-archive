@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Godot 4.x: heap out-of-bounds write via negative string length in
+ binary resource loader</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAARiyJpKUG+_c6VE=mNb+91NNbt1tTKXTuFN6dnM5MsPEskooA&#64;mail.gmail.com&gt;
+Date: Wed, 14 Oct 2026 17:27:18 +0200
+From: Tomasz Kaye &lt;tomasz.brain&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Godot 4.x: heap out-of-bounds write via negative string length in
+ binary resource loader
+
+Three memory-safety bugs in Godot 4's untrusted-file parsers were
+publicly disclosed on 2026-09-21 [1]. This thread covers the binary
+resource loader bug.
+
+Affected versions:
+Godot 4.7-stable, official release build, verified. Earlier versions
+presumed affected. The parser has been in the engine since the day it
+was open-sourced in 2014 (commit 0b806ee0fc). Unpatched as of
+2026-10-13 (master, 4.7.2, 4.7.1, 4.7).
+
+Description:
+ResourceLoaderBinary::get_unicode_string
+(core/io/resource_format_binary.cpp:864) reads a 32-bit string length
+from the file. A length with the high bit set is negative; the size
+guard does not catch the negative value, and the subsequent copy uses
+the value as a huge unsigned size, writing past the end of the
+undersized heap buffer. AddressSanitizer reports heap-buffer-overflow
+WRITE at resource_format_binary.cpp:872.
+
+Impact:
+Attacker-controlled heap out-of-bounds write on load. The binary
+resource loader ships in export templates; an exported game that loads
+player- or community-supplied .res files runs this code on untrusted
+input.
+
+Reproduction:
+Archive godot47_binres_oob_repro.zip (README, bug_analysis.md,
+make_repro.py regenerates the crafted resource), with extracted
+contents and per-bug README:
+<a href="https://github.com/bitbutter/godot-security-pocs/tree/main/2026-09-untrusted-file-parsers/binres" rel="nofollow">https://github.com/bitbutter/godot-security-pocs/tree/main/2026-09-untrusted-file-parsers/binres</a>
+SHA-256: 920daf712f53fd8e0085bfc148c5ea5c6839d4136bf6e0d13a14a3e4385a4620
+Trigger paths (Windows): placing the crafted .res in a project folder
+crashes the editor on startup (resource-dependency scan, no user
+action); a headless script load exits with STATUS_HEAP_CORRUPTION
+(0xC0000374). Under AddressSanitizer or PageHeap, a 4 KiB payload
+yields an immediate heap-buffer-overflow WRITE at
+resource_format_binary.cpp:872. The same archive was distributed with
+the original report and is linked from the correspondence section of
+the disclosure post [1].
+
+Fix status:
+Unpatched as of 2026-10-13 (master, 4.7.2, 4.7.1, 4.7).
+
+CVE status:
+Requested from MITRE's CVE Numbering Authority of Last Resort (CNA-LR)
+on 2026-09-20, prior to publication. No IDs assigned as of 2026-10-14;
+this thread will be self-replied when IDs arrive.
+
+Timeline (dates and links only):
+2026-06-23 — reported privately to security&#64;...otengine.org with
+reproduction and suggested patch.
+2026-09-18 — public notice: <a href="https://github.com/godotengine/godot/issues/123608" rel="nofollow">https://github.com/godotengine/godot/issues/123608</a>
+2026-09-19 — vendor response classifying the issues as not security
+issues: <a href="https://github.com/godotengine/godot/issues/123608" rel="nofollow">https://github.com/godotengine/godot/issues/123608</a>
+
+Credit:
+Found during an automated audit directed by the reporter (LLM-driven
+source analysis; Claude Code — discovery by Opus 4.8, report and
+reproduction by Sonnet 4.6). Reproductions verified against official
+release binaries. Reported and disclosed by Tomasz Kaye.
+
+[1] <a href="https://axeghost.offprint.app/a/3mvs6zo4blo23-three-memory-safety-bugs-in-godots-untrusted-file-parsers" rel="nofollow">https://axeghost.offprint.app/a/3mvs6zo4blo23-three-memory-safety-bugs-in-godots-untrusted-file-parsers</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
