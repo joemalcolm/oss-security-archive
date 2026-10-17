@@ -1,22 +1,22 @@
 {
   "schema": 1,
   "system": "oss-security-archive",
-  "generated_at": "2026-10-17T18:27:22Z",
-  "last_success_at": "2026-10-17T18:27:22Z",
+  "generated_at": "2026-10-17T22:15:50Z",
+  "last_success_at": "2026-10-17T22:15:50Z",
   "last_run": {
     "status": "ok",
-    "duration_s": 200,
-    "imported": 1,
+    "duration_s": 218,
+    "imported": 3,
     "failed": 0,
     "top_error": null
   },
   "freshness": {
     "expected_interval_s": 14400,
-    "source_lag_s": 25184
+    "source_lag_s": 7074
   },
   "counts": {
-    "messages": 34705,
-    "stored": 48349,
+    "messages": 34708,
+    "stored": 48352,
     "duplicates": 13644
   },
   "problems": [],
