@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2025-55640: Heap Buffer Overflow in GPAC/MP4Box via
+ stbl_AddSize on crafted MP4 with corrupted sample metadata</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;trinity-e4b2fecb-0fb2-42e9-8f2f-f484bb9c3413-1792236461797&#64;trinity-msg-rest-gmx-gmx-live-674956c65c-mjnfm&gt;
+Date: Sat, 17 Oct 2026 11:27:41 +0000
+From: "Alexander A. Shvedov" &lt;sigdevel&#64;...amail.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2025-55640: Heap Buffer Overflow in GPAC/MP4Box via
+ stbl_AddSize on crafted MP4 with corrupted sample metadata
+
+
+Product:   GPAC (MP4Box)
+Affected:  gpac/gpac prior to fix commit (321624f28d19a413449fd1718d1eb59037f8f7fc)
+CVE:       CVE-2025-55640
+CWE:       CWE-122 (Heap-based Buffer Overflow)
+CVSS 3.1:  8.8 HIGH (AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H)
+Reporter:  @sigdevel (Alexander Shvedov) &lt;<a href="https://infosec.exchange/&#64;sigdevel" rel="nofollow">https://infosec.exchange/&#64;sigdevel</a>&gt;
+
+Description:
+  When MP4Box imports a crafted MP4 file containing manipulated sample
+  metadata (corrupted sample counts, invalid aspect ratios, and oversized
+  box declarations), the stbl_AddSize() function in isomedia/stbl_write.c
+  fails to validate sample count boundaries before writing to the sample
+  size table (stsz box). The function writes beyond the allocated heap
+  buffer for stbl-&gt;sampleSize-&gt;sizes, resulting in a heap-buffer-overflow.
+
+  AddressSanitizer reports a WRITE of size 4 at isomedia/stbl_write.c:492
+  immediately after a 64-byte heap allocation, reached via
+  mp4_mux_process_sample() / gf_isom_add_sample() / trak_add_sample() /
+  Media_AddSample() while MP4Box imports the crafted track.
+
+  Crash is reproducible on the current master branch at the time of
+  discovery. No authentication or special privileges required beyond
+  ability to provide a crafted file.
+
+Reproduction:
+  -Build-opts: CC="gcc -fsanitize=address -g" CXX="g++ -fsanitize=address -g" ;
+  -Command: ./MP4Box -add 25_poc.mp4 -new /dev/null
+
+Asan-log:
+==459908==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x506000006480 at pc 0x7f708f8531f1 bp 0x7fff5014c390 sp 0x7fff5014c388
+WRITE of size 4 at 0x506000006480 thread T0
+    #0 0x7f708f8531f0 in stbl_AddSize isomedia/stbl_write.c:492
+    #1 0x7f708f80cb60 in Media_AddSample isomedia/media.c:1033
+    #2 0x7f708f7d12fb in trak_add_sample isomedia/isom_write.c:1048
+    #3 0x7f708f7d1f33 in gf_isom_add_sample isomedia/isom_write.c:1120
+    #4 0x7f70901cdf7f in mp4_mux_process_sample filters/mux_isom.c:5103
+    #5 0x7f70901f7a09 in mp4_mux_process filters/mux_isom.c:7701
+    #6 0x7f708feed9d1 in gf_filter_process_task filter_core/filter.c:3179
+    #7 0x7f708fec0d25 in gf_fs_thread_proc filter_core/filter_session.c:2420
+    #8 0x7f708fec5f84 in gf_fs_run filter_core/filter_session.c:2727
+    #9 0x7f708f9a931d in gf_media_import media_tools/media_import.c:1601
+    #10 0x55c0e9ef2be6 in import_file applications/mp4box/fileimport.c:1693
+
+0x506000006480 is located 0 bytes after 64-byte region [0x506000006440,0x506000006480)
+allocated by thread T0 here:
+    #0 0x7f7090ef4c77 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x7f708f85a080 in stbl_SampleSizeAppend isomedia/stbl_write.c:1678
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow isomedia/stbl_write.c:492 in stbl_AddSize
+
+PoC:
+  <a href="https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/25/25_poc.mp4" rel="nofollow">https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/25/25_poc.mp4</a>
+
+References:
+  <a href="https://github.com/gpac/gpac/issues/3261" rel="nofollow">https://github.com/gpac/gpac/issues/3261</a>
+  <a href="https://www.cve.org/CVERecord?id=CVE-2025-55640" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-55640</a>
+  <a href="https://infosec.exchange/&#64;sigdevel/116769271709415444" rel="nofollow">https://infosec.exchange/&#64;sigdevel/116769271709415444</a>
+
+——
+Best regards, Alexander A. Shvedov
+@sigdevel
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
