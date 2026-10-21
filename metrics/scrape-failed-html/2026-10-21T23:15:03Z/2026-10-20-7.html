@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2025-55654: Use-after-free in GPAC/MP4Box
+ gf_filter_pid_get_packet via crafted NHML export input</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;trinity-ce73d025-5535-4c7d-b130-141b026e3dfb-1792493331891&#64;trinity-msg-rest-gmx-gmx-live-5d6886bf55-g4jzq&gt;
+Date: Tue, 20 Oct 2026 10:48:52 +0000
+From: "Alexander A. Shvedov" &lt;sigdevel&#64;...amail.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2025-55654: Use-after-free in GPAC/MP4Box
+ gf_filter_pid_get_packet via crafted NHML export input
+
+
+Product:   GPAC (MP4Box)
+Affected:  GPAC/MP4Box 2.4; reproduced at commits
+           63eccc33d4a2b731ebb31581ff5673a2c0b13ad4 and
+           0ab2af43da6b89a556ce52086057d1812ceade9e
+Fixed:     0ccd2927c7145f5ab0352c5b15f787757b34eb18
+CVE:       CVE-2025-55654
+CWE:       CWE-416 (Use After Free)
+CVSS 3.1:  5.5 MEDIUM (AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H; BDU assessment)
+Reporter:  Alexander A. Shvedov (@sigdevel)
+
+Description:
+  A heap use-after-free occurs when MP4Box exports a crafted media file
+  through the NHML path. gf_filter_pid_get_packet() in
+  filter_core/filter_pid.c may access a GF_FilterPid object after the
+  object has been released by gf_filter_pid_del().
+
+  AddressSanitizer reports a read of size 8 at filter_core/filter_pid.c:6792,
+  at the start of a previously freed 336-byte heap region. The stale PID
+  is read by gf_filter_pid_get_packet() from fileout_process() while the
+  export filter graph is running.
+
+  The issue was reproduced against the original tested revision and again
+  at commit 0ab2af43da6b89a556ce52086057d1812ceade9e. GPAC confirmed the
+  report and fixed it in commit 0ccd2927c7145f5ab0352c5b15f787757b34eb18.
+
+Impact:
+  Processing attacker-controlled input with the affected MP4Box command
+  causes an immediate process crash and denial of service. Because this is
+  a heap use-after-free, memory corruption is present, but arbitrary code
+  execution has not been demonstrated in the supplied report.
+
+Reproduction:
+  Build GPAC with AddressSanitizer, then run:
+
+    ./MP4Box -nhml trackID 22_data -out /dev/null
+
+ASan log excerpt from the retest at commit 0ab2af43da6b89a556ce52086057d1812ceade9e:
+  ==1387528==ERROR: AddressSanitizer: heap-use-after-free on address 0x513000001700
+  READ of size 8 at 0x513000001700 thread T0
+      #0 0x7f1e870ac6d7 in gf_filter_pid_get_packet filter_core/filter_pid.c:6792
+      #1 0x7f1e874531e3 in fileout_process filters/out_file.c:487
+      #2 0x7f1e87110cc1 in gf_filter_process_task filter_core/filter.c:3179
+      #3 0x7f1e870e4215 in gf_fs_thread_proc filter_core/filter_session.c:2420
+      #4 0x7f1e870e9474 in gf_fs_run filter_core/filter_session.c:2727
+      #5 0x7f1e86c7dc62 in gf_media_export_filters media_tools/media_export.c:1375
+
+  0x513000001700 is located 0 bytes inside of 336-byte region
+  [0x513000001700,0x513000001850)
+  freed by thread T0 here:
+      #0 0x7f1e880f3918 in free asan_malloc_linux.cpp:52
+      #1 0x7f1e870784fc in gf_filter_pid_del filter_core/filter_pid.c:5899
+
+  previously allocated by thread T0 here:
+      #0 0x7f1e880f4c77 in malloc asan_malloc_linux.cpp:69
+      #1 0x7f1e870a4923 in gf_filter_pid_inst_new filter_core/filter_pid.c:105
+      #2 0x7f1e870a4923 in gf_filter_pid_configure filter_core/filter_pid.c:868
+
+  SUMMARY: AddressSanitizer: heap-use-after-free
+    filter_core/filter_pid.c:6792 in gf_filter_pid_get_packet
+
+Fix:
+  Update to a GPAC revision containing commit:
+
+    0ccd2927c7145f5ab0352c5b15f787757b34eb18
+
+PoC:
+  <a href="https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/22/22_data" rel="nofollow">https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/22/22_data</a>
+
+References:
+  <a href="https://github.com/gpac/gpac/issues/3249" rel="nofollow">https://github.com/gpac/gpac/issues/3249</a>
+  <a href="https://github.com/gpac/gpac/commit/0ccd2927c7145f5ab0352c5b15f787757b34eb18" rel="nofollow">https://github.com/gpac/gpac/commit/0ccd2927c7145f5ab0352c5b15f787757b34eb18</a>
+  <a href="https://www.cve.org/CVERecord?id=CVE-2025-55654" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-55654</a>
+  <a href="https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/55xxx/CVE-2025-55654.json" rel="nofollow">https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/55xxx/CVE-2025-55654.json</a>
+  <a href="https://infosec.exchange/&#64;sigdevel/116769098607015606" rel="nofollow">https://infosec.exchange/&#64;sigdevel/116769098607015606</a>
+  <a href="https://bdu.fstec.ru/vul/2025-10087" rel="nofollow">https://bdu.fstec.ru/vul/2025-10087</a>
+
+——
+Best regards, Alexander A. Shvedov
+@sigdevel
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
