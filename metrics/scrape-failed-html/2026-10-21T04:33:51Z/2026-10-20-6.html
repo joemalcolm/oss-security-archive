@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2025-52290: FFmpeg NULL pointer dereference in
+ avpriv_h264_has_num_reorder_frames</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;trinity-0e7ec03b-c300-45cc-8cd4-3cd5c5de9df5-1792493149826&#64;trinity-msg-rest-gmx-gmx-live-5d6886bf55-hp5xm&gt;
+Date: Tue, 20 Oct 2026 10:45:50 +0000
+From: "Alexander A. Shvedov" &lt;sigdevel&#64;...amail.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2025-52290: FFmpeg NULL pointer dereference in
+ avpriv_h264_has_num_reorder_frames
+
+Product:   FFmpeg (ffmpeg / libavcodec / libavformat)
+Affected:  N-119856-gbe46370941
+           Commit be46370941405fb04402d96373a53e2a1846f3ac
+CVE:       CVE-2025-52290
+CWE:       CWE-476 (NULL Pointer Dereference; reporter classification)
+CVSS 3.1:  7.5 HIGH (AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H; CISA-ADP)
+Reporter:  Alexander A. Shvedov (@sigdevel)
+
+Description:
+  Processing a crafted media file can crash FFmpeg in
+  avpriv_h264_has_num_reorder_frames() at libavcodec/h264dec.c:64:17.
+  The sample is named 1_poc.mp4, but the reproduction log identifies the
+  input as MPEG-TS.
+
+  Before the crash, FFmpeg reports that an AVCodecContext allocated for
+  AAC was passed to avcodec_open2() for H.264. During stream probing,
+  has_decode_delay_been_guessed() in libavformat/demux.c calls
+  avpriv_h264_has_num_reorder_frames(), where AddressSanitizer records
+  a segmentation fault caused by a read memory access.
+
+  The report attributes the crash to a NULL or invalid H.264 parameter-set
+  pointer (ps.sps) following the codec-context mismatch. The precise
+  pointer state is not established by the ASan trace alone.
+
+Impact:
+  An attacker who can supply a crafted input to an FFmpeg-based media
+  processing workflow can cause abnormal process termination and denial
+  of service. The crash was observed in both standard and ASan builds.
+  Code execution has not been demonstrated.
+
+  Exposure depends on deployment: an automated upload/transcoding service
+  may process the file without user interaction, while interactive use
+  requires a user to open or process the file. The CVSS score above is
+  the CISA-ADP assessment in the published CVE record.
+
+Reproduction:
+  Tested on x86_64 Linux using GCC 14 and Debian Clang 19.1.7.
+  The ASan build used --toolchain=clang-asan --enable-debug=3
+  --disable-optimizations --disable-stripping.
+  Full build options are included in the linked report.
+
+  Command:
+    ./ffmpeg -i ./1_poc.mp4 -f null -
+
+ASan log excerpt (source paths shortened):
+  [aac @ 0x519000002380] This AVCodecContext was allocated for aac, but h264 passed to avcodec_open2()
+  [aac @ 0x519000002380] reference count 2 overflow
+  AddressSanitizer:DEADLYSIGNAL
+  ==1013058==ERROR: AddressSanitizer: SEGV on unknown address 0x52d000103a40 (pc 0x5633fed4a562 bp 0x7ffe0ddcc4c0 sp 0x7ffe0ddcc480 T0)
+  ==1013058==The signal is caused by a READ memory access.
+      #0 0x5633fed4a562 in avpriv_h264_has_num_reorder_frames libavcodec/h264dec.c:64:17
+      #1 0x5633fdf6c978 in has_decode_delay_been_guessed libavformat/demux.c:757:9
+      #2 0x5633fdf757e4 in compute_pkt_fields libavformat/demux.c:1137:13
+      #3 0x5633fdf7252c in parse_packet libavformat/demux.c:1265:9
+      #4 0x5633fdf5db45 in read_frame_internal libavformat/demux.c:1449:24
+      #5 0x5633fdf63fe6 in avformat_find_stream_info libavformat/demux.c:2692:15
+  SUMMARY: AddressSanitizer: SEGV libavcodec/h264dec.c:64:17 in avpriv_h264_has_num_reorder_frames
+  ==1013058==ABORTING
+
+Vendor coordination:
+  The report and PoC were sent to ffmpeg-security&#64;...peg.org. According
+  to the disclosure records, Michael Niedermayer replied with a suggestion
+  to publish independently.
+
+Fix status:
+  The supplied disclosure materials do not identify a fixing commit or
+  a verified fixed release. The affected version above is the tested
+  revision; the full affected-version range has not been established.
+
+PoC:
+  <a href="https://github.com/sigdevel/pocs/blob/main/res/FFmpeg/ffmpeg/1/1_poc.mp4" rel="nofollow">https://github.com/sigdevel/pocs/blob/main/res/FFmpeg/ffmpeg/1/1_poc.mp4</a>
+
+References:
+  <a href="https://github.com/sigdevel/pocs/blob/main/res/FFmpeg/ffmpeg/1/1_libavcodec_h264dec.c.64_17.md" rel="nofollow">https://github.com/sigdevel/pocs/blob/main/res/FFmpeg/ffmpeg/1/1_libavcodec_h264dec.c.64_17.md</a>
+  <a href="https://www.cve.org/CVERecord?id=CVE-2025-52290" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-52290</a>
+  <a href="https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/52xxx/CVE-2025-52290.json" rel="nofollow">https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/52xxx/CVE-2025-52290.json</a>
+  <a href="https://infosec.exchange/&#64;sigdevel/116733488628458667" rel="nofollow">https://infosec.exchange/&#64;sigdevel/116733488628458667</a>
+  <a href="https://ffmpeg.org/" rel="nofollow">https://ffmpeg.org/</a>
+
+
+——
+Best regards, Alexander A. Shvedov
+@sigdevel
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
