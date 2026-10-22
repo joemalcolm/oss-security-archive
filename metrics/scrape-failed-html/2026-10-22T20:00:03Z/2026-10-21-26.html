@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Apache Pulsar Manager: CVE-2026-105944, missing authentication and
+ admin credential disclosure; end of life</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="25">[&lt;prev]</a> <a href="27">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;5a7698ea-0fc6-4560-8b2d-41e54980d017&#64;apache.org&gt;
+Date: Wed, 21 Oct 2026 23:32:29 +0300
+From: Lari Hotari &lt;lhotari&#64;...che.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Apache Pulsar Manager: CVE-2026-105944, missing authentication and
+ admin credential disclosure; end of life
+
+The Apache Pulsar PMC has published the following security advisory for 
+Apache Pulsar Manager. Apache Pulsar Manager has reached end of life and 
+has been retired, and these issues will not be fixed. The advisory was 
+announced on users&#64;...sar.apache.org: 
+<a href="https://lists.apache.org/thread/hol3z7fzhjntwvrv8xqqwx4l4d2jx796" rel="nofollow">https://lists.apache.org/thread/hol3z7fzhjntwvrv8xqqwx4l4d2jx796</a>
+
+CVE-2026-105944: Apache Pulsar Manager: Missing authentication and 
+authorization and disclosure of the Pulsar admin credential; end of life
+
+Severity: critical (CVSS 4.0 base score 10.0, 
+CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H)
+
+Affected versions:
+
+- Apache Pulsar Manager: all released versions, from 0.1.0 through 0.4.0 
+(the last release)
+
+Description:
+
+Apache Pulsar Manager is a web console for administering Apache Pulsar 
+clusters. It has its own user accounts and login, and it can be 
+configured with an HTTP authentication credential, such as a token, that 
+it uses to call the Pulsar admin API on behalf of its users. Pulsar 
+Manager has the following security issues:
+
+- The operation for creating the initial administrator (superuser) 
+account is available without authentication, and it remains available 
+after the instance has been initialized. Anyone who can reach Pulsar 
+Manager can create an additional administrator account at any time and 
+log in with it. This issue affects versions 0.3.0 and later.
+- Requests to the Pulsar admin API that Pulsar Manager proxies to the 
+configured Pulsar cluster are not subject to Pulsar Manager's 
+authentication. Version 0.2.0 checks the caller's permissions for some 
+of these requests, but not for all of them. An unauthenticated user can 
+therefore use Pulsar Manager to send requests to the Pulsar admin API, 
+which the cluster processes with the credential configured in Pulsar 
+Manager.
+- The destination of a proxied request can be chosen by the requester, 
+and Pulsar Manager attaches its configured Pulsar admin credential to 
+the request. An unauthenticated user can make Pulsar Manager send this 
+credential to a host of the user's choosing, and the credential can then 
+be used directly against the Pulsar cluster.
+- In versions 0.3.0 and later, Pulsar Manager does not distinguish 
+between privilege levels of its accounts. Every account, including one 
+created through the first issue, effectively has full administrative 
+privileges in Pulsar Manager.
+
+The impact depends on the version and the deployment. In versions 0.3.0 
+and later, any user who can reach Pulsar Manager over the network can 
+take full control of Pulsar Manager. In all versions, when Pulsar 
+Manager is configured with an HTTP authentication credential for a 
+Pulsar cluster, any user who can reach Pulsar Manager can perform the 
+Pulsar admin operations that this credential permits and can obtain the 
+credential itself. When Pulsar Manager is configured with the token 
+signing key of a Pulsar cluster, an administrator of Pulsar Manager can 
+create tokens for the cluster.
+
+End of life:
+
+Apache Pulsar Manager is no longer maintained and is completely 
+unsupported. The Apache Pulsar PMC has retired it. There are no 
+supported versions, and no further releases, fixes or security updates 
+will be made for any version. These issues will not be fixed.
+
+Using Pulsar Manager is not recommended. Users should stop using Pulsar 
+Manager, remove existing deployments, and move to one of the 
+alternatives described in the Administration UI documentation 
+(<a href="https://pulsar.apache.org/docs/administration-ui" rel="nofollow">https://pulsar.apache.org/docs/administration-ui</a>). Users who have 
+exposed Pulsar Manager configured with a Pulsar credential or token 
+signing key should also consider replacing that credential or key.
+
+Until a deployment is removed, users should not expose Pulsar Manager to 
+untrusted networks, and should restrict network access to it to trusted 
+administrators.
+
+Credit:
+
+- Aleksandar Djordjevic (finder)
+- Mike Read (finder)
+
+References:
+
+- <a href="https://lists.apache.org/thread/hol3z7fzhjntwvrv8xqqwx4l4d2jx796" rel="nofollow">https://lists.apache.org/thread/hol3z7fzhjntwvrv8xqqwx4l4d2jx796</a>
+- <a href="https://www.cve.org/CVERecord?id=CVE-2026-105944" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-105944</a>
+- <a href="https://pulsar.apache.org/docs/administration-ui" rel="nofollow">https://pulsar.apache.org/docs/administration-ui</a>
+
+Regards,
+
+Lari Hotari
+on behalf of the Apache Pulsar PMC
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
