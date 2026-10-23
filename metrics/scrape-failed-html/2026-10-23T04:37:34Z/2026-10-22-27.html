@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-109618 / CVE-2026-109619: unofficial backport of the PHP OOM
+ bailout / stale state fix to PHP 5.4.16 (EL7) and 5.3.3 (EL6)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="26">[&lt;prev]</a> <a href="28">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAFuRGoBYN+nT+h7DhcW8VQ_DB6F2CGo6wyKa-s+e-C-R_ueDsw&#64;mail.gmail.com&gt;
+Date: Thu, 22 Oct 2026 23:20:55 +0300
+From: Oleksii Molchanov &lt;oleksii.molchanov.pe&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-109618 / CVE-2026-109619: unofficial backport of the PHP OOM
+ bailout / stale state fix to PHP 5.4.16 (EL7) and 5.3.3 (EL6)
+
+Hi,
+
+I have ported the official minimal fix for CVE-2026-109618 and
+CVE-2026-109619 (php-src commit 712e60f9ed, "Avoid state corruption
+via bailout", the PHP 7.4 backport) to the PHP 5 packages of
+Enterprise Linux 6 and 7, which will not get a vendor update:
+
+  php-5.4.16-48.el7    (RHEL / CentOS / Oracle Linux / Scientific
+                       Linux 7)  -&gt;  php-5.4.16-48.el7.php2shell.1
+  php-5.3.3-50.el6_10  (RHEL / CentOS / Oracle Linux 6)
+                       -&gt;  php-5.3.3-50.el6_10.php2shell.1
+
+The patches are made against the vendor source trees (after %prep,
+with all vendor patches applied) and are attached. The spec file
+changes, a container build and CI are in:
+
+  <a href="https://github.com/alvm/php2shell-eol-backport" rel="nofollow">https://github.com/alvm/php2shell-eol-backport</a>
+
+This adds the EL6 / EL7 vendor packages to the unofficial backports
+that Leon Lai announced for Amazon Linux and for PHP 7.3 on EL7:
+<a href="https://www.openwall.com/lists/oss-security/2026/10/22/13">https://www.openwall.com/lists/oss-security/2026/10/22/13</a>
+
+
+What the 7.4 fix maps to in the PHP 5 engine
+--------------------------------------------
+
+Ported directly to 5.4.16 and 5.3.3:
+
+- Allocation failures no longer bail out. zend_mm_safe_error() and
+  the "Possible integer overflow in memory allocation" check in the
+  four safe_address() variants print the error to stderr and call
+  _exit(1), through a new zend_mm_safe_error_ex(). zend_mm_panic()
+  uses _exit() as well.
+- The same exit path is used for both Balloc() errors in
+  zend_strtod.c and for the string size overflow in
+  concat_function(), the PHP 5 counterpart of the ZEND_CONCAT /
+  ZEND_FAST_CONCAT checks. The second branch of concat_function()
+  also gets the size check that was missing there.
+- Request state is reset: sapi_deactivate() sets auth_user,
+  auth_password, auth_digest, content_type_dup and current_user to
+  NULL; zend_llist_destroy() resets head and tail;
+  shutdown_executor() resets EG(error_handling) and EG(exception);
+  php_request_shutdown() clears PG(http_globals) (PHP 5 otherwise
+  clears them only at the next request startup) and resets
+  PG(modules_activated).
+- Multipart parsing keeps only the Content-Disposition and
+  Content-Type part headers, ignores duplicates, and limits the
+  number of parts with max_multipart_body_parts (default:
+  max_input_vars + max_file_uploads).
+
+Session upload progress is disabled in code in 5.4, as in the 7.4
+backport. PHP 5.3 does not have the feature.
+
+Not applicable to PHP 5: the zend_hash changes (the PHP 5 HashTable
+grows through perealloc_recoverable() and has no fatal error path
+there), the VM handler changes and the single-slot superglobal
+arrays.
+
+
+Notes for anyone porting to other PHP 5 trees
+---------------------------------------------
+
+- Later PHP 5 releases have more fatal allocation paths than these
+  vendor trees: php-5.4.45 has two "String size overflow" sites in
+  zend_operators.c, and php-5.6.40 has six "Possible integer
+  overflow" call sites in zend_alloc.c instead of four. A port that
+  converts only the call sites known from 5.4.16 misses them.
+- Compared with Leon Lai's independent port to the Amazon Linux 2
+  php-5.4.16 package (derived from the RHEL 7 one), the core changes
+  are identical line for line. That port does not include the
+  concat, Balloc(), zend_mm_panic() and max_multipart_body_parts
+  parts; it also clears http_globals in
+  php_request_shutdown_for_hook(), which no SAPI of the RHEL build
+  calls. Details:
+  <a href="https://github.com/alvm/php2shell-eol-backport/blob/main/docs/ALTERNATIVES.md" rel="nofollow">https://github.com/alvm/php2shell-eol-backport/blob/main/docs/ALTERNATIVES.md</a>
+
+
+Risk on PHP 5
+-------------
+
+As of 22 Oct, Red Hat's VEX lists the RHEL 6 and 7 php packages as
+"under investigation" for CVE-2026-109618 and as not affected by
+CVE-2026-109619 ("vulnerable code not present"). An independent
+analysis of PHP 5.3 [1] found that the out-of-memory fault can be
+reached, but the published memory corruption step relies on PHP 7
+engine internals, so on PHP 5 the known attack ends in a denial of
+service; 5.4 to 5.6 were assessed by comparing the code only.
+
+The backport applies the mitigation anyway, because it removes the
+unsafe error path itself, not only the known way to reach it.
+
+[1] Analysis of php2shell on PHP 5.3.15:
+    <a href="https://github.com/euriconicacio/blog/blob/main/all_collections/_posts/2026-10-22-evaluating-php2shell-reachability-and-corruptibility-in-php-5-3-15.md" rel="nofollow">https://github.com/euriconicacio/blog/blob/main/all_collections/_posts/2026-10-22-evaluating-php2shell-reachability-and-corruptibility-in-php-5-3-15.md</a>
+
+
+Behaviour changes
+-----------------
+
+- Exceeding memory_limit ends the process. "Fatal error: ..." goes
+  to stderr (the web server error log), shutdown functions do not
+  run, and temporary files of uploads in that request stay in /tmp
+  until tmpwatch / systemd-tmpfiles removes them. This follows the
+  7.4 fix.
+- Session upload progress does not work (5.4).
+- New php.ini directive max_multipart_body_parts.
+- ABI: one new exported function (zend_mm_safe_error_ex); existing
+  structures and functions are unchanged.
+
+
+Testing
+-------
+
+The packages were rebuilt from the vendor SRPMs (pinned SHA-256) in
+pinned Oracle Linux containers, and the test suite of the RPM %check
+was compared with an unmodified rebuild of the same SRPM:
+
+  EL7, 5.4.16: 12373 tests, failures 14 -&gt; 23
+               (8 session upload progress tests and
+               tests/lang/bug45392.phpt)
+  EL6, 5.3.3:  11213 tests, failures 55 -&gt; 56
+               (tests/lang/bug45392.phpt: the fatal error message
+               now starts with an empty line, as with the 7.4 fix)
+
+GitHub Actions rebuilds both packages on every push with the same
+results, apart from a few environment-dependent tests (SPL file
+owner tests, a timing test) that come and go between runners. No
+exploit code was written or used.
+
+
+Packages
+--------
+
+Signed RPMs and a yum repository, for those who prefer not to build
+the packages themselves:
+
+  <a href="https://github.com/alvm/php2shell-eol-backport/releases/tag/v1" rel="nofollow">https://github.com/alvm/php2shell-eol-backport/releases/tag/v1</a>
+  <a href="https://alvm.github.io/php2shell-eol-backport/" rel="nofollow">https://alvm.github.io/php2shell-eol-backport/</a>
+
+Signing key: 2757 B60F D23D ED25 021B  BE37 8079 7C97 A561 BC94
+
+These are unofficial and come without support. TuxCare's commercial
+ELS also shipped fixed builds of these packages on 21 Oct. Moving to
+a supported PHP version remains the real fix.
+
+Attached patches (SHA-256):
+
+php-5.4.16-48.el7-cve-2026-109618.patch
+  cefd460a8a3c73e4ccd42ae478e3cb944e19f713020983e0358878c3a0a7a33e
+php-5.3.3-50.el6_10-cve-2026-109618.patch
+  3f47e82abb08d2a84f945d7fe76eb59a2fbcff2305c2e415baedd26dab9f0eae
+
+-- 
+Oleksii Molchanov
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="27/1" rel="nofollow" download>php-5.4.16-48.el7-cve-2026-109618.patch</a><strong>" of type "</strong>application/x-patch<strong>" (12842 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="27/2" rel="nofollow" download>php-5.3.3-50.el6_10-cve-2026-109618.patch</a><strong>" of type "</strong>application/x-patch<strong>" (12078 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

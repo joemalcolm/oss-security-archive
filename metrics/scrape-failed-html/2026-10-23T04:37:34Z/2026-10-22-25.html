@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2025-60496: Divide by zero in GPAC/MP4Box reframer via crafted
+ truncated MP4 file</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="24">[&lt;prev]</a> <a href="26">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;trinity-aa70c3a0-15ae-4156-ba45-ae1667a59f07-1792670050164&#64;trinity-msg-rest-gmx-gmx-live-5d6886bf55-szshb&gt;
+Date: Thu, 22 Oct 2026 11:54:10 +0000
+From: "Alexander A. Shvedov" &lt;sigdevel&#64;...amail.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2025-60496: Divide by zero in GPAC/MP4Box reframer via crafted
+ truncated MP4 file
+
+Product:   GPAC (MP4Box)
+Affected:  2.5-DEV-rev1780-g50b5741f2-master
+           Commit 50b5741f291126b610c59db433fc02e8a17f0c5d
+Fixed:     f03c946aae129980f0426d4cbae9746d0536fee6
+CVE:       CVE-2025-60496
+CWE:       CWE-369 (Divide By Zero)
+CVSS 3.1:  5.5 MEDIUM (AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H)
+Reporter:  Alexander A. Shvedov (@sigdevel)
+
+Description:
+  MP4Box performs a division by zero in reframer_send_packet() at
+  filters/reframer.c:1026 when splitting a crafted, truncated MP4 file.
+  Upstream parsing leaves stream parameters such as the timescale,
+  estimated file size, or sample rate at zero. The reframer then uses a
+  zero value as a denominator while calculating split boundaries.
+
+  The issue was reproduced in GPAC version
+  2.5-DEV-rev1780-g50b5741f2-master at commit
+  50b5741f291126b610c59db433fc02e8a17f0c5d.
+
+Impact:
+  Splitting the crafted file raises SIGFPE and terminates MP4Box, resulting
+  in denial of service. Arbitrary code execution was not demonstrated.
+
+Reproduction:
+  Build GPAC with AddressSanitizer, then run:
+
+    ./MP4Box -split-size 8000 65_reframer_send_packet_filters_reframer_c_1026
+
+ASan log excerpt:
+  [IsoMedia] File truncated, aborting read for track 2 after 2 / 51 samples
+  [Reframer] split computed using current estimation of file size (102487)
+  AddressSanitizer:DEADLYSIGNAL
+  ==573621==ERROR: AddressSanitizer: FPE on unknown address 0x7f1bfc2de393
+      #0 in reframer_send_packet filters/reframer.c:1026
+      #1 in reframer_process filters/reframer.c:2698
+      #2 in gf_filter_process_task filter_core/filter.c:3208
+      #3 in gf_fs_thread_proc filter_core/filter_session.c:2393
+
+  SUMMARY: AddressSanitizer: FPE
+    filters/reframer.c:1026 in reframer_send_packet
+
+Fix:
+  Update to a GPAC v26.07.0:
+
+    <a href="https://github.com/gpac/gpac/releases/tag/v26.07.0" rel="nofollow">https://github.com/gpac/gpac/releases/tag/v26.07.0</a>
+
+PoC:
+  <a href="https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/65/65_reframer_send_packet_filters_reframer_c_1026" rel="nofollow">https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/65/65_reframer_send_packet_filters_reframer_c_1026</a>
+
+References:
+  <a href="https://github.com/gpac/gpac/issues/3334" rel="nofollow">https://github.com/gpac/gpac/issues/3334</a>
+  <a href="https://github.com/gpac/gpac/commit/f03c946aae129980f0426d4cbae9746d0536fee6" rel="nofollow">https://github.com/gpac/gpac/commit/f03c946aae129980f0426d4cbae9746d0536fee6</a>
+  <a href="https://www.cve.org/CVERecord?id=CVE-2025-60496" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-60496</a>
+  <a href="https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/60xxx/CVE-2025-60496.json" rel="nofollow">https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/60xxx/CVE-2025-60496.json</a>
+  <a href="https://infosec.exchange/&#64;sigdevel/117451461416101711" rel="nofollow">https://infosec.exchange/&#64;sigdevel/117451461416101711</a>
+
+
+——
+Best regards, Alexander A. Shvedov
+@sigdevel
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
