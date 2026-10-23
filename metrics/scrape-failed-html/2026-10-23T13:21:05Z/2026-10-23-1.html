@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Information for Python users regarding eMudhra /
+ emSign CA certificate security incident</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/10/22/34">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/10/22/31">[&lt;thread-prev]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;dbf33d8d-82c6-4e7f-abcd-06d474ecdc4b&#64;gentoo.org&gt;
+Date: Thu, 22 Oct 2026 21:53:52 -0400
+From: Eli Schwartz &lt;eschwartz&#64;...too.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Information for Python users regarding eMudhra /
+ emSign CA certificate security incident
+
+On 10/22/26 5:07 PM, Valtteri Vuorikoski wrote:
+&gt; Having spent the day whacking this particular molehill, my strong opinion is
+&gt; that these packages (minus certifi) should stop vendoring roots immediately.
+&gt; 
+&gt; Users should install their distro's ca-certificates package or similar. If that
+&gt; is completely impossible for whatever reason, offer an option to use certifi
+&gt; (which should be a dependency, not vendored) - but the system trust store should
+&gt; be the default source of truth.
+&gt; 
+&gt; This sort of easter egg hiding to serve users with broken installations reduces
+&gt; the security of everyone else.
+&gt; 
+&gt; (Missing from the quoted list: botocore also includes a vendored copy. I haven't
+&gt; checked how it's used.)
+
+
+This is why using packages from a Linux distro is good: linux distro
+provided "certifi" packages typically are patched or outright build from
+<a href="https://github.com/projg2/certifi-system-store" rel="nofollow">https://github.com/projg2/certifi-system-store</a>, to use, well, the system
+store.
+
+And pip is unbundled to use the system certifi. Well ok, technically it
+is unbundled to use the system requests, and the system requests uses
+the system certifi.
+
+sigstore's "update" was updating a lockfile to lock newer certifi, they
+didn't even actually add a &gt;= dependency on "new enough to have the
+eMudhra fix" so the whole thing is actually ludicrous. If you had
+sigstore installed before a couple days ago, upgrading sigstore won't
+upgrade your certs, and if you actually updated all packages then
+certifi would be updated regardless of whether sigstore tagged a new
+version.
+
+conda actually responded by adding a dependency constraint to &gt;= the
+suitable version of certifi.
+
+uv / pixi are rust software, which means a) infinite vendoring, b)
+`cargo build` will usually error out if you *try* to patch anything to
+unvendor it, so, "good luck" (and also stick to pip IMO).
+
+...
+
+This is why vendoring is always fundamentally treated with such
+suspicion. We have had ample proof over the decades that issues like
+this will just continue to crop up again and again, in so many various
+ways, despite what the
+
+"AcKshUAlLY sTaTIc LinkING iS MORE efFiCIEnt"
+
+crowd says.
+
+Python vendored packages is just static linking with the additional
+possibility of trivial monkeypatching.
+
+
+-- 
+Eli Schwartz
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>OpenPGP_signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (237 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
