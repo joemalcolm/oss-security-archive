@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Ruby Regexp compilation fixes related to GitLab's
+ CVE's</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="23">[&lt;prev]</a> <a href="25">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;10d81331-f903-444d-8168-8b7c7b4e1348&#64;oracle.com&gt;
+Date: Fri, 23 Oct 2026 11:10:34 -0700
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Ruby Regexp compilation fixes related to GitLab's
+ CVE's
+
+<a href="https://www.ruby-lang.org/en/news/2026/10/23/regexp-fixes-for-gitlab-cves/" rel="nofollow">https://www.ruby-lang.org/en/news/2026/10/23/regexp-fixes-for-gitlab-cves/</a> says:
+&gt; Regexp compilation fixes related to GitLab's CVE-2026-89078, CVE-2026-93577,
+&gt; CVE-2026-97229 and CVE-2026-110264
+&gt; 
+&gt; Posted by k0kubun on 23 Oct 2026
+&gt; 
+&gt; We have released Ruby 4.0.9, 3.4.12 and 3.3.13. They fix several bugs
+&gt; in Ruby’s regular expression engine (Onigmo) that GitLab found could
+&gt; be used for remote code execution on GitLab servers. GitLab published
+&gt; four CVEs for these issues, and the Ruby releases contain the fixes
+&gt; for the underlying bugs in Ruby.
+&gt; 
+&gt; Background
+&gt; ----------
+&gt; 
+&gt; GitLab compiles regular expressions supplied by its users, such as
+&gt; patterns in CI configuration, with Regexp.new. GitLab found that
+&gt; specially crafted patterns could corrupt memory while Ruby compiles
+&gt; them, and that this could be turned into remote code execution on
+&gt; GitLab servers. GitLab addressed these issues in its own releases by
+&gt; patching the Ruby it ships, and assigned the following CVE
+&gt; identifiers:
+&gt; 
+&gt; * CVE-2026-89078: Double Free issue in Regular Expression Parser
+&gt;   (GitLab 19.4.1)
+&gt; * CVE-2026-93577: Integer Overflow issue in Regular Expression Compiler
+&gt;   (GitLab 19.4.1)
+&gt; * CVE-2026-97229: Integer Overflow issue in CI/CD Regular Expression Compiler
+&gt;   (GitLab 19.4.2)
+&gt; * CVE-2026-110264: Integer Overflow issue in Regular Expression Compiler
+&gt;   (GitLab 19.5.1)
+&gt; 
+&gt; 
+&gt; Fixes in Ruby
+&gt; -------------
+&gt; 
+&gt; The following table shows the change in Ruby that fixes the bug behind
+&gt; each CVE, and the first release of each series that contains it.
+&gt; 
+&gt; GitLab CVE      Bug in Ruby                    Change    Ruby   Ruby    Ruby
+&gt;                                                          4.0    3.4     3.3
+&gt; ----------      -----------                    -------   ----   ----    ----
+&gt; CVE-2026-89078  Double free when parsing a pattern
+&gt;                  fails after an alternation    #13332   4.0.0   3.4.12  3.3.13
+&gt; 
+&gt; CVE-2026-93577, Integer overflow in the size of a
+&gt; CVE-2026-97229   compiled pattern              #19020   4.0.8   3.4.12  3.3.13
+&gt; 
+&gt; CVE-2026-110264 Overflow of internal IDs in a pattern
+&gt;                   with many repeats            #16801   4.0.9   3.4.12  3.3.13
+&gt; 
+&gt; Ruby 4.0.9, 3.4.12 and 3.3.13 contain all of these fixes.
+&gt; 
+&gt; 
+&gt; Who is affected
+&gt; ---------------
+&gt; 
+&gt; These bugs are reached only when an application compiles a regular
+&gt; expression from a string that an attacker controls, for example by
+&gt; passing it to Regexp.new, Regexp.union or Regexp.compile, or by
+&gt; interpolating it into a regexp literal such as /#{input}/.
+&gt; Applications that only use regular expressions written by their own
+&gt; developers are not affected.
+&gt; 
+&gt; Regexp.timeout does not protect against these bugs. Limiting the
+&gt; length of patterns does not reliably protect against them either,
+&gt; because some of them can be triggered by short patterns.
+&gt; 
+&gt; 
+&gt; Recommended action
+&gt; ------------------
+&gt; 
+&gt; We recommend upgrading to Ruby 4.0.9, 3.4.12 or 3.3.13 or later.
+&gt; 
+&gt; If you cannot upgrade, please avoid compiling regular expressions from
+&gt; untrusted input.
+&gt; 
+&gt; Ruby 3.3 is in the security maintenance phase, in which we normally
+&gt; release only fixes for vulnerabilities. Ruby 3.3.13 includes these
+&gt; fixes as an exception, because GitLab assigned CVEs to issues that
+&gt; rely on them.
+&gt; 
+&gt; 
+&gt; About CVE identifiers
+&gt; ---------------------
+&gt; 
+&gt; We have not requested CVE identifiers in Ruby for these fixes, at
+&gt; least for now.
+&gt; 
+&gt; Ruby has generally considered it unsafe to compile and use a regular
+&gt; expression created from untrusted input. We stated this in the
+&gt; advisory for CVE-2022-28738, where we nevertheless treated a double
+&gt; free in Regexp compilation as a vulnerability after a comprehensive
+&gt; assessment. We did the same for CVE-2024-27282.
+&gt; 
+&gt; However, the Regexp documentation currently discusses untrusted
+&gt; patterns only in terms of denial of service, and recommends a timeout
+&gt; for them. It does not clearly say whether compiling an untrusted
+&gt; pattern is a use case that Ruby supports. We plan to discuss how to
+&gt; document this, and whether we treat this kind of issue as a
+&gt; vulnerability in Ruby, including whether to request CVE identifiers
+&gt; for these fixes. If we request any, we will update this page.
+&gt; 
+&gt; In the meantime, please refer to GitLab’s CVE identifiers listed above
+&gt; when you track these issues, for example in a security scanner.
+&gt; 
+&gt; 
+&gt; Credits
+&gt; -------
+&gt; 
+&gt; Thanks to Johan Carlsson (joaxcar) for discovering the integer
+&gt; overflow fixed by #19020 through GitLab’s bug bounty program, and to
+&gt; GitLab for reporting these issues to us and coordinating the fixes.
+&gt; 
+&gt; 
+&gt; History
+&gt; --------
+&gt; 
+&gt; Originally published at 2026-10-23 03:11:22 (UTC)
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
