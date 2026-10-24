@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2025-60487: NULL pointer dereference in GPAC/MP4Box
+ gf_isom_get_esd via crafted XML input</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="14">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;trinity-555d4bcc-e1bd-4dd4-8108-8c69d5c32271-1792741309603&#64;trinity-msg-rest-gmx-gmx-live-5d6886bf55-7h85r&gt;
+Date: Fri, 23 Oct 2026 07:41:49 +0000
+From: "Alexander A. Shvedov" &lt;sigdevel&#64;...amail.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2025-60487: NULL pointer dereference in GPAC/MP4Box
+ gf_isom_get_esd via crafted XML input
+
+Product:   GPAC (MP4Box)
+Affected:  2.5-DEV-rev1665-g3f20eb0cd-master
+           Commit 3f20eb0cd22116367c036e6ffe6ace299b38d686
+Fixed:     e6d01820d7bf3967d931fedb379ee5f209bc133b
+CVE:       CVE-2025-60487
+CWE:       CWE-476 (NULL Pointer Dereference)
+CVSS 3.1:  6.2 MEDIUM (AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H; BDU assessment)
+Reporter:  Alexander A. Shvedov (@sigdevel)
+
+Description:
+  MP4Box dereferences a near-NULL pointer in gf_isom_get_esd() at
+  isomedia/isom_read.c:1386 when the NAL-dump command processes an empty or
+  minimal XML file. The ISO media layer has no valid media descriptor, but
+  the function reads a field at offset 0x50 without first validating the
+  descriptor pointer.
+
+  The issue was reproduced in GPAC version
+  2.5-DEV-rev1665-g3f20eb0cd-master at commit
+  3f20eb0cd22116367c036e6ffe6ace299b38d686.
+
+Impact:
+  Processing attacker-controlled input causes an immediate MP4Box crash and
+  denial of service. The observed fault is a near-NULL read; arbitrary code
+  execution was not demonstrated.
+
+Reproduction:
+  Build GPAC with AddressSanitizer, then run:
+
+    ./MP4Box -dnal 1 56_gf_isom_get_esd_isomedia_isom_read_c_1386.xml
+
+ASan log excerpt:
+  ==3903891==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000050
+  ==3903891==The signal is caused by a READ memory access.
+  ==3903891==Hint: address points to the zero page.
+      #0 in gf_isom_get_esd isomedia/isom_read.c:1386
+      #1 in dump_isom_nal applications/mp4box/filedump.c:1397
+      #2 in mp4box_main applications/mp4box/mp4box.c:6670
+
+Fix:
+  Update to a GPAC v26.07.0:
+
+    <a href="https://github.com/gpac/gpac/releases/tag/v26.07.0" rel="nofollow">https://github.com/gpac/gpac/releases/tag/v26.07.0</a>
+
+PoC:
+  The reproducer and invocation details are available in the issue report.
+
+References:
+  <a href="https://github.com/gpac/gpac/issues/3320" rel="nofollow">https://github.com/gpac/gpac/issues/3320</a>
+  <a href="https://github.com/gpac/gpac/commit/e6d01820d7bf3967d931fedb379ee5f209bc133b" rel="nofollow">https://github.com/gpac/gpac/commit/e6d01820d7bf3967d931fedb379ee5f209bc133b</a>
+  <a href="https://www.cve.org/CVERecord?id=CVE-2025-60487" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-60487</a>
+  <a href="https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/60xxx/CVE-2025-60487.json" rel="nofollow">https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/60xxx/CVE-2025-60487.json</a>
+  <a href="https://infosec.exchange/&#64;sigdevel/117456633862790827" rel="nofollow">https://infosec.exchange/&#64;sigdevel/117456633862790827</a>
+  <a href="https://bdu.fstec.ru/vul/2025-13151" rel="nofollow">https://bdu.fstec.ru/vul/2025-13151</a>
+
+
+——
+Best regards, Alexander A. Shvedov
+@sigdevel
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

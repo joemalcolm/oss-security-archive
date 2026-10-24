@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "source": "oss-security",
-  "generated_at": "2026-10-23T23:08:12Z",
+  "generated_at": "2026-10-24T04:29:36Z",
   "built_from": {"0": "d87766c096b9f05ffe7219d0ea5c19900024d235"},
   "messages": {
     "2008": {"count": 1358, "sha256": "e7a49d2a86e94083b6358b2ed13d49bea50c5a5d998a0296ad83b098d1288745"},
