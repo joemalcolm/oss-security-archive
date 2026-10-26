@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-72844: Lean 4 kernel soundness bug — forging proofs via nested inductive projections (0 = 1 demonstrated)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;9374a790-b0c0-4fd2-b81a-f8cd507dc8a1&#64;gmail.com&gt;
+Date: Sun, 25 Oct 2026 12:25:36 +0100
+From: Jonathan Brossard &lt;endrazine&#64;...il.com&gt;
+To: bugtraq&#64;...urityfocus.com, bugtraq&#64;...traq.ai,
+ oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-72844: Lean 4 kernel soundness bug — forging proofs via nested inductive projections (0 = 1 demonstrated)
+
+1. Summary
+==========
+
+A soundness bug in the Lean 4 kernel allows construction of a checked
+proof of False — and by extension, any proposition, including 0 = 1 —
+without axioms, sorry, unsafeCast, or modified .olean files.
+
+The kernel does not verify that the structure named in a projection
+expression matches the type of the value being projected. Additionally,
+environment::add_inductive in src/kernel/inductive.cpp did not type-check
+nested inductive applications, leaving their parameters unchecked. A
+metaprogram can register an ill-typed nested inductive and produce a
+proof of False at maximum kernel checking (--trust=0).
+
+The proof of concept pads expressions to force hash collisions, defeating
+kernel caching. This is the means of reaching the flaw, not its cause.
+
+2. Context
+==========
+
+Lean 4 is increasingly used as a foundation for formally verified
+software, proof-carrying code, and mathematical libraries. Its kernel is
+the trusted core: every theorem must pass kernel type-checking before it
+is accepted. A soundness bug in the kernel undermines the guarantees of
+any system built on top of it.
+
+Formally verified systems certified under Common Criteria (ISO 15408) or
+DO-178C (airborne software) derive their assurance from the correctness
+of the proof checker. A kernel-level bypass invalidates that assurance
+chain.
+
+Independent checkers such as Nanoda and lean4lean replay proofs against
+the same kernel rules and are therefore equally affected.
+
+3. Impact
+=========
+
+- Formally verified software: any proposition can be "proved" and
+   kernel-checked, including safety properties of compilers, OS kernels,
+   and cryptographic libraries.
+- Proof-carrying code: a malicious Lake dependency could inject unsound
+   declarations that pass kernel checking.
+- Mathematical proof verification: results checked by the Lean kernel
+   cannot be trusted on affected versions.
+
+4. Proof of Concept
+===================
+
+A Docker-reproducible PoC is available:
+
+     git clone <a href="https://github.com/endrazine/lean-cve-poc" rel="nofollow">https://github.com/endrazine/lean-cve-poc</a>
+     cd lean-cve-poc
+     docker build -t lean-cve-poc .
+     docker run --rm lean-cve-poc
+
+On a vulnerable version, the output reports:
+
+     zero_eq_one : 0 = 1
+     -- no axioms
+
+On a patched version, the kernel rejects the ill-typed inductive.
+
+5. Root Cause
+=============
+
+Two omissions in the kernel:
+
+(a) Projection validation: the kernel does not check that the structure
+     named in a projection matches the type of the value being projected.
+     CWE-843 (Type Confusion).
+
+(b) Nested inductive checking: environment::add_inductive does not
+     type-check nested inductive applications, so their parameters go
+     unchecked. CWE-20 (Improper Input Validation).
+
+Combined, these allow a metaprogram to register an ill-typed nested
+inductive that exploits the projection mismatch, producing a closed
+proof of False.
+
+6. Scoring
+==========
+
+CVSS 3.1: AV:L/AC:L/PR:N/UI:R/S:C/C:N/I:H/A:N — 7.1 (High)
+CVSS 4.0: AV:L/AC:L/AT:N/PR:N/UI:P/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N — 6.8 
+(Medium)
+
+7. CWE
+======
+
+CWE-843: Access of Resource Using Incompatible Type (Type Confusion)
+CWE-20: Improper Input Validation
+
+8. CVE
+======
+
+CVE-2026-72844 (assigned by VulnCheck as CNA)
+
+9. Affected Versions
+====================
+
+Lean 4 ≤ v4.31.0 / nightly ≤ 2026-07-27
+
+Fixed in: nightly 2026-07-29 and later; v4.32.2
+
+10. Mitigation
+==============
+
+- Upgrade to Lean 4 v4.32.2 or later.
+- No workaround exists for affected versions — the flaw is in the
+   kernel itself.
+
+11. References
+==============
+
+Bug report:  <a href="https://github.com/leanprover/lean4/issues/14576" rel="nofollow">https://github.com/leanprover/lean4/issues/14576</a>
+Fix:         <a href="https://github.com/leanprover/lean4/pull/14577" rel="nofollow">https://github.com/leanprover/lean4/pull/14577</a>
+PoC:         <a href="https://github.com/endrazine/lean-cve-poc" rel="nofollow">https://github.com/endrazine/lean-cve-poc</a>
+VulnCheck: 
+<a href="https://www.vulncheck.com/advisories/lean-4-before-kernel-type-checking-bypass" rel="nofollow">https://www.vulncheck.com/advisories/lean-4-before-kernel-type-checking-bypass</a>
+NVD:         <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-72844" rel="nofollow">https://nvd.nist.gov/vuln/detail/CVE-2026-72844</a>
+
+12. Timeline
+============
+
+2026-07-27  Bug reported (leanprover/lean4#14576)
+2026-07-29  Kernel fix merged (PR #14577)
+2026-08-02  Advisory posted to oss-security
+2026-08-20  CVE-2026-72844 published by VulnCheck
+2026-08-24  Docker-reproducible PoC published
+
+13. Credit
+==========
+
+Bug discovery and minimal PoC: @kiranandcode
+Original CollatzLean exploit:  Ramana Kumar (@xrchz)
+Kernel fix:                    Leonardo de Moura
+PoC packaging:                 Jonathan Brossard (@endrazine) — MOABI / 
+PSIRT.com
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-72705: Rocq guard checker accepts fixpoint passed as
+ higher-order argument (0 = 1 demonstrated)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;997fa663-d85e-4888-8aff-6a8c17040bf2&#64;gmail.com&gt;
+Date: Sun, 25 Oct 2026 12:29:22 +0100
+From: Jonathan Brossard &lt;endrazine&#64;...il.com&gt;
+To: bugtraq&#64;...urityfocus.com, bugtraq&#64;...traq.ai,
+ oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-72705: Rocq guard checker accepts fixpoint passed as
+ higher-order argument (0 = 1 demonstrated)
+
+1. Summary
+==========
+
+A soundness bug in the Rocq (formerly Coq) kernel's guard checker allows
+construction of a checked proof of False — and by extension, any
+proposition, including 0 = 1 — without axioms, tactics, plugins, or
+unsafe flags. Print Assumptions reports the proof as closed under the
+global context.
+
+The guard checker does not track recursive calls made through a
+fixpoint's own arguments. A fixpoint can pass itself to another
+fixpoint, which can apply it to a value that is not a structural
+subterm. Passing the function to a plain definition is correctly
+rejected, but passing it to a fixpoint is accepted. This admits a type
+that is definitionally equal to its own negation, and self-application
+yields False in purely definitional code.
+
+2. Context
+==========
+
+Rocq (formerly Coq) is the reference implementation of the Calculus of
+Inductive Constructions and one of the most widely deployed proof
+assistants. Its kernel is the trusted core that checks every proof
+before acceptance. A soundness bug in the guard checker — the component
+that enforces termination of recursive definitions — undermines the
+guarantees of any system built on Rocq-checked proofs.
+
+Formally verified systems certified under Common Criteria (ISO 15408) or
+DO-178C (airborne software) derive their assurance from the correctness
+of the proof checker. A kernel-level bypass invalidates that assurance
+chain.
+
+This bug was discovered by Claude Opus 4.6 (Anthropic) during a
+fuzzing campaign.
+
+3. Impact
+=========
+
+- Formally verified compilers (CompCert)
+- Verified OS kernels (CertiKOS)
+- Separation logic frameworks (Iris)
+- Mathematical libraries (MathComp)
+- Proof-carrying code: a malicious .v file in a dependency could
+   introduce unsound declarations
+- Verified smart contracts (ConCert)
+
+4. Proof of Concept
+===================
+
+A Docker-reproducible PoC is available:
+
+     git clone <a href="https://github.com/endrazine/rocq-cve-poc-21683" rel="nofollow">https://github.com/endrazine/rocq-cve-poc-21683</a>
+     cd rocq-cve-poc-21683
+     docker build -t rocq-cve-poc-21683 .
+     docker run --rm rocq-cve-poc-21683
+
+On a vulnerable version (Rocq &lt;9.2.0, all Coq versions), the output
+confirms the proof of False with no axioms. On a patched version
+(≥9.2.0), the guard checker rejects the fixpoint.
+
+5. Root Cause
+=============
+
+The guard checker does not follow the flow of a fixpoint value when it
+is passed as an argument to another fixpoint. The receiving fixpoint can
+apply the passed function to an arbitrary value, bypassing the
+structural decrease requirement.
+
+This creates a type T that is definitionally equal to T -&gt; False (its
+own negation). Self-application of a term of type T yields False,
+entirely through definitional reduction — no tactics are involved.
+
+CWE-670: Always-Incorrect Control Flow Implementation.
+
+6. Scoring
+==========
+
+CVSS 3.1: AV:L/AC:L/PR:N/UI:R/S:C/C:N/I:H/A:N — 7.1 (High)
+CVSS 4.0: AV:L/AC:L/AT:N/PR:N/UI:P/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N — 6.8 
+(Medium)
+
+7. CWE
+======
+
+CWE-670: Always-Incorrect Control Flow Implementation
+
+8. CVE
+======
+
+CVE-2026-72705 (assigned by VulnCheck as CNA)
+
+9. Affected Versions
+====================
+
+Rocq Prover &lt;9.2.0 (all versions including Coq 8.x with the guard
+checker)
+
+Fixed in: 9.2.0
+
+10. Mitigation
+==============
+
+- Upgrade to Rocq 9.2.0 or later.
+- Run coqchk on compiled .vo files as defense-in-depth.
+
+11. References
+==============
+
+Bug report:  <a href="https://github.com/rocq-prover/rocq/issues/21683" rel="nofollow">https://github.com/rocq-prover/rocq/issues/21683</a>
+Fix:         <a href="https://github.com/rocq-prover/rocq/pull/21684" rel="nofollow">https://github.com/rocq-prover/rocq/pull/21684</a>
+PoC:         <a href="https://github.com/endrazine/rocq-cve-poc-21683" rel="nofollow">https://github.com/endrazine/rocq-cve-poc-21683</a>
+VulnCheck: 
+<a href="https://www.vulncheck.com/advisories/rocq-prover-before-guard-checker-accepts-fixpoint-passed-as-a-higher-order-argument" rel="nofollow">https://www.vulncheck.com/advisories/rocq-prover-before-guard-checker-accepts-fixpoint-passed-as-a-higher-order-argument</a>
+NVD:         <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-72705" rel="nofollow">https://nvd.nist.gov/vuln/detail/CVE-2026-72705</a>
+
+12. Timeline
+============
+
+2025        Bug found by Claude Opus 4.6 during fuzzing campaign
+2025        Bug reported (rocq-prover/rocq#21683)
+2025        Fix merged (PR #21684) in Rocq 9.2.0
+2026-08-24  CVE-2026-72705 published by VulnCheck
+2026-08-24  Docker-reproducible PoC published
+
+13. Credit
+==========
+
+Bug discovery:   Claude Opus 4.6 (Anthropic), Tristan Stérin
+                  (fuzzing campaign, based on pointers from Yannick Forster)
+Kernel fix:      PR #21684
+PoC packaging:   Jonathan Brossard (@endrazine) — MOABI / PSIRT.com
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
