@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Starman versions before 0.4019 for Perl (4 CVEs)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="10">[&lt;prev]</a> <a href="12">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;d5af87b5-9669-4c27-8a2f-e69a1ab5a148&#64;cpansec.org&gt;
+Date: Sun, 25 Oct 2026 16:57:23 +0000
+From: Robert Rothenberg &lt;rrwo&#64;...nsec.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Starman versions before 0.4019 for Perl (4 CVEs)
+
+CVE-2026-115817
+   Starman versions before 0.4019 for Perl allow a stalled request body
+   to hold a worker indefinitely, as read_timeout covers only the
+   headers
+
+CVE-2026-115822
+   Starman versions before 0.4019 for Perl allow CPU exhaustion via
+   quadratic regex backtracking when parsing chunked request bodies
+
+CVE-2026-115823
+   Starman versions before 0.4019 for Perl send response bodies for HEAD
+   requests, desynchronizing responses on keep-alive connections
+
+CVE-2026-115824
+   Starman versions before 0.4019 for Perl allow memory exhaustion via
+   unbounded buffering of chunked request bodies
+
+
+========================================================================
+CVE-2026-115817                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-115817
+
+   Distribution:  Starman
+       Versions:  before 0.4019
+       MetaCPAN:  <a href="https://metacpan.org/dist/Starman" rel="nofollow">https://metacpan.org/dist/Starman</a>
+       VCS Repo:  <a href="https://github.com/miyagawa/Starman" rel="nofollow">https://github.com/miyagawa/Starman</a>
+
+
+Starman versions before 0.4019 for Perl allow a stalled request body to
+hold a worker indefinitely, as read_timeout covers only the headers
+
+Description
+-----------
+Starman versions before 0.4019 for Perl allow a stalled request body to
+hold a worker indefinitely, as read_timeout covers only the headers.
+
+Content-Length and chunked request bodies are read with blocking reads
+and no deadline. A client that sends complete headers and then stalls
+or trickles the body keeps the worker waiting until it disconnects.
+
+A remote attacker can take every worker with a few such connections,
+five with the default worker count, so the server stops answering
+requests.
+
+Version 0.4019 applies read_timeout to each wait for body data and adds
+a body_timeout limit, 300 seconds by default, on the total time to read
+a body.
+
+Problem types
+-------------
+- CWE-770 Allocation of Resources Without Limits or Throttling
+
+Solutions
+---------
+Upgrade to Starman 0.4019 or later.
+
+References
+----------
+<a href="https://github.com/miyagawa/Starman/commit/89dffd3bdc9baa1cbe1b48a43615586ba2588558.patch" rel="nofollow">https://github.com/miyagawa/Starman/commit/89dffd3bdc9baa1cbe1b48a43615586ba2588558.patch</a>
+<a href="https://github.com/miyagawa/Starman/commit/a30533c03051502d6b67cd48b3a95a61e129691b.patch" rel="nofollow">https://github.com/miyagawa/Starman/commit/a30533c03051502d6b67cd48b3a95a61e129691b.patch</a>
+<a href="https://metacpan.org/release/MIYAGAWA/Starman-0.4019/changes" rel="nofollow">https://metacpan.org/release/MIYAGAWA/Starman-0.4019/changes</a>
+
+
+========================================================================
+CVE-2026-115822                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-115822
+
+   Distribution:  Starman
+       Versions:  before 0.4019
+       MetaCPAN:  <a href="https://metacpan.org/dist/Starman" rel="nofollow">https://metacpan.org/dist/Starman</a>
+       VCS Repo:  <a href="https://github.com/miyagawa/Starman" rel="nofollow">https://github.com/miyagawa/Starman</a>
+
+
+Starman versions before 0.4019 for Perl allow CPU exhaustion via
+quadratic regex backtracking when parsing chunked request bodies
+
+Description
+-----------
+Starman versions before 0.4019 for Perl allow CPU exhaustion via
+quadratic regex backtracking when parsing chunked request bodies.
+
+Starman decodes chunked request bodies before calling the application,
+matching each chunk-size line with `s/^(([0-9a-fA-F]+).*\015\012)//`. A
+line of hex digits followed by a bare LF and then CRLF never matches,
+because `.` does not match LF, and each failed attempt backtracks in
+time quadratic in the length of the hex run. Nothing limits the length
+of the line.
+
+A remote attacker can exhaust worker CPU by sending such requests to
+any route.
+
+Problem types
+-------------
+- CWE-1333 Inefficient Regular Expression Complexity
+
+Solutions
+---------
+Upgrade to Starman 0.4019 or later.
+
+References
+----------
+<a href="https://github.com/miyagawa/Starman/commit/0f33f9b132b5e410d6cce722ff71988e22476acf.patch" rel="nofollow">https://github.com/miyagawa/Starman/commit/0f33f9b132b5e410d6cce722ff71988e22476acf.patch</a>
+<a href="https://metacpan.org/release/MIYAGAWA/Starman-0.4019/changes" rel="nofollow">https://metacpan.org/release/MIYAGAWA/Starman-0.4019/changes</a>
+
+
+========================================================================
+CVE-2026-115823                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-115823
+
+   Distribution:  Starman
+       Versions:  before 0.4019
+       MetaCPAN:  <a href="https://metacpan.org/dist/Starman" rel="nofollow">https://metacpan.org/dist/Starman</a>
+       VCS Repo:  <a href="https://github.com/miyagawa/Starman" rel="nofollow">https://github.com/miyagawa/Starman</a>
+
+
+Starman versions before 0.4019 for Perl send response bodies for HEAD
+requests, desynchronizing responses on keep-alive connections
+
+Description
+-----------
+Starman versions before 0.4019 for Perl send response bodies for HEAD
+requests, desynchronizing responses on keep-alive connections.
+
+For a HEAD request Starman omits chunked framing but still writes the
+body returned by the application, on both the array and streaming
+response paths. Responses with a 1xx, 204 or 304 status also carry the
+body.
+
+On a keep-alive or pipelined connection the client reads those bytes as
+the start of the next response. A front-end proxy that reuses upstream
+connections may then pair responses with the wrong requests.
+
+Problem types
+-------------
+- CWE-444 Inconsistent Interpretation of HTTP Requests ('HTTP
+   Request/Response Smuggling')
+
+Workarounds
+-----------
+For deployments that cannot upgrade to 0.4019, enable
+Plack::Middleware::Head, which removes the body from HEAD responses.
+
+Solutions
+---------
+Upgrade to Starman 0.4019 or later.
+
+References
+----------
+<a href="https://github.com/miyagawa/Starman/commit/91c47c529cd1e100f938486896ea9083ec3ec7bf.patch" rel="nofollow">https://github.com/miyagawa/Starman/commit/91c47c529cd1e100f938486896ea9083ec3ec7bf.patch</a>
+<a href="https://metacpan.org/release/MIYAGAWA/Starman-0.4019/changes" rel="nofollow">https://metacpan.org/release/MIYAGAWA/Starman-0.4019/changes</a>
+
+
+========================================================================
+CVE-2026-115824                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-115824
+
+   Distribution:  Starman
+       Versions:  before 0.4019
+       MetaCPAN:  <a href="https://metacpan.org/dist/Starman" rel="nofollow">https://metacpan.org/dist/Starman</a>
+       VCS Repo:  <a href="https://github.com/miyagawa/Starman" rel="nofollow">https://github.com/miyagawa/Starman</a>
+
+
+Starman versions before 0.4019 for Perl allow memory exhaustion via
+unbounded buffering of chunked request bodies
+
+Description
+-----------
+Starman versions before 0.4019 for Perl allow memory exhaustion via
+unbounded buffering of chunked request bodies.
+
+The chunked body decoder keeps each chunk in memory until the whole
+chunk and its CRLF have arrived, and sets no limit on the length of a
+chunk-size line. A client that declares a huge chunk size and streams
+data, or sends a chunk-size line that never ends, grows the buffer for
+as long as it keeps sending.
+
+A remote attacker can exhaust worker memory with a single connection.
+
+Problem types
+-------------
+- CWE-770 Allocation of Resources Without Limits or Throttling
+
+Solutions
+---------
+Upgrade to Starman 0.4019 or later.
+
+References
+----------
+<a href="https://github.com/miyagawa/Starman/commit/d789a02dbe5408ef5f7a4659078d0008dd84c308.patch" rel="nofollow">https://github.com/miyagawa/Starman/commit/d789a02dbe5408ef5f7a4659078d0008dd84c308.patch</a>
+<a href="https://github.com/miyagawa/Starman/commit/0f33f9b132b5e410d6cce722ff71988e22476acf.patch" rel="nofollow">https://github.com/miyagawa/Starman/commit/0f33f9b132b5e410d6cce722ff71988e22476acf.patch</a>
+<a href="https://metacpan.org/release/MIYAGAWA/Starman-0.4019/changes" rel="nofollow">https://metacpan.org/release/MIYAGAWA/Starman-0.4019/changes</a>
+
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
