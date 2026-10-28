@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Fwd: X.Org Security Advisory: multiple security
+ issues in X.Org X client libraries</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="4">[&lt;prev]</a> <a href="6">[next&gt;]</a> <a href="../../../2026/10/16/37">[&lt;thread-prev]</a> <a href="2">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;f42799c1-3fd6-42d2-94af-c0837e1d2b84&#64;debian.org&gt;
+Date: Tue, 27 Oct 2026 09:33:36 +0100
+From: Emilio Pozuelo Monfort &lt;pochu&#64;...ian.org&gt;
+To: oss-security&#64;...ts.openwall.com,
+ Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+Subject: Re: Fwd: X.Org Security Advisory: multiple security
+ issues in X.Org X client libraries
+
+Hi Alan,
+
+On 16/10/2026 23:53, Alan Coopersmith wrote:
+&gt; All five library releases are available now, see
+&gt; <a href="https://lists.x.org/archives/xorg-announce/2026-October/thread.html" rel="nofollow">https://lists.x.org/archives/xorg-announce/2026-October/thread.html</a>
+&gt; for links to their release announcements.
+
+Some of these (CVE-2026-109089, CVE-2026-109090, CVE-2026-109088) are still 
+marked as RESERVED in MITRE, with no information published (e.g. [1]). Do you 
+know why?
+
+Cheers,
+Emilio
+
+[1] <a href="https://www.cve.org/CVERecord?id=CVE-2026-109090" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-109090</a>
+
+&gt; -------- Forwarded Message --------
+&gt; Subject: X.Org Security Advisory: multiple security issues in X.Org X client
+&gt; libraries
+&gt; Date: Fri, 16 Oct 2026 12:04:10 -0700
+&gt; From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+&gt; To: xorg-announce&#64;...ts.x.org
+&gt; CC: xorg&#64;...ts.x.org
+&gt; 
+&gt; ======================================================================
+&gt; X.Org Security Advisory: October 16, 2026
+&gt; 
+&gt; Issues in X.Org X client libraries prior to libX11 1.8.14,
+&gt; libXi 1.8.4, libXpm 3.5.20, libXrender 0.9.13, libXtst 1.2.6
+&gt; ======================================================================
+&gt; 
+&gt; Multiple issues have been found in the X client library implementations
+&gt; published by X.Org for which we are releasing security fixes for in
+&gt; * libX11 1.8.14
+&gt; * libXi 1.8.4
+&gt; * libXpm 3.5.20
+&gt; * libXrender 0.9.13
+&gt; * libXtst 1.2.6
+&gt; 
+&gt; 
+&gt; ========================================================================
+&gt; libX11 - 4 CVEs
+&gt; ========================================================================
+&gt; 
+&gt; For those considering cherry-picking the fixes, note that libX11 1.8.14
+&gt; also includes additional code hardening fixes without CVEs assigned
+&gt; that you may also want to consider.
+&gt; 
+&gt; * CVE-2026-88806:
+&gt;     Out-of-bounds write vulnerability in libX11's XKB (X Keyboard Extension)
+&gt;     action parser.
+&gt; 
+&gt;     A malicious server could send a XkbGetMap reply with keycode values
+&gt;     exceeding max_keycode + 1, causing a write past the end of the allocated
+&gt;     array during reply handling.
+&gt; 
+&gt;     Fixed in: libX11 1.8.14
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/6d4432b13" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/6d4432b13</a>
+&gt;     Found by: Adam Bedard working with TrendAI Zero Day Initiative (ZDI-CAN-32061)
+&gt; 
+&gt; * CVE-2026-94283:
+&gt;     Out-of-bounds read vulnerability in libX11's XIM (X Input Method)
+&gt;     attribute parser.
+&gt; 
+&gt;     A malicious or compromised XIM server can send a crafted XIM_OPEN_REPLY
+&gt;     message with inconsistent nested attribute lengths, causing the client
+&gt;     to read past the end of the received packet buffer during parsing.
+&gt; 
+&gt;     CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H — 6.5 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libX11 1.8.14
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/f263bbca2" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/f263bbca2</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-15963)
+&gt;     * CVE-2026-94284:
+&gt;     Out-of-bounds read vulnerability in libX11's XIM trigger-key
+&gt;     registration parser.
+&gt; 
+&gt;     A malicious XIM server can send a crafted XIM_REGISTER_TRIGGERKEYS
+&gt;     message with oversized inner on-keys/off-keys length fields, causing the
+&gt;     client to read past the received buffer during memcpy() and crash.
+&gt; 
+&gt;     CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H — 5.5 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libX11 1.8.14
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/924fc91f0" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/924fc91f0</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-16671)
+&gt; 
+&gt; * CVE-2026-94285:
+&gt;     Out-of-bounds read in libX11's byte-oriented codeset parser.
+&gt; 
+&gt;     When the last byte of input is a valid lead byte for a multi-byte locale
+&gt;     (e.g. GBK, Big5), byteM_parse_codeset() reads past the caller-provided
+&gt;     buffer while matching the second byte range.
+&gt; 
+&gt;     CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L — 5.3 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libX11 1.8.14
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/797eaf0bd" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/797eaf0bd</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-16718)
+&gt; 
+&gt; ========================================================================
+&gt; libXi - 9 CVEs
+&gt; ========================================================================
+&gt; 
+&gt; For those considering cherry-picking the fixes, note that libXi 1.8.4
+&gt; also includes additional code hardening fixes without CVEs assigned
+&gt; that you may also want to consider.
+&gt; 
+&gt; * CVE-2026-93541:
+&gt;     Out-of-bounds read in libXi's XQueryDeviceState().
+&gt; 
+&gt;     XQueryDeviceState() trusts the num_valuators value from a
+&gt;     ValuatorClass reply without checking it fits in the declared class
+&gt;     length, enabling an OOB read and client crash via a forged reply.
+&gt; 
+&gt;     CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H — 6.5 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/9a5f8636b" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/9a5f8636b</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-13253)
+&gt; 
+&gt; * CVE-2026-93542:
+&gt;     Out-of-bounds read in libXi's XI2 class parsing via size_classes()
+&gt;     and copy_classes().
+&gt; 
+&gt;     Malicious XIQueryDevice replies or XI_DeviceChanged events with
+&gt;     inconsistent class lengths can drive the parser past the received
+&gt;     buffer and crash the client.
+&gt; 
+&gt;     CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H — 6.5 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/59f8dece8" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/59f8dece8</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-13600)
+&gt; 
+&gt; * CVE-2026-93543:
+&gt;     Out-of-bounds read in libXi's XI2 class parser.
+&gt; 
+&gt;     A malicious X server can send forged XI_DeviceChanged events
+&gt;     (or XIQueryDevice replies) with inconsistent class metadata.
+&gt;     An overlong num_classes, zero or oversized per-class length,
+&gt;     or button/key counts exceeding the class bytes causing the
+&gt;     size_classes() and copy_classes() to walk past the event/reply
+&gt;     buffer and crash the client.
+&gt; 
+&gt;     CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H — 5.9 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/f885619bb" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/f885619bb</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-13717)
+&gt; 
+&gt; * CVE-2026-93544:
+&gt;     Out-of-bounds read in libXi's XI2 XIQueryDevice reply parsing.
+&gt; 
+&gt;     Class parsing helpers size_classes()/copy_classes() and the
+&gt;     XIQueryDevice() caller walk wire data using data provided by the
+&gt;     Xserver (length, num_buttons and num_keycodes) without bounds
+&gt;     checking, enabling OOB reads and client crashes via malformed
+&gt;     replies.
+&gt; 
+&gt;     CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H — 6.5 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/e2ec4a1c8" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/e2ec4a1c8</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-14043)
+&gt; 
+&gt; * CVE-2026-93545:
+&gt;     Out-of-bounds read in libXi's XListInputDevices()
+&gt; 
+&gt;     A malicious server can set a name length byte that exceeds the
+&gt;     remaining reply bytes, causing memcpy() to read past the buffer
+&gt;     when parsing device name strings from a ListInputDevices reply.
+&gt; 
+&gt;     CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L — 5.4 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/2e5ecd187" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/2e5ecd187</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-14711)
+&gt; 
+&gt; * CVE-2026-94281:
+&gt;     Out-of-bounds read in libXi's XListInputDevices() class parsing.
+&gt; 
+&gt;     SizeClassInfo() validates each class record's length against the
+&gt;     original buffer size but never decrements it, allowing a sequence
+&gt;     of individually-valid class lengths to cumulatively advance past
+&gt;     the buffer. ParseClassInfo() then walks the same records without
+&gt;     any bounds checking.
+&gt; 
+&gt;     CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L — 5.4 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/1d5813ba0" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/1d5813ba0</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-14718)
+&gt; 
+&gt; * CVE-2026-94282:
+&gt;     Out-of-bounds read in libXi's XI2 enter/leave/focus cookie conversion.
+&gt; 
+&gt;     A malicious X server can send a crafted XI2 Enter, Leave, FocusIn,
+&gt;     or FocusOut GenericEvent with a small outer length but an oversized
+&gt;     buttons_len field, causing wireToEnterLeave() to copy data past the
+&gt;     end of the received event buffer.
+&gt; 
+&gt;     CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H — 6.1 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/8caed97a3" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/8caed97a3</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-15083)
+&gt; 
+&gt; * CVE-2026-109089:
+&gt;     libXi XGetDeviceControl Control Type Mismatch Heap Buffer Overflow
+&gt; 
+&gt;     XGetDeviceControl() sizes the client buffer from the server's
+&gt;     d-&gt;control and fills it from the caller's control argument. A hostile
+&gt;     server can answer DEVICE_RESOLUTION with a small fixed-size control
+&gt;     type so allocation is tiny while the fill still walks an unbounded
+&gt;     DEVICE_RESOLUTION valuator list, overflowing the heap.
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/f7836d0a0" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/f7836d0a0</a>
+&gt;     Found by: Adam Bedard, Security Researcher.
+&gt; 
+&gt; * CVE-2026-109090:
+&gt;     libXi XGetDeviceControl DEVICE_ENABLE Heap Buffer Overflow
+&gt; 
+&gt;     DEVICE_ENABLE has a fill path in XGetDeviceControl() but no size arm,
+&gt;     so allocation uses the wire length (8 bytes) while the fill writes a
+&gt;     full XDeviceEnableState (12–16 bytes), overflowing the heap.
+&gt; 
+&gt;     Fixed in: libXi 1.8.4
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/4eb9f70b6" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxi/-/commit/4eb9f70b6</a>
+&gt;     Found by: Adam Bedard, Security Researcher.
+&gt; 
+&gt; ========================================================================
+&gt; libXpm - 1 CVE
+&gt; ========================================================================
+&gt; 
+&gt; * CVE-2026-94287:
+&gt;     Denial of service via unsigned underflow in libXpm's write path.
+&gt; 
+&gt;     A crafted 0x0 XPM passes the parser's dimension checks and, when
+&gt;     serialized through WritePixels(), causes an unsigned underflow in the
+&gt;     row loop bound (height - 1 wraps to UINT_MAX), resulting in prolonged
+&gt;     CPU use and continuous output growth.
+&gt; 
+&gt;     CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H — 5.5 (MEDIUM)
+&gt; 
+&gt;     Fixed in: libXpm 3.5.20
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxpm/-/commit/58eb875b7" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxpm/-/commit/58eb875b7</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-14424)
+&gt; 
+&gt; ========================================================================
+&gt; libXrender - 1 CVE
+&gt; ========================================================================
+&gt; 
+&gt; * CVE-2026-88807:
+&gt;     Out-of-bounds read in libXrender's XRenderQueryFormat reply parser.
+&gt; 
+&gt;     A malicious server could reply to XRenderQueryFormat with a numSubpixels
+&gt;     count greater than the number of screens, causing an OOB write into
+&gt;     screen-&gt;subpixel which was allocated using numScreens.
+&gt; 
+&gt;     Fixed in: libXrender 0.9.13
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxrender/-/commit/0564bce54" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxrender/-/commit/0564bce54</a>
+&gt;     Found by: Adam Bedard working with TrendAI Zero Day Initiative (ZDI-CAN-32093)
+&gt; 
+&gt; ========================================================================
+&gt; libXtst - 2 CVEs
+&gt; ========================================================================
+&gt; 
+&gt; * CVE-2026-94286:
+&gt;     Out-of-bounds read in libXtst's RECORD reply parser.
+&gt; 
+&gt;     A malicious Xserver can send a crafted RECORD reply where the inner
+&gt;     element's datum_bytes exceeds the actual reply buffer size, causing
+&gt;     the RECORD callback to receive a pointer/length pair that extends past
+&gt;     the allocated buffer.
+&gt;     When the callback reads the advertised payload, it triggers an out of
+&gt;     bounds read that can crash the client or expose adjacent process memory.
+&gt; 
+&gt;     CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H — 7.1 (HIGH)
+&gt; 
+&gt;     Fixed in: libXtst 1.2.6
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxtst/-/commit/b84737d84" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxtst/-/commit/b84737d84</a>
+&gt;     Found by: Aisle Research (AISLE-Report-PSIRTSUPT-16762)
+&gt; 
+&gt; * CVE-2026-109088:
+&gt;     libXtst RECORD EnableContext Reply Endless Loop
+&gt; 
+&gt;     parse_reply_call_callback() advances through RECORD EnableContext
+&gt;     reply elements by datum_bytes. A zero-sized XRecordFromClient
+&gt;     (BIG-REQUESTS length 0) or an undefined category byte leaves
+&gt;     datum_bytes at 0 while bytes remain, so the loop never terminates
+&gt;     and the application callback is invoked forever with empty data.
+&gt; 
+&gt;     A malicious or compromised X server answering EnableContext can hang
+&gt;     XRecordEnableContext() (sync) or livelock Xlib reply processing
+&gt;     (async).
+&gt; 
+&gt;     Fixed in: libXtst 1.2.6
+&gt;     Fix: <a href="https://gitlab.freedesktop.org/xorg/lib/libxtst/-/commit/ac60f5f47" rel="nofollow">https://gitlab.freedesktop.org/xorg/lib/libxtst/-/commit/ac60f5f47</a>
+&gt;     Found by: Kaya Emre Arikan.
+&gt; 
+&gt; ========================================================================
+&gt; 
+&gt; X.Org thanks all of those who reported and fixed these issues, and those
+&gt; who helped with the review and release of this advisory and these fixes.
+&gt; 
+&gt; The X.Org security team would like to take this opportunity to remind X
+&gt; client authors that current best practices suggest separating code that
+&gt; requires privileges from the GUI, to reduce the risk of issues like these.
+&gt; 
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
