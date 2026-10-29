@@ -1,0 +1,565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - HTTP::Body versions before 1.24_01 for Perl (9 CVEs)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="19">[&lt;prev]</a> <a href="21">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;ba705168-3aa5-4fb7-9e44-799d82fe8b51&#64;cpansec.org&gt;
+Date: Wed, 28 Oct 2026 17:27:52 +0000
+From: Robert Rothenberg &lt;rrwo&#64;...nsec.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: HTTP::Body versions before 1.24_01 for Perl (9 CVEs)
+
+
+CVE-2026-116131
+   HTTP::Body versions before 1.23_01 for Perl allow memory and
+   temporary file exhaustion via an unlimited number of form fields and
+   multipart parts
+
+CVE-2026-116132
+   HTTP::Body versions before 1.23_01 for Perl leave the temporary file
+   of an incomplete multipart upload on disk
+
+CVE-2026-116133
+   HTTP::Body versions before 1.23_01 for Perl allow CPU exhaustion via
+   quadratic rescanning of a multipart body with a missing or malformed
+   boundary
+
+CVE-2026-116134
+   HTTP::Body versions before 1.23_01 for Perl allow memory exhaustion
+   via an unbounded multipart part header block
+
+CVE-2026-116135
+   HTTP::Body versions before 1.23_01 for Perl drop mixed-case percent
+   escapes from urlencoded form fields instead of decoding them
+
+CVE-2026-116285
+   HTTP::Body versions before 1.23_01 for Perl allow CPU exhaustion via
+   quadratic regex backtracking when parsing chunked request bodies
+
+CVE-2026-116531
+   HTTP::Body versions before 1.23_01 for Perl lose track of chunk
+   boundaries in chunked request bodies when a read ends inside a chunk
+
+CVE-2026-117500
+   HTTP::Body versions before 1.24_01 for Perl allow CPU exhaustion via
+   regex backtracking on the filename of a multipart upload
+
+CVE-2026-117501
+   HTTP::Body versions before 1.24_01 for Perl allow memory exhaustion
+   via unbounded buffering of chunked request bodies
+
+
+========================================================================
+CVE-2026-116131                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116131
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.23_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.23_01 for Perl allow memory and temporary
+file exhaustion via an unlimited number of form fields and multipart
+parts
+
+Description
+-----------
+HTTP::Body versions before 1.23_01 for Perl allow memory and temporary
+file exhaustion via an unlimited number of form fields and multipart
+parts.
+
+The urlencoded parser splits the whole body on its separators at once,
+creating one scalar per separator before any field is stored. This
+costs about 90 bytes of memory per separator byte. The multipart parser
+creates a temporary file for every part that carries a filename.
+Neither parser limits how many fields or parts a body may hold.
+
+A remote attacker can exhaust worker memory with a body made of
+separators, or create thousands of temporary files with one request of
+small file parts.
+
+Problem types
+-------------
+- CWE-770 Allocation of Resources Without Limits or Throttling
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.23_01 or later.
+
+References
+----------
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/47beca524a3062eacfd646664576f005fb4be19b.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/47beca524a3062eacfd646664576f005fb4be19b.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes</a>
+
+
+========================================================================
+CVE-2026-116132                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116132
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.23_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.23_01 for Perl leave the temporary file of
+an incomplete multipart upload on disk
+
+Description
+-----------
+HTTP::Body versions before 1.23_01 for Perl leave the temporary file of
+an incomplete multipart upload on disk.
+
+The multipart parser creates a temporary file as soon as a file part
+starts, but adds it to the upload list only when the part completes.
+Uploads are only ever deleted from that list, by the cleanup option or
+by the caller, so a body that ends inside a file part leaves its
+temporary file where nothing can find it.
+
+A remote attacker can fill the temporary directory by repeating such
+requests, leaving one file behind for each.
+
+Problem types
+-------------
+- CWE-459 Incomplete Cleanup
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.23_01 or later.
+
+References
+----------
+<a href="https://rt.cpan.org/Public/Bug/Display.html?id=84004" rel="nofollow">https://rt.cpan.org/Public/Bug/Display.html?id=84004</a>
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/29e933b22ff918ccf5412d3513c885208511cfa3.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/29e933b22ff918ccf5412d3513c885208511cfa3.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes</a>
+
+Timeline
+--------
+- 2013-07-17: Issue reported.
+- 2026-10-26: Version 1.23_01 released with fix.
+
+
+========================================================================
+CVE-2026-116133                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116133
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.23_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.23_01 for Perl allow CPU exhaustion via
+quadratic rescanning of a multipart body with a missing or malformed
+boundary
+
+Description
+-----------
+HTTP::Body versions before 1.23_01 for Perl allow CPU exhaustion via
+quadratic rescanning of a multipart body with a missing or malformed
+boundary.
+
+Before the first part, and between parts, the multipart parser searches
+the whole buffered body for the next boundary. On a miss it keeps
+everything and searches again from the start when the next chunk
+arrives. A body with no boundary, or with a delimiter followed by
+neither CRLF nor "--", is therefore rescanned on every chunk, taking
+time quadratic in its size.
+
+A remote attacker can exhaust worker CPU with a few such requests.
+
+Problem types
+-------------
+- CWE-407 Inefficient Algorithmic Complexity
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.23_01 or later.
+
+References
+----------
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/bf77eb959bbe1641b77f69eefe98d58ce4c4ec79.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/bf77eb959bbe1641b77f69eefe98d58ce4c4ec79.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes</a>
+
+
+========================================================================
+CVE-2026-116134                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116134
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.23_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.23_01 for Perl allow memory exhaustion via
+an unbounded multipart part header block
+
+Description
+-----------
+HTTP::Body versions before 1.23_01 for Perl allow memory exhaustion via
+an unbounded multipart part header block.
+
+The multipart parser takes everything up to the first blank line after
+a boundary as the part's header block, with no limit on its size or
+number of lines. Every line is stored in the part's header hash, so a
+block of short lines costs about 60 bytes of memory per input byte.
+
+A remote attacker can exhaust worker memory with a single request.
+
+Problem types
+-------------
+- CWE-770 Allocation of Resources Without Limits or Throttling
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.23_01 or later.
+
+References
+----------
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/c5d13911aabfad4a7ae4b6ee98ac2315400e5ed5.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/c5d13911aabfad4a7ae4b6ee98ac2315400e5ed5.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes</a>
+
+
+========================================================================
+CVE-2026-116135                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116135
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.23_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.23_01 for Perl drop mixed-case percent
+escapes from urlencoded form fields instead of decoding them
+
+Description
+-----------
+HTTP::Body versions before 1.23_01 for Perl drop mixed-case percent
+escapes from urlencoded form fields instead of decoding them.
+
+The decode table holds only the all-lowercase and all-uppercase
+spelling of each hex pair, while the escape pattern matches either
+case. An escape such as %aB finds no entry and is replaced with
+nothing, joining the bytes on either side. Hex digits in percent
+escapes are case-insensitive, and conforming decoders return the byte.
+
+A remote attacker can send a field name or value that a conforming
+decoder in front of the application reads differently, so that
+pass%aBword reaches the application as password.
+
+Problem types
+-------------
+- CWE-178 Improper Handling of Case Sensitivity
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.23_01 or later.
+
+References
+----------
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/336f1a23b4115a5cbeb546f36df5af62c90bdc0d.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/336f1a23b4115a5cbeb546f36df5af62c90bdc0d.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes</a>
+<a href="https://www.rfc-editor.org/rfc/rfc3986#section-2.1" rel="nofollow">https://www.rfc-editor.org/rfc/rfc3986#section-2.1</a>
+
+
+========================================================================
+CVE-2026-116285                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116285
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.23_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.23_01 for Perl allow CPU exhaustion via
+quadratic regex backtracking when parsing chunked request bodies
+
+Description
+-----------
+HTTP::Body versions before 1.23_01 for Perl allow CPU exhaustion via
+quadratic regex backtracking when parsing chunked request bodies.
+
+In chunked mode, used when no content length is given, add() matches
+each chunk-size line with `/^([\da-fA-F]+).*\x0D\x0A/`. On a line of
+hex digits whose first LF has no CR before it, the digits and `.*`
+backtrack against each other, so a single add() takes time quadratic in
+the line's length. Nothing limits how long the line can be.
+
+A remote attacker can exhaust CPU in applications that pass chunked
+request bodies to HTTP::Body.
+
+Problem types
+-------------
+- CWE-1333 Inefficient Regular Expression Complexity
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.23_01 or later.
+
+References
+----------
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/954a5343d2a095b59d357f28759c5388d1169574.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/954a5343d2a095b59d357f28759c5388d1169574.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes</a>
+
+
+========================================================================
+CVE-2026-116531                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116531
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.23_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.23_01 for Perl lose track of chunk
+boundaries in chunked request bodies when a read ends inside a chunk
+
+Description
+-----------
+HTTP::Body versions before 1.23_01 for Perl lose track of chunk
+boundaries in chunked request bodies when a read ends inside a chunk.
+
+In chunked mode, used when no content length is given, add() treats a
+chunk as complete once the buffer is as long as the chunk's declared
+size, but the buffer still holds the chunk-size line. When a read ends
+in the last bytes of a chunk, add() takes the chunk short and parses
+the leftover data as the next chunk-size line.
+
+A remote attacker can make a chunked body never complete, hanging a
+server that reads until the body is done, and may make it complete
+early, leaving the remaining bytes to be read as the next request.
+
+Problem types
+-------------
+- CWE-130 Improper Handling of Length Parameter Inconsistency
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.23_01 or later.
+
+References
+----------
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/5869dde9fe6d13f189a435b6583fd63fcc18677a.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/5869dde9fe6d13f189a435b6583fd63fcc18677a.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24/changes</a>
+
+
+========================================================================
+CVE-2026-117500                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-117500
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.24_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.24_01 for Perl allow CPU exhaustion via
+regex backtracking on the filename of a multipart upload
+
+Description
+-----------
+HTTP::Body versions before 1.24_01 for Perl allow CPU exhaustion via
+regex backtracking on the filename of a multipart upload.
+
+For every file part, the multipart parser finds the suffix of the
+uploaded filename by matching the default $basename_regexp,
+qr/[^.]+(\.[^\\\/]+)$/, against the whole basename. A basename made of
+many dots and ending in a backslash makes the regex backtrack in time
+quadratic in its length.
+
+A remote attacker can exhaust CPU with one request, as a basename of
+about 32 KB takes several seconds to match and every file part is
+matched separately.
+
+Problem types
+-------------
+- CWE-1333 Inefficient Regular Expression Complexity
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.24_01 or later.
+
+References
+----------
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/9ab46daaede02fb13ea55a7e3ede34c8b918d8ca.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/9ab46daaede02fb13ea55a7e3ede34c8b918d8ca.patch</a>
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/3abc958d78bd84bf4abb87bad79b9432eab7e694.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/3abc958d78bd84bf4abb87bad79b9432eab7e694.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24_01/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24_01/changes</a>
+
+
+========================================================================
+CVE-2026-117501                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-117501
+
+   Distribution:  HTTP-Body
+       Versions:  before 1.24_01
+       MetaCPAN:  <a href="https://metacpan.org/dist/HTTP-Body" rel="nofollow">https://metacpan.org/dist/HTTP-Body</a>
+       VCS Repo:  <a href="https://github.com/libwww-perl/HTTP-Body" rel="nofollow">https://github.com/libwww-perl/HTTP-Body</a>
+
+
+HTTP::Body versions before 1.24_01 for Perl allow memory exhaustion via
+unbounded buffering of chunked request bodies
+
+Description
+-----------
+HTTP::Body versions before 1.24_01 for Perl allow memory exhaustion via
+unbounded buffering of chunked request bodies.
+
+In chunked mode, used when no content length is given, add() holds each
+chunk in memory until all of it has arrived. A line that is not a
+chunk-size line, a size line without CRLF, or a size too large to fit
+an integer leaves the parser waiting forever, and every later add()
+grows the buffer.
+
+A remote attacker can exhaust memory in applications that pass chunked
+request bodies to HTTP::Body.
+
+Problem types
+-------------
+- CWE-770 Allocation of Resources Without Limits or Throttling
+
+Solutions
+---------
+Upgrade to HTTP-Body 1.24_01 or later.
+
+References
+----------
+<a href="https://github.com/libwww-perl/HTTP-Body/commit/7c6dc1ecd49e30ac405a3959c606ba389718f556.patch" rel="nofollow">https://github.com/libwww-perl/HTTP-Body/commit/7c6dc1ecd49e30ac405a3959c606ba389718f556.patch</a>
+<a href="https://metacpan.org/release/GETTY/HTTP-Body-1.24_01/changes" rel="nofollow">https://metacpan.org/release/GETTY/HTTP-Body-1.24_01/changes</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
