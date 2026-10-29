@@ -1,0 +1,601 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - MIME-tools versions before 5.521 for Perl (10 CVEs)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="20">[&lt;prev]</a> <a href="22">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;5ddb3c9b-990a-4418-8783-4ea851219ded&#64;cpansec.org&gt;
+Date: Wed, 28 Oct 2026 17:43:36 +0000
+From: Robert Rothenberg &lt;rrwo&#64;...nsec.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: MIME-tools versions before 5.521 for Perl (10 CVEs)
+
+CVE-2026-116264
+   MIME::Field::ParamVal versions before 5.521 for Perl allow one
+   invalid Content-Type parameter to hide the parameters after it,
+   including the multipart boundary
+
+CVE-2026-116265
+   MIME::Field::ParamVal versions before 5.521 for Perl do not flag an
+   ambiguous multipart boundary written as RFC 2231 continuations
+
+CVE-2026-116266
+   MIME::Head versions from 5.518 before 5.521 for Perl decode a partly
+   encoded multipart boundary without flagging the parse as ambiguous
+
+CVE-2026-116267
+   MIME::Parser versions before 5.521 for Perl allow memory exhaustion
+   via indented error messages from a truncated, deeply nested message
+
+CVE-2026-116268
+   MIME::Field::ParamVal versions before 5.521 for Perl allow CPU
+   exhaustion via unclosed comments in header parameters
+
+CVE-2026-116269
+   MIME::Field::ParamVal versions before 5.521 for Perl turn an RFC 2231
+   filename with a hyphenated language tag into an empty recommended
+   filename
+
+CVE-2026-116270
+   MIME::Words versions before 5.521 for Perl allow memory exhaustion
+   via repeated "=?" sequences in decode_mimewords
+
+CVE-2026-116271
+   MIME::Parser::FileUnder versions before 5.521 for Perl reuse a
+   pre-created output directory and follow symlinks in it, letting local
+   users redirect attachment writes
+
+CVE-2026-116272
+   MIME::Field::ParamVal versions before 5.521 for Perl do not flag a
+   duplicate boundary parameter whose name contains a nested comment
+
+CVE-2026-116273
+   MIME::Parser versions before 5.521 for Perl set no limit on the
+   number of message parts by default, allowing memory exhaustion
+
+
+========================================================================
+CVE-2026-116264                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116264
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Field::ParamVal versions before 5.521 for Perl allow one invalid
+Content-Type parameter to hide the parameters after it, including the
+multipart boundary
+
+Description
+-----------
+MIME::Field::ParamVal versions before 5.521 for Perl allow one invalid
+Content-Type parameter to hide the parameters after it, including the
+multipart boundary.
+
+Parameter parsing stops at the first parameter whose name it cannot
+read, such as x:y=1 or a name containing an 8-bit byte, and drops every
+parameter after it. When the boundary is among them, MIME::Parser keeps
+the multipart body as a single undecoded part without marking the parse
+as ambiguous.
+
+Mail readers that skip the invalid parameter still find the boundary. A
+remote sender can hide an attachment from a filter that relies on
+ambiguous_content() while the recipient's mail client shows it.
+
+Problem types
+-------------
+- CWE-436 Interpretation Conflict
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116265                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116265
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Field::ParamVal versions before 5.521 for Perl do not flag an
+ambiguous multipart boundary written as RFC 2231 continuations
+
+Description
+-----------
+MIME::Field::ParamVal versions before 5.521 for Perl do not flag an
+ambiguous multipart boundary written as RFC 2231 continuations.
+
+The boundary ambiguity checks look only at a plain boundary= parameter,
+and a boundary split into RFC 2231 sections (boundary*0=, boundary*1=
+and so on) is joined after they have run. A repeated section number is
+concatenated rather than reported as a duplicate. From version 5.518,
+an encoded word or trailing whitespace in such a boundary also goes
+unflagged, although multipart_boundary() decodes or strips it.
+
+A remote sender can make MIME::Parser split a message on a different
+boundary than other mail readers, hiding an attachment from a filter
+that relies on ambiguous_content() while the recipient's mail client
+shows it.
+
+Problem types
+-------------
+- CWE-436 Interpretation Conflict
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116266                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116266
+
+   Distribution:  MIME-tools
+       Versions:  from 5.518 before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Head versions from 5.518 before 5.521 for Perl decode a partly
+encoded multipart boundary without flagging the parse as ambiguous
+
+Description
+-----------
+MIME::Head versions from 5.518 before 5.521 for Perl decode a partly
+encoded multipart boundary without flagging the parse as ambiguous.
+
+The multipart_boundary() method decodes RFC 2047 encoded words anywhere
+in the boundary, but the ambiguity check only fires when the whole
+value is one encoded word. A boundary such as abc=?us-ascii?Q?def?= is
+used as abcdef, and ambiguous_content() returns false.
+
+Encoded words are not allowed in parameters, so other mail readers
+split the message on the literal value. A remote sender can hide an
+attachment from a filter that relies on ambiguous_content() while the
+recipient's mail client shows it.
+
+Problem types
+-------------
+- CWE-436 Interpretation Conflict
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116267                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116267
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Parser versions before 5.521 for Perl allow memory exhaustion via
+indented error messages from a truncated, deeply nested message
+
+Description
+-----------
+MIME::Parser versions before 5.521 for Perl allow memory exhaustion via
+indented error messages from a truncated, deeply nested message.
+
+Each stored parser diagnostic is indented by three spaces per nesting
+level. When a message nested N levels deep ends without its closing
+boundaries, every level logs an error at its own depth, so the stored
+diagnostics grow with the square of N. The defaults place no limit on
+nesting depth.
+
+Problem types
+-------------
+- CWE-407 Inefficient Algorithmic Complexity
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116268                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116268
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Field::ParamVal versions before 5.521 for Perl allow CPU
+exhaustion via unclosed comments in header parameters
+
+Description
+-----------
+MIME::Field::ParamVal versions before 5.521 for Perl allow CPU
+exhaustion via unclosed comments in header parameters.
+
+The comment pattern used to parse Content-Type and Content-Disposition
+parameters scans from each "(" to the next ")". In a field with no ")",
+every "(" scans to the end of the header and fails, so parsing takes
+time quadratic in the header length. The field is parsed again on each
+attribute lookup, several times per MIME entity.
+
+A 40 KB header takes about 7 seconds to parse once.
+
+Problem types
+-------------
+- CWE-1333 Inefficient Regular Expression Complexity
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116269                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116269
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Field::ParamVal versions before 5.521 for Perl turn an RFC 2231
+filename with a hyphenated language tag into an empty recommended
+filename
+
+Description
+-----------
+MIME::Field::ParamVal versions before 5.521 for Perl turn an RFC 2231
+filename with a hyphenated language tag into an empty recommended
+filename.
+
+A parameter such as filename*=utf-8'en-US'payload.exe is converted to
+an encoded word with the language tag appended to the charset. The
+decoder strips the language suffix only when it is a single word, so it
+cannot resolve the charset UTF-8*EN-US and returns an empty string. The
+recommended_filename() method returns that empty string rather than
+falling back to the name parameter.
+
+Other mail readers return payload.exe. A remote sender can get an
+attachment past a policy that checks file extensions on the recommended
+filename.
+
+Problem types
+-------------
+- CWE-436 Interpretation Conflict
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116270                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116270
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Words versions before 5.521 for Perl allow memory exhaustion via
+repeated "=?" sequences in decode_mimewords
+
+Description
+-----------
+MIME::Words versions before 5.521 for Perl allow memory exhaustion via
+repeated "=?" sequences in decode_mimewords.
+
+For each "=?" that does not start a complete encoded word,
+decode_mimewords appends an error message containing the whole input
+string to $@. A boundary of 8,000 "=?" pairs (16,000 bytes) adds 8,000
+copies of itself to $@, about 128 MB.
+
+ From version 5.518, MIME::Parser decodes every multipart boundary this
+way, so a remote sender can exhaust the memory of the parsing process
+with one Content-Type header.
+
+Problem types
+-------------
+- CWE-407 Inefficient Algorithmic Complexity
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116271                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116271
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Parser::FileUnder versions before 5.521 for Perl reuse a
+pre-created output directory and follow symlinks in it, letting local
+users redirect attachment writes
+
+Description
+-----------
+MIME::Parser::FileUnder versions before 5.521 for Perl reuse a
+pre-created output directory and follow symlinks in it, letting local
+users redirect attachment writes.
+
+Each message is written to a directory named msg-&lt;time&gt;-&lt;pid&gt;-&lt;n&gt; under
+the output base, and an existing directory of that name is used as is.
+A file name counts as unused when nothing exists at that path, which
+holds for a dangling symlink, and the body file is then opened in a way
+that follows the link.
+
+When the output base is writable by other users, as with
+output_under("/tmp"), a local user can pre-create the directory with a
+symlink named like an attachment. The parser then writes the attachment
+to the link target with the privileges of the parsing process.
+
+Problem types
+-------------
+- CWE-59 Improper Link Resolution Before File Access ('Link Following')
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116272                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116272
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Field::ParamVal versions before 5.521 for Perl do not flag a
+duplicate boundary parameter whose name contains a nested comment
+
+Description
+-----------
+MIME::Field::ParamVal versions before 5.521 for Perl do not flag a
+duplicate boundary parameter whose name contains a nested comment.
+
+A parameter written boundary((c))="A" or boundary(\))="A" is stored
+under that literal name rather than as boundary. A second boundary
+parameter is then not reported as a duplicate, and MIME::Parser splits
+the message on it.
+
+Readers that skip comments as RFC 5322 allows take the first boundary
+instead. A remote sender can hide an attachment from a filter that
+relies on ambiguous_content() while the recipient's mail client shows
+it.
+
+Problem types
+-------------
+- CWE-436 Interpretation Conflict
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+========================================================================
+CVE-2026-116273                                      CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-116273
+
+   Distribution:  MIME-tools
+       Versions:  before 5.521
+       MetaCPAN:  <a href="https://metacpan.org/dist/MIME-tools" rel="nofollow">https://metacpan.org/dist/MIME-tools</a>
+       VCS Repo:  <a href="https://salsa.debian.org/dskoll/mime-tools" rel="nofollow">https://salsa.debian.org/dskoll/mime-tools</a>
+
+
+MIME::Parser versions before 5.521 for Perl set no limit on the number
+of message parts by default, allowing memory exhaustion
+
+Description
+-----------
+MIME::Parser versions before 5.521 for Perl set no limit on the number
+of message parts by default, allowing memory exhaustion.
+
+The max_parts option defaulted to -1, which disables the limit, so a
+parser created with default settings builds an entity for every part
+however many a message has.
+
+Version 5.521 sets max_parts to 1000 and max_depth to 64 by default.
+Setting either to -1 still removes the limit.
+
+Problem types
+-------------
+- CWE-1188 Initialization of a Resource with an Insecure Default
+- CWE-770 Allocation of Resources Without Limits or Throttling
+
+Solutions
+---------
+Upgrade to MIME-tools 5.521 or later.
+
+References
+----------
+<a href="https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes" rel="nofollow">https://metacpan.org/release/DSKOLL/MIME-tools-5.521/changes</a>
+
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
