@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Google::Auth for Perl (2 CVEs)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;e83f836b-af96-4256-af32-c28efe306dfb&#64;cpansec.org&gt;
+Date: Sun, 1 Nov 2026 16:48:27 +0000
+From: Robert Rothenberg &lt;rrwo&#64;...nsec.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Google::Auth for Perl (2 CVEs)
+
+CVE-2026-74759
+   Google::Auth versions 0.12 for Perl allow server side request forgery
+   via unvalidated credential_source URLs in AWS external account
+   credentials
+
+CVE-2026-74760
+   Google::Auth versions from 0.11 through 0.12 for Perl accept an
+   authorization code from any local process because the gcloud-auth
+   login callback does not check the OAuth state
+
+
+========================================================================
+CVE-2026-74759                                       CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-74759
+
+   Distribution:  Google-Auth
+       Versions:  0.12
+       MetaCPAN:  <a href="https://metacpan.org/dist/Google-Auth" rel="nofollow">https://metacpan.org/dist/Google-Auth</a>
+       VCS Repo: 
+<a href="https://github.com/GoogleCloudPlatform/google-auth-library-perl" rel="nofollow">https://github.com/GoogleCloudPlatform/google-auth-library-perl</a>
+
+
+Google::Auth versions 0.12 for Perl allow server side request forgery
+via unvalidated credential_source URLs in AWS external account
+credentials
+
+Description
+-----------
+Google::Auth versions 0.12 for Perl allow server side request forgery
+via unvalidated credential_source URLs in AWS external account
+credentials.
+
+An external_account configuration with the AWS subject token type
+selects Google::Auth::ExternalAccountCredentials::Aws. Its
+retrieve_subject_token sends requests to the imdsv2_session_token_url,
+url and region_url fields of credential_source without the host check
+that the other credential classes apply.
+
+Any caller that builds credentials from a configuration it does not
+fully control issues GET and PUT requests to hosts the configuration
+names, including internal services and link-local metadata endpoints.
+
+Problem types
+-------------
+- CWE-918 Server-Side Request Forgery (SSRF)
+
+Workarounds
+-----------
+Ensure that every credentials configuration reaching the Application
+Default Credentials flow comes from a trusted source.
+
+Solutions
+---------
+Upgrade to a future Google-Auth release.
+
+References
+----------
+<a href="https://metacpan.org/release/CJCOLLIER/Google-Auth-0.12/source/lib/Google/Auth/ExternalAccountCredentials/Aws.pm" rel="nofollow">https://metacpan.org/release/CJCOLLIER/Google-Auth-0.12/source/lib/Google/Auth/ExternalAccountCredentials/Aws.pm</a>
+
+
+========================================================================
+CVE-2026-74760                                       CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2026-74760
+
+   Distribution:  Google-Auth
+       Versions:  from 0.11 through 0.12
+       MetaCPAN:  <a href="https://metacpan.org/dist/Google-Auth" rel="nofollow">https://metacpan.org/dist/Google-Auth</a>
+       VCS Repo: 
+<a href="https://github.com/GoogleCloudPlatform/google-auth-library-perl" rel="nofollow">https://github.com/GoogleCloudPlatform/google-auth-library-perl</a>
+
+
+Google::Auth versions from 0.11 through 0.12 for Perl accept an
+authorization code from any local process because the gcloud-auth login
+callback does not check the OAuth state
+
+Description
+-----------
+Google::Auth versions from 0.11 through 0.12 for Perl accept an
+authorization code from any local process because the gcloud-auth login
+callback does not check the OAuth state.
+
+The gcloud-auth login and application-default login commands send a
+state parameter with the authorization request, then take the code from
+the first request to reach their loopback listener without comparing
+the returned state.
+
+A local attacker can submit an authorization code for their own Google
+account. The CLI exchanges it and stores the refresh token as the
+user's credentials, so the user's tools then act as the attacker's
+account.
+
+Problem types
+-------------
+- CWE-346 Origin Validation Error
+
+Workarounds
+-----------
+Run gcloud-auth login and gcloud-auth application-default login with
+--no-browser, which uses the out-of-band flow without a loopback
+listener.
+
+Solutions
+---------
+Upgrade to a future Google-Auth release.
+
+References
+----------
+<a href="https://metacpan.org/release/CJCOLLIER/Google-Auth-0.12/source/bin/gcloud-auth.pl" rel="nofollow">https://metacpan.org/release/CJCOLLIER/Google-Auth-0.12/source/bin/gcloud-auth.pl</a>
+
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
