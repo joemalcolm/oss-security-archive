@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Django CVE-2026-108147, CVE-2026-111211, CVE-2026-111362,
+ CVE-2026-113593, CVE-2026-113733, and CVE-2026-114582</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAL4K_NaMmkNskxdkJvdG9xzkno6uQmdFHBh0hJNqkq7U9nnDCg&#64;mail.gmail.com&gt;
+Date: Tue, 3 Nov 2026 10:48:09 -0500
+From: Jacob Walls &lt;jwalls&#64;...ngoproject.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Django Security Team &lt;security&#64;...ngoproject.com&gt;
+Subject: Django CVE-2026-108147, CVE-2026-111211, CVE-2026-111362,
+ CVE-2026-113593, CVE-2026-113733, and CVE-2026-114582
+
+* Announce:
+<a href="https://www.djangoproject.com/weblog/2026/nov/03/security-releases/" rel="nofollow">https://www.djangoproject.com/weblog/2026/nov/03/security-releases/</a>
+
+* CVE JSON Record for CVE-2026-108147:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-108147" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-108147</a>
+
+* CVE JSON Record for CVE-2026-111211:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-111211" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-111211</a>
+
+* CVE JSON Record for CVE-2026-111362:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-111362" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-111362</a>
+
+* CVE JSON Record for CVE-2026-113593:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-113593" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-113593</a>
+
+* CVE JSON Record for CVE-2026-113733:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-113733" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-113733</a>
+
+* CVE JSON Record for CVE-2026-114582:
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-114582" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-114582</a>
+
+In accordance with [our security release policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/</a>),
+the Django team is issuing releases for
+[Django 6.1.3](<a href="https://docs.djangoproject.com/en/dev/releases/6.1.3/" rel="nofollow">https://docs.djangoproject.com/en/dev/releases/6.1.3/</a>),
+[Django
+6.0.10](<a href="https://docs.djangoproject.com/en/dev/releases/6.0.10/" rel="nofollow">https://docs.djangoproject.com/en/dev/releases/6.0.10/</a>), and [Django
+5.2.19](<a href="https://docs.djangoproject.com/en/dev/releases/5.2.19/" rel="nofollow">https://docs.djangoproject.com/en/dev/releases/5.2.19/</a>).
+These releases address the security issues detailed below. We encourage all
+users of Django to upgrade as soon as possible.
+
+## CVE-2026-108147: Potential memory exhaustion in `MultiPartParser` via
+base64-encoded file upload
+
+When using `django.http.multipartparser.MultiPartParser`, multipart uploads
+with `Content-Transfer-Encoding: base64` could be buffered entirely in
+memory,
+regardless of `FILE_UPLOAD_MAX_MEMORY_SIZE`, before being passed to upload
+handlers, potentially consuming excessive memory.
+
+This issue has severity "low" according to the [Django Security Policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Ignacy Kujawa for the report.
+
+
+## CVE-2026-111211: Potential log injection via unescaped geometry form
+values
+
+`django.contrib.gis.forms.GeometryField` and its widgets logged invalid
+submitted values directly, allowing control characters (e.g. newlines or
+ANSI
+escape sequences) to be written unescaped into logs. This could enable log
+injection or forgery, letting attackers manipulate log appearance or
+structure, especially in logs processed by external systems or viewed in
+terminals.
+
+This issue has severity "low" according to the [Django Security Policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Aaron chen for the report.
+
+
+## CVE-2026-111362: Server-side request forgery via crs member of GeoJSON
+geometries
+
+Earlier versions of the [GeoJSON spec](
+<a href="https://www.rfc-editor.org/info/rfc7946/#section-4" rel="nofollow">https://www.rfc-editor.org/info/rfc7946/#section-4</a>) allowed specifying a
+coordinate reference system (CRS) by URL. Since GDAL still resolves these
+URLs, any validation, save, or query path where a geometry is instantiated
+from
+user input allowed an attacker to submit a malicious CRS that would make a
+network request as the Django process user, or read a file, or both.
+
+Lookups against spatial fields, the `GeometryField` form field, and
+`GEOSGeometry` now reject GeoJSON geometries with CRS references to
+external resources. The `DataSource` and
+`LayerMapping` utilities for loading trusted data continue to accept these
+values.
+
+This issue has severity "moderate" according to the [Django Security
+Policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Submersion Security Research Team for the report.
+
+
+## CVE-2026-113593: Potential exposure of private data via empty and
+missing `Vary` headers
+
+`UpdateCacheMiddleware` and `cache_page()` generated the same cache key
+for a request that omitted a header listed in the response's `Vary` header
+and a request that sent that header with an empty value. As a result, a
+response cached for one of these requests could be served to the other,
+which
+could lead to the exposure of private data.
+
+Cache keys now distinguish between absent and empty header values, as
+required
+by [RFC 9111#section-4.1](
+<a href="https://datatracker.ietf.org/doc/html/rfc9111.html#section-4.1" rel="nofollow">https://datatracker.ietf.org/doc/html/rfc9111.html#section-4.1</a>).
+
+Responses previously cached for requests that omitted a header listed in
+`Vary` will no longer be matched, and will be cached again on the next
+request.
+
+This issue has severity "low" according to the [Django security policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Andrew Gonzalez for the report.
+
+
+## CVE-2026-113733: Password hash disclosure to "view only" admin users
+with custom user models
+
+Admin users with the view (but not change) permission to a user model were
+displayed the entire password hash when the model was not `AUTH_USER_MODEL`,
+or when `AUTH_USER_MODEL` inherited its `password` field from a concrete
+parent model through multi-table inheritance.
+
+This issue has severity "low" according to the [Django Security Policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Aaron chen for the report.
+
+
+## CVE-2026-114582: Server-side request forgery via `SpatialReference`
+string input
+
+`SpatialReference` passed string input to GDAL,
+which by default resolves URLs and reads files. This behavior was not
+documented by Django. Other affected methods included
+`GEOSGeometry.transform()`, `OGRGeometry.transform()`,
+`GDALRaster.transform()`,
+the `srs` setter of `OGRGeometry`, and the `srs` and `srid` setters of
+`GDALRaster`.
+A URL or file path reaching any of these would issue an outbound request or
+read a file as the Django process user. The attack vectors could be
+combined to
+reveal local file contents by observing outbound requests.
+
+`SpatialReference` now disables network and file access when parsing string
+input on GDAL 3.9 and later. As a consequence, file paths and URLs are no
+longer accepted as `SpatialReference` inputs. Dictionary references using
+the
+`DICT:` prefix, including those prefixed with `ESRI::`, are rejected on all
+GDAL versions.
+
+Full protection requires GDAL 3.9 or later. Integer SRIDs are looked up
+directly in the EPSG database, so prefer them when the input is untrusted.
+Or,
+if strings must be used on lower GDAL versions, compare to an allow list.
+The
+new `gis.W001` system check warns when the installed version of GDAL is not
+at least 3.9.
+
+This issue has severity "low" according to the [Django security policy](
+<a href="https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels" rel="nofollow">https://docs.djangoproject.com/en/dev/internals/security/#security-issue-severity-levels</a>
+).
+
+Thanks to Adraca for the report.
+
+
+
+## Affected supported versions
+
+* Django main
+* Django 6.1
+* Django 6.0
+* Django 5.2
+
+## Resolution
+
+Patches to resolve the issue have been applied to Django's
+main, 6.1, 6.0, and 5.2 branches.
+The patches may be obtained from the following changesets.
+
+### CVE-2026-108147: Potential memory exhaustion in `MultiPartParser` via
+base64-encoded file upload
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/5d95d9236fa4ededfb1931c60a65432385ece85f" rel="nofollow">https://github.com/django/django/commit/5d95d9236fa4ededfb1931c60a65432385ece85f</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/8b435411f11d69a0dd41a8837654323502e6058e" rel="nofollow">https://github.com/django/django/commit/8b435411f11d69a0dd41a8837654323502e6058e</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/a29ee4a55acedbe7ba0cb4d2db28c4e4d2848e02" rel="nofollow">https://github.com/django/django/commit/a29ee4a55acedbe7ba0cb4d2db28c4e4d2848e02</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/4bd1f59a80adafddbd47527c66d92d6a224244d8" rel="nofollow">https://github.com/django/django/commit/4bd1f59a80adafddbd47527c66d92d6a224244d8</a>
+)
+
+### CVE-2026-111211: Potential log injection via unescaped geometry form
+values
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/af4319f7217e33ad5db747226765f09b49ec07ba" rel="nofollow">https://github.com/django/django/commit/af4319f7217e33ad5db747226765f09b49ec07ba</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/b336d9a4e8a919d2e5f979b663de2b27e245b793" rel="nofollow">https://github.com/django/django/commit/b336d9a4e8a919d2e5f979b663de2b27e245b793</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/1b747694d6a68a6b5d48cbe81c71053092a5d374" rel="nofollow">https://github.com/django/django/commit/1b747694d6a68a6b5d48cbe81c71053092a5d374</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/b83bf870ee0006ab0dd84a01d1f3b0391320a51a" rel="nofollow">https://github.com/django/django/commit/b83bf870ee0006ab0dd84a01d1f3b0391320a51a</a>
+)
+
+### CVE-2026-111362: Server-side request forgery via crs member of GeoJSON
+geometries
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/ecb2b77b49890d6b2120f73fb3d7eb7ac7650143" rel="nofollow">https://github.com/django/django/commit/ecb2b77b49890d6b2120f73fb3d7eb7ac7650143</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/649fb7985f67d5936dfb8caae6a54c0870dc8eec" rel="nofollow">https://github.com/django/django/commit/649fb7985f67d5936dfb8caae6a54c0870dc8eec</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/e938f676fcca72f41247b0e96d4f0805e1722913" rel="nofollow">https://github.com/django/django/commit/e938f676fcca72f41247b0e96d4f0805e1722913</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/31bef742da017bc71fdce9298c30984aad844102" rel="nofollow">https://github.com/django/django/commit/31bef742da017bc71fdce9298c30984aad844102</a>
+)
+
+### CVE-2026-113593: Potential exposure of private data via empty and
+missing `Vary` headers
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/c0b7e5e4e4546e8ddc58262f1945938bb9d9ac2d" rel="nofollow">https://github.com/django/django/commit/c0b7e5e4e4546e8ddc58262f1945938bb9d9ac2d</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/55e2e009b4f3996e5c55af7b22a8c41eb826e892" rel="nofollow">https://github.com/django/django/commit/55e2e009b4f3996e5c55af7b22a8c41eb826e892</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/2006a2b068766bf332f1afcc32b7614d8e5759a2" rel="nofollow">https://github.com/django/django/commit/2006a2b068766bf332f1afcc32b7614d8e5759a2</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/9007fecd3633cfd90b093ebe106af564347c8aee" rel="nofollow">https://github.com/django/django/commit/9007fecd3633cfd90b093ebe106af564347c8aee</a>
+)
+
+### CVE-2026-113733: Password hash disclosure to "view only" admin users
+with custom user models
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/f5b039a619b3b5394ea5b966e17c7546fda6f937" rel="nofollow">https://github.com/django/django/commit/f5b039a619b3b5394ea5b966e17c7546fda6f937</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/7d875c0a49d2a59335c65f6bf57970a5bac03be2" rel="nofollow">https://github.com/django/django/commit/7d875c0a49d2a59335c65f6bf57970a5bac03be2</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/67cce9dcd23ddeec41ccf0abfe3431e3cd724365" rel="nofollow">https://github.com/django/django/commit/67cce9dcd23ddeec41ccf0abfe3431e3cd724365</a>
+)
+
+### CVE-2026-114582: Server-side request forgery via `SpatialReference`
+string input
+
+* On the [main branch](
+<a href="https://github.com/django/django/commit/3a2ec4378b53c7b8ff5283ad7eba624ffa6f2b2f" rel="nofollow">https://github.com/django/django/commit/3a2ec4378b53c7b8ff5283ad7eba624ffa6f2b2f</a>
+)
+* On the [6.1 branch](
+<a href="https://github.com/django/django/commit/a658355eb51feccbe90b5ca2e3b7f3543cd99e01" rel="nofollow">https://github.com/django/django/commit/a658355eb51feccbe90b5ca2e3b7f3543cd99e01</a>
+)
+* On the [6.0 branch](
+<a href="https://github.com/django/django/commit/1c980729e53ef119d43a01d32ead30116c46cd36" rel="nofollow">https://github.com/django/django/commit/1c980729e53ef119d43a01d32ead30116c46cd36</a>
+)
+* On the [5.2 branch](
+<a href="https://github.com/django/django/commit/8bda4d0db15f28828d8db000287562efae5ce063" rel="nofollow">https://github.com/django/django/commit/8bda4d0db15f28828d8db000287562efae5ce063</a>
+)
+
+
+## The following releases have been issued
+
+* Django 6.1.3 ([tarball](
+<a href="https://www.djangoproject.com/download/6.1.3/tarball/" rel="nofollow">https://www.djangoproject.com/download/6.1.3/tarball/</a>) | [checksums](
+<a href="https://www.djangoproject.com/download/6.1.3/checksum/" rel="nofollow">https://www.djangoproject.com/download/6.1.3/checksum/</a>))
+* Django 6.0.10 ([tarball](
+<a href="https://www.djangoproject.com/download/6.0.10/tarball/" rel="nofollow">https://www.djangoproject.com/download/6.0.10/tarball/</a>) | [checksums](
+<a href="https://www.djangoproject.com/download/6.0.10/checksum/" rel="nofollow">https://www.djangoproject.com/download/6.0.10/checksum/</a>))
+* Django 5.2.19 ([tarball](
+<a href="https://www.djangoproject.com/download/5.2.19/tarball/" rel="nofollow">https://www.djangoproject.com/download/5.2.19/tarball/</a>) | [checksums](
+<a href="https://www.djangoproject.com/download/5.2.19/checksum/" rel="nofollow">https://www.djangoproject.com/download/5.2.19/checksum/</a>))
+
+The PGP key ID used for this release is Jacob Walls: [131403F4D16D8DC7](
+<a href="https://github.com/jacobtylerwalls.gpg" rel="nofollow">https://github.com/jacobtylerwalls.gpg</a>)
+
+
+## General notes regarding security reporting
+
+As always, we ask that potential security issues be reported via private
+email
+to `security&#64;...ngoproject.com`, and not via Django's Trac instance, nor via
+the Django Forum. Please see
+[our security policies](<a href="https://www.djangoproject.com/security/" rel="nofollow">https://www.djangoproject.com/security/</a>) for further
+information.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
