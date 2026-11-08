@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - UnrealIRCd 6.2.7.1 released &amp; hot-patch (CVE-2026-114713)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/11/07/11">[&lt;prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;35e4e13d-9a01-4e9b-bb99-f75769974867&#64;unrealircd.org&gt;
+Date: Sun, 8 Nov 2026 08:31:08 +0100
+From: Bram Matthys &lt;syzop&#64;...ealircd.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: UnrealIRCd 6.2.7.1 released &amp; hot-patch (CVE-2026-114713)
+
+Last Saturday, 7-Nov-2026, I put out a security release and hot-patch
+for UnrealIRCd. The CVE entry CVE-2026-114713 has been published now.
+
+This is an escaping bug in UnrealIRCd's implementation of the IRCv3
+"label" message tag. Any user can inject newlines (\n) and other things
+into server-to-server traffic. In a text protocol like IRC this means
+one can issue arbitrary commands, in this case with server authority.
+
+What is perhaps also of interest: at UnrealIRCd we try to hot-patch
+important bugs. I wrote an article 2 months ago about our experience:
+<a href="https://www.vulnscan.org/why-hot-patching-is-awesome/" rel="nofollow">https://www.vulnscan.org/why-hot-patching-is-awesome/</a>
+We used the same method this time to fix 9 security issues.
+
+Below is a text version (without HTML) of the security advisory. The
+original is at <a href="https://forums.unrealircd.org/viewtopic.php?t=9487" rel="nofollow">https://forums.unrealircd.org/viewtopic.php?t=9487</a>
+
+ADVISORY
+=========
+
+During an internal audit, with the help of AI, several important
+security issues were found in UnrealIRCd.
+
+The critical issue (CVE-2026-114713) allows normal users to execute
+commands with server/IRCOp authority. This means any ordinary user can
+KILL, GLINE, and do many more bad things. This is the most critical
+issue found in UnrealIRCd in the past 15 years. The other security
+issues are crashes, hangs, DoS and there is also an issue fixed which
+allows any ordinary user to "decloak" a user (reveal the IP address of
+the victim).
+
+As promised, on almost all UnrealIRCd 6 networks all these security
+issues can be hot-patched without restart (no downtime).
+
+If you are running UnrealIRCd versions that are end of life: UnrealIRCd
+3.2.x, 4 or 5 then see the section near the end.
+
+IMPORTANT: Please do step 1 first, it gives you some protection right
+away. Then proceed to step 2a or 2b.
+
+Step 1: First, apply the workaround right now
+----------------------------------------------
+
+Before you do anything, run the following as an IRCOp on the network:
+
+SPAMFILTER add -regex T block - Invalid_label ^label=(?![^\r\n;\x20]*\z)
+
+This protects all linked servers on the IRC network against the critical
+issue, but only if all your servers are on 6.0.4 or newer. Even so, you
+still need to fix the other 8 security issues, so don't just stop here,
+see next.
+
+Now go to step 2a (hot-patch) or if that is not for you then use step 2b
+(upgrade to 6.2.7.1) instead.
+
+Step 2a: Fix the issues without restart
+----------------------------------------
+
+If you are on Windows, or you are on *NIX but hot-patching below fails,
+then go to step 2b (upgrade).
+
+Run the following command on every UnrealIRCd server. This works on
+UnrealIRCd 6.0.0 - 6.2.7:
+
+./unrealircd hot-patch bundle-20261107
+
+When you run that command, the last sentence you should see on that
+screen should be "Patch installed and server rehashed correctly. All
+should be good now!" or in older versions "Done! All should be good
+now".
+
+If something went wrong (you did not get that output) then please check
+out FAQ: Hot-patching failed
+(<a href="https://www.unrealircd.org/docs/FAQ#hot-patch-failed" rel="nofollow">https://www.unrealircd.org/docs/FAQ#hot-patch-failed</a>). It contains
+answers for several scenarios, including a distro upgrade case which can
+break the build.
+
+Now, you still want to verify that you are really patched. To do so, you
+can run this on the same shell (this only works on 6.0.2 and later):
+
+./unrealircd module-status|grep labeled-response
+
+Then check the output:
+
+* This means the hot-patch is properly installed (server is safe):
+   labeled-response 5.0-hot-patch-bundle-20261107
+* If it says 6.2.7.1 then the server was not hot-patched but is running
+   the fixed version 6.2.7.1 (server is also safe)
+* If it says only 5.0 (without the patch bundle) then the hot-patch was
+   NOT applied.
+* If you get no output at all then try the IRC method, see next.
+
+You can check the same on IRC through "MODULE -all" as an IRCOp and then
+CTRL+F on labeled-response
+You can also check remote IRC servers (again, as IRCOp), through:
+MODULE -all remote.server.name
+
+If the verification failed, check out the FAQ: Hot-patching failed
+(<a href="https://www.unrealircd.org/docs/FAQ#hot-patch-failed" rel="nofollow">https://www.unrealircd.org/docs/FAQ#hot-patch-failed</a>) or simply do step
+2b (upgrade instead).
+
+Step 2b: OR, upgrade to 6.2.7.1 (with restart)
+-----------------------------------------------
+
+If using the hot-patch is not possible or didn't work, then upgrade to
+6.2.7.1:
+
+On *NIX you can simply run: ./unrealircd upgrade. And after that,
+restart the IRC server.
+
+Windows users, or anyone else who prefers doing so, can also download
+the 6.2.7.1 release from www.unrealircd.org.
+
+Full list of fixed issues
+--------------------------
+
+For completeness, here are the 9 issues that are fixed through the
+hot-patch and in 6.2.7.1:
+
+1. A CRITICAL issue that can be abused by any normal user to execute
+    commands with server or IRCOp authority. This means any ordinary user
+    can KILL, GLINE, and do many more bad things. (CVE-2026-114713)
+2. A normal user could "decloak" another user, revealing the IP address
+    of the victim.
+3. Another leak of the IP address
+4. Blacklist recheck could hang the server
+5. Crash on CHGIDENT from Services, which a normal user can trigger
+6. Counting error which could cause a "This server is full" message to
+    every new connect, until the server is restarted.
+7. Limit the number of bans Services can set, to 2x set::maxbans
+8. Potential flood issue with TLS renegotiations
+9. Possible crash on whowasdb
+
+Note to UnrealIRCd 5 and other EOL versions
+--------------------------------------------
+
+UnrealIRCd 5 is similarly affected by the critical issue (so any regular
+user can execute commands as server/IRCOp). Note that UnrealIRCd 5 has
+been End of Life since 2023-07-01. Nobody should be running this
+version.
+If you do use UnrealIRCd 5, the workaround is adding this to your
+configuration file on all your servers AND restarting them (NOT rehash):
+
+blacklist-module "labeled-response";
+
+Other End of Life UnrealIRCd versions have not been checked. It is
+likely that several bugs that are fixed in 6.2.7.1 go all the way back
+to 3.2.x.
+
+Please read the next section as well, as you are not safe if you run an
+EOL version. You are not safe at all.
+
+Final words: the danger of AI is real
+--------------------------------------
+
+I have been doing security audits on UnrealIRCd for decades now. Back in
+2001 I was using static code analyzer tools and found a bunch of
+crashes. Later on in the 2010's fuzzing was the new big thing and when I
+used it on UnrealIRCd it found lots of issues again. Then AI came. First
+the quality of AI was not so good but things improved and improved.
+Since Feb 2026 I have spent about 100 hours with AI doing security
+audits and to improve the quality of the codebase. Especially the last
+month things have been wild. The things AI can find nowadays are
+amazing.
+
+I genuinely think that, if you are running any network daemon that has
+not seen any major security fixes in the past couple of months, then
+nobody has been poking at that daemon with AI. Or some bad guy did but
+did not report back. This is also true for people running End of Life
+UnrealIRCd releases: you think your 3.2.x has no vulnerabilities? It is
+only because bad guys haven't been looking at exploiting your servers.
+You should not be running EOL software. Upgrade to UnrealIRCd 6. It's a
+modern IRC server, it's worth it.
+
+Updates
+--------
+
+Any updates to this advisory will happen on:
+<a href="https://forums.unrealircd.org/viewtopic.php?t=9487" rel="nofollow">https://forums.unrealircd.org/viewtopic.php?t=9487</a>
+
+Best regards,
+
+Bram Matthys ("Syzop")
+Maintainer of UnrealIRCd
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
