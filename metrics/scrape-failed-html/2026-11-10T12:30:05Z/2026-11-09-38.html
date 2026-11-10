@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - krb5-1.22.3 is released, with fixes for 21 CVEs</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="37">[&lt;prev]</a> <a href="../../../2026/11/10/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;ac7affe1-a181-42ca-810b-d58d7fa4f5dc&#64;oracle.com&gt;
+Date: Mon, 9 Nov 2026 15:54:42 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: krb5-1.22.3 is released, with fixes for 21 CVEs
+
+<a href="https://mailman.mit.edu/pipermail/kerberos-announce/2026q4/000212.html" rel="nofollow">https://mailman.mit.edu/pipermail/kerberos-announce/2026q4/000212.html</a> announces:
+&gt; The MIT Kerberos Team announces the availability of MIT Kerberos 5
+&gt; Release 1.22.3.  Please see below for a list of some major changes
+&gt; included, or consult the README file in the source tree for a more
+&gt; detailed list of significant changes.
+&gt; 
+&gt; RETRIEVING KERBEROS 5 RELEASE 1.22.3
+&gt; ====================================
+&gt; 
+&gt; You may retrieve the Kerberos 5 Release 1.22.3 source from the
+&gt; following URL:
+&gt; 
+&gt;            <a href="https://kerberos.org/dist/" rel="nofollow">https://kerberos.org/dist/</a>
+&gt; 
+&gt; The homepage for the krb5-1.22.3 release is:
+&gt; 
+&gt;            <a href="https://web.mit.edu/kerberos/krb5-1.23/" rel="nofollow">https://web.mit.edu/kerberos/krb5-1.23/</a>
+&gt; 
+&gt; Further information about Kerberos 5 may be found at the following
+&gt; URL:
+&gt; 
+&gt;            <a href="https://web.mit.edu/kerberos/" rel="nofollow">https://web.mit.edu/kerberos/</a>
+&gt; 
+&gt; and at the MIT Kerberos Consortium web site:
+&gt; 
+&gt;            <a href="https://www.kerberos.org/" rel="nofollow">https://www.kerberos.org/</a>
+&gt; 
+&gt; 
+&gt; Major changes in 1.22.3 (2026-11-09)
+&gt; ====================================
+&gt; 
+&gt; This is a bug fix release, with a focus on security issues discovered
+&gt; with the aid of large language models.  See
+&gt; <a href="https://web.mit.edu/kerberos/advisories/MITKRB5-SA-2026-001.txt" rel="nofollow">https://web.mit.edu/kerberos/advisories/MITKRB5-SA-2026-001.txt</a> for
+&gt; information on the risks of continuing to use unpatched releases.
+&gt; 
+&gt; * Fix a logic error when checking PAC server checksums
+&gt;    [CVE-2026-111423].
+&gt; 
+&gt; * Check for unkeyed checksums when validating CAMMAC verifiers
+&gt;    [CVE-2026-71199].
+&gt; 
+&gt; * Fix a loophole in the KDC's client authdata filtering which could
+&gt;    allow clients to include fake PAC and CAMMAC authdata values when
+&gt;    requesting service tickets.  These fake values would be rejected by
+&gt;    application servers, were it not for the two bugs noted above.
+&gt; 
+&gt; * Check for the lockdown_keys attribute when processing password
+&gt;    change protocol requests in kadmind [CVE-2026-107884].
+&gt; 
+&gt; * In libgssrpc, when processing RPC messages using the RPCSEC_GSS
+&gt;    flavor, use the verified service type included in the RPC request to
+&gt;    determine how to unwrap arguments and wrap return values, instead of
+&gt;    the unverified service type included during authentication
+&gt;    [CVE-2026-118380].
+&gt; 
+&gt; * In libgssrpc, disable the AUTH_GSSAPI server auth flavor unless the
+&gt;    "GSSRPC_ALLOW_AUTH_GSSAPI" environment variable is set.  AUTH_GSSAPI
+&gt;    is only needed for very old (pre-1.4) clients [CVE-2026-112322]
+&gt;    [CVE-2026-112323].
+&gt; 
+&gt; * Fix numerous null pointer deferences, read overruns, unbounded
+&gt;    memory allocations, and memory leaks that could be used as denial of
+&gt;    service attacks against the KDC, kadmind, application servers, or
+&gt;    client programs [CVE-2026-40355] [CVE-2026-40356] [CVE-2026-71200]
+&gt;    [CVE-2026-107364] [CVE-2026-107708] [CVE-2026-107778]
+&gt;    [CVE-2026-112314] [CVE-2026-112315] [CVE-2026-112316]
+&gt;    [CVE-2026-112317] [CVE-2026-112318] [CVE-2026-112319]
+&gt;    [CVE-2026-112320] [CVE-2026-112321] [CVE-2026-112323]
+&gt;    [CVE-2026-119079].
+&gt; 
+&gt; * Fix a client crash when a KKDCP proxy daemon closes the TLS session
+&gt;    without supplying any response data.
+&gt; 
+&gt; * Shut down kpropd gracefully when a termination signal is received,
+&gt;    when operating in incremental propagation mode.
+&gt; 
+&gt; * Detect when an incremental propagation update is applied to a
+&gt;    nonexistent principal; when this happens, force a full resync
+&gt;    instead of crashing.
+&gt; 
+&gt; * Fix a KDC crash when the LDAP KDB module loses its connection to the
+&gt;    LDAP server.
+&gt; 
+&gt; * Avoid a crash on macOS when the native API ccache type is used
+&gt;    before and after forking a process.
+&gt; 
+&gt; * When an application accepts a GSS context without asking for
+&gt;    delegated credentials, discard any credentials sent by the initiator
+&gt;    without parsing them first.
+&gt; 
+&gt; * On Windows, prevent buffer overflows when the KDC sends an
+&gt;    unexpectedly long prompt string via OTP preauthentication.
+&gt; 
+&gt; * On Windows, move the default per-machine krb5.ini location from
+&gt;    C:\ProgramData\MIT\Kerberos to C:\Program Files\MIT\Kerberos5, as
+&gt;    the former location could be pre-created by an unutrusted user
+&gt;    before KfW installation.
+&gt; 
+&gt; * On Windows, add error checking to kfwlogon to ensure that it does
+&gt;    not set ACLs on a cache file it did not create.
+&gt; 
+&gt; * On Windows, prevent several buffer overflows that could occur if an
+&gt;    application passes a large principal name to leashdll APIs.
+&gt; 
+&gt; * On Windows, prevent buffer overflows when the LSA cache contains
+&gt;    credentials with long principal name components.
+
+<a href="https://web.mit.edu/kerberos/advisories/MITKRB5-SA-2026-001.txt" rel="nofollow">https://web.mit.edu/kerberos/advisories/MITKRB5-SA-2026-001.txt</a> advises:
+&gt; MITKRB5-SA-2026-001
+&gt; 
+&gt; MIT krb5 Security Advisory 2026-001
+&gt; Original release: 2026-11-09
+&gt; Last update: 2026-11-09
+&gt; 
+&gt; Topic: Multiple vulnerabilities fixed in patch 1.22.3
+&gt; 
+&gt; SUMMARY
+&gt; =======
+&gt; 
+&gt; Like many open source projects, MIT krb5 has faced greatly increased
+&gt; scrutiny over the past few months from researchers employing large
+&gt; language models.  As a result, release 1.22.3 fixes many more
+&gt; vulnerabilities than a typical MIT krb5 patch release.  This advisory
+&gt; discusses the combined impact of those vulnerabilities on unpatched
+&gt; components.
+&gt; 
+&gt; AUTHORIZATION BYPASS ATTACKS
+&gt; ============================
+&gt; 
+&gt; An authenticated attacker can bypass authentication indicator
+&gt; enforcement by requesting a service ticket with fake CAMMAC
+&gt; authorization data.  Updating to the 1.22.3 release on the KDC is
+&gt; sufficient to prevent this attack.
+&gt; 
+&gt; An authenticated attacker can bypass an application server's PAC
+&gt; authorization data checks by requesting a service ticket with a fake
+&gt; PAC.  Updating to the 1.22.3 release on either the KDC or the affected
+&gt; application server will prevent this attack.
+&gt; 
+&gt; An authenticated attacker with administrative privileges can bypass
+&gt; the lockdown_keys attribute by using the password change protocol
+&gt; instead of the kadmin protocol to modify a principal's keys.
+&gt; 
+&gt; The CVEs in this category include:
+&gt; 
+&gt; CVE-2026-71199
+&gt; CVE-2026-107884
+&gt; CVE-2026-111423
+&gt; 
+&gt; 
+&gt; DENIAL OF SERVICE ATTACKS
+&gt; =========================
+&gt; 
+&gt; The KDC, kadmind, and GSS-API application servers are all vulnerable
+&gt; to denial of service attacks by unauthenticated attackers.  The CVEs
+&gt; in this category include:
+&gt; 
+&gt; CVE-2026-40355
+&gt; CVE-2026-40356
+&gt; CVE-2026-71200
+&gt; CVE-2026-107364
+&gt; CVE-2026-107708
+&gt; CVE-2026-107778
+&gt; CVE-2026-112314
+&gt; CVE-2026-112315
+&gt; CVE-2026-112316
+&gt; CVE-2026-112317
+&gt; CVE-2026-112318
+&gt; CVE-2026-112319
+&gt; CVE-2026-112320
+&gt; CVE-2026-112321
+&gt; CVE-2026-112322
+&gt; CVE-2026-112323
+&gt; CVE-2026-119079
+&gt; 
+&gt; 
+&gt; GSS-RPC USE OF UNVERIFIED SERVICE TYPE
+&gt; ======================================
+&gt; 
+&gt; Application servers using libgssrpc with RPCSEC_GSS protection may be
+&gt; vulnerable to an active network attack that fools the server into
+&gt; disabling cryptographic protection of RPC arguments and return values.
+&gt; The primary component affected by this vulnerability is kadmind, which
+&gt; serves the kadm5 and iprop RPC protocols.
+&gt; 
+&gt; Using this vulnerability, an active network attacker on the path
+&gt; between a replica KDC and the primary KDC can cause kadmind to reveal
+&gt; the contents of an incremental update reply in plain text.  This
+&gt; update may contain sensitive Kerberos database material.  Any key
+&gt; information in the incremental update will be encrypted in the master
+&gt; key, but if the master password is not strong, a dictionary attack may
+&gt; reveal the unencrypted key data.  Updating to the 1.22.3 release on
+&gt; the primary kadmin server is sufficient to prevent this attack.
+&gt; 
+&gt; We believe that this vulnerability is not exploitable in the kadm5
+&gt; protocol, because the kadmin client makes an INIT remote procedure
+&gt; call before issuing any substantive RPCs.  Because only the server is
+&gt; fooled into disabling encryption, the client will abort the kadmin
+&gt; session when it tries to decode the INIT reply.  We also considered
+&gt; scenarios where an attacker replays a modified copy of a recorded
+&gt; kadmin session, but we believe that the replay cache and the use of
+&gt; subkeys prevent this variant of the attack.
+&gt; 
+&gt; The CVE in this category is CVE-2026-118380.
+&gt; 
+&gt; 
+&gt; WINDOWS CLIENT VULNERABILITIES
+&gt; ==============================
+&gt; 
+&gt; Applications using leashdll are vulnerable to a buffer overflow
+&gt; (possibly leading to code execution) if the KDC supplies a very long
+&gt; prompt banner.  Exploitating this vulnerability may be impossible
+&gt; because only the FAST OTP preauth mechanism permits large prompt
+&gt; banners, and the leashdll APIs do not set a FAST armor cache.
+&gt; 
+&gt; If an application supplies principal names from an untrusted source to
+&gt; leashdll initial ticket functions (such as Leash_kinit_dlg()), an
+&gt; attacker could cause buffer overflows by supplying long names,
+&gt; possibly leading to code execution.
+&gt; 
+&gt; On a Windows host with untrusted users, an attacker could potentially
+&gt; trick kfwlogon into setting ACL rights on a file of the attacker's
+&gt; choice via a hard link.
+&gt; 
+&gt; On a Windows host with untrusted users, a user could create a krb5.ini
+&gt; file in the default per-machine location prior to Kerberos for Windows
+&gt; installation.  This file would then be used by other users, allowing
+&gt; code execution via module loading.
+&gt; 
+&gt; 
+&gt; ACKNOWLEDGEMENTS
+&gt; ================
+&gt; 
+&gt; The following individuals and organizations contributed to the
+&gt; discovery of the vulnerabilities fixed in the 1.22.3 release:
+&gt; 
+&gt; Arthur Chan
+&gt; Rahul Hoysala
+&gt; Alexandru-Ionut Jipa
+&gt; Cem Onat Karagun
+&gt; David Korczynski
+&gt; Erin Liman
+&gt; Tristan Madani
+&gt; Alejandro Pacheco
+&gt; Julien Rische
+&gt; Moritz Theile
+&gt; Rickey Visinski
+&gt; 
+&gt; Ada Logics
+&gt; AISLE
+&gt; Anthropic
+&gt; AWS Security
+&gt; Deutsche Bank
+&gt; Red Hat
+&gt; Talence Security
+&gt; 
+&gt; REVISION HISTORY
+&gt; ================
+&gt; 
+&gt; 2026-11-09      original release
+&gt; 
+&gt; Copyright (C) 2026 Massachusetts Institute of Technology
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
