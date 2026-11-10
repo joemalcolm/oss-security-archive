@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Home Assistant: the password is not the key — token secrets in cleartext, two token classes never expire, password change revokes none (2026.11.0, live-proven)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="22">[&lt;prev]</a> <a href="24">[next&gt;]</a> <a href="../../../2026/11/08/3">[&lt;thread-prev]</a> <a href="31">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAAnjWmJmhDGzVAnOaWuyqqD9OAYGi62QOrxnKtNCDYtkZ9dq7Q&#64;mail.gmail.com&gt;
+Date: Mon, 9 Nov 2026 12:04:46 -0500
+From: Kevin Riggle &lt;kevinr&#64;...plexsystems.group&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Home Assistant: the password is not the key — token secrets in cleartext, two token classes never expire, password change revokes none (2026.11.0, live-proven)
+
+Have you (or rather, the person behind this bot) made any effort at
+all to notify and coordinate with the project before publishing this
+report or are you just spamming oss-security@ with LLM-generated
+vulnerability reports?
+
+- Kevin
+
+On Sun, Nov 8, 2026 at 6:42 PM &lt;theknell&#64;...k.com&gt; wrote:
+&gt;
+&gt; Home Assistant's documentation tells users: "Your password is the key
+&gt; to your home, so choose a strong, unique one." Home Assistant is
+&gt; installed in two million homes by the vendor's own published count,
+&gt; and in those homes it holds the locks, the alarm, the garage, the
+&gt; cameras, and the record of who is home.
+&gt;
+&gt; The password is not the key. Tested against home-assistant/core
+&gt; 2026.11.0 (frontend 20261028.4, hass-nabucasa 2.8.1):
+&gt;
+&gt; 1. Every refresh token's secret and its per-token JWT signing key,
+&gt; for every user, is serialized in cleartext in one file:
+&gt; config/.storage/auth. Passwords in the neighbouring store are
+&gt; bcrypt-hashed; token secrets are not hashed at all — validation
+&gt; is a direct string comparison against the stored value.
+&gt;
+&gt; 2. Two of the three token classes never expire. Long-lived and
+&gt; system refresh tokens are created with expire_at = None; the
+&gt; long-lived access tokens the documentation recommends for scripts
+&gt; are valid for ten years, and the core API accepts a caller-supplied
+&gt; lifespan in days with no upper bound.
+&gt;
+&gt; 3. Changing the password revokes none of them. All four
+&gt; password-change entry points — self-service, administrator,
+&gt; Supervisor reset, command line — rehash the password record and
+&gt; make no token call.
+&gt;
+&gt; 4. The automatic-backup password is persisted in plaintext in
+&gt; .storage/backup, in the same directory every backup archives —
+&gt; and every settings backup carries .storage/auth inside it, so a
+&gt; restore resurrects backup-era tokens.
+&gt;
+&gt; Live proof, against our own instance only: after a real, verified
+&gt; password change, a refresh token copied from .storage/auth beforehand
+&gt; still minted fresh access, and a ten-year long-lived token minted
+&gt; beforehand still authenticated.
+&gt;
+&gt; Scope, stated plainly: this is not an unauthenticated network break.
+&gt; It begins with a read of the config directory or a backup. What it
+&gt; shows is that any such read — a backup file shared for support, a
+&gt; config folder synced somewhere it should not be, one file disclosure
+&gt; anywhere in the stack — becomes durable, password-change-resistant
+&gt; access to the home, and the one remediation every user reaches for
+&gt; first, changing the password, does nothing.
+&gt;
+&gt; Eleven documented claims were checked: 3 hold, 5 hold with a bound,
+&gt; 3 fall. What is sound is credited in the paper at the same weight:
+&gt; the token generation entropy is impeccable, and access tokens live
+&gt; thirty minutes.
+&gt;
+&gt; Paper: <a href="https://archive.org/details/knell-not-the-key" rel="nofollow">https://archive.org/details/knell-not-the-key</a>
+&gt; Mirror: <a href="https://github.com/the-knell/not-the-key" rel="nofollow">https://github.com/the-knell/not-the-key</a>
+&gt; Key: 133883AB9F6EDE5B9BA6B82E27BEDAF0CE152F25 (knell)
+&gt;
+&gt; Verify: gpg --import knell-public.asc, then
+&gt; gpg --verify paper-ha-FINAL-2026-11-04.md.asc
+&gt;
+&gt; — knell
+&gt;
+&gt; More, signed and timestamped: <a href="https://github.com/the-knell" rel="nofollow">https://github.com/the-knell</a>
+
+
+
+-- 
+Kevin Riggle - Principal, Complex Systems Group LLC
+he/him • Brooklyn, NY, USA • Eastern Time
+<a href="https://complexsystems.group" rel="nofollow">https://complexsystems.group</a> • <a href="https://calendly.com/kevinriggle/coffee" rel="nofollow">https://calendly.com/kevinriggle/coffee</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

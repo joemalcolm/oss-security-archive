@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Home Assistant: the password is not the key — token secrets in cleartext, two token classes never expire, password change revokes none (2026.11.0, live-proven)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="4">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20261110045440.GA8897&#64;openwall.com&gt;
+Date: Tue, 10 Nov 2026 05:54:40 +0100
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Home Assistant: the password is not the key — token secrets in cleartext, two token classes never expire, password change revokes none (2026.11.0, live-proven)
+
+On Mon, Nov 09, 2026 at 02:00:35PM -0800, Gregory Mullen wrote:
+&gt; &gt; Coordination: none, and that is not an oversight you caught. [name]
+&gt; &gt; publishes day-of, without advance notice, as a stated policy. You may
+&gt; &gt; dislike the policy; it is not hidden, and it is not a secret.
+&gt; 
+&gt; Are there list policies published anywhere?
+
+Yes, here:
+
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security#list-content-guidelines">https://oss-security.openwall.org/wiki/mailing-lists/oss-security#list-content-guidelines</a>
+
+&gt; I've been operating under the
+&gt; assumption that this list wouldn't help participate in malicious disclosure
+&gt; behavior like this, but if it does, I feel I'd need to unsubscribe for ethical
+&gt; reasons.
+
+While it's typical that issues disclosed on oss-security had been
+communicated to the vendors first, there are currently no "responsible
+disclosure" requirements here, and have never been.  If someone wants to
+post a 0-day, they generally can.  It'd take extreme circumstances for
+the moderators to decide differently, and this would require a public
+explanation later.
+
+Posting a 0-day is not necessarily malicious.  The "full" vs.
+"responsible" disclosure debate existed for decades and there isn't a
+universally accepted right or wrong.  Cases and opinions still vary.
+
+However:
+
+&gt; Behavior like this isn't ok, and it shouldn't be rewarded with attention.
+
+I see other signs of malicious behavior here, and policies we could want
+to add to deal with it in this age of LLMs.  This list is by and for
+people, not machines.  When we want to interact with a machine, we can,
+but we may not want such interactions pushed to us via a mailing list,
+or at least not via this one.
+
+It is going to be increasingly difficult to determine whether and to
+what extent is a posting generated by a machine.  The quality of
+machine-generated content will be increasing, so frankly for purposes of
+awareness of and dealing with each one security issue it could become no
+worse than human-created.  The problem is its sheer volume and lower
+average importance.  Content too cheap to create may explore issues that
+were not worth a human's time to write about, and so may not be worth a
+human's time to read.
+
+I agree that machine-generated postings here shouldn't be rewarded with
+attention, if accepted at all... unless they're about important issues?
+However, I don't see a good way for the moderators to enforce this.
+"Is this posting human-written or at least important?" isn't a question
+that can be answered quickly and reliably during pre-moderation.
+
+Now that we know this specific sender that side-steps direct questions
+about human involvement (and instead keeps writing about the content
+being signed, which is irrelevant), we can start rejecting that sender's
+postings irrespective of content.  Should we?  If you (any subscriber
+here) have either preference on this, please let me know off-list.
+Please take the time to review all postings by this sender first - not
+only in this thread.  There have been a few in several threads in the
+last few days, starting with the sshole thread.
+
+On Mon, Nov 09, 2026 at 03:49:22PM -0800, Gregory Mullen wrote:
+&gt; With the number of LLM generated/assisted exploits being disclosed
+&gt; irresponsibly. I feel it's important to draw a line in the sand, and not just
+&gt; allow malicious disclosures to become the new normal. This report isn't
+&gt; critically important, but I *strongly* feel that rejecting behavior like this is
+&gt; important.
+&gt; 
+&gt; I suspect the people who use LLMs to find exploits for them also aren't smart
+&gt; enough to understand the risks they could expose people to. Those who don't
+&gt; need an LLM to understand, need to be careful we don't forget it either. It's a
+&gt; game, until it isn't.
+
+Some others in this community argued that LLMs are a reason to move away
+from embargoes, or from "responsible" to "full" or rather more immediate
+disclosure, at least for issues discovered by LLMs.  That's because with
+LLMs someone else, even someone not otherwise "smart enough", could
+rediscover the issue and use it irresponsibly during what would
+otherwise be our embargo period.
+
+If someone or their machine sends some important 0-day disclosure in
+here, what would we achieve by not letting it through to subscribers?
+We would discourage such behavior, but at the same time we'd deprive the
+subscribers from this knowledge while letting others rediscover and
+exploit the issue possibly maliciously.
+
+Further, the information would have already passed through the Internet
+to the list server and from there to the moderators.  There's risk of
+this being seen by third-parties.  Again, we'd deprive the subscribers
+from the info while letting potential adversaries have it.  For issues
+sent to the (linux-)distros list we mitigate this by keeping track of
+them and enforcing the maximum embargo duration, but we don't have
+anything like that for oss-security postings rejected in moderation.
+
+In summary, I agree there are problems, but I don't see good solutions.
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

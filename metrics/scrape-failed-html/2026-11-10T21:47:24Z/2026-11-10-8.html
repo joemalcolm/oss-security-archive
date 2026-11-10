@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Rooting ISPs and Hosting Providers with Hyperglass</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="7">[&lt;thread-prev]</a> <a href="11">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20261110083143.GA11164&#64;openwall.com&gt;
+Date: Tue, 10 Nov 2026 09:31:43 +0100
+From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+To: factoid&#64;...ke.ru
+Cc: oss-security&#64;...ts.openwall.com
+Subject: Re: Rooting ISPs and Hosting Providers with Hyperglass
+
+On Tue, Nov 10, 2026 at 07:59:20AM -0000, factoid&#64;...ke.ru wrote:
+&gt; <a href="https://hyperpwn.xyz/" rel="nofollow">https://hyperpwn.xyz/</a>
+&gt; 
+&gt; Note: All the research, from hunting to exploitation was done by DS. All I
+&gt; did was validate. Posting this on LET first, hopefully it spreads.
+
+Where DS is DeepSeek.
+
+&gt; TLDR; hyperglass has OS code exec vulns which you can trivially turn into
+&gt; pre-auth RCE. Many ISPs and hosting providers are vulnerable to it because
+&gt; they expose their hyperglass instance to the internet
+
+We want actual content in list postings, not only a link and summary.
+Here's some copy-paste from the above website:
+
+&gt; hyperglass is a looking-glass front end. You give it a target, it drops that target into a router command and hands the result to Netmiko. The target goes in with a bare str.format() and is never shell-escaped. On any platform where the command ends up in a Linux shell, the target stops being data.
+&gt; 
+&gt; A sweep of PeeringDB and Shodan for exposed hyperglass instances produced 36 hosts with command execution across 20 ASNs, 11 of them root or root-equivalent. Almost all are collectors and edge VMs, not core forwarding routers. None is a whole-AS compromise — but a lot of this is real infrastructure with reusable credentials behind it.
+&gt; 
+&gt; What was reachable
+&gt; 
+&gt; The short version, before the details:
+&gt; 
+&gt;     lg.biztelecom.ro — root on a Proxmox node, 42 guests, Ceph admin, PBS backups
+&gt;     Citra rs-core — 27 iBGP peers and 2.04M routes, core route reflector
+&gt;     Ssmidge — root on a border host plus camtr0, paths toward K-root/AS25152
+&gt;     Netecom — root with FRR full table, routinator and Redis
+&gt;     SolNet — 16 BGP sessions and 2.96M routes
+&gt;     AMO — NOPASSWD birdc
+&gt;     Plus 29 more hosts across 20 ASNs, 11 root/root-equivalent in total
+
+&gt; The bug
+&gt; 
+&gt; # hyperglass/execution/drivers/_construct.py:113
+&gt; return command.format(target=self.target, mask=mask, **attrs)
+&gt; 
+&gt; The command templates look like this:
+&gt; 
+&gt; vtysh -c "show bgp ipv4 unicast regexp {target}"
+&gt; 
+&gt; The AS-path and community rules validate with a wildcard, so almost any string passes. Netmiko ships it to linux_ssh, and bash expands it.
+&gt; 
+&gt; Three ways it lands:
+&gt; 
+&gt; 1. FRR AS-path injection. A quote closes the intended argument and $() or ; runs in the shell. Unauthenticated, this returns uid=1001(hyperglass) on Pombonet.
+&gt; 
+&gt; 2. BIRD IPv6 scope-ID injection. Python's ipaddress accepts arbitrary text after the % of an IPv6 address, so fe80::1%;id passes validation as a scoped address. The original string is then inserted unquoted into ping -6 ... {target}, and bash reads the semicolon as a separator. Unauthenticated, this returns uid=1000(hyperglass) on SolNet.
+&gt; 
+&gt; 3. Cisco IOS newline injection. An internal newline survives validation and the unquoted BGP community command turns into two CLI lines. The second line goes to the router inside the already-authenticated SSH session, so 1.1.1.1\nclear ip bgp * shows the route and then clears BGP. This one is proven against an IOS emulator, not a live public target.
+&gt; 
+&gt; A second, independent reproduction against a clean revision pointing at a real OpenSSH shell returned the service UID and created a file via touch /tmp/pwned_hg. It is tracked upstream in #383 / PR #382, and has been open on the public repository for four months.
+&gt; The scan
+&gt; 
+&gt;     3,693 PeeringDB looking-glass URLs, plus Shodan queries
+&gt;     388 live hyperglass instances
+&gt;     36 confirmed hosts with command execution
+&gt;     11 root or root-equivalent
+&gt;     20 ASNs with writable routing state
+&gt;     Mostly collectors; none is a forwarding core
+
+&gt; What it can actually do
+&gt; 
+&gt;     Inject, withdraw or blackhole routes on 20 ASNs
+&gt;     Reset BGP sessions and poison route-reflector state that then propagates over iBGP
+&gt;     Shift paths toward K-root and transit peers
+&gt;     Read and clone guest disks and backups on BizTelecom
+&gt;     Reuse SSH keys and service passwords across hosts
+&gt;     Pull full tables and MRT from three Tier-1 collectors
+&gt;     Deploy proxies, containers, tunnels and persistence
+&gt; 
+&gt; Severity and urgency
+&gt; 
+&gt; Critical — both.
+&gt; 
+&gt; Eleven root or root-equivalent hosts, 20 ASNs with writable routing state, and a Proxmox cluster with 42 guests and its backups all sit behind a single unauthenticated endpoint. The access is credential-based, survives reboots, and stays quiet. Nothing gets rotated unless someone notices, so the footholds remain live and reusable indefinitely.
+&gt; 
+&gt; The only thing capping this below a national outage is that the hosts are collectors and edge nodes, not forwarding cores. Everything above that — host control, backup access, route injection, blackholing, session resets, RPKI poisoning — is in scope and chained across dozens of independent networks.
+&gt; 
+&gt; Urgency: act now. One unauthenticated POST reaches all of it. Rotate what can be rotated and rebuild what cannot, before the credentials age out or quietly get shared.
+&gt; 
+&gt; The list above is a floor, not a ceiling. 388 live instances turned up from a few thousand URLs, and only the reachable ones were followed up. The same three input paths exist on every unpatched deployment, so the real number of pwnable targets is almost certainly far higher. It has to be patched as soon as possible.
+&gt; 
+&gt; Caveats
+&gt; 
+&gt;     No whole-AS compromise
+&gt;     No core router root
+&gt;     Collectors are leaf nodes, not the dataplane
+&gt;     Payment, SaaS and customer data are out of scope here
+&gt;     The Cisco newline variant is emulator-tested, not live-proven
+&gt; 
+&gt; Closing
+&gt; 
+&gt; The bug is boring: one unescaped format call, a wildcard validator, and a shell underneath. The result is not. hyperglass is common, the directive ships built in, and /api/query is unauthenticated by default. Swap the target for $(id) and a looking glass becomes a shell.
+&gt; 
+&gt; This research was autonomously found by a swarm of agents running DeepSeek V4.1 Flash.
+
+It also links to:
+
+<a href="https://github.com/thatmattlove/hyperglass/issues/383" rel="nofollow">https://github.com/thatmattlove/hyperglass/issues/383</a>
+
+which was opened on July 15 and says:
+
+&gt; ### Summary
+&gt; 
+&gt; The builtin directive templates for the shell-backed platforms interpolate the **unauthenticated** query target into a command string that is executed by a POSIX shell. A shell metacharacter in the query target breaks out of the intended argument, so a single unauthenticated `POST /api/query` can run arbitrary OS commands on the managed router as the SSH login user.
+&gt; 
+&gt; ### Version
+&gt; 
+&gt; v2.0.0 through current `main` (v2.0.4).
+&gt; 
+&gt; ### Affected platforms
+&gt; 
+&gt; Backends whose command string is parsed by a shell:
+&gt; 
+&gt; - **FRR, BIRD, OpenBGPD** — mapped to `device_type="linux_ssh"`, so netmiko delivers the command to a host **bash** shell.
+&gt; - **TNSR** — the directive runs `dataplane shell sudo vtysh -c "..."`, which drops to a host shell.
+&gt; 
+&gt; The non-shell NOS platforms (Cisco/Arista/Juniper/Nokia/Huawei/MikroTik/VyOS) are not shell-injectable, but an embedded newline in the target survives netmiko's `rstrip`-only `normalize_cmd` and is executed as a second CLI line.
+&gt; 
+&gt; ### Root cause
+&gt; 
+&gt; Two things combine:
+&gt; 
+&gt; 1. `Construct.format()` substitutes the target with a bare `str.format()` — no shell escaping:
+&gt;    ```python
+&gt;    # hyperglass/execution/drivers/_construct.py
+&gt;    return command.format(target=self.target, mask=mask, **attrs)
+&gt;    ```
+&gt;    with templates like `'vtysh -c "show bgp ipv4 unicast regexp {target}"'`.
+&gt; 2. The default `condition="*"` rule compiles to `re.compile(".+").match()` (`hyperglass/models/directive.py`), which is start-anchored and matches any non-empty string, so no shell metacharacter is rejected.
+&gt; 
+&gt; A `"` in the target closes the quote and a following `;` / `` ` `` / `$(...)` reaches bash. OpenBGPD's template (`bgpctl show rib inet as {target}`) is unquoted, so a bare `;` injects directly.
+&gt; 
+&gt; ### Steps to Reproduce
+&gt; 
+&gt; 1. Deploy hyperglass with an FRR (or BIRD/OpenBGPD/TNSR) device — the default builtin `BGP AS Path` directive.
+&gt; 2. Send an unauthenticated query whose target contains a shell metacharacter, e.g. a `queryTarget` of:
+&gt;    ```
+&gt;    _65000"; id; echo "
+&gt;    ```
+&gt; 3. The constructed command becomes `vtysh -c "show bgp ipv4 unicast regexp _65000"; id; echo ""`, and bash executes the injected `id`.
+&gt; 
+&gt; ### Expected Behavior
+&gt; 
+&gt; The query target should be treated as a single, literal argument to the device command; shell metacharacters in it should have no effect beyond (at most) failing to match.
+&gt; 
+&gt; ### Observed Behavior
+&gt; 
+&gt; The injected command executes on the router host. The HTTP response still returns the legitimate `show bgp` output, so the injection is not visible in the query result.
+&gt; 
+&gt; ### Fix
+&gt; 
+&gt; Proposed in #382 — shell-quote the target at construction for shell-backed platforms, and reject ASCII control characters at the query model (for the newline vector on non-shell platforms).
+
+and has some comments about a fork of the project and notifying the
+affected providers (which were apparently not notified until today).
+
+Alexander
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
