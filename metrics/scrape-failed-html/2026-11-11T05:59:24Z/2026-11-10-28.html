@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Go 1.27.4 and Go 1.26.11 are released with 12 security
+ fixes</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="27">[&lt;prev]</a> <a href="29">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;d9fc34bc-08a3-4085-9ac2-afe1bec80fcb&#64;oracle.com&gt;
+Date: Tue, 10 Nov 2026 12:15:36 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Go 1.27.4 and Go 1.26.11 are released with 12 security
+ fixes
+
+
+
+
+-------- Forwarded Message --------
+Subject: 	[security] Go 1.27.4 and Go 1.26.11 are released
+Date: 	Tue, 10 Nov 2026 17:14:54 +0000
+From: 	announce&#64;...ang.org
+To: 	golang-nuts&#64;...glegroups.com
+
+Hello gophers,
+
+We have just released Go versions 1.27.4 and 1.26.11, minor point releases.
+
+These releases include 12 security fixes following the security policy &lt;<a href="https://go.dev/doc/security/policy" rel="nofollow">https://go.dev/doc/security/policy</a>&gt;:
+
+   * net/http: HTTP/1 server crash due to MaxBytesReader header race
+
+     For HTTP/1 servers, when MaxBytesReader's limit is exceeded,
+     "Connection: close" header is automatically set without synchronization,
+     which might race with another header being set explicitly in the server
+     handler. As a result, an HTTP/1 server that utilizes MaxBytesReader or
+     MaxBytesHandler can crash due to runtime panic if its handler reads the
+     request body concurrently with writing the response header.
+
+     Thanks to Jakub Ciolek (<a href="https://ciolek.dev" rel="nofollow">https://ciolek.dev</a> &lt;<a href="https://ciolek.dev" rel="nofollow">https://ciolek.dev</a>&gt;) for
+     reporting this issue.
+
+     This is CVE-2026-97054 and Go issue &lt;<a href="https://go.dev/issue/82563" rel="nofollow">https://go.dev/issue/82563</a>&gt;.
+
+   * cmd/go: unexpected code execution via --sysroot, -target, -isysroot,
+     -Wl,-syslibroot, and -x cgo flags
+
+     Building a malicious package that uses cgo could cause arbitrary code execution
+     at build time through several compiler and linker flags permitted in "#cgo"
+     directives.
+
+     Specifically, "--sysroot" in GCC and Clang relocates compiler subprograms, spec
+     files, and CRT startup objects to an attacker-controlled directory; "-target" in
+     Clang falls back to executing target helper tools from the current working
+     directory when not found in PATH; "-isysroot" and "-Wl,-syslibroot" can pass a
+     regular file on disk to GNU ld.bfd, which interprets it as a positional linker
+     script; and "-x" permitted specifying arbitrary compiler input languages beyond
+     those supported by cgo.
+
+     "--sysroot" and "-target" are now disallowed in "#cgo" flags, "-isysroot" and
+     "-Wl,-syslibroot" are verified not to point to regular files, and "-x" is
+     restricted to the C, C++, Objective-C, and assembler languages supported by cgo.
+
+     This issue was found by the Go Security Team during an internal audit.
+
+     This is CVE-2026-97033 and Go issue &lt;<a href="https://go.dev/issue/82577" rel="nofollow">https://go.dev/issue/82577</a>&gt;.
+
+   * cmd/go: arbitrary command execution via GCC spec files in cgo linker search
+     directories
+
+     When using GCC, building a malicious package that uses cgo could cause arbitrary
+     command execution at link time via untrusted GCC spec files ("specs" or
+     "*.spec").
+
+     When linking with "-fopenmp", "-fopenacc", or "-fsanitize=" in "#cgo LDFLAGS",
+     GCC's built-in link spec evaluates "%:include(libgomp.spec)" or
+     "%:include(libsanitizer.spec)" and searches for spec files in "-L" and sysroot
+     directories (including subdirectories and multilib sibling directories such as
+     "../lib64"), as well as the working directory when "-fopenmp" or "-fopenacc" is
+     used or when "-fsanitize=" is combined with "-static" or "-static-lib*".
+
+     The go command now rejects "-L", "-isysroot", and "-Wl,-syslibroot" directories
+     (and the working and package directories when applicable) that contain GCC spec
+     files, and disallows "@" and "-" prefixes in "-fsanitize=" compiler flag values.
+
+     This issue was found by the Go Security Team during an internal audit.
+
+     This is CVE-2026-97034 and Go issue &lt;<a href="https://go.dev/issue/82576" rel="nofollow">https://go.dev/issue/82576</a>&gt;.
+
+   * cmd/go: unexpected code execution and arbitrary file write via Clang -gen-*
+     and GCC -gnat* flags in cgo
+
+     When using Clang or GCC, building a malicious package that uses cgo could cause
+     unexpected code execution at build time or write files to arbitrary
+     directories via "-gen-/" or "-gnat/" flags in "#cgo" directives.
+
+     The "-g*" wildcard in the compiler and linker flag allowlists previously
+     matched Clang's two-argument "-gen-cdb-fragment-path " flag and GCC's
+     two-argument "-gnatO " flag, permitting compilation database fragments
+     and sidecar output files to be written to arbitrary directories and
+     desynchronizing flag argument parsing between the go command and the compiler
+     driver so that subsequent arguments could be passed as unvalidated positional
+     inputs to the linker.
+
+     "-gen-/" and "-gnat/" flags are now disallowed in "#cgo" compiler and linker
+     flags.
+
+     This issue was found by the Go Security Team during an internal audit.
+
+     This is CVE-2026-97035 and Go issue &lt;<a href="https://go.dev/issue/82575" rel="nofollow">https://go.dev/issue/82575</a>&gt;.
+
+   * cmd/go: arbitrary code execution during build on darwin via "-l to_library"
+     in cgo
+
+     On Darwin, building a malicious package that uses cgo could cause arbitrary code
+     execution when using the Apple linker due to passing "-l to_library " in a
+     "#cgo LDFLAGS" directive.
+
+     The Apple linker recombines the separated arguments "-l" and "to_library" into
+     "-lto_library", which loads an arbitrary LTO plugin dynamic library at link
+     time.
+
+     The go command now disallows "-l" followed by "to_library" in "#cgo LDFLAGS",
+     rejects "-lazy_library", "-lazy_framework", "-load_hidden", "-library", and
+     "-library-path", and checks recombined "-l" arguments against disallowed linker
+     flags and patterns.
+
+     Thanks to Ali Sherif (&lt;<a href="https://www.linkedin.com/in/ali-sherif-13812b276/" rel="nofollow">https://www.linkedin.com/in/ali-sherif-13812b276/</a>&gt;) for
+     reporting this issue.
+
+     This is CVE-2026-97036 and Go issue &lt;<a href="https://go.dev/issue/82574" rel="nofollow">https://go.dev/issue/82574</a>&gt;.
+
+   * cmd/go: linker script injection via split -Wl, flags and Darwin or symbol
+     linker flags in cgo
+
+     Building a malicious package that uses cgo could cause arbitrary code execution
+     at link time by passing linker script files to the host linker via "#cgo
+     LDFLAGS".
+
+     Split "-Wl," flags that consume a following argument (such as "-Wl,-rpath",
+     "-Wl,--just-symbols", and "-Wl,-undefined") previously accepted a bare second
+     argument without a "-Wl," prefix, which the compiler driver passes directly to
+     the linker as a positional input file. Additionally, when using GNU ld.bfd,
+     flags such as "-framework", "-Wl,-framework", "-Wl,-undefined",
+     "-Wl,--just-symbols", "-Wl,-R", "-Wl,-subsystem", and (on non-Darwin platforms)
+     "-Wl,-sectcreate" could cause ld.bfd to interpret their arguments as linker
+     scripts if they named a regular file on disk.
+
+     The go command now requires a "-Wl," prefix on the second token of split "-Wl,"
+     flags (except "-Wl,-R"), verifies that these flags do not reference linker
+     script files, and disallows bare "-Wl,--warn-backrefs-exclude".
+
+     This issue was found by the Go Security Team during an internal audit.
+
+     This is CVE-2026-97037 and Go issue &lt;<a href="https://go.dev/issue/82573" rel="nofollow">https://go.dev/issue/82573</a>&gt;.
+
+   * cmd/go: arbitrary code execution via crafted .syso files and cgo linker
+     input files
+
+     Building a malicious package containing ".syso" files or cgo linker inputs could
+     inject arbitrary linker flags or execute arbitrary code at link time.
+
+     Linker input files—including ".syso" files, direct object or library inputs in
+     "#cgo LDFLAGS", and libraries in "-L" directories—were passed to the external
+     linker without validating their format or checking for embedded linker options.
+     Across platforms, this allowed executing GNU ld implicit linker scripts
+     disguised as libraries or ".syso" files (or loaded via "-l:" or "-l"
+     containing path separators), injecting unallowlisted linker flags via PE/COFF
+     ".drectve" sections on Windows or Mach-O "LC_LINKER_OPTION" load commands on
+     Darwin, or invoking LTO plugins via GCC or LLVM LTO intermediate representation
+     sections in ELF, PE/COFF, or Mach-O objects.
+
+     The go command now verifies that ".syso" files, direct linker inputs, and
+     libraries in "-L" directories are valid binary objects or archives that do not
+     contain unallowlisted ".drectve" directives, "LC_LINKER_OPTION" load commands,
+     or LTO IR sections, and disallows "-l:" and ":", "=", or path
+     separators in "-l" flags.
+
+     This issue was found by the Go Security Team during an internal audit.
+
+     This is CVE-2026-97038 and Go issue &lt;<a href="https://go.dev/issue/82572" rel="nofollow">https://go.dev/issue/82572</a>&gt;.
+
+   * cmd/go: flag sanitization bypass via "#cgo pkg-config:" directives
+
+     Building a malicious package that uses "#cgo pkg-config:" directives could
+     load untrusted pkg-config ".pc" files or inject unvalidated compiler and linker
+     flags.
+
+     The pkg-config flag allowlist previously permitted "--with-path=" and
+     "--personality=", allowed "--define-variable=" values beginning with "=" or "$"
+     (which can rewrite paths in system ".pc" files into sysroot-prefixed "-L=" or
+     "-L$SYSROOT" linker search paths), and allowed package arguments ending in ".pc"
+     or containing path separators or "..", which caused pkg-config to load local
+     ".pc" files directly from the package directory. In addition, flags returned by
+     "pkg-config --cflags" in cgoCPPFLAGS were not checked when determining whether
+     internal linking is safe.
+
+     The go command now disallows "--with-path=", "--personality=", leading "=" or
+     "$" characters in "--define-variable=" values, and local ".pc" paths in
+     "#cgo pkg-config:" directives, and inspects cgoCPPFLAGS when checking internal
+     linking compatibility.
+
+     This issue was found by the Go Security Team during an internal audit.
+
+     This is CVE-2026-97039 and Go issue &lt;<a href="https://go.dev/issue/82571" rel="nofollow">https://go.dev/issue/82571</a>&gt;.
+
+   * cmd/go, cmd/link: cgo directive injection via .syso files disguised as Go
+     object files
+
+     Building a package containing a crafted ".syso" file could bypass cgo flag
+     validation and inject arbitrary linker flags when linking.
+
+     When loading ".syso" entries from a package archive, the linker only checked for
+     recognized host object headers (ELF, Mach-O, PE, and XCOFF) before falling
+     through to Go object parsing. A ".syso" file beginning with a "go object" header
+     was parsed as a Go compiler object, allowing untrusted cgo metadata directives
+     (such as "cgo_ldflag" or "cgo_dynamic_linker") embedded in the ".syso" file to
+     be passed to the external linker without validation. Additionally, ".syso"
+     filenames longer than 16 bytes lost their ".syso" extension when truncated in
+     archive headers, and unrecognized ".syso" formats forced external linking in
+     pure-Go builds.
+
+     The linker now rejects ".syso" files that are not recognized host object
+     formats, and "cmd/go" and "cmd/pack" preserve the ".syso" suffix when truncating
+     long archive member names.
+
+     Thanks to RyotaK (&lt;<a href="https://ryotak.net" rel="nofollow">https://ryotak.net</a>&gt;) of GMO Flatt Security Inc. for reporting
+     this issue.
+
+     This is CVE-2026-97040 and Go issue &lt;<a href="https://go.dev/issue/82570" rel="nofollow">https://go.dev/issue/82570</a>&gt;.
+
+   * cmd/compile, cmd/link: host linker flag injection via //go:cgo_* directives
+
+     Building a malicious package containing "//go:cgo_*" compiler directives could
+     inject arbitrary flags into the external linker invocation on ELF platforms.
+
+     The compiler and linker did not reject commas in "//go:cgo_import_dynamic",
+     "//go:cgo_export_dynamic", "//go:cgo_export_static", "//go:cgo_import_static",
+     and "//go:cgo_dynamic_linker" directives, and the linker passed the dynamic
+     linker path using "-Wl,--dynamic-linker,". Furthermore, the two-argument
+     form of "//go:cgo_import_dynamic" (which is permitted in non-cgo Go source
+     files) could overwrite the external symbol name of a symbol already marked for
+     cgo export. A symbol name or dynamic linker path containing a comma or leading
+     "@" could split "-Wl,--export-dynamic-symbol=" or "-Wl,--dynamic-linker," into
+     arbitrary host linker flags or response file arguments.
+
+     The compiler and linker now reject commas in "//go:cgo_*" symbol and dynamic
+     linker directives, the linker passes "-Wl,--dynamic-linker=", and
+     "cgo_import_dynamic" no longer overwrites symbols exported via
+     "cgo_export_dynamic" or "cgo_export_static".
+
+     Thanks to RyotaK (&lt;<a href="https://ryotak.net" rel="nofollow">https://ryotak.net</a>&gt;) of GMO Flatt Security Inc. for reporting
+     this issue.
+
+     This is CVE-2026-97041 and Go issue &lt;<a href="https://go.dev/issue/82569" rel="nofollow">https://go.dev/issue/82569</a>&gt;.
+
+   * cmd/cgo, cmd/compile, cmd/link: linker flag injection via cgo_import_dynamic
+     and PE DLL names
+
+     Building a malicious package that uses "//go:cgo_import_dynamic" or links
+     against a crafted PE object on Windows could pass unsafe library arguments to
+     the external linker.
+
+     The compiler only checked the first character of the library name in
+     "//go:cgo_import_dynamic" directives and skipped validation in cgo-generated
+     files. In addition, on Windows, "cmd/cgo" and "cmd/link" did not validate
+     imported DLL names extracted from PE object files before emitting "-l"
+     flags for the external linker, allowing a crafted DLL name containing ".." path
+     traversal or special characters to reference arbitrary files on disk.
+
+     The compiler now validates every character of the library name in
+     "//go:cgo_import_dynamic" directives (including in cgo-generated files on
+     Windows) and rejects ".." path traversal, and "cmd/cgo" and "cmd/link" reject
+     PE imported DLL names containing path separators, "..", ":", or leading "-" or
+     "@".
+
+     This issue was found by the Go Security Team during an internal audit.
+
+     This is CVE-2026-97042 and Go issue &lt;<a href="https://go.dev/issue/82568" rel="nofollow">https://go.dev/issue/82568</a>&gt;.
+
+   * cmd/go, cmd/compile: unexpected code execution via escaped quotes in
+     //go:cgo_ldflag
+
+     Building a malicious package that uses cgo could bypass "#cgo LDFLAGS"
+     validation and cause unexpected code execution at build time, or cause the go
+     command to panic, via crafted quoting in "//go:cgo_ldflag" directives.
+
+     When "cmd/cgo" generates "_cgo_gotypes.go", it quotes each "#cgo LDFLAGS"
+     argument with strconv.Quote in a "//go:cgo_ldflag" directive, but "cmd/compile"
+     and "cmd/go" parsed those directives by splitting on raw quote characters
+     without handling backslash escapes or unquoting the string. This mismatch
+     allowed disallowed linker flags or unvalidated linker search paths to be
+     smuggled past the go command's flag checks and passed to the external linker.
+     In addition, deduplicating LDFLAGS in the go command could panic with an
+     out-of-bounds slice index when a prefix of the flag list matched near the end
+     of the slice.
+
+     "cmd/compile" and "cmd/go" now properly handle backslash-escaped quotes and
+     unquote "//go:cgo_*" pragma strings with strconv.Unquote, and the slice bounds
+     check in processCgoOutputs has been fixed.
+
+     This issue was found by the Go Security Team during an internal audit.
+
+     This is CVE-2026-97043 and Go issue &lt;<a href="https://go.dev/issue/82567" rel="nofollow">https://go.dev/issue/82567</a>&gt;.
+
+View the release notes for more information:
+<a href="https://go.dev/doc/devel/release#go1.27.4" rel="nofollow">https://go.dev/doc/devel/release#go1.27.4</a>
+
+You can download binary and source distributions from the Go website:
+<a href="https://go.dev/dl/" rel="nofollow">https://go.dev/dl/</a>
+
+To compile from source using a Git clone, update to the release with
+|git checkout go1.27.4| and build as usual.
+
+Thanks to everyone who contributed to the releases.
+
+Cheers,
+Cherry and Junyang for the Go team
+
+-- 
+You received this message because you are subscribed to the Google Groups "golang-announce" group.
+To view this discussion visit <a href="https://groups.google.com/d/msgid/golang-announce/36b4ddac.BAAACcbRjpcAAAAAAAAAA-p9MGAAAYKKSQYAAAAAADE8OwBq81EO%40mailjet.com" rel="nofollow">https://groups.google.com/d/msgid/golang-announce/36b4ddac.BAAACcbRjpcAAAAAAAAAA-p9MGAAAYKKSQYAAAAAADE8OwBq81EO%40mailjet.com</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
