@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 524 v1 (CVE-2024-21963) - AMD IOMMU
+ Out-of-Bounds Device Table Read</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="20">[&lt;prev]</a> <a href="22">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1xQq97-00000003N8z-1NFl&#64;xenbits.xenproject.org&gt;
+Date: Tue, 10 Nov 2026 18:00:37 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security-team-members&#64;....org&gt;
+Subject: Xen Security Advisory 524 v1 (CVE-2024-21963) - AMD IOMMU
+ Out-of-Bounds Device Table Read
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+            Xen Security Advisory CVE-2024-21963 / XSA-524
+
+               AMD IOMMU Out-of-Bounds Device Table Read
+
+ISSUE DESCRIPTION
+=================
+
+With AMD IOMMUs, the OS or Hypervisor chooses the position and size of
+the Device Table, which holds the main configuration information for
+devices.
+
+AMD have disclosed a vulnerability in some IOMMUs, whereby under
+specific circumstances they read beyond the size chosen by the OS or
+Hypervisor.  This gets interpreted as valid configuration data for
+certain devices.
+
+For more information, see:
+  <a href="https://www.amd.com/en/resources/product-security/bulletin/amd-sb-3060.html" rel="nofollow">https://www.amd.com/en/resources/product-security/bulletin/amd-sb-3060.html</a>
+
+IMPACT
+======
+
+Depending on platform and system configuration, a domain might be able
+to control the IOMMU configuration for a device.
+
+If a domain can exercise such control, it can modify arbitrary host
+memory and escalate it's privilege to that of Xen.
+
+VULNERABLE SYSTEMS
+==================
+
+Systems running all versions of Xen are affected.
+
+Only certain AMD systems are believed to be vulnerable.  Systems from
+other manufacturers are not known to be affected.
+
+A particular system is potentially vulnerable if:
+
+ 1) Any of the IOMMUs in the system have a Device Table size less than
+    2MB.  i.e. the system's IVRS table describes that particular IOMMU
+    as not covering a full PCI bus, and
+ 2) There is either:
+    a) A real device behind the IOMMU which is the first function not
+       covered by the IVRS description, or
+    b) Any device behind the IOMMU which can be configured to use the
+       initiator ID of the first function not covered by the IVRS
+       description.
+
+If the above situation holds, the IOMMU will read out of bounds from the
+next sequential page in physical memory, and interpret it as valid
+configuration data for the device.  This page may belong to a guest.
+
+MITIGATION
+==========
+
+There are no mitigations.
+
+RESOLUTION
+==========
+
+Applying the appropriate attached patch resolves this issue.
+
+Note that patches for released versions are generally prepared to
+apply to the stable branches, and may not apply cleanly to the most
+recent release tarball.  Downstreams are encouraged to update to the
+tip of the stable branch before applying these patches.
+
+xsa524.patch           xen-unstable - Xen 4.17.x
+
+$ sha256sum xsa524*
+01204a1bacc2bfb44506975a147fbf5f067831eebee37b7f8cf55f558adceb50  xsa524.patch
+$
+
+NOTE CONCERNING CVE
+===================
+
+The use of a 2024 CVE on a 2026 disclosure was queried with AMD, and
+confirmed to be correct.
+-----BEGIN PGP SIGNATURE-----
+
+iQFABAEBCAAqFiEEI+MiLBRfRHX6gGCng/4UyVfoK9kFAmrzWUUMHHBncEB4ZW4u
+b3JnAAoJEIP+FMlX6CvZF3oIALkMaorBfSljZ7A0pDIjp9Ejy3vkQgMfMnyDpmnh
+n/M0rdHDaX+hpavhsCThZd65j6fwLiLqeKC14FV9dxmb3VqdW7Efpc6J/LZ3Z3ZW
+hbtej/hGRfjWGKF4El6FH4Lzx5AjDmKqDyvR71+TL2sXT80xvKmWfVhx8MGG+JGb
+lKuBp0lS+72qhIGdMr3IWOebYi0h75JA0XgPlm2YGajn7CL0RpImO78gb5WvT5sU
+/Bv9kUBhsZsitTEV8vXdF4A0ksZM9xIYQavsfq+4YyRGYmAYwQqR3mYHF2SJdq4R
+MGsY5LxhFcktw+dfRq9rtfU/vnVkfxDBgzQrwRFts8YbCqI=
+=bZvY
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="21/1" rel="nofollow" download>xsa524.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (5004 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

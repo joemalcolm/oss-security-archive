@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: LLMs and embargoes (was: Home Assistant: the password is not...)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="18">[&lt;prev]</a> <a href="20">[next&gt;]</a> <a href="6">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;avMr3Y72ppyEvbSv&#64;yuggoth.org&gt;
+Date: Tue, 10 Nov 2026 14:36:22 +0000
+From: Jeremy Stanley &lt;fungi&#64;...goth.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: LLMs and embargoes (was: Home Assistant: the password is not...)
+
+On 2026-11-09 22:52:40 -0800 (-0800), Gregory Mullen wrote:
+&gt;On Mon Nov 9, 2026 at 8:54 PM PST, Solar Designer wrote:
+[...]
+&gt;&gt; Some others in this community argued that LLMs are a reason to 
+&gt;&gt; move away from embargoes, or from "responsible" to "full" or 
+&gt;&gt; rather more immediate disclosure, at least for issues discovered 
+&gt;&gt; by LLMs.  That's because with LLMs someone else, even someone 
+&gt;&gt; not otherwise "smart enough", could rediscover the issue and use 
+&gt;&gt; it irresponsibly during what would otherwise be our embargo 
+&gt;&gt; period.
+[...]
+&gt; I've seen these arguments, and bluntly: They're stupid arguments. 
+&gt; It's the same logic that attempts to claim making something 
+&gt; illegal is pointless, because criminals will just break the law. 
+&gt; Just because bad guys will do the bad thing, doesn't mean that 
+&gt; should be the new normal. Hell, even a CC: security&#64;...dor.org is 
+&gt; better than nothing at all, if people feel strongly that 
+&gt; disclosure is better than secrecy. (I'm still probably one of 
+&gt; those people too?)
+&gt;
+&gt; But even without my personal desire to consider ethics as 
+&gt; important. Logically it also makes little sense. Either LLMs are 
+&gt; so good, that they can find anything, in which case, any 
+&gt; disclosure is pointless, because everyone already knows, (they 
+&gt; just haven't sent the email yet). Or they need a hint, and some 
+&gt; level of secrecy can give the fixes a chance to spread faster than 
+&gt; the shell code. Admittedly, I do have a hard standing by that 
+&gt; specific claim, because I'm well aware, the only thing worse than 
+&gt; a secret getting leaked, is when you don't even know it's leaked. 
+&gt; To me, Responsible is some kind of heads up, not a 90 day strict 
+&gt; embargo. The php cluster was unfortunate but not bad faith. (IMHO)
+&gt;
+&gt; But, either way, if you believe that they are a powerful security 
+&gt; tool, that's a tool that everyone has, which isn't *that* much 
+&gt; different than they way it's always been, because 'everyone' has 
+&gt; access to them. So the power disparity still hasn't changed, any 
+&gt; embargo would give the fixers LLM more time. I feel this one is 
+&gt; the more foundational observation. And if it is indeed true that 
+&gt; the playing field has been leveled. Then **still** the only thing 
+&gt; that's different is the level of effort people are willing to put 
+&gt; in. That's always been metered by the amount of fscks any one 
+&gt; person is willing to give. In that case, the people who care, 
+&gt; aren't enjoying the perceived apathy from LLM assisted messages. 
+&gt; Like you said, this list is for humans. (You can assert it, I can 
+&gt; merely hope)
+&gt;
+&gt; There's nuance and complexity, and given how rapidly everyone is 
+&gt; convinced things are changing (I'm still unconvinced, but I do see 
+&gt; the writing on the wall too), I would like to make the argument 
+&gt; that, everyone should continue to act in good faith, and deny 
+&gt; those without it, the negative attention I'm personally convinced 
+&gt; is all they're looking for. Because I believe incentives matter 
+&gt; much more than they're given credit for.
+[...]
+
+I think you're either misremembering the discussion we had here 
+earlier in the year, or you're thinking of a different one. It 
+wasn't about LLM-assisted researchers wanting to avoid coordinated 
+disclosure processes at all. It was, rather, upstream open source 
+software maintainers overwhelmed with duplicate reports of the same 
+vulnerabilities coming from multiple LLM-assisted sources 
+questioning whether we should be wasting our already strained and 
+limited resources trying to pretend this information is worth 
+keeping secret when anyone armed with an LLM could probably find it 
+pretty quickly.
+
+Confirming reports, developing fixes and testing them end-to-end in 
+secret is often way more work for those of us accustomed to public 
+community code review systems integrated with extensive regression 
+testing automation. Coordinating everyone involved through a private 
+bug report, sending advance copies of patches to select downstream 
+distributions and at-risk service providers takes time too. It used 
+to make sense when it was something you dealt with a few times a 
+year, but now that the incoming volume of reports has increased by 
+an order of magnitude or more, many of us are going to need to 
+adjust our thresholds as to what kinds of risks warrant such effort, 
+vs. fixing things faster in public and getting patches into all of 
+our users' hands weeks sooner as a result.
+
+-- 
+Jeremy Stanley
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="19/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (964 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

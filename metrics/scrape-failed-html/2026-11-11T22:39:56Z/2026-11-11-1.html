@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Plone security fix 20261110: remote code execution</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/11/10/31">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;d758725a-6342-4575-9048-b4a5e8367113&#64;vanrees.org&gt;
+Date: Wed, 11 Nov 2026 00:29:44 +0100
+From: Maurits van Rees &lt;maurits&#64;...rees.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Plone security fix 20261110: remote code execution
+
+This is a copy of this announcement:
+<a href="https://community.plone.org/t/plone-security-hotfix-20261110/23313" rel="nofollow">https://community.plone.org/t/plone-security-hotfix-20261110/23313</a>
+
+On behalf of the Plone/Zope Security Team: today we release fixes for a 
+**remote code execution** vulnerability in Plone.
+We announced this last week in the 
+[pre-announcement](<a href="https://community.plone.org/t/pre-announcement-plone-security-fix-20261110/23303" rel="nofollow">https://community.plone.org/t/pre-announcement-plone-security-fix-20261110/23303</a>).
+
+All supported Plone versions are affected: 6.0, 6.1 and 6.2.
+Older versions are affected as well, back to at least Plone 4.3.
+
+Please update now.
+Details are public from today, and with current AI tools it may not take 
+long to turn them into a working exploit.
+
+## What is the problem?
+
+It is a chain of several issues, which together let an anonymous visitor 
+run code on the server.
+
+* `Products.CMFEditions`: the conditional modifiers in `portal_modifier` 
+had no security declarations.
+   An anonymous visitor could change the TALES condition of a modifier, 
+and then run it.
+   This condition is also evaluated when an editor saves versioned 
+content, so even on its own it lets an attacker run code with the 
+privileges of that editor.
+* `Products.CMFPlone`, `Products.MimetypesRegistry` and `plone.batching` 
+opened whole modules to restricted code with `allow_module`.
+   This also exposed everything these modules import.
+   This allowed restricted code (TALES expressions, Python Scripts) to 
+escape the sandbox and reach modules like `os`.
+* `plone.restapi` opened the `json` module from the standard library to 
+restricted code.
+   Some of its functions could be used to call protected methods on any 
+object, without having the needed permission.
+
+Thanks to Mokrane ABDELMALEK for reporting this, via the [Ghent 
+University VDP programme](<a href="https://vdp.ugent.be/" rel="nofollow">https://vdp.ugent.be/</a>).
+Thanks also to Andreas Jung for sharing extra ideas on what should be fixed.
+
+## Security advisories
+
+* [Products.CMFEditions: missing security declarations on CMFEditions 
+modifier 
+classes](<a href="https://github.com/plone/Products.CMFEditions/security/advisories/GHSA-67qm-q795-jh7h" rel="nofollow">https://github.com/plone/Products.CMFEditions/security/advisories/GHSA-67qm-q795-jh7h</a>) 
+(critical)
+* [Products.CMFPlone: overly broad allow_module declarations expose 
+imported names to restricted 
+code](<a href="https://github.com/plone/Products.CMFPlone/security/advisories/GHSA-92qw-564p-pmg6" rel="nofollow">https://github.com/plone/Products.CMFPlone/security/advisories/GHSA-92qw-564p-pmg6</a>) 
+(critical)
+* [Products.MimetypesRegistry: restricted Python sandbox escape via 
+allow_module](<a href="https://github.com/plone/Products.MimetypesRegistry/security/advisories/GHSA-xcj2-cmp9-fj62" rel="nofollow">https://github.com/plone/Products.MimetypesRegistry/security/advisories/GHSA-xcj2-cmp9-fj62</a>) 
+(critical)
+* [plone.batching: restricted Python sandbox escape via 
+allow_module](<a href="https://github.com/plone/plone.batching/security/advisories/GHSA-6hcx-c235-cxh3" rel="nofollow">https://github.com/plone/plone.batching/security/advisories/GHSA-6hcx-c235-cxh3</a>) 
+(critical)
+* [plone.restapi: restricted code can bypass permissions via 
+json.dump/json.load](<a href="https://github.com/plone/plone.restapi/security/advisories/GHSA-vgxm-pwch-89q6" rel="nofollow">https://github.com/plone/plone.restapi/security/advisories/GHSA-vgxm-pwch-89q6</a>) 
+(medium)
+
+CVE numbers have been requested and will be added to the advisories when 
+they are assigned.
+
+## How to fix this
+
+You have two options:
+
+1. **Plone 6.0, 6.1 and 6.2:** update the package versions listed below.
+    This is the recommended way.
+2. **Any Plone version from 4.3 to 6.2:** install the hotfix package 
+[Products.PloneHotfix20261110](<a href="https://pypi.org/project/Products.PloneHotfix20261110/" rel="nofollow">https://pypi.org/project/Products.PloneHotfix20261110/</a>).
+
+Restart all Zope instances afterwards.
+
+Since one of the vulnerabilities is in `Products.CMFPlone`, we will also 
+make full new releases of the 6.0, 6.1, and 6.2 series, including Docker 
+images.  These won't be security-only, but include bug fixes.  They 
+should be ready later today.
+
+The workaround from the pre-announcement, blocking all urls that contain 
+`portal_modifier` in your web server, is still a good idea.
+You can keep it in place after updating.
+
+### Package versions
+
+These are in Buildout notation.
+If you use a pip constraints file, use a double equals sign, for example 
+`Products.CMFPlone==6.2.3`.
+
+#### Plone 6.2
+
+```
+Products.CMFPlone = 6.2.3
+Products.CMFEditions = 5.0.2
+Products.MimetypesRegistry = 4.0.2
+plone.batching = 3.0.3
+plone.restapi = 10.2.1
+```
+
+#### Plone 6.1
+
+```
+Products.CMFPlone = 6.1.6
+Products.CMFEditions = 4.0.7
+Products.MimetypesRegistry = 3.0.2
+plone.batching = 2.0.8
+plone.restapi = 9.15.8
+```
+
+#### Plone 6.0
+
+```
+Products.CMFPlone = 6.0.16
+Products.CMFEditions = 4.0.7
+Products.MimetypesRegistry = 3.0.2
+plone.batching = 2.0.8
+plone.restapi = 9.15.8
+```
+
+If you do not use `plone.restapi`, you can skip that one.
+
+### Hotfix
+
+The hotfix 
+[Products.PloneHotfix20261110](<a href="https://pypi.org/project/Products.PloneHotfix20261110/" rel="nofollow">https://pypi.org/project/Products.PloneHotfix20261110/</a>) 
+works on Plone 4.3, 5.0, 5.1, 5.2, 6.0, 6.1 and 6.2, on Python 2.7 and 
+Python 3.
+See its page on PyPI for installation instructions.
+
+When you use the fixed versions of all the packages above, you do not 
+need the hotfix, but it does no harm either.
+
+Plone 5.2 and older have been out of security support for several years.
+For this fix we made an exception, because of the severity.
+If you still use such a version, your site likely has other known 
+vulnerabilities, and you should upgrade to Plone 6 soon.
+
+## Check whether your site was attacked
+
+A changed modifier condition stays in the database, also after you 
+install the fix.
+So please check this, especially if you did not block `portal_modifier` 
+before today.
+
+* With the updated `Products.CMFEditions`: log in as Manager and go to 
+`@@check-modifier-conditions` on the Plone site root, for example 
+`<a href="https://example.org/@@check-modifier-conditions" rel="nofollow">https://example.org/@@check-modifier-conditions</a>`.
+   This compares the conditions in `portal_modifier` with the defaults, 
+and lets you revert changed ones.
+* With the hotfix: on startup, the hotfix checks the conditions in all 
+Plone sites.
+   If a condition differs from the default, it logs a warning with 
+`POSSIBLE ATTACK: MODIFIED VERSIONING CONDITIONS FOUND`.
+   Otherwise it logs `No changed modifier conditions found.`
+
+A difference does not necessarily mean that your site was attacked.
+The defaults have changed a bit over time, so your site may have an old 
+default.
+Or an add-on or an admin changed it for a valid reason.
+But if you do not recognize the condition, treat your server as compromised.
+
+## Possible incompatibilities
+
+Restricted code can now only import the names that Plone itself needs 
+from these modules.
+If your own Python Scripts or templates import other names from 
+`Products.CMFPlone`, `Products.CMFPlone.utils`, 
+`Products.CMFPlone.browser.navtree`, `OFS.ObjectManager`, 
+`Products.MimetypesRegistry.common` or `plone.batching`, they now get an 
+`Unauthorized` error.
+With the updated `plone.restapi` the same is true for anything from the 
+`json` module.
+The hotfix still allows `json.dumps` and `json.loads`.
+
+You can fix this by declaring the names you need in your own add-on, for 
+example:
+
+```python
+from AccessControl import ModuleSecurityInfo
+
+ModuleSecurityInfo("json").declarePublic("dumps", "loads")
+```
+
+Never use `allow_module` for this.
+
+## Questions
+
+If you have problems with the installation, or see regressions, please 
+reply to this post.
+
+If you have a security-sensitive question, or you find further security 
+problems, please mail the Plone/Zope Security Team at 
+[security&#64;...ne.org](mailto:security&#64;...ne.org).
+
+Maurits van Rees
+Plone/Zope Security Team
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: X.Org Security Advisory: multiple security issues in X.Org X server</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="14">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAP=2yyT1weVP-P=G1Hp6iWv07B3uvLP4jcrzEDxi_nNk3YbUgQ&#64;mail.gmail.com&gt;
+Date: Tue, 10 Nov 2026 16:00:12 +0100
+From: Olivier Fourdan &lt;ofourdan&#64;...hat.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Fwd: X.Org Security Advisory: multiple security issues in X.Org X server
+
+---------- Forwarded message ---------
+From: Olivier Fourdan &lt;ofourdan&#64;...hat.com&gt;
+Date: Tue, Nov 10, 2026 at 2:43 PM
+Subject: X.Org Security Advisory: multiple security issues in X.Org X server
+To: &lt;xorg-announce&#64;...ts.x.org&gt;, xorg &lt;xorg&#64;...ts.x.org&gt;, xorg-devel
+&lt;xorg-devel&#64;...ts.x.org&gt;
+Cc: Eun0us / Espilon &lt;eun0us&#64;...ilon.net&gt;, Acts1631
+&lt;acts1631kjv&#64;...ton.me&gt;, Tristan &lt;TristanInSec&#64;...il.com&gt;
+
+
+========================================================================
+X.Org Security Advisory: November 10, 2026
+
+Issues in X.Org X server prior to xorg-server-21.1.26 and Xwayland
+prior to xwayland-24.1.15
+========================================================================
+
+* CVE-2026-109091:
+  X.Org Server EDID DS_RANGES Out-Of-Bounds Write
+
+  The Xorg server records EDID Display-Range (DS_RANGES) descriptors
+  into fixed-size MonRec hsync[] / vrefresh[] arrays without checking
+  against MAX_HSYNC / MAX_VREFRESH. A malicious monitor or crafted EDID
+  can supply extra descriptors that overrun those arrays and clobber
+  adjacent MonRec fields (Modes, Last, DDC), causing an out-of-bounds
+  write that can crash the server or corrupt memory.
+
+  Fixed in: xorg-server-21.1.26 and xwayland-24.1.15
+  Fix: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/95cf222d" rel="nofollow">https://gitlab.freedesktop.org/xorg/xserver/-/commit/95cf222d</a>
+  Found by:  Eun0us / Espilon &lt;eun0us&#64;...ilon.net&gt;
+
+* CVE-2026-109092:
+  X.Org Server XvShmPutImage Shared-Memory Bounds Overflow
+
+  ProcXvShmPutImage checked (size_needed + offset) against the SHM
+  segment size. A negative size_needed from the DDX plus a crafted
+  offset wraps that addition so the bounds check passes and an invalid
+  source pointer is passed to PutImage, enabling an out-of-bounds
+  read or write in the X server.
+
+  Fixed in: xorg-server-21.1.26 and xwayland-24.1.15
+  Fix: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/71cba5e4" rel="nofollow">https://gitlab.freedesktop.org/xorg/xserver/-/commit/71cba5e4</a>
+  Found by:  Acts1631 &lt;acts1631kjv&#64;...ton.me&gt;
+
+* CVE-2026-109093:
+  X.Org Server XTestFakeInput Valuator Stack Out-Of-Bounds Write
+
+  ProcXTestFakeInput copied DeviceValuator fields into a fixed stack
+  array (MAX_VALUATORS) before checking that the valuator range fits.
+  Enough DeviceValuator events write past that array, which can crash
+  the server or corrupt stack memory.
+
+  Fixed in: xorg-server-21.1.26 and xwayland-24.1.15
+  Fix: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/43b4064a" rel="nofollow">https://gitlab.freedesktop.org/xorg/xserver/-/commit/43b4064a</a>
+  Found by: Acts1631 &lt;acts1631kjv&#64;...ton.me&gt;
+
+* CVE-2026-109904:
+  X.Org Server XRes QueryClientIds Request Size Overflow
+
+  Proc/SProcXResQueryClientIds multiply numSpecs by the spec size
+  before REQUEST_FIXED_SIZE without an overflow check. On 32-bit
+  servers a large numSpecs wraps so a short request passes length
+  validation and the handler reads past the request buffer, which can
+  crash the server or leak/process unintended memory.
+
+  Fixed in: xorg-server-21.1.26 and xwayland-24.1.15
+  Fix: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/6330d2f8" rel="nofollow">https://gitlab.freedesktop.org/xorg/xserver/-/commit/6330d2f8</a>
+  Found by: Acts1631 &lt;acts1631kjv&#64;...ton.me&gt;
+
+* CVE-2026-109094:
+  X.Org Server XRes QueryResourceBytes Swap Path Size Overflow
+
+  SProcXResQueryResourceBytes multiplied numSpecs by the spec size
+  before REQUEST_FIXED_SIZE without an overflow check. On 32-bit
+  servers a large numSpecs wraps and the swap loop walks past the
+  request buffer, which can crash the server or corrupt memory.
+
+  Fixed in: xorg-server-21.1.26 and xwayland-24.1.15
+  Fix: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/a77de309" rel="nofollow">https://gitlab.freedesktop.org/xorg/xserver/-/commit/a77de309</a>
+
+* CVE-2026-109095:
+  X.Org Server glamor Xv Image Size Integer Overflow
+
+  glamor_xv_query_image_attributes() computed NV12 / YV12 image sizes
+  with 32-bit ints. Large width/height values wrap to a small positive
+  size, so protocol length checks can accept PutImage / ShmPutImage
+  requests that lack the claimed payload, leading to out-of-bounds
+  reads in the X server.
+
+  Fixed in: xorg-server-21.1.26 and xwayland-24.1.15
+  Fix: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/1a84c543" rel="nofollow">https://gitlab.freedesktop.org/xorg/xserver/-/commit/1a84c543</a>
+  Found by: Tristan Madani (Talence Security)
+
+* CVE-2026-109096:
+  X.Org Server XvPutImage Negative Image Size Length Bypass
+
+  When ddQueryImageAttributes() returns a negative size, ProcXvPutImage
+  adds it to the header size so the length check can accept a request
+  with no image payload, causing the server to process missing image
+  data and potentially crash or misbehave.
+
+  Fixed in: xorg-server-21.1.26 and xwayland-24.1.15
+  Fix: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/59bef993" rel="nofollow">https://gitlab.freedesktop.org/xorg/xserver/-/commit/59bef993</a>
+  Found by: Tristan Madani (Talence Security)
+
+* CVE-2026-109903:
+  X.Org Server XvQueryImageAttributes Negative Size Reply
+
+  When ddQueryImageAttributes() returns a negative size,
+  ProcXvQueryImageAttributes still replies with that value cast to
+  CARD32, advertising a bogus data_size instead of returning an error.
+  Clients may then allocate or use the wrong buffer size based on that
+  reply.
+
+  Fixed in: xorg-server-21.1.26 and xwayland-24.1.15
+  Fix: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/bddd1a6a" rel="nofollow">https://gitlab.freedesktop.org/xorg/xserver/-/commit/bddd1a6a</a>
+  Found by: Tristan Madani (Talence Security)
+
+========================================================================
+
+X.Org thanks all of those who reported and fixed these issues, and those
+who helped review and release this advisory and these fixes.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
