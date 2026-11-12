@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Emacs .dir-locals.el arbitrary code execution</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="6">[&lt;prev]</a> <a href="8">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87wlqjzoxd.fsf&#64;athena.silentflame.com&gt;
+Date: Wed, 11 Nov 2026 09:40:30 +0000
+From: Sean Whitton &lt;spwhitton&#64;...hitton.name&gt;
+To: "oss-security&#64;...ts.openwall.com" &lt;oss-security&#64;...ts.openwall.com&gt;
+Cc: Eli Zaretskii &lt;eliz&#64;....org&gt;, Stefan Monnier &lt;monnier&#64;....umontreal.ca&gt;,
+ xeroday.sec&#64;...il.com, 82213&#64;...bugs.gnu.org
+Subject: Emacs .dir-locals.el arbitrary code execution
+
+X3r0Day discovered that Emacs 31.1 did not adequately validate the
+contents of .dir-locals.el before executing code there.
+
+Emacs 30.2 is unaffected.
+
+A patch from Stefan Monnier is attached and will be included in our
+upcoming 31.2 release.
+
+For full details on the vulnerability please see
+&lt;<a href="https://debbugs.gnu.org/82213" rel="nofollow">https://debbugs.gnu.org/82213</a>&gt;.
+
+-- &gt;8 --
+From: Stefan Monnier &lt;monnier&#64;....umontreal.ca&gt;
+
+diff --git a/lisp/files.el b/lisp/files.el
+index 4cb1ac67629..eec547657d5 100644
+--- a/lisp/files.el
++++ b/lisp/files.el
+@@ -3565,44 +3565,42 @@ magic-mode-regexp-match-limit
+   "Upper limit on `magic-mode-alist' regexp matches.
+ Also applies to `magic-fallback-mode-alist'.")
+ 
+-(defun set-auto-mode--find-matching-alist-entry (alist name case-insensitive)
++(defun set-auto-mode--from-matching-alist-entry ( alist name case-insensitive
++                                                  keep-mode-if-same dir-local)
+   "Find first matching entry in ALIST for file NAME.
+ 
+ If CASE-INSENSITIVE, the file system of file NAME is case-insensitive."
+-  (let (mode)
+-    (while name
+-      (let ((newmode
+-             (if case-insensitive
+-                 ;; Filesystem is case-insensitive.
+-                 (let ((case-fold-search t))
+-                   (assoc-default name alist 'string-match))
+-               ;; Filesystem is case-sensitive.
+-               (or
+-                ;; First match case-sensitively.
+-                (let ((case-fold-search nil))
+-                  (assoc-default name alist 'string-match))
+-                ;; Fallback to case-insensitive match.
+-                (and auto-mode-case-fold
+-                     (let ((case-fold-search t))
+-                       (assoc-default name alist 'string-match)))))))
+-        (when newmode
+-          (when mode
+-            ;; We had already found a mode but in a (REGEXP MODE t)
+-            ;; entry, so we still have to run MODE.  Let's do it now.
+-            ;; FIXME: It's kind of ugly to run the function here.
+-            ;; An alternative could be to return a list of functions and
+-            ;; callers.
+-            (set-auto-mode-0 mode t))
+-          (setq mode newmode))
+-        (if (and newmode
+-                 (not (functionp newmode))
+-                 (consp newmode)
+-                 (cadr newmode))
+-            ;; It's a (REGEXP MODE t): Keep looking but remember the MODE.
+-            (setq mode (car newmode)
+-                  name (substring name 0 (match-beginning 0)))
+-          (setq name nil))))
+-    mode))
++  (let (was-set)
++    (while
++        (let* ((newmode
++                (if case-insensitive
++                    ;; Filesystem is case-insensitive.
++                    (let ((case-fold-search t))
++                      (assoc-default name alist 'string-match))
++                  ;; Filesystem is case-sensitive.
++                  (or
++                   ;; First match case-sensitively.
++                   (let ((case-fold-search nil))
++                     (assoc-default name alist 'string-match))
++                   ;; Fallback to case-insensitive match.
++                   (and auto-mode-case-fold
++                        (let ((case-fold-search t))
++                          (assoc-default name alist 'string-match))))))
++               ;; Extract MODE from (REGEXP MODE t) entries.
++               (mode-t (when (and (not (functionp newmode))
++                                  (consp newmode)
++                                  (cadr newmode))
++                         (setq name (substring name 0 (match-beginning 0)))
++                         (car newmode)))
++               (mode (or mode-t newmode)))
++          (when newmode
++            (if (and dir-local
++                     (not (set-auto-mode--dir-local-valid-p mode)))
++                (message "Ignoring invalid mode `%S'" mode)
++              (set-auto-mode-0 mode keep-mode-if-same)
++              (setq was-set t))
++            mode-t)))
++    was-set))
+ 
+ (defun set-auto-mode--apply-alist (alist keep-mode-if-same dir-local)
+   "Helper function for `set-auto-mode'.
+@@ -3614,8 +3612,7 @@ set-auto-mode--apply-alist
+ DIR-LOCAL non-nil means this call is via directory-locals, and
+ extra checks should be done."
+   (if buffer-file-name
+-      (let (mode
+-            (name buffer-file-name)
++      (let ((name buffer-file-name)
+             (remote-id (file-remote-p buffer-file-name))
+             (case-insensitive-p (file-name-case-insensitive-p
+                                  buffer-file-name)))
+@@ -3625,15 +3622,8 @@ set-auto-mode--apply-alist
+         (when (and (stringp remote-id)
+                    (string-match (regexp-quote remote-id) name))
+           (setq name (substring name (match-end 0))))
+-        (setq mode (set-auto-mode--find-matching-alist-entry
+-                    alist name case-insensitive-p))
+-        (when (and dir-local mode
+-                   (not (set-auto-mode--dir-local-valid-p mode)))
+-          (message "Ignoring invalid mode `%S'" mode)
+-          (setq mode nil))
+-        (when mode
+-          (set-auto-mode-0 mode keep-mode-if-same)
+-          t))))
++        (set-auto-mode--from-matching-alist-entry
++         alist name case-insensitive-p keep-mode-if-same dir-local))))
+ 
+ (defun set-auto-mode--dir-local-valid-p (mode)
+   "Say whether MODE can be used in a .dir-local.el `auto-mode-alist'."
+-- 
+Sean Whitton
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
