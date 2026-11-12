@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Apache Roller: 15 CVEs fixed in 6.1.7</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAF1aazArvpVRH2qzv3Ar9XocjiMAZysQRUUCEDXYtjGXubjVZg&#64;mail.gmail.com&gt;
+Date: Wed, 11 Nov 2026 08:41:40 -0500
+From: Dave &lt;snoopdave&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Apache Roller: 15 CVEs fixed in 6.1.7
+
+On 11 November 2026 the Apache Roller PMC published 15 security advisories.
+All of the issues are fixed in Apache Roller 6.1.7, and we recommend that
+every installation upgrade. Some changes in 6.1.7 affect existing sites;
+please read the release notes before upgrading.
+
+Download: <a href="https://roller.apache.org/downloads/downloads.html" rel="nofollow">https://roller.apache.org/downloads/downloads.html</a>
+Release notes: <a href="https://github.com/apache/roller/blob/roller-6.1.7/CHANGES.md" rel="nofollow">https://github.com/apache/roller/blob/roller-6.1.7/CHANGES.md</a>
+
+Apache Roller: XML external entity processing in AtomPub entry parsing
+CVE-2026-105153 (Important):
+<a href="https://lists.apache.org/thread/w7dsz19261myrcwx8ssbwr67hc1wfosj" rel="nofollow">https://lists.apache.org/thread/w7dsz19261myrcwx8ssbwr67hc1wfosj</a>
+Improper Restriction of XML External Entity Reference in Apache Roller 4.0
+through 6.1.6 allows an authenticated user with no weblog permissions to
+read files readable by the Roller process and cause the server to issue
+outbound HTTP requests to attacker-chosen destinations, by submitting a
+crafted Atom entry to the AtomPub endpoint. The entry body is parsed with a
+parser configuration that permits external parameter entities and external
+DTD subsets, and the parse happens before any per-weblog authorization check
+and before any check of whether the AtomPub feature i
+endpoint is reachable by any authenticated account on a default
+installation. Users are recommended to upgrade to Apa
+later, which parses AtomPub entries with a hardened XML configuration and
+rejects AtomPub requests while the feature is disable
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: Kaya Emre Arikan
+
+Apache Roller: Cross-site request forgery through GET requests to
+administrative actions
+CVE-2026-118411 (Important):
+<a href="https://lists.apache.org/thread/q2h1r9v5qqofxh8qds58d" rel="nofollow">https://lists.apache.org/thread/q2h1r9v5qqofxh8qds58d</a>
+Cross-Site Request Forgery (CSRF) in Apache Roller 5.0.1 through 6.1.6
+allows an unauthenticated attacker to create an admin
+logged-in Roller administrator opens a link that the attacker controls. The
+request-token check applied only to POST requests, an
+actions also accepted GET requests. Users are recommended to upgrade to
+Apache Roller 6.1.7 or later, which requires POST and
+actions that change data.
+Fixed in: 6.1.7
+Affected: Apache Roller 5.0.1 through 6.1.6
+Credit: hataehoon (GitHub: dpfkdlemtp)
+
+Apache Roller: Deserialization of untrusted data in w
+responses
+CVE-2026-123374 (Important):
+<a href="https://lists.apache.org/thread/577orljt8673gcvcv6nvwo2tnvykyxmt" rel="nofollow">https://lists.apache.org/thread/577orljt8673gcvcv6nvwo2tnvykyxmt</a>
+Deserialization of Untrusted Data vulnerability in Ap
+Roller sends a weblog update ping, its XML-RPC client deserializes Java
+object data contained in the ping target's response,
+controls that response can run code in the Roller server process. This issue
+affects Apache Roller from 4.0 through 6.1.6. Users a
+upgrade to version 6.1.7, which removes the unsafe deserialization.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: David Joudelat
+
+Apache Roller: Weblog template access to wrapped obje
+user's password hash
+CVE-2026-105152 (Moderate):
+<a href="https://lists.apache.org/thread/v1zondkgmfoh3y83l0l191qthmstcm39" rel="nofollow">https://lists.apache.org/thread/v1zondkgmfoh3y83l0l191qthmstcm39</a>
+Exposure of Sensitive Information to an Unauthorized
+4.0 through 6.1.6 allows a weblog administrator to read another user's
+stored password hash by authoring a custom weblog tem
+wrapped persistent object behind the template's weblog or entry data, rather
+than the reduced set of fields the wrapper is meant t
+weblog administrators as untrusted and exposes weblog and entry data to
+templates only through wrapper classes, but a public
+wrapper classes returned the underlying persistent object directly,
+including the stored password hash of the weblog's cr
+whose entry renders on the page. No non-default configuration is required;
+this affects any weblog whose administrator can autho
+recommended to upgrade to Apache Roller 6.1.7 or later, which removes
+template access to the underlying wrapped objects.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: TungNQ_BMC-VNCSGlobal
+
+Apache Roller: Cross-site request forgery in Planet administration lets an
+attacker make the server fetch arbitrary URLs
+CVE-2026-105154 (Moderate):
+<a href="https://lists.apache.org/thread/kj131jvv6y30o6q89shw6" rel="nofollow">https://lists.apache.org/thread/kj131jvv6y30o6q89shw6</a>
+Cross-Site Request Forgery (CSRF) in the Planet feed aggregator
+administration of Apache Roller 4.0 through 6.1.6 all
+attacker to make the Roller server fetch a URL the attacker chooses,
+including internal addresses, by inducing a logged-in
+to open a crafted web page. The action that adds a Planet subscription can
+be triggered cross-site; in recent releases it accept
+Roller's CSRF token check does not cover. The action fetches the supplied
+URL and saves the subscription, and any fetched conte
+feed is then published without authentication in the aggregated Planet feed.
+The Planet aggregator is enabled by default. Users ar
+upgrade to Apache Roller 6.1.7 or later, which requires POST requests with a
+valid CSRF token for Planet administration changes an
+aggregator off by default.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: dacqu4n
+
+Apache Roller: Stored cross-site scripting through At
+CVE-2026-108338 (Moderate):
+<a href="https://lists.apache.org/thread/xh4kv1zpdzwtpy57hgm7h" rel="nofollow">https://lists.apache.org/thread/xh4kv1zpdzwtpy57hgm7h</a>
+Improper Neutralization of Input During Web Page Generation ('Cross-site
+Scripting') in Apache Roller 5.0.1 through 6.1.6 allo
+user with the Author role on a weblog to store script in entry tags
+submitted through AtomPub. Roller's tag filter allowe
+tag names, and the bundled gaurav, fauxcoly and frontpage themes and the
+showEntryTags macro print tag names without escaping,
+the browser of anyone who views the weblog. This matters when weblog authors
+are not trusted with script (weblogAdminsUntrusted=tr
+6.1.4). AtomPub is disabled by default. Users are recommended to upgrade to
+Apache Roller 6.1.7 or later, which removes HTML char
+including names stored earlier.
+Fixed in: 6.1.7
+Affected: Apache Roller 5.0.1 through 6.1.6
+Credit: dacqu4n
+
+Apache Roller: Stored cross-site scripting through cu
+URLs
+CVE-2026-111824 (Moderate):
+<a href="https://lists.apache.org/thread/q0lbzt39tsosb99l25gqvx24d6fn263x" rel="nofollow">https://lists.apache.org/thread/q0lbzt39tsosb99l25gqvx24d6fn263x</a>
+Improper Neutralization of Input During Web Page Gene
+Scripting') in Apache Roller 6.1.6 allows an authenticated user with the
+Author role on a weblog that uses a custom theme to s
+in the browser of anyone who opens the file's resource URL. The fix for
+CVE-2026-82387 serves uploaded media as a download un
+audio, video, PDF or plain text, but media files found through a custom
+theme were served with the type their path implies, a
+the uploader choose that path. Media uploads are disabled by default. Users
+are recommended to upgrade to Apache Roller 6.1.7 or
+these files under the same rules as other media and no longer accepts the
+path from the upload form.
+Fixed in: 6.1.7
+Affected: Apache Roller 6.1.6
+Credit: VNCS-dacqu4n
+
+Apache Roller: Unpublished entries of other weblogs readable through preview
+CVE-2026-118408 (Moderate):
+<a href="https://lists.apache.org/thread/kzm975k5qhdpwztdmbdfwlfwsd6vopw0" rel="nofollow">https://lists.apache.org/thread/kzm975k5qhdpwztdmbdfwlfwsd6vopw0</a>
+Missing Authorization in Apache Roller 4.0 through 6.
+in user to read unpublished entries of a weblog they have no role in. The
+entry preview checked that the user was logged in, bu
+a role in the weblog being previewed. The attacker must know the weblog name
+and the entry's link name. Users are recommended to u
+6.1.7 or later, which requires a role in the weblog to preview its entries.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: hataehoon (GitHub: dpfkdlemtp)
+
+Apache Roller: Commenter email addresses recoverable
+CVE-2026-118409 (Moderate):
+<a href="https://lists.apache.org/thread/nf6c1qfdclkf61s3h8p8c" rel="nofollow">https://lists.apache.org/thread/nf6c1qfdclkf61s3h8p8c</a>
+Exposure of Sensitive Information to an Unauthorized Actor in Apache Roller
+4.0 through 6.1.6 allows an unauthenticated visitor t
+addresses of people who left approved comments. The search index stored
+commenter email addresses, and the public weblog sear
+that field, including wildcard queries that confirm an address one character
+at a time. Users are recommended to upgrade to Apache
+and rebuild the search index.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: hataehoon (GitHub: dpfkdlemtp)
+
+Apache Roller: Stored cross-site scripting through im
+CVE-2026-118413 (Moderate):
+<a href="https://lists.apache.org/thread/y6cqvqh5sp31kr47347gm" rel="nofollow">https://lists.apache.org/thread/y6cqvqh5sp31kr47347gm</a>
+Improper Neutralization of Input During Web Page Generation ('Cross-site
+Scripting') in Apache Roller 4.0 through 6.1.6 allows
+to store script that runs in the browsers of the weblog's visitors. Blogroll
+links imported from an OPML file were not checked, an
+printed them without escaping. Users are recommended to upgrade to Apache
+Roller 6.1.7 or later, which accepts only web links o
+them on output.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: Ivan Iushkevich (Steph)
+
+Apache Roller: Stored cross-site scripting through th
+CVE-2026-118414 (Moderate):
+<a href="https://lists.apache.org/thread/3grnb7pwlqygxlhpxn4dz" rel="nofollow">https://lists.apache.org/thread/3grnb7pwlqygxlhpxn4dz</a>
+Improper Neutralization of Input During Web Page Generation ('Cross-site
+Scripting') in Apache Roller 6.1.2 through 6.1.6 allo
+administrator to store script that runs in the browsers of the weblog's
+members when they open their main menu. The HTML-stri
+tag that was not closed, and the main menu printed the weblog description
+without escaping. Users are recommended to upgrade to
+later.
+Fixed in: 6.1.7
+Affected: Apache Roller 6.1.2 through 6.1.6
+Credit: DT25, VNCS_Global
+
+Apache Roller: Limited weblog members can remove or c
+CVE-2026-122300 (Moderate):
+<a href="https://lists.apache.org/thread/s2rmc53o2rdrnq40rxomp" rel="nofollow">https://lists.apache.org/thread/s2rmc53o2rdrnq40rxomp</a>
+Missing Authorization vulnerability in Apache Roller 4.0 through 6.1.6
+allows a weblog member with the Limited role to remov
+that member may only read, including entries published by other members. The
+entry editor checked the member's weblog role but not
+permits work on the entry. Users are recommended to upgrade to Apache Roller
+6.1.7 or later.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: DT25
+
+Apache Roller: Exposure of other users' email addresses through the user
+search
+CVE-2026-118405 (Low):
+<a href="https://lists.apache.org/thread/9d4nqgq2ox0g88n9gnng8" rel="nofollow">https://lists.apache.org/thread/9d4nqgq2ox0g88n9gnng8</a>
+Exposure of Sensitive Information to an Unauthorized Actor in Apache Roller
+4.0 through 6.1.6 allows any logged-in user to learn
+addresses. The user search in the authoring interface shows only user names,
+but it also matched the search text against email add
+confirm an address one character at a time. Users are recommended to upgrade
+to Apache Roller 6.1.7 or later, which matches only u
+are not administrators.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: hataehoon (GitHub: dpfkdlemtp)
+
+Apache Roller: Unpublished entries remain readable th
+AtomPub unpublish
+CVE-2026-118410 (Low):
+<a href="https://lists.apache.org/thread/oy4wv2d7sy9p9kl9nnvvfsjlgsk8bnco" rel="nofollow">https://lists.apache.org/thread/oy4wv2d7sy9p9kl9nnvvfsjlgsk8bnco</a>
+Exposure of Resource to Wrong Sphere in Apache Roller
+allows an unauthenticated visitor to read an entry after its author has
+withdrawn it to draft through the AtomPub API. The en
+the weblog but stayed in the search index, and public search showed its
+content. AtomPub is disabled by default. Users are re
+Apache Roller 6.1.7 or later, which shows only published entries in search
+results.
+Fixed in: 6.1.7
+Affected: Apache Roller 4.0 through 6.1.6
+Credit: hataehoon (GitHub: dpfkdlemtp)
+
+Apache Roller: Disabled accounts can sign in through OpenID
+CVE-2026-118412 (Low):
+<a href="https://lists.apache.org/thread/lmlcrh06ynr0tfgg2f7vwh3h9gr7b1cs" rel="nofollow">https://lists.apache.org/thread/lmlcrh06ynr0tfgg2f7vwh3h9gr7b1cs</a>
+Improper Authentication in Apache Roller 5.1.0 throug
+whose account an administrator has disabled to sign in again through OpenID
+and read unpublished entries. The OpenID sign-in path
+the account was enabled. Only sites that enable the non-default OpenID
+authentication mode are affected; later major version
+2.0. Users are recommended to upgrade to Apache Roller 6.1.7 or later.
+Fixed in: 6.1.7
+Affected: Apache Roller 5.1.0 through 6.1.6
+Credit: hataehoon (GitHub: dpfkdlemtp)
+
+Dave Johnson, on behalf of the Apache Roller PMC
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
