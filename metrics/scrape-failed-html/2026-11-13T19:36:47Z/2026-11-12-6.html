@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-126641: ansible-pylibssh / ansible.netcommon libssh: changed
+ SSH host key accepted when host_key_auto_add is enabled</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CA+WUWo-4PrObxoQfhBxTFkKP1weci=zfzCsBddhq-LSgK1EYrA&#64;mail.gmail.com&gt;
+Date: Thu, 12 Nov 2026 07:52:31 -0800
+From: Ryo utomo &lt;utomoryo395&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-126641: ansible-pylibssh / ansible.netcommon libssh: changed
+ SSH host key accepted when host_key_auto_add is enabled
+
+Hello,
+
+This is a public disclosure of CVE-2026-126641, a host key verification
+flaw in ansible-pylibssh and in the ansible.netcommon libssh connection
+plugin. Red Hat Product Security confirmed the issue, assigned the CVE
+and lifted the embargo on 2026-11-12.
+
+Summary
+-------
+
+When trust-on-first-use is enabled (host_key_auto_add on the
+ansible.netcommon libssh plugin, or AutoAddPolicy in pylibssh), a host
+that is already in known_hosts but now presents a DIFFERENT key is
+accepted without warning. The controller authenticates to that server,
+runs the play there, and appends the new key to known_hosts.
+
+An attacker who can intercept SSH between an Ansible controller and a
+host it has contacted before can therefore receive the connection
+credentials (passwords, keyboard-interactive answers) and read or alter
+the commands and configuration pushed to the device. The attacker's key
+is persisted, so later runs keep trusting it.
+
+Severity (Red Hat): Moderate, CVSS 3.1 6.5
+CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N
+CWE-322: Key Exchange without Entity Authentication
+
+Default configurations are NOT affected. With host_key_checking on and
+host_key_auto_add unset, non-interactive runs fail closed for both
+unknown and changed keys.
+
+Affected
+--------
+
+- ansible-pylibssh (pylibsshext). Verified on 1.4.0 with libssh 0.12.0.
+The logic in Session.verify_knownhost() has been unchanged since
+commit f35909c (2020-01-24), i.e. since 0.4.0.
+- ansible.netcommon libssh connection plugin, and network_cli when it
+uses libssh. Verified on ansible.netcommon 8.7.1 with ansible-core
+2.21.5. The policy code dates from commit 3dd7ae2 (2020-07-16).
+- Red Hat lists Ansible Automation Platform 2 execution environments
+and the python-ansible-pylibssh packages as affected.
+
+Exposure requires the libssh-specific option:
+ANSIBLE_LIBSSH_HOST_KEY_AUTO_ADD=true, or host_key_auto_add in the
+[libssh_connection] section. network_cli's own same-named option
+(ANSIBLE_HOST_KEY_AUTO_ADD) is not forwarded to the libssh transport.
+The paramiko transport is deprecated in favour of libssh, so this is
+the path users are being directed onto.
+
+Root cause
+----------
+
+pylibssh sends three different libssh states to one policy hook:
+
+# src/pylibsshext/session.pyx
+KNOW_HOST_MSG_MAP = {
+libssh.SSH_KNOWN_HOSTS_CHANGED: "Host key for server has changed: ",
+libssh.SSH_KNOWN_HOSTS_OTHER: "Host key type for server has changed: ",
+libssh.SSH_KNOWN_HOSTS_UNKNOWN: "Host is unknown: "
+}
+def verify_knownhost(self):
+state = libssh.ssh_session_is_known_server(self._libssh_session)
+if state == libssh.SSH_KNOWN_HOSTS_OK:
+return True
+...
+self._policy.missing_host_key(self, ...,
+KNOW_HOST_MSG_MAP[state] + self._hash_py)
+
+The hook name and the bundled AutoAddPolicy / RejectPolicy classes
+follow paramiko. In paramiko that hook runs only for a host that is
+absent from known_hosts; a mismatched key raises BadHostKeyException
+before any policy is consulted. pylibssh keeps the name and widens the
+meaning. The policy receives only a free-text message, not the libssh
+state, so it cannot tell "new host" from "changed key".
+
+ansible.netcommon's MyAddPolicy, documented as "Based on AutoAddPolicy
+in paramiko", was written to the narrow meaning and adds changed keys:
+
+# plugins/connection/libssh.py
+def missing_host_key(self, session, hostname, username, key_type,
+fingerprint, message):
+if all((self._options["host_key_checking"],
+not self._options["host_key_auto_add"])):
+... prompt; if inp not in ["yes", "y", ""]: raise ...
+session.hostkey_auto_add(username) # reached for CHANGED and OTHER
+
+For comparison, libssh's own tutorial stops the connection on
+SSH_KNOWN_HOSTS_CHANGED and SSH_KNOWN_HOSTS_OTHER, paramiko raises
+BadHostKeyException, and OpenSSH StrictHostKeyChecking=accept-new adds
+new keys but refuses changed ones.
+
+Secondary issue: in an interactive run with default settings, the
+prompt treats an empty answer (pressing Enter) as "yes", including when
+the message says "Host key for server has changed".
+
+Reproduction
+------------
+
+Local OpenSSH server on
+<a href="https://www.google.com/url?q=http://127.0.0.1:2222&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E" rel="nofollow">https://www.google.com/url?q=http://127.0.0.1:2222&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E</a>,
+started first with host key A,
+then restarted with host key B (standing in for an interceptor), with a
+fresh ~/.ssh/known_hosts per scenario.
+
+1. ansible.netcommon.libssh, ANSIBLE_LIBSSH_HOST_KEY_AUTO_ADD=true
+run 1 (key A): task runs, A saved
+run 2 (key B): task runs on the key-B server, no warning, B appended
+2. network_cli, ssh_type=libssh, same setting
+run 2 (key B): ok=1 failed=0, B appended; the key-B server's own
+sshd log records "Accepted password" for the controller's user
+3. Library level, same changed key and same auto-add mode:
+ansible-pylibssh connects and authenticates
+paramiko BadHostKeyException
+OpenSSH accept-new refuses
+4. Defaults, non-interactive, host unknown or already known:
+fails closed, known_hosts unchanged (not affected)
+
+Mitigation
+----------
+
+Until fixed releases are available:
+
+- Do not enable host_key_auto_add for the libssh connection plugin and
+do not use AutoAddPolicy with pylibssh. Pre-populate known_hosts
+(for example with ssh-keyscan over a trusted path) instead.
+- Keep host_key_checking enabled.
+- Do not answer the interactive host key prompt with a bare Enter.
+
+Fix
+---
+
+No fixed release had been announced at the time of writing. Suggested
+fix: in pylibssh, fail closed on SSH_KNOWN_HOSTS_CHANGED and
+SSH_KNOWN_HOSTS_OTHER before any policy runs and consult
+missing_host_key() only for SSH_KNOWN_HOSTS_UNKNOWN; in
+ansible.netcommon, have MyAddPolicy refuse changed keys and stop
+treating an empty answer as consent.
+
+References
+----------
+
+<a href="https://www.google.com/url?q=https://access.redhat.com/security/cve/CVE-2026-126641&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E" rel="nofollow">https://www.google.com/url?q=https://access.redhat.com/security/cve/CVE-2026-126641&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E</a>
+<a href="https://www.google.com/url?q=https://bugzilla.redhat.com/show_bug.cgi?id%3D2571719&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E" rel="nofollow">https://www.google.com/url?q=https://bugzilla.redhat.com/show_bug.cgi?id%3D2571719&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E</a>
+<a href="https://www.google.com/url?q=https://www.cve.org/CVERecord?id%3DCVE-2026-126641&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E" rel="nofollow">https://www.google.com/url?q=https://www.cve.org/CVERecord?id%3DCVE-2026-126641&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E</a>
+<a href="https://www.google.com/url?q=https://github.com/ansible/pylibssh&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E" rel="nofollow">https://www.google.com/url?q=https://github.com/ansible/pylibssh&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E</a>
+<a href="https://www.google.com/url?q=https://github.com/ansible-collections/ansible.netcommon&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E" rel="nofollow">https://www.google.com/url?q=https://github.com/ansible-collections/ansible.netcommon&amp;source=gmail&amp;ust=1794584819676000&amp;sa=E</a>
+
+Timeline
+--------
+
+2026-10-22 Reported to security&#64;...ible.com and Red Hat Product Security
+2026-11-11 Red Hat confirms the issue and assigns CVE-2026-126641
+2026-11-12 Red Hat lifts the embargo; CVE record published
+2026-11-12 This post
+
+Credit
+------
+
+Found and reported by Satriyo Utomo (aleens-labs).
+
+Best regards,
+Satriyo Utomo (aleens-labs)
+Independent security researcher
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
