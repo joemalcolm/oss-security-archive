@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Apache TomEE: 38 CVEs addressed in 10.3.0 and 11.0.0-M2 (combined
+ announcement)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;59F8CAED-4A91-4C2E-AC77-14F1CCE04436&#64;apache.org&gt;
+Date: Thu, 12 Nov 2026 14:30:02 +0100
+From: Markus Jung &lt;jungm&#64;...che.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Apache TomEE: 38 CVEs addressed in 10.3.0 and 11.0.0-M2 (combined
+ announcement)
+
+On 10 November 2026, the Apache TomEE project published 38 security
+advisories on users&#64;...ee.apache.org. This message consolidates those
+announcements for oss-security.
+
+Apache TomEE 10.3.0 and 11.0.0-M2 fix 26 of the vulnerabilities. The
+other 12 affect optional modules removed from both releases: the
+embedded OpenEJB HTTP server, Hessian remoting, and the SSH
+administration shell. There is no fixed version of those removed
+modules. If upgrading is not yet possible, restrict access to those
+services from untrusted clients or stop using them.
+
+We recommend upgrading to 10.3.0 or 11.0.0-M2 and reading the
+corresponding migration guide, since several security fixes change
+default behavior.
+
+Full descriptions, affected version ranges, credits, and links to
+the individual announcements are at:
+<a href="https://tomee.apache.org/security/tomee.html" rel="nofollow">https://tomee.apache.org/security/tomee.html</a>
+
+Migration guides:
+<a href="https://tomee.apache.org/10.3.0/migration-guide.html" rel="nofollow">https://tomee.apache.org/10.3.0/migration-guide.html</a>
+<a href="https://tomee.apache.org/11.0.0-M2/migration-guide.html" rel="nofollow">https://tomee.apache.org/11.0.0-M2/migration-guide.html</a>
+
+Fixed vulnerabilities (26)
+--------------------------
+
+Important:
+CVE-2026-86336 EJB method authorization is silently skipped on JDK 21+
+CVE-2026-111244 Authorization bypass in MicroProfile JWT role checks
+for JAX-RS resources
+CVE-2026-111257 Well-known administrative credentials created at startup
+CVE-2026-111261 Authentication bypass with empty password in LDAP
+identity store
+CVE-2026-111264 Authentication bypass on EJB web service endpoints
+via HTTP method
+
+Moderate:
+CVE-2026-86811 Path traversal via stateful EJB passivation
+CVE-2026-87755 Stateful session bean hijacking via predictable
+session identifiers
+CVE-2026-87756 Missing authorization on internal deployer EJBs
+in default profile
+CVE-2026-87758 Missing TLS hostname verification in ejbds
+client connections
+CVE-2026-97849 Derby network service listens on all interfaces
+CVE-2026-97867 Database credential disclosure via remote JNDI lookup
+CVE-2026-111240 Authentication bypass for accounts without a stored
+password in SQL login module
+CVE-2026-111241 Local code execution via predictable passivation files
+in the shared temporary directory
+CVE-2026-111242 Privilege escalation via leaked MicroProfile JWT
+run-as identity
+CVE-2026-111245 Privilege escalation via WS-Security caller identity
+leaking between requests
+CVE-2026-111247 Privilege escalation via user name matching a role name
+CVE-2026-111251 Unauthenticated server shutdown via the admin port
+CVE-2026-111258 Security constraint bypass via request routing
+CVE-2026-111259 Predictable HTTP session identifiers in embedded server
+CVE-2026-111262 LDAP injection in LDAP identity store
+CVE-2026-111263 Missing authentication on EJB web service endpoints
+deployed in a web application
+
+Low:
+CVE-2026-86532 Username enumeration and timing side channel in
+JAAS login modules
+CVE-2026-111243 Expired MicroProfile JWT tokens accepted with
+negative clock skew
+CVE-2026-111248 Authentication with the stored password digest in
+Tomcat user identity store
+CVE-2026-111249 Unauthenticated LiveReload endpoint reachable
+from the network
+CVE-2026-111260 Predictable OpenID Connect state and nonce values
+
+Vulnerabilities in removed optional modules (12)
+-------------------------------------------------
+
+Moderate:
+CVE-2026-86531 DoS via unbounded request body and multipart handling
+in embedded HTTP server
+CVE-2026-97870 Missing authentication for Hessian endpoints in
+embedded HTTP server
+CVE-2026-97872 Authentication bypass of Hessian EJB endpoints due to
+ignored security settings
+CVE-2026-97874 Authentication bypass for Hessian endpoints in
+non-root web applications
+CVE-2026-97880 Authentication bypass in the embedded HTTP server for
+endpoints protected by HTTP Basic authentication
+CVE-2026-97881 Path traversal in embedded HTTP server static
+resource handling
+CVE-2026-97888 Caller identity leaks across requests in embedded
+HTTP server
+CVE-2026-111239 Code execution by any authenticated user via the SSH
+administration shell
+CVE-2026-111250 Authentication bypass via programmatic authentication
+in embedded HTTP server
+CVE-2026-111256 Missing authentication for web service endpoints in
+embedded HTTP server
+
+Low:
+CVE-2026-97890 Session fixation in embedded HTTP server
+CVE-2026-111246 HTTP sessions shared across web applications in
+embedded HTTP server
+
+Apache TomEE PMC
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
