@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-128239: GPAC/MP4Box: NULL Pointer Dereference in MPEG-4
+ Form Handlers via Crafted XMT Input</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="4">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;trinity-2f274b3f-047b-4a88-b888-07a69be035b6-1794580313258&#64;trinity-msg-rest-gmx-gmx-live-6b6d8476df-5sw62&gt;
+Date: Fri, 13 Nov 2026 14:31:53 +0000
+From: "Alexander A. Shvedov" &lt;sigdevel&#64;...amail.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-128239: GPAC/MP4Box: NULL Pointer Dereference in MPEG-4
+ Form Handlers via Crafted XMT Input
+
+Product:   GPAC (MP4Box)
+Affected:  Through 26.07.0 (per the published CVE record)
+           Reproduced on 26.08-DEV-rev263-g3f056542b-master
+           Commit 3f056542b377cc73677d19490bfe1b46c52c9be7
+Fixed:     bc416b997622e43de65afab3bae9b7d05d72f2b0
+CVE:       CVE-2026-128239
+CWE:       CWE-476 (NULL Pointer Dereference)
+CVSS 3.1:  5.5 MEDIUM (AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H)
+Reporter:  Alexander A. Shvedov (@sigdevel)
+
+Description:
+  During chapter import from a crafted XMT scene, the MPEG-4 compositor
+  processes a Form node whose layout constraints reference an uninitialised
+  group. The ab_apply() handler for the AB (Align Bottom) constraint uses
+  the result of form_get_group() without checking for NULL before accessing
+  the group bounds. This causes a NULL pointer dereference at
+  compositor/mpeg4_form.c:627 and terminates MP4Box with SIGSEGV.
+
+  The same missing validation affects the ar_apply(), sh_apply(),
+  al_apply(), and at_apply() spatial-constraint handlers. The accepted patch
+  adds checks for missing groups before their bounds are accessed.
+
+  The issue was reproduced in GPAC version
+  26.08-DEV-rev263-g3f056542b-master at commit
+  3f056542b377cc73677d19490bfe1b46c52c9be7.
+
+Impact:
+  Importing attacker-controlled XMT input can crash MP4Box and cause denial
+  of service. Arbitrary code execution was not demonstrated in the supplied
+  report.
+
+Reproduction:
+  The supplied report used a static debug build on Kali GNU/Linux, kernel
+  7.1.5+kali-amd64, x86_64, built with GCC 15.3.0-2. Run:
+
+    ./MP4Box -chap ./221_ab_apply_compositor_mpeg4_form_c_627.xmt /tmp/1 -out /dev/null
+
+GDB log excerpt:
+  Program received signal SIGSEGV, Segmentation fault.
+  #0  ab_apply (st=0x197c230, space=-1, group_idx=group_idx&#64;...ry=0x7fffffffb780, count=count&#64;...ry=2) at compositor/mpeg4_form.c:627
+  #1  0x00000000010f9e16 in form_apply (st=0x197c230, constraint=0x1985000 "AB", group_idx=0x7fffffffb780, count=2) at compositor/mpeg4_form.c:180
+  #2  TraverseForm (n=0x1984f30, rs=0x19ceb00, is_destroy=&lt;optimized out&gt;) at compositor/mpeg4_form.c:309
+
+Fix:
+  Use a GPAC build containing the following merged fix, or apply the patch.
+  It adds NULL checks around form_get_group() results in the affected Form
+  constraint handlers.
+
+    <a href="https://github.com/gpac/gpac/commit/bc416b997622e43de65afab3bae9b7d05d72f2b0" rel="nofollow">https://github.com/gpac/gpac/commit/bc416b997622e43de65afab3bae9b7d05d72f2b0</a>
+
+PoC:
+  <a href="https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/221/221_ab_apply_compositor_mpeg4_form_c_627.xmt" rel="nofollow">https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/221/221_ab_apply_compositor_mpeg4_form_c_627.xmt</a>
+
+References:
+  <a href="https://github.com/gpac/gpac/issues/4029" rel="nofollow">https://github.com/gpac/gpac/issues/4029</a>
+  <a href="https://github.com/gpac/gpac/pull/4039" rel="nofollow">https://github.com/gpac/gpac/pull/4039</a>
+  <a href="https://github.com/gpac/gpac/commit/bc416b997622e43de65afab3bae9b7d05d72f2b0" rel="nofollow">https://github.com/gpac/gpac/commit/bc416b997622e43de65afab3bae9b7d05d72f2b0</a>
+  <a href="https://www.cve.org/CVERecord?id=CVE-2026-128239" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-128239</a>
+  <a href="https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/128xxx/CVE-2026-128239.json" rel="nofollow">https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/128xxx/CVE-2026-128239.json</a>
+  <a href="https://www.vulncheck.com/advisories/gpac-through-26.07.0-null-pointer-dereference-via-mpeg-4-form-handlers" rel="nofollow">https://www.vulncheck.com/advisories/gpac-through-26.07.0-null-pointer-dereference-via-mpeg-4-form-handlers</a>
+
+
+——
+Best regards, Alexander A. Shvedov
+@sigdevel
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
