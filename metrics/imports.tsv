@@ -445,3 +445,5 @@
 2026-11-14T23:51:02Z	backfill-openwall	2026-11-13..2026-11-14	19	diff-skip-known	19	19	8
 2026-11-15T06:15:43Z	import-maildir	1	1	0	0	none
 2026-11-15T06:14:58Z	backfill-openwall	2026-11-14..2026-11-15	16	diff-skip-known	16	16	1
+2026-11-15T15:37:59Z	import-maildir	0	0	0	0	none
+2026-11-15T15:37:18Z	backfill-openwall	2026-11-14..2026-11-15	17	diff-skip-known	17	17	0
