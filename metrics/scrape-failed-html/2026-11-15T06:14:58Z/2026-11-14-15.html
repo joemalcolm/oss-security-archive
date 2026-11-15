@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2015-10149: Dancer versions before 1.3400 for Perl pass
+ unvalidated session ids from the session cookie to the session engine</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="14">[&lt;prev]</a> <a href="16">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;aa2122cf-94f7-47b3-bec1-ddd015b874b8&#64;cpansec.org&gt;
+Date: Sat, 14 Nov 2026 20:13:02 +0000
+From: Robert Rothenberg &lt;rrwo&#64;...nsec.org&gt;
+To: cve-announce&#64;...urity.metacpan.org, oss-security&#64;...ts.openwall.com
+Subject: CVE-2015-10149: Dancer versions before 1.3400 for Perl pass
+ unvalidated session ids from the session cookie to the session engine
+
+========================================================================
+CVE-2015-10149                                       CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2015-10149
+
+   Distribution:  Dancer
+       Versions:  before 1.3400
+       MetaCPAN: <a href="https://metacpan.org/dist/Dancer" rel="nofollow">https://metacpan.org/dist/Dancer</a>
+       VCS Repo: <a href="https://github.com/PerlDancer/Dancer" rel="nofollow">https://github.com/PerlDancer/Dancer</a>
+
+
+Dancer versions before 1.3400 for Perl pass unvalidated session ids
+from the session cookie to the session engine
+
+Description
+-----------
+Dancer versions before 1.3400 for Perl pass unvalidated session ids
+from the session cookie to the session engine.
+
+read_session_id returns the cookie value as the session id without
+checking its characters, and Dancer hands it to the session engine to
+load the session.
+
+A remote attacker may cause path traversal or injection in a session
+engine that uses the id in a file path, cache command or query without
+checking it.
+
+Problem types
+-------------
+- CWE-1286 Improper Validation of Syntactic Correctness of Input
+
+Solutions
+---------
+Upgrade to Dancer 1.3400 or later.
+
+References
+----------
+<a href="https://github.com/PerlDancer/Dancer/commit/5a68fddbaef903fd3bd58517ce585cde986716e4.patch" rel="nofollow">https://github.com/PerlDancer/Dancer/commit/5a68fddbaef903fd3bd58517ce585cde986716e4.patch</a>
+<a href="https://github.com/PerlDancer/Dancer/issues/1117" rel="nofollow">https://github.com/PerlDancer/Dancer/issues/1117</a>
+<a href="https://github.com/PerlDancer/Dancer/issues/1118" rel="nofollow">https://github.com/PerlDancer/Dancer/issues/1118</a>
+<a href="https://github.com/PerlDancer/Dancer/pull/1172" rel="nofollow">https://github.com/PerlDancer/Dancer/pull/1172</a>
+<a href="https://metacpan.org/release/BIGPRESH/Dancer-1.3400/changes" rel="nofollow">https://metacpan.org/release/BIGPRESH/Dancer-1.3400/changes</a>
+
+Timeline
+--------
+- 2015-06-03: Session id validation vulnerability first reported in
+   issue 1117.
+- 2016-02-15: Dancer version 1.3300 adds session id validation.
+- 2016-02-16: Dancer version 1.3301 reverts session id changes that
+   broke Dancer::Session::Cookie.
+- 2018-02-04: Pull request 1172 with session id validation created,
+- 2018-05-20: Dancer version 1.3203 released with session id
+   validation.
+- 2018-06-15: Dancer version 1.3400 released that promotes previous
+   trial releases to stable release.
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
