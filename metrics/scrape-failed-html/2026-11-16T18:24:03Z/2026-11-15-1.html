@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: libdca (VideoLAN DTS decoder, unmaintained): out-of-bounds read
+ in scale-factor parsing</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/11/14/16">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/11/14/16">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAMUkMVWGaq2sKvVagvPc9SkLQJTjqYgn44nAUnhm-6k6KkJ3HA&#64;mail.gmail.com&gt;
+Date: Sun, 15 Nov 2026 00:58:37 +0000
+From: "Osvaldo J. Filho" &lt;janeri&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: libdca (VideoLAN DTS decoder, unmaintained): out-of-bounds read
+ in scale-factor parsing
+
+Following up on the scale-factor OOB read -- there's a second out-of-bounds
+read in the same decoder, in the bitstream reader.
+
+bitstream_fill_current() in bitstream.c reads a word and advances the
+pointer with no end-of-buffer check:
+
+static inline void bitstream_fill_current (dca_state_t * state) {
+uint32_t tmp;
+tmp = *(state-&gt;buffer_start++); /* no bounds check */
+...
+}
+
+The decoder state (dca_internal.h) has no buffer_end field at all, so the
+reader trusts the frame to be well-formed. A crafted frame whose header
+fields ask for more bits than the frame holds walks buffer_start past the
+end of the input buffer. Confirmed with AddressSanitizer on a 96-byte
+crafted frame decoded through the normal dca_syncinfo / dca_frame /
+dca_block path:
+
+heap-buffer-overflow READ of size 4
+#0 bitstream_fill_current bitstream.c:55
+#1 dca_bitstream_get_bh bitstream.c:95
+#2 bitstream_get bitstream.h:69
+#3 dca_subframe_header parse.c:494
+#4 dca_block parse.c:1083
+0 bytes after 96-byte region
+
+Same class as the first: crash / bounded over-read on untrusted DTS input,
+read-only. The fix is to track the end of the input buffer in dca_state_t
+and stop before reading past it.
+
+Crafted sample available on request. Verified against
+<a href="https://www.google.com/url?q=http://code.videolan.org/videolan/libdca&amp;source=gmail&amp;ust=1794790717387000&amp;sa=E" rel="nofollow">https://www.google.com/url?q=http://code.videolan.org/videolan/libdca&amp;source=gmail&amp;ust=1794790717387000&amp;sa=E</a>
+HEAD 95c4bd8.
+
+Osvaldo
+
+On Sat, Nov 14, 2026 06:12 PM, "Osvaldo J. Filho" &lt;janeri&#64;...il.com&gt; wrote:
+
+&gt; Hi,
+&gt;
+&gt; libdca is VideoLAN's DTS Coherent Acoustics decoder. It's effectively
+&gt; unmaintained (VideoLAN confirmed to me it's abandoned and it was dropped
+&gt; from VLC 4.0), but several distros still ship it as a library, so I'm
+&gt; reporting here.
+&gt;
+&gt; There's an out-of-bounds read in the scale-factor parser, reachable from a
+&gt; crafted DTS frame. I verified it against the current tree at
+&gt; <a href="https://www.google.com/url?q=https://code.videolan.org/" rel="nofollow">https://www.google.com/url?q=https://code.videolan.org/</a>
+&gt; videolan/libdca&amp;source=gmail&amp;ust=1794777156181000&amp;sa=E (HEAD 95c4bd8).
+&gt;
+&gt; In parse.c, dca_subframe_header() decodes scale factors like this:
+&gt;
+&gt; if (state-&gt;scalefactor_huffman[j] == 6)
+&gt; scale_table = scale_factor_quant7; /* 128 entries */
+&gt; else
+&gt; scale_table = scale_factor_quant6; /* 64 entries, indices 0..63 */
+&gt;
+&gt; scale_sum = 0;
+&gt; for (k = 0; k &lt; state-&gt;subband_activity[j]; k++) {
+&gt; if (k &gt;= state-&gt;vq_start_subband[j] || state-&gt;bitalloc[j][k] &gt; 0) {
+&gt; if (state-&gt;scalefactor_huffman[j] &lt; 5)
+&gt; scale_sum += InverseQ(state, scales_129[state-&gt;scalefactor_huffman[j]]);
+&gt; else if (state-&gt;scalefactor_huffman[j] == 5)
+&gt; scale_sum = bitstream_get(state, 6);
+&gt; else if (state-&gt;scalefactor_huffman[j] == 6)
+&gt; scale_sum = bitstream_get(state, 7);
+&gt;
+&gt; state-&gt;scale_factor[j][k][0] = scale_table[scale_sum]; /* &lt;-- */
+&gt; }
+&gt; /* the transition_mode branch repeats the same accumulation */
+&gt; }
+&gt;
+&gt; For scalefactor_huffman modes 0..4, scale_sum is a running total of
+&gt; InverseQ() deltas and scale_table is scale_factor_quant6 (64 entries).
+&gt; Nothing clamps scale_sum before it indexes the table.
+&gt;
+&gt; InverseQ() returns the Huffman entry's value field, and for mode 0
+&gt; (scales_a_129) that value goes from -64 to +64, for example:
+&gt;
+&gt; { 16, 57173, 64 },
+&gt; { 16, 57172, -64 },
+&gt;
+&gt; So a single scale-factor delta of +64 makes scale_sum == 64 and reads
+&gt; scale_factor_quant6[64], one past the end. A single negative delta gives a
+&gt; negative index. subband_activity is up to 32, and the transition_mode
+&gt; branch accumulates again, so scale_sum can reach a few thousand either side
+&gt; of the valid range.
+&gt;
+&gt; The modes that use absolute values are fine: mode 5 reads bitstream_get(6)
+&gt; (0..63 into the 64-entry table) and mode 6 reads bitstream_get(7) (0..127
+&gt; into the 128-entry table). Only the differential modes 0..4 are affected.
+&gt;
+&gt; Impact is an out-of-bounds int read whose result is used as an audio scale
+&gt; factor: a crash if the index lands on an unmapped page, otherwise a limited
+&gt; info leak into the decoded output. It's a decoder-side parser bug, so any
+&gt; caller that decodes untrusted DTS data is exposed. Not memory-corrupting
+&gt; beyond the read.
+&gt;
+&gt; A fix is a bounds check before the table lookup, e.g. reject the frame if
+&gt; scale_sum is outside [0, 63] (or [0, 127] for quant7).
+&gt;
+&gt; I've requested a CVE for this from MITRE's CNA-LR (pending assignment).
+&gt; Happy to provide a crafted sample that triggers it under AddressSanitizer
+&gt; if that's useful.
+&gt;
+&gt; Osvaldo
+&gt;
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

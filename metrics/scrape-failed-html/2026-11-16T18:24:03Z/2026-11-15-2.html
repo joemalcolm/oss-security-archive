@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - NoisyTCP: Linux Kernel TCP Pre-auth Remote Corruption
+ (CVE-2026-99288)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;avnXBHKfNKnqmDij&#64;v4bel&gt;
+Date: Mon, 16 Nov 2026 01:00:04 +0900
+From: Hyunwoo Kim &lt;imv4bel&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: imv4bel&#64;...il.com
+Subject: NoisyTCP: Linux Kernel TCP Pre-auth Remote Corruption
+ (CVE-2026-99288)
+
+The embargo agreed with the maintainers of
+linux-distros&#64;...openwall.org has expired, so I am posting this report.
+
+# Abstract
+
+This report is a security advisory for NoisyTCP (CVE-2026-99288), the
+Linux Kernel TCP Pre-auth Remote Corruption vulnerability reported
+and patched by Hyunwoo Kim (@v4bel).
+
+To trigger this vulnerability, a stale ehash lookup and the freeing and
+reallocation of an existing request socket must proceed concurrently in
+different RX contexts. Packet processing has to be spread out by using
+the difference in receive hash between IPv4 fragments and regular TCP
+packets, so it can be triggered against servers that have two or more
+RX queues, or where RPS distributes packets across multiple CPUs.
+
+That is, since this vulnerability can be triggered against "plain"
+TCP listeners, it can be triggered pre-auth and remotely against
+servers that TCP packets sent by an attacker can reach directly, such
+as Nginx, Apache, and SSH servers running with their "default"
+configuration.
+
+# Trigger Flows
+
+There are two trigger flows for this vulnerability, and an attacker
+can arbitrarily choose either one to trigger it.
+
+## 1. request_sock Reuse ABA Race
+
+While a stale lookup has found an existing request socket, another RX
+context frees it and reallocates a SYN cookie request with the same
+tuple at the same slab address.
+
+The stale lookup acquires a refcount on the new object and then even
+passes the tuple recheck, but the new request has no listener attached
+to it. After that, the TCP receive path dereferences the NULL listener,
+which causes a kernel panic.
+
+In the end, a remote DoS can be triggered.
+
+Because this is a Linux kernel TCP vulnerability, if the DoS is
+triggered against a web server running in a container, it takes down
+not only the web server application but the entire host.
+
+## 2. Full child socket ABA Race
+
+This path can trigger a remote use-after-free, but since complex race
+scenarios have to succeed in a nested way, it is generally hard to
+trigger without using special techniques.
+
+# Trigger Characteristics
+
+To trigger this vulnerability, another RX context has to get in
+between the first tuple check and the refcount acquisition. Because of
+this, against bare-metal servers, especially quiet servers with little
+execution variance and contention, triggering the race can take a long
+time.
+
+Against Nginx, Apache, and SSH servers running with their default
+configuration on VMs such as QEMU/KVM, where vCPU preemption can occur,
+it took about 5 seconds to 2 minutes to trigger.
+
+Against Nginx running with its default configuration on a quiet
+bare-metal server (8 RX queues), it took about 14 hours to trigger,
+even though a PoC with race timing carefully tuned for the target
+environment was used.
+
+# Affected Versions
+
+The affected range of NoisyTCP (CVE-2026-99288) is as follows.
+
+Introduced: 079096f103fa (2015-10-03)
+Fixed: 4e2b3ef19e0e (2026-11-03)
+
+That is, this vulnerability had been latent in the Linux kernel for
+about "11 years" and affects almost all Linux distributions.
+
+# Mitigations
+
+Applying the 4e2b3ef19e0e patch is the priority, but if it is difficult
+to apply it immediately, one of the following temporary mitigations can
+be used.
+
+## 1. Disable SYN cookies
+
+This blocks the path where a request socket is reconstructed through a
+SYN cookie.
+
+  sudo sysctl -w net.ipv4.tcp_syncookies=0
+
+This setting is managed per network namespace. It has to be applied to
+"each" container that uses a separate network namespace. Disabling it
+lowers the protection against SYN floods.
+
+## 2. Serialize to a single RX queue
+
+This vulnerability requires different RX contexts to race
+concurrently. Reducing the RX queues of the interface where external
+packets come in to one and disabling RPS and RFS can block the race.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
