@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: "sshole": password authentication bypass:
+ OpenSSH + musl libc</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="1">[&lt;prev]</a> <a href="3">[next&gt;]</a> <a href="1">[&lt;thread-prev]</a> <a href="../../../2026/11/17/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20261116144335.BLhGlopc&#64;steffen%sdaoden.eu&gt;
+Date: Mon, 16 Nov 2026 15:43:35 +0100
+From: Steffen Nurpmeso &lt;steffen&#64;...oden.eu&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: "sshole": password authentication bypass:
+ OpenSSH + musl libc
+
+Solar Designer wrote in
+ &lt;20261116073443.GA14465&#64;...nwall.com&gt;:
+ |I'm sorry I'm late to comment in this thread, but I feel a few aspects
+ |are still misunderstood by a lot of people here.
+ |
+ |On Thu, Nov 05, 2026 at 09:14:35AM -0500, Jan Schaumann wrote:
+ ...
+ |&gt; That is, for any account that has an invalid password
+ |&gt; hash field of '*', you can log in by entering a
+ |&gt; password &gt;257 characters, which will cause crypt(3) in
+ |&gt; musl libc to return '*'.
+ |
+ |Kind of, and that's indeed embarrassing, but it misses important detail.
+ |
+ |musl's crypt(3) only returns "*" when the setting (aka salt) string
+ |passed to it is not "*", so it reasonably expected the caller doing the
+ |typical strcmp() would see no match.  What OpenSSH did was authenticate
+ |one user while taking the password hash field from another user.  That
+ |could be a reasonable way to mitigate timing leaks as long as
+ |authentication result is discarded.  The problem is it wasn't.  Such
+ |fake yet real authentication against another user's password hash was
+ |unexpected by musl developers.
+ ..
+ |My original design in crypt_blowfish used two different failure tokens,
+ |"*0" and "*1".  This is what libxcrypt inherited, unless it's configured
+ |with --disable-failure-tokens, in which case it returns NULL.
+ ...
+ |Some distros that use libxcrypt already --disable-failure-tokens for
+ |quite a while.
+ |
+ |musl is likely going to start returning NULL in a future release, but
+ |for now will likely move to the same "*0" and "*1" failure tokens that
+ |libxcrypt uses.
+ |
+ |Besides the risk of crashes on NULL dereference, I also worry that in
+ |some wrappers and scripting languages NULL may be mapped to an empty
+ |string or (more reasonably) to a non-object.  I am seeing the latter
+ ...
+ |Overall, I am not sure NULL is actually safer than "*0" and "*1".
+ ...
+ |OpenBSD bcrypt used to return ":" on error until 2015, but switched to
+ |returning NULL since.  As I recall, OpenBSD's own passwd(1) program was
+ ...
+ |Finally, I include below two postings by Rich Felker to the musl list.
+
+There was also on the dropbear list, before Matt Johnston posted
+here.
+
+Given the above, which is all hacky in one way or another, and the
+50+ year history of this function, to me a new function entry
+point with clearly from-scratch defined semantics appear the most
+attractive.
+
+Hypothetically, how would a (posix_)crypt(3) would need to be
+defined in order to be an almost drop-in replacement, but with
+NULL error return and an errno(3) list that makes sense?
+
+  ..
+ --End of &lt;20261116073443.GA14465&#64;...nwall.com&gt;
+
+--steffen
+|
+|Der Kragenbaer,                The moon bear,
+|der holt sich munter           he cheerfully and one by one
+|einen nach dem anderen runter  wa.ks himself off
+|(By Robert Gernhardt)
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
