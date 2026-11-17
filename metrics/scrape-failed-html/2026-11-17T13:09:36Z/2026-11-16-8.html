@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2025-71467: GPAC/MP4Box: NULL Pointer Dereference in
+ gf_node_get_field_by_name via Crafted XMT Input</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;trinity-da32ae64-d4da-44e1-8ff2-14b070045760-1794850881011&#64;trinity-msg-rest-gmx-gmx-live-6b6d8476df-bxtdv&gt;
+Date: Mon, 16 Nov 2026 17:41:21 +0000
+From: "Alexander A. Shvedov" &lt;sigdevel&#64;...amail.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2025-71467: GPAC/MP4Box: NULL Pointer Dereference in
+ gf_node_get_field_by_name via Crafted XMT Input
+
+ Product:   GPAC (MP4Box)
+Affected:  Versions before 26.02.0
+           Reproduced on 2.5-DEV-rev1552-gbb16baf3d-master
+           Commit bb16baf3d48737dfbc3ccdb6796e2951c280a1e5
+Fixed:     62714f27c64a3d1eb7e880f9eed2d38673cb43ce
+CVE:       CVE-2025-71467
+CWE:       CWE-476 (NULL Pointer Dereference)
+CVSS 3.1:  5.5 MEDIUM (AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H)
+Reporter:  Alexander A. Shvedov (@sigdevel)
+
+Description:
+  MP4Box dereferences a NULL pointer in gf_node_get_field_by_name()
+  at scenegraph/base_scenegraph.c:2088 while parsing a crafted MPEG-4
+  XMT scene. Field-name resolution can reach this function with a node
+  that was never created. The function accesses node-&gt;sgprivate-&gt;tag
+  without first checking node and node-&gt;sgprivate, causing a NULL read.
+
+  The issue was reproduced in GPAC version
+  2.5-DEV-rev1552-gbb16baf3d-master, recorded at commit
+  bb16baf3d48737dfbc3ccdb6796e2951c280a1e5.
+
+Impact:
+  Parsing attacker-controlled XMT input causes an immediate MP4Box crash
+  and denial of service. Other GPAC applications using the same scene
+  graph code may also be affected. The observed fault is a NULL read;
+  arbitrary code execution was not demonstrated.
+
+Reproduction:
+  Build GPAC with AddressSanitizer, then run:
+
+    ./MP4Box -info 27_gf_node_get_field_by_name_scenegraph_base_scenegraph_c_2088
+
+ASan log excerpt:
+  ==418151==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000
+  ==418151==The signal is caused by a READ memory access.
+  ==418151==Hint: address points to the zero page.
+      #0 in gf_node_get_field_by_name scenegraph/base_scenegraph.c:2088
+      #1 in xmt_parse_element scene_manager/loader_xmt.c:1916
+      #2 in xmt_node_start scene_manager/loader_xmt.c:2681
+
+Fix:
+  Update to GPAC v26.02.0 or later, or apply the fix commit listed above.
+  The fix rejects a NULL node or NULL node private data before field lookup.
+
+    <a href="https://github.com/gpac/gpac/releases/tag/v26.02.0" rel="nofollow">https://github.com/gpac/gpac/releases/tag/v26.02.0</a>
+
+PoC:
+  <a href="https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/27/27_gf_node_get_field_by_name_scenegraph_base_scenegraph_c_2088" rel="nofollow">https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/27/27_gf_node_get_field_by_name_scenegraph_base_scenegraph_c_2088</a>
+
+References:
+  <a href="https://github.com/gpac/gpac/issues/3268" rel="nofollow">https://github.com/gpac/gpac/issues/3268</a>
+  <a href="https://github.com/gpac/gpac/commit/62714f27c64a3d1eb7e880f9eed2d38673cb43ce" rel="nofollow">https://github.com/gpac/gpac/commit/62714f27c64a3d1eb7e880f9eed2d38673cb43ce</a>
+  <a href="https://www.cve.org/CVERecord?id=CVE-2025-71467" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2025-71467</a>
+  <a href="https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/71xxx/CVE-2025-71467.json" rel="nofollow">https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/71xxx/CVE-2025-71467.json</a>
+
+——
+Best regards, Alexander A. Shvedov
+@sigdevel
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
