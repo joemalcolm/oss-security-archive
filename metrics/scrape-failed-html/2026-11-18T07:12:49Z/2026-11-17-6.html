@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - OpenSSL: 3 Low severity fixes merged publicly: PEM_X509_INFO_read_bio_ex(),
+ QUIC and TLS 1.3</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAAwz41Q6o0kp2rXE+XQvmd0_ZW7DAPPZEd=OSUk7e4vy-Vtbbw&#64;mail.gmail.com&gt;
+Date: Tue, 17 Nov 2026 12:18:58 +0400
+From: Norbert Pócs &lt;norbertp&#64;...nssl.org&gt;
+To: oss-security&#64;...ts.openwall.com, openssl-users &lt;openssl-users&#64;...nssl.org&gt;
+Subject: OpenSSL: 3 Low severity fixes merged publicly: PEM_X509_INFO_read_bio_ex(),
+ QUIC and TLS 1.3
+
+OpenSSL Security Advisory [17th November 2026]
+==============================================
+
+The issues listed below have been fixed in the public openssl/openssl
+repository on GitHub. Releases containing these fixes are scheduled
+for 1st December 2026.
+
+Out-of-Bounds Read in TLS 1.3 Key-Share Processing with Suite B Certificate
+Flag (CVE-2026-35190)
+=================================================================================================
+
+Severity: Low
+
+Issue summary: A server configured with the Suite B certificate flag through
+SSL_CTX_set_cert_flags() and with TLS 1.3 enabled may read past the end of a
+fixed group list when it processes a ClientHello whose supported_groups and
+key_share contain no Suite B group.
+
+Impact summary: A remote client can send a ClientHello that makes the server
+read past the end of a static array. The values read are never returned to
+the
+client, so no memory is disclosed; on builds with sanitizers or hardened
+allocators the read may crash the process, causing Denial of Service.
+
+CWE: CWE-125: Out-of-bounds Read
+
+Description: When the Suite B certificate flag is set, OpenSSL restricts the
+accepted groups to P-256 and P-384 by substituting a fixed two-element list
+for the configured group list. The tuple machinery used for key-share
+selection was not updated for this substitution: tls1_get_group_tuples()
+still
+returns the configured tuples, which by default describe eight groups. The
+server-side walk in tls_parse_ctos_key_share() then advances through the
+two-element list using those tuple counts without checking the cumulative
+offset against the number of groups present.
+
+Only applications that call SSL_CTX_set_cert_flags() with
+SSL_CERT_FLAG_SUITEB_128_LOS and leave TLS 1.3 enabled are affected. The
+openssl s_server -suiteB_128 option sets an X.509 verification parameter
+instead, so the stock command line server is not vulnerable. Default
+configurations do not reach this code.
+
+A client that offers only groups outside the Suite B set, such as X25519,
+forces every tuple to be walked and the read to run past the array. The
+bytes
+read are compared against client group IDs and never sent back, so no memory
+is disclosed. On builds with address sanitizers or hardened allocators the
+read can abort the process; in ordinary release builds it reads a few bytes
+of
+adjacent constant data.
+
+FIPS impact: no
+The affected code is outside the FIPS module boundary.
+
+OpenSSL 4.1, 4.0 and 3.5 are vulnerable to this issue.
+
+OpenSSL 3.0, 1.1.1 and 1.0.2 are not affected by this issue.
+
+OpenSSL 4.1 users should upgrade to OpenSSL 4.1.1.
+OpenSSL 4.0 users should upgrade to OpenSSL 4.0.4.
+OpenSSL 3.5 users should upgrade to OpenSSL 3.5.10.
+
+This issue was reported on 17 August 2026 by Laurent Gaffie (secorizon.com).
+The fix has been developed by Daniel Kubec.
+
+Use-After-Free in PEM_X509_INFO_read_bio_ex() When Appending to a
+Caller-Supplied Stack Fails (CVE-2026-107493)
+===============================================================================================================
+
+Severity: Low
+
+Issue summary: When an application passes a stack to
+PEM_X509_INFO_read_bio_ex() to add entries to, and reading fails,
+OpenSSL frees every entry in the stack, both the old ones and any new
+ones, but leaves them in the stack.
+
+Impact summary: An application that passes an existing stack to
+PEM_X509_INFO_read_bio_ex() and keeps using it after a failed read may
+use memory that was already freed. This can cause a crash or, in
+principle, memory corruption. Malformed PEM data can make the read fail,
+but only applications that pass an existing stack are affected, and
+OpenSSL itself does not do this.
+
+CWE: CWE-416: Use After Free
+
+Description: PEM_X509_INFO_read_bio_ex() reads certificates, CRLs and
+private keys from PEM data and adds them to a stack of X509_INFO
+structures. If the application passes a stack that is not NULL, the
+function adds the new entries to it and must leave the entries that are
+already there unchanged.
+
+If reading fails, the function frees every entry in the stack. This
+includes the entries that were there before the call, and the entries
+added by the call. It does not remove these entries from the stack, so
+the stack keeps pointers to freed memory. The failure can happen at any
+point, even before any entry was added. A PEM item with invalid content
+is enough.  This also happens if the stack was empty: entries added
+before the failure are freed but stay in the stack.
+
+An application that then reads or frees the stack will use memory that
+was already freed. This can crash the application or, in principle,
+corrupt memory.
+
+Only applications that pass a stack that is not NULL are affected.
+OpenSSL itself never does this. Its own callers, including the code that
+TLS uses to load CA certificates, always pass NULL. When the stack is
+NULL, the function frees only the entries that it created itself, which
+is safe. We expect that very few applications pass an existing stack. An
+attacker can make the read fail with malformed PEM data, but cannot make
+an application pass an existing stack.
+
+The same problem affects PEM_X509_INFO_read_bio(), PEM_X509_INFO_read()
+and PEM_X509_INFO_read_ex(), which use the same code. OpenSSL 1.1.1 and
+1.0.2 have only the first two of these functions.
+
+FIPS impact: no
+The affected code is outside the FIPS module boundary.
+
+OpenSSL 4.1, 4.0, 3.5, 3.0, 1.1.1 and 1.0.2 are vulnerable to this issue.
+
+OpenSSL 4.1 users should upgrade to OpenSSL 4.1.1.
+OpenSSL 4.0 users should upgrade to OpenSSL 4.0.4.
+OpenSSL 3.5 users should upgrade to OpenSSL 3.5.10.
+
+Premium support customers only:
+OpenSSL 3.0 users should upgrade to OpenSSL 3.0.24.
+OpenSSL 1.1.1 users should upgrade to OpenSSL 1.1.1zk.
+OpenSSL 1.0.2 users should upgrade to OpenSSL 1.0.2zt.
+
+This issue was reported on 11 September 2026 by Filipe Casal (Trail of Bits)
+in collaboration with OpenAI.
+The fix has been developed by Viktor Dukhovni.
+
+Unbounded Memory Retention in QUIC Server for Rejected Streams
+(CVE-2026-124709)
+================================================================================
+
+Severity: Low
+
+Issue summary: A QUIC server that rejects a stream opened by the peer may
+retain that stream's state for the lifetime of the connection if the peer
+resets the stream before the rejection is signalled, even though the peer's
+stream credit is returned.
+
+Impact summary: A remote client that completes a QUIC handshake can
+repeatedly
+open and reset streams, causing server memory to grow without bound until
+the
+process runs out of memory and every connection on it is lost. This is a
+Denial of Service.
+
+CWE: CWE-401: Missing Release of Memory after Effective Lifetime
+
+Description: QUIC servers track each stream the peer opens. When the
+incoming
+stream policy rejects a stream, OpenSSL schedules a STOP_SENDING frame,
+marks
+the stream deleted and returns the peer's stream credit. A deleted stream is
+collected only once its receive part is fully drained, which for a rejected
+stream means the STOP_SENDING has been acknowledged. If the peer sends
+RESET_STREAM first, the reset cancels the pending STOP_SENDING, so it is
+never
+sent or acknowledged and the stream is never collected.
+
+The default configuration reaches this path. Once a connection has a default
+stream, meaning the application has read from or written to the connection
+as
+the tutorial server does, the effective incoming stream policy rejects
+streams
+the application does not accept. Applications that set the REJECT policy
+explicitly are affected too.
+
+Each retained stream costs about 300 bytes, and the peer's stream credit
+window paces how quickly they accumulate. A client that keeps the connection
+open and keeps opening and resetting streams grows server memory without
+bound. The severity is Low because growth is slow, needs a long-lived
+connection, and causes no memory corruption or disclosure.
+
+FIPS impact: no
+The affected code is outside the FIPS module boundary.
+
+OpenSSL 4.1, 4.0 and 3.5 are vulnerable to this issue.
+
+OpenSSL 3.0, 1.1.1 and 1.0.2 are not affected by this issue.
+
+OpenSSL 4.1 users should upgrade to OpenSSL 4.1.1.
+OpenSSL 4.0 users should upgrade to OpenSSL 4.0.4.
+OpenSSL 3.5 users should upgrade to OpenSSL 3.5.10.
+
+This issue was reported on 6 November 2026 by Bhabani Sankar Das.
+The fix has been developed by Bhabani Sankar Das.
+
+General Advisory Notes
+======================
+
+URL for this Security Advisory:
+<a href="https://openssl-library.org/news/secadv/20261117.txt" rel="nofollow">https://openssl-library.org/news/secadv/20261117.txt</a>
+
+Note: the online version of the advisory may be updated with additional
+details over time.
+
+Only currently supported releases have been analysed. OpenSSL 3.1, 3.2, 3.3,
+3.4, and 3.6 are out of support and have not been analysed.
+
+For details of OpenSSL severity classifications please see:
+<a href="https://openssl-library.org/policies/general/security-policy/" rel="nofollow">https://openssl-library.org/policies/general/security-policy/</a>
+
+
+--
+Norbert
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
