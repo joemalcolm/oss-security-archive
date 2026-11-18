@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - rsyslog imuxsock system-timestamp out-of-bounds write</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="24">[&lt;prev]</a> <a href="26">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CADk+mPBLkTxve6zwDjhDF4k91FWCziK9m11TZ_4coi_kDZcbNg&#64;mail.gmail.com&gt;
+Date: Tue, 17 Nov 2026 19:50:00 +0100
+From: Rainer Gerhards &lt;rgerhards&#64;...scon.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: rsyslog imuxsock system-timestamp out-of-bounds write
+
+Credit: Reported by @karimabisaad.
+
+rsyslog's imuxsock special parser can write beyond a received
+message's raw buffer when replacing the message timestamp with the
+system timestamp. A local sender able to write to a directly
+accessible imuxsock Unix datagram socket can combine an overlong
+invalid PRI with a short timestamp accepted by the permissive RFC3164
+parser. The fixed 16-byte in-place rewrite then has insufficient
+remaining capacity.
+
+Direct code inspection establishes the out-of-bounds write. The
+overwritten bytes derive from the daemon's current local time and a
+space, limiting attacker control over the values. A reliable crash or
+sustained denial of service in an ordinary, non-sanitized rsyslogd
+build has not been demonstrated. The provisional rating is Medium,
+CVSS 3.1 5.5 (CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H). CVE:
+CVE-2026-129829.
+
+Affected configuration: imuxsock's special parser with UseSysTimeStamp
+on a directly accessible raw Unix socket. The checked supported-v8
+affected range is &gt;= 8.1.0. Older v5-v7 releases are not implied safe;
+historical branches need specific validation. The planned fixed
+version is 2026-11-17 daily stable. Verify actual package availability
+separately before stating that a binary release contains the fix.
+
+The attached source-only patch addresses this reported write on the
+checked baseline. The full upstream fix includes regression tests and
+documentation. Apply or backport it against the exact source version
+you maintain. The patch and advisory are available at
+<a href="https://github.com/rsyslog/rsyslog/security/advisories/GHSA-xrxr-7942-54fr" rel="nofollow">https://github.com/rsyslog/rsyslog/security/advisories/GHSA-xrxr-7942-54fr</a>;
+check that page and the public rsyslog/rsyslog pull request for
+release-specific commits and status.
+
+The timestamp-write source patch is standalone against the checked
+baseline. The separate TAG patch must be applied after this patch; the
+separate PRI digit hardening patch is not required for this fix.
+
+Coordinated disclosure: 2026-11-17 16:00 UTC (17:00 CET). Planned
+fixed-version label: 2026-11-17 daily stable. Actual binary package
+availability must be verified separately.
+
+Patch (source only): see the attached .patch file (preserved without
+line wrapping).
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="25/1" rel="nofollow" download>GHSA-xrxr-7942-54fr.patch</a><strong>" of type "</strong>application/x-patch<strong>" (3194 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
