@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - WebKitGTK and WPE WebKit Security Advisory WSA-2026-0007</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;20261118190940.GS667365875486374&#64;igalia.com&gt;
+Date: Wed, 18 Nov 2026 19:09:40 +0100
+From: Adrian Perez de Castro &lt;aperez&#64;...lia.com&gt;
+To: webkit-gtk&#64;...ts.webkit.org, webkit-wpe&#64;...ts.webkit.org
+Cc: security&#64;...kit.org, oss-security&#64;...ts.openwall.com
+Subject: WebKitGTK and WPE WebKit Security Advisory WSA-2026-0007
+
+------------------------------------------------------------------------
+WebKitGTK and WPE WebKit Security Advisory                 WSA-2026-0007
+------------------------------------------------------------------------
+
+Date reported           : November 18, 2026
+Advisory ID             : WSA-2026-0007
+WebKitGTK Advisory URL  : <a href="https://webkitgtk.org/security/WSA-2026-0007.html" rel="nofollow">https://webkitgtk.org/security/WSA-2026-0007.html</a>
+WPE WebKit Advisory URL : <a href="https://wpewebkit.org/security/WSA-2026-0007.html" rel="nofollow">https://wpewebkit.org/security/WSA-2026-0007.html</a>
+CVE identifiers         : CVE-2026-112599, CVE-2026-112615,
+                          CVE-2026-112623, CVE-2026-112626,
+                          CVE-2026-112637, CVE-2026-112639,
+                          CVE-2026-112640, CVE-2026-112651,
+                          CVE-2026-112653, CVE-2026-112654,
+                          CVE-2026-112655, CVE-2026-112666,
+                          CVE-2026-112673, CVE-2026-112684,
+                          CVE-2026-112686, CVE-2026-112693,
+                          CVE-2026-112695, CVE-2026-113897,
+                          CVE-2026-113901, CVE-2026-113903,
+                          CVE-2026-113904, CVE-2026-86922,
+                          CVE-2026-86973, CVE-2026-86974,
+                          CVE-2026-86985, CVE-2026-86986.
+
+Several vulnerabilities were discovered in WebKitGTK and WPE WebKit.
+
+CVE-2026-112599
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.0.
+    Credit to Avinash Kumar Thapa &amp; Jay Kaushik Patel.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process crash. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 317465
+
+CVE-2026-112615
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Chris Rohlf with Anthropic Research.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process termination. Description: A use-after-free issue
+    was addressed with improved memory management.
+    WebKit Bugzilla: 324735
+
+CVE-2026-112623
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to pwn2addr, Lily Cohl (@GenericCoding).
+    Impact: Processing maliciously crafted web content may lead to
+    arbitrary code execution. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 323265
+
+CVE-2026-112626
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Euntae Jang, Luke Francis (@lukefr09), Shubham Chaskar, Josef Korbel
+    (Citadelo).
+    Impact: Processing maliciously crafted web content may lead to
+    arbitrary code execution. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 328141
+
+CVE-2026-112637
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Chris Rohlf with Anthropic Research, 은태 장.
+    Impact: Processing maliciously crafted web content may lead to
+    arbitrary code execution. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 323377
+
+CVE-2026-112639
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Luke Francis (@lukefr09).
+    Impact: Processing maliciously crafted web content may lead to
+    arbitrary code execution. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 322743
+
+CVE-2026-112640
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to an anonymous researcher.
+    Impact: Processing maliciously crafted web content may lead to
+    memory corruption. Description: A use-after-free issue was addressed
+    with improved memory management.
+    WebKit Bugzilla: 324262
+
+CVE-2026-112651
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Euntae Jang.
+    Impact: Processing maliciously crafted web content may lead to
+    arbitrary code execution. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 322120
+
+CVE-2026-112653
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Malik M. (@m411k_).
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process termination. Description: A use-after-free issue
+    was addressed with improved memory management.
+    WebKit Bugzilla: 323227
+
+CVE-2026-112654
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Charles Kern.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process termination. Description: A use-after-free issue
+    was addressed with improved memory management.
+    WebKit Bugzilla: 321934
+
+CVE-2026-112655
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Euntae Jang.
+    Impact: Processing maliciously crafted web content may lead to
+    arbitrary code execution. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 324150
+
+CVE-2026-112666
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Luke Francis (@lukefr09).
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process termination. Description: A use-after-free issue
+    was addressed with improved memory management.
+    WebKit Bugzilla: 321669
+
+CVE-2026-112673
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Myungyong Lee.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process termination. Description: A type confusion issue
+    was addressed with improved state handling.
+    WebKit Bugzilla: 322033
+
+CVE-2026-112684
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Gia Bui (@yabeow) from Calif.io.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process crash. Description: This issue was addressed
+    through improved state management.
+    WebKit Bugzilla: 328132
+
+CVE-2026-112686
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to an anonymous researcher.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process termination. Description: A race condition was
+    addressed with improved locking.
+    WebKit Bugzilla: 323986
+
+CVE-2026-112693
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to 은태 장.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected Safari crash. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 328131
+
+CVE-2026-112695
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Josef Korbel (Citadelo), Luke Francis (@lukefr09).
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process termination. Description: A use-after-free issue
+    was addressed with improved memory management.
+    WebKit Bugzilla: 322671
+
+CVE-2026-113897
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Luke Francis, Jackson Kuja.
+    Impact: A remote attacker may be able to break out of Web Content
+    sandbox. Description: This issue was addressed by removing the
+    vulnerable code.
+    WebKit Bugzilla: 328129
+
+CVE-2026-113901
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Kwak Kiyong (@Pwnkai23), Song Nuri.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process crash. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 323096
+
+CVE-2026-113903
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Eddy Tsalolikhin, OpenAI Codex Security - Amy Burnett, Lily Cohl
+    (@GenericCoding).
+    Impact: Processing maliciously crafted web content may lead to
+    unexpected memory modification. Description: A use-after-free issue
+    was addressed with improved memory management.
+    WebKit Bugzilla: 321652
+
+CVE-2026-113904
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Lily Cohl (@GenericCoding), Do Young Park (adawn), MYUNGYONG LEE,
+    Luke Francis (@lukefr09), Shubham Chaskar, Kwak Kiyong, Song Nuri.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process crash. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 328114
+
+CVE-2026-86922
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.0.
+    Credit to Nathaniel Oh (@calysteon), Kwak Kiyong / kakaogames.
+    Impact: Processing maliciously crafted web content may lead to
+    arbitrary code execution. Description: A type confusion issue was
+    addressed with improved state management.
+    WebKit Bugzilla: 308231
+
+CVE-2026-86973
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Narendra Singh (@_3P1C), an anonymous researcher.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process crash. Description: An out-of-bounds read was
+    addressed with improved bounds checking.
+    WebKit Bugzilla: 323079
+
+CVE-2026-86974
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Hossein Lotfi (@hosselot) of TrendAI Zero Day Initiative.
+    Impact: Processing maliciously crafted web content may lead to
+    memory corruption. Description: A type confusion issue was addressed
+    with improved checks.
+    WebKit Bugzilla: 321609
+
+CVE-2026-86985
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to Pasquale Scola.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected process crash. Description: This issue was addressed with
+    improved input validation.
+    WebKit Bugzilla: 318522
+
+CVE-2026-86986
+    Versions affected: WebKitGTK and WPE WebKit before 2.54.3.
+    Credit to an anonymous researcher.
+    Impact: Processing maliciously crafted web content may lead to an
+    unexpected Safari crash. Description: A use-after-free issue was
+    addressed with improved memory management.
+    WebKit Bugzilla: 318331
+
+We recommend updating to the latest stable versions of WebKitGTK and WPE
+WebKit. It is the best way to ensure that you are running safe versions
+of WebKit. Please check our websites for information about the latest
+stable releases.
+
+Further information about WebKitGTK and WPE WebKit security advisories
+can be found at: <a href="https://webkitgtk.org/security.html" rel="nofollow">https://webkitgtk.org/security.html</a> or
+<a href="https://wpewebkit.org/security" rel="nofollow">https://wpewebkit.org/security</a>.
+
+The WebKitGTK and WPE WebKit team,
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="9/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (196 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-123633, CVE-2026-123007: nginx RCE via HTTP/2</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="15">[&lt;prev]</a> <a href="17">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;av4MKXBseGwe-Upp&#64;netmeister.org&gt;
+Date: Wed, 18 Nov 2026 15:35:53 -0500
+From: Jan Schaumann &lt;jschauma&#64;...meister.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-123633, CVE-2026-123007: nginx RCE via HTTP/2
+
+Wiz.io published two RCE vulnerabilities in nginx's
+HTTP/2 handling:
+
+<a href="https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities" rel="nofollow">https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities</a>
+
+CVE-2026-123633, HTTP/2 connection use-after-free
+CVE-2026-123007 HTTP/2 send_window integer underflow
+
+F5's security advisory is at
+<a href="https://my.f5.com/manage/s/article/K000164058" rel="nofollow">https://my.f5.com/manage/s/article/K000164058</a>
+<a href="https://my.f5.com/manage/s/article/K000163928" rel="nofollow">https://my.f5.com/manage/s/article/K000163928</a>
+<a href="https://my.f5.com/manage/s/article/K000163926" rel="nofollow">https://my.f5.com/manage/s/article/K000163926</a>
+
+The main F5 advisory includes a few additional
+vulnerabilities, but the two RCEs are making the
+internet hype cycle rounds today under the (*eyeroll*)
+names "nginx2shell" and/or "nginx2root"
+(<a href="https://nginx2root.com/" rel="nofollow">https://nginx2root.com/</a>).
+
+(The "2root" moniker is particularly annoying because
+it relies on an independent LPE, which, well, sure, if
+you assume that you have an LPE, then _any_ RCE is a
+remote root, but ok.)
+
+Both RCEs require HTTP/2 to be enabled, so turning
+that off (`http2 off`) is an effective mitigation.
+
+
+nginx.org says
+
+"nginx-1.30.7 stable and nginx-1.31.9 mainline
+versions have been released, with vulnerability fixes
+for use-after-free in resolver (CVE-2026-123634),
+memory corruption in HTTP/2 flow control
+(CVE-2026-123007), use-after-free in HTTP/3
+(CVE-2026-121810), use-after-free in HTTP/2
+(CVE-2026-123633), infinite loop while reading client
+request body over TLS 1.3 (CVE-2026-118899),
+use-after-free in mail proxy module (CVE-2026-113425),
+NULL pointer dereference when using PROXY protocol
+version 2 (CVE-2026-120993), buffer overflow when
+using alias with try_files (CVE-2026-125283), SNI
+bypass in client certificate validation in stream
+module (CVE-2026-120967), and insufficient validation
+in stream ssl_preread module (CVE-2026-123640).
+
+<a href="https://nginx.org/en/security_advisories.html" rel="nofollow">https://nginx.org/en/security_advisories.html</a>
+
+(I'll note again that I find it suboptimal to have a
+single page for all CVEs with no clear identification
+of what date they were announced; I also see no good
+way of keeping up to date with nginx security
+announcements as the project does not seem to maintain
+mailing lists any longer (e.g.,
+<a href="http://mailman.nginx.org/pipermail/nginx-announce/" rel="nofollow">http://mailman.nginx.org/pipermail/nginx-announce/</a>).)
+
+The latest open source release is here:
+<a href="https://github.com/nginx/nginx/releases/tag/release-1.31.9" rel="nofollow">https://github.com/nginx/nginx/releases/tag/release-1.31.9</a>
+
+Full set of changes from previous release:
+<a href="https://github.com/nginx/nginx/compare/release-1.31.8...release-1.31.9" rel="nofollow">https://github.com/nginx/nginx/compare/release-1.31.8...release-1.31.9</a>
+
+
+
+Cribbing from the Wiz.io advisory:
+
+" Both vulnerabilities require HTTP/2 to be enabled,
+but their additional requirements differ.
+CVE-2026-123633 affects reverse-proxy processing when
+available connection slots run low. CVE-2026-123007
+can also affect NGINX serving content directly, as
+demonstrated in our testing over HTTPS on 64-bit
+systems. Typical memory safety mitigations such as
+ASLR do not protect against these issues, as attackers
+can use either vulnerabilities for memory read access
+prior to code execution.
+
+[...]
+
+Any exploit assumes the attacker is able to
+communicate directly with the affected NGINX server.
+CDNs and WAFs that terminate HTTP/2 may mitigate parts
+of the exploit by not reflecting the exact payload
+back to the underlying NGINX server. This depends on
+implementation.
+
+Specifically, CVE-2026-123007 requires the attacker to
+send a large number of WINDOW_UPDATE records to
+increase it to an arbitrary value. Detection rules
+covering long standing HTTP/2 connections sending
+large amounts of data may hint at an attack associated
+with this vulnerability. CVE-2026-123633 has different
+exploitation constraints and is more likely to be
+exploited when NGINX is configured in proxy
+configuration."
+
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
