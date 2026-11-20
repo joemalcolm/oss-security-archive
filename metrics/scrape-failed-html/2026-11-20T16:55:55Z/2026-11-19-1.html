@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Ruby: multiple vulnerabilities in Regexp and String
+ case conversion</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/11/18/19">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/11/20/5">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;5335b6c5-16e4-4c75-a752-1f558f0e7777&#64;oracle.com&gt;
+Date: Wed, 18 Nov 2026 17:03:47 -0800
+From: Alan Coopersmith &lt;alan.coopersmith&#64;...cle.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Ruby: multiple vulnerabilities in Regexp and String
+ case conversion
+
+<a href="https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/" rel="nofollow">https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/</a>
+advises:
+&gt; Security advisories: multiple vulnerabilities in Regexp and String case
+&gt; conversion
+&gt; 
+&gt; Posted by mame on 18 Nov 2026
+&gt; 
+&gt; Seven vulnerabilities have been discovered in Ruby’s regular
+&gt; expression engine and in the case conversion of strings. We are aware
+&gt; of PoCs that prove some of them can be used to trigger remote code
+&gt; execution. We have released Ruby 4.0.10, 3.4.13 and 3.3.14 to fix
+&gt; them. We strongly recommend upgrading.
+&gt; 
+&gt; CVE identifiers have been requested for these vulnerabilities but have
+&gt; not been assigned yet, so this advisory refers to them by their GitHub
+&gt; Security Advisory (GHSA) identifiers.
+&gt; 
+&gt; 
+&gt; GHSA-34m4-m9fh-gqp5: Heap buffer overflow in case conversion of strings
+&gt; <a href="https://github.com/ruby/ruby/security/advisories/GHSA-34m4-m9fh-gqp5" rel="nofollow">https://github.com/ruby/ruby/security/advisories/GHSA-34m4-m9fh-gqp5</a>
+&gt; 
+&gt; Ruby has a one-byte heap-based buffer overflow in the case conversion
+&gt; of strings. Changing the case of a crafted string may allow remote
+&gt; code execution. We are aware of PoCs that prove this flaw can be used
+&gt; to trigger RCE in some scenarios.
+&gt; 
+&gt; 
+&gt; GHSA-7x2q-68qv-6p8x: Double free in regular expression compilation
+&gt; <a href="https://github.com/ruby/ruby/security/advisories/GHSA-7x2q-68qv-6p8x" rel="nofollow">https://github.com/ruby/ruby/security/advisories/GHSA-7x2q-68qv-6p8x</a>
+&gt; 
+&gt; Ruby has a double free in its regular expression engine. Compiling a
+&gt; crafted regular expression pattern may allow remote code execution in
+&gt; applications that compile attacker-controlled patterns. We are aware
+&gt; of PoCs that prove this flaw can be used to trigger RCE in some
+&gt; scenarios.
+&gt; 
+&gt; 
+&gt; GHSA-87fm-7w84-j2px: Integer overflow in case conversion of strings
+&gt; <a href="https://github.com/ruby/ruby/security/advisories/GHSA-87fm-7w84-j2px" rel="nofollow">https://github.com/ruby/ruby/security/advisories/GHSA-87fm-7w84-j2px</a>
+&gt; 
+&gt; Ruby has an integer overflow in the case conversion of strings, which
+&gt; causes a heap-based buffer overflow. Changing the case of a crafted
+&gt; string may allow remote code execution. We are aware of PoCs that
+&gt; prove this flaw can be used to trigger RCE in some scenarios.
+&gt; 
+&gt; 
+&gt; GHSA-wpqw-5qxg-m68r: Out-of-bounds read in case-insensitive regular
+&gt; expression matching
+&gt; <a href="https://github.com/ruby/ruby/security/advisories/GHSA-wpqw-5qxg-m68r" rel="nofollow">https://github.com/ruby/ruby/security/advisories/GHSA-wpqw-5qxg-m68r</a>
+&gt; 
+&gt; Ruby has an out-of-bounds read in its regular expression engine.
+&gt; Matching against a crafted regular expression pattern may allow remote
+&gt; code execution in applications that use attacker-controlled patterns.
+&gt; We are aware of PoCs that prove this flaw can lead to memory corruption
+&gt; in an attacker-controlled way.
+&gt; 
+&gt; 
+&gt; GHSA-3p8q-wmhx-vm2w: Heap buffer overflow in regular expression compilation
+&gt; <a href="https://github.com/ruby/ruby/security/advisories/GHSA-3p8q-wmhx-vm2w" rel="nofollow">https://github.com/ruby/ruby/security/advisories/GHSA-3p8q-wmhx-vm2w</a>
+&gt; 
+&gt; Ruby has an integer overflow in its regular expression engine, which
+&gt; causes a heap-based buffer overflow. Compiling a crafted regular
+&gt; expression pattern may allow remote code execution in applications
+&gt; that compile attacker-controlled patterns. We are aware of PoCs that
+&gt; prove this flaw can be used to trigger RCE in some scenarios.
+&gt; 
+&gt; 
+&gt; GHSA-7whj-cfh7-xgm4: Heap buffer overflow in Regexp#to_s
+&gt; <a href="https://github.com/ruby/ruby/security/advisories/GHSA-7whj-cfh7-xgm4" rel="nofollow">https://github.com/ruby/ruby/security/advisories/GHSA-7whj-cfh7-xgm4</a>
+&gt; 
+&gt; Ruby has a heap-based buffer overflow in Regexp#to_s. Converting a
+&gt; crafted regular expression to a string may allow information
+&gt; disclosure or remote code execution in applications that compile
+&gt; attacker-controlled patterns. We are aware of PoCs that prove this
+&gt; flaw can be used to trigger RCE in some scenarios.
+&gt; 
+&gt; GHSA-pvgc-g7gj-pv6h: Out-of-bounds read in case-insensitive backreference matching
+&gt; <a href="https://github.com/ruby/ruby/security/advisories/GHSA-pvgc-g7gj-pv6h" rel="nofollow">https://github.com/ruby/ruby/security/advisories/GHSA-pvgc-g7gj-pv6h</a>
+&gt; 
+&gt; Ruby has an out-of-bounds read in its regular expression engine.
+&gt; Matching a crafted string may disclose memory contents or crash the process.
+&gt; 
+&gt; 
+&gt; Affected versions
+&gt; 
+&gt;     Ruby 3.3.13 and earlier
+&gt;     Ruby 3.4.0 through 3.4.12
+&gt;     Ruby 4.0.0 through 4.0.9
+&gt; 
+&gt; Recommended action
+&gt; 
+&gt; We strongly recommend upgrading to Ruby 4.0.10, 3.4.13 or 3.3.14.
+&gt; 
+&gt; Ruby 3.3 is in the security maintenance phase. Ruby 3.2 and earlier have
+&gt; reached their end of life and will not receive these fixes.
+&gt; 
+&gt; Credits
+&gt; 
+&gt;     GHSA-34m4-m9fh-gqp5: Stephan Lipp (Ada Logics) and Anthropic
+&gt;     GHSA-7x2q-68qv-6p8x: Stephan Lipp (Ada Logics) and Anthropic
+&gt;     GHSA-87fm-7w84-j2px: baba__yaga
+&gt;     GHSA-wpqw-5qxg-m68r: Stephan Lipp (Ada Logics) and Anthropic
+&gt;     GHSA-3p8q-wmhx-vm2w: aphantom
+&gt;     GHSA-7whj-cfh7-xgm4: Stephan Lipp (Ada Logics) and Anthropic
+&gt;     GHSA-pvgc-g7gj-pv6h: Hiroya Fujinami and Hiroshi SHIBATA
+&gt; 
+&gt; History
+&gt; 
+&gt;     Originally published at 2026-11-19 00:00:00 (UTC)
+
+-- 
+         -Alan Coopersmith-                 alan.coopersmith&#64;...cle.com
+          Oracle Solaris Engineering - <a href="https://blogs.oracle.com/solaris" rel="nofollow">https://blogs.oracle.com/solaris</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
