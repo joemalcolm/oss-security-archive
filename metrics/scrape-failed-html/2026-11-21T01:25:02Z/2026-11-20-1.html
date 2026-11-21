@@ -1,0 +1,523 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - NoisyTCP — CVE-2026-99288 (Was Re: Backports available - cBPF JIT spray hardening)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/11/19/10">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/07/30/28">[&lt;thread-prev]</a> <a href="3">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;49ce58fc228f99240f9c3658622ca2d6&#64;metztli.com&gt;
+Date: Thu, 19 Nov 2026 15:25:25 -0800
+From: Jose R Rodriguez &lt;jose.r.r&#64;...ztli.com&gt;
+To: Greg KH &lt;greg&#64;...ah.com&gt;
+Cc: oss-security&#64;...ts.openwall.com, Edward Shishkin
+ &lt;edward.shishkin&#64;...il.com&gt;, Reiserfs Devel &lt;reiserfs-devel&#64;...r.kernel.org&gt;
+Subject: NoisyTCP — CVE-2026-99288 (Was Re: Backports available - cBPF JIT spray hardening)
+
+On 2026-07-30 07:00, Greg KH wrote:
+&gt; On Wed, Jul 29, 2026 at 06:31:11PM -0700, Pawan Gupta wrote:
+&gt;&gt; On Wed, Jul 29, 2026 at 05:15:46PM -0700, Jose R Rodriguez wrote:
+&gt;&gt; &gt; On 2026-07-29 13:04, Pawan Gupta wrote:
+&gt;&gt; &gt; &gt; Hi All,
+&gt;&gt; &gt; &gt;
+&gt;&gt; &gt; &gt; This is an inform distro maintainers about recently upstreamed hardening
+&gt;&gt; &gt; &gt; against speculative execution attacks using BPF JIT spraying.
+&gt;&gt; &gt; &gt;
+&gt;&gt; &gt; &gt; The backports are available here:
+&gt;&gt; &gt; &gt;
+&gt;&gt; &gt; &gt;   6.1  - <a href="https://lore.kernel.org/all/20260727-cbpf-jit-spray-hardening-6-1-y-v1-0-eb80dcf1eb6e&#64;linux.intel.com" rel="nofollow">https://lore.kernel.org/all/20260727-cbpf-jit-spray-hardening-6-1-y-v1-0-eb80dcf1eb6e&#64;linux.intel.com</a>
+&gt;&gt; &gt; &gt;   6.6  - <a href="https://lore.kernel.org/all/20260717-cbpf-jit-spray-hardening-6-6-y-v1-0-e04f1b2893de&#64;linux.intel.com" rel="nofollow">https://lore.kernel.org/all/20260717-cbpf-jit-spray-hardening-6-6-y-v1-0-e04f1b2893de&#64;linux.intel.com</a>
+&gt;&gt; &gt; &gt;   6.12 - <a href="https://lore.kernel.org/all/20260715-cbpf-jit-spray-hardening-6-12-y-v1-0-d8585a9aed80&#64;linux.intel.com" rel="nofollow">https://lore.kernel.org/all/20260715-cbpf-jit-spray-hardening-6-12-y-v1-0-d8585a9aed80&#64;linux.intel.com</a>
+&gt;&gt; &gt; &gt;   6.18 - <a href="https://lore.kernel.org/all/20260713-cbpf-jit-spray-hardening-6-18-y-v1-0-755f60c55705&#64;linux.intel.com" rel="nofollow">https://lore.kernel.org/all/20260713-cbpf-jit-spray-hardening-6-18-y-v1-0-755f60c55705&#64;linux.intel.com</a>
+&gt;&gt; &gt; &gt;   7.1  - <a href="https://lore.kernel.org/all/20260709-cbpf-jit-spray-hardening-7-1-y-v1-0-5ac5a2d6797f&#64;linux.intel.com" rel="nofollow">https://lore.kernel.org/all/20260709-cbpf-jit-spray-hardening-7-1-y-v1-0-5ac5a2d6797f&#64;linux.intel.com</a>
+&gt;&gt; &gt; &gt;
+&gt;&gt; &gt; &gt; 6.1 backport is queued. Others are part of LTS kernels.
+&gt;&gt; &gt; &gt;
+&gt;&gt; &gt; &gt; 5.15 and older do not support pack allocator for BPF on which the
+&gt;&gt; &gt; &gt; hardening
+&gt;&gt; &gt; &gt; is based on. So the series is not directly applicable to 5.15 and older,
+&gt;&gt; &gt; &gt; and may need custom hardening patches.
+&gt;&gt; &gt;
+&gt;&gt; &gt; Any patches out there for kernel 5.17.15? Thanks in advance!
+&gt;&gt; 
+&gt;&gt; Pack allocator was first introduced in 5.18 by commit:
+&gt;&gt; 
+&gt;&gt;   57631054fae6 ("bpf: Introduce bpf_prog_pack allocator")
+&gt;&gt; 
+&gt;&gt; This means that 5.17 is in the same boat as 5.15, it does not support 
+&gt;&gt; BPF
+&gt;&gt; pack allocator, and these hardening patches dont apply.
+&gt;&gt; 
+&gt;&gt; Pack allocator makes the JIT spraying attacks easier, but this doesn't 
+&gt;&gt; mean
+&gt;&gt; that kernels withouth it are immune to such attacks. This needs a 
+&gt;&gt; fresh
+&gt;&gt; assessment and possibly a different hardening approach.
+&gt;&gt; 
+&gt;&gt; BTW, I am confused by the choice of distro kernel 5.17 which is not an 
+&gt;&gt; LTS
+&gt;&gt; kernel.
+&gt; 
+&gt; Yes, that's a very odd choice for anyone to run these days.  According
+&gt; to the cve tools:
+&gt; 	Total Vulnerable CVE's in 5.17.15 : 7035
+&gt; 
+&gt; That's a non-trivial amount...
+
+Since the time of your comment I have been keeping up with reiser4 
+-enhanced 5.15 LTS build iterations -- with the latest being 5.15.224. 
+Notwithstanding, 'NoisyTCP — CVE-2026-99288' came along and the latest 
+5.15.225 LTS iteration did not address the critical vulnerability. I 
+have the 5.15 LTS kernel(s) deployed online and I got spooked. 
+Accordingly, on a best effort basis, I backported the patch from 
+upstream:
+
+ From 0e5944a7abe777d2b8aad3604f7a7531966c06b1 Mon Sep 17 00:00:00 2001
+ From: Metztli Information Technology &lt;jose&#64;...ocoiatzin.metztli.it&gt;
+Date: Thu, 19 Nov 2026 14:45:54 -0800
+Subject: [PATCH] 
+=?UTF-8?q?Best=20effort=205.15.225=20LTS=20backport=20pat?=
+  =?UTF-8?q?ch=20against=20NoisyTCP=20=E2=80=94=20CVE-2026-99288?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+  include/linux/refcount.h        | 55 +++++++++++++++++++++++++++++++++
+  net/core/filter.c               |  2 +-
+  net/ipv4/inet_connection_sock.c | 16 ++++++----
+  net/ipv4/inet_hashtables.c      |  7 +++--
+  net/ipv4/inet_timewait_sock.c   |  4 +--
+  net/ipv4/syncookies.c           |  4 ++-
+  net/ipv4/tcp_fastopen.c         |  2 +-
+  net/ipv4/tcp_input.c            |  4 ++-
+  net/ipv6/inet6_hashtables.c     |  6 ++--
+  9 files changed, 83 insertions(+), 17 deletions(-)
+
+diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+index b8a6e387f8f9..43a29f15d09c 100644
+--- a/include/linux/refcount.h
++++ b/include/linux/refcount.h
+@@ -142,6 +142,10 @@ static inline void refcount_set(refcount_t *r, int 
+n)
+   *
+   * Return: the refcount's value
+   */
++static inline void refcount_set_release(refcount_t *r, int n)
++{
++	atomic_set_release(&amp;r-&gt;refs, n);
++}
+  static inline unsigned int refcount_read(const refcount_t *r)
+  {
+  	return atomic_read(&amp;r-&gt;refs);
+@@ -188,6 +192,48 @@ static inline __must_check bool 
+refcount_add_not_zero(int i, refcount_t *r)
+  	return __refcount_add_not_zero(i, r, NULL);
+  }
+
++static inline __must_check
++bool __refcount_add_not_zero_limited_acquire(int i, refcount_t *r, int 
+*oldp,
++					     int limit)
++{
++	int old = refcount_read(r);
++
++	do {
++		if (!old)
++			break;
++
++		if (i &gt; limit - old) {
++			if (oldp)
++				*oldp = old;
++			return false;
++		}
++	} while (!atomic_try_cmpxchg_acquire(&amp;r-&gt;refs, &amp;old, old + i));
++
++	if (oldp)
++		*oldp = old;
++
++	if (unlikely(old &lt; 0 || old + i &lt; 0))
++		refcount_warn_saturate(r, REFCOUNT_ADD_NOT_ZERO_OVF);
++
++	return old;
++}
++
++static inline __must_check bool
++__refcount_inc_not_zero_limited_acquire(refcount_t *r, int *oldp, int 
+limit)
++{
++	return __refcount_add_not_zero_limited_acquire(1, r, oldp, limit);
++}
++
++static inline __must_check
++bool __refcount_add_not_zero_acquire(int i, refcount_t *r, int *oldp)
++{
++	return __refcount_add_not_zero_limited_acquire(i, r, oldp, INT_MAX);
++}
++static inline __must_check bool refcount_add_not_zero_acquire(int i, 
+refcount_t *r)
++{
++	return __refcount_add_not_zero_acquire(i, r, NULL);
++}
++
+  static inline void __refcount_add(int i, refcount_t *r, int *oldp)
+  {
+  	int old = atomic_fetch_add_relaxed(i, &amp;r-&gt;refs);
+@@ -245,6 +291,15 @@ static inline __must_check bool 
+refcount_inc_not_zero(refcount_t *r)
+  	return __refcount_inc_not_zero(r, NULL);
+  }
+
++static inline __must_check bool 
+__refcount_inc_not_zero_acquire(refcount_t *r, int *oldp)
++{
++	return __refcount_add_not_zero_acquire(1, r, oldp);
++}
++static inline __must_check bool 
+refcount_inc_not_zero_acquire(refcount_t *r)
++{
++	return __refcount_inc_not_zero_acquire(r, NULL);
++}
++
+  static inline void __refcount_inc(refcount_t *r, int *oldp)
+  {
+  	__refcount_add(1, r, oldp);
+diff --git a/net/core/filter.c b/net/core/filter.c
+index f4a6ca23eef5..8de20ec6c5f0 100644
+--- a/net/core/filter.c
++++ b/net/core/filter.c
+@@ -7197,7 +7197,7 @@ BPF_CALL_3(bpf_sk_assign, struct sk_buff *, skb, 
+struct sock *, sk, u64, flags)
+  	if (sk_unhashed(sk))
+  		return -EOPNOTSUPP;
+  	if (sk_is_refcounted(sk) &amp;&amp;
+-	    unlikely(!refcount_inc_not_zero(&amp;sk-&gt;sk_refcnt)))
++	    unlikely(!refcount_inc_not_zero_acquire(&amp;sk-&gt;sk_refcnt)))
+  		return -ENOENT;
+
+  	skb_orphan(skb);
+diff --git a/net/ipv4/inet_connection_sock.c 
+b/net/ipv4/inet_connection_sock.c
+index ac9f18861aa7..3681198e43d9 100644
+--- a/net/ipv4/inet_connection_sock.c
++++ b/net/ipv4/inet_connection_sock.c
+@@ -863,8 +863,8 @@ static void reqsk_timer_handler(struct timer_list 
+*t)
+  		 * hold another count to prevent use-after-free and
+  		 * call reqsk_put() just before return.
+  		 */
+-		refcount_set(&amp;nreq-&gt;rsk_refcnt, 2 + 1);
+  		timer_setup(&amp;nreq-&gt;rsk_timer, reqsk_timer_handler, TIMER_PINNED);
++		refcount_set_release(&amp;nreq-&gt;rsk_refcnt, 2 + 1);
+  		reqsk_queue_migrated(&amp;inet_csk(nsk)-&gt;icsk_accept_queue, req);
+
+  		req = nreq;
+@@ -939,10 +939,14 @@ static void reqsk_timer_handler(struct timer_list 
+*t)
+  	 */
+  	if (nreq) {
+  		__NET_INC_STATS(net, LINUX_MIB_TCPMIGRATEREQFAILURE);
++		/* The timer was not armed, drop its reference here. */
++		reqsk_put(nreq);
+  no_ownership:
+  		reqsk_migrate_reset(nreq);
+  		reqsk_queue_removed(queue, nreq);
+-		__reqsk_free(nreq);
++		/* Drop the temporary reference and the one reserved for ehash. */
++		reqsk_put(nreq);
++		reqsk_put(nreq);
+  	}
+
+  drop:
+@@ -1216,7 +1220,7 @@ struct sock *inet_csk_complete_hashdance(struct 
+sock *sk, struct sock *child,
+  				goto child_put;
+  			}
+
+-			refcount_set(&amp;nreq-&gt;rsk_refcnt, 1);
++			refcount_set_release(&amp;nreq-&gt;rsk_refcnt, 1);
+  			if (inet_csk_reqsk_queue_add(sk, nreq, child)) {
+  				__NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPMIGRATEREQSUCCESS);
+  				reqsk_migrate_reset(req);
+@@ -1226,7 +1230,7 @@ struct sock *inet_csk_complete_hashdance(struct 
+sock *sk, struct sock *child,
+
+  			__NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPMIGRATEREQFAILURE);
+  			reqsk_migrate_reset(nreq);
+-			__reqsk_free(nreq);
++			reqsk_put(nreq);
+  		} else if (inet_csk_reqsk_queue_add(sk, req, child)) {
+  			return child;
+  		}
+@@ -1270,7 +1274,7 @@ void inet_csk_listen_stop(struct sock *sk)
+  		if (nsk) {
+  			nreq = inet_reqsk_clone(req, nsk);
+  			if (nreq) {
+-				refcount_set(&amp;nreq-&gt;rsk_refcnt, 1);
++				refcount_set_release(&amp;nreq-&gt;rsk_refcnt, 1);
+
+  				rcu_read_lock();
+  				if (inet_csk_reqsk_queue_add(nsk, nreq, child)) {
+@@ -1282,7 +1286,7 @@ void inet_csk_listen_stop(struct sock *sk)
+  					__NET_INC_STATS(sock_net(nsk),
+  							LINUX_MIB_TCPMIGRATEREQFAILURE);
+  					reqsk_migrate_reset(nreq);
+-					__reqsk_free(nreq);
++					reqsk_put(nreq);
+  				}
+  				rcu_read_unlock();
+
+diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
+index a7d11b82fe64..dc7ab92c8978 100644
+--- a/net/ipv4/inet_hashtables.c
++++ b/net/ipv4/inet_hashtables.c
+@@ -381,10 +381,11 @@ struct sock *__inet_lookup_established(struct net 
+*net,
+  		if (sk-&gt;sk_hash != hash)
+  			continue;
+  		if (likely(INET_MATCH(net, sk, acookie, ports, dif, sdif))) {
+-			if (unlikely(!refcount_inc_not_zero(&amp;sk-&gt;sk_refcnt)))
++			if (unlikely(!refcount_inc_not_zero_acquire(&amp;sk-&gt;sk_refcnt)))
+  				goto out;
+-			if (unlikely(!INET_MATCH(net, sk, acookie,
+-						 ports, dif, sdif))) {
++			if (unlikely(hlist_nulls_unhashed_lockless(&amp;sk-&gt;sk_nulls_node) ||
++				     !INET_MATCH(net, sk, acookie, ports, dif,
++						 sdif))) {
+  				sock_gen_put(sk);
+  				goto begin;
+  			}
+diff --git a/net/ipv4/inet_timewait_sock.c 
+b/net/ipv4/inet_timewait_sock.c
+index 25809e06f111..aae056089157 100644
+--- a/net/ipv4/inet_timewait_sock.c
++++ b/net/ipv4/inet_timewait_sock.c
+@@ -137,7 +137,7 @@ void inet_twsk_hashdance(struct inet_timewait_sock 
+*tw, struct sock *sk,
+  	 * Also note that after this point, we lost our implicit reference
+  	 * so we are not allowed to use tw anymore.
+  	 */
+-	refcount_set(&amp;tw-&gt;tw_refcnt, 3);
++	refcount_set_release(&amp;tw-&gt;tw_refcnt, 3);
+  }
+  EXPORT_SYMBOL_GPL(inet_twsk_hashdance);
+
+@@ -278,7 +278,7 @@ void inet_twsk_purge(struct inet_hashinfo *hashinfo, 
+int family)
+  			    refcount_read(&amp;sock_net(sk)-&gt;ns.count))
+  				continue;
+
+-			if (unlikely(!refcount_inc_not_zero(&amp;sk-&gt;sk_refcnt)))
++			if (unlikely(!refcount_inc_not_zero_acquire(&amp;sk-&gt;sk_refcnt)))
+  				continue;
+
+  			if (unlikely(sk-&gt;sk_family != family ||
+diff --git a/net/ipv4/syncookies.c b/net/ipv4/syncookies.c
+index 5a61f9a364ad..ee39ec6452e3 100644
+--- a/net/ipv4/syncookies.c
++++ b/net/ipv4/syncookies.c
+@@ -203,7 +203,7 @@ struct sock *tcp_get_cookie_sock(struct sock *sk, 
+struct sk_buff *skb,
+  	child = icsk-&gt;icsk_af_ops-&gt;syn_recv_sock(sk, skb, req, dst,
+  						 NULL, &amp;own_req, NULL);
+  	if (child) {
+-		refcount_set(&amp;req-&gt;rsk_refcnt, 1);
++		refcount_set_release(&amp;req-&gt;rsk_refcnt, 1);
+  		tcp_sk(child)-&gt;tsoffset = tsoff;
+  		sock_rps_save_rxhash(child, skb);
+
+@@ -217,6 +217,8 @@ struct sock *tcp_get_cookie_sock(struct sock *sk, 
+struct sk_buff *skb,
+
+  		bh_unlock_sock(child);
+  		sock_put(child);
++		reqsk_put(req);
++		return NULL;
+  	}
+  	__reqsk_free(req);
+
+diff --git a/net/ipv4/tcp_fastopen.c b/net/ipv4/tcp_fastopen.c
+index f3ed7d5ff7ef..ffa975ceb946 100644
+--- a/net/ipv4/tcp_fastopen.c
++++ b/net/ipv4/tcp_fastopen.c
+@@ -281,7 +281,7 @@ static struct sock *tcp_fastopen_create_child(struct 
+sock *sk,
+  	inet_csk_reset_xmit_timer(child, ICSK_TIME_RETRANS,
+  				  TCP_TIMEOUT_INIT, TCP_RTO_MAX);
+
+-	refcount_set(&amp;req-&gt;rsk_refcnt, 2);
++	refcount_set_release(&amp;req-&gt;rsk_refcnt, 2);
+
+  	/* Now finish processing the fastopen child socket. */
+  	tcp_init_transfer(child, BPF_SOCK_OPS_PASSIVE_ESTABLISHED_CB, skb);
+diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+index 4a481dd4579b..8b8c892810ee 100644
+--- a/net/ipv4/tcp_input.c
++++ b/net/ipv4/tcp_input.c
+@@ -7069,7 +7069,9 @@ int tcp_conn_request(struct request_sock_ops 
+*rsk_ops,
+  		if (!inet_csk_reqsk_queue_add(sk, req, fastopen_sk)) {
+  			bh_unlock_sock(fastopen_sk);
+  			sock_put(fastopen_sk);
+-			goto drop_and_free;
++			/* tcp_disconnect() already dropped one reqsk ref. */
++			reqsk_put(req);
++			goto drop;
+  		}
+  		sk-&gt;sk_data_ready(sk);
+  		bh_unlock_sock(fastopen_sk);
+diff --git a/net/ipv6/inet6_hashtables.c b/net/ipv6/inet6_hashtables.c
+index 869173f176cc..a23cade5fb83 100644
+--- a/net/ipv6/inet6_hashtables.c
++++ b/net/ipv6/inet6_hashtables.c
+@@ -74,10 +74,12 @@ struct sock *__inet6_lookup_established(struct net 
+*net,
+  			continue;
+  		if (!inet6_match(net, sk, saddr, daddr, ports, dif, sdif))
+  			continue;
+-		if (unlikely(!refcount_inc_not_zero(&amp;sk-&gt;sk_refcnt)))
++		if (unlikely(!refcount_inc_not_zero_acquire(&amp;sk-&gt;sk_refcnt)))
+  			goto out;
+
+-		if (unlikely(!inet6_match(net, sk, saddr, daddr, ports, dif, sdif))) 
+{
++		if (unlikely(hlist_nulls_unhashed_lockless(&amp;sk-&gt;sk_nulls_node) ||
++			     !inet6_match(net, sk, saddr, daddr, ports, dif,
++					  sdif))) {
+  			sock_gen_put(sk);
+  			goto begin;
+  		}
+-- 
+2.47.3
+
+patching 5.15.225 LTS -- which I am currently running online.
+
+&gt; 
+&gt; good luck!
+&gt; 
+&gt; greg k-h
+
+-- 
+Best Professional Regards.
+
+--
+Jose R R
+<a href="http://metztli.it" rel="nofollow">http://metztli.it</a>
+---------------------------------------------------------------------------------------------
+Download Metztli Reiser4: Debian Trixie w/ Linux 5.17.15-3 AMD64
+---------------------------------------------------------------------------------------------
+feats ZSTD compression <a href="https://sf.net/projects/metztli-reiser4/" rel="nofollow">https://sf.net/projects/metztli-reiser4/</a>
+-------------------------------------------------------------------------------------------
+Official current Reiser4 resources: <a href="https://reiser4.wiki.kernel.org/" rel="nofollow">https://reiser4.wiki.kernel.org/</a>
+<span style="font-family: times;"><strong>View attachment "</strong><a href="1/1">metztli-5_15_225-LTS-NoisyTCP.patch</a><strong>" of type "</strong>text/x-diff<strong>" (10148 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
