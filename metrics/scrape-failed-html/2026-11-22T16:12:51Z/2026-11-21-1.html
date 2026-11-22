@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Fwd: Re: [Announce] GnuPG Security Advisory for GPGME
+ (T8557,CVE-2026-129975)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="../../../2026/11/20/13">[&lt;prev]</a> <a href="2">[next&gt;]</a> <a href="../../../2026/11/20/13">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;87pkvyscu2.fsf&#64;gentoo.org&gt;
+Date: Sat, 21 Nov 2026 10:23:01 +0000
+From: Sam James &lt;sam&#64;...too.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Cc: Jiri Kucera &lt;sanczes&#64;...il.com&gt;, Werner Koch &lt;wk&#64;...pg.org&gt;
+Subject: Fwd: Re: [Announce] GnuPG Security Advisory for GPGME
+ (T8557,CVE-2026-129975)
+
+Todd Zullinger points out something unfortunate: RH had this patched
+downstream years ago.
+
+Werner, I assume that was never sent to you?
+
+-------------------- Start of forwarded message --------------------
+Date: Fri, 20 Nov 2026 20:06:51 -0500
+To: Bernhard Reiter &lt;bernhard&#64;...evation.de&gt;
+Cc: gnupg-devel&#64;...pg.org
+Subject: Re: [Announce] GnuPG Security Advisory for GPGME
+ (T8557,CVE-2026-129975)
+From: Todd Zullinger via Gnupg-devel &lt;gnupg-devel&#64;...pg.org&gt;
+
+
+Bernhard Reiter via Gnupg-devel wrote:
+&gt; Am Freitag 20 November 2026 19:01:51 schrieb Werner Koch via Gnupg-announce:
+&gt;&gt; We are pleased to announce the availability of a new GPGME release:
+&gt;&gt; version 2.3.1.  This version fixes a *critical security bug* found in
+&gt;&gt; all prior versions.  We also release a new Gpg4win versions and and
+&gt;&gt; GnuPG Desktop and GnuPG VS-Desktop versions which all make use of GPGME.
+&gt; 
+&gt;&gt; If for some reasons GPGME can't be updated, you may patch your GPGME
+&gt;&gt; version using the attached patch which likley applies cleanly even to
+&gt;&gt; very old versions.
+&gt; 
+&gt; seems the patch did not make the announcement mail.
+
+You're lucky, I didn't even see the announcement mail. :)
+
+&gt; (And also I had a bad signature on this email, but this sometimes happens when 
+&gt; Mailman folds some long attachment header lines.)
+&gt; 
+&gt; The git mirror at  <a href="https://github.com/gpg/gpgme/commits/master/" rel="nofollow">https://github.com/gpg/gpgme/commits/master/</a> does 
+&gt; not seem to have the patch yet. 
+
+I think the one you're looking for is:
+
+    <a href="https://github.com/gpg/gpgme/commit/14499348b966cd7b3d72afee15a5cd51cdd0a727" rel="nofollow">https://github.com/gpg/gpgme/commit/14499348b966cd7b3d72afee15a5cd51cdd0a727</a>
+
+which may not have been there when you sent your message.
+And a pox on all the AI scrapers (and the investors driving
+this madness) for keeping dev.gnupg.org inaccessible to most
+people.
+
+Related, but sad:  Red Hat Enterprise Linux 9 seems to have
+patched the double-free *5 years ago* when it was noticed by
+a Coverity scan:
+
+    <a href="https://gitlab.com/redhat/centos-stream/rpms/gpgme/-/blob/c9s/gpgme-1.15.1-covscan.patch?ref_type=heads#L290-339" rel="nofollow">https://gitlab.com/redhat/centos-stream/rpms/gpgme/-/blob/c9s/gpgme-1.15.1-covscan.patch?ref_type=heads#L290-339</a>
+
+That is included in RHEL 9 but not previous or subsequent
+releases.  If only they'd have submitted this upstream, the
+issue could have been resolved long ago. :(
+
+Instead, they didn't even share it with Fedora where it
+would have made it into future RHEL releases.
+
+-- 
+Todd
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (228 bytes)</strong></span>
+
+_______________________________________________
+Gnupg-devel mailing list
+Gnupg-devel&#64;...pg.org
+<a href="https://lists.gnupg.org/mailman/listinfo/gnupg-devel" rel="nofollow">https://lists.gnupg.org/mailman/listinfo/gnupg-devel</a>
+
+
+-------------------- End of forwarded message --------------------
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="1/2" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (419 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
