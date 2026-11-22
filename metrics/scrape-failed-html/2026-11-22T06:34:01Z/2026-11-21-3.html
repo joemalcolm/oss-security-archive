@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Dokploy: the fix checks the characters, never the first word — a member's compose command and raw compose file both reach host root, 9.9 each (v0.31.2, live-proven)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="2">[&lt;prev]</a> <a href="../../../2026/11/22/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;16FBC1BC-D5CB-4FDE-AA60-2E1B8C42908B.1&#64;smtp-inbound1.duck.com&gt;
+Date: Sat, 21 Nov 2026 13:40:34 -0500
+From: theknell&#64;...k.com
+To: oss-security&#64;...ts.openwall.com
+Subject: Dokploy: the fix checks the characters, never the first word — a member's compose command and raw compose file both reach host root, 9.9 each (v0.31.2, live-proven)
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Two doors, same room.
+
+Dokploy's compose feature gives a member two ways to describe a deployment: type a custom command, or supply the compose file raw. The vendor hardened this feature in the 2026 disclosure rounds — the command field got a validator, the structured service definition got a privilege guard. Both hardenings are real. Neither one covers the path it was attached to.
+
+The precondition for both: a non-owner, non-admin organisation member with service:create (the canCreateServices flag, or a custom role granting it) and access to one compose service — the vendor's own member class, scored 9.9 by them in CVE-2026-72867 and CVE-2026-72865, and 8.7 for the metacharacter mechanism in this feature.
+
+Tested against Dokploy v0.31.2, commit a16cf89389f1bcb6fb5b9a78f7e8a28150c5efaa, full history.
+
+Door one — the first word:
+
+1. The compose service command field is free text: z.string().optional() (packages/server/src/db/schema/compose.ts:200, :283). createCommand returns it with no compose prefix (packages/server/src/utils/builders/compose.ts:127-128).
+2. The validator, sanitizeCommand (compose.ts:84-123) — added by commit d48037a80 as the fix for CVE-2026-72884, its comment stating it stops a member breaking out "into arbitrary host commands" — rejects shell control characters and requires &amp;&amp;-chained segments after the first to start with "docker compose ". It never validates the first token.
+3. getBuildComposeCommand interpolates the result directly: docker ${command} (compose.ts:65). The deploy sinks execute it via /bin/sh -c or SSH (packages/server/src/services/compose.ts:302, :418). The server runs as root and drives the host daemon at /var/run/docker.sock.
+4. So no metacharacter is needed. The command "run --rm -v /:/hostfs alpine touch /hostfs/tmp/canary" passes the validator verbatim and executes as docker run with the host's root filesystem mounted read-write. An incomplete fix of CVE-2026-72884.
+
+Door two — the raw file:
+
+5. compose.loadRawCompose and compose.getConvertedCompose (packages/server/src/routers/compose.ts:1256, :1131) feed createComposeFileRaw (packages/server/src/utils/builders/compose.ts:230-276), which checks only structure and writes the parsed YAML to docker-compose.yml essentially verbatim.
+6. A full-tree search of the server source for privileged, cap_add, pid:, ipc:, network_mode returns no matches — there is no guard to bypass. The control is inside the same product: updateComposeFile (packages/server/src/services/compose.ts:1018) rejects privileged: true on the structured path. The vendor gates this capability on one door and not the other.
+
+Live proof, against our own rig only:
+
+- - Control: the vendor's own regression suite for the CVE-2026-72884 fix rejects every metacharacter payload — 13 of 13. The fix holds against the attack it imagined.
+- - Door one: the real createCommand accepts the docker run payload verbatim (3 of 3); the builder emits the deploy script containing it (2 of 3 checks, 2 of 2 runs); a verbatim standalone harness agrees (6 of 6); a recording docker shim on PATH received the exact argv from the shell.
+- - Door two: a raw file carrying privileged: true, /:/host_root:rw, and cap_add SYS_ADMIN round-trips into the emitted specification with every field intact (2 of 2).
+- - Final hop, executed against a real Docker daemon on our own rig: a root-owned canary written to the daemon host's root filesystem; a read-only variant returned the daemon host's /etc/hostname.
+
+Severity: each door independently 9.9 — CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H. Not 10.0; every path is authenticated, stated rather than rounded up.
+
+Scope, stated plainly: door one is an incomplete fix of CVE-2026-72884, present in v0.31.2, the release line that shipped the fix. The metacharacter fix and the structured-path guard both hold and are credited as holding. A third condition on legacy installs — a documented default authentication secret the vendor warns about in their own code — is not claimed here. No third-party or production system was touched.
+
+Paper: <a href="https://archive.org/details/knell-two-doors" rel="nofollow">https://archive.org/details/knell-two-doors</a>
+Key: 133883AB9F6EDE5B9BA6B82E27BEDAF0CE152F25 (knell)
+
+Verify: gpg --import knell-public.asc, then
+gpg --verify paper-dokploy-FINAL-2026-11-21.md.asc
+
+— knell
+-----BEGIN PGP SIGNATURE-----
+
+wnUEARYIAB0FgmsB5XIWIQQTOIOrn27eW5umuC4nvtrwzhUvJQAKCRAnvtrwzhUv
+JfkjAQCMvtBE1h6A1ZC66t5n4Pn3h43439k2nZgTDBgA3FwzcAD+KY9++vg9qHBM
+5k7gqZ+b880zWavm3SMevuInYtoxLAg=
+=UToJ
+-----END PGP SIGNATURE-----</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
