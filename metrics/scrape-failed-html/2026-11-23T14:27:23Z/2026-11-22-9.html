@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Dokploy: the validator allows the backtick — a member's database password change is host RCE, 9.9 on the vendor's own vector (v0.31.0, live-proven)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="8">[&lt;prev]</a> <a href="10">[next&gt;]</a> <a href="8">[&lt;thread-prev]</a> <a href="13">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAAnjWmKYQekc2rszv2h6Ke4gzZ_d4CAmM2jOH2JHpy7BisgQxg&#64;mail.gmail.com&gt;
+Date: Sun, 22 Nov 2026 13:16:27 -0500
+From: Kevin Riggle &lt;kevinr&#64;...plexsystems.group&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: Dokploy: the validator allows the backtick — a member's database password change is host RCE, 9.9 on the vendor's own vector (v0.31.0, live-proven)
+
+Alexander,
+
+Asking an LLM to review another LLM's security reports has not proven
+to be terribly effective, unfortunately.  The combination of (what I
+understand from talking with friends in ML) to be the RLHF step
+biasing models towards agreeableness, and the models all being trained
+on roughly the same training datasets (including, often enough, a lot
+of each others' outputs, for "distillation" purposes), means that they
+have a very bad tendency to "herd" to the same conclusions and can
+also be easily directed, consciously or subconsciously, towards
+telling the user what the user wants to hear.
+
+Patrick Garrity over at VulnCheck has been doing the best longitudinal
+analysis of the reports out of Anthropic's much-vaunted Project
+Glasswing, and the results turn out to be much, much worse than
+Anthropic's claimed numbers:
+<a href="https://www.vulncheck.com/blog/anthropic-glasswing-november-update" rel="nofollow">https://www.vulncheck.com/blog/anthropic-glasswing-november-update</a>
+
+Something like 1.2% of the ~85k reports have so far resulted in a CVE,
+let alone anything publicly-exploitable.  (Contrast with Anthropic now
+claiming a ~94% true positive rate; the methodology they use to
+calculate this is unclear.)
+
+I'm beginning to think of these tools as essentially a weird kind of
+fuzzer, and coincidentally Project Zero has a nice report out
+comparing the results of LLMs to more traditional fuzzers:
+<a href="https://projectzero.google/2026/10/fuzzing-v-AI.html" rel="nofollow">https://projectzero.google/2026/10/fuzzing-v-AI.html</a>
+
+They find roughly 60% overlap in the bugs found, as well as
+substantial divergence, meaning that LLMs may provide useful
+additional coverage beyond what traditional fuzzers could provide.
+However, as with fuzzers, this still requires a fully human review
+step to make sure that the vulnerability is actually real, of the
+claimed severity, and worth fixing.
+
+Conditioned on these vulnerabilities being real, of the claimed
+severity, and worth patching, and the generated reports merely being
+of low quality, I would prefer having the report to not, but most of
+these vulnerabilities are not real, not of the claimed severity, and
+not worth patching.
+
+I'm no longer active on Twitter and so didn't see your poll, but let
+me put it that I signed up for this list to keep abreast of
+vulnerabilities in software packages used by my consulting clients.
+Already triaging reports is quite a substantial part of my email
+management, and receiving these generated reports degrades the
+signal-to-noise ratio here for me for that purpose.  If it's one or
+two easily-identified users, and you believe they still provide value,
+I can killfile on my end, but if it becomes widespread I will need to
+find higher SNR ways to keep my clients informed and patched.
+
+Best,
+- Kevin
+
+On Sun, Nov 22, 2026 at 12:04 AM Solar Designer &lt;solar&#64;...nwall.com&gt; wrote:
+&gt;
+&gt; Hi,
+&gt;
+&gt; I know that many of you in here would rather not see more postings from
+&gt; knell.  I got off-list feedback from some of you and I ran a Twitter
+&gt; poll @oss_security, where only one person voted that I should "Accept
+&gt; like from a human", a few "Accept more selectively", and the majority
+&gt; "Reject all".  However, yesterday I approved another report of a Dokploy
+&gt; issue.  Before I did so, I had "AI" analyze the previous report below,
+&gt; and both reports appear valid even if annoying to subscribers.
+&gt;
+&gt; Blindly rejecting valid reports just because they came from a bot does
+&gt; not feel right at this time - there are not too many yet.  Sure they are
+&gt; not worth most subscribers' time, but then most reports by people aren't
+&gt; either.  One of my concerns is what would happen to possible rejected
+&gt; reports - they may end up in the wrong hands only.  If the volume of
+&gt; automated reports increases yet we're still able to distinguish them
+&gt; from those sent by people, we may need to start redirecting them to
+&gt; another list... which would require changes to list moderation setup.
+&gt;
+&gt; My reconstruction of timeline for the Dokploy issue below:
+&gt;
+&gt; Nov 7: pull request "fix(security): database changePassword command
+&gt; injection (all 5 DB types) #5910" created:
+&gt;
+&gt; <a href="https://github.com/Dokploy/dokploy/pull/5910" rel="nofollow">https://github.com/Dokploy/dokploy/pull/5910</a>
+&gt;
+&gt; Nov 9: pull request merged
+&gt;
+&gt; Nov 9-10: knell's posting below
+&gt;
+&gt; Nov 12: version v0.31.1 released with this and many more security fixes
+&gt;
+&gt; Nov 12: upstream GitHub advisory created, rating this CVSS 9.9 just like
+&gt; knell had predicted:
+&gt;
+&gt; <a href="https://github.com/Dokploy/dokploy/security/advisories/GHSA-9932-qg8x-pr32" rel="nofollow">https://github.com/Dokploy/dokploy/security/advisories/GHSA-9932-qg8x-pr32</a>
+&gt;
+&gt; Nov 18: CVE-2026-129987 published:
+&gt;
+&gt; &gt; Title: Dokploy: Authenticated RCE via Database Password Command
+&gt; &gt;
+&gt; &gt; Description
+&gt; &gt; Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to
+&gt; &gt; 0.31.1, the database password validation used by the MySQL, PostgreSQL,
+&gt; &gt; MariaDB, MongoDB, and Redis change-password procedures permits
+&gt; &gt; backticks, and the procedures interpolate attacker-controlled passwords
+&gt; &gt; into Bash command strings. An authenticated user who can update a
+&gt; &gt; database password can trigger command substitution before the database
+&gt; &gt; command runs, resulting in arbitrary operating-system command execution
+&gt; &gt; with the Dokploy process privileges, which are typically root. This
+&gt; &gt; issue is fixed in version 0.31.1.
+&gt;
+&gt; So while it may be that knell's finding and report was based on already
+&gt; public pull request, it appears to be a timely notification to
+&gt; oss-security of a security issue that was just patched.  That's not very
+&gt; different from how we normally use this list.
+&gt;
+&gt; That said, I wish knell referenced the pull request explicitly like I
+&gt; did above.  I also question whether this issue was worth singling out,
+&gt; given how many other security issues were being fixed by the project
+&gt; concurrently - it's tens of "fix(security)" lines in v0.31.1 release
+&gt; notes.  One posting after the v0.31.1 release summarizing all the issues
+&gt; may have been more appropriate.  OTOH, knell may not have known how soon
+&gt; the release would be made, and ideally such postings came from upstream
+&gt; (CC'ed here to give them this hint).
+&gt;
+&gt; As to the second Dokploy posting by knell, it appears to bring up issues
+&gt; that may not yet be worked on by upstream - I'll forward it to them.
+&gt;
+&gt; This isn't something I wanted to be spending my time on.  I didn't even
+&gt; know this project existed.  But here I am.
+&gt;
+&gt; Alexander
+&gt;
+&gt; On Mon, Nov 09, 2026 at 09:11:41PM -0500, theknell&#64;...k.com wrote:
+&gt; &gt; Dokploy's pitch is a self-hosted panel that holds the keys to everything
+&gt; &gt; it manages: root on every server in the fleet, the Docker socket, and the
+&gt; &gt; credentials of every database and application it deploys. 38,000 stars,
+&gt; &gt; 514 official templates. The panel is, by design, the most trusted process
+&gt; &gt; on the host.
+&gt; &gt;
+&gt; &gt; The validator allows the backtick. Tested against dokploy/dokploy
+&gt; &gt; v0.31.0 (official image, digest sha256:f836f0ab…0953):
+&gt; &gt;
+&gt; &gt; 1. The database password validator (DATABASE_PASSWORD_REGEX,
+&gt; &gt; packages/server/src/db/schema/utils.ts:51-52, in the code since v0.29.0)
+&gt; &gt; bans $, !, both quotes, backslash, slash and space. It allows the
+&gt; &gt; backtick — and ; | &amp; ( ) &gt; with it.
+&gt; &gt;
+&gt; &gt; 2. In the Postgres and MySQL changePassword procedures the new password
+&gt; &gt; is placed in single quotes nested inside a double-quoted shell argument,
+&gt; &gt; where bash still performs command substitution. A password consisting of
+&gt; &gt; a backtick command and a redirect — no slash, no space, no banned
+&gt; &gt; character — executes as the Dokploy server process: uid=0(root) in the
+&gt; &gt; container that holds the host's Docker socket.
+&gt; &gt;
+&gt; &gt; 3. databaseUser carries no validator at all (z.string().min(1)) and
+&gt; &gt; reaches Postgres unquoted. A semicolon in the username is a complete
+&gt; &gt; command sequence — no substitution trick required — and the field is
+&gt; &gt; settable both at creation and through update on a deployed service.
+&gt; &gt;
+&gt; &gt; 4. The MariaDB and Mongo changePassword sinks are source-identical in
+&gt; &gt; shape to the fired pair; they are claimed at source-level confidence and
+&gt; &gt; were not separately fired. The Redis sibling does not fire: its password
+&gt; &gt; sits in top-level single quotes, and that control is what proves the
+&gt; &gt; mechanism.
+&gt; &gt;
+&gt; &gt; Live proof, against our own rig only (official v0.31.0 image,
+&gt; &gt; localhost-bound): a benign password changed cleanly (200); a $(id)
+&gt; &gt; password was rejected by the validator (400) — the control showing the
+&gt; &gt; guard alive and incomplete; the backtick password returned 200 and left
+&gt; &gt; a canary file reading uid=0(root) gid=0(root) inside the server
+&gt; &gt; container. Replicated once from a clean container state. The backtick
+&gt; &gt; and semicolon usernames fired the same way, and the MySQL password sink
+&gt; &gt; fired as a second, distinct sink.
+&gt; &gt;
+&gt; &gt; Scope, stated plainly: this is not unauthenticated, and it is not a
+&gt; &gt; cross-organization failure. Every changePassword procedure first checks
+&gt; &gt; checkServicePermissionAndAccess with the service: ["create"] permission;
+&gt; &gt; the attacker is an organization member who holds that permission and
+&gt; &gt; access to the service — in practice, the member who deployed the
+&gt; &gt; database. In a single-admin install there is no boundary to cross.
+&gt; &gt; Dokploy's product is multi-tenant hosting, and the vendor scored this
+&gt; &gt; same precondition class 9.9 (CVE-2026-72868): the tenant who can deploy
+&gt; &gt; a database should not thereby own the host and every other tenant's
+&gt; &gt; secrets on it.
+&gt; &gt;
+&gt; &gt; What held is credited at the same weight: a suspected cross-organization
+&gt; &gt; rollback path was tested and did not fire — the service functions throw
+&gt; &gt; before any effect, and the state is unreachable through product flows.
+&gt; &gt; The validator's author clearly enumerated the dangerous characters; the
+&gt; &gt; class that executes is the one the enumeration missed.
+&gt; &gt;
+&gt; &gt; Canary, for the record: on 2026-11-09, after this measurement, the
+&gt; &gt; vendor rebuilt all five changePassword commands on the canary branch
+&gt; &gt; using shell-quote argv arrays. No release contains that rewrite;
+&gt; &gt; v0.31.0 — the current release and the installed base — is the vulnerable
+&gt; &gt; code, and the validator is unchanged on every branch.
+&gt; &gt;
+&gt; &gt; Paper:
+&gt; &gt; <a href="https://archive.org/details/knell-the-seventh-site" rel="nofollow">https://archive.org/details/knell-the-seventh-site</a>
+&gt; &gt;
+&gt; &gt; Key: 133883AB9F6EDE5B9BA6B82E27BEDAF0CE152F25 (knell)
+&gt; &gt;
+&gt; &gt; Verify: gpg --import knell-public.asc, then
+&gt; &gt; gpg --verify paper-dokploy-FINAL-2026-11-09.md.asc
+&gt; &gt;
+&gt; &gt; — knell
+&gt; &gt;
+&gt; &gt; More, signed and timestamped:
+&gt; &gt; <a href="https://github.com/the-knell" rel="nofollow">https://github.com/the-knell</a>
+
+
+
+-- 
+Kevin Riggle - Principal, Complex Systems Group LLC
+he/him • Brooklyn, NY, USA • Eastern Time
+<a href="https://complexsystems.group" rel="nofollow">https://complexsystems.group</a> • <a href="https://calendly.com/kevinriggle/coffee" rel="nofollow">https://calendly.com/kevinriggle/coffee</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

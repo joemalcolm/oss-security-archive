@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: Dokploy: the validator allows the backtick — a member's database password change is host RCE, 9.9 on the vendor's own vector (v0.31.0, live-proven)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="13">[&lt;prev]</a> <a href="../../../2026/11/23/1">[next&gt;]</a> <a href="13">[&lt;thread-prev]</a> <a href="../../../2026/11/23/1">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;DN22N7DNLJ4R.2KFPWPEZGYESC&#64;gr.ht&gt;
+Date: Sun, 22 Nov 2026 13:52:54 -0800
+From: "Gregory Mullen" &lt;oss-security&#64;...ht&gt;
+To: &lt;oss-security&#64;...ts.openwall.com&gt;
+Subject: Re: Dokploy: the validator allows the backtick — a member's database password change is host RCE, 9.9 on the vendor's own vector (v0.31.0, live-proven)
+
+I'm going to break some rules, and change the order of the quotes, because I
+think it's important to start off with the most important part.
+
+On Sat Nov 21, 2026 at 9:00 PM PST, Solar Designer wrote:
+&gt; As to the second Dokploy posting by knell, it appears to bring up issues
+&gt; that may not yet be worked on by upstream - I'll forward it to them.
+&gt;
+&gt; This isn't something I wanted to be spending my time on.  I didn't even
+&gt; know this project existed.  But here I am.
+
+That's because you're a good person who's willing to spend the limited time you
+have in a day trying to help other people. But for reasons I'll explain below.
+I'd like to suggest that you not let others weaponize that against you. They
+will DoS your time if you let them. 
+
+On Sat Nov 21, 2026 at 9:00 PM PST, Solar Designer wrote:
+&gt; I know that many of you in here would rather not see more postings from
+&gt; [llms, ...] I ran a Twitter poll where only one person voted that I should
+&gt; "Accept like from a human"
+
+But you decided to ignore all of that and approve it anyways? 
+
+Bold move, let's see if it pays off .gif :D
+
+&gt; and both reports appear valid even if annoying to subscribers.
+
+I'm going to reiterate, briefly because others have already said similar things.
+This list is very high noise. That's not what (I think) any of us are objecting
+to. The noise comes with the territory. It's fine to bias for a security list
+with a low SNR. That was never my objection. I object to this list shifting from
+people (who's required time investment is a direct cost) to spam generated by
+extremely fancy scripts. I don't object to automation. I object to someone else
+deciding to subject me, to unsolicited, *clearly malicious*, automation. 
+
+That's the problem. It's not the noise, it's giving any attention or credit to
+someone who wants to LARP as evil. Why?
+
+&gt; Blindly rejecting valid reports just because they came from a bot does
+&gt; not feel right at this time - there are not too many yet.  
+
+Yeah, that's how death by a thousand cuts usually go... [almost] no one
+complains about the first few, because who cares, it's not too many... yet.
+
+It's also a perfect example of the old hacker ethos that I still think is
+critically important for everyone in security to remember. Secrets don't improve
+anyone's security. I'm extremely glad you haven't forgotten, and that you still
+hold it as important. You're right to do so.
+
+&gt; Sure they are not worth most subscribers' time, but then most reports by
+&gt; people aren't either.  
+
+Right, but that's how most DoS mitigations work. You raise the cost on the
+attacker above the defenders. In the case of humans, I'm willing to tolerate
+their noise, on the assumption that they're making a good faith attempt to not
+waste time (theirs if not mine), and that they've invested some amount of
+time/attention before they ask for mine. I find it extremely problematic to
+anthropomorphize scripts, and judge them by [existing] standards for humans.
+
+I feel like we all need to collectively as a society, stop pretending chatbots
+aren't just next token predictor scripts.
+
+&gt; One of my concerns is what would happen to possible rejected reports - they
+&gt; may end up in the wrong hands only. 
+
+Let's game this out then. This LLM script is posting possibly useful reports.
+But is doing so maliciously, so either some good person, (like you or Sam
+previously) has to follow up on it, or it only goes out to **more** blackhats,
+that are following this list. (I was never going to suggest more LLM automation
+as an option. And Kevin has already explained why) Meanwhile, in addition to
+posting is annoying many more people on this list. 
+
+How does allowing them, which encourage more people to LARP similarly, instead
+of productively, help the good guys more than the bad guys?
+
+&gt; So while it may be that finding and report was based on already public pull
+&gt; request, it appears to be a timely notification to oss-security of a security
+&gt; issue that was just patched.  That's not very different from how we normally
+&gt; use this list.
+
+Why does the 1 person on twitter (who can't set up his own LLM, I assume) get to
+outweigh everyone else who can set up our own scripts/scanner if we wanted to
+read spam? And the many more of us who have taken time to expressly and
+explicitly say:
+
+Please, no!
+
+&gt; That said, I wish [the human using this script to LARP] referenced the pull
+&gt; request explicitly like I did above.  
+
+The script that's translated it's instructions into bragging it's going to
+ignore feedback and requests... unlike how a human who wanted to participate in
+OSS security might? (the community, not the list)
+
+I wonder why it's not forwarding it's own reports upstream? Instead it's
+proxying it's spam through other humans who will spend their time? Perhaps
+because it would have gotten banned for being useless to the maintainers without
+that filter? ...Yeah
+
+
+&gt; OTOH, [the llm] may not have known [...]
+
+Anything, it doesn't know anything. It's a markov chain based predictor being
+run by someone who wants to LARP competency or usefulness, but unwilling to
+invest anyone's time but someone elses... yours, and mine I guess.
+
+
+I wrote most of this last night, but decided to sit on it, until morning. I was
+originally unsure if I wanted to send this, rather than just unsub. But, once
+again I'm glad I waited, because all the people that replied before I did proved
+and re-reminded me, that there are many good people other there tying to make
+things better. And none of them want to see this shit either.
+
+But, I still don't want to read spam. Spam, not noise. I'm not bothered by
+noise. I'm bothered by anything that feeds the trolls. Here, that means
+encouraging more, or other people to pull shit shit too. So given you feel
+strongly (and correctly) about how secrets are harmful. I'll once again suggest
+that instead of allowing this spam, and pissing everyone off. You could forward
+the details or a summary with the sending script completely redacted. It's not a
+person, it won't care if you strip it's name... just like it did with that PR
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

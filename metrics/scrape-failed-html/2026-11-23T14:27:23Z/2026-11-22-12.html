@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: [PATCH v7 0/2] shadow: Security fix for newgidmap(1)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href="13">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;awNcI-F3dGjTVstI&#64;devuan&gt;
+Date: Sun, 22 Nov 2026 22:22:56 +0100
+From: Alejandro Colomar &lt;alx+shadow&#64;...nel.org&gt;
+To: Alejandro Colomar &lt;alx&#64;...nel.org&gt;
+Cc: oss-security&#64;...ts.openwall.com, serge&#64;...lyn.com, ipedrosa&#64;...hat.com, 
+	Dickson Wu &lt;dickson.wu&#64;...tik.com&gt;
+Subject: Re: [PATCH v7 0/2] shadow: Security fix for newgidmap(1)
+
+Hi!
+
+I've released publicly shadow-4.20.4 a moment ago.  Below are the
+details about the security issues (from the previous email, to
+linux-distros@).
+
+The release is available at
+&lt;<a href="https://github.com/shadow-maint/shadow/releases/tag/4.20.4" rel="nofollow">https://github.com/shadow-maint/shadow/releases/tag/4.20.4</a>&gt;.
+
+
+Have a lovely night!
+Alex
+
+&gt; Date: 2026-11-14 23:23:41+0100
+&gt; From: Alejandro Colomar &lt;alx&#64;...nel.org&gt;
+&gt;
+&gt; Hi!
+&gt; 
+&gt; Below goes the original bug report.
+&gt; 
+&gt; &gt; Date: Fri, 6 Nov 2026 20:43:45 -0500
+&gt; &gt; From: Dickson Wu &lt;dickson.wu&#64;...tik.com&gt;
+&gt; &gt; To: alx&#64;...nel.org, ipedrosa&#64;...hat.com, serge&#64;...lyn.com
+&gt; &gt; Subject: Security report: newgidmap (encrypted)
+&gt; &gt; Message-ID: &lt;CAFaZ9eqJ18S7PsVj5_Rj9wustfU2eNZrGqXp4AJD1+yROc1u3Q&#64;...l.gmail.com&gt;
+&gt; &gt;
+&gt; &gt; Hi Alejandro, Iker and Serge,
+&gt; &gt; 
+&gt; &gt; I'm reporting a local issue in newgidmap, following SECURITY.md
+&gt; &gt; (encrypted to the three keys listed there).
+&gt; &gt; 
+&gt; &gt; newgidmap fd:N checks that the passed directory FD is on the procfs
+&gt; &gt; device, then opens "setgroups" relative to it with O_RDWR as root and
+&gt; &gt; writes "deny\n".  An unprivileged user can, inside their own user and
+&gt; &gt; mount namespace, bind-mount a root-owned file over setgroups under a
+&gt; &gt; task directory of the host procfs and pass that directory FD back to
+&gt; &gt; newgidmap.  The device check passes because the directory itself is
+&gt; &gt; still on procfs, and the first five bytes of the target file become
+&gt; &gt; "deny\n".  Mapping the caller's own GID is enough to reach
+&gt; &gt; write_setgroups(), so no subgid entry is needed, and the later gid_map
+&gt; &gt; failure doesn't undo the write.
+&gt; &gt; 
+&gt; &gt; I reproduced it on the 4.20.3 release with the helper installed SUID
+&gt; &gt; root and a disposable root-owned 0600 file: the first five bytes
+&gt; &gt; changed and the rest of the file, owner and mode stayed the same,
+&gt; &gt; while a fresh-procfs control was rejected and left its file untouched.
+&gt; &gt; get_pid.c and newgidmap.c are the same on current master.  It's a
+&gt; &gt; fixed five-byte write at offset 0, so I'd call it a local
+&gt; &gt; integrity/DoS issue rather than code execution.
+&gt; &gt; 
+&gt; &gt; Report, affected lines, a suggested fix (fstat the opened setgroups
+&gt; &gt; FD, or openat2 with RESOLVE_NO_XDEV) and the PoC are here:
+&gt; &gt; 
+&gt; &gt; &lt;<a href="https://gist.github.com/DicksonWu654/cdad661068d6a50da475aac57a9f07f2" rel="nofollow">https://gist.github.com/DicksonWu654/cdad661068d6a50da475aac57a9f07f2</a>&gt;
+&gt; &gt; 
+&gt; &gt; Happy to test a fix or answer questions whenever it's useful.
+&gt; &gt; 
+&gt; &gt; Best,
+&gt; &gt; Dickson
+&gt; 
+&gt; We worked on this patch set of two patches (sent as replies to this
+&gt; mail), which applies on top of the 4.20.3 release to fix the bug.
+&gt; If you need help backporting it to older versions, let me know (but
+&gt; I think it should be relatively easy).
+&gt; 
+&gt; Let's use an embargo of 1 week, so let's disclose on 2026-11-22.
+&gt; 
+&gt; I haven't encrypted this patch set, since we've already been discussing
+&gt; it unencrypted, and it's also not critical.
+&gt; 
+&gt; 
+&gt; Have a lovely night!
+&gt; Alex
+&gt; 
+&gt; 
+&gt; Serge E. Hallyn (2):
+&gt;   lib/idmapping.c, src/newidmap.c: Use openat2(2) for safety
+&gt;   src/new[gu]idmap.c: Drop fd:N
+&gt; 
+&gt;  lib/Makefile.am     |  2 ++
+&gt;  lib/atoi/getnum.c   |  1 -
+&gt;  lib/atoi/getnum.h   |  9 ---------
+&gt;  lib/fs/open/open.c  | 48 +++++++++++++++++++++++++++++++++++++++++++++
+&gt;  lib/fs/open/open.h  | 16 +++++++++++++++
+&gt;  lib/get_pid.c       | 32 ------------------------------
+&gt;  lib/idmapping.c     |  3 ++-
+&gt;  lib/prototypes.h    |  1 -
+&gt;  man/newgidmap.1.xml | 11 -----------
+&gt;  man/newuidmap.1.xml | 11 -----------
+&gt;  src/newgidmap.c     | 20 +++++++------------
+&gt;  src/newuidmap.c     | 17 ++++------------
+&gt;  12 files changed, 79 insertions(+), 92 deletions(-)
+&gt;  create mode 100644 lib/fs/open/open.c
+&gt;  create mode 100644 lib/fs/open/open.h
+&gt; 
+&gt; -- 
+&gt; 2.55.0
+&gt; 
+
+
+
+-- 
+&lt;<a href="https://www.alejandro-colomar.es" rel="nofollow">https://www.alejandro-colomar.es</a>&gt;
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="12/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (834 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
