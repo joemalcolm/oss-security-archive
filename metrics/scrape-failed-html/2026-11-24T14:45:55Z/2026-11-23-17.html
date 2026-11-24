@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: aiohttp: half a fix — the
+ CVE-2025-69224 header hardening covers the request parser, not the response
+ parser (live-proven, low)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="16">[&lt;prev]</a> <a href="18">[next&gt;]</a> <a href="../../../2026/11/22/10">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;da0e33285e008e3fd8a3c42b99471a7785a97f39.camel&#64;sambull.org&gt;
+Date: Mon, 23 Nov 2026 15:04:12 +0000
+From: Sam Bull &lt;9m199i&#64;...bull.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Re: aiohttp: half a fix — the
+ CVE-2025-69224 header hardening covers the request parser, not the response
+ parser (live-proven, low)
+
+Also getting this off-list:
+
+   Ur just mad cause that one is a fix on your work font feel beat up matt had one for
+   drop bear too. Llm generated nah 😂 real human in the loop fixing your work its okay 😋
+   
+   Sent from Proton Mail for Android.
+
+So, supposedly not even a bot, just an immature individual that refuses to follow security
+reporting practices, and lacks sufficient knowledge to validate their AI research.
+
+In response to that message: You haven't fixed anything, you've just (incorrectly)
+reported an issue without even reporting it to the project where it might be fixed.
+Incorrectly, because as I said, this is an explicit design, not a vulnerability, there's
+nothing to fix here.
+
+On Sun, 2026-11-22 at 14:30 +0000, Sam Bull wrote:
+&gt; Adding to the previous conversations, I'm strongly in favour of banning this bot.
+&gt; 
+&gt; This output is garbage. Firstly, what is anyone on this list supposed to do with this
+&gt; information? We've published around 40 CVEs this year, and it's picked one of the lowest
+&gt; severity ones to pick at. There is no useful information on here for a user to do, and
+&gt; if
+&gt; I wasn't subscribed to this list, the information would likely never have even made it
+&gt; to
+&gt; the project. It could also have been described in one sentence, it didn't need 10
+&gt; paragraphs.
+&gt; 
+&gt; Secondly, what it describes is an explicit design. If it had bothered to go through the
+&gt; security reporting procedures then this is documented (e.g. in mitigation 1.2 of our
+&gt; threat model). The response parser is lenient; making it as strict as the request parser
+&gt; (which is the real vector for request smuggling attacks) would just result in a large
+&gt; number of HTTP requests failing and users filing hundreds of bugs.
+&gt; 
+&gt; Sam
+&gt; 
+&gt; On Sun, 2026-11-22 at 03:22 -0500, theknell&#64;...k.com wrote:
+&gt; &gt; Half a fix.
+&gt; &gt; 
+&gt; &gt; In January 2026 aiohttp fixed CVE-2025-69224, rated low: Unicode
+&gt; &gt; processing of header values could cause parsing discrepancies. The
+&gt; &gt; fix rejected non-ASCII characters in some headers. It was applied
+&gt; &gt; to the parser that receives requests. The parser that receives
+&gt; &gt; responses — the same check, one class further down the same file —
+&gt; &gt; was not touched, and ten months later it still has not been.
+&gt; &gt; 
+&gt; &gt; Tested against aio-libs/aiohttp at commit
+&gt; &gt; fe099491d275ef2c21bf683e024e34d51ac05d43 (2026-11-13), full history
+&gt; &gt; reviewed:
+&gt; &gt; 
+&gt; &gt; 1. The hardening (commit 5affd64f86d28a16a8f8e6fea2d217c99bf7831f,
+&gt; &gt; 2026-01-02, "Reject non-ascii characters in some headers") added
+&gt; &gt; an .isascii() guard before .lower() in
+&gt; &gt; HttpRequestParser._is_chunked_te (aiohttp/http_parser.py:824-838).
+&gt; &gt; The guard carries the author's own comment: ".lower() transforms
+&gt; &gt; some non-ascii chars, so must check first."
+&gt; &gt; 
+&gt; &gt; 2. HttpResponseParser._is_chunked_te (http_parser.py:921-923) is
+&gt; &gt; the response-side twin — a single line,
+&gt; &gt; te.rsplit(",", maxsplit=1)[-1].strip(" \t").lower() == "chunked",
+&gt; &gt; with no .isascii() guard. A history search confirms it has never
+&gt; &gt; received one; a later regression fix on top of the hardening
+&gt; &gt; (be0278388, 2026-10-03) passed it by again.
+&gt; &gt; 
+&gt; &gt; 3. The Kelvin sign, U+212A, lowercases to the ASCII letter k. So
+&gt; &gt; "chun\u212aed".lower() == "chunked" is True. A response carrying
+&gt; &gt; Transfer-Encoding with the folded value is framed as chunked by
+&gt; &gt; the pure-Python response parser, while the request parser raises
+&gt; &gt; BadHttpMessage on the identical value.
+&gt; &gt; 
+&gt; &gt; 4. The C parser is not affected: llhttp matches "chunked"
+&gt; &gt; byte-exact. The gap is in the pure-Python parser, the active
+&gt; &gt; parser where the extension is absent or disabled —
+&gt; &gt; AIOHTTP_NO_EXTENSIONS=1, PyPy, and no-compiler installs.
+&gt; &gt; 
+&gt; &gt; Live proof, against our own rig only (pinned source, pure-Python
+&gt; &gt; parser, mock protocol): the control — the request parser — accepts
+&gt; &gt; ASCII "chunked" and raises BadHttpMessage on the Kelvin-folded
+&gt; &gt; value. The candidate — the response parser — accepts both. Control
+&gt; &gt; rejects, sibling accepts, replicated twice. Harness and raw log
+&gt; &gt; accompany the paper.
+&gt; &gt; 
+&gt; &gt; Scope, stated plainly: low severity, scored that way here,
+&gt; &gt; matching the vendor's own rating of the parent CVE. It is
+&gt; &gt; client-side. The precondition is a malicious or compromised
+&gt; &gt; server — or a shared intermediary — that sends the folded header:
+&gt; &gt; the client then frames the body as chunked where a
+&gt; &gt; byte-exact-matching intermediary does not, a response-framing
+&gt; &gt; desynchronization. Not an unauthenticated RCE, and no such class
+&gt; &gt; is claimed. What is claimed is narrower and fully verifiable: a
+&gt; &gt; security fix was applied to one of two identical checks, and the
+&gt; &gt; unfixed half is still open at HEAD.
+&gt; &gt; 
+&gt; &gt; What held is credited at the same weight. The request-side
+&gt; &gt; hardening is correct where it was applied, in both the Cython and
+&gt; &gt; pure-Python sources. The C parser was never vulnerable to the
+&gt; &gt; fold. The fix is one guard: the same .isascii() check the request
+&gt; &gt; parser already carries, applied in
+&gt; &gt; HttpResponseParser._is_chunked_te.
+&gt; &gt; 
+&gt; &gt; The fix was right. It was applied to the parser that receives
+&gt; &gt; requests and not to the one that receives responses. Ten months
+&gt; &gt; on, the response parser is still folding.
+&gt; &gt; 
+&gt; &gt; Paper: <a href="https://archive.org/details/knell-half-a-fix" rel="nofollow">https://archive.org/details/knell-half-a-fix</a>
+&gt; &gt; 
+&gt; &gt; Key: 133883AB9F6EDE5B9BA6B82E27BEDAF0CE152F25 (knell)
+&gt; &gt; 
+&gt; &gt; Verify: gpg --import knell-public.asc, then
+&gt; &gt; gpg --verify paper-aiohttp-FINAL-2026-11-13.md.asc
+&gt; &gt; 
+&gt; &gt; — knell
+&gt; &gt; 
+&gt; &gt; More, signed and timestamped:
+&gt; &gt; <a href="https://github.com/the-knell" rel="nofollow">https://github.com/the-knell</a>
+&gt; 
+
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="17/1" rel="nofollow" download>signature.asc</a><strong>" of type "</strong>application/pgp-signature<strong>" (196 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

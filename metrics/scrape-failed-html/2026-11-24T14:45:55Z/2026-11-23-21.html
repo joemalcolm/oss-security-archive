@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - CVE-2026-82442: Apache StormCrawler: HostURLFilter Domain Scoping
+ Silently Disabled by a Wrong Variable Check </title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="20">[&lt;prev]</a> <a href="22">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;1c8e276c-5040-903f-e082-15d9813c7ce0&#64;apache.org&gt;
+Date: Mon, 23 Nov 2026 18:08:26 +0000
+From: Richard Zowalla &lt;rzo1&#64;...che.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: CVE-2026-82442: Apache StormCrawler: HostURLFilter Domain Scoping
+ Silently Disabled by a Wrong Variable Check 
+
+Severity: low 
+
+Affected versions:
+
+- Apache StormCrawler (org.apache.stormcrawler:stormcrawler-core) 3.0.0 before 4.0.0
+
+Description:
+
+Description
+
+`HostURLFilter.configure` reads the `ignoreOutsideDomain` parameter but tests the node belonging to
+`ignoreOutsideHost` when deciding whether the domain mode was configured. A filter configuration that
+names only `ignoreOutsideDomain`, which the class documentation presents as an independent mode, is
+therefore discarded: the flag is forced to false, `filter` short-circuits on its guard and every URL is
+returned unchanged. The filter enforces nothing while appearing to be configured, and the failure is
+silent. The mirror-image configuration, naming only `ignoreOutsideHost`, fails with a
+`NullPointerException` while the topology is starting.
+
+The effect is the loss of a scope control the operator configured, so a crawled page's outlinks are
+followed to hosts the operator intended to exclude. Impact beyond crawl scope depends on what the
+crawler then fetches and is not claimed here. Projects generated from the StormCrawler Maven archetypes
+are not affected, because all three shipped filter configurations set both parameters.
+
+Mitigation
+
+Upgrade to 4.0.0, where each parameter is tested independently. Operators whose configuration sets only
+`ignoreOutsideDomain` will find the crawl restricted to the source domain, as configured, which may
+reduce the number of outlinks accepted.
+
+Users who cannot upgrade immediately should set both `ignoreOutsideHost` and `ignoreOutsideDomain`
+explicitly in the `HostURLFilter` configuration, which produces the intended behaviour on affected
+versions.
+
+Credit
+
+Independently reported to the Apache StormCrawler PMC by n0mi1k, with a proof of concept.
+
+Also found by the ASF -- using Claude agents to study the security of open-source projects, validated
+and reported by Apache StormCrawler.
+
+Credit:
+
+n0mi1k (finder)
+The ASF using Claude Agents (finder)
+
+References:
+
+<a href="https://stormcrawler.apache.org" rel="nofollow">https://stormcrawler.apache.org</a>
+<a href="https://www.cve.org/CVERecord?id=CVE-2026-82442" rel="nofollow">https://www.cve.org/CVERecord?id=CVE-2026-82442</a>
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
