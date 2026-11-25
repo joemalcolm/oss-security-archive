@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - rsyslog: omdtls name/fingerprint modes do not verify DTLS server
+ identity (CVE-2026-132145)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="14">[next&gt;]</a> <a href="17">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CADk+mPD=o5gW0mtK8fK-9M69UtG83r+fuVDSf_7v84-X1p0SMg&#64;mail.gmail.com&gt;
+Date: Tue, 24 Nov 2026 08:37:15 -0800
+From: rgerhards&#64;...scon.com
+To: oss-security&#64;...ts.openwall.com
+Subject: rsyslog: omdtls name/fingerprint modes do not verify DTLS server
+ identity (CVE-2026-132145)
+
+Hello,
+
+rsyslog has published GHSA-85fj-w7cw-38fv (CVE-2026-132145) for its
+optional omdtls output module. It was pre-notified to the distros list
+on 2026-11-22.
+
+Advisory: <a href="https://github.com/rsyslog/rsyslog/security/advisories/GHSA-85fj-w7cw-38fv" rel="nofollow">https://github.com/rsyslog/rsyslog/security/advisories/GHSA-85fj-w7cw-38fv</a>
+Fix: <a href="https://github.com/rsyslog/rsyslog/pull/8065" rel="nofollow">https://github.com/rsyslog/rsyslog/pull/8065</a>
+
+Summary
+
+omdtls offers tls.authmode="name" and tls.authmode="fingerprint" for
+DTLS receiver authentication. In affected versions both modes validate
+the receiver certificate chain but do not bind the certificate to the
+expected receiver name or fingerprint. An attacker who can redirect
+outbound DTLS traffic to a receiver with a different-identity
+certificate accepted by the configured CA trust set may receive the
+forwarded logs.
+
+Preconditions
+
+An operator must explicitly configure omdtls with one of these
+authentication modes, and the attacker needs traffic redirection or
+on-path control plus a certificate accepted by the configured or
+inherited CA trust set. An untrusted certificate is rejected. This is
+not a default-installation issue. tls.authmode="certvalid" is
+chain-only by design and outside this finding.
+
+Affected versions
+
+The defect entered with omdtls. The first confirmed affected upstream
+stable release is v8.2402.0; releases through v8.2610.0 are affected.
+Fixed in: 2026-11-24 daily stable.
+
+Fix
+
+The fix keeps certificate-chain validation and adds receiver-identity
+enforcement before logs are sent. In name mode the certificate is
+compared with the configured target DNS name or IP address, or with an
+explicit tls.permittedpeer value. Fingerprint mode requires a complete
+SHA-256 certificate pin in tls.permittedpeer. A missing or malformed
+pin fails at configuration load, and an identity or fingerprint
+mismatch rejects the connection. Operators whose network target
+differs from the certificate identity need to set tls.permittedpeer
+explicitly after updating.
+
+Workaround
+
+Until a fixed build is deployed, restricting the CA trust set to the
+intended receiver reduces the opportunity to present another trusted
+certificate, but does not replace identity verification.
+
+Severity
+
+Medium, CVSS 3.1 5.9 (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N).
+
+Credits
+
+We thank Arthur Chan, David Korczynski and Adam Korcz (Ada Logics) for
+reporting and helping analyze this issue.
+
+Regards,
+Rainer Gerhards
+rsyslog project
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
