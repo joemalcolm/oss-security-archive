@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - OpenSSL: 4 Low severity fixes merged publicly: QUIC, X.509 (CRL
+ processing) and TLS (DANE)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="7">[&lt;prev]</a> <a href="9">[next&gt;]</a> <a href="18">[thread-next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAAwz41SOyMnfMM1mWi899h5BdR=ipkxSfo48X1gLaq5hfHB9Ug&#64;mail.gmail.com&gt;
+Date: Tue, 24 Nov 2026 15:25:42 +0400
+From: Norbert Pócs &lt;norbertp&#64;...nssl.org&gt;
+To: oss-security&#64;...ts.openwall.com, openssl-users &lt;openssl-users&#64;...nssl.org&gt;
+Subject: OpenSSL: 4 Low severity fixes merged publicly: QUIC, X.509 (CRL
+ processing) and TLS (DANE)
+
+OpenSSL Security Advisory [24th November 2026]
+==============================================
+
+The issues listed below have been fixed in the public openssl/openssl
+repository on GitHub. Releases containing these fixes are scheduled
+for 1st December 2026.
+
+Possible NULL Dereference in Non-SMTP DANE Clients (CVE-2026-84786)
+===================================================================
+
+Severity: Low
+
+Issue summary: A DANE-enabled TLS client may crash by dereferencing a NULL
+pointer when processing an unusual combination of certificate and TLSA
+records.
+
+Impact summary: The impact is limited to a client crash (potential Denial
+of Service).
+
+CWE: CWE-476: NULL Pointer Dereference
+
+Description: A DANE-enabled TLS client that supports TLSA records with at
+least one of the PKIX-TA(0) or PKIX-EE(1) usages alongside the DANE-TA(2)
+usage may crash by dereferencing a NULL pointer if the server claims a
+trusted
+CA's certificate to be its end-entity certificate and has an unusual mix of
+associated TLSA records.
+
+DANE SMTP clients should not be affected since only the
+DANE-TA(2) and DANE-EE(3) TLSA record usages are specified applicable
+in SMTP.  For example, the Postfix MTA is not affected, while the Exim
+MTA does not at present use OpenSSL's DANE implementation.
+
+Use of DANE in validation of RFC7250 raw public keys (RPKs) is also
+unaffected, as these only use DANE-EE(3) TLSA records.
+
+Only applications that support combining the DANE PKI with a traditional PKI
+are potentially affected.  A DANE-enabled browser or similar, that uses
+OpenSSL's DANE API could be affected.
+
+FIPS impact: no
+The DANE API is outside the FIPS module boundary.
+
+OpenSSL 4.1, 4.0, 3.5, 3.0, and 1.1.1 are vulnerable to this issue.
+
+OpenSSL 1.0.2 is not affected by this issue.
+
+OpenSSL 4.1 users should upgrade to OpenSSL 4.1.1.
+OpenSSL 4.0 users should upgrade to OpenSSL 4.0.4.
+OpenSSL 3.5 users should upgrade to OpenSSL 3.5.10.
+
+Premium support customers only:
+OpenSSL 3.0 users should upgrade to OpenSSL 3.0.24.
+OpenSSL 1.1.1 users should upgrade to OpenSSL 1.1.1zk.
+
+This issue was reported on 16 September 2026 by Sanjay Rawat and on
+30 October 2026 by Mohammed Alquraini (HUMAIN).
+The fix has been developed by Viktor Dukhovni.
+
+Unbounded QUIC RETIRE_CONNECTION_ID Frame Sending Queue (CVE-2026-107494)
+=========================================================================
+
+Severity: Low
+
+Issue summary: The QUIC stack queues a RETIRE_CONNECTION_ID frame also for
+retransmitted NEW_CONNECTION_ID frames. This allows a remote malicious
+QUIC stack to queue an unlimited number of RETIRE_CONNECTION_ID frames.
+
+Impact summary: A malicious remote QUIC peer can trigger an out-of-memory
+condition causing a Denial of Service.
+
+CWE: CWE-770: Allocation of Resources Without Limits or Throttling
+
+Description: The earlier fix for CVE-2026-84784 was not complete. It
+failed to ignore retransmissions of the NEW_CONNECTION_ID frame. The QUIC
+implementation created and inserted a RETIRE_CONNECTION_ID frame for every
+retransmitted NEW_CONNECTION_ID frame it received and there was no limit
+on how many RETIRE_CONNECTION_ID frames were queued.
+
+This issue allows a malicious remote QUIC stack to trigger an unbounded
+allocation of memory and eventually an out-of-memory (OOM) condition.
+
+FIPS impact: no
+The FIPS module is not affected as the QUIC implementation is outside the
+OpenSSL FIPS module boundary.
+
+OpenSSL 4.1, 4.0, and 3.5  are vulnerable to this issue.
+
+OpenSSL 3.0, 1.1.1 and 1.0.2 are not affected by this issue.
+
+OpenSSL 4.1 users should upgrade to OpenSSL 4.1.1
+OpenSSL 4.0 users should upgrade to OpenSSL 4.0.4
+OpenSSL 3.5 users should upgrade to OpenSSL 3.5.10
+
+This issue was reported on 29 September 2026 by moltenbit, on 16 October
+2026
+by Duc Anh Luu (University of Melbourne) and on 22 October 2026 by
+hataehoon.
+The fix has been developed by Alexandr Nedvědický.
+
+Relative CRL Distribution Point Names Rebuilt per CRL in X.509 Verification
+(CVE-2026-121482)
+=============================================================================================
+
+Severity: Low
+
+Issue summary: Verifying a maliciously crafted CMS or PKCS#7 SignedData
+message with CRL checking enabled may consume excessive CPU time, growing
+with
+the square of the message size.
+
+Impact summary: An attacker who can submit a CMS or PKCS#7 SignedData
+message
+to an application that verifies it with CRL checking enabled can occupy a
+CPU
+core for seconds to minutes, causing Denial of Service. Applications that
+leave CRL checking disabled are not affected.
+
+CWE: CWE-407: Inefficient Algorithmic Complexity
+
+Description: With CRL checking enabled, OpenSSL compares each CRL
+distribution
+point of a certificate against the issuing distribution point of every
+candidate CRL. For a nameRelativeToCRLIssuer distribution point, the full
+name
+is the CRL issuer name with the relative name appended. Since the change
+that
+deferred this computation, crl_crldp_check() rebuilds that full name for
+each
+candidate CRL and frees it again.
+
+CMS_verify() and PKCS7_verify() take both the distribution points and the
+candidate CRLs from the message, and this scoring runs before any signature
+is
+checked. An application is exposed only if it sets X509_V_FLAG_CRL_CHECK on
+the store and does not pass CMS_NOCRL or PKCS7_NOCRL; CRL checking is off by
+default. In TLS the CRLs come from the local store, so a peer controls only
+the distribution point count.
+
+The cost grows with the product of the distribution point count, the CRL
+count
+and the issuer name length, all chosen by the message author; a few hundred
+kilobytes can occupy a CPU core for tens of seconds. Verification still
+fails
+as it should, with no crash, no incorrect result and no memory growth.
+Requiring CRL checking is what limits the severity.
+
+FIPS impact: no
+The affected code is outside the FIPS module boundary.
+
+OpenSSL 4.1, 4.0 and 3.5 are vulnerable to this issue.
+
+OpenSSL 3.0, 1.1.1 and 1.0.2 are not affected by this issue.
+
+OpenSSL 4.1 users should upgrade to OpenSSL 4.1.1.
+OpenSSL 4.0 users should upgrade to OpenSSL 4.0.4.
+OpenSSL 3.5 users should upgrade to OpenSSL 3.5.10.
+
+This issue was reported on 19 October 2026 by Alex Gaynor (Anthropic).
+The fix has been developed by Neil Horman.
+
+Unbounded Out-of-Order Fragment Reassembly in QUIC Streams (CVE-2026-84785)
+===========================================================================
+
+Severity: Low
+
+Issue summary: A QUIC peer that sends many small out-of-order STREAM
+fragments
+while withholding the first byte of the stream may cause OpenSSL to buffer
+a large number of reassembly nodes occupying much larger memory than
+the actual data sent.
+
+Impact summary: A remote peer can pin large amounts of memory on a server
+that
+accepts incoming QUIC streams, potentially exhausting memory and causing
+Denial of Service.
+
+CWE: CWE-770: Allocation of Resources Without Limits or Throttling
+
+Description: QUIC receive flow control limits the highest byte offset a peer
+may reach on a stream. It does not limit how many out-of-order fragments the
+receiver buffers. OpenSSL allocates a reassembly node for each non-adjacent
+STREAM fragment and never caps the count. A peer that opens a stream and
+sends
+many one-byte fragments at increasing offsets, while withholding the first
+byte, makes the receiver retain one node per fragment without delivering any
+data.
+
+Only applications that accept incoming streams are exposed. With the default
+policy, which rejects peer-initiated streams, the stream is torn down before
+state accumulates. Because the read side never advances past the missing
+prefix, the flow control window never slides and the nodes stay pinned for
+the
+life of the connection.
+
+The per-stream window bounds the highest offset, so the memory one stream
+can
+pin is finite, but it can reach tens of megabytes and, across many streams
+and
+connections, drive memory pressure and Denial of Service. The severity is
+limited because the exhaustion is bounded by flow control and requires a
+non-default configuration.
+
+FIPS impact: no
+The affected code is outside the FIPS module boundary.
+
+OpenSSL 4.1, 4.0 and 3.5 are vulnerable to this issue.
+
+OpenSSL 3.0, 1.1.1 and 1.0.2 are not affected by this issue.
+
+OpenSSL 4.1 users should upgrade to OpenSSL 4.1.1.
+OpenSSL 4.0 users should upgrade to OpenSSL 4.0.4.
+OpenSSL 3.5 users should upgrade to OpenSSL 3.5.10.
+
+This issue was reported on 21 October 2026 by Duc Anh Luu (University of
+Melbourne) and on 17 November 2026 by Jiwoo Kim (Arpe).
+The fix has been developed by Duc Anh Luu (University of Melbourne).
+
+General Advisory Notes
+======================
+
+URL for this Security Advisory:
+<a href="https://openssl-library.org/news/secadv/20261124.txt" rel="nofollow">https://openssl-library.org/news/secadv/20261124.txt</a>
+
+Note: the online version of the advisory may be updated with additional
+details over time.
+
+Only currently supported releases have been analysed. OpenSSL 3.1, 3.2, 3.3,
+3.4, and 3.6 are out of support and have not been analysed.
+
+For details of OpenSSL severity classifications please see:
+<a href="https://openssl-library.org/policies/general/security-policy/" rel="nofollow">https://openssl-library.org/policies/general/security-policy/</a>
+
+
+--
+Norbert
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
