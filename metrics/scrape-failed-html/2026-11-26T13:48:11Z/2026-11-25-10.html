@@ -1,0 +1,1278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Prosody 13.0.8 security release</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="9">[&lt;prev]</a> <a href="11">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;CAJt9-x7B8khgm6bjmLSgHzbxw11OBK45pWMmad=fxJ5-+esqsg&#64;mail.gmail.com&gt;
+Date: Wed, 25 Nov 2026 16:49:20 +0000
+From: Matthew Wild &lt;mwild1&#64;...il.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Prosody 13.0.8 security release
+
+Prosody XMPP server advisory 2026-11-25 (Multiple Vulnerabilities)
+
+Project
+:   Prosody XMPP server
+
+URL
+:   <a href="https://prosody.im/" rel="nofollow">https://prosody.im/</a>
+
+Date
+:   2026-11-25
+
+This advisory details multiple security vulnerabilities discovered in the
+Prosody.im XMPP server software. Fixes are available in Prosody 13.0.8.
+This advisory covers the Prosody 13.0 series only.
+
+Deployments on the 0.12 series and earlier are not supported since June 2026,
+however we will provide a backported patch for the most critical issues for
+distribution maintainers. Unless explicitly stated, the issues listed here
+have not been checked in Prosody 0.12.x and earlier.
+
+The recommended advice is for all Prosody users to upgrade to 13.0.8
+as soon as possible.
+
+Details of each of the vulnerabilities are below, followed by
+acknowledgements. The first 16 issues relate to crossing of various security
+boundaries, the remaining 5 issues relate to denial-of-service (i.e.
+insufficiently restricted consumption of RAM, CPU or disk space).
+
+This advisory can be found online at:
+
+- <a href="https://prosody.im/security/advisory_2026_8112eaa9/" rel="nofollow">https://prosody.im/security/advisory_2026_8112eaa9/</a> (HTML)
+- <a href="https://prosody.im/security/advisory_2026_8112eaa9.txt" rel="nofollow">https://prosody.im/security/advisory_2026_8112eaa9.txt</a> (text)
+
+
+Cross-host confusion in stanza processing
+--------------------------------------------------------
+
+Prosody issue
+: #2039
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-940
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+
+**Description**
+
+In a Prosody instance that is configured to serve multiple virtual hosts or
+components, Prosody could process incoming data in the context of the wrong
+virtual host, potentially leading to unauthorized access of accounts.
+
+**Affected configurations**
+
+Prosody instances with a single virtual host and no components are *not*
+affected.
+
+Prosody instances with multiple virtual hosts, where at least one virtual host
+permits potentially malicious users (e.g. hosts with in-band registration
+enabled) are most vulnerable to this issue and should upgrade immediately.
+
+**Mitigation**
+
+Upgrade to Prosody 13.0.8 as soon as possible. Running every untrusted host on
+a separate Prosody instance is a valid mitigation.
+
+**Fixes**
+
+stanza_router was updated to ensure stanzas are always processed within the
+correct host context for the connecting session.
+
+Commit: 489e83c42826
+
+
+Stream reset did not discard all pending data
+------------------------------------------------------------
+
+Prosody issues
+: #2037
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-349
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+Prosody's xmppstream module did not sufficiently clear all state when a stream
+reset was triggered. This could lead to it processing untrusted data on a new
+stream, including data injected before TLS.
+
+**Affected configurations**
+
+All configurations are affected. Deployments which support starttls (almost
+all) are particularly vulnerable, however direct TLS (e.g. as commonly offered
+on port 5223) may not entirely mitigate all issues.
+
+**Mitigation**
+
+Upgrade to Prosody 13.0.8 as soon as possible. If an immediate upgrade is not
+feasible, consider allowing only direct TLS connections - but this may break
+interoperability with some clients/servers.
+
+**Fixes**
+
+xmppstream was updated to fully reset all state after a stream reset.
+
+Commit: 82bb390a40b7
+
+
+Invitation reuse
+-------------------------------------------------------
+
+Prosody issue
+: #2021
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-837
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+A single-use invitation remained cached on an unauthenticated session after it
+had been used. The same session could submit additional registration requests
+with different usernames. Two concurrent sessions that validated the
+invitation before either completed registration could produce the same result.
+
+**Affected configurations**
+
+Deployments using mod_invites and mod_invites_register are affected. These
+modules are enabled in the default configuration, but the issues are only
+relevant when an invitation is generated and sent to a malicious user.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately may disable invitation-based
+registration and password resets. If invitations must remain enabled, restrict
+them to administrators and issue them for trusted users only.
+
+**Fixes**
+
+Invitations are marked used in memory, registration hooks ignore used
+invitations.
+
+Commits: ea4e687e3dda, fff798b74382, 7ed1c6023424, b427a17b6111
+
+**Attribution**
+
+This issue was identified in an external security review of Prosody trunk
+provided to the Prosody team.
+
+
+Invitation username restrictions not enforced
+-----------------------------------------------------------
+
+Prosody issue
+: #2022
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-837
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+Username restrictions in invitations were insufficiently enforced on account
+invitations. This allowed account invitations locked to a specific username to
+be used to register an account with a different username.
+
+Password reset invitations were **not** affected by this issue, and correctly
+enforced resets for the named account only.
+
+**Affected configurations**
+
+Deployments using mod_invites and mod_invites_register are affected. These
+modules are enabled in the default configuration, but the issues are only
+relevant when an invitation is generated and sent to a malicious user.
+
+**Mitigation**
+
+Don't rely on username-restricted invitations in versions earlier than 13.0.8.
+
+**Fixes**
+
+Username restrictions are stored in a separate field and enforced.
+
+Commit: b5c3a26c1103
+
+**Attribution**
+
+This issue was identified in an external security review of Prosody trunk
+provided to the Prosody team.
+
+
+Password-protected MUC exposure
+-------------------------------------------------------
+
+Prosody issue
+: #2023
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-862
+
+Affected versions
+: All 13.0 versions prior to 13.0.8.
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+XEP-0045 describes the ability to set a password on MUCs to allow access only
+to entities which provide the password. This feature is rarely used by modern
+clients, preferring the more secure "members-only" MUCs instead for private
+group chats.
+
+Because Prosody only checked the password restriction at the time a client
+tries to join, various other operations which do not require joining the MUC
+were found to be unprotected in MUCs which are not members-only and restricted
+access by password only.
+
+Two concrete issues have been identified and fixed:
+
+1) A user who was not an occupant and had no affiliation with a room could
+request a mediated invitation. In non-members-only rooms, the default role was
+sufficient to permit the request, and password-protected rooms would include
+the room password in the invitation (as XEP-0045 recommends). However, this
+allowed any XMPP entity to obtain the password for a room whose address they
+knew.
+
+2) Message archives of password-protected rooms could be queried without
+entering the room or proving knowledge of the password. When
+muc_log_by_default was enabled (the default for mod_muc_mam), anyone who knew
+the room address could read its history.
+
+**Affected configurations**
+
+The invite issue affects MUC components with password-protected,
+non-members-only rooms. The archive issue affects rooms with mod_muc_mam and
+logging enabled; the default value of muc_log_by_default is true.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should make password-protected rooms
+members-only where possible. Password protected MUCs can be hidden to prevent
+discoverability (if the MUC address is not easy to guess). Archive exposure
+can be reduced by disabling MUC logging for password-protected rooms or by
+switching the MUC to members-only. Disabling mod_muc_mam removes archive query
+exposure but also removes the feature.
+
+Despite the fixes, we strongly recommend that anyone using password-protected
+MUCs should switch to members-only MUCs instead, and grant access based on the
+managed access control list which Prosody already provides. Password
+protection is considered a legacy feature with various inherent problems (e.g.
+the passwords are exchanged unencrypted), and may be removed in a future
+version.
+
+**Fixes**
+
+Mediated invitations are now rejected unless the inviter is an occupant or has
+an affiliation that permits inviting. Unaffiliated non-occupants are now
+refused archive queries by default. Because this is potentially a breaking
+change (some clients may rely on being able to sync history without joining
+the MUC) the previous open behaviour can be restored with
+muc_mam_allow_unjoined_queries = true, but password-protected rooms remain
+restricted.
+
+Commits: ede9f5173192, be3eb8c0290b
+
+**Attribution**
+
+The mediated-invitation password disclosure was identified in an external
+security review.
+
+
+Non-moderators may modify state and cause occupants to be kicked from MUCs
+--------------------------------------------------------------------------
+
+Prosody issue
+: #2024
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-862
+
+Affected versions
+: All 13.0 versions prior to 13.0.8.
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+Prosody's muc#admin handler processed changes to a live affiliation record
+before applying the required authorization check. By supplying an item with an
+affiliation, JID and nick, any XMPP entity could cause a reserved-nickname
+conflict kick to be executed against an occupant, including an owner, before
+the affiliation change was rejected. The handler could also overwrite
+affiliation data such as the reserved nickname and reason for existing
+affiliations.
+
+**Affected configurations**
+
+All MUCs are affected in versions prior to 13.0.8, where the exposure to
+malicious users is obviously greater for public channels.
+
+**Mitigation**
+
+The best mitigation is to upgrade if you host MUCs where untrusted users are
+allowed to join.
+
+**Fixes**
+
+Affiliation changes are authorized before reserved-nickname kicks, and
+affiliation data is copied before modification.
+
+Commits: 9f1d26ba8176
+
+**Attribution**
+
+The issue was identified in an external security review.
+
+
+Insufficient filtering of muc#user namespace in MUC
+----------------------------------------------------------------------
+
+Prosody issue
+: #2041
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-349
+
+Affected versions
+: All 13.0 versions prior to 13.0.8.
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+Prosody's MUC implementation did not strip elements in the muc#user
+namespace from messages, which allowed them to be sent by clients,
+broadcast and archived. This could lead to client confusion over
+things like message authors.
+
+**Affected configurations**
+
+Prosody versions earlier than 13.0.8 are affected.
+
+**Mitigation**
+
+There is no configuration-based mitigation. Different clients may be
+more or less robust about how they handle the problematic stanzas
+relayed by Prosody, but we have not surveyed individual clients.
+
+**Fixes**
+
+Prosody's mod_muc now strips muc#user elements from messages before
+they are broadcast and archived.
+
+Commit: 76b224e7cbe4
+
+
+Mixed-case HTTPS scheme results in unencrypted HTTP request
+-----------------------------------------------------------
+
+Prosody issue
+: #2018
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-178
+
+Affected versions
+: All 13.0 versions prior to 13.0.8.
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+When a module uses Prosody's internal HTTP client API to request a remote URL
+that contains a https:// scheme that is not entirely lowercase (e.g. 'HTTPS'
+or 'httpS') then Prosody would create an unencrypted HTTP request to port 80.
+
+**Affected configurations**
+
+All versions that support HTTPS requests prior to 13.0.8 are affected. Prosody
+does not make HTTP requests by default, however some community modules might.
+They are particularly vulnerable if they fetch attacker-controlled URLs and
+send or receive private data from those URLs.
+
+**Mitigation**
+
+Upgrade to Prosody 13.0.8. Ensure all URLs in configuration use lowercase
+'https://' if using older Prosody versions.
+
+**Fixes**
+
+The match was made case-insensitive.
+
+Commit: 23b891d042a2
+
+
+mod_http_file_share header injection
+-------------------------------------------------
+
+Prosody issue
+: #2025
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-113
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+
+**Description**
+
+An authenticated user could supply a Content-Type value containing carriage
+return and line feed characters in a slot request. The value was stored with
+the upload and emitted verbatim in the HTTP response for later downloads. This
+allowed response-header injection, including Set-Cookie and Refresh headers,
+and with a double CRLF could terminate the header block and place attacker-
+controlled content in the response body on the file-share origin.
+
+**Affected configurations**
+
+All deployments using mod_http_file_share are affected.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should disable mod_http_file_share or
+restrict upload access to trusted users.
+
+**Fixes**
+
+Slot requests now validate Content-Type against the RFC 6838 media type
+syntax.
+
+Commit: f369efa90f7f
+
+**Attribution**
+
+This issue was identified in an external security review.
+
+
+Doubled responses to certain HTTP requests
+------------------------------------------------------------
+
+Prosody issue
+: #2027
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-444
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+In some circumstances, Prosody's HTTP server might emit multiple responses to
+the same request. This can cause undesired behaviour when a HTTP client or
+reverse proxy reuses a HTTP connection.
+
+**Affected configurations**
+
+The issue affects HTTP endpoints that respond to the early, headers-only
+dispatch of a chunked request, including missing-handler responses and
+mod_http_file_share rejecting an upload.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should disable mod_http_file_share or
+restrict upload access to trusted users. If using a reverse proxy, ensure it
+does not reuse the same backend connection across multiple frontend requests.
+
+**Fixes**
+
+The HTTP server now remembers an early response and does not dispatch the
+completed request again.
+
+Commits: 215f221f86f9
+
+**Attribution**
+
+This issue was identified in an external security review.
+
+
+Insufficient validation of archive query limits
+----------------------------------------------------------
+
+Prosody issue
+: #2028
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-1284
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+Result Set Management (RSM) fields used by message archive queries were parsed
+with an overly permissive number conversion. In particular, a negative max
+value could become a negative SQL LIMIT, which SQLite treats as unlimited. A
+user able to query an archive could therefore bypass max_archive_query_results
+and cause the server to materialise an entire archive before discarding the
+excess results.
+
+**Affected configurations**
+
+The issue affects mod_mam and mod_muc_mam with SQL storage and archives larger
+than max_archive_query_results (default 50).
+
+**Mitigation**
+
+The best mitigation is to upgrade to 13.0.8 or later.
+
+**Fixes**
+
+RSM integer fields are now validated as non-negative xs:int values, invalid
+fields result in a bad-request error response, and storage backends have been
+updated to reject an invalid limit.
+
+Commits:
+
+7736c449c89a (util.stanza), b4bdfcf99936 (util.rsm), 87112f85540a (mod_mam),
+24760c378cb7 (mod_muc_mam), 293d65d0e4ee (mod_storage_sql), 8529a3611c31
+(mod_storage_memory).
+
+**Attribution**
+
+This issue was identified in an external security review.
+
+
+Server-to-Server Policy Bypass
+-------------------------------------------------------
+
+Prosody issue
+: #2029
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-862
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+**Description**
+
+Prosody checked whether server-to-server communication was enabled only for
+the host named in the stream header. After a remote server authenticated to a
+permitted host, it could deliver stanzas to another local virtual host on the
+same stream even when that second host had mod_s2s disabled with
+modules_disabled = {"s2s"}.
+
+**Affected configurations**
+
+Multi-host deployments that disable s2s for only some virtual hosts or
+components are affected. A single-host deployment that disables s2s everywhere
+is not affected by the cross-host delivery issue.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should avoid relying on per-host
+mod_s2s disablement for security boundaries. If a host must not accept
+server-to-server traffic, isolate it on a separate Prosody instance or use a
+module such as mod_firewall to reject traffic.
+
+**Fixes**
+
+Stanzas and dialback results addressed to a host without mod_s2s now close the
+stream with policy-violation. Commits: 33d9a7d2cbc4 (mod_dialback),
+ff9472b07769 (stanza_router).
+
+**Attribution**
+
+The issue was identified in an external security review.
+
+
+mod_auth_ldap does not reject empty password
+----------------------------------------------------------------
+
+Prosody issue
+: #2030
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-303
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+In mod_auth_ldap bind mode, test_password did not reject an empty password
+before consulting the LDAP directory. Some directory servers, including Active
+Directory and possibly Samba AD/DC, accept an empty simple bind as an
+unauthenticated bind. SASL PLAIN rejects empty passwords, but mod_legacyauth
+passed empty values to test_password, as could other consumers such as HTTP
+basic-auth modules.
+
+The legacy authentication path now applies SASLprep and rejects empty or
+invalid passwords after preparation.
+
+**Affected configurations**
+
+The issue affects deployments using mod_auth_ldap in bind mode together with
+mod_legacyauth or another auth interface that accepts empty passwords.
+mod_legacyauth is not enabled in the default configuration.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should ensure that mod_legacyauth is
+disabled (it is disabled by default). If your directory accepts empty
+passwords, this may not be a complete mitigation.
+
+**Fixes**
+
+mod_auth_ldap now fails empty passwords without consulting the directory.
+mod_legacyauth applies SASLprep and rejects empty or invalid values.
+
+Commits: 2d4daeea5063 (mod_auth_ldap), ed8ace2a78fd (mod_legacyauth)
+
+**Attribution**
+
+The issue was identified in an external security review.
+
+
+OAuth role not applied via SASL authentication
+--------------------------------------------------------------
+
+Prosody issue
+: #2031
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-266
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+
+**Description**
+
+On the OAUTHBEARER SASL path, mod_tokenauth resolved the user from a token but
+did not apply a restricted role carried by that token. The account's primary
+role was used instead, so a token intended to grant reduced privileges could
+authenticate with broader access.
+
+**Affected configurations**
+
+The issue affects deployments that issue OAUTHBEARER tokens with a restricted
+role, including through community OAuth2 modules.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should avoid issuance of
+restricted-role OAUTHBEARER tokens in their deployment.
+
+**Fixes**
+
+The OAUTHBEARER SASL path resolves and applies the token role.
+
+Commits: 6c89731e0afb (mod_tokenauth)
+
+**Attribution**
+
+The issue was identified in an external security review.
+
+
+Potential storage policy bypass
+-----------------------------------------
+
+Prosody issue
+: #2032
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-372
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+Prosody's file-based storage abstraction module (datamanager) improperly
+modified the list of callbacks when multiple were present and one was
+removed. These callbacks are commonly used to enforce various policies, such
+as preventing storage for anonymous users, or removing "virtual" contacts
+added by mod_groups).
+
+The callbacks are global, so this effect could occur across multiple virtual
+hosts on the same Prosody instance.
+
+**Affected configurations**
+
+The issue affects deployments where modules using data manager callbacks are
+reloaded or unloaded.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should avoid dynamically reloading or
+unloading modules that add or remove data manager callbacks
+(mod_auth_anonymous, mod_groups).
+
+**Fixes**
+
+The datamanager callback removal logic has been fixed.
+
+Commit: 3072b5fe5e7b
+
+**Attribution**
+
+The issue was identified by a Prosody team member.
+
+
+PEP broadcasts include explicit subscriptions after roster removal
+---------------
+
+Prosody issues
+: #2036
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-862
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+If a contact explicitly subscribes to a user's PEP node, that subscription
+survives removal of the contact from the user's roster, and the contact
+continues to receive notifications (explicit actions such as get-item are
+blocked).
+
+**Affected configurations**
+
+Prosody 13.0.7 and earlier are affected, mod_pep is enabled in the default
+configuration.
+
+**Mitigation**
+
+There is no mitigation through configuration. It is strongly recommended to
+upgrade, which will immediately prevent notifications to unauthorized
+recipients.
+
+**Fixes**
+
+We have added a general check to prevent broadcasts to contacts that have lost
+their authorization, as well as cleanup for explicit subscriptions when roster
+items are removed.
+
+Commit: 94ff20585993
+
+
+MUC mediated invites and declines relay arbitrary message children
+---------------
+
+Prosody issues
+: #2040
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-441
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+In the mediated invite and mediated decline flows described in XEP-0045, the
+MUC is responsible for sending the invitation stanza and the decline stanza to
+the invitee/inviter respectively.
+
+In both cases Prosody relayed the full original stanza with some metadata
+added. However, this caused the MUC to effectively act as a relay for fairly
+arbitrary message stanzas, and in a public MUC access to mediated invites is
+unrestricted. As mediated invites/declines originate from the MUC's own bare
+JID, this could enable spoofing certain stanzas which could confuse receiving
+clients.
+
+**Affected configurations**
+
+Prosody prior to 13.0.8 is affected, if a MUC component is enabled. It is
+especially vulnerable to abuse if it hosts public channels.
+
+**Mitigation**
+
+The best mitigation is to upgrade to Prosody 13.0.8. Alternatively, only host
+members-only channels for trusted users.
+
+**Fixes**
+
+Prosody now generates a clean stanza with only the necessary metadata in it,
+it does not relay the original stanza from the sender of the invite/decline.
+
+Commit: 55cca0f03076
+
+
+Memory Exhaustion via Aborted HTTP Requests
+-------------------------------------------------------
+
+Prosody issue
+: #2020
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-400, CWE-770
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+A remote, unauthenticated attacker can cause Prosody to retain memory when
+an HTTP connection carrying an incomplete response is closed. The affected
+code path is used by BOSH long-polling, but the underlying HTTP server issue
+applies to any handler that holds a response open.
+
+When the client disconnects, the request's async runner remains referenced
+from util.async's waiting_runners table. The request, response and connection
+objects therefore remain reachable indefinitely. Repeated requests consume
+memory without requiring authentication.
+
+**Affected configurations**
+
+All 13.0 deployments prior to 13.0.8 are believed to be affected. Exposure is
+highest where mod_bosh is enabled and reachable by untrusted clients.
+Deployments behind a reverse proxy may also experience the leak when the proxy
+abandons upstream requests.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should limit request rates and
+concurrent connections at the reverse proxy or firewall, and should configure
+proxy timeouts so abandoned upstream requests are rare. Restarting Prosody
+releases the retained memory but does not prevent recurrence.
+
+**Fixes**
+
+The HTTP server now completes and releases the waiting runner when a
+connection is closed with an open response, marks the HTTP session as
+disconnected, and does not resume destroyed connections or dispatch queued
+requests after disconnect.
+
+Commit: f215eb8ec541
+
+**Attribution**
+
+The issue was reported privately to the Prosody team by an operator.
+
+
+mod_http_file_share unrestricted upload size
+------------------------------------------------------------
+
+Prosody issue
+: #2026
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-770
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+
+**Description**
+
+A chunked upload was not limited to the size reserved by its slot
+token while data was being received. A holder of one valid slot token could
+stream data until the request stopped.
+
+**Affected configurations**
+
+All deployments using mod_http_file_share are affected.
+
+**Mitigation**
+
+Operators who cannot upgrade immediately should disable mod_http_file_share or
+restrict upload access to trusted users. Configure reverse-proxy request-size
+and connection limits.
+
+**Fixes**
+
+mod_http_file_share body sink now refuses writes beyond the reserved size, and
+the HTTP parser stops on sink write failure.
+
+Commits: 19820f771c97, afd4fbbe2085
+
+**Attribution**
+
+This issue was identified in an external security review.
+
+
+Stanza child elements limit bypass
+----------------------------------------------
+
+Prosody issues
+: #2033
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-770
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+
+**Description**
+
+Due to coding errors, c2s_max_child_elements and s2s_max_child_elements (added
+in 13.0.5) failed to limit streams as intended. Other mitigations added in
+that release masked the failure of this code during final testing.
+
+**Affected configurations**
+
+All configurations are affected. The issue was introduced in Prosody 13.0.5,
+but earlier versions are vulnerable to the problems the code was intended to
+fix.
+
+**Mitigation**
+
+It is recommended to upgrade to Prosody 13.0.8.
+
+**Fixes**
+
+The code has been corrected to initialize the stream handlers with the correct
+child element limits, and to preserve the child elements limits
+post-authentication.
+
+Commits: 9d23a82b7fb7 (fix initialization), 34ba66db7c81 (preserve limit after
+authentication), 05edaab108ee (correct handling of abort conditions)
+
+**Attribution**
+
+This issue was reported in an external security review.
+
+
+Completed stanzas bypass byte-size limit when they fit in a single feed
+-----------------------------------------------------------------------
+
+Prosody issues
+: #2034
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-770
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+Due to logic bugs in the byte accounting of Prosody's xmppstream library, it
+was possible to send stanzas that were not counted against the stream's byte
+limits, if the stanza fit within a single read/feed cycle in Prosody's event
+loop. This could lead to connections sending more data than permitted by the
+server's configuration.
+
+**Affected configurations**
+
+All configurations are affected.
+
+**Mitigation**
+
+The fix is code only, the recommended mitigation is to upgrade to Prosody
+13.0.8 or later.
+
+**Fixes**
+
+The byte accounting has been expanded, and now counts every item correctly.
+
+Commits: 0e7850032c49
+
+
+mod_bosh and mod_component don't apply child element limit
+----------------------------------------------------------
+
+Prosody issues
+: #2035
+
+CVEs
+: Request pending
+
+CWEs
+: CWE-770
+
+Affected versions
+: All 13.0 versions prior to 13.0.8
+
+Fixed versions
+: 13.0.8
+
+**Description**
+
+mod_bosh and mod_component did not initialize the stream with a max child
+element limit. While components are generally more trusted, this allowed
+clients to bypass the limits usually imposed on c2s streams by using mod_bosh
+instead, and in some cases components may relay arbitrary data that could
+exceed desired limits.
+
+**Affected configurations**
+
+Deployments with mod_bosh enabled (not enabled by default) or external
+components (none by default) are affected.
+
+**Mitigation**
+
+Upgrade to 13.0.8, otherwise disable mod_bosh. mod_bosh is used by web clients,
+but mod_websocket is often a suitable alternative.
+
+**Fixes**
+
+Commits: 8aaf054f7f44 (mod_bosh), 8ceea8ba345d (mod_component)
+
+
+Acknowledgements
+================
+
+This is notably our longest security advisory in the history of the project.
+In recent weeks we have been experiencing a steady stream of reports (at least
+several each week, often containing multiple reports). Many of the reports are
+about the same/similar issues, and we believe most or all of them to be
+partially or totally discovered via LLM usage rather than pure human
+expertise.
+
+It has taken a lot of effort to triage, validate, prioritize, fix and test all
+of these issues (and the ones that turned out to be non-issues), so we thank
+reporters for their understanding. It's not a great time to be an open-source
+project maintainer, but we're committed to curating Prosody as a clean and
+secure codebase, and we hope that the number of reports will diminish over
+time as latent bugs are identified and fixed.
+
+External reports were received from:
+
+- Sergi Baila
+- Hila Cohen
+- Damian Minkov
+- ranas-mukminov
+- Giuseppe Viglianti (0xd3af90d)
+- warsang
+
+We thank everyone who reported their findings privately and worked with the
+Prosody team on coordinated fixes.
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

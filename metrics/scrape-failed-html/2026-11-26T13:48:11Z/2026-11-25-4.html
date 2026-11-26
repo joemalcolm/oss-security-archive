@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Re: [PATCH v7 0/2] shadow: Security fix for
+ newgidmap(1)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="3">[&lt;prev]</a> <a href="5">[next&gt;]</a> <a href="../../../2026/11/24/19">[&lt;thread-prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;d854f072-cabf-4cef-9ff4-54a1850f8dcf&#64;redhat.com&gt;
+Date: Wed, 25 Nov 2026 09:05:05 +0100
+From: ipedrosa&#64;...hat.com
+To: Alejandro Colomar &lt;alx+shadow&#64;...nel.org&gt;,
+ Solar Designer &lt;solar&#64;...nwall.com&gt;, oss-security&#64;...ts.openwall.com,
+ serge&#64;...lyn.com, Dickson Wu &lt;dickson.wu&#64;...tik.com&gt;
+Subject: Re: [PATCH v7 0/2] shadow: Security fix for
+ newgidmap(1)
+
+Hi,
+
+I'll shed a bit of light on this matter. Yesterday, someone from Red Hat's internal security team got in touch with me and shared the link, asking whether I thought it was necessary to open a CVE. To be honest, I hadn't been following this discussion very closely, but from what I had gathered, it did seem necessary to open one. Given that the link was already public, I didn't think it was necessary to place an embargo on it.
+
+On 24/11/2026 22:47, Alejandro Colomar &lt;alx+shadow&#64;...nel.org&gt; wrote:
+&gt; Hi Alexander,
+&gt; 
+&gt; &gt; Date: 2026-11-24 18:29:43+0100
+&gt; &gt; From: Solar Designer &lt;solar&#64;...nwall.com&gt;
+&gt; &gt;
+&gt; &gt; On Sun, Nov 22, 2026 at 10:22:56PM +0100, Alejandro Colomar wrote:
+&gt; &gt;&gt; I've released publicly shadow-4.20.4 a moment ago.  Below are the
+&gt; &gt;&gt; details about the security issues (from the previous email, to
+&gt; &gt;&gt; linux-distros@).
+&gt; &gt;&gt;
+&gt; &gt;&gt; The release is available at
+&gt; &gt;&gt; &lt;<a href="https://github.com/shadow-maint/shadow/releases/tag/4.20.4" rel="nofollow">https://github.com/shadow-maint/shadow/releases/tag/4.20.4</a>&gt;.
+&gt; &gt;
+&gt; &gt; Thanks!  Looks like this is CVE-2026-135901:
+&gt; &gt;
+&gt; &gt; <a href="https://bugzilla.redhat.com/show_bug.cgi?id=2583156" rel="nofollow">https://bugzilla.redhat.com/show_bug.cgi?id=2583156</a>
+&gt; 
+&gt; Thanks!
+&gt; 
+&gt; &gt;
+&gt; &gt; Quoting from there:
+&gt; &gt;
+&gt; &gt;&gt; CVE-2026-135901 shadow-utils: shadow-utils: newgidmap and newuidmap
+&gt; &gt;&gt; improperly validate file descriptor location, allowing local file
+&gt; &gt;&gt; corruption via bind mount
+&gt; &gt;&gt;
+&gt; &gt;&gt; OSIDB Bzimport 2026-11-24 11:34:55 UTC
+&gt; &gt;&gt;
+&gt; &gt;&gt; The newgidmap and newuidmap helper utilities accept a directory file
+&gt; &gt;&gt; descriptor identifying a target process's /proc/&lt;pid&gt;/ directory, and
+&gt; &gt;&gt; validate that this descriptor refers to the procfs filesystem by
+&gt; &gt;&gt; comparing device numbers (st_dev/st_rdev) against a known procfs path.
+&gt; &gt;&gt; After this check, the utilities open a file (for example "setgroups") by
+&gt; &gt;&gt; name relative to that directory descriptor and write privileged uid/gid
+&gt; &gt;&gt; mapping data to it.
+&gt; &gt;&gt;
+&gt; &gt;&gt; An unprivileged local user can defeat this validation using Linux user
+&gt; &gt;&gt; and mount namespaces: by bind-mounting an arbitrary, attacker-chosen
+&gt; &gt;&gt; file over the expected child path inside a procfs directory they hold a
+&gt; &gt;&gt; descriptor to, the device-number check (which only inspects the
+&gt; &gt;&gt; directory itself) still passes, while the subsequent open-by-name
+&gt; &gt;&gt; resolves through the bind mount to the attacker's chosen file instead of
+&gt; &gt;&gt; the intended procfs file. This redirects the helper's privileged write,
+&gt; &gt;&gt; resulting in the first five bytes of the attacker-chosen file being
+&gt; &gt;&gt; overwritten with the fixed content "deny\n".
+&gt; &gt;&gt;
+&gt; &gt;&gt; This was reported publicly, with a working proof of concept
+&gt; &gt;&gt; demonstrating the primitive against a SUID-root build of newgidmap, and
+&gt; &gt;&gt; fixed upstream in shadow 4.20.4 by using openat2(2) with RESOLVE_NO_XDEV
+&gt; &gt;&gt; for path resolution and by removing the affected "fd:N" argument form
+&gt; &gt;&gt; entirely.
+&gt; &gt;
+&gt; &gt; I guess "reported publicly" refers to:
+&gt; 
+&gt; I guess the same.
+&gt; 
+&gt; &gt;
+&gt; &gt;&gt;&gt;&gt; Report, affected lines, a suggested fix (fstat the opened setgroups
+&gt; &gt;&gt;&gt;&gt; FD, or openat2 with RESOLVE_NO_XDEV) and the PoC are here:
+&gt; &gt;&gt;&gt;&gt;
+&gt; &gt;&gt;&gt;&gt; &lt;<a href="https://gist.github.com/DicksonWu654/cdad661068d6a50da475aac57a9f07f2" rel="nofollow">https://gist.github.com/DicksonWu654/cdad661068d6a50da475aac57a9f07f2</a>&gt;
+&gt; &gt;&gt;&gt;&gt;
+&gt; &gt;&gt;&gt;&gt; Happy to test a fix or answer questions whenever it's useful.
+&gt; &gt;&gt;&gt;&gt;
+&gt; &gt;&gt;&gt;&gt; Best,
+&gt; &gt;&gt;&gt;&gt; Dickson
+&gt; &gt;
+&gt; &gt; which didn't appear to draw any attention before the release.
+&gt; 
+&gt; Yup; I was a bit confused by the report coming encrypted but having
+&gt; a link to a public github page with the report.  We kept it embargoed
+&gt; because
+&gt; 
+&gt; 1)  The issue wasn't too critical, so even if some people might have
+&gt;      found that, I don't think they could do much harm.
+&gt; 
+&gt; 2)  There were some chances that nobody had found that link.  Hopefully,
+&gt;      the reporter didn't share that link with other people.
+&gt; 
+&gt; 3)  If we went public before having a fix, we'd have given that link
+&gt;      more publicity.
+&gt; 
+&gt; 
+&gt; Have a lovely night!
+&gt; Alex
+&gt; 
+&gt; &gt;
+&gt; &gt; Alexander
+&gt; 
+&gt; 
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>

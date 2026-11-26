@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - WWW-Form-UrlEncoded-XS for Perl (2 CVEs)</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="12">[&lt;prev]</a> <a href="../../../2026/11/26/1">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;07b9576f-1065-4443-a76f-71bd472461f9&#64;cpansec.org&gt;
+Date: Wed, 25 Nov 2026 22:44:44 +0000
+From: Robert Rothenberg &lt;rrwo&#64;...nsec.org&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: WWW-Form-UrlEncoded-XS for Perl (2 CVEs)
+
+CVE-2022-50995
+   WWW::Form::UrlEncoded::XS versions before 0.27 for Perl read one byte
+   before the input buffer when parsing an empty string
+
+CVE-2022-50996
+   WWW::Form::UrlEncoded::XS versions before 0.28 for Perl write past
+   the end of the Perl argument stack when parse_urlencoded returns many
+   pairs
+
+
+========================================================================
+CVE-2022-50995                                       CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2022-50995
+
+   Distribution:  WWW-Form-UrlEncoded-XS
+       Versions:  before 0.27
+       MetaCPAN:  <a href="https://metacpan.org/dist/WWW-Form-UrlEncoded-XS" rel="nofollow">https://metacpan.org/dist/WWW-Form-UrlEncoded-XS</a>
+       VCS Repo: <a href="https://github.com/kazeburo/WWW-Form-UrlEncoded-XS" rel="nofollow">https://github.com/kazeburo/WWW-Form-UrlEncoded-XS</a>
+
+
+WWW::Form::UrlEncoded::XS versions before 0.27 for Perl read one byte
+before the input buffer when parsing an empty string
+
+Description
+-----------
+WWW::Form::UrlEncoded::XS versions before 0.27 for Perl read one byte
+before the input buffer when parsing an empty string.
+
+parse_urlencoded and parse_urlencoded_arrayref check for a trailing "&amp;"
+or ";" by reading the last byte of the input, without first checking
+that the input has any bytes.
+
+A remote client that sends an empty query string or request body to an
+application parsing it with this module can crash the process.
+
+Problem types
+-------------
+- CWE-127 Buffer Under-read
+
+Solutions
+---------
+Upgrade to WWW-Form-UrlEncoded-XS 0.27 or later.
+
+References
+----------
+<a href="https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/commit/3a0a35e7509b42667b19ee027807253adaf07333.patch" rel="nofollow">https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/commit/3a0a35e7509b42667b19ee027807253adaf07333.patch</a>
+<a href="https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/pull/7" rel="nofollow">https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/pull/7</a>
+<a href="https://metacpan.org/release/KAZEBURO/WWW-Form-UrlEncoded-XS-0.27/changes" rel="nofollow">https://metacpan.org/release/KAZEBURO/WWW-Form-UrlEncoded-XS-0.27/changes</a>
+
+Timeline
+--------
+- 2022-04-13: Issue reported with a proposed fix.
+- 2022-04-14: Fix merged.
+- 2022-04-14: Version 0.27 released with fix.
+
+Credits
+-------
+Brian Fraser, reporter
+Brian Fraser, remediation developer
+
+
+========================================================================
+CVE-2022-50996                                       CPAN Security Group
+========================================================================
+
+         CVE ID:  CVE-2022-50996
+
+   Distribution:  WWW-Form-UrlEncoded-XS
+       Versions:  before 0.28
+       MetaCPAN:  <a href="https://metacpan.org/dist/WWW-Form-UrlEncoded-XS" rel="nofollow">https://metacpan.org/dist/WWW-Form-UrlEncoded-XS</a>
+       VCS Repo: <a href="https://github.com/kazeburo/WWW-Form-UrlEncoded-XS" rel="nofollow">https://github.com/kazeburo/WWW-Form-UrlEncoded-XS</a>
+
+
+WWW::Form::UrlEncoded::XS versions before 0.28 for Perl write past the
+end of the Perl argument stack when parse_urlencoded returns many pairs
+
+Description
+-----------
+WWW::Form::UrlEncoded::XS versions before 0.28 for Perl write past the
+end of the Perl argument stack when parse_urlencoded returns many
+pairs.
+
+parse_urlencoded returns its result as a list, pushing each decoded key
+and value onto the argument stack without first extending the stack to
+fit them. parse_urlencoded_arrayref returns an array reference and is
+not affected.
+
+A remote client that sends a query string or request body with many
+pairs to an application parsing it with parse_urlencoded can corrupt
+memory and crash the process.
+
+Problem types
+-------------
+- CWE-787 Out-of-bounds Write
+
+Solutions
+---------
+Upgrade to WWW-Form-UrlEncoded-XS 0.28 or later.
+
+References
+----------
+<a href="https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/commit/9c14314c51f5745da316286131df49d5a53c0bdc.patch" rel="nofollow">https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/commit/9c14314c51f5745da316286131df49d5a53c0bdc.patch</a>
+<a href="https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/pull/8" rel="nofollow">https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/pull/8</a>
+<a href="https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/issues/6" rel="nofollow">https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/issues/6</a>
+<a href="https://metacpan.org/release/KAZEBURO/WWW-Form-UrlEncoded-XS-0.28/changes" rel="nofollow">https://metacpan.org/release/KAZEBURO/WWW-Form-UrlEncoded-XS-0.28/changes</a>
+
+Timeline
+--------
+- 2019-07-23: Issue reported.
+- 2022-09-05: Fix merged.
+- 2022-09-05: Version 0.28 released with fix.
+
+Credits
+-------
+Lars Dieckow, reporter
+Leon Timmermans, remediation developer
+
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
