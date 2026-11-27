@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Xen Security Advisory 535 v1 (CVE-2026-119781,CVE-2026-119782,CVE-2026-119783)
+ - x86: Incorrect ordering of page-freeing and p2m flush</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="5">[&lt;prev]</a> <a href="7">[next&gt;]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-Id: &lt;E1xWc6r-00000007cGK-1LiG&#64;xenbits.xenproject.org&gt;
+Date: Thu, 26 Nov 2026 16:14:09 +0000
+From: Xen.org security team &lt;security&#64;....org&gt;
+To: xen-announce&#64;...ts.xen.org, xen-devel&#64;...ts.xen.org,
+ xen-users&#64;...ts.xen.org, oss-security&#64;...ts.openwall.com
+CC: Xen.org security team &lt;security-team-members&#64;....org&gt;
+Subject: Xen Security Advisory 535 v1 (CVE-2026-119781,CVE-2026-119782,CVE-2026-119783)
+ - x86: Incorrect ordering of page-freeing and p2m flush
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+ Xen Security Advisory CVE-2026-119781,CVE-2026-119782,CVE-2026-119783 / XSA-535
+
+         x86: Incorrect ordering of page-freeing and p2m flush
+
+ISSUE DESCRIPTION
+=================
+
+For HVM and PVH guests using HAP, Xen defers the TLB flush that follows
+a p2m change until the p2m lock is released, so that several changes
+done under the same locked region issue a single flush.
+
+Some paths that remove a page from the p2m however drop the last
+reference to the page before that flush is done.  The page is then
+freed, and can be reused, while stale TLB entries still allow the guest
+to access it.
+
+IMPACT
+======
+
+A guest can retain access to memory it no longer owns.  This can lead
+to privilege escalation, Denial of Service (DoS) affecting the entire
+host, and information leaks.
+
+VULNERABLE SYSTEMS
+==================
+
+Xen versions 4.7 and onwards are vulnerable.  Xen versions 4.6 and
+older are not vulnerable.
+
+Only x86 systems are vulnerable.  Arm systems are not vulnerable.
+
+On Intel hardware all vulnerable versions are affected.  On AMD
+hardware only Xen versions 4.22 and onwards are affected.
+
+Only HVM and PVH guests using HAP can leverage the vulnerability.
+
+MITIGATION
+==========
+
+There is no known mitigation.
+
+CREDITS
+=======
+
+This issue was discovered by Roger Pau Monné of AMD.
+
+RESOLUTION
+==========
+
+Applying the appropriate set of attached patches resolves this issue.
+
+Note that patches for released versions are generally prepared to
+apply to the stable branches, and may not apply cleanly to the most
+recent release tarball.  Downstreams are encouraged to update to the
+tip of the stable branch before applying these patches.
+
+xsa535/xsa535-?.patch           xen-unstable - Xen 4.19.x
+xsa535/xsa535-4.18-?.patch      Xen 4.18.x - Xen 4.17.x
+
+$ sha256sum xsa535*/*
+42083890ae0518a4aa8b786d291791bb449405044f47afdbd55a5fd2f1933dd4  xsa535/xsa535-1.patch
+cc0adac0222471f599c88f79109fd84d75849daf69b9f106102e28d2eb38ad14  xsa535/xsa535-2.patch
+9c1e52c6f4f3f97c081793bbf6d722ac94276195067265a3c415a7396a9b2714  xsa535/xsa535-3.patch
+a9a2a89bd14a33fc5096cff3edd1a89817c68d42f4d715823c9ca700b86c80f5  xsa535/xsa535-4.18-1.patch
+848a13e675915978b482f6023b7e063319f8ade582e3af7ae7f6eecca2794b44  xsa535/xsa535-4.18-2.patch
+0677d16bccb92336792bea455a793063bc3753391e00b59897e444a9c2126770  xsa535/xsa535-4.18-3.patch
+$
+
+NOTE REGARDING LACK OF EMBARGO
+==============================
+
+While the Xen Security Team was working on a fix, a 3rd party posted
+an incorrect fix for the same issue publicly.  That fix only changes
+the removal of foreign mappings, and does not resolve this issue.
+-----BEGIN PGP SIGNATURE-----
+
+iQFABAEBCAAqFiEEI+MiLBRfRHX6gGCng/4UyVfoK9kFAmsIWKMMHHBncEB4ZW4u
+b3JnAAoJEIP+FMlX6CvZglgH/3WrMR6rc+g1x5LGBiGB5xnLZqoezvtkqtASQsSE
+7Lf3wfkcCoJRHu+4b63cnqe6M5EbniC2xuUPFRle/lz7j7zw0iS7yC+BxKpG+V7O
+o76Alivp4JJB4gFSOvwTyU3ayrnPnsgP9K0jMm3dqHwUCDNSPZBZiY9tCNTvU39k
+TeUB5mvrPdy8HLgX31ej12gX17ORITPU3UK6l9xL2fB54/0nR5jqNPG4h8o5QQzJ
+do6HYM2LjS0YnHcoP5/dUhIzVs0hRaCjcnq4Xgbz5trHHB6FJhkeWk01Ny8whKBK
+z+ubbHK8+mnQtklpOmC0ukB7zCz3vRNywrmST9jqysSctH8=
+=FsFr
+-----END PGP SIGNATURE-----
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/1" rel="nofollow" download>xsa535/xsa535-1.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2211 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/2" rel="nofollow" download>xsa535/xsa535-2.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (3517 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/3" rel="nofollow" download>xsa535/xsa535-3.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (3203 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/4" rel="nofollow" download>xsa535/xsa535-4.18-1.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (2211 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/5" rel="nofollow" download>xsa535/xsa535-4.18-2.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (3523 bytes)</strong></span>
+
+<span style="font-family: times;"><strong>Download attachment "</strong><a href="6/6" rel="nofollow" download>xsa535/xsa535-4.18-3.patch</a><strong>" of type "</strong>application/octet-stream<strong>" (3277 bytes)</strong></span>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
