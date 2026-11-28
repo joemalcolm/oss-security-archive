@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oss-security - Vulnerabilities in ntfs-3g, new version 2026.11.23</title>
+
+<link href="/style.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.calendar { text-align: center; }
+.ccell { background: #ccc; width: 5ex; padding: 2px; }
+
+.cal_brief { text-align: center; }
+.cal_brief td:first-child { background: inherit; }
+.cal_brief td { background: #ccc; width: 5ex; padding: 2px; }
+.cal_big { text-align: center; padding: 0; margin: 0; }
+.cal_big td { padding: 0 2px; }
+.cal_mon { text-align: center; }
+.cal_mon th { font-size: small; padding: 0; margin: 0; }
+.cal_mon td { background: #ccc; width: 5ex; height: 1.5em;
+	padding: 2px; text-align: right; }
+.cal_mon td[colspan] { background: inherit; }
+.cal_mon sup { color: #F0F0F0; text-align: left; float: left;
+	margin-top: -2pt; font-weight: bold; }
+.cal_mon a { text-align: right; margin-left: -4em; float: right; }
+</style>
+</head>
+
+<BODY bgcolor="#E0E0E0" text="black" link="blue" alink="red" vlink="navy">
+
+
+<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td>
+<a href="/"><img class="logo" src="/logo.png" border="0" width="182" height="80" alt="Openwall"></a>
+<td width="100%">
+<div class="nav">
+<ul>
+<li><a href="/">Products</a>
+<ul>
+<li><a href="/Owl/">Openwall GNU/*/Linux &nbsp; <i>server OS</i></a>
+<li><a href="/lkrg/">Linux Kernel Runtime Guard</a>
+<li><a href="/john/">John the Ripper &nbsp; <i>password cracker</i></a>
+<ul>
+<li><a href="/john/">Free &amp; Open Source for any platform</a>
+<li><a href="/john/cloud/">in the cloud</a>
+<li><a href="/john/pro/linux/">Pro for Linux</a>
+<li><a href="/john/pro/macosx/">Pro for macOS</a>
+</ul>
+<li><a href="/wordlists/">Wordlists &nbsp; <i>for password cracking</i></a>
+<li><a href="/passwdqc/">passwdqc &nbsp; <i>policy enforcement</i></a>
+<ul>
+<li><a href="/passwdqc/">Free &amp; Open Source for Unix</a>
+<li><a href="/passwdqc/windows/">Pro for Windows (Active Directory)</a>
+</ul>
+<li><a href="/yescrypt/">yescrypt &nbsp; <i>KDF &amp; password hashing</i></a>
+<li><a href="/yespower/">yespower &nbsp; <i>Proof-of-Work (PoW)</i></a>
+<li><a href="/crypt/">crypt_blowfish &nbsp; <i>password hashing</i></a>
+<li><a href="/phpass/">phpass &nbsp; <i>ditto in PHP</i></a>
+<li><a href="/tcb/">tcb &nbsp; <i>better password shadowing</i></a>
+<li><a href="/pam/">Pluggable Authentication Modules</a>
+<li><a href="/scanlogd/">scanlogd &nbsp; <i>port scan detector</i></a>
+<li><a href="/popa3d/">popa3d &nbsp; <i>tiny POP3 daemon</i></a>
+<li><a href="/blists/">blists &nbsp; <i>web interface to mailing lists</i></a>
+<li><a href="/msulogin/">msulogin &nbsp; <i>single user mode login</i></a>
+<li><a href="/php_mt_seed/">php_mt_seed &nbsp; <i>mt_rand() cracker</i></a>
+</ul>
+<li><a href="/services/">Services</a>
+<li id="narrow-li-1"><a>Publications</a>
+<ul>
+<li><a href="/articles/">Articles</a>
+<li><a href="/presentations/">Presentations</a>
+</ul>
+<li><a>Resources</a>
+<ul>
+<li><a href="/lists/">Mailing lists</a>
+<li><a href="https://openwall.info/wiki/">Community wiki</a>
+<li><a href="https://github.com/openwall">Source code repositories (GitHub)</a>
+<li><a href="/mirrors/">File archive &amp; mirrors</a>
+<li><a href="/signatures/">How to verify digital signatures</a>
+<li><a href="/ove/">OVE IDs</a>
+</ul>
+<li id="last-li"><a href="/news">What's new</a>
+</ul>
+</div>
+
+
+</table>
+
+
+<TABLE bgcolor="#B4D0DC" width="100%" border="0" cellspacing="0" cellpadding="1">
+<TR><TD>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="2">
+<TR><TD bgcolor="#ECF8FF">
+<a href="https://twitter.com/openwall">
+Follow @Openwall on Twitter for new release announcements and other news</a>
+
+</TABLE>
+</TABLE>
+
+<a href="11">[&lt;prev]</a> <a href=".">[day]</a> <a href="..">[month]</a> <a href="../..">[year]</a> <a href="../../..">[list]</a>
+<pre style="white-space: pre-wrap">
+Message-ID: &lt;10160f48-a41a-450c-85e2-725ec042b2b6&#64;tuxera.com&gt;
+Date: Sat, 28 Nov 2026 00:03:30 +0200
+From: Rostislav &lt;rostislav&#64;...era.com&gt;
+To: oss-security&#64;...ts.openwall.com
+Subject: Vulnerabilities in ntfs-3g, new version 2026.11.23
+
+Hello oss-security,
+
+Multiple vulnerabilities have been discovered in ntfs-3g 
+(<a href="https://github.com/tuxera/ntfs-3g" rel="nofollow">https://github.com/tuxera/ntfs-3g</a>).
+New version 2026.11.23 and patches against version 2026.9.28 are now 
+available:
+
+<a href="https://download.tuxera.com/opensource/ntfs-3g_ntfsprogs-2026.11.23.tgz" rel="nofollow">https://download.tuxera.com/opensource/ntfs-3g_ntfsprogs-2026.11.23.tgz</a>
+<a href="https://download.tuxera.com/opensource/ntfs-3g_ntfsprogs-2026.9.28_SR_2026-11_patches.tar.bz2" rel="nofollow">https://download.tuxera.com/opensource/ntfs-3g_ntfsprogs-2026.9.28_SR_2026-11_patches.tar.bz2</a>
+
+SHA256 checksums:
+827f909955c4c2ae549f431617ded00e753adcda7e2feb5a33d70904e5a197c9 
+ntfs-3g_ntfsprogs-2026.11.23.tgz
+ca36941adc5a9d8e44514743c5e51372c5e23f0b71bb90f2c47a33bab791d94d 
+ntfs-3g_ntfsprogs-2026.9.28_SR_2026-11_patches.tar.bz2
+
+The following vulnerabilities, having severities from Moderate to High, 
+were fixed in version 2026.11.23:
+
+- Heap buffer overflow in ntfs_make_symlink()
+- Heap buffer over-read in ntfs_ea_check_wsldev()
+- $ATTRIBUTE_LIST entry stream is validated lazily and incompletely - 
+unbounded walk and heap out-of-bounds read in libntfs-3g inode walkers
+- Heap buffer overflow: ntfs_attr_size() can under-report a security 
+descriptor's size
+- Three out-of-bounds reads in libntfs-3g/ea.c
+- ACL declared-size mismatch in ntfs_inherit_acl()
+- MST fixup overruns INDX buffer in ntfsclone
+- MST fixup overruns data_size-capped buffer in ntfsdump_logfile
+- MST fixup overruns undersized $LogFile buffer in ntfsrecover
+- MST fixup overruns INDX buffer in ntfscmp
+- Negative-size memcpy() in ntfsrecover log replay
+- OOB read in ntfsinfo index dumping
+- OOB index walk in ntfsclone timestamp wiping
+- ntfs_mst_post_write_fixup() usa heap overflow
+- ntfs_fix_file_name() heap overflow
+- setsecurityattr() heap disclosure oracle
+- Short index entries out-of-bounds read
+- Buffer overflow in set_namespace()
+- Local privilege escalation from resident attribute value-offset overlap
+- LPE chain in ntfs_ir_lookup() and ntfs_ie_insert()
+- LPE from sparse mapping-pairs underflow
+- Local privilege escalation during resident to nonresident conversion
+- Local privilege escalation in DOS-name synchronization
+- Local privilege escalation from VCN overflow in mapping pairs
+- LPE from MST usa_ofs header overlap
+- LPE from MFT attrs_offset header overlap
+- LPE from nonresident mapping_pairs_offset header overlap
+- LPE from $AttrDef FILE_NAME invariant bypass
+- LPE from nonresident name-offset header overlap
+- Attribute list parser: out-of-bounds read in the 
+ntfs_external_attr_find() extent lookahead when mounting a crafted NTFS 
+volume
+
+We would like to thank for reporting vulnerabilities and coordinating 
+disclosure:
+Andres Berbescu
+Elias Hasas
+hextheshadow
+Vivek Parikh
+Hafiz Farhad
+Joshua Smith
+ANSSI (Jérémy Jean)
+Jay Vadayath
+Nozomi Labs
+HaiND (Nguyen Dinh Hai)
+
+CVE IDs have been requested for these vulnerabilities. They will be 
+published separately after we receive them. Detailed security advisories 
+will be available at:
+
+<a href="https://github.com/tuxera/ntfs-3g/security" rel="nofollow">https://github.com/tuxera/ntfs-3g/security</a>
+</pre>
+<p><a href="https://www.openwall.com/blists/">Powered by blists</a> - <a href="https://lists.openwall.net">more mailing lists</a>
+
+
+<p>
+Please check out the
+<a href="https://oss-security.openwall.org/wiki/">
+Open Source Software Security Wiki</a>, which is counterpart to this
+<a href="https://oss-security.openwall.org/wiki/mailing-lists/oss-security">mailing list</a>.
+<p>
+Confused about <a href="/lists/">mailing lists</a> and their use?
+<a href="https://en.wikipedia.org/wiki/Electronic_mailing_list">Read about mailing lists on Wikipedia</a>
+and check out these
+<a href="https://www.complang.tuwien.ac.at/anton/mail-news-errors.html">guidelines on proper formatting of your messages</a>.
+<p>
+
+</body>
+</html>
